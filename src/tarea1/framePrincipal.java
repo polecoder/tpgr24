@@ -7,6 +7,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JDesktopPane;
+import java.awt.EventQueue;
+
 
 
 public class framePrincipal extends JFrame {
@@ -16,7 +18,7 @@ public class framePrincipal extends JFrame {
 
     public framePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 550, 450);
         setTitle("Eventos.uy");
         getContentPane().setLayout(new BorderLayout(0, 0));
 
