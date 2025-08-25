@@ -1,4 +1,4 @@
-package tarea1;
+package tarea1.ventanas.Usuario;
 
 
 import javax.swing.JInternalFrame;

@@ -6,15 +6,19 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import tarea1.ventanas.Usuario.*;
+import tarea1.ventanas.Evento.*;
+
 import javax.swing.JDesktopPane;
 
 
-public class framePrincipal extends JFrame {
+public class FramePrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JDesktopPane  panel = new JDesktopPane();
 
-    public framePrincipal() {
+    public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         setTitle("Eventos.uy");
@@ -80,34 +84,84 @@ public class framePrincipal extends JFrame {
 				casosInstitucion.add(itemD);
 				casosInstitucion.add(itemE);
 		Institucion.addActionListener(e ->casosInstitucion .show(Institucion, 0, Institucion.getHeight()));
-				
+		
+		// Listeners para agregar JInternalFrame al MenuBar
+		// USUARIO
 		item1.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
 				    panel.add(ventanaAltaUsuario);          
 				    ventanaAltaUsuario.setVisible(true);    
 				    try {
 				        ventanaAltaUsuario.setSelected(true); 
-				    } catch (Exception ex) {}
+				    } catch (Exception ex) {
+				    	ex.printStackTrace();
+				    }
 				});
-		
 		item2.addActionListener(e -> {
 		   ConsultaUsuario ventanaCU = new ConsultaUsuario();
 		    panel.add(ventanaCU);          
 		    ventanaCU.setVisible(true);    
 		    try {
 		        ventanaCU.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
 		});
-		
 		item3.addActionListener(e -> {
 			   ModificarUsuario ventanaMU = new ModificarUsuario();
 			    panel.add(ventanaMU);          
 			    ventanaMU.setVisible(true);    
 			    try {
 			        ventanaMU.setSelected(true); 
-			    } catch (Exception ex) {}
+			    } catch (Exception ex) {
+			    	ex.printStackTrace();
+			    }
 			});
 		
+		// EVENTO
+		item4.addActionListener(e -> {
+		    AltaEvento ventanaAltaEvento = new AltaEvento();
+		    panel.add(ventanaAltaEvento);          
+		    ventanaAltaEvento.setVisible(true);    
+		    try {
+		    	ventanaAltaEvento.setSelected(true); 
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
+		});
+		item5.addActionListener(e -> {
+		    AltaEdicionEvento ventanaAltaEdicionEvento = new AltaEdicionEvento();
+		    panel.add(ventanaAltaEdicionEvento);          
+		    ventanaAltaEdicionEvento.setVisible(true);    
+		    try {
+		    	ventanaAltaEdicionEvento.setSelected(true); 
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
+		});
+		item6.addActionListener(e -> {
+		    ConsultaEvento ventanaConsultaEvento = new ConsultaEvento();
+		    panel.add(ventanaConsultaEvento);          
+		    ventanaConsultaEvento.setVisible(true);    
+		    try {
+		    	ventanaConsultaEvento.setSelected(true); 
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
+		});
+		item7.addActionListener(e -> {
+		    ConsultaEdicionEvento consultaEdicionEvento = new ConsultaEdicionEvento();
+		    panel.add(consultaEdicionEvento);          
+		    consultaEdicionEvento.setVisible(true);    
+		    try {
+		    	consultaEdicionEvento.setSelected(true); 
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
+		});
+		// REGISTRO
+		
+		// INSTITUCION
 		setVisible(true);
 
 	}
