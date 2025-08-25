@@ -1,20 +1,20 @@
-package tarea1;
+package logica;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class controladorUsuarios implements IControladorUsuarios {
-	private static controladorUsuarios instance = null;
+public class ControladorUsuarios implements IControladorUsuarios {
+	private static ControladorUsuarios instance = null;
 	
-	private manejadorUsuarios manejadorUsuarios;
+	private ManejadorUsuarios manejadorUsuarios;
 	
-	private controladorUsuarios() {
+	private ControladorUsuarios() {
 		manejadorUsuarios = manejadorUsuarios.getInstance();
 	}
 	
-	public static controladorUsuarios getInstance() {
+	public static ControladorUsuarios getInstance() {
 		if (instance == null) {
-			instance = new controladorUsuarios();
+			instance = new ControladorUsuarios();
 		}
 		return instance;
 	}
