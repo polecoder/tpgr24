@@ -14,7 +14,6 @@ public class Categoria {
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -22,7 +21,6 @@ public class Categoria {
 	public HashMap<String, Evento> getEventos() {
 		return eventos;
 	}
-	
 	public void setEventos(HashMap<String, Evento> eventos) {
 		this.eventos = eventos;
 	}
@@ -30,7 +28,6 @@ public class Categoria {
 	public void agregarEvento(Evento evento) {
 		this.eventos.put(evento.nombre, evento);
 	}
-	
 	public void eliminarEvento(String nombreEvento) {
 		this.eventos.remove(nombreEvento);
 	}
