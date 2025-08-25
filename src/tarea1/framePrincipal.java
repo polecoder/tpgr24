@@ -107,6 +107,14 @@ public class framePrincipal extends JFrame {
 			        ventanaMU.setSelected(true); 
 			    } catch (Exception ex) {}
 			});
+		itemB.addActionListener(e -> {
+			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
+		    panel.add(ventanaRegistro);          
+		    ventanaRegistro.setVisible(true);    
+		    try {
+		    	ventanaRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 		
 		setVisible(true);
 
