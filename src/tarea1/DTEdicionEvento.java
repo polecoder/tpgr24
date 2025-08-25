@@ -1,5 +1,5 @@
 package tarea1;
 
-public class DTEdicionEvento {
+public record DTEdicionEvento(String nombre, String sigla, String descripcion) {
 
 }

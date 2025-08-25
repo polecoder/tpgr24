@@ -1,5 +1,5 @@
 package tarea1;
 
-public class DTEvento {
+public record DTEvento(String nombre, String sigla) {
 
 }

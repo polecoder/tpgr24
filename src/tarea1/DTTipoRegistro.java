@@ -1,5 +1,5 @@
 package tarea1;
 
-public class DTTipoRegistro {
+public record DTTipoRegistro(String nombre, String descripcion, float costo, int cupo) {
 
 }
