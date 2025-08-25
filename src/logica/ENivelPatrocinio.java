@@ -1,4 +1,4 @@
-package tarea1;
+package logica;
 
 public enum ENivelPatrocinio {
 	PLATINO,

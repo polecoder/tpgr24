@@ -29,7 +29,7 @@ public class ManejadorEventos {
 		return true;
 	};
 	
-	Set<DTEventos> listarEventos(){
+	Set<DTEvento> listarEventos(){
 		//TODO
 		return null;
 	};

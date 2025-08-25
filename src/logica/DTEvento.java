@@ -1,12 +1,12 @@
 package logica;
 
-public class DTEventos {
+public class DTEvento {
  private 
  	String nombre;
 	String sigla;
 	String descripcion;
 public
-	DTEventos(String nombre, String descripcion , String sigla) {
+	DTEvento(String nombre, String descripcion , String sigla) {
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.sigla=sigla;

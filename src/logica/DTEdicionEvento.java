@@ -1,4 +1,4 @@
-package tarea1;
+package logica;
 
 public record DTEdicionEvento(String nombre, String sigla, String descripcion) {
 
