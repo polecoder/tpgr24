@@ -1,0 +1,25 @@
+package logica;
+
+import java.util.Set;
+
+public class ControladorInstitucion {
+	private 
+	static ControladorInstitucion instancia;
+	ManejadorInstituciones ManejadorInstituciones;
+	ControladorInstitucion() {
+		this.ManejadorInstituciones=ManejadorInstituciones.getInstancia();
+	};
+	public 
+	static ControladorInstitucion getInstancia() {
+		if (instancia==null) {
+			instancia= new ControladorInstitucion();
+		}
+		return instancia;
+	}
+	
+	Set<DTInstitucion> listarInstituciones() {
+		//TODO
+		return null;
+	}
+	
+}
