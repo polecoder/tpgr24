@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import logica.datatypes.DTPatrocinio;
+
 public class ManejadorInstituciones {
 	private static ManejadorInstituciones instance = null;
 	

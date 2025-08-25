@@ -3,6 +3,9 @@ package logica;
 import java.time.LocalDate;
 import java.util.List;
 
+import logica.datatypes.DTAsistente;
+import logica.datatypes.DTUsuario;
+
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	

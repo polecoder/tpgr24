@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import logica.datatypes.DTPatrocinio;
+
 public class Evento {
 	private 
 	String nombre;

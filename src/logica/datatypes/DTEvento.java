@@ -1,4 +1,4 @@
-package logica;
+package logica.datatypes;
 
 public class DTEvento {
  private 

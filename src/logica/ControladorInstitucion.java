@@ -2,6 +2,8 @@ package logica;
 
 import java.util.Set;
 
+import logica.datatypes.DTInstitucion;
+
 public class ControladorInstitucion {
 	private 
 	static ControladorInstitucion instancia;

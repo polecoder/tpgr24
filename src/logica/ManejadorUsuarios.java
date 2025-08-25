@@ -2,6 +2,9 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import logica.datatypes.DTAsistente;
+
 import java.time.LocalDate;
 
 public class ManejadorUsuarios {

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import logica.datatypes.DTEvento;
+import logica.datatypes.DTTipoRegistro;
+
 public class ManejadorEventos {
 	private 
 	static ManejadorEventos instancia;
