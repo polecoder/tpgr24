@@ -1,4 +1,4 @@
-package tarea1;
+package presentacion;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
