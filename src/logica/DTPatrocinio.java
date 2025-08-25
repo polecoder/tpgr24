@@ -1,5 +1,5 @@
 package logica;
 
-public class DTPatrocinio {
+public record DTPatrocinio() {
 
 }

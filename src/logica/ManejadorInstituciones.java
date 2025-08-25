@@ -1,10 +1,33 @@
 package logica;
 
-public class ManejadorInstituciones {
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-	public ManejadorInstituciones getInstancia() {
-		// TODO
+public class ManejadorInstituciones {
+	private static ManejadorInstituciones instance = null;
+	
+	private List<Institucion> conjuntoInstituciones;
+	
+	// Constructor
+	private ManejadorInstituciones() {
+		conjuntoInstituciones = new ArrayList<>();
+	}
+	
+	public static ManejadorInstituciones getInstance() {
+		if (instance == null) {
+			instance = new ManejadorInstituciones();
+		}
+		return instance;
+	}
+	
+	// ------- GETTERS ----------
+	public List<Institucion> getConjuntoAsistentes() {
+		return conjuntoInstituciones;
+	}
+	// ------- GETTERS ----------
+	
+	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null;
 	}
-
 }

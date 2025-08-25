@@ -7,7 +7,7 @@ public class ControladorInstitucion {
 	static ControladorInstitucion instancia;
 	ManejadorInstituciones ManejadorInstituciones;
 	ControladorInstitucion() {
-		this.ManejadorInstituciones=ManejadorInstituciones.getInstancia();
+		this.ManejadorInstituciones=ManejadorInstituciones.getInstance();
 	};
 	public 
 	static ControladorInstitucion getInstancia() {
