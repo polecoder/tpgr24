@@ -6,9 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-
 import javax.swing.JDesktopPane;
-
 
 public class FramePrincipal extends JFrame {
 
@@ -17,7 +15,7 @@ public class FramePrincipal extends JFrame {
 
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 550, 450);
         setTitle("Eventos.uy");
         getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -31,11 +29,11 @@ public class FramePrincipal extends JFrame {
 		menuBar.add(Usuario);
 		
 		JPopupMenu menuUsuario = new JPopupMenu();
-		    JMenuItem item1 = new JMenuItem("Alta Usuario");
+		    JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
 		    JMenuItem item2 = new JMenuItem("Consulta");
 		    JMenuItem item3 = new JMenuItem("Modificar Datos");
 		    
-		    menuUsuario.add(item1);
+		    menuUsuario.add(item_AltaUsuario);
 		    menuUsuario.add(item2);
 		    menuUsuario.add(item3);
 
@@ -45,13 +43,13 @@ public class FramePrincipal extends JFrame {
 		menuBar.add(Evento);
 		JPopupMenu casosEvento = new JPopupMenu();
 			 JMenuItem item4 = new JMenuItem("Alta Evento");
-			 JMenuItem item5 = new JMenuItem("Alta Edición de Evento");
-			 JMenuItem item6 = new JMenuItem("Consulta Evento");
+			 JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
+			 JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
 			 JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
 			 
 			 casosEvento.add(item4);
-			 casosEvento.add(item5);
-			 casosEvento.add(item6);
+			 casosEvento.add(item_AltaEdicion);
+			 casosEvento.add(item_ConsultaEvento);
 			 casosEvento.add(item7);
 			 Evento.addActionListener(e ->casosEvento .show(Evento, 0, Evento.getHeight()));
 		
@@ -81,85 +79,63 @@ public class FramePrincipal extends JFrame {
 				casosInstitucion.add(itemD);
 				casosInstitucion.add(itemE);
 		Institucion.addActionListener(e ->casosInstitucion .show(Institucion, 0, Institucion.getHeight()));
-		
-		// Listeners para agregar JInternalFrame al MenuBar
-		// USUARIO
-		item1.addActionListener(e -> {
+				
+		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
 				    panel.add(ventanaAltaUsuario);          
 				    ventanaAltaUsuario.setVisible(true);    
 				    try {
 				        ventanaAltaUsuario.setSelected(true); 
-				    } catch (Exception ex) {
-				    	ex.printStackTrace();
-				    }
+				    } catch (Exception ex) {}
 				});
+		
 		item2.addActionListener(e -> {
 		   ConsultaUsuario ventanaCU = new ConsultaUsuario();
 		    panel.add(ventanaCU);          
 		    ventanaCU.setVisible(true);    
 		    try {
 		        ventanaCU.setSelected(true); 
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();
-		    }
+		    } catch (Exception ex) {}
 		});
+		
 		item3.addActionListener(e -> {
 			   ModificarUsuario ventanaMU = new ModificarUsuario();
 			    panel.add(ventanaMU);          
 			    ventanaMU.setVisible(true);    
 			    try {
 			        ventanaMU.setSelected(true); 
-			    } catch (Exception ex) {
-			    	ex.printStackTrace();
-			    }
+			    } catch (Exception ex) {}
 			});
 		
-		// EVENTO
-		item4.addActionListener(e -> {
-		    AltaEvento ventanaAltaEvento = new AltaEvento();
-		    panel.add(ventanaAltaEvento);          
-		    ventanaAltaEvento.setVisible(true);    
-		    try {
-		    	ventanaAltaEvento.setSelected(true); 
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();
-		    }
-		});
-		item5.addActionListener(e -> {
-		    AltaEdicionEvento ventanaAltaEdicionEvento = new AltaEdicionEvento();
-		    panel.add(ventanaAltaEdicionEvento);          
-		    ventanaAltaEdicionEvento.setVisible(true);    
-		    try {
-		    	ventanaAltaEdicionEvento.setSelected(true); 
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();
-		    }
-		});
-		item6.addActionListener(e -> {
-		    ConsultaEvento ventanaConsultaEvento = new ConsultaEvento();
-		    panel.add(ventanaConsultaEvento);          
-		    ventanaConsultaEvento.setVisible(true);    
-		    try {
-		    	ventanaConsultaEvento.setSelected(true); 
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();
-		    }
-		});
-		item7.addActionListener(e -> {
-		    ConsultaEdicionEvento consultaEdicionEvento = new ConsultaEdicionEvento();
-		    panel.add(consultaEdicionEvento);          
-		    consultaEdicionEvento.setVisible(true);    
-		    try {
-		    	consultaEdicionEvento.setSelected(true); 
-		    } catch (Exception ex) {
-		    	ex.printStackTrace();
-		    }
-		});
-		// REGISTRO
-		
-		// INSTITUCION
-		setVisible(true);
 
+		item_AltaEdicion.addActionListener(e -> {
+				AltaEdicion ventanaAEv = new AltaEdicion();
+			    panel.add(ventanaAEv);          
+			    ventanaAEv.setVisible(true);    
+			    try {
+			    	ventanaAEv.setSelected(true); 
+			    } catch (Exception ex) {}
+			});
+		
+		item_ConsultaEvento.addActionListener(e -> {
+			ConsultaEvento ventanaCEv = new ConsultaEvento();
+		    panel.add(ventanaCEv);          
+		    ventanaCEv.setVisible(true);    
+		    try {
+		    	ventanaCEv.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		
+		itemB.addActionListener(e -> {
+			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
+		    panel.add(ventanaRegistro);          
+		    ventanaRegistro.setVisible(true);    
+		    try {
+		    	ventanaRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		
+		setVisible(true);
 	}
+		
 }

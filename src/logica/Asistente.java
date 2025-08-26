@@ -1,5 +1,7 @@
 package logica;
 
-public class Asistente {
+public class Asistente extends Usuario {
+
+	public String nickname;
 
 }
