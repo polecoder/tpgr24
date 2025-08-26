@@ -1,6 +1,6 @@
-package tarea1.modulos;
+package logica;
 
-public class Evento {
+public class TipoRegistro {
 	private String nombre;
 
 	public String getNombre() {
@@ -9,4 +9,5 @@ public class Evento {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 }

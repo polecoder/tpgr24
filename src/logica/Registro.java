@@ -1,9 +1,9 @@
-package tarea1.modulos;
+package logica;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-import tarea1.modulos.datatypes.DTDetalleRegistro;
+import logica.datatypes.DTDetalleRegistro;
 
 public class Registro {
 	private LocalDate fechaRegistro;

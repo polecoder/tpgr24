@@ -1,9 +1,9 @@
-package tarea1.modulos;
+package logica;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import tarea1.modulos.datatypes.DTEdicion;
+import logica.datatypes.DTEdicion;
 
 public class Edicion {
 	private String nombre;

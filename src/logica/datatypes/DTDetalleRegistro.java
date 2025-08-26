@@ -1,4 +1,4 @@
-package tarea1.modulos.datatypes;
+package logica.datatypes;
 
 import java.time.LocalDate;
 

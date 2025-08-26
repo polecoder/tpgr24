@@ -1,6 +1,6 @@
-package tarea1.modulos;
+package logica;
 
-public class Patrocinio {
+public class Evento {
 	private String nombre;
 
 	public String getNombre() {

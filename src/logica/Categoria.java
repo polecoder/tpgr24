@@ -1,4 +1,4 @@
-package tarea1.modulos;
+package logica;
 
 import java.util.HashMap;
 

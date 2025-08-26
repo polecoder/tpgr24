@@ -1,4 +1,4 @@
-package tarea1;
+package presentacion;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -6,9 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-
-import tarea1.ventanas.Usuario.*;
-import tarea1.ventanas.Evento.*;
 
 import javax.swing.JDesktopPane;
 
