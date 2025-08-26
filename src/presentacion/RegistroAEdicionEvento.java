@@ -34,7 +34,8 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 1;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
-		JComboBox comboBox = new JComboBox();
+		String[] eventos = {"Evento 1", "Evento 2", "Evento 3"};
+		JComboBox<String> comboBox = new JComboBox<>(eventos);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -50,7 +51,8 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		gbc_lblNewLabel_1.gridy = 2;
 		getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JComboBox comboBox_1 = new JComboBox();
+		String[] ediciones = {"Edicion 1", "Edicion 2", "Edicion 3"};
+		JComboBox<String> comboBox_1 = new JComboBox<>(ediciones);
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
@@ -66,7 +68,8 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		gbc_lblNewLabel_2.gridy = 3;
 		getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		JComboBox comboBox_2 = new JComboBox();
+		String[] tiposRegistro = {"Tipo 1", "Tipo 2", "Tipo 3"};
+		JComboBox<String> comboBox_2 = new JComboBox<>(tiposRegistro);
 		GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
 		gbc_comboBox_2.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
@@ -82,7 +85,8 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		gbc_lblNewLabel_3.gridy = 4;
 		getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
-		JComboBox comboBox_3 = new JComboBox();
+		String[] asistentes = {"Fulano", "Mengano", "Pepe", "Fulana"};
+		JComboBox<String> comboBox_3 = new JComboBox<>(asistentes);
 		GridBagConstraints gbc_comboBox_3 = new GridBagConstraints();
 		gbc_comboBox_3.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_3.fill = GridBagConstraints.HORIZONTAL;
