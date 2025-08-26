@@ -2,8 +2,6 @@ package logica;
 import logica.datatypes.DTUsuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
-import java.util.ArrayList;
 
 public abstract class Usuario {
 	private static final Logger logger = Logger.getLogger(Usuario.class.getName());
@@ -27,15 +25,13 @@ public abstract class Usuario {
     public void setNombre(String nombre) {this.nombre = nombre;}
     public void setCorreo(String correo) {this.correo = correo;}
     
-    public List<DTUsuario> listarUsuarios() {
+    public DTUsuario listarUsuario() {
     	try {
-    		List<DTUsuario> myList = new ArrayList<>();
-    		// Code goes here
-    		return myList;
+    		return new DTUsuario(nickname, nombre, correo);
     	}catch(Exception LUError) {
     		// Log the error
             logger.log(Level.SEVERE, "Usuario::listarUsuarios() ERROR: ", LUError);
-            return new ArrayList<>();
+            return new DTUsuario("","","");
     	}
     }
 }
