@@ -33,6 +33,10 @@ public class Organizador extends Usuario {
 	public List<DTEdicionEvento> listarEdiciones(){
 		try {
 			List<DTEdicionEvento> myList = new ArrayList<>();
+			for(Edicion e : ediciones) {
+				DTEdicionEvento DTEd = e.listarEdicion();
+				myList.add(DTEd);
+			}
 			return myList;
 		}catch(Exception LEError) {
 			// Log the error
