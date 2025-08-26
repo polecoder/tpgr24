@@ -1,5 +1,5 @@
 package logica.datatypes;
 
-public record DTAsistente() {
+public record DTAsistente(String nickname, String nombre, String correo) {
 
 }
