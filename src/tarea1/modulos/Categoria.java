@@ -26,7 +26,7 @@ public class Categoria {
 	}
 
 	public void agregarEvento(Evento evento) {
-		this.eventos.put(evento.nombre, evento);
+		this.eventos.put(evento.getNombre(), evento);
 	}
 	public void eliminarEvento(String nombreEvento) {
 		this.eventos.remove(nombreEvento);

@@ -1,6 +1,9 @@
 package tarea1.modulos;
 
 import java.time.LocalDate;
+import java.util.Set;
+
+import tarea1.modulos.datatypes.DTDetalleRegistro;
 
 public class Registro {
 	private LocalDate fechaRegistro;
@@ -49,5 +52,15 @@ public class Registro {
 	}
 	public void setPatrocinio(Patrocinio patrocinio) {
 		this.patrocinio = patrocinio;
+	}
+	
+	// TODO: Implementar
+	public Set<DTDetalleRegistro> mostrarDetalle() {
+		return null;
+	}
+	
+	// TODO: Implementar
+	public boolean validar(String nicknameAsistente) {
+		return false;
 	}
 }
