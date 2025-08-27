@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 
-import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.DTEdicion;
 
 public class Organizador extends Usuario {
 	private static final Logger logger = Logger.getLogger(Organizador.class.getName());
@@ -30,15 +30,15 @@ public class Organizador extends Usuario {
 	public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 	public void setLink(String link) {this.link = link;}
 	// Metodos
-	public List<DTEdicionEvento> listarEdiciones(){
+	public List<DTEdicion> listarEdiciones(){
 		try {
-			List<DTEdicionEvento> myList = new ArrayList<>();
+			List<DTEdicion> myList = new ArrayList<>();
 			for(Edicion e : ediciones) {
-				DTEdicionEvento DTEd = e.listarEdicion();
+				DTEdicion DTEd = e.listarEdicion();
 				myList.add(DTEd);
 			}
 			return myList;
-		}catch(Exception LEError) {
+		} catch(Exception LEError) {
 			// Log the error
             logger.log(Level.SEVERE, "Organizador::listarEdiciones() ERROR: ", LEError);
             return new ArrayList<>();

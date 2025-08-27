@@ -40,7 +40,7 @@ public class Institucion {
 	}
 	
 	void agregarAsistente(Asistente asistente){
-		this.asistentes.put(asistente.nickname, asistente);
+		this.asistentes.put(asistente.getNickname(), asistente);
 	};
 	void eliminarAsistente(String nickname) {
 		this.asistentes.remove(nickname);
