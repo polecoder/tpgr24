@@ -12,7 +12,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	private ManejadorUsuarios manejadorUsuarios;
 	
 	private ControladorUsuarios() {
-		manejadorUsuarios = manejadorUsuarios.getInstance();
+		manejadorUsuarios = ManejadorUsuarios.getInstance();
 	}
 	
 	public static ControladorUsuarios getInstance() {

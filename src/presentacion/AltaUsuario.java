@@ -3,6 +3,7 @@ package presentacion;
 import javax.swing.JInternalFrame;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -18,20 +19,23 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Nick;
 	private JTextField textField_Nombre;
 	private JTextField textField_Correo;
+	private JTextField textField_Descripcion;
+	
+	//-----------Ventanas----------
 
 	public AltaUsuario() {
 		super("Alta de Usuario", true, true, true, true);
-		setSize(300, 200);       
+		setSize(350, 250);       
 		setLocation(50, 50);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0,0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,0.0,0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
-		JLabel lbl_nick = new JLabel("Nick:");
+		JLabel lbl_nick = new JLabel("Nickname:");
 		GridBagConstraints gbc_lbl_nick = new GridBagConstraints();
 		gbc_lbl_nick.anchor = GridBagConstraints.EAST;
 		gbc_lbl_nick.insets = new Insets(0, 0, 5, 5);
@@ -114,6 +118,14 @@ public class AltaUsuario extends JInternalFrame {
 		lbl_link.setVisible(false);
 		getContentPane().add(lbl_link, gbc_lbl_link);
 		
+		JLabel lbl_Descripcion = new JLabel("Descripción General: ");
+		GridBagConstraints gbc_lbl_Descripcion = new GridBagConstraints();
+		gbc_lbl_Descripcion.insets = new Insets(5, 0, 5, 5);
+		gbc_lbl_Descripcion.gridx = 0;
+		gbc_lbl_Descripcion.gridy = 6;
+		lbl_Descripcion.setVisible(false);
+		getContentPane().add(lbl_Descripcion, gbc_lbl_Descripcion);
+		
 		JLabel lbl_Institucion = new JLabel("Instituciones: ");
 		GridBagConstraints gbc_lbl_Institucion= new GridBagConstraints();
 		gbc_lbl_Institucion.insets = new Insets(0, 0, 5, 5);
@@ -132,6 +144,17 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_TextField_Link.gridwidth = 2;
 		gbc_TextField_Link.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(TextField_Link, gbc_TextField_Link);
+		
+		JTextField TextField_Descripcion = new JTextField();
+		TextField_Descripcion.setColumns(10);
+		TextField_Descripcion.setVisible(false); 
+		
+		GridBagConstraints gbc_TextField_Descripcion = new GridBagConstraints();
+		gbc_TextField_Descripcion.gridx = 1;
+		gbc_TextField_Descripcion.gridy = 6;
+		gbc_TextField_Descripcion.gridwidth = 2;
+		gbc_TextField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(TextField_Descripcion, gbc_TextField_Descripcion);
 
 		String[] instituciones = {"Ninguno", "Institución 1", "Institución 2", "Institución 3"};
 		JComboBox<String> comboInstituciones = new JComboBox<>(instituciones);
@@ -147,7 +170,10 @@ public class AltaUsuario extends JInternalFrame {
 
 		Button_Organizador.addActionListener(e -> {
 			TextField_Link.setVisible(true);  
-		    lbl_link.setVisible(true);          
+		    lbl_link.setVisible(true);       
+		    
+		    TextField_Descripcion.setVisible(true);  
+		    lbl_Descripcion.setVisible(true); 
 		    
 		    comboInstituciones.setVisible(false);
 		    lbl_Institucion.setVisible(false);
@@ -158,7 +184,10 @@ public class AltaUsuario extends JInternalFrame {
 		
 		Button_Asistente.addActionListener(e -> {
 			TextField_Link.setVisible(false);  
-		    lbl_link.setVisible(false);      
+		    lbl_link.setVisible(false);    
+		    
+		    TextField_Descripcion.setVisible(false);  
+		    lbl_Descripcion.setVisible(false); 
 		    
 		    lbl_Institucion.setVisible(true);
 		    comboInstituciones.setVisible(true);
@@ -176,7 +205,7 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_Button_Aceptar = new GridBagConstraints();
 		gbc_Button_Aceptar.insets = new Insets(0, 0, 0, 10);
 		gbc_Button_Aceptar.gridx = 1;
-		gbc_Button_Aceptar.gridy = 6;
+		gbc_Button_Aceptar.gridy = 7;
 		getContentPane().add(Button_Aceptar, gbc_Button_Aceptar);
 		
 		JButton Button_Cancelar = new JButton("Cancelar");
@@ -184,11 +213,21 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_Button_Cancelar = new GridBagConstraints();
 		gbc_Button_Cancelar.insets = new Insets(0, 0, 0, 10);
 		gbc_Button_Cancelar.gridx = 2;
-		gbc_Button_Cancelar.gridy = 6;
+		gbc_Button_Cancelar.gridy = 7;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
 		
+		//---------------Funcionalidades-------------
+		Button_Aceptar.addActionListener(e->{
+			String nick = textField_Nick.getText().trim();
+			String nombre = textField_Nombre.getText().trim();
+			String correo = textField_Correo.getText().trim();
+			if (nick.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
+			    JOptionPane.showMessageDialog(this, "Nick, nombre y correo son campos obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			    return; 
+			}
+			
+		});
 		
-
 
 	} 
 }

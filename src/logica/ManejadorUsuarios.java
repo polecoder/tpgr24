@@ -1,7 +1,8 @@
 package logica;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import logica.datatypes.DTAsistente;
 
@@ -10,13 +11,13 @@ import java.time.LocalDate;
 public class ManejadorUsuarios {
 	private static ManejadorUsuarios instance = null;
 	
-	private List<Asistente> conjuntoAsistentes;
-	private List<Organizador> conjuntoOrganizadores;
+	private Map<String,Asistente> conjuntoAsistentes;
+	private Map<String,Organizador> conjuntoOrganizadores;
 	
 	// Constructor
 	private ManejadorUsuarios() {
-		conjuntoAsistentes = new ArrayList<>();
-		conjuntoOrganizadores = new ArrayList<>();
+		conjuntoAsistentes = new HashMap<>();
+		conjuntoOrganizadores = new HashMap<>();
 	}
 	
 	public static ManejadorUsuarios getInstance() {
@@ -27,33 +28,51 @@ public class ManejadorUsuarios {
 	}
 	
 	// ------- GETTERS ----------
-	public List<Asistente> getConjuntoAsistentes() {
+	public Map<String,Asistente> getConjuntoAsistentes() {
 		return conjuntoAsistentes;
 	}
 	
-	public List<Organizador> getConjuntoOrganizador() {
+	public Map<String,Organizador> getConjuntoOrganizador() {
 		return conjuntoOrganizadores;
 	}
 	// ------- GETTERS ----------
 	
 	public boolean existeNick(String nickname) {
-		return false;
+		return (conjuntoAsistentes.containsKey(nickname)||(conjuntoOrganizadores.containsKey(nickname)));
 	}
 	
 	public boolean existeCorreo(String correo) {
-		return false;
+		for (Asistente a : conjuntoAsistentes.values()) {
+	        if (a.getCorreo().equals(correo)) {
+	            return true;
+	        }
+	    }
+		for (Organizador o : conjuntoOrganizadores.values()) {
+	        if (o.getCorreo().equals(correo)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 	
-	public void agregarAsistente(Organizador O) {
-		
+	public void agregarAsistente(Asistente A) {
+		conjuntoAsistentes.put(A.getNickname(), A);
 	}
 	
-	public Organizador nuevaInstanciaO(String nickname, String correo, String descripcion, String link) {
-		return null;
+	public void agregarOrgaizador(Organizador O) {
+		conjuntoOrganizadores.put(O.getNickname(), O);
 	}
 	
-	public Asistente nuevaInstanciaA(String nickname, String correo, String apellido, LocalDate fechaNacimiento) {
-		return null;
+	public Organizador nuevaInstanciaO(String nickname, String nombre, String correo, String descripcion, String link) {
+		return new Organizador(nickname,nombre,correo,descripcion,link);
+	}
+	
+	public Asistente nuevaInstanciaA(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
+		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
+		if (institucion!=null) {
+			institucion.asistentes.put(nickname, A);
+		}
+		return A;
 	}
 	
 	public List<DTAsistente> listarAsistentes() {
