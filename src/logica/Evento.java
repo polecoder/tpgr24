@@ -46,7 +46,7 @@ public class Evento {
 		  this.nombre =nombre;
 	}
 	void setDescripcion(String descripcion){
-		 this.descripcion =descripcion ;
+		 this.descripcion =descripcion;
 	}
 	void setSigla(String sigla){
 		this.sigla=sigla;
@@ -55,11 +55,10 @@ public class Evento {
 		this.fechaAlta=fechaAlta;
 	}
 	void agregarEdicion(Edicion edicion) {
-		this.ediciones.put(edicion.nombre,edicion);
+		this.ediciones.put(edicion.getNombre(),edicion);
 	};
 		
 	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}
 }
-

@@ -1,6 +1,5 @@
 package presentacion;
 
-
 import javax.swing.JInternalFrame;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;

@@ -8,15 +8,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JDesktopPane;
 
-
-
-
-public class framePrincipal extends JFrame {
+public class FramePrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JDesktopPane  panel = new JDesktopPane();
 
-    public framePrincipal() {
+    public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 550, 450);
         setTitle("Eventos.uy");
@@ -139,7 +136,6 @@ public class framePrincipal extends JFrame {
 		});
 		
 		setVisible(true);
-
 	}
 		
 }
