@@ -42,12 +42,12 @@ public class FramePrincipal extends JFrame {
 	    JButton Evento = new JButton("Evento");
 		menuBar.add(Evento);
 		JPopupMenu casosEvento = new JPopupMenu();
-			 JMenuItem item4 = new JMenuItem("Alta Evento");
+			 JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
 			 JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
 			 JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
 			 JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
 			 
-			 casosEvento.add(item4);
+			 casosEvento.add(item_AltaEvento);
 			 casosEvento.add(item_AltaEdicion);
 			 casosEvento.add(item_ConsultaEvento);
 			 casosEvento.add(item7);
@@ -106,7 +106,15 @@ public class FramePrincipal extends JFrame {
 			        ventanaMU.setSelected(true); 
 			    } catch (Exception ex) {}
 			});
-		
+
+		item_AltaEvento.addActionListener(e -> {
+			AltaEvento ventanaAltaEvento = new AltaEvento();
+		    panel.add(ventanaAltaEvento);          
+		    ventanaAltaEvento.setVisible(true);    
+		    try {
+		    	ventanaAltaEvento.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 
 		item_AltaEdicion.addActionListener(e -> {
 				AltaEdicion ventanaAEv = new AltaEdicion();

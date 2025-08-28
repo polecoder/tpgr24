@@ -186,9 +186,5 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_Button_Cancelar.gridx = 2;
 		gbc_Button_Cancelar.gridy = 6;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
-		
-		
-
-
 	} 
 }
