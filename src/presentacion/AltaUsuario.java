@@ -2,14 +2,16 @@ package presentacion;
 
 import javax.swing.JInternalFrame;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import logica.Fabrica;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
-
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -19,9 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Set;
 
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 
 public class AltaUsuario extends JInternalFrame {
@@ -35,7 +34,6 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_FechaNacimiento;
 	private JTextField textField_Apellido;
 	
-	//-----------Ventanas----------
 
 	public AltaUsuario() {
 		super("Alta de Usuario", true, true, true, true);
@@ -91,6 +89,7 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(textField_Nombre, gbc_textField_Nombre);
 		textField_Nombre.setColumns(10);
 		
+
 		JLabel lbl_Correo = new JLabel("Correo:");
 		GridBagConstraints gbc_lbl_Correo = new GridBagConstraints();
 		gbc_lbl_Correo.anchor = GridBagConstraints.EAST;
@@ -115,6 +114,7 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_lbl_TipoUsuario.gridx = 0;
 		gbc_lbl_TipoUsuario.gridy = 4;
 		getContentPane().add(lbl_TipoUsuario, gbc_lbl_TipoUsuario);
+
 		
 		JRadioButton Button_Organizador = new JRadioButton("Organizador");
 		GridBagConstraints gbc_Button_Organizador = new GridBagConstraints();
@@ -248,9 +248,10 @@ public class AltaUsuario extends JInternalFrame {
 		    
 		    textField_FechaNacimiento.setVisible(false);
 		    lbl_FechaNacimiento.setVisible(false);
+
 		    
 		    revalidate();                 
-		    repaint();   
+		    repaint();  
 		});
 		
 		Button_Asistente.addActionListener(e -> {
@@ -282,6 +283,7 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_Button_Aceptar = new GridBagConstraints();
 		gbc_Button_Aceptar.insets = new Insets(0, 0, 0, 10);
 		gbc_Button_Aceptar.gridx = 1;
+
 		gbc_Button_Aceptar.gridy = 9;
 		getContentPane().add(Button_Aceptar, gbc_Button_Aceptar);
 		
