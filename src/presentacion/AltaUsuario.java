@@ -5,9 +5,20 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import logica.Fabrica;
+import logica.IControladorInstitucion;
+import logica.IControladorUsuarios;
+
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Set;
+
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,7 +30,10 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Nick;
 	private JTextField textField_Nombre;
 	private JTextField textField_Correo;
+	private JTextField textField_Link;
 	private JTextField textField_Descripcion;
+	private JTextField textField_FechaNacimiento;
+	private JTextField textField_Apellido;
 	
 	//-----------Ventanas----------
 
@@ -28,11 +42,17 @@ public class AltaUsuario extends JInternalFrame {
 		setSize(350, 250);       
 		setLocation(50, 50);
 		
+		Fabrica fabrica=Fabrica.getInstancia();
+		IControladorUsuarios IContUsuario=fabrica.getControladorUsuarios();
+		IControladorInstitucion IContInstituciones= fabrica.getControladorInstitucion();
+		
+		//-----------Ventanas----------
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0,0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,0.0,0.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,0.0,0.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lbl_nick = new JLabel("Nickname:");
@@ -126,6 +146,22 @@ public class AltaUsuario extends JInternalFrame {
 		lbl_Descripcion.setVisible(false);
 		getContentPane().add(lbl_Descripcion, gbc_lbl_Descripcion);
 		
+		JLabel lbl_Apellido = new JLabel("Apellido: ");
+		GridBagConstraints gbc_lbl_Apellido = new GridBagConstraints();
+		gbc_lbl_Apellido.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_Apellido.gridx = 0;
+		gbc_lbl_Apellido.gridy = 7;
+		lbl_Apellido.setVisible(false);
+		getContentPane().add(lbl_Apellido, gbc_lbl_Apellido);
+		
+		JLabel lbl_FechaNacimiento = new JLabel("Fecha De Nacimiento: ");
+		GridBagConstraints gbc_lbl_FechaNacimiento = new GridBagConstraints();
+		gbc_lbl_FechaNacimiento.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_FechaNacimiento.gridx = 0;
+		gbc_lbl_FechaNacimiento.gridy = 8;
+		lbl_FechaNacimiento.setVisible(false);
+		getContentPane().add(lbl_FechaNacimiento, gbc_lbl_FechaNacimiento);
+		
 		JLabel lbl_Institucion = new JLabel("Instituciones: ");
 		GridBagConstraints gbc_lbl_Institucion= new GridBagConstraints();
 		gbc_lbl_Institucion.insets = new Insets(0, 0, 5, 5);
@@ -134,30 +170,59 @@ public class AltaUsuario extends JInternalFrame {
 		lbl_Institucion.setVisible(false);
 		getContentPane().add(lbl_Institucion, gbc_lbl_Institucion);
 		
-		JTextField TextField_Link = new JTextField();
-		TextField_Link.setColumns(10);
-		TextField_Link.setVisible(false);  
+		JTextField textField_Link = new JTextField();
+		textField_Link.setColumns(10);
+		textField_Link.setVisible(false);  
 
-		GridBagConstraints gbc_TextField_Link = new GridBagConstraints();
-		gbc_TextField_Link.gridx = 1;
-		gbc_TextField_Link.gridy = 5;
-		gbc_TextField_Link.gridwidth = 2;
-		gbc_TextField_Link.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(TextField_Link, gbc_TextField_Link);
+		GridBagConstraints gbc_textField_Link = new GridBagConstraints();
+		gbc_textField_Link.gridx = 1;
+		gbc_textField_Link.gridy = 5;
+		gbc_textField_Link.gridwidth = 2;
+		gbc_textField_Link.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(textField_Link, gbc_textField_Link);
 		
-		JTextField TextField_Descripcion = new JTextField();
-		TextField_Descripcion.setColumns(10);
-		TextField_Descripcion.setVisible(false); 
+		JTextField textField_Descripcion = new JTextField();
+		textField_Descripcion.setColumns(10);
+		textField_Descripcion.setVisible(false); 
 		
-		GridBagConstraints gbc_TextField_Descripcion = new GridBagConstraints();
-		gbc_TextField_Descripcion.gridx = 1;
-		gbc_TextField_Descripcion.gridy = 6;
-		gbc_TextField_Descripcion.gridwidth = 2;
-		gbc_TextField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(TextField_Descripcion, gbc_TextField_Descripcion);
-
-		String[] instituciones = {"Ninguno", "Institución 1", "Institución 2", "Institución 3"};
-		JComboBox<String> comboInstituciones = new JComboBox<>(instituciones);
+		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
+		gbc_textField_Descripcion.gridx = 1;
+		gbc_textField_Descripcion.gridy = 6;
+		gbc_textField_Descripcion.gridwidth = 2;
+		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
+		
+		JTextField textField_Apellido = new JTextField();
+		textField_Apellido.setColumns(10);
+		textField_Apellido.setVisible(false); 
+		
+		GridBagConstraints gbc_textField_Apellido = new GridBagConstraints();
+		gbc_textField_Apellido.gridx = 1;
+		gbc_textField_Apellido.gridy = 7;
+		gbc_textField_Apellido.gridwidth = 2;
+		gbc_textField_Apellido.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(textField_Apellido, gbc_textField_Apellido);
+		
+		JTextField textField_FechaNacimiento = new JTextField();
+		textField_FechaNacimiento.setColumns(10);
+		textField_FechaNacimiento.setVisible(false);
+		
+		GridBagConstraints gbc_textField_FechaNacimiento = new GridBagConstraints();
+		gbc_textField_FechaNacimiento.gridx = 1;
+		gbc_textField_FechaNacimiento.gridy = 8;
+		gbc_textField_FechaNacimiento.gridwidth = 2;
+		gbc_textField_FechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(textField_FechaNacimiento, gbc_textField_FechaNacimiento);
+        
+		JComboBox<String> comboInstituciones = new JComboBox<>();
+		comboInstituciones.addItem("Ninguno"); // Siempre lo tiene 
+		
+		Set<String> instituciones = IContInstituciones.nombresInstituciones();
+		    if (instituciones != null) {
+		        for (String inst : instituciones) {
+		            comboInstituciones.addItem(inst);
+		        }
+		    }
 		comboInstituciones.setVisible(false);
 		
 		GridBagConstraints gbc_combo_instituciones = new GridBagConstraints();
@@ -169,28 +234,40 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(comboInstituciones, gbc_combo_instituciones);
 
 		Button_Organizador.addActionListener(e -> {
-			TextField_Link.setVisible(true);  
+			textField_Link.setVisible(true);  
 		    lbl_link.setVisible(true);       
 		    
-		    TextField_Descripcion.setVisible(true);  
+		    textField_Descripcion.setVisible(true);  
 		    lbl_Descripcion.setVisible(true); 
 		    
 		    comboInstituciones.setVisible(false);
 		    lbl_Institucion.setVisible(false);
+		    
+		    textField_Apellido.setVisible(false);
+		    lbl_Apellido.setVisible(false);
+		    
+		    textField_FechaNacimiento.setVisible(false);
+		    lbl_FechaNacimiento.setVisible(false);
 		    
 		    revalidate();                 
 		    repaint();   
 		});
 		
 		Button_Asistente.addActionListener(e -> {
-			TextField_Link.setVisible(false);  
+			textField_Link.setVisible(false);  
 		    lbl_link.setVisible(false);    
 		    
-		    TextField_Descripcion.setVisible(false);  
+		    textField_Descripcion.setVisible(false);  
 		    lbl_Descripcion.setVisible(false); 
 		    
 		    lbl_Institucion.setVisible(true);
 		    comboInstituciones.setVisible(true);
+		    
+		    textField_Apellido.setVisible(true);
+		    lbl_Apellido.setVisible(true);
+		    
+		    textField_FechaNacimiento.setVisible(true);
+		    lbl_FechaNacimiento.setVisible(true);
 		    
 		    revalidate();
 		    repaint();
@@ -205,7 +282,7 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_Button_Aceptar = new GridBagConstraints();
 		gbc_Button_Aceptar.insets = new Insets(0, 0, 0, 10);
 		gbc_Button_Aceptar.gridx = 1;
-		gbc_Button_Aceptar.gridy = 7;
+		gbc_Button_Aceptar.gridy = 9;
 		getContentPane().add(Button_Aceptar, gbc_Button_Aceptar);
 		
 		JButton Button_Cancelar = new JButton("Cancelar");
@@ -213,21 +290,76 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_Button_Cancelar = new GridBagConstraints();
 		gbc_Button_Cancelar.insets = new Insets(0, 0, 0, 10);
 		gbc_Button_Cancelar.gridx = 2;
-		gbc_Button_Cancelar.gridy = 7;
+		gbc_Button_Cancelar.gridy = 9;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
 		
 		//---------------Funcionalidades-------------
-		Button_Aceptar.addActionListener(e->{
-			String nick = textField_Nick.getText().trim();
-			String nombre = textField_Nombre.getText().trim();
-			String correo = textField_Correo.getText().trim();
-			if (nick.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
-			    JOptionPane.showMessageDialog(this, "Nick, nombre y correo son campos obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-			    return; 
-			}
-			
-		});
 		
+		Button_Aceptar.addActionListener(e -> {
+		    String nick = textField_Nick.getText().trim();
+		    String nombre = textField_Nombre.getText().trim();
+		    String correo = textField_Correo.getText().trim();
+		    boolean esOrganizador=Button_Organizador.isSelected();
+		    boolean esAsistente=Button_Asistente.isSelected();
+		    
+		    if (!esOrganizador && !esAsistente) {
+		        JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un tipo de usuario (Organizador o Asistente)", "Error", JOptionPane.ERROR_MESSAGE);
+		        return;
+		    }
+
+		    if (esOrganizador) {
+		        String descripcion = textField_Descripcion.getText().trim();
+		        String Link = textField_Link.getText();
+		        try {
+		        	IContUsuario.altaOrganizador(nick,nombre,correo,descripcion,Link);
+		        	
+		        	//Si todo salió bien, aviso y limpio campos
+		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
+		        } catch (Exception ex) {
+		            // Si el controlador lanza error, lo muestro
+		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		        }
+		        
+		    }
+
+		    if (esAsistente) {
+		    	String apellido=textField_Apellido.getText();
+		    	String institucion = (String) comboInstituciones.getSelectedItem();
+		    	String fechaTexto = textField_FechaNacimiento.getText().trim();
+		    	LocalDate fechaNacimiento = null;
+		    	try {
+		    	    fechaNacimiento = LocalDate.parse(fechaTexto, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		    	} catch (DateTimeParseException ex) {
+		    	    JOptionPane.showMessageDialog(this,"La fecha de nacimiento debe tener el formato yyyy-MM-dd","Error",JOptionPane.ERROR_MESSAGE);
+		    	    return;
+		    	}
+		    	try {
+		            IContUsuario.altaAsistente(nick, nombre, correo, apellido, fechaNacimiento, institucion);
+		            
+		            //Si todo salió bien, aviso y limpio campos
+		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
+		        } catch (Exception ex) {
+		            // Si el controlador lanza error, lo muestro
+		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		    // limpia los campos si llega al final
+		      textField_Nick.setText("");
+		      textField_Nombre.setText("");
+		      textField_Correo.setText("");
+		      textField_Link.setText("");
+		      textField_Descripcion.setText("");
+		      textField_Apellido.setText("");
+		      textField_FechaNacimiento.setText("");
+		        
+		      // deseleccionamos los botones
+		      Button_Organizador.setSelected(false);
+		      Button_Asistente.setSelected(false);
+
+		      // resetear el combo
+		      comboInstituciones.setSelectedIndex(0);
+
+		});
 
 	} 
 }

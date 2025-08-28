@@ -55,25 +55,19 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(Asistente A) {
-		conjuntoAsistentes.put(A.getNickname(), A);
-	}
-	
-	public void agregarOrgaizador(Organizador O) {
-		conjuntoOrganizadores.put(O.getNickname(), O);
-	}
-	
-	public Organizador nuevaInstanciaO(String nickname, String nombre, String correo, String descripcion, String link) {
-		return new Organizador(nickname,nombre,correo,descripcion,link);
-	}
-	
-	public Asistente nuevaInstanciaA(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
+	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
 		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
 		}
-		return A;
+		conjuntoAsistentes.put(A.getNickname(), A);
 	}
+	
+	public void agregarOrganizador(String nickname, String nombre, String correo, String descripcion, String link) {
+		Organizador O=new Organizador(nickname,nombre,correo,descripcion,link);
+		conjuntoOrganizadores.put(O.getNickname(), O);
+	}
+	
 	
 	public List<DTAsistente> listarAsistentes() {
 		return null;

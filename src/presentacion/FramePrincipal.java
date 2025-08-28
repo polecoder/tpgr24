@@ -109,7 +109,7 @@ public class FramePrincipal extends JFrame {
 		
 
 		item_AltaEdicion.addActionListener(e -> {
-				AltaEdicion ventanaAEv = new AltaEdicion();
+				AltaEdicionEvento ventanaAEv = new AltaEdicionEvento();
 			    panel.add(ventanaAEv);          
 			    ventanaAEv.setVisible(true);    
 			    try {
