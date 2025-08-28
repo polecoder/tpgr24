@@ -61,4 +61,8 @@ public class Evento {
 	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}
+	
+	Edicion getEdicion(String nombreEdicion) {
+		return ediciones.get(nombreEdicion);
+	}
 }

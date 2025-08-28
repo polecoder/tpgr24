@@ -2,6 +2,7 @@ package logica;
 
 import java.util.Collections;
 import java.util.Set;
+import excepciones.NombreTipoRegistroRepetido;
 
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTPatrocinio;
@@ -14,8 +15,11 @@ import java.time.LocalDate;
 
 public class ControladorEventos {
     private static ControladorEventos instancia;
+    private ManejadorEventos manejadorEventos;
 
-    private ControladorEventos() { }
+    private ControladorEventos() {
+    	manejadorEventos = ManejadorEventos.getInstancia();
+    }
 
     public static ControladorEventos getInstancia() {
         if (instancia == null) instancia = new ControladorEventos();
@@ -55,5 +59,44 @@ public class ControladorEventos {
     public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
                                   String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
         // HACER
+    }
+    
+    public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+    	return false;
+    }
+    
+    public String[] getNombreEventos() {
+    	Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
+		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEvento evento : listaEventos) {
+			nombreEventos[i] = evento.getNombre();
+		}
+		return new String[] {"Ev1", "Ev2"};//nombreEventos;
+    }
+    
+    public String[] getNombresEdiciones(String nombreEvento) {
+    	/*Set<DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
+    	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEdicionEvento evento : listaEdiciones) {
+			nombreEdiciones[i] = evento.nombre();
+		}
+		return nombreEdiciones;*/
+    	if (nombreEvento == "Ev1") {
+    		return new String[] {"Op1"};
+    	} else return new String[] {"Op2", "Op3"};
+    }
+    
+    public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido {
+    	try {
+    		manejadorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+    	} catch (NombreTipoRegistroRepetido ex) {
+    		throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
+    	}
     }
 }

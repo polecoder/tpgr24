@@ -3,6 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import excepciones.NombreTipoRegistroRepetido;
 import logica.datatypes.DTEdicion;
 
 public class Edicion {
@@ -114,8 +115,14 @@ public class Edicion {
 	public void setTiposRegistro(HashMap<String, TipoRegistro> tiposRegistro) {
 		this.tiposRegistro = tiposRegistro;
 	}
-	public void agregarTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tiposRegistro.put(tipoRegistro.getNombre(), tipoRegistro);
+	public void agregarTipoRegistro(String nombre, String descripcion, float costo, int cuposMax) throws NombreTipoRegistroRepetido {
+		if (this.tiposRegistro.containsKey(nombre)) {
+			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
+		} else {
+			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax);
+			this.tiposRegistro.put(nombre, tipoRegistro);
+			System.out.print("alta");
+		}
 	}
 	public void eliminarTipoRegistro(String nombreTipoRegistro) {
 		this.tiposRegistro.remove(nombreTipoRegistro);

@@ -10,12 +10,12 @@ public class TipoRegistro {
 
     public TipoRegistro() { }
 
-    public TipoRegistro(String nombre, String descripcion, float costo, int cuposMax, int cuposDisponibles) {
+    public TipoRegistro(String nombre, String descripcion, float costo, int cuposMax) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
         this.cuposMax = cuposMax;
-        this.cuposDisponibles = cuposDisponibles;
+        this.cuposDisponibles = cuposMax;
     }
 
     public String getNombre() { return nombre; }
