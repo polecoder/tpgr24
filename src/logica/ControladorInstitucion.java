@@ -4,7 +4,7 @@ import java.util.Set;
 
 import logica.datatypes.DTInstitucion;
 
-public class ControladorInstitucion {
+public class ControladorInstitucion implements IControladorInstitucion {
 	private 
 	static ControladorInstitucion instancia;
 	ManejadorInstituciones ManejadorInstituciones;
@@ -19,7 +19,7 @@ public class ControladorInstitucion {
 		return instancia;
 	}
 	
-	Set<DTInstitucion> listarInstituciones() {
+	public Set<DTInstitucion> listarInstituciones() {
 		//TODO
 		return null;
 	}

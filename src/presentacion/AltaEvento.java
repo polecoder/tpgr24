@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
+
+import logica.Fabrica;
+
 import javax.swing.JTextArea;
 import javax.swing.JSpinner;
 import javax.swing.JList;
@@ -25,6 +28,8 @@ import javax.swing.ScrollPaneConstants;
 
 public class AltaEvento extends JInternalFrame {
 
+	Fabrica fabrica = Fabrica.getInstancia();
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField nombreTextField;
 	private JTextField siglaTextField;
@@ -184,6 +189,11 @@ public class AltaEvento extends JInternalFrame {
 			if (categorias.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Seleccionar por lo menos una categoría es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
+			}
+			
+			if (fabrica.getControladorEvento().existeEvento(nombre)) {
+				JOptionPane.showMessageDialog(this, "Ya existe un evento con este nombre. Desea volver a intentar?", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 		});
 		

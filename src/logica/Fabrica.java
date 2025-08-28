@@ -10,15 +10,15 @@ public class Fabrica {
         return instancia;
     }
 
-    public ControladorUsuarios getControladorUsuarios() {
+    public IControladorUsuarios getControladorUsuarios() {
         return ControladorUsuarios.getInstance();
     }
 
-    public ControladorEventos getControladorEvento() {
+    public IControladorEventos getControladorEvento() {
         return ControladorEventos.getInstancia();
     }
 
-    public ControladorInstitucion getControladorInstitucion() {
+    public IControladorInstitucion getControladorInstitucion() {
         return ControladorInstitucion.getInstancia();
     }
 }

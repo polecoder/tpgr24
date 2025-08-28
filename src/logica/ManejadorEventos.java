@@ -60,4 +60,18 @@ public class ManejadorEventos {
 		//TODO
 		return null;
 	}
+	
+	/**
+	 * Retorna el evento e en el sistema tal que e.nombre = nombreEvento.
+	 * Si el evento no existe, retorna null
+	 * 
+	 * @param nombreEvento
+	 * @return
+	 */
+	Evento getEvento(String nombreEvento) {
+		if (this.eventos.containsKey(nombreEvento)) {
+			return this.eventos.get(nombreEvento);
+		}
+		return null;
+	}
 }

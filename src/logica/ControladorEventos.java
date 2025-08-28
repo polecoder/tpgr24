@@ -12,23 +12,25 @@ import logica.datatypes.DTTipoRegistro;
 
 import java.time.LocalDate;
 
-public class ControladorEventos {
+public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
-
-    private ControladorEventos() { }
+	private ManejadorEventos manejadorEventos;
+    
+    private ControladorEventos() {
+    	this.manejadorEventos = ManejadorEventos.getInstancia();
+    }
 
     public static ControladorEventos getInstancia() {
         if (instancia == null) instancia = new ControladorEventos();
         return instancia;
     }
-
   
     public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-        return Collections.emptySet();
+        return null;
     }
 
     public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
-        return Collections.emptySet();
+        return null;
     }
 
     public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio) {
@@ -55,5 +57,24 @@ public class ControladorEventos {
     public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
                                   String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
         // HACER
+    }
+    
+    public Set<DTTipoRegistro> listarTipoRegistro() {
+		return null;
+	}
+    
+    /**
+     * Devuelve true si existe un evento e en el sistema tal que e.nombre = nombreEvento.
+     * En caso contrario devuelve false
+     * 
+     * @param nombreEvento
+     * @return
+     */
+    public boolean existeEvento(String nombreEvento) {
+    	Evento evento = this.manejadorEventos.getEvento(nombreEvento);
+    	if (evento != null) {
+    		return true;
+    	}
+    	return false;
     }
 }
