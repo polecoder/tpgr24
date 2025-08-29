@@ -2,6 +2,7 @@ package logica;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.List;
 
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTPatrocinio;
@@ -64,17 +65,27 @@ public class ControladorEventos implements IControladorEventos {
 	}
     
     /**
-     * Devuelve true si existe un evento e en el sistema tal que e.nombre = nombreEvento.
-     * En caso contrario devuelve false
-     * 
-     * @param nombreEvento
-     * @return
-     */
-    public boolean existeEvento(String nombreEvento) {
-    	Evento evento = this.manejadorEventos.getEvento(nombreEvento);
-    	if (evento != null) {
-    		return true;
-    	}
-    	return false;
+	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
+	 * Da de alta un Evento con los parámetros indicados en el sistema.
+	 * Si ya existe un Evento con el nombre indicado en el sistema, no hace nada.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param fechaAlta
+	 * @param sigla
+	 * @param categorias
+	 */
+    public void altaEvento(String nombre, String descripcion, LocalDate fechaAlta, String sigla, List<String> categorias) {
+		this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
     }
+    
+    /**
+	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
+	 * Retorna false en cualquier otro caso.
+	 * 
+	 * @param nombreEvento
+	 */
+	public boolean existeEvento(String nombreEvento) {
+		return this.manejadorEventos.existeEvento(nombreEvento);
+	}
 }

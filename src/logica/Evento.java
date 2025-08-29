@@ -32,13 +32,13 @@ public class Evento {
 	String getDescripcion(){
 		return this.descripcion;
 	}
-	LocalDate getfechaAlta(){
+	LocalDate getFechaAlta(){
 		return this.fechaAlta;
 	}
-	Map<String, Categoria> getcategoria(){
+	Map<String, Categoria> getCategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getediciones(){
+	Map<String, Edicion> getEdiciones(){
 		return this.ediciones;
 	};
 	
@@ -54,10 +54,19 @@ public class Evento {
 	void setFechaAlta(LocalDate fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
+	void agregarCategoria(Categoria categoria) {
+		this.categorias.put(categoria.getNombre(), categoria);
+	}
+	void eliminarCategoria(String nombreCategoria) {
+		this.categorias.remove(nombreCategoria);
+	}
 	void agregarEdicion(Edicion edicion) {
 		this.ediciones.put(edicion.getNombre(),edicion);
-	};
-		
+	}
+	void eliminarEdicion(String nombreEdicion) {
+		this.ediciones.remove(nombreEdicion);
+	}
+	
 	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}

@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.List;
 import java.util.Set;
 
 import logica.datatypes.DTDetallePatrocinio;
@@ -19,11 +20,22 @@ public interface IControladorEventos {
 	void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
 	Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	/**
-     * Devuelve true si existe un evento e en el sistema tal que e.nombre = nombreEvento.
-     * En caso contrario devuelve false
-     * 
-     * @param nombreEvento
-     * @return
-     */
+	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
+	 * Da de alta un Evento con los parámetros indicados en el sistema.
+	 * Si ya existe un Evento con el nombre indicado en el sistema, no hace nada.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param fechaAlta
+	 * @param sigla
+	 * @param categorias
+	 */
+	public void altaEvento(String nombre, String descripcion, LocalDate fechaAlta, String sigla, List<String> categorias);
+	/**
+	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
+	 * Retorna false en cualquier otro caso.
+	 * 
+	 * @param nombreEvento
+	 */
 	public boolean existeEvento(String nombreEvento);
 }

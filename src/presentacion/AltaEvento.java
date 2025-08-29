@@ -160,8 +160,22 @@ public class AltaEvento extends JInternalFrame {
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
 		panel.add(botonAceptar, gbc_btnNewButton);
+		
+		JButton botonCancelar = new JButton("Cancelar");
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.gridx = 1;
+		gbc_btnNewButton_1.gridy = 0;
+		panel.add(botonCancelar, gbc_btnNewButton_1);
+		
+		JButton botonReset = new JButton("Reset");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.gridx = 2;
+		gbc_btnNewButton_2.gridy = 0;
+		panel.add(botonReset, gbc_btnNewButton_2);
+		
 		/**
-		 * VALIDACIONES AL ACEPTAR
+		 * ACEPTAR
 		 */
 		botonAceptar.addActionListener(e->{
 			String nombre = nombreTextField.getText().trim();
@@ -190,25 +204,49 @@ public class AltaEvento extends JInternalFrame {
 				JOptionPane.showMessageDialog(this, "Seleccionar por lo menos una categoría es obligatorio.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 			}
-			
 			if (fabrica.getControladorEvento().existeEvento(nombre)) {
-				JOptionPane.showMessageDialog(this, "Ya existe un evento con este nombre. Desea volver a intentar?", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
+				int opcion = JOptionPane.showOptionDialog(
+				        this,
+				        "Ya existe un evento con este nombre. ¿Desea volver a intentar?",
+				        "Advertencia",
+				        JOptionPane.YES_NO_OPTION,
+				        JOptionPane.QUESTION_MESSAGE,
+				        null,
+				        new Object[]{"Aceptar", "Cancelar"},
+				        "Aceptar"
+			    );
+			    if (opcion == JOptionPane.YES_OPTION) {
+			        nombreTextField.setText("");
+			        descripcionTextArea.setText("");
+			        siglaTextField.setText("");
+			        fechaSpinner.setValue(new Date());
+			        categoriasList.clearSelection();
+			    } else if (opcion == JOptionPane.NO_OPTION) {
+			        this.dispose();
+			    }
+			    return;
 			}
+			// Si pasa todos los checks, se da de Alta finalmente
+			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
+			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 		});
 		
-		JButton btnNewButton_1 = new JButton("Cancelar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 1;
-		gbc_btnNewButton_1.gridy = 0;
-		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		/**
+		 * CANCELAR
+		 */
+		botonCancelar.addActionListener(e -> {
+			this.dispose();
+		});
 		
-		JButton btnNewButton_2 = new JButton("Reset");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.gridx = 2;
-		gbc_btnNewButton_2.gridy = 0;
-		panel.add(btnNewButton_2, gbc_btnNewButton_2);
+		/**
+		 * CANCELAR
+		 */
+		botonReset.addActionListener(e->{
+			nombreTextField.setText("");
+	        descripcionTextArea.setText("");
+	        siglaTextField.setText("");
+	        fechaSpinner.setValue(new Date());
+	        categoriasList.clearSelection();
+		});	
 	}
-
 }
