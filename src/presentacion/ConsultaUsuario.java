@@ -29,7 +29,6 @@ public class ConsultaUsuario extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		String[] eventosDisponibles = {"nombre evento", "ev 1"};
 		
 		JPanel pnlSelector = new JPanel();
 		GridBagConstraints gbc_pnlSelector = new GridBagConstraints();

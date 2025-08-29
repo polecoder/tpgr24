@@ -19,9 +19,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 	private JTextField textField_Pais;
 	private JTextField textField_FechaInicio;
 	private JTextField textField_FechaFinal;
-	private JTextField textField_FechaAlta;
-
-
 	public AltaEdicionEvento() {
 	    super("Alta Edicion", true, true, true, true); 
 	    setSize(400, 300);       

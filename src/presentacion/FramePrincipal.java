@@ -1,12 +1,11 @@
 package presentacion;
 
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JDesktopPane;
 
 public class FramePrincipal extends JFrame {
@@ -33,60 +32,54 @@ public class FramePrincipal extends JFrame {
         panel = new JDesktopPane();
         getContentPane().add(panel, BorderLayout.CENTER);
 		
-		JButton Usuario = new JButton("Usuarios");
-		menuBar.add(Usuario);
-		
-		JPopupMenu menuUsuario = new JPopupMenu();
-		    JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
-		    JMenuItem item2 = new JMenuItem("Consulta");
-		    JMenuItem item3 = new JMenuItem("Modificar Datos");
-		    
-		    menuUsuario.add(item_AltaUsuario);
-		    menuUsuario.add(item2);
-		    menuUsuario.add(item3);
+        JMenu menuUsuario = new JMenu("Usuarios");
+        menuBar.add(menuUsuario);
 
-		    Usuario.addActionListener(e -> menuUsuario.show(Usuario, 0, Usuario.getHeight()));
+        JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
+        JMenuItem item2 = new JMenuItem("Consulta");
+        JMenuItem item3 = new JMenuItem("Modificar Datos");
+
+        menuUsuario.add(item_AltaUsuario);
+        menuUsuario.add(item2);
+        menuUsuario.add(item3);
+		
 		    	  
-	    JButton Evento = new JButton("Evento");
-		menuBar.add(Evento);
-		JPopupMenu casosEvento = new JPopupMenu();
-			 JMenuItem item4 = new JMenuItem("Alta Evento");
-			 JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
-			 JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
-			 JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
-			 
-			 casosEvento.add(item4);
-			 casosEvento.add(item_AltaEdicion);
-			 casosEvento.add(item_ConsultaEvento);
-			 casosEvento.add(item7);
-			 Evento.addActionListener(e ->casosEvento .show(Evento, 0, Evento.getHeight()));
+        JMenu menuEvento = new JMenu("Evento");
+        menuBar.add(menuEvento);
+
+        JMenuItem item4 = new JMenuItem("Alta Evento");
+        JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
+        JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
+        JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
+
+        menuEvento.add(item4);
+        menuEvento.add(item_AltaEdicion);
+        menuEvento.add(item_ConsultaEvento);
+        menuEvento.add(item7);
 		
-		JButton Registro = new JButton("Registro");
-		menuBar.add(Registro);
-		
-		JPopupMenu casosRegistro = new JPopupMenu();
-			JMenuItem item8 = new JMenuItem("Alta Tipo Registro");
-			JMenuItem item9 = new JMenuItem("Consulta Tipo Registro");
-			JMenuItem itemA = new JMenuItem("Consulta Regsitro");
-			JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
-		 
-			casosRegistro.add(item8);
-			casosRegistro.add(item9);
-			casosRegistro.add(itemA);
-			casosRegistro.add(itemB);
-		Registro.addActionListener(e ->casosRegistro .show(Registro, 0, Registro.getHeight()));
+        JMenu menuRegistro = new JMenu("Registro");
+        menuBar.add(menuRegistro);
+
+        JMenuItem item8 = new JMenuItem("Alta Tipo Registro");
+        JMenuItem item9 = new JMenuItem("Consulta Tipo Registro");
+        JMenuItem itemA = new JMenuItem("Consulta Registro");
+        JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
+
+        menuRegistro.add(item8);
+        menuRegistro.add(item9);
+        menuRegistro.add(itemA);
+        menuRegistro.add(itemB);
 			
-		JButton Institucion = new JButton("Institucion");
-		menuBar.add(Institucion);
-			
-			JPopupMenu casosInstitucion = new JPopupMenu();
-				JMenuItem itemC = new JMenuItem("Alta Institucion");
-				JMenuItem itemD = new JMenuItem("Alta Patrocinio");
-				JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
-				casosInstitucion.add(itemC);
-				casosInstitucion.add(itemD);
-				casosInstitucion.add(itemE);
-		Institucion.addActionListener(e ->casosInstitucion .show(Institucion, 0, Institucion.getHeight()));
+        JMenu menuInstitucion = new JMenu("Institución");
+        menuBar.add(menuInstitucion);
+
+        JMenuItem itemC = new JMenuItem("Alta Institución");
+        JMenuItem itemD = new JMenuItem("Alta Patrocinio");
+        JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
+
+        menuInstitucion.add(itemC);
+        menuInstitucion.add(itemD);
+        menuInstitucion.add(itemE);
 				
 		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();

@@ -1,6 +1,5 @@
 package logica;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,26 +13,7 @@ public class ManejadorEventos {
 	static ManejadorEventos instancia;
 	Map<String,Evento> eventos;
 	ManejadorEventos(){
-		
 		 this.eventos = new HashMap<>();
-		 Evento eventoejemplo=new Evento("hola", "hola2", "hola3", LocalDate.of(2025, 8, 28));
-		 Categoria categoria= new Categoria("Holacat");
-		 Categoria categoria2= new Categoria("Holacat2");
-		 eventoejemplo.categorias.put("Holacat", categoria);
-		 eventoejemplo.categorias.put("Holacat2", categoria2);
-		 eventos.put("hola", eventoejemplo);
-		 
-		 Edicion edicion=new Edicion("chau", "chauu",null, null, null, null);
-		 eventoejemplo.ediciones.put("chauu", edicion);
-		 
-		 Evento eventoejemploo=new Evento("holaa", "holaa2", "holaa3", LocalDate.of(2025, 8, 28));
-		 Categoria categoriaa= new Categoria("Holacata");
-		 Categoria categoriaa2= new Categoria("Holacata2");
-		 eventoejemploo.categorias.put("Holacata", categoriaa);
-		 eventoejemploo.categorias.put("Holacata2", categoriaa2);
-		 eventos.put("holaa", eventoejemploo);
-		 
-		 
 	};
 	public
 	static ManejadorEventos getInstancia() {
