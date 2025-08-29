@@ -29,18 +29,18 @@ public class JCargaDatos extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[]{1.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
-		JButton botonCargar = new JButton("Cargar");
-		GridBagConstraints gbc_botonCargar = new GridBagConstraints();
-		gbc_botonCargar.gridwidth = 2;
-		gbc_botonCargar.insets = new Insets(0, 0, 5, 5);
-		gbc_botonCargar.gridx = 1;
-		gbc_botonCargar.gridy = 1;
-		getContentPane().add(botonCargar, gbc_botonCargar);
+		//--------CATEGORIA----------
+		JButton botonCategoria = new JButton("Cargar Categoria");
+		GridBagConstraints gbc_botonCategoria = new GridBagConstraints();
+		gbc_botonCategoria.gridwidth = 2;
+		gbc_botonCategoria.insets = new Insets(0, 0, 5, 5);
+		gbc_botonCategoria.gridx = 1;
+		gbc_botonCategoria.gridy = 0;
+		getContentPane().add(botonCategoria, gbc_botonCategoria);
 		
-		botonCargar.addActionListener(e -> {
+		botonCategoria.addActionListener(e -> {
 		    JFileChooser fileChooser = new JFileChooser();
-		    fileChooser.setDialogTitle("Seleccionar archivo CSV");
-		    
+		    fileChooser.setDialogTitle("Seleccionar archivo CSV - Categoria");
 		    // Carpeta por defecto: Descargas
 		    String home = System.getProperty("user.home");
 		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
@@ -56,5 +56,35 @@ public class JCargaDatos extends JInternalFrame {
                 cargaDatos.cargarCategorias();
             }
 		});
+		//--------CATEGORIA----------
+
+		//--------EVENTO----------
+		JButton botonEvento = new JButton("Cargar Evento");
+		GridBagConstraints gbc_botonEvento = new GridBagConstraints();
+		gbc_botonEvento.gridwidth = 2;
+		gbc_botonEvento.insets = new Insets(0, 0, 5, 5);
+		gbc_botonEvento.gridx = 1;
+		gbc_botonEvento.gridy = 1;
+		getContentPane().add(botonEvento, gbc_botonEvento);
+		
+		botonEvento.addActionListener(e -> {
+		    JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setDialogTitle("Seleccionar archivo CSV - Evento");
+		    // Carpeta por defecto: Descargas
+		    String home = System.getProperty("user.home");
+		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
+		    
+		    // Filtrar para solo ver archivos .CSV
+		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
+		    fileChooser.setFileFilter(filtro);
+		    
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File archivo = fileChooser.getSelectedFile();
+                cargaDatos.leerCategorias(archivo.getAbsolutePath());
+                cargaDatos.cargarCategorias();
+            }
+		});
+		//--------EVENTO---------- 
 	}
 }

@@ -73,6 +73,10 @@ public class ManejadorEventos {
 		this.categorias.put(nombreCategoria, categoria);
 	}
 	
+	public void altaEvento() {
+		
+	}
+	
 	/**
 	 * Imprime en consola todas las categorías que existen en la colección de categorías.
 	 */

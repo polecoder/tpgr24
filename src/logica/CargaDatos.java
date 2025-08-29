@@ -1,6 +1,7 @@
 package logica;
 
 import logica.csv.CSVCategoria;
+import logica.csv.CSVEvento;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,7 +18,10 @@ public class CargaDatos {
 	private ManejadorEventos manejadorEventos;
 	private ManejadorInstituciones manejadorInstituciones;
 	private ManejadorUsuarios manejadorUsuarios;
+	
 	private Map<String, CSVCategoria> categorias;
+	private Map<String, CSVEvento> eventos;
+	
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorInstituciones = ManejadorInstituciones.getInstance();
@@ -72,5 +76,44 @@ public class CargaDatos {
 			}
 			this.manejadorEventos.imprimirCategorias();
 		}
-	}	
+	}
+	
+	
+	//------------EVENTO-----------------
+	public void leerEventos(String ruta) {
+        CsvToBean<CSVEvento> eventosCsv;
+		try {
+			eventosCsv = new CsvToBeanBuilder<CSVEvento>(
+			        new FileReader(ruta))
+			        .withType(CSVEvento.class)
+			        .withSeparator(';')
+			        .withIgnoreLeadingWhiteSpace(true)
+			        .withIgnoreEmptyLine(true)
+			        .build();
+			List<CSVEvento> listaEventos = eventosCsv.parse();
+	        this.eventos = listaEventos.stream()
+	                						 .collect(Collectors.toMap(
+	                								 CSVEvento::getNombre,
+	                								 d -> d,
+	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+            								 ));
+		} catch (IllegalStateException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Carga las categorías que se encuentran en la colección categorias al sistema.
+	 * Si el mapa está vacío, no hace nada.
+	 */
+	public void cargarEventos() {
+		if (this.eventos!= null) {
+			for (String nombreEvento: this.categorias.keySet()) {
+				
+				//this.manejadorEventos.altaEvento(nombreEvento);
+			}
+			this.manejadorEventos.imprimirCategorias();
+		}
+	}
+	//------------EVENTO-----------------
 }
