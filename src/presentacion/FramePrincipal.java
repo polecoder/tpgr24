@@ -70,15 +70,21 @@ public class FramePrincipal extends JFrame {
 			
 		JButton Institucion = new JButton("Institucion");
 		menuBar.add(Institucion);
-			
-			JPopupMenu casosInstitucion = new JPopupMenu();
-				JMenuItem itemC = new JMenuItem("Alta Institucion");
-				JMenuItem itemD = new JMenuItem("Alta Patrocinio");
-				JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
-				casosInstitucion.add(itemC);
-				casosInstitucion.add(itemD);
-				casosInstitucion.add(itemE);
+		JPopupMenu casosInstitucion = new JPopupMenu();
+		JMenuItem itemC = new JMenuItem("Alta Institucion");
+		JMenuItem itemD = new JMenuItem("Alta Patrocinio");
+		JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
+		casosInstitucion.add(itemC);
+		casosInstitucion.add(itemD);
+		casosInstitucion.add(itemE);
 		Institucion.addActionListener(e ->casosInstitucion .show(Institucion, 0, Institucion.getHeight()));
+		
+		JButton CargaDatos = new JButton("Carga Datos");
+		menuBar.add(CargaDatos);
+		JPopupMenu casosCargaDatos = new JPopupMenu();
+		JMenuItem item_CargaDatos = new JMenuItem("Carga Datos");
+		casosCargaDatos.add(item_CargaDatos);
+		CargaDatos.addActionListener(e ->casosCargaDatos.show(CargaDatos, 0, CargaDatos.getHeight()));
 				
 		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
@@ -134,8 +140,16 @@ public class FramePrincipal extends JFrame {
 		    	ventanaRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
-		
+		/**
+		 * item_CargaDatos.addActionListener(e -> {
+			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
+		    panel.add(ventanaRegistro);          
+		    ventanaRegistro.setVisible(true);    
+		    try {
+		    	ventanaRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		 */
 		setVisible(true);
 	}
-		
 }
