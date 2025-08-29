@@ -11,8 +11,10 @@ public class ManejadorEventos {
 	private 
 	static ManejadorEventos instancia;
 	Map<String,Evento> eventos;
+	Map<String, Categoria> categorias;
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>();
+		 this.categorias = new HashMap<>();
 	};
 	public
 	static ManejadorEventos getInstancia() {
@@ -59,5 +61,24 @@ public class ManejadorEventos {
 	Edicion getEdicion(String nombreEdicion){
 		//TODO
 		return null;
+	}
+	
+	/**
+	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
+	 * 
+	 * @param nombreCategoria
+	 */
+	public void altaCategoria(String nombreCategoria) {
+		Categoria categoria = new Categoria(nombreCategoria);
+		this.categorias.put(nombreCategoria, categoria);
+	}
+	
+	/**
+	 * Imprime en consola todas las categorías que existen en la colección de categorías.
+	 */
+	public void imprimirCategorias() {
+		if (this.categorias != null) {
+			System.out.println(this.categorias);
+		}
 	}
 }

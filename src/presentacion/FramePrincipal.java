@@ -140,16 +140,14 @@ public class FramePrincipal extends JFrame {
 		    	ventanaRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
-		/**
-		 * item_CargaDatos.addActionListener(e -> {
-			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
-		    panel.add(ventanaRegistro);          
-		    ventanaRegistro.setVisible(true);    
-		    try {
-		    	ventanaRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
+		item_CargaDatos.addActionListener(e -> {
+			JCargaDatos ventanaCargaDatos = new JCargaDatos();
+			panel.add(ventanaCargaDatos);          
+			ventanaCargaDatos.setVisible(true);    
+			try {
+				ventanaCargaDatos.setSelected(true); 
+			} catch (Exception ex) {}
 		});
-		 */
 		setVisible(true);
 	}
 }
