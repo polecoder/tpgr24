@@ -127,7 +127,6 @@ public class Edicion {
 		} else {
 			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax);
 			this.tiposRegistro.put(nombre, tipoRegistro);
-			System.out.print("alta");
 		}
 	}
 	public void eliminarTipoRegistro(String nombreTipoRegistro) {

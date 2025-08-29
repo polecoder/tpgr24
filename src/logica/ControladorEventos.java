@@ -2,6 +2,8 @@ package logica;
 
 import java.util.Collections;
 import java.util.Set;
+
+import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
@@ -92,7 +94,12 @@ public class ControladorEventos {
     	} else return new String[] {"Op2", "Op3"};
     }
     
-    public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido {
+    public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {
+    	if (costo < 0) throw new DatosTipoRegistroInvalidos("El costo debe ser mayor o igual a cero");
+    	if (cuposMax <= 0) throw new DatosTipoRegistroInvalidos("Los cupos máximos deben ser mayores a cero");
+    	System.out.print(nombre);
+    	if (nombre == "") throw new DatosTipoRegistroInvalidos("El nombre no puede ser vacío");
+    	
     	try {
     		manejadorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
     	} catch (NombreTipoRegistroRepetido ex) {

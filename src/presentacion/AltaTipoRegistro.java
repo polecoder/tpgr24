@@ -2,6 +2,7 @@ package presentacion;
 
 import logica.ControladorEventos;
 import logica.datatypes.DTEvento;
+import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 
 import java.awt.GridBagConstraints;
@@ -227,10 +228,6 @@ public class AltaTipoRegistro extends JInternalFrame {
 					JOptionPane.showMessageDialog(null, "Debe seleccionar una edicion");
 					return;
 				}
-				if (textField_Nombre.getText() == "") {
-					JOptionPane.showMessageDialog(null,  "El nombre no puede ser vacio");
-					return;
-				}
 				// Reviso formatos
 				String nombre = textField_Nombre.getText(); // Obtengo nombre
 				String descripcion = textField_Descripcion.getText(); // Obtengo descripcion
@@ -242,7 +239,10 @@ public class AltaTipoRegistro extends JInternalFrame {
 				try {
 					controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 				} catch (NombreTipoRegistroRepetido ex) {
-					JOptionPane.showMessageDialog(null,  "El nombre del TipoRegistro ya esta en uso para esta Edicion");
+					JOptionPane.showMessageDialog(null,  ex.getMessage());
+					return;
+				} catch (DatosTipoRegistroInvalidos ex) {
+					JOptionPane.showMessageDialog(null,  ex.getMessage());
 					return;
 				}
 			}
