@@ -58,12 +58,12 @@ public class FramePrincipal extends JFrame {
 		
 		JPopupMenu casosRegistro = new JPopupMenu();
 			JMenuItem item_AltaTipoRegistro = new JMenuItem("Alta Tipo Registro");
-			JMenuItem item9 = new JMenuItem("Consulta Tipo Registro");
+			JMenuItem item_ConsultaTipoRegistro = new JMenuItem("Consulta Tipo Registro");
 			JMenuItem itemA = new JMenuItem("Consulta Regsitro");
 			JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
 		 
 			casosRegistro.add(item_AltaTipoRegistro);
-			casosRegistro.add(item9);
+			casosRegistro.add(item_ConsultaTipoRegistro);
 			casosRegistro.add(itemA);
 			casosRegistro.add(itemB);
 		Registro.addActionListener(e ->casosRegistro .show(Registro, 0, Registro.getHeight()));
@@ -74,6 +74,14 @@ public class FramePrincipal extends JFrame {
 		    ventanaAltaTipoRegistro.setVisible(true);    
 		    try {
 		    	ventanaAltaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		item_ConsultaTipoRegistro.addActionListener(e -> {
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
+		    panel.add(ventanaConsultaTipoRegistro);          
+		    ventanaConsultaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaConsultaTipoRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
 		

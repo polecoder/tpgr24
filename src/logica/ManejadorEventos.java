@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import excepciones.NombreTipoRegistroRepetido;
-
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
@@ -83,5 +83,29 @@ public class ManejadorEventos {
 		} catch (NombreTipoRegistroRepetido ex) {
 			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
 		}
+	}
+	
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdiocion) {
+		Evento evento = eventos.get(nombreEvento);
+		Edicion edicion = evento.getEdicion(nombreEdiocion);
+		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
+		
+		int i = 0;
+		String[] nombresTiposRegistro = new String[tiposRegistro.size()];
+		for (Map.Entry<String, TipoRegistro> tipoRegistro : tiposRegistro.entrySet()) {
+			nombresTiposRegistro[i] = tipoRegistro.getKey();
+			i++;
+		}
+		return nombresTiposRegistro;
+	}
+	
+	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		Evento evento = eventos.get(nombreEvento);
+		try {
+			evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		};
+		return evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 	}
 }

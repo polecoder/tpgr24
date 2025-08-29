@@ -202,9 +202,8 @@ public class AltaTipoRegistro extends JInternalFrame {
             }
         });
 		
+		// Aceptar
 		Button_Aceptar.addActionListener(new ActionListener() {
-			float costo;
-			int cuposMax;
 			@Override
 			public void actionPerformed(ActionEvent e ) {
 				// Reviso formatos
@@ -237,6 +236,8 @@ public class AltaTipoRegistro extends JInternalFrame {
 				String descripcion = textField_Descripcion.getText(); // Obtengo descripcion
 				String nombreEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex()); // Obtengo nombreEvento
 				String nombreEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex()); // Obtengo nombreEdicion
+				float costo = Float.parseFloat(textField_Costo.getText()); // Obtengo costo
+				int cuposMax = Integer.parseInt(textField_Cupos.getText()); // Obtengo cuposMax
 				
 				try {
 					controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);

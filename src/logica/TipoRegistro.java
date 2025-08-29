@@ -1,5 +1,7 @@
 package logica;
 
+import logica.datatypes.DTTipoRegistro;
+
 public class TipoRegistro {
 
     private String nombre;
@@ -40,5 +42,10 @@ public class TipoRegistro {
     public boolean validar(String nicknameAsistente) {
         // HACER
         return true;
+    }
+    
+    public DTTipoRegistro getDTTipoRegistro() {
+    	DTTipoRegistro dtTipoRegistro = new DTTipoRegistro(this.getNombre(), this.getDescripcion(), this.getCosto(), this.getCuposMax(), this.getCuposDisponibles());
+    	return dtTipoRegistro;
     }
 }

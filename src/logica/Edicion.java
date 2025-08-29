@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicion;
+import logica.datatypes.DTTipoRegistro;
 
 public class Edicion {
 	private String nombre;
@@ -106,8 +108,12 @@ public class Edicion {
 	 * @param nombreTipoRegistro
 	 * @return
 	 */
-	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) {
-		return this.tiposRegistro.get(nombreTipoRegistro);
+	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste{
+		if (!this.tiposRegistro.containsKey(nombreTipoRegistro)) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		} else {
+			return this.tiposRegistro.get(nombreTipoRegistro);
+		}
 	}
 	public HashMap<String, TipoRegistro> getTiposRegistro() {
 		return tiposRegistro;
@@ -141,5 +147,15 @@ public class Edicion {
 	// TODO: Implementar y revisar el nombre
 	public boolean check(String codigoPatrocinio, String nicknameAsistente) {
 		return false;
+	}
+	
+	public DTTipoRegistro getDTTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		try {
+			TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		};
+		TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
+		return tipoRegistro.getDTTipoRegistro();
 	}
 }
