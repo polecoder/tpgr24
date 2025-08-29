@@ -18,4 +18,7 @@ public interface IControladorEventos {
 	boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
 	void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
 	List<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
+	
+	boolean altaCategoria(String nombre);
+	boolean existeCategoria(String nombre);
 }

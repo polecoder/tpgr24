@@ -2,6 +2,9 @@ package logica;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTPatrocinio;
@@ -14,6 +17,9 @@ import java.time.LocalDate;
 
 public class ControladorEventos {
     private static ControladorEventos instancia;
+    
+    private final Map<String, Categoria> categorias = new HashMap<>();
+
 
     private ControladorEventos() { }
 
@@ -21,8 +27,8 @@ public class ControladorEventos {
         if (instancia == null) instancia = new ControladorEventos();
         return instancia;
     }
+ 
 
-  
     public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
         return Collections.emptySet();
     }
@@ -55,5 +61,21 @@ public class ControladorEventos {
     public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
                                   String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
         // HACER
+    }
+    
+    public boolean altaCategoria(String nombre) {
+        if (nombre == null) return false;
+        String key = nombre.trim();            // saca espacios extremos
+        if (key.isEmpty()) return false;       
+        if (categorias.containsKey(key)) return false; // si ya existe la categoria
+        categorias.put(key, new Categoria(key));
+        return true;                           
+    }
+
+    public boolean existeCategoria(String nombre) {
+        if (nombre == null) return false;
+        String key = nombre.trim();
+        if (key.isEmpty()) return false;
+        return categorias.containsKey(key);
     }
 }

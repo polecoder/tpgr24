@@ -1,5 +1,6 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +13,23 @@ public class ManejadorEventos {
 	static ManejadorEventos instancia;
 	Map<String,Evento> eventos;
 	ManejadorEventos(){
-		 this.eventos = new HashMap<>();
+		 this.eventos = new HashMap<>(); 
+		 
+		 //creo evento
+		 Evento ev = new Evento("ConfYec", "", "", LocalDate.now());
+		 this.eventos.put("ConfTec", ev);
+		 
+		 //creo edicion
+		 Edicion ed = new Edicion("ConfTec 2025", "", LocalDate.now(), LocalDate.now(), "", "");
+		  ev.getediciones().put(ed.getNombre(), ed);
+		 
+		  //tiposRegistro
+		 TipoRegistro trGen = new TipoRegistro("General", "Acceso general", 1000, 500, 100, ed);
+		 TipoRegistro trVip = new TipoRegistro("VIP",     "Acceso VIP",     2500,  100, 20, ed);
+		 ed.getTiposRegistro().put(trGen.getNombre(), trGen);
+		 ed.getTiposRegistro().put(trVip.getNombre(), trVip);
 	};
-	public
-	static ManejadorEventos getInstancia() {
+	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
 			instancia= new ManejadorEventos();
 		}
@@ -23,8 +37,7 @@ public class ManejadorEventos {
 	};
 	
 	Evento getEventoEdicion(String nombreEdicion) {
-		//TODO
-		return null;
+		return eventos.get(nombreEdicion);
 	};
 	
 	boolean contieneEdicion(String NombreEdicion) {
