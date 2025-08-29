@@ -3,7 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import logica.datatypes.DTEdicion;
+import logica.datatypes.DTEdicionEvento;
 
 public class Edicion {
 	private String nombre;
@@ -122,7 +122,7 @@ public class Edicion {
 	}
 	
 	// TODO: Implementar
-	public DTEdicion listarEdicion() {
+	public DTEdicionEvento listarEdicion() {
 		return null;
 	}
 	

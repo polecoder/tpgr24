@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -12,7 +13,14 @@ public class FramePrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JDesktopPane  panel = new JDesktopPane();
-
+    
+    public void abrirVentanaInterna(JInternalFrame ventana) {
+        panel.add(ventana);
+        ventana.setVisible(true);
+        try {
+            ventana.setSelected(true);
+        } catch (Exception ex) {}
+    }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 550, 450);
@@ -118,7 +126,7 @@ public class FramePrincipal extends JFrame {
 			});
 		
 		item_ConsultaEvento.addActionListener(e -> {
-			ConsultaEvento ventanaCEv = new ConsultaEvento();
+			ConsultaEvento ventanaCEv = new ConsultaEvento(panel);
 		    panel.add(ventanaCEv);          
 		    ventanaCEv.setVisible(true);    
 		    try {

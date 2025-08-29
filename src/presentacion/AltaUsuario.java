@@ -7,7 +7,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 
 import logica.Fabrica;
 import logica.IControladorInstitucion;
@@ -17,8 +19,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Set;
 
 
@@ -29,12 +31,6 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Nick;
 	private JTextField textField_Nombre;
 	private JTextField textField_Correo;
-	private JTextField textField_Link;
-	private JTextField textField_Descripcion;
-	private JTextField textField_FechaNacimiento;
-	private JTextField textField_Apellido;
-	
-
 	public AltaUsuario() {
 		super("Alta de Usuario", true, true, true, true);
 		setSize(350, 250);       
@@ -48,7 +44,7 @@ public class AltaUsuario extends JInternalFrame {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0,0,0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0,0.0,1.0};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,0.0,0.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
@@ -203,10 +199,11 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_textField_Apellido.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(textField_Apellido, gbc_textField_Apellido);
 		
-		JTextField textField_FechaNacimiento = new JTextField();
-		textField_FechaNacimiento.setColumns(10);
+		SpinnerDateModel dateModel = new SpinnerDateModel();
+		JSpinner textField_FechaNacimiento = new JSpinner(dateModel);
+		textField_FechaNacimiento.setEditor(new JSpinner.DateEditor(textField_FechaNacimiento, "yyyy-MM-dd"));
 		textField_FechaNacimiento.setVisible(false);
-		
+
 		GridBagConstraints gbc_textField_FechaNacimiento = new GridBagConstraints();
 		gbc_textField_FechaNacimiento.gridx = 1;
 		gbc_textField_FechaNacimiento.gridy = 8;
@@ -223,7 +220,7 @@ public class AltaUsuario extends JInternalFrame {
 		            comboInstituciones.addItem(inst);
 		        }
 		    }
-		comboInstituciones.setVisible(false);
+		comboInstituciones.setVisible(false); 
 		
 		GridBagConstraints gbc_combo_instituciones = new GridBagConstraints();
 		gbc_combo_instituciones.gridx = 1;
@@ -295,6 +292,10 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_Button_Cancelar.gridy = 9;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
 		
+		Button_Cancelar.addActionListener(e -> {
+		    AltaUsuario.this.dispose();
+		});
+		
 		//---------------Funcionalidades-------------
 		
 		Button_Aceptar.addActionListener(e -> {
@@ -327,40 +328,30 @@ public class AltaUsuario extends JInternalFrame {
 		    if (esAsistente) {
 		    	String apellido=textField_Apellido.getText();
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
-		    	String fechaTexto = textField_FechaNacimiento.getText().trim();
-		    	LocalDate fechaNacimiento = null;
-		    	try {
-		    	    fechaNacimiento = LocalDate.parse(fechaTexto, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		    	} catch (DateTimeParseException ex) {
-		    	    JOptionPane.showMessageDialog(this,"La fecha de nacimiento debe tener el formato yyyy-MM-dd","Error",JOptionPane.ERROR_MESSAGE);
-		    	    return;
-		    	}
+		    	Date fechaSeleccionada = (Date) textField_FechaNacimiento.getValue();
+		    	LocalDate fechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		    	try {
 		            IContUsuario.altaAsistente(nick, nombre, correo, apellido, fechaNacimiento, institucion);
 		            
 		            //Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
+		         // limpia los campos si llega al final
+				      textField_Nick.setText("");
+				      textField_Nombre.setText("");
+				      textField_Correo.setText("");
+				      textField_Link.setText("");
+				      textField_Descripcion.setText("");
+				      textField_Apellido.setText("");
+				      textField_FechaNacimiento.setValue(new Date());
+				      Button_Organizador.setSelected(false);
+				      Button_Asistente.setSelected(false);
 		        } catch (Exception ex) {
 		            // Si el controlador lanza error, lo muestro
 		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		        }
+		    
 		    }
-		    // limpia los campos si llega al final
-		      textField_Nick.setText("");
-		      textField_Nombre.setText("");
-		      textField_Correo.setText("");
-		      textField_Link.setText("");
-		      textField_Descripcion.setText("");
-		      textField_Apellido.setText("");
-		      textField_FechaNacimiento.setText("");
-		        
-		      // deseleccionamos los botones
-		      Button_Organizador.setSelected(false);
-		      Button_Asistente.setSelected(false);
-
-		      // resetear el combo
-		      comboInstituciones.setSelectedIndex(0);
-
+		    
 		});
 
 	} 

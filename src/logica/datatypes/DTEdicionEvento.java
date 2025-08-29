@@ -1,5 +1,36 @@
 package logica.datatypes;
 
-public record DTEdicionEvento(String nombre, String sigla, String descripcion) {
+import java.time.LocalDate;
 
+public class DTEdicionEvento {
+	private String nombre;
+	private String sigla;
+	private LocalDate fechaInicio;
+	
+	public DTEdicionEvento(String nombre, String sigla, LocalDate fechaInicio) {
+		this.setNombre(nombre);
+		this.setSigla(sigla);
+		this.setFechaInicio(fechaInicio);
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public String getSigla() {
+		return sigla;
+	}
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+	
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
+	}
+	public void setFechaInicio(LocalDate fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
 }
