@@ -39,15 +39,15 @@ public class ManejadorUsuarios {
 	    TipoRegistro trVip = (ed != null) ? ed.getTiposRegistro().get("VIP") : null;
 	    
 	    if (trGen != null) {
-	        Registro r1 = new Registro(java.time.LocalDate.now(),       1000f, ana, trGen, pat);
+	        Registro r1 = new Registro(java.time.LocalDate.now(),       1000f, ana, pat, trGen);
 	        ana.getRegistros().add(r1);
 	    }
 	    if (trVip != null) {
-	        Registro r3 = new Registro(java.time.LocalDate.now(),       500, ana, trVip, pat);
+	        Registro r3 = new Registro(java.time.LocalDate.now(),       500, ana, pat, trVip);
 	        ana.getRegistros().add(r3);
 	    }
 	    if (trVip != null) {
-	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, trVip, pat);
+	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, pat, trGen);
 	        juan.getRegistros().add(r2);
 	        //trVip.getRegistros().add(r2);
 	    }*/

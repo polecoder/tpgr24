@@ -1,6 +1,6 @@
 package logica;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,19 +15,19 @@ public class ManejadorEventos {
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>(); 
 		 
-		 /*//creo evento
-		 Evento ev = new Evento("ConfYec", "", "", LocalDate.now());
-		 this.eventos.put("ConfTec", ev);
-		 
-		 //creo edicion
+		/*// crear edición
 		 Edicion ed = new Edicion("ConfTec 2025", "", LocalDate.now(), LocalDate.now(), "", "");
-		  ev.getediciones().put(ed.getNombre(), ed);
-		 
-		  //tiposRegistro
-		 TipoRegistro trGen = new TipoRegistro("General", "Acceso general", 1000, 500, 100, ed);
-		 TipoRegistro trVip = new TipoRegistro("VIP",     "Acceso VIP",     2500,  100, 20, ed);
+		 eventos.put("ConfTec", new Evento("ConfTec", "...", "...", LocalDate.now()));
+		 eventos.get("ConfTec").getediciones().put(ed.getNombre(), ed);
+
+		 // crear tipos (SIN pasar ed)
+		 TipoRegistro trGen = new TipoRegistro("General", "Acceso general", 1000f, 500, 100);
+		 TipoRegistro trVip  = new TipoRegistro("VIP",     "Acceso VIP",     2500f, 100,  20);
+
+		 // asociarlos a la edición (la edición sí contiene a los tipos)
 		 ed.getTiposRegistro().put(trGen.getNombre(), trGen);
-		 ed.getTiposRegistro().put(trVip.getNombre(), trVip);*/
+		 ed.getTiposRegistro().put(trVip.getNombre(),  trVip);*/
+		 
 	};
 	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
@@ -73,4 +73,36 @@ public class ManejadorEventos {
 		//TODO
 		return null;
 	}
+	
+    public TipoRegistro encontrarTipoDe(Registro r){
+        for (Evento ev : eventos.values()){
+            for (Edicion ed : ev.getediciones().values()){
+                for (TipoRegistro tr : ed.getTiposRegistro().values()){
+                    if (tr.getRegistros().contains(r)) return tr;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Edicion encontrarEdicionQueContiene(TipoRegistro t){
+        for (Evento ev : eventos.values()){
+            for (Edicion ed : ev.getediciones().values()){
+                if (ed.getTiposRegistro().containsValue(t)) return ed;
+            }
+        }
+        return null;
+    }
+
+    public String nombreEdicionDeRegistro(Registro r){
+        TipoRegistro t = encontrarTipoDe(r);
+        if (t == null) return "(sin edición)";
+        Edicion ed = encontrarEdicionQueContiene(t);
+        return (ed != null) ? ed.getNombre() : "(sin edición)";
+    }
+
+    public String nombreTipoDeRegistro(Registro r){
+        TipoRegistro t = encontrarTipoDe(r);
+        return (t != null) ? t.getNombre() : "(sin tipo)";
+    }
 }

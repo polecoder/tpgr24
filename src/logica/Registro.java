@@ -19,7 +19,7 @@ public class Registro {
 	 * @param asistente
 	 * @param patrocinio
 	 */
-	public Registro(LocalDate fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio) {
+	public Registro(LocalDate fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, TipoRegistro tiporegistro) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
 		this.setAsistente(asistente);

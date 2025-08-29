@@ -38,7 +38,7 @@ public class Evento {
 	Map<String, Categoria> getcategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getediciones(){
+	public Map<String, Edicion> getediciones(){
 		return this.ediciones;
 	};
 	

@@ -44,7 +44,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	public List<DTUsuario> listarUsuarios() {
 		List<DTUsuario> usu = new ArrayList<>();
 	    for (Asistente a : manejadorUsuarios.getConjuntoAsistentes().values()) {
-	        usu.add(a.listarUsuario()); // Usuario.listarUsuario() -> DTUsuario
+	        usu.add(a.listarUsuario()); 
 	    }
 	    for (Organizador o : manejadorUsuarios.getConjuntoOrganizador().values()) {
 	        usu.add(o.listarUsuario());
@@ -52,41 +52,42 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	    return usu;
 	}
 
-	public List<DTRegistro> listarRegistrosUsuario(String nickname){
-		List<DTRegistro> Reg = new ArrayList<>();
-	    Asistente a = manejadorUsuarios.getAsistente(nickname);
-	    if (a == null) return Reg;
+	@Override
+	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);             // mu = ManejadorUsuarios.getInstance()
+	    List<DTRegistro> out = new ArrayList<>();
+	    if (a == null) return out;
 
-	    List<Registro> regs = a.getRegistros();
-	    for (int i =0; i< regs.size(); i++) {
-	    	Registro r = regs.get(i);
-	        TipoRegistro tr = r.getTipoRegistro();          
-	        Edicion ed = tr.getEdicion();                  
+	    ManejadorEventos me = ManejadorEventos.getInstancia();
 
-	        Reg.add(new DTRegistro(
-	            ed.getNombre(),              
-	            tr.getNombre()                        
-	        ));
+	    for (Registro r : a.getRegistros()) {
+	        String nombreEd   = me.nombreEdicionDeRegistro(r);
+	        String nombreTipo = me.nombreTipoDeRegistro(r);
+	        out.add(new DTRegistro(nombreEd, nombreTipo));
 	    }
-	    return Reg;
+	    return out;
 	}
-	public DTDetalleRegistro obtenerDetalleRegistro(String nickname, int idRegistro) {
-		Asistente a = manejadorUsuarios.getAsistente(nickname);
+	
+	@Override
+	public DTDetalleRegistro obtenerDetalleRegistro(String nickname, int indice) {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);
 	    if (a == null) return null;
 
 	    List<Registro> regs = a.getRegistros();
-	    if (idRegistro < 0 || idRegistro >= regs.size()) return null;
+	    if (indice < 0 || indice >= regs.size()) return null;
 
-	    Registro r = regs.get(idRegistro);
-	    TipoRegistro tr = r.getTipoRegistro();
-	    Edicion ed = tr.getEdicion();
+	    Registro r = regs.get(indice);
+
+	    ManejadorEventos me = ManejadorEventos.getInstancia();
+	    String nombreEd   = me.nombreEdicionDeRegistro(r);
+	    String nombreTipo = me.nombreTipoDeRegistro(r);
 
 	    return new DTDetalleRegistro(
-	        ed.getNombre(),
-	        a.getNickname(),
-	        tr.getNombre(),
-	        r.getFechaRegistro(),
-	        r.getCosto()
+	            nombreEd,
+	            a.getNickname(),
+	            nombreTipo,
+	            r.getFechaRegistro(),
+	            r.getCosto()
 	    );
 	}
 }
