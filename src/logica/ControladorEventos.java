@@ -80,7 +80,7 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 	public Set<String> nombresEventos(){
-		  return  manejadorEventos.eventos.keySet(); 
+		  return  manejadorEventos.getNombresEventos(); 
 		}
 	
 	public Set<String> nombresCategorias(String nombre){

@@ -9,55 +9,56 @@ import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
 public class ManejadorEventos {
-	private 
-	static ManejadorEventos instancia;
-	Map<String,Evento> eventos;
-	ManejadorEventos(){
+	
+	private static ManejadorEventos instancia;
+	private Map<String,Evento> eventos;
+	private ManejadorEventos(){
 		 this.eventos = new HashMap<>();
 	};
-	public
-	static ManejadorEventos getInstancia() {
+	
+	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
 			instancia= new ManejadorEventos();
 		}
 		return instancia;
 	};
 	
-	Evento getEventoEdicion(String nombreEdicion) {
+	public Evento getEventoEdicion(String nombreEdicion) {
 		//TODO
 		return null;
 	};
 	
-	boolean contieneEdicion(String NombreEdicion) {
+	public boolean contieneEdicion(String NombreEdicion) {
 		//TODO
 		return true;
 	};
 	
-	Set<DTEvento> listarEventos(){
+	public Set<DTEvento> listarEventos(){
 		//TODO
 		return null;
 	};
 	
-	Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
+	public Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		//TODO
 		return null;
 	};
 	
-	boolean Validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro){
+	public boolean Validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro){
 		//TODO
 		return true;
 	};
 
-	void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion) {
+	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion) {
 		//TODO
 	};
-		
-	Registro getRegistro(String nombreEdicion,String nickAsistente){
+	
+	
+	public Registro getRegistro(String nombreEdicion,String nickAsistente){
 		//TODO
 		return null;
 	};
 	
-	Edicion getEdicion(String evento, String edicion){
+	public Edicion getEdicion(String evento, String edicion){
 		return eventos.get(edicion).getediciones().get(edicion);
 	}
 	public Set<String> getNombresCategorias(String Nombre) {
@@ -72,8 +73,16 @@ public class ManejadorEventos {
 		return dtEvento;
 	}
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
-		Edicion edicion=eventos.get(eventoSeleccionado).getediciones().get(eventoSeleccionado);
+		Edicion edicion=eventos.get(eventoSeleccionado).getediciones().get(edicionSeleccionada);
 		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio());
 		return dtEvento;
+	}
+	
+	public Set<String> getNombresEventos(){
+		return eventos.keySet();
+	};
+	
+	public void agregarEvento(Evento evento) {
+		eventos.put(evento.getNombre(), evento);
 	}
 }

@@ -24,11 +24,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	public void altaAsistente(String nickname, String nombre, String correo, String apellido, LocalDate fechaNacimiento, String nombreinstitucion) throws Exception {
-	    if (nickname == null || nickname.isEmpty() ||
-	        nombre == null || nombre.isEmpty() ||
-	        apellido == null || apellido.isEmpty() ||
-	        correo == null || correo.isEmpty() ||
-	        fechaNacimiento == null) {
+	    if (nickname == null || nickname.isEmpty() ||nombre == null || nombre.isEmpty() ||apellido == null || apellido.isEmpty() ||correo == null || correo.isEmpty() ||fechaNacimiento == null) {
 	        throw new Exception("Nick, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
 	    }
 
@@ -96,5 +92,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	public List<DTUsuario> listarUsuarios() {
 		return null;
 	}
+
+	
 
 }

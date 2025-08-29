@@ -74,10 +74,10 @@ public class ManejadorUsuarios {
 	}
 	
 	public Organizador getOrganizador(String nickname) {
-		return null;
+		return conjuntoOrganizadores.get(nickname);
 	}
 	
 	public Asistente getAsistente(String nickname) {
-		return null;
+		return conjuntoAsistentes.get(nickname);
 	}
 }

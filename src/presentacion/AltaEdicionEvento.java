@@ -134,7 +134,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_textField_Pais.gridx = 1;
 	    gbc_textField_Pais.gridy = 5;
 	    gbc_textField_Pais.gridwidth = 2;
-	    getContentPane().add(textField_Pais, gbc_textField_Pais);
+	    getContentPane().add(textField_Pais, gbc_textField_Pais); 
 	    textField_Pais.setColumns(10);
 
 	    JLabel lbl_FechaInicio = new JLabel("Fecha de Inicio:");
