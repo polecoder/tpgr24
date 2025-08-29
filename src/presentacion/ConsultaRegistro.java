@@ -7,7 +7,7 @@ import java.util.List;
 
 import logica.IControladorUsuarios;
 import logica.ControladorUsuarios;
-import logica.datatypes.DTAsistente;
+//import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTRegistro;
 
@@ -50,7 +50,7 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcUlbl.gridx = 0; gbcUlbl.gridy = 0;
         getContentPane().add(lblUsuario, gbcUlbl);
 
-        comboUsuarios = new JComboBox<>(); // FIELD (no declares una local)
+        comboUsuarios = new JComboBox<>(); 
         GridBagConstraints gbcU = new GridBagConstraints();
         gbcU.insets = new Insets(0,0,5,0);
         gbcU.fill = GridBagConstraints.HORIZONTAL;
@@ -66,7 +66,7 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcRlbl.gridx = 0; gbcRlbl.gridy = 1;
         getContentPane().add(lblReg, gbcRlbl);
 
-        comboRegistros = new JComboBox<>(); // FIELD (no local)
+        comboRegistros = new JComboBox<>(); 
         GridBagConstraints gbcR = new GridBagConstraints();
         gbcR.insets = new Insets(0,0,5,0);
         gbcR.fill = GridBagConstraints.HORIZONTAL;
@@ -81,8 +81,8 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcP.fill = GridBagConstraints.HORIZONTAL;
         getContentPane().add(panel, gbcP);
 
-        btnDetalle = new JButton("Ver Detalle");   // ← AQUÍ lo creás
-        btnDetalle.setEnabled(false);              // ← recién ahora lo podés desactivar
+        btnDetalle = new JButton("Ver Detalle");   //creo el boton
+        btnDetalle.setEnabled(false);              
         panel.add(btnDetalle);
 
         // Datos + eventos
@@ -128,7 +128,7 @@ public class ConsultaRegistro extends JInternalFrame {
 
         if (regs == null || regs.isEmpty()) {
             comboRegistros.setEnabled(false);
-            if (!cargando) { // ← SOLO mostrar cartel fuera de la carga inicial
+            if (!cargando) { // para q no muestre el cartel al principo con el usuario predeterminado
                 JOptionPane.showMessageDialog(this, "Este usuario no tiene registros.",
                         "Información", JOptionPane.INFORMATION_MESSAGE);
             }

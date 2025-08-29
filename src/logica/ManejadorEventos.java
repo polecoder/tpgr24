@@ -15,7 +15,7 @@ public class ManejadorEventos {
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>(); 
 		 
-		 //creo evento
+		 /*//creo evento
 		 Evento ev = new Evento("ConfYec", "", "", LocalDate.now());
 		 this.eventos.put("ConfTec", ev);
 		 
@@ -27,7 +27,7 @@ public class ManejadorEventos {
 		 TipoRegistro trGen = new TipoRegistro("General", "Acceso general", 1000, 500, 100, ed);
 		 TipoRegistro trVip = new TipoRegistro("VIP",     "Acceso VIP",     2500,  100, 20, ed);
 		 ed.getTiposRegistro().put(trGen.getNombre(), trGen);
-		 ed.getTiposRegistro().put(trVip.getNombre(), trVip);
+		 ed.getTiposRegistro().put(trVip.getNombre(), trVip);*/
 	};
 	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {

@@ -19,7 +19,7 @@ public class ManejadorUsuarios {
 		this.conjuntoAsistentes = new HashMap<>();
 		this.conjuntoOrganizadores = new HashMap<>();	 
 		
-		Asistente ana = new Asistente("ana", "Ana", "Pérez", "ana@mail.com", LocalDate.now());
+		/*Asistente ana = new Asistente("ana", "Ana", "Pérez", "ana@mail.com", LocalDate.now());
 		this.conjuntoAsistentes.put(ana.getNickname(), ana);
 		//this.conjuntoUsuarios.put(ana.getNickname(), ana);
 		
@@ -50,7 +50,7 @@ public class ManejadorUsuarios {
 	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, trVip, pat);
 	        juan.getRegistros().add(r2);
 	        //trVip.getRegistros().add(r2);
-	    }
+	    }*/
 	        
 	}
 	
