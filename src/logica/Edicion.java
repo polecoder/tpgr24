@@ -123,13 +123,17 @@ public class Edicion {
 	public void setTiposRegistro(HashMap<String, TipoRegistro> tiposRegistro) {
 		this.tiposRegistro = tiposRegistro;
 	}
-	public void agregarTipoRegistro(String nombre, String descripcion, float costo, int cuposMax) throws NombreTipoRegistroRepetido {
+	public void agregarTipoRegistro(String nombre, String descripcion, float costo, int cuposMax) throws NombreTipoRegistroRepetido { //Con Datos
 		if (this.tiposRegistro.containsKey(nombre)) {
 			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
 		} else {
-			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax);
+			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax, cuposMax);
 			this.tiposRegistro.put(nombre, tipoRegistro);
 		}
+	}
+	public void agregarTipoRegistro(TipoRegistro tipoRegistro) { // Con TipoRegistro
+		if(tipoRegistro==null||tipoRegistro.getNombre()==null) return;
+		this.tiposRegistro.put(tipoRegistro.getNombre(), tipoRegistro);
 	}
 	public void eliminarTipoRegistro(String nombreTipoRegistro) {
 		this.tiposRegistro.remove(nombreTipoRegistro);

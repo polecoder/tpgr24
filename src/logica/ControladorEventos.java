@@ -2,24 +2,24 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-import logica.datatypes.DTDatosPatrocinio;
-import logica.IControladorEventos;
-import logica.datatypes.DTDetallePatrocinio;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDatosPatrocinio;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
-import logica.ManejadorEventos;
 
 public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
     private ManejadorEventos manejadorEventos;
+    private final Map<String, Categoria> categorias = new HashMap<>();
 
     private ControladorEventos() {
     	this.manejadorEventos =ManejadorEventos.getInstancia();
@@ -31,8 +31,8 @@ public class ControladorEventos implements IControladorEventos {
         };
         return instancia;
     }
+ 
 
-  
     public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
         return Collections.emptySet();
     }
@@ -122,7 +122,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 
 	@Override
-	public List<DTTipoRegistro> listarTipoRegistro() {
+	public Set<DTTipoRegistro> listarTipoRegistro() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -185,7 +185,11 @@ public class ControladorEventos implements IControladorEventos {
 		manejadorEventos.AltaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 	}
 
-
-	
-	 
+	public boolean altaCategoria(String nombre) {
+		Categoria cat = new Categoria(nombre);
+		categorias.put(nombre, cat);		
+		return true;
 	}
+	public boolean existeCategoria(String nombre) {return categorias.containsKey(nombre);}
+	public Map<String, Categoria> listarCategorias(){return categorias;}
+}

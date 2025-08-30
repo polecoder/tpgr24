@@ -15,7 +15,7 @@ public class Evento {
 	String descripcion;
 	LocalDate fechaAlta;
 	Map<String, Categoria> categorias;
-	Map<String, Edicion> ediciones;
+	 private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
 		this.setNombre(nombre);
@@ -57,6 +57,7 @@ public class Evento {
 		this.fechaAlta=fechaAlta;
 	}
 	public void agregarEdicion(Edicion edicion) {
+		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(),edicion);
 	};
 	

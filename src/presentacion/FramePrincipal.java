@@ -145,6 +145,16 @@ public class FramePrincipal extends JFrame {
 		    } catch (Exception ex) {}
 		});
 		
+		itemA.addActionListener(e-> {
+			ConsultaRegistro ventanaCRegistro = new ConsultaRegistro();
+			panel.add(ventanaCRegistro);
+			ventanaCRegistro.setVisible(true);
+			try {
+				ventanaCRegistro.setSelected(true);
+			} catch( Exception ex) {}
+			
+		});
+		
 		itemB.addActionListener(e -> {
 			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
 		    panel.add(ventanaRegistro);          

@@ -1,9 +1,9 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 
 import logica.datatypes.DTEdicionEvento;
 
@@ -16,8 +16,8 @@ public class Organizador extends Usuario {
 	
 	public Organizador(String nickname, String nombre, String correo, String descripcion, String link) {
 		super(nickname,nombre,correo);
-		this.descripcion = descripcion;
-		this.link = link;
+		this.setDescripcion(descripcion);
+		this.setLink(link);
 		this.ediciones = new ArrayList<>();
 	}
 	

@@ -10,11 +10,10 @@ public class DTEvento {
 	LocalDate fechaAlta;
 public
 	DTEvento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=fechaAlta;
-		
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(fechaAlta);
 	}
 
 	public String getNombre(){
@@ -30,7 +29,7 @@ public
 	public LocalDate getfechaAlta() {
 		return this.fechaAlta;
 	}
-	
+	void setFechaAlta(LocalDate fechaAlta){ this.fechaAlta = fechaAlta;}
 	void setNombre(String nombre){
 		  this.nombre =nombre;
 	}

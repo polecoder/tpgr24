@@ -19,7 +19,7 @@ public interface IControladorEventos {
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
 	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Set<DTEvento> listarEventos();
-	public List<DTTipoRegistro> listarTipoRegistro();
+	public Set<DTTipoRegistro> listarTipoRegistro();
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
 	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
 	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
@@ -33,5 +33,6 @@ public interface IControladorEventos {
 	public String[] getNombresEdiciones(String itemAt);
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
-	
+	boolean altaCategoria(String nombre);
+	boolean existeCategoria(String nombre);
 }

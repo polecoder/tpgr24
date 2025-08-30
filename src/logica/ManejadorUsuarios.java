@@ -1,12 +1,13 @@
 package logica;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import logica.datatypes.DTAsistente;
-
-import java.time.LocalDate;
 
 public class ManejadorUsuarios {
 	private static ManejadorUsuarios instance = null;
@@ -35,10 +36,9 @@ public class ManejadorUsuarios {
 	public Map<String,Organizador> getConjuntoOrganizador() {
 		return conjuntoOrganizadores;
 	}
-	// ------- GETTERS ----------
 	
 	public boolean existeNick(String nickname) {
-		return (conjuntoAsistentes.containsKey(nickname)||(conjuntoOrganizadores.containsKey(nickname)));
+		return conjuntoAsistentes.containsKey(nickname) || conjuntoOrganizadores.containsKey(nickname);
 	}
 	
 	public boolean existeCorreo(String correo) {
@@ -69,8 +69,12 @@ public class ManejadorUsuarios {
 	}
 	
 	
-	public List<DTAsistente> listarAsistentes() {
-		return null;
+	public Map<String, DTAsistente> listarAsistentes() {
+	    Map<String, DTAsistente> CtoA = new HashMap<>();  
+	    for (Asistente a : conjuntoAsistentes.values()) {
+	        CtoA.put(a.getNickname(), new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
+	    }
+	    return CtoA;
 	}
 	
 	public Organizador getOrganizador(String nickname) {
