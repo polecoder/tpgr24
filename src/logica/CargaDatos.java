@@ -12,7 +12,7 @@ import logica.csv.CSVTipoRegistro;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ public class CargaDatos {
 		    "2025EdicionesEventos.csv",
 		    "2025TipoRegistro.csv",
 		    "2025Patrocinios.csv",
-		    "2025Registros"
+		    "2025Registros.csv"
     );
 	private Map<String, CSVEvento> eventos;
 	private Map<String, CSVEdicion> ediciones;
@@ -62,6 +62,9 @@ public class CargaDatos {
 		this.usuariosOrganizador = new HashMap<>();
 		this.asistentes = new HashMap<>();
 		this.organizadores = new HashMap<>();
+		this.eventos = new HashMap<>();
+		this.ediciones = new HashMap<>();
+		this.tiposRegistro = new HashMap<>();
 	}
 	
 	public static CargaDatos getInstancia() {
@@ -283,62 +286,6 @@ public class CargaDatos {
 		}
 	}
 	
-	/**
-	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
-	 * Si falta alguno de los 10 archivos requeridos para la carga, devuelve un error y no continua con la ejecución
-	 * 
-	 * @param rutas
-	 */
-	public void cargarArchivos(String[] rutas) {
-		
-		// Validar que cada archivo requerido esté presente en las rutas
-	    for (String requerido : this.nombreArchivosOrdenados) {
-	        boolean encontrado = Arrays.stream(rutas)
-	                                   .anyMatch(ruta -> ruta.endsWith(requerido));
-	        if (!encontrado) {
-	            throw new IllegalArgumentException(
-	                "Falta el archivo requerido: " + requerido
-	            );
-	        }
-	    }
-		
-		for (String nombreEsperado : this.nombreArchivosOrdenados) {
-	        String rutaEncontrada = null;
-	        for (String ruta : rutas) {
-	            if (ruta.endsWith(nombreEsperado)) {
-	                rutaEncontrada = ruta;
-	                break;
-	            }
-	        }	        
-
-	        // Llamo a la función adecuada según el archivo
-	        if (nombreEsperado.contains("Categorias")) {
-	            this.leerCategorias(rutaEncontrada);
-	        } else if (nombreEsperado.contains("Usuarios.csv")) {
-	            this.leerUsuarios(rutaEncontrada);
-	        } else if (nombreEsperado.contains("Instituciones")) {
-	            this.leerInstituciones(rutaEncontrada);
-	        } else if (nombreEsperado.contains("Usuarios-Organizadores")) {
-	            this.leerOrganizadores(rutaEncontrada);
-	        } else if (nombreEsperado.contains("Usuarios-Asistentes")) {
-	            this.leerAsistentes(rutaEncontrada);
-	        } else if (nombreEsperado.contains("Eventos")) {
-	        	// TODO: Implementar
-	        } else if (nombreEsperado.contains("EdicionesEventos")) {
-	        	// TODO: Implementar
-	        } else if (nombreEsperado.contains("TipoRegistro")) {
-	        	// TODO: Implementar
-	        } else if (nombreEsperado.contains("Patrocinios")) {
-	        	// TODO: Implementar
-	        } else if (nombreEsperado.contains("Registros")) {
-	            // TODO: Implementar
-	        }
-		}
-		this.cargarCategorias();
-		this.cargarInstituciones();
-		this.cargarUsuarios();
-	}
-	
 	//------------EVENTO-----------------
 	public void leerEventos(String ruta) {
         CsvToBean<CSVEvento> eventosCsv;
@@ -357,27 +304,22 @@ public class CargaDatos {
 	                								 d -> d,
 	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
             								 ));
+	        System.out.println("EVENTOS: " + this.eventos);
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/**
-	 * Carga las categorías que se encuentran en la colección categorias al sistema.
-	 * Si el mapa está vacío, no hace nada.
-	 */
 	public void cargarEventos() {
-		if (this.eventos!= null) {
+		if (this.eventos != null) {
 			List<String> categoriasEvento = new ArrayList<String>();
-			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.eventos.keySet()) {
-				CSVEvento evento = eventos.get(ref);
+				CSVEvento evento = this.eventos.get(ref);
 				// Separo las categorias
-				for (String categoria : evento.getCategorias().split(",")) {
+				for (String categoria : evento.getCategorias().split(", ")) {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
-				LocalDate fechaAlta = LocalDate.parse(evento.getFechaAlta());
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), fechaAlta, evento.getSigla(), categoriasEvento);
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento);
 			}
 		}
 	}
@@ -407,14 +349,14 @@ public class CargaDatos {
 	}
 	
 	public void cargarEdiciones() {
-		if (this.eventos!= null) {
+		if (this.eventos != null && this.ediciones!= null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.ediciones.keySet()) {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
-				LocalDate fechaInicio = LocalDate.parse(edicion.getFechaInicio());
-				LocalDate fechaFin = LocalDate.parse(edicion.getFechaFin());
-				LocalDate fechaAlta = LocalDate.parse(edicion.getFechaAlta());
+				Date fechaInicio = Date.parse(edicion.getFechaInicio());
+				Date fechaFin = Date.parse(edicion.getFechaFin());
+				Date fechaAlta = Date.parse(edicion.getFechaAlta());
 				this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), fechaInicio, fechaFin, fechaAlta, edicion.getCiudad(), edicion.getPais());
 			}
 		}
@@ -455,4 +397,65 @@ public class CargaDatos {
 		}
 	}
 	//------------TIPOREGISTRO-----------------
+	
+	/**
+	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
+	 * Si falta alguno de los 10 archivos requeridos para la carga, devuelve un error y no continua con la ejecución
+	 * 
+	 * @param rutas
+	 */
+	public void cargarArchivos(String[] rutas) {
+		
+		// Validar que cada archivo requerido esté presente en las rutas
+	    for (String requerido : this.nombreArchivosOrdenados) {
+	        boolean encontrado = Arrays.stream(rutas)
+	                                   .anyMatch(ruta -> ruta.endsWith(requerido));
+	        if (!encontrado) {
+	            throw new IllegalArgumentException(
+	                "Falta el archivo requerido: " + requerido
+	            );
+	        }
+	    }
+		
+		for (String nombreEsperado : this.nombreArchivosOrdenados) {
+	        String rutaEncontrada = null;
+	        for (String ruta : rutas) {
+	            if (ruta.endsWith(nombreEsperado)) {
+	                rutaEncontrada = ruta;
+	                break;
+	            }
+	        }	        
+
+	     // Llamo a la función adecuada según el archivo
+	        if (nombreEsperado.equals("2025Categorias.csv")) {
+	            this.leerCategorias(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Usuarios.csv")) {
+	            this.leerUsuarios(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Instituciones.csv")) {
+	            this.leerInstituciones(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Usuarios-Organizadores.csv")) {
+	            this.leerOrganizadores(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Usuarios-Asistentes.csv")) {
+	            this.leerAsistentes(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Eventos.csv")) {
+	            this.leerEventos(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025EdicionesEventos.csv")) {
+	            this.leerEdiciones(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025TipoRegistro.csv")) {
+	            this.leerTipoRegistro(rutaEncontrada);
+	        } else if (nombreEsperado.equals("2025Patrocinios.csv")) {
+	            // TODO: Implementar
+	        } else if (nombreEsperado.equals("2025Registros.csv")) {
+	            // TODO: Implementar
+	        } else {
+	            System.err.println("Archivo no reconocido: " + nombreEsperado);
+	        }
+		}
+		this.cargarCategorias();
+		this.cargarInstituciones();
+		this.cargarUsuarios();
+		this.cargarEventos();
+		this.cargarEdiciones();
+		this.cargarTipoRegistro();
+	}
 }

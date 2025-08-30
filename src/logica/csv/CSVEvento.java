@@ -1,6 +1,9 @@
 package logica.csv;
 
+import java.util.Date;
+
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvDate;
 
 public class CSVEvento {
 	@CsvBindByName(column = "Ref")
@@ -12,14 +15,15 @@ public class CSVEvento {
 	@CsvBindByName(column = "Sigla")
 	private String sigla;
 	@CsvBindByName(column = "FechaAlta")
-	private String fechaAlta;
+	@CsvDate("dd/MM/yyyy")
+	private Date fechaAlta;
 	@CsvBindByName(column = "Categorias")
 	private String categorias;
 	
 	// NECESARIO para OpenCSV
 	public CSVEvento() {}
 	
-	public CSVEvento(String ref, String nombre, String descripcion, String sigla, String fechaAlta, String categorias) {
+	public CSVEvento(String ref, String nombre, String descripcion, String sigla, Date fechaAlta, String categorias) {
 		this.ref = ref;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -40,7 +44,7 @@ public class CSVEvento {
 	public String getSigla() {
 		return this.sigla;
 	}
-	public String getFechaAlta() {
+	public Date getFechaAlta() {
 		return this.fechaAlta;
 	}
 	public String getCategorias() {

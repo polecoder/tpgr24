@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,11 +12,11 @@ public class Evento {
 	String nombre;
 	String sigla;
 	String descripcion;
-	LocalDate fechaAlta;
+	Date fechaAlta;
 	Map<String, Categoria> categorias;
 	Map<String, Edicion> ediciones;
 	public
-	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
+	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.sigla=sigla;
@@ -32,13 +33,13 @@ public class Evento {
 	String getDescripcion(){
 		return this.descripcion;
 	}
-	LocalDate getfechaAlta(){
+	Date getFechaAlta(){
 		return this.fechaAlta;
 	}
-	Map<String, Categoria> getcategoria(){
+	Map<String, Categoria> getCategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getediciones(){
+	Map<String, Edicion> getEdiciones(){
 		return this.ediciones;
 	};
 	
@@ -51,13 +52,22 @@ public class Evento {
 	void setSigla(String sigla){
 		this.sigla=sigla;
 	}
-	void setFechaAlta(LocalDate fechaAlta) {
+	void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta=fechaAlta;
+	}
+	void agregarCategoria(Categoria categoria) {
+		this.categorias.put(categoria.getNombre(), categoria);
+	}
+	void eliminarCategoria(String nombreCategoria) {
+		this.categorias.remove(nombreCategoria);
 	}
 	void agregarEdicion(Edicion edicion) {
 		this.ediciones.put(edicion.getNombre(),edicion);
-	};
-		
+	}
+	void eliminarEdicion(String nombreEdicion) {
+		this.ediciones.remove(nombreEdicion);
+	}
+	
 	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}
