@@ -19,6 +19,6 @@ public class Fabrica {
     }
 
     public ControladorInstitucion getControladorInstitucion() {
-        return ControladorInstitucion.getInstancia();
+        return ControladorInstitucion.getInstance();
     }
 }

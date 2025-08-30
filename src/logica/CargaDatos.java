@@ -8,6 +8,7 @@ import logica.csv.CSVUsuario;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,18 @@ public class CargaDatos {
 	private Map<String, CSVUsuario> usuariosOrganizador;
 	private Map<String, CSVAsistente> asistentes;
 	private Map<String, CSVOrganizador> organizadores;
+	List<String> nombreArchivosOrdenados = List.of(
+		    "2025Categorias.csv",
+		    "2025Usuarios.csv",
+		    "2025Instituciones.csv",
+		    "2025Usuarios-Organizadores.csv",
+		    "2025Usuarios-Asistentes.csv",
+		    "2025Eventos.csv",
+		    "2025EdicionesEventos.csv",
+		    "2025TipoRegistro.csv",
+		    "2025Patrocinios.csv",
+		    "2025Registros"
+    );
 	
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
@@ -45,6 +58,10 @@ public class CargaDatos {
 			instancia = new CargaDatos();
 		}
         return instancia;
+	}
+	
+	public List<String> getNombreArchivosOrdenados() {
+		return this.nombreArchivosOrdenados;
 	}
 	
 	/**
@@ -236,8 +253,12 @@ public class CargaDatos {
 			for (Map.Entry<String, CSVUsuario> entry : this.usuariosAsistente.entrySet()) {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVAsistente datosAsistente = this.asistentes.get(entry.getKey());
-				String nombreInstitucion = this.instituciones.get(datosAsistente.getInstitucion()).getNombre();
-				Institucion institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
+				String refInstitucion = datosAsistente.getInstitucion();
+				Institucion institucion = null;
+				if (!refInstitucion.isEmpty()) {
+					String nombreInstitucion = this.instituciones.get(refInstitucion).getNombre();
+					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
+				}
 				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
 			}
 		}
@@ -248,5 +269,61 @@ public class CargaDatos {
 				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
 			}
 		}
+	}
+	
+	/**
+	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
+	 * Si falta alguno de los 10 archivos requeridos para la carga, devuelve un error y no continua con la ejecución
+	 * 
+	 * @param rutas
+	 */
+	public void cargarArchivos(String[] rutas) {
+		
+		// Validar que cada archivo requerido esté presente en las rutas
+	    for (String requerido : this.nombreArchivosOrdenados) {
+	        boolean encontrado = Arrays.stream(rutas)
+	                                   .anyMatch(ruta -> ruta.endsWith(requerido));
+	        if (!encontrado) {
+	            throw new IllegalArgumentException(
+	                "Falta el archivo requerido: " + requerido
+	            );
+	        }
+	    }
+		
+		for (String nombreEsperado : this.nombreArchivosOrdenados) {
+	        String rutaEncontrada = null;
+	        for (String ruta : rutas) {
+	            if (ruta.endsWith(nombreEsperado)) {
+	                rutaEncontrada = ruta;
+	                break;
+	            }
+	        }	        
+
+	        // Llamo a la función adecuada según el archivo
+	        if (nombreEsperado.contains("Categorias")) {
+	            this.leerCategorias(rutaEncontrada);
+	        } else if (nombreEsperado.contains("Usuarios.csv")) {
+	            this.leerUsuarios(rutaEncontrada);
+	        } else if (nombreEsperado.contains("Instituciones")) {
+	            this.leerInstituciones(rutaEncontrada);
+	        } else if (nombreEsperado.contains("Usuarios-Organizadores")) {
+	            this.leerOrganizadores(rutaEncontrada);
+	        } else if (nombreEsperado.contains("Usuarios-Asistentes")) {
+	            this.leerAsistentes(rutaEncontrada);
+	        } else if (nombreEsperado.contains("Eventos")) {
+	        	// TODO: Implementar
+	        } else if (nombreEsperado.contains("EdicionesEventos")) {
+	        	// TODO: Implementar
+	        } else if (nombreEsperado.contains("TipoRegistro")) {
+	        	// TODO: Implementar
+	        } else if (nombreEsperado.contains("Patrocinios")) {
+	        	// TODO: Implementar
+	        } else if (nombreEsperado.contains("Registros")) {
+	            // TODO: Implementar
+	        }
+		}
+		this.cargarCategorias();
+		this.cargarInstituciones();
+		this.cargarUsuarios();
 	}
 }

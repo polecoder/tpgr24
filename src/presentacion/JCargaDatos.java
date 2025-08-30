@@ -1,6 +1,7 @@
 package presentacion;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import javax.swing.JFileChooser;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
+import java.util.Arrays;
 
 import logica.CargaDatos;
 
@@ -28,35 +30,7 @@ public class JCargaDatos extends JInternalFrame {
 		gridBagLayout.columnWeights = new double[]{1.0,0.0,0.0,1.0};
 		gridBagLayout.rowWeights = new double[]{1.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
-		
-//		JButton botonCargar = new JButton("Cargar");
-//		GridBagConstraints gbc_botonCargar = new GridBagConstraints();
-//		gbc_botonCargar.gridwidth = 2;
-//		gbc_botonCargar.insets = new Insets(0, 0, 5, 5);
-//		gbc_botonCargar.gridx = 1;
-//		gbc_botonCargar.gridy = 1;
-//		getContentPane().add(botonCargar, gbc_botonCargar);
-//		
-//		botonCargar.addActionListener(e -> {
-//		    JFileChooser fileChooser = new JFileChooser();
-//		    fileChooser.setDialogTitle("Seleccionar archivo CSV");
-//		    
-//		    // Carpeta por defecto: Descargas
-//		    String home = System.getProperty("user.home");
-//		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
-//		    
-//		    // Filtrar para solo ver archivos .CSV
-//		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
-//		    fileChooser.setFileFilter(filtro);
-//		    
-//            int result = fileChooser.showOpenDialog(this);
-//            if (result == JFileChooser.APPROVE_OPTION) {
-//                File archivo = fileChooser.getSelectedFile();
-//                cargaDatos.leerCategorias(archivo.getAbsolutePath());
-//                cargaDatos.cargarCategorias();
-//            }
-//		});
-		
+
 		JButton botonCargar = new JButton("Cargar");
 		GridBagConstraints gbc_botonCargar = new GridBagConstraints();
 		gbc_botonCargar.gridwidth = 2;
@@ -67,7 +41,8 @@ public class JCargaDatos extends JInternalFrame {
 		
 		botonCargar.addActionListener(e -> {
 		    JFileChooser fileChooser = new JFileChooser();
-		    fileChooser.setDialogTitle("Seleccionar archivo CSV");
+		    fileChooser.setMultiSelectionEnabled(true);
+		    fileChooser.setDialogTitle("Seleccionar archivos CSV");
 		    
 		    // Carpeta por defecto: Descargas
 		    String home = System.getProperty("user.home");
@@ -79,9 +54,27 @@ public class JCargaDatos extends JInternalFrame {
 		    
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File archivo = fileChooser.getSelectedFile();
-                cargaDatos.leerInstituciones(archivo.getAbsolutePath());
-                cargaDatos.cargarInstituciones();
+            	File[] archivos = fileChooser.getSelectedFiles();
+                String[] rutas = Arrays.stream(archivos)
+                                       .map(File::getAbsolutePath)
+                                       .toArray(String[]::new);
+
+                try {
+                    cargaDatos.cargarArchivos(rutas);
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Los archivos se cargaron correctamente.",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Error al cargar los archivos.\n" + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                };
             }
 		});
 	}

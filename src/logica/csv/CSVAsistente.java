@@ -3,6 +3,7 @@ package logica.csv;
 import java.util.Date;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvDate;
 
 public class CSVAsistente {
 	@CsvBindByName(column = "Ref")
@@ -10,6 +11,7 @@ public class CSVAsistente {
 	@CsvBindByName(column = "Apellido")
 	private String apellido;
 	@CsvBindByName(column = "FechaNacimiento")
+	@CsvDate("dd/MM/yyyy")
 	private Date fechaNacimiento;
 	@CsvBindByName(column = "Institucion")
 	private String institucion;
