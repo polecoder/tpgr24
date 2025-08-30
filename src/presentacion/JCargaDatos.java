@@ -24,9 +24,9 @@ public class JCargaDatos extends JInternalFrame {
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0,0,0,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0,0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,1.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		//--------CATEGORIA----------
@@ -115,5 +115,63 @@ public class JCargaDatos extends JInternalFrame {
             }
 		});
 		//--------EVENTO---------- 
+		
+		//--------TIPOREGISTRO----------
+		JButton botonTipoRegistro = new JButton("Cargar TipoRegistro");
+		GridBagConstraints gbc_botonTipoRegistro = new GridBagConstraints();
+		gbc_botonTipoRegistro.gridwidth = 2;
+		gbc_botonTipoRegistro.insets = new Insets(0, 0, 5, 5);
+		gbc_botonTipoRegistro.gridx = 1;
+		gbc_botonTipoRegistro.gridy = 3;
+		getContentPane().add(botonTipoRegistro, gbc_botonTipoRegistro);
+		
+		botonTipoRegistro.addActionListener(e -> {
+		    JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setDialogTitle("Seleccionar archivo CSV - TipoRegistro");
+		    // Carpeta por defecto: Descargas
+		    String home = System.getProperty("user.home");
+		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
+		    
+		    // Filtrar para solo ver archivos .CSV
+		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
+		    fileChooser.setFileFilter(filtro);
+		    
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File archivoTipoRegistro = fileChooser.getSelectedFile();
+                cargaDatos.leerTipoRegistro(archivoTipoRegistro.getAbsolutePath());
+                cargaDatos.cargarTipoRegistro();
+            }
+		});
+		//--------TIPOREGISTRO----------
+		
+		//--------INSTITUCION----------
+		JButton botonInstitucion = new JButton("Cargar Institucion");
+		GridBagConstraints gbc_botonInstitucion = new GridBagConstraints();
+		gbc_botonInstitucion.gridwidth = 2;
+		gbc_botonInstitucion.insets = new Insets(0, 0, 5, 5);
+		gbc_botonInstitucion.gridx = 1;
+		gbc_botonInstitucion.gridy = 4;
+		getContentPane().add(botonInstitucion, gbc_botonInstitucion);
+		
+		botonInstitucion.addActionListener(e -> {
+		    JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setDialogTitle("Seleccionar archivo CSV - Institucion");
+		    // Carpeta por defecto: Descargas
+		    String home = System.getProperty("user.home");
+		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
+		    
+		    // Filtrar para solo ver archivos .CSV
+		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
+		    fileChooser.setFileFilter(filtro);
+		    
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File archivoInstitucion = fileChooser.getSelectedFile();
+                cargaDatos.leerInstitucion(archivoInstitucion.getAbsolutePath());
+                cargaDatos.cargarInstitucion();
+            }
+		});
+		//--------INSTITUCION---------- 
 	}
 }

@@ -31,4 +31,7 @@ public class ManejadorInstituciones {
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null;
 	}
+	
+	public void altaInstitucion(String nombre, String descripcion, String sitioWeb) {
+	}
 }

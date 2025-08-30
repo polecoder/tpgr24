@@ -3,6 +3,7 @@ package logica;
 import logica.csv.CSVCategoria;
 import logica.csv.CSVEdicion;
 import logica.csv.CSVEvento;
+import logica.csv.CSVInstitucion;
 import logica.csv.CSVTipoRegistro;
 
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ public class CargaDatos {
 	private Map<String, CSVEvento> eventos;
 	private Map<String, CSVEdicion> ediciones;
 	private Map<String, CSVTipoRegistro> tiposRegistro;
+	private Map<String, CSVInstitucion> instituciones;
 	
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
@@ -212,4 +214,41 @@ public class CargaDatos {
 		}
 	}
 	//------------TIPOREGISTRO-----------------
+	
+	//------------INSTITUCION-----------------
+		public void leerInstitucion(String ruta) {
+		    CsvToBean<CSVInstitucion> institucionCsv;
+			try {
+				institucionCsv = new CsvToBeanBuilder<CSVInstitucion>(
+				        new FileReader(ruta))
+				        .withType(CSVInstitucion.class)
+				        .withSeparator(';')
+				        .withIgnoreLeadingWhiteSpace(true)
+				        .withIgnoreEmptyLine(true)
+				        .build();
+				List<CSVInstitucion> listaInstituciones = institucionCsv.parse();
+		        this.instituciones = listaInstituciones.stream()
+		                						 .collect(Collectors.toMap(
+		                								 CSVInstitucion::getRef,
+		                								 d -> d,
+		                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+		        								 ));
+			} catch (IllegalStateException | FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/**
+		 * Carga las categorías que se encuentran en la colección categorias al sistema.
+		 * Si el mapa está vacío, no hace nada.
+		 */
+		public void cargarInstitucion() {
+			if (this.instituciones!= null) {
+				for (String ref : this.instituciones.keySet()) {
+					CSVInstitucion institucion = instituciones.get(ref);
+					this.manejadorInstituciones.altaInstitucion(institucion.getNombre(), institucion.getDescripcion(), institucion.getSitioWeb());
+				}
+			}
+		}
+		//------------INSTITUCION-----------------
 }
