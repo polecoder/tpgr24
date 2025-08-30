@@ -7,11 +7,10 @@ import java.util.Set;
 import logica.datatypes.DTInstitucion;
 
 public class ControladorInstitucion implements IControladorInstitucion {
-	 
 	private static ControladorInstitucion instancia;
 	private ManejadorInstituciones ManejadorInstituciones;
 	private ControladorInstitucion() {
-		this.ManejadorInstituciones=logica.ManejadorInstituciones.getInstance();
+		this.ManejadorInstituciones=ManejadorInstituciones.getInstance();
 	};
 	public static ControladorInstitucion getInstance() {
 		if (instancia==null) {

@@ -3,6 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,8 +32,7 @@ public class ControladorEventos implements IControladorEventos {
         };
         return instancia;
     }
- 
-
+  
     public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
         return Collections.emptySet();
     }
@@ -66,6 +66,33 @@ public class ControladorEventos implements IControladorEventos {
                                   String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
         // HACER
     }
+    
+    
+    
+    /**
+	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
+	 * Da de alta un Evento con los parámetros indicados en el sistema.
+	 * Si ya existe un Evento con el nombre indicado en el sistema, no hace nada.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param fechaAlta
+	 * @param sigla
+	 * @param categorias
+	 */
+    public void altaEvento(String nombre, String descripcion, LocalDate fechaAlta, String sigla, List<String> categorias) {
+		this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
+    }
+    
+    /**
+	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
+	 * Retorna false en cualquier otro caso.
+	 * 
+	 * @param nombreEvento
+	 */
+	public boolean existeEvento(String nombreEvento) {
+		return this.manejadorEventos.existeEvento(nombreEvento);
+	}
     
     public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
     	return false;
@@ -120,13 +147,6 @@ public class ControladorEventos implements IControladorEventos {
     	};
     	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
     }
-
-	@Override
-	public Set<DTTipoRegistro> listarTipoRegistro() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 	@Override
 	public DTEvento getDTEvento(String nombre) {
@@ -192,4 +212,10 @@ public class ControladorEventos implements IControladorEventos {
 	}
 	public boolean existeCategoria(String nombre) {return categorias.containsKey(nombre);}
 	public Map<String, Categoria> listarCategorias(){return categorias;}
+
+	@Override
+	public Set<DTTipoRegistro> listarTipoRegistro() {
+		// TODO Auto-generated method stub
+		return Collections.emptySet();
+	}
 }

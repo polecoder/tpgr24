@@ -35,4 +35,24 @@ public interface IControladorEventos {
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
 	boolean altaCategoria(String nombre);
 	boolean existeCategoria(String nombre);
+
+	/**
+	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
+	 * Da de alta un Evento con los parámetros indicados en el sistema.
+	 * Si ya existe un Evento con el nombre indicado en el sistema, no hace nada.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param fechaAlta
+	 * @param sigla
+	 * @param categorias
+	 */
+	public void altaEvento(String nombre, String descripcion, LocalDate fechaAlta, String sigla, List<String> categorias);
+	/**
+	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
+	 * Retorna false en cualquier otro caso.
+	 * 
+	 * @param nombreEvento
+	 */
+	public boolean existeEvento(String nombreEvento);
 }
