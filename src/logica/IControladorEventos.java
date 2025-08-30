@@ -13,16 +13,18 @@ import logica.datatypes.DTTipoRegistro;
 import java.time.LocalDate;
 
 public interface IControladorEventos {
-	Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
-	DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
-	Set<DTEvento> listarEventos();
-	List<DTTipoRegistro> listarTipoRegistro();
-	boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
-	void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
-	Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
-	Set<String> nombresEventos();
-	DTEvento getDTEvento(String nombre);
+	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
+	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
+	public Set<DTEvento> listarEventos();
+	public List<DTTipoRegistro> listarTipoRegistro();
+	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
+	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
+	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
+	public Set<String> nombresEventos();
+	public DTEvento getDTEvento(String nombre);
 	public Set<String> nombresCategorias(String nombre);
 	public Set<String> nombresEdicionesEvento(String nombre);
-	DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
+	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
+	public void AltaEdicionEvento(String nombreEvento,String nombre,String sigla,LocalDate fechaInicio,LocalDate fechaFin,LocalDate fechaAlt,String ciudad,String pais) throws Exception;
+	
 }

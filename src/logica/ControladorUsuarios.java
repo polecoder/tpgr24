@@ -2,6 +2,7 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTUsuario;
@@ -91,6 +92,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	@Override
 	public List<DTUsuario> listarUsuarios() {
 		return null;
+	}
+
+	@Override
+	public Set<String> nombresOrganizadores() {
+		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
 
 	

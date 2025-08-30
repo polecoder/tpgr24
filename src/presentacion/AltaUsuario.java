@@ -200,16 +200,16 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(textField_Apellido, gbc_textField_Apellido);
 		
 		SpinnerDateModel dateModel = new SpinnerDateModel();
-		JSpinner textField_FechaNacimiento = new JSpinner(dateModel);
-		textField_FechaNacimiento.setEditor(new JSpinner.DateEditor(textField_FechaNacimiento, "yyyy-MM-dd"));
-		textField_FechaNacimiento.setVisible(false);
+		JSpinner Spinner_FechaNacimiento = new JSpinner(dateModel);
+		Spinner_FechaNacimiento.setEditor(new JSpinner.DateEditor(Spinner_FechaNacimiento, "yyyy-MM-dd"));
+		Spinner_FechaNacimiento.setVisible(false);
 
 		GridBagConstraints gbc_textField_FechaNacimiento = new GridBagConstraints();
 		gbc_textField_FechaNacimiento.gridx = 1;
 		gbc_textField_FechaNacimiento.gridy = 8;
 		gbc_textField_FechaNacimiento.gridwidth = 2;
 		gbc_textField_FechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(textField_FechaNacimiento, gbc_textField_FechaNacimiento);
+		getContentPane().add(Spinner_FechaNacimiento, gbc_textField_FechaNacimiento);
         
 		JComboBox<String> comboInstituciones = new JComboBox<>();
 		comboInstituciones.addItem("Ninguno"); // Siempre lo tiene 
@@ -243,7 +243,7 @@ public class AltaUsuario extends JInternalFrame {
 		    textField_Apellido.setVisible(false);
 		    lbl_Apellido.setVisible(false);
 		    
-		    textField_FechaNacimiento.setVisible(false);
+		    Spinner_FechaNacimiento.setVisible(false);
 		    lbl_FechaNacimiento.setVisible(false);
 
 		    
@@ -264,7 +264,7 @@ public class AltaUsuario extends JInternalFrame {
 		    textField_Apellido.setVisible(true);
 		    lbl_Apellido.setVisible(true);
 		    
-		    textField_FechaNacimiento.setVisible(true);
+		    Spinner_FechaNacimiento.setVisible(true);
 		    lbl_FechaNacimiento.setVisible(true);
 		    
 		    revalidate();
@@ -318,6 +318,16 @@ public class AltaUsuario extends JInternalFrame {
 		        	
 		        	//Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
+		            // limpia los campos si llega al final
+				      textField_Nick.setText("");
+				      textField_Nombre.setText("");
+				      textField_Correo.setText("");
+				      textField_Link.setText("");
+				      textField_Descripcion.setText("");
+				      textField_Apellido.setText("");
+				      Spinner_FechaNacimiento.setValue(new Date());
+				      Button_Organizador.setSelected(false);
+				      Button_Asistente.setSelected(false);
 		        } catch (Exception ex) {
 		            // Si el controlador lanza error, lo muestro
 		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
@@ -328,7 +338,7 @@ public class AltaUsuario extends JInternalFrame {
 		    if (esAsistente) {
 		    	String apellido=textField_Apellido.getText();
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
-		    	Date fechaSeleccionada = (Date) textField_FechaNacimiento.getValue();
+		    	Date fechaSeleccionada = (Date) Spinner_FechaNacimiento.getValue();
 		    	LocalDate fechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		    	try {
 		            IContUsuario.altaAsistente(nick, nombre, correo, apellido, fechaNacimiento, institucion);
@@ -342,7 +352,7 @@ public class AltaUsuario extends JInternalFrame {
 				      textField_Link.setText("");
 				      textField_Descripcion.setText("");
 				      textField_Apellido.setText("");
-				      textField_FechaNacimiento.setValue(new Date());
+				      Spinner_FechaNacimiento.setValue(new Date());
 				      Button_Organizador.setSelected(false);
 				      Button_Asistente.setSelected(false);
 		        } catch (Exception ex) {

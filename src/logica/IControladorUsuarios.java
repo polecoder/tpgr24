@@ -2,6 +2,7 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTUsuario;
@@ -12,6 +13,7 @@ public interface IControladorUsuarios {
 	
 	List<DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
+	Set<String> nombresOrganizadores();
 	
 	
 }

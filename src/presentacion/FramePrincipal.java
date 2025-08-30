@@ -137,6 +137,5 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		setVisible(true);
-	}
-		
+    }
 }

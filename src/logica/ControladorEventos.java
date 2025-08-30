@@ -92,5 +92,41 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 	
+	public void AltaEdicionEvento(String nombreEvento, String nombre, String sigla,LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) throws Exception {
+
+		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
+			    throw new Exception("Todos los campos deben estar completos");
+			}
+
+		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
+			throw new Exception("El nombre de la edición ya está en uso");
+		}
+
+		LocalDate hoy = LocalDate.now();
+		if (fechaInicio.isBefore(hoy) || fechaFin.isBefore(hoy) || fechaAlta.isBefore(hoy)) {
+			throw new Exception("Ninguna de las fechas puede estar en el pasado");
+		}
+
+		if (fechaFin.isBefore(fechaInicio)) {
+			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
+		}
+
+		if (fechaAlta.isAfter(fechaInicio) || fechaAlta.isAfter(fechaFin)) {
+			throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
+		}
+
+		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("La ciudad solo puede contener letras y espacios");
+		}
+
+		if (!pais.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("El país solo puede contener letras y espacios");
+		}
+
+		manejadorEventos.AltaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
+	}
+
+
 	
+	 
 	}

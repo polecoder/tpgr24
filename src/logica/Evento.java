@@ -16,10 +16,10 @@ public class Evento {
 	Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=fechaAlta;
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(fechaAlta);
 		this.categorias=new HashMap<>();
 		this.ediciones=new HashMap<>();
 	}

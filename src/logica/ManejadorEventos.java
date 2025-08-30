@@ -1,5 +1,6 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,8 @@ public class ManejadorEventos {
 	private Map<String,Evento> eventos;
 	private ManejadorEventos(){
 		 this.eventos = new HashMap<>();
+		 Evento evento=new Evento("discurso","un discurso" ,"Dis",LocalDate.of(2025, 8, 29) );
+		 eventos.put("discurso", evento);
 	};
 	
 	public static ManejadorEventos getInstancia() {
@@ -28,9 +31,8 @@ public class ManejadorEventos {
 		return null;
 	};
 	
-	public boolean contieneEdicion(String NombreEdicion) {
-		//TODO
-		return true;
+	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
+		return eventos.get(nombreEvento).ediciones.containsKey(NombreEdicion);
 	};
 	
 	public Set<DTEvento> listarEventos(){
@@ -74,7 +76,7 @@ public class ManejadorEventos {
 	}
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getediciones().get(edicionSeleccionada);
-		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio());
+		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais());
 		return dtEvento;
 	}
 	
@@ -85,4 +87,10 @@ public class ManejadorEventos {
 	public void agregarEvento(Evento evento) {
 		eventos.put(evento.getNombre(), evento);
 	}
+
+	public void AltaEdicion(String nombreEvento, String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin,LocalDate fechaAlt, String ciudad, String pais) {
+		Edicion edicion=new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
+		eventos.get(nombreEvento).ediciones.put(nombre, edicion);
+	}
+	
 }
