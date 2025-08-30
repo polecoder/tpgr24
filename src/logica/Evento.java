@@ -16,49 +16,53 @@ public class Evento {
 	Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=fechaAlta;
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(fechaAlta);
 		this.categorias=new HashMap<>();
 		this.ediciones=new HashMap<>();
 	}
-	String getNombre(){
+	public String getNombre(){
 		return this.nombre;
 	}
-	String getSigla(){
+	public String getSigla(){
 		return this.sigla;
 	}
-	String getDescripcion(){
+	public String getDescripcion(){
 		return this.descripcion;
 	}
-	LocalDate getfechaAlta(){
+	public LocalDate getfechaAlta(){
 		return this.fechaAlta;
 	}
-	Map<String, Categoria> getcategoria(){
+	public Map<String, Categoria> getcategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getediciones(){
+	public Map<String, Edicion> getediciones(){
 		return this.ediciones;
 	};
 	
-	void setNombre(String nombre){
+	public void setNombre(String nombre){
 		  this.nombre =nombre;
 	}
-	void setDescripcion(String descripcion){
+	public void setDescripcion(String descripcion){
 		 this.descripcion =descripcion;
 	}
-	void setSigla(String sigla){
+	public void setSigla(String sigla){
 		this.sigla=sigla;
 	}
-	void setFechaAlta(LocalDate fechaAlta) {
+	public void setFechaAlta(LocalDate fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
-	void agregarEdicion(Edicion edicion) {
+	public void agregarEdicion(Edicion edicion) {
 		this.ediciones.put(edicion.getNombre(),edicion);
 	};
-		
-	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
+	
+	public void agregarCategoria(Categoria categoria) {
+		this.categorias.put(categoria.getNombre(), categoria);
+	};
+	
+	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}
 }

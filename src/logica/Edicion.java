@@ -3,7 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import logica.datatypes.DTEdicion;
+import logica.datatypes.DTEdicionEvento;
 
 public class Edicion {
 	private String nombre;
@@ -16,12 +16,12 @@ public class Edicion {
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
 	
-	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
 		this.setFechaFin(fechaFin);
-		this.setFechaAlta(LocalDate.now());
+		this.setFechaAlta(fechaAlta);
 		this.setCiudad(ciudad);
 		this.setPais(pais);
 		this.setPatrocinios(new HashMap<>());
@@ -122,7 +122,7 @@ public class Edicion {
 	}
 	
 	// TODO: Implementar
-	public DTEdicion listarEdicion() {
+	public DTEdicionEvento listarEdicion() {
 		return null;
 	}
 	

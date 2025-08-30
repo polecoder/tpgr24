@@ -1,7 +1,10 @@
 package logica;
+import java.util.Set;
+
 import logica.datatypes.DTInstitucion; 
 
 public interface IControladorInstitucion {
-	IControladorInstitucion getInstancia();
-	DTInstitucion[] listarInstituciones();
+	Set<DTInstitucion> listarInstituciones();
+	Institucion getInstitucion(String nombre);
+	Set<String> nombresInstituciones();
 }
