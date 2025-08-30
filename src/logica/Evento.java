@@ -13,15 +13,15 @@ public class Evento {
 	String descripcion;
 	LocalDate fechaAlta;
 	Map<String, Categoria> categorias;
-	Map<String, Edicion> ediciones;
+	 private final Map<String, Edicion> ediciones = new HashMap<>();
 	public
 	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.sigla=sigla;
 		this.fechaAlta=fechaAlta;
-		this.categorias=new HashMap<>();
-		this.ediciones=new HashMap<>();
+		//this.categorias=new HashMap<>();
+		//this.ediciones=new HashMap<>();
 	}
 	String getNombre(){
 		return this.nombre;
@@ -54,7 +54,8 @@ public class Evento {
 	void setFechaAlta(LocalDate fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
-	void agregarEdicion(Edicion edicion) {
+	public void agregarEdicion(Edicion edicion) {
+		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(),edicion);
 	};
 		

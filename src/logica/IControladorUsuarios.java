@@ -2,6 +2,7 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTUsuario;
@@ -12,7 +13,7 @@ public interface IControladorUsuarios {
 	boolean altaAsistente(String nickname, String correo, String apellido, LocalDate fechaNacimiento);
 	boolean altaOrganizador(String nickname, String correo, String descripcion, String link);
 	
-	List<DTAsistente> listarAsistentes();
+	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
 	
 	List<DTRegistro> listarRegistrosUsuario(String nickname);

@@ -43,8 +43,7 @@ public class TipoRegistro {
         cuposDisponibles--;
     }
     
-    public List<Registro> getRegistros(){ return Collections.unmodifiableList(registros); }
-
+    public List<Registro> getRegistros(){ return registros; }
     public boolean validar(String nicknameAsistente) {
         // HACER
         return true;

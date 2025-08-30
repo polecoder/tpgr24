@@ -3,6 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
@@ -36,7 +37,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	@Override
-	public List<DTAsistente> listarAsistentes() {
+	public Map<String, DTAsistente> listarAsistentes() {
 		 return manejadorUsuarios.listarAsistentes();
 	}
 	
@@ -50,6 +51,21 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	        usu.add(o.listarUsuario());
 	    }
 	    return usu;
+	}
+	
+	private final ManejadorEventos me = ManejadorEventos.getInstancia();
+	
+	private String nombreTipoDe(Registro r) {
+	    for (Evento ev : me.getEventos().values()) {                 // getEventos() público o package
+	        for (Edicion ed : ev.getediciones().values()) {          // idem getEdiciones()
+	            for (TipoRegistro tr : ed.getTiposRegistro().values()) {
+	                if (tr.getRegistros().contains(r)) {
+	                    return tr.getNombre();
+	                }
+	            }
+	        }
+	    }
+	    return "(sin tipo)";  // fallback para no romper
 	}
 
 	@Override

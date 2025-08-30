@@ -39,15 +39,15 @@ public class ManejadorUsuarios {
 	    TipoRegistro trVip = (ed != null) ? ed.getTiposRegistro().get("VIP") : null;
 	    
 	    if (trGen != null) {
-	        Registro r1 = new Registro(java.time.LocalDate.now(),       1000f, ana, pat, trGen);
+	        Registro r1 = new Registro(java.time.LocalDate.now(),       1000f, ana, trVip, pat);
 	        ana.getRegistros().add(r1);
 	    }
 	    if (trVip != null) {
-	        Registro r3 = new Registro(java.time.LocalDate.now(),       500, ana, pat, trVip);
+	        Registro r3 = new Registro(java.time.LocalDate.now(),       500, ana, trGen, pat);
 	        ana.getRegistros().add(r3);
 	    }
 	    if (trVip != null) {
-	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, pat, trGen);
+	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, trGen, pat);
 	        juan.getRegistros().add(r2);
 	        //trVip.getRegistros().add(r2);
 	    }*/
@@ -90,12 +90,12 @@ public class ManejadorUsuarios {
 		return null;
 	}
 	
-	public List<DTAsistente> listarAsistentes() {
-		List<DTAsistente> CtoA = new ArrayList<>();
-        for (Asistente a : conjuntoAsistentes.values()) {
-            CtoA.add(new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
-        }
-        return CtoA;
+	public Map<String, DTAsistente> listarAsistentes() {
+	    Map<String, DTAsistente> CtoA = new HashMap<>();  
+	    for (Asistente a : conjuntoAsistentes.values()) {
+	        CtoA.put(a.getNickname(), new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
+	    }
+	    return CtoA;
 	}
 	
 	public Organizador getOrganizador(String nickname) {
