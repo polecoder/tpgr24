@@ -10,7 +10,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Order;
 
-
+import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.ControladorEventos;
@@ -46,6 +46,9 @@ public class TestAltaTipoRegistro {
 		} catch (NombreTipoRegistroRepetido ex) {
 			fail("Nombre ya esta en uso");
 			return;
+		} catch (DatosTipoRegistroInvalidos ex) {
+			fail(ex.getMessage());
+			return;
 		}
 		try {
 			generado = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
@@ -71,6 +74,9 @@ public class TestAltaTipoRegistro {
 			controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (NombreTipoRegistroRepetido ex) {
 			assertEquals("El nombre del ya está en otro TipoRegistro de esta edicion", ex.getMessage());
+		} catch (DatosTipoRegistroInvalidos ex) {
+			fail(ex.getMessage());
+			return;
 		}
 		try {
 			generado = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
@@ -96,6 +102,9 @@ public class TestAltaTipoRegistro {
 			controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (NombreTipoRegistroRepetido ex) {
 			fail("El nombre del ya está en otro TipoRegistro de esta edicion");
+		} catch (DatosTipoRegistroInvalidos ex) {
+			fail(ex.getMessage());
+			return;
 		}
 		try {
 			generado = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
@@ -122,6 +131,9 @@ public class TestAltaTipoRegistro {
 			controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (NombreTipoRegistroRepetido ex) {
 			fail("El nombre del ya está en otro TipoRegistro de esta edicion");
+		} catch (DatosTipoRegistroInvalidos ex) {
+			fail(ex.getMessage());
+			return;
 		}
 		try {
 			generado = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
