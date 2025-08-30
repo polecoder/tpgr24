@@ -8,6 +8,9 @@ public class Categoria {
 	private Map<String, Evento> eventos;
 	
 	public Categoria(String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre de categoría inválido");
+        }
 		this.setNombre(nombre);
 		this.setEventos(new HashMap<>());
 	}

@@ -3,7 +3,12 @@ package logica;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import logica.datatypes.DTEdicion;
+import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.DTTipoRegistro;
+import logica.TipoRegistro;
+import logica.Patrocinio;
 
 public class Edicion {
 	private String nombre;
@@ -16,12 +21,12 @@ public class Edicion {
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
 	
-	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
 		this.setFechaFin(fechaFin);
-		this.setFechaAlta(LocalDate.now());
+		this.setFechaAlta(fechaAlta);
 		this.setCiudad(ciudad);
 		this.setPais(pais);
 		this.setPatrocinios(new HashMap<>());
@@ -105,8 +110,12 @@ public class Edicion {
 	 * @param nombreTipoRegistro
 	 * @return
 	 */
-	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) {
-		return this.tiposRegistro.get(nombreTipoRegistro);
+	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste{
+		if (!this.tiposRegistro.containsKey(nombreTipoRegistro)) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		} else {
+			return this.tiposRegistro.get(nombreTipoRegistro);
+		}
 	}
 	public HashMap<String, TipoRegistro> getTiposRegistro() {
 		return tiposRegistro;
@@ -114,7 +123,16 @@ public class Edicion {
 	public void setTiposRegistro(HashMap<String, TipoRegistro> tiposRegistro) {
 		this.tiposRegistro = tiposRegistro;
 	}
-	public void agregarTipoRegistro(TipoRegistro tipoRegistro) {
+	public void agregarTipoRegistro(String nombre, String descripcion, float costo, int cuposMax) throws NombreTipoRegistroRepetido { //Con Datos
+		if (this.tiposRegistro.containsKey(nombre)) {
+			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
+		} else {
+			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax, cuposMax);
+			this.tiposRegistro.put(nombre, tipoRegistro);
+		}
+	}
+	public void agregarTipoRegistro(TipoRegistro tipoRegistro) { // Con TipoRegistro
+		if(tipoRegistro==null||tipoRegistro.getNombre()==null) return;
 		this.tiposRegistro.put(tipoRegistro.getNombre(), tipoRegistro);
 	}
 	public void eliminarTipoRegistro(String nombreTipoRegistro) {
@@ -122,7 +140,7 @@ public class Edicion {
 	}
 	
 	// TODO: Implementar
-	public DTEdicion listarEdicion() {
+	public DTEdicionEvento listarEdicion() {
 		return null;
 	}
 	
@@ -134,5 +152,15 @@ public class Edicion {
 	// TODO: Implementar y revisar el nombre
 	public boolean check(String codigoPatrocinio, String nicknameAsistente) {
 		return false;
+	}
+	
+	public DTTipoRegistro getDTTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		try {
+			TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		};
+		TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
+		return tipoRegistro.getDTTipoRegistro();
 	}
 }

@@ -1,11 +1,11 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 
-import logica.datatypes.DTEdicion;
+import logica.datatypes.DTEdicionEvento;
 
 public class Organizador extends Usuario {
 	private static final Logger logger = Logger.getLogger(Organizador.class.getName());
@@ -16,8 +16,8 @@ public class Organizador extends Usuario {
 	
 	public Organizador(String nickname, String nombre, String correo, String descripcion, String link) {
 		super(nickname,nombre,correo);
-		this.descripcion = descripcion;
-		this.link = link;
+		this.setDescripcion(descripcion);
+		this.setLink(link);
 		this.ediciones = new ArrayList<>();
 	}
 	
@@ -30,11 +30,11 @@ public class Organizador extends Usuario {
 	public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 	public void setLink(String link) {this.link = link;}
 	// Metodos
-	public List<DTEdicion> listarEdiciones(){
+	public List<DTEdicionEvento> listarEdiciones(){
 		try {
-			List<DTEdicion> myList = new ArrayList<>();
+			List<DTEdicionEvento> myList = new ArrayList<>();
 			for(Edicion e : ediciones) {
-				DTEdicion DTEd = e.listarEdicion();
+				DTEdicionEvento DTEd = e.listarEdicion();
 				myList.add(DTEd);
 			}
 			return myList;

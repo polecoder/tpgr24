@@ -1,5 +1,10 @@
 package logica.datatypes;
 
-public class DTTipoRegistro {
-
+public record DTTipoRegistro (
+    String nombre, 
+    String descripcion, 
+    float costo, 
+    int cuposMax, 
+    int cuposDisponibles
+    ) {
 }

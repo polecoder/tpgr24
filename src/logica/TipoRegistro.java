@@ -1,5 +1,11 @@
 package logica;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import logica.datatypes.DTTipoRegistro;
+
 public class TipoRegistro {
 
     private String nombre;
@@ -7,15 +13,16 @@ public class TipoRegistro {
     private float costo;
     private int cuposMax;
     private int cuposDisponibles;
+    private final List<Registro> registros = new ArrayList<>();
 
     public TipoRegistro() { }
 
     public TipoRegistro(String nombre, String descripcion, float costo, int cuposMax, int cuposDisponibles) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costo = costo;
-        this.cuposMax = cuposMax;
-        this.cuposDisponibles = cuposDisponibles;
+        this.setNombre(nombre);
+        this.setDescripcion(descripcion);
+        this.setCosto(costo);
+        this.setCuposMax(cuposMax);
+        this.setCuposDisponibles(cuposDisponibles);
     }
 
     public String getNombre() { return nombre; }
@@ -34,11 +41,25 @@ public class TipoRegistro {
     public void setCuposDisponibles(int cuposDisponibles) { this.cuposDisponibles = cuposDisponibles; }
 
     public void addRegistro(Registro r) {
-        // HACER
+    	Objects.requireNonNull(r);
+        if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
+        registros.add(r);
+        cuposDisponibles--;
     }
-
+    
+    public List<Registro> getRegistros(){ return registros; }
     public boolean validar(String nicknameAsistente) {
         // HACER
         return true;
+    }
+    
+    public DTTipoRegistro getDTTipoRegistro() {
+    	DTTipoRegistro dtTipoRegistro = new DTTipoRegistro(
+            this.getNombre(), 
+            this.getDescripcion(), 
+            this.getCosto(), 
+            this.getCuposMax(), 
+            this.getCuposDisponibles());
+    	return dtTipoRegistro;
     }
 }

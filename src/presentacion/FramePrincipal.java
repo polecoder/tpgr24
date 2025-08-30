@@ -1,18 +1,26 @@
 package presentacion;
 
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JDesktopPane;
 
 public class FramePrincipal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JDesktopPane  panel = new JDesktopPane();
-
+    
+    public void abrirVentanaInterna(JInternalFrame ventana) {
+        panel.add(ventana);
+        ventana.setVisible(true);
+        try {
+            ventana.setSelected(true);
+        } catch (Exception ex) {}
+    }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 550, 450);
@@ -25,60 +33,71 @@ public class FramePrincipal extends JFrame {
         panel = new JDesktopPane();
         getContentPane().add(panel, BorderLayout.CENTER);
 		
-		JButton Usuario = new JButton("Usuarios");
-		menuBar.add(Usuario);
-		
-		JPopupMenu menuUsuario = new JPopupMenu();
-		    JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
-		    JMenuItem item2 = new JMenuItem("Consulta");
-		    JMenuItem item3 = new JMenuItem("Modificar Datos");
-		    
-		    menuUsuario.add(item_AltaUsuario);
-		    menuUsuario.add(item2);
-		    menuUsuario.add(item3);
+        JMenu menuUsuario = new JMenu("Usuarios");
+        menuBar.add(menuUsuario);
 
-		    Usuario.addActionListener(e -> menuUsuario.show(Usuario, 0, Usuario.getHeight()));
+        JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
+        JMenuItem item2 = new JMenuItem("Consulta");
+        JMenuItem item3 = new JMenuItem("Modificar Datos");
+
+        menuUsuario.add(item_AltaUsuario);
+        menuUsuario.add(item2);
+        menuUsuario.add(item3);
+		
 		    	  
-	    JButton Evento = new JButton("Evento");
-		menuBar.add(Evento);
-		JPopupMenu casosEvento = new JPopupMenu();
-			 JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
-			 JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
-			 JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
-			 JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
-			 
-			 casosEvento.add(item_AltaEvento);
-			 casosEvento.add(item_AltaEdicion);
-			 casosEvento.add(item_ConsultaEvento);
-			 casosEvento.add(item7);
-			 Evento.addActionListener(e ->casosEvento .show(Evento, 0, Evento.getHeight()));
+        JMenu menuEvento = new JMenu("Evento");
+        menuBar.add(menuEvento);
+
+        JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
+        JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
+        JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
+        JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
+
+        menuEvento.add(item_AltaEvento);
+        menuEvento.add(item_AltaEdicion);
+        menuEvento.add(item_ConsultaEvento);
+        menuEvento.add(item7);
 		
-		JButton Registro = new JButton("Registro");
-		menuBar.add(Registro);
+        JMenu menuRegistro = new JMenu("Registro");
+        menuBar.add(menuRegistro);
+
+        JMenuItem item_AltaTipoRegistro = new JMenuItem("Alta Tipo Registro");
+        JMenuItem item_ConsultaTipoRegistro = new JMenuItem("Consulta Tipo Registro");
+        JMenuItem itemA = new JMenuItem("Consulta Registro");
+        JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
+
+        menuRegistro.add(item_AltaTipoRegistro);
+        menuRegistro.add(item_ConsultaTipoRegistro);
+        menuRegistro.add(itemA);
+        menuRegistro.add(itemB);
 		
-		JPopupMenu casosRegistro = new JPopupMenu();
-			JMenuItem item8 = new JMenuItem("Alta Tipo Registro");
-			JMenuItem item9 = new JMenuItem("Consulta Tipo Registro");
-			JMenuItem itemA = new JMenuItem("Consulta Regsitro");
-			JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
-		 
-			casosRegistro.add(item8);
-			casosRegistro.add(item9);
-			casosRegistro.add(itemA);
-			casosRegistro.add(itemB);
-		Registro.addActionListener(e ->casosRegistro .show(Registro, 0, Registro.getHeight()));
-			
-		JButton Institucion = new JButton("Institucion");
-		menuBar.add(Institucion);
-			
-			JPopupMenu casosInstitucion = new JPopupMenu();
-				JMenuItem itemC = new JMenuItem("Alta Institucion");
-				JMenuItem itemD = new JMenuItem("Alta Patrocinio");
-				JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
-				casosInstitucion.add(itemC);
-				casosInstitucion.add(itemD);
-				casosInstitucion.add(itemE);
-		Institucion.addActionListener(e ->casosInstitucion .show(Institucion, 0, Institucion.getHeight()));
+		item_AltaTipoRegistro.addActionListener(e -> {
+		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
+		    panel.add(ventanaAltaTipoRegistro);          
+		    ventanaAltaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaAltaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		item_ConsultaTipoRegistro.addActionListener(e -> {
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
+		    panel.add(ventanaConsultaTipoRegistro);          
+		    ventanaConsultaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaConsultaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		
+        JMenu menuInstitucion = new JMenu("Institución");
+        menuBar.add(menuInstitucion);
+
+        JMenuItem itemC = new JMenuItem("Alta Institución");
+        JMenuItem itemD = new JMenuItem("Alta Patrocinio");
+        JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
+
+        menuInstitucion.add(itemC);
+        menuInstitucion.add(itemD);
+        menuInstitucion.add(itemE);
 				
 		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
@@ -91,9 +110,9 @@ public class FramePrincipal extends JFrame {
 		
 		item2.addActionListener(e -> {
 		   ConsultaUsuario ventanaCU = new ConsultaUsuario();
-		    panel.add(ventanaCU);          
-		    ventanaCU.setVisible(true);    
-		    try {
+		   panel.add(ventanaCU);          
+		   ventanaCU.setVisible(true);    
+		   try {
 		        ventanaCU.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
@@ -117,7 +136,7 @@ public class FramePrincipal extends JFrame {
 		});
 
 		item_AltaEdicion.addActionListener(e -> {
-				AltaEdicion ventanaAEv = new AltaEdicion();
+				AltaEdicionEvento ventanaAEv = new AltaEdicionEvento();
 			    panel.add(ventanaAEv);          
 			    ventanaAEv.setVisible(true);    
 			    try {
@@ -126,12 +145,22 @@ public class FramePrincipal extends JFrame {
 			});
 		
 		item_ConsultaEvento.addActionListener(e -> {
-			ConsultaEvento ventanaCEv = new ConsultaEvento();
+			ConsultaEvento ventanaCEv = new ConsultaEvento(panel);
 		    panel.add(ventanaCEv);          
 		    ventanaCEv.setVisible(true);    
 		    try {
 		    	ventanaCEv.setSelected(true); 
 		    } catch (Exception ex) {}
+		});
+		
+		itemA.addActionListener(e-> {
+			ConsultaRegistro ventanaCRegistro = new ConsultaRegistro();
+			panel.add(ventanaCRegistro);
+			ventanaCRegistro.setVisible(true);
+			try {
+				ventanaCRegistro.setSelected(true);
+			} catch( Exception ex) {}
+			
 		});
 		
 		itemB.addActionListener(e -> {
@@ -144,6 +173,5 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		setVisible(true);
-	}
-		
+    }
 }
