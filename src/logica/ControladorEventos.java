@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 import logica.datatypes.DTDatosPatrocinio;
+import logica.IControladorEventos;
 import logica.datatypes.DTDetallePatrocinio;
+import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
+import logica.ManejadorEventos;
 
 public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
@@ -60,6 +65,60 @@ public class ControladorEventos implements IControladorEventos {
     public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
                                   String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
         // HACER
+    }
+    
+    public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+    	return false;
+    }
+    
+    public String[] getNombreEventos() {
+    	Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
+		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEvento evento : listaEventos) {
+			nombreEventos[i] = evento.getNombre();
+		}
+		return new String[] {"Ev1", "Ev2"};//nombreEventos;
+    }
+    
+    public String[] getNombresEdiciones(String nombreEvento) {
+    	Set<DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
+    	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEdicionEvento evento : listaEdiciones) {
+			nombreEdiciones[i] = evento.getNombre();
+		}
+		return nombreEdiciones;
+    }
+    
+    public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {
+    	if (costo < 0) throw new DatosTipoRegistroInvalidos("El costo debe ser mayor o igual a cero");
+    	if (cuposMax <= 0) throw new DatosTipoRegistroInvalidos("Los cupos máximos deben ser mayores a cero");
+    	System.out.print(nombre);
+    	if (nombre == "") throw new DatosTipoRegistroInvalidos("El nombre no puede ser vacío");
+    	
+    	try {
+    		manejadorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+    	} catch (NombreTipoRegistroRepetido ex) {
+    		throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
+    	}
+    }
+    
+    public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) {
+    	return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
+    }
+    
+    public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+    	try {
+    		manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+    	} catch (TipoRegistroNoExiste ex) {
+    		throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+    	};
+    	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
     }
 
 	@Override

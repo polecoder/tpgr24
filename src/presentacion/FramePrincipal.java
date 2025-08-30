@@ -7,6 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JDesktopPane;
+import presentacion.*;
 
 public class FramePrincipal extends JFrame {
 
@@ -60,16 +61,33 @@ public class FramePrincipal extends JFrame {
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
 
-        JMenuItem item8 = new JMenuItem("Alta Tipo Registro");
-        JMenuItem item9 = new JMenuItem("Consulta Tipo Registro");
+        JMenuItem item_AltaTipoRegistro = new JMenuItem("Alta Tipo Registro");
+        JMenuItem item_ConsultaTipoRegistro = new JMenuItem("Consulta Tipo Registro");
         JMenuItem itemA = new JMenuItem("Consulta Registro");
         JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
 
-        menuRegistro.add(item8);
-        menuRegistro.add(item9);
+        menuRegistro.add(item_AltaTipoRegistro);
+        menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
         menuRegistro.add(itemB);
-			
+		
+		item_AltaTipoRegistro.addActionListener(e -> {
+		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
+		    panel.add(ventanaAltaTipoRegistro);          
+		    ventanaAltaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaAltaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		item_ConsultaTipoRegistro.addActionListener(e -> {
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
+		    panel.add(ventanaConsultaTipoRegistro);          
+		    ventanaConsultaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaConsultaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+		
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);
 
@@ -92,9 +110,9 @@ public class FramePrincipal extends JFrame {
 		
 		item2.addActionListener(e -> {
 		   ConsultaUsuario ventanaCU = new ConsultaUsuario();
-		    panel.add(ventanaCU);          
-		    ventanaCU.setVisible(true);    
-		    try {
+		   panel.add(ventanaCU);          
+		   ventanaCU.setVisible(true);    
+		   try {
 		        ventanaCU.setSelected(true); 
 		    } catch (Exception ex) {}
 		});

@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTPatrocinio;
+import logica.datatypes.DTTipoRegistro;
 
 public class Evento {
 	private 
@@ -64,5 +66,19 @@ public class Evento {
 	
 	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
+	}
+	
+	public Edicion getEdicion(String nombreEdicion) {
+		return ediciones.get(nombreEdicion);
+	}
+	
+	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		Edicion edicion = ediciones.get(nombreEdiocion);
+		try {
+			edicion.getDTTipoRegistro(nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		};
+		return edicion.getDTTipoRegistro(nombreTipoRegistro);
 	}
 }
