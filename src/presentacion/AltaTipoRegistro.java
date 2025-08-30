@@ -1,7 +1,7 @@
 package presentacion;
 
 import logica.ControladorEventos;
-import logica.datatypes.DTEvento;
+import logica.Fabrica;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 
@@ -10,9 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -20,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 
 
 public class AltaTipoRegistro extends JInternalFrame {
@@ -29,7 +26,9 @@ public class AltaTipoRegistro extends JInternalFrame {
 	private JTextField textField_Descripcion;
 	private JTextField textField_Costo;
 	private JTextField textField_Cupos;
-	private ControladorEventos controladorEventos = ControladorEventos.getInstancia();
+	
+	private Fabrica fabrica = Fabrica.getInstancia();
+	private ControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
 	public AltaTipoRegistro() {		
 		super("Alta Tipo de registro", true, true, true, true);
