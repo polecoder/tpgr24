@@ -37,7 +37,7 @@ public class ManejadorEventos {
 		return eventos;
 	}
 	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
-		return eventos.get(nombreEvento).getediciones().containsKey(NombreEdicion);
+		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
 	
 	public Set<DTEvento> listarEventos(){
@@ -66,21 +66,21 @@ public class ManejadorEventos {
 	};
 	
 	public Edicion getEdicion(String evento, String edicion){
-		return eventos.get(edicion).getediciones().get(edicion);
+		return eventos.get(edicion).getEdiciones().get(edicion);
 	}
 	public Set<String> getNombresCategorias(String Nombre) {
-		return eventos.get(Nombre).getcategoria().keySet();
+		return eventos.get(Nombre).getCategoria().keySet();
 	}
 	public Set<String> getNombresEdiciones(String nombre){
-		return eventos.get(nombre).getediciones().keySet();
+		return eventos.get(nombre).getEdiciones().keySet();
 	};
 	public DTEvento getDTEvento(String nombre) {
 		Evento evento=eventos.get(nombre);
-		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getfechaAlta());
+		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getFechaAlta());
 		return dtEvento;
 	}
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
-		Edicion edicion=eventos.get(eventoSeleccionado).getediciones().get(edicionSeleccionada);
+		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
 		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais());
 		return dtEvento;
 	}
@@ -134,7 +134,7 @@ public class ManejadorEventos {
 	
     public TipoRegistro encontrarTipoDe(Registro r){
         for (Evento ev : eventos.values()){
-            for (Edicion ed : ev.getediciones().values()){
+            for (Edicion ed : ev.getEdiciones().values()){
                 for (TipoRegistro tr : ed.getTiposRegistro().values()){
                     if (tr.getRegistros().contains(r)) return tr;
                 }
@@ -145,7 +145,7 @@ public class ManejadorEventos {
 
     public Edicion encontrarEdicionQueContiene(TipoRegistro t){
         for (Evento ev : eventos.values()){
-            for (Edicion ed : ev.getediciones().values()){
+            for (Edicion ed : ev.getEdiciones().values()){
                 if (ed.getTiposRegistro().containsValue(t)) return ed;
             }
         }

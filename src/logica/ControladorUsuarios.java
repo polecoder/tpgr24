@@ -108,7 +108,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	private String nombreTipoDe(Registro r) {
 		for (Evento ev : me.getEventos().values()) { // getEventos() público o package
-			for (Edicion ed : ev.getediciones().values()) { // idem getEdiciones()
+			for (Edicion ed : ev.getEdiciones().values()) { // idem getEdiciones()
 				for (TipoRegistro tr : ed.getTiposRegistro().values()) {
 					if (tr.getRegistros().contains(r)) {
 						return tr.getNombre();

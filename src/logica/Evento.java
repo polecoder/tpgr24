@@ -56,26 +56,21 @@ public class Evento {
 	public void setFechaAlta(LocalDate fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
-	void agregarCategoria(Categoria categoria) {
+	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
 	}
-	void eliminarCategoria(String nombreCategoria) {
+	public void eliminarCategoria(String nombreCategoria) {
 		this.categorias.remove(nombreCategoria);
 	}
 	public void agregarEdicion(Edicion edicion) {
 		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(),edicion);
 	}
-	void eliminarEdicion(String nombreEdicion) {
+	public void eliminarEdicion(String nombreEdicion) {
 		this.ediciones.remove(nombreEdicion);
 	}
 	
-	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
-	};
 	
-	public void agregarCategoria(Categoria categoria) {
-		this.categorias.put(categoria.getNombre(), categoria);
-	};
 	
 	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO

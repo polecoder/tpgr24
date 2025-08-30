@@ -67,9 +67,7 @@ public class ControladorEventos implements IControladorEventos {
         // HACER
     }
     
-    public Set<DTTipoRegistro> listarTipoRegistro() {
-		return null;
-	}
+    
     
     /**
 	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
@@ -151,13 +149,6 @@ public class ControladorEventos implements IControladorEventos {
     }
 
 	@Override
-	public Set<DTTipoRegistro> listarTipoRegistro() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-
-	@Override
 	public DTEvento getDTEvento(String nombre) {
 		return manejadorEventos.getDTEvento(nombre);
 	}
@@ -221,4 +212,10 @@ public class ControladorEventos implements IControladorEventos {
 	}
 	public boolean existeCategoria(String nombre) {return categorias.containsKey(nombre);}
 	public Map<String, Categoria> listarCategorias(){return categorias;}
+
+	@Override
+	public Set<DTTipoRegistro> listarTipoRegistro() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

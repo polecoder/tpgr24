@@ -2,7 +2,6 @@ package logica;
 
 import java.util.List;
 import java.util.Set;
-import java.util.Set;
 
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
@@ -36,13 +35,7 @@ public interface IControladorEventos {
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
 	boolean altaCategoria(String nombre);
 	boolean existeCategoria(String nombre);
-	Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
-	DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
-	Set<DTEvento> listarEventos();
-	Set<DTTipoRegistro> listarTipoRegistro();
-	boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
-	void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
-	Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
+
 	/**
 	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
 	 * Da de alta un Evento con los parámetros indicados en el sistema.

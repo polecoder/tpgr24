@@ -21,7 +21,6 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	}
 	
 	public Set<DTInstitucion> listarInstituciones() {
-	public Set<DTInstitucion> listarInstituciones() {
 		//TODO
 		return null;
 	}
