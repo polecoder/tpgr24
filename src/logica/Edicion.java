@@ -127,7 +127,7 @@ public class Edicion {
 		if (this.tiposRegistro.containsKey(nombre)) {
 			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
 		} else {
-			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax);
+			TipoRegistro tipoRegistro = new TipoRegistro(nombre, descripcion, costo, cuposMax, cuposMax);
 			this.tiposRegistro.put(nombre, tipoRegistro);
 		}
 	}

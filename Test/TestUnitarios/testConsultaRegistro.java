@@ -31,7 +31,7 @@ class testConsultaRegistro {
 	@Test
 	void test() {
 		
-		ControladorEventos controlador = ControladorEventos.getInstancia();
+		ControladorEventos controlador = ControladorEventos.getInstance();
 		   ManejadorEventos manejador = ManejadorEventos.getInstancia(); 
 		   
 		//creo evento
@@ -52,7 +52,7 @@ class testConsultaRegistro {
 		ed1.agregarTipoRegistro(Gen);
 		
 		//crear asistente
-		Asistente ana = new Asistente("ana", "Ana", "Perez", "ana@mail.com", LocalDate.now());
+		Asistente ana = new Asistente("ana", "Ana", "Perez", "ana@mail.com", LocalDate.now(),null);
 		
 		//creo patrocinio
 		Patrocinio pat = new Patrocinio("Patrocinio");
@@ -87,7 +87,7 @@ class testConsultaRegistro {
 	    ManejadorEventos   me = ManejadorEventos.getInstancia();
 
 	    // --- Asistente ---
-	    Asistente ana = new Asistente("anaCR", "Ana", "Perez", "anaCR@mail.com", LocalDate.of(1999, 5, 1));
+	    Asistente ana = new Asistente("anaCR", "Ana", "Perez", "anaCR@mail.com", LocalDate.of(1999, 5, 1),null);
 	    mu.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
@@ -153,7 +153,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
 	    // Usuario sin registros
-	    Asistente bob = new Asistente("bobCR", "Bob", "Lopez", "bobCR@mail.com", LocalDate.of(2000, 1, 1));
+	    Asistente bob = new Asistente("bobCR", "Bob", "Lopez", "bobCR@mail.com", LocalDate.of(2000, 1, 1),null);
 	    mu.getConjuntoAsistentes().put(bob.getNickname(), bob);
 
 	    // listar → vacío
@@ -199,7 +199,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
         // Usuario
-        Asistente carlos = new Asistente(NICK, "Carlos", "Ríos", MAIL, LocalDate.of(1995, 7, 4));
+        Asistente carlos = new Asistente(NICK, "Carlos", "Ríos", MAIL, LocalDate.of(1995, 7, 4),null);
         mu.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
@@ -254,7 +254,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 		
         final String NICK = "mariaCR";
-        Asistente u = new Asistente(NICK, "María", "Quintana", "maria@mail.com", LocalDate.of(1998, 2, 2));
+        Asistente u = new Asistente(NICK, "María", "Quintana", "maria@mail.com", LocalDate.of(1998, 2, 2),null);
         mu.getConjuntoAsistentes().put(u.getNickname(), u);
 
         // Contexto mínimo

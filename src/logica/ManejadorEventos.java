@@ -26,9 +26,6 @@ public class ManejadorEventos {
 		}
 		return instancia;
 	};
-	public void agregarEvento(Evento e) {
-	    this.eventos.put(e.getNombre(), e);
-	}
 	Evento getEventoEdicion(String Evento) {
 		return eventos.get(Evento);
 	};
@@ -37,7 +34,7 @@ public class ManejadorEventos {
 		return eventos;
 	}
 	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
-		return eventos.get(nombreEvento).ediciones.containsKey(NombreEdicion);
+		return eventos.get(nombreEvento).getediciones().containsKey(NombreEdicion);
 	};
 	
 	public Set<DTEvento> listarEventos(){

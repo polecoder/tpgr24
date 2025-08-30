@@ -33,8 +33,6 @@ public interface IControladorEventos {
 	public String[] getNombresEdiciones(String itemAt);
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
-	
-	
 	boolean altaCategoria(String nombre);
 	boolean existeCategoria(String nombre);
 }

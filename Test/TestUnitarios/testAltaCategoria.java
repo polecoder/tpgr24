@@ -8,17 +8,17 @@ import logica.ControladorEventos;
 
 class TestAltaCategoria {
 
-    private final ControladorEventos ce = ControladorEventos.getInstance();
+    private final ControladorEventos cev = ControladorEventos.getInstance();
 
     @Test
     void altaCategoria_correcta() {
         String nombre = "Ciencias de la Computación";
 
         // Alta de categoría
-        ce.altaCategoria(nombre);
+        cev.altaCategoria(nombre);
 
         // Verificamos que la categoría esté en el listado
-        assertTrue(ce.listarCategorias().contains(nombre), "La categoría debería haber sido añadida.");
+        assertTrue(cev.listarCategorias().containsKey(nombre), "La categoría debería haber sido añadida.");
     }
 
     @Test
@@ -26,11 +26,11 @@ class TestAltaCategoria {
         String nombre = "Robótica";
 
         // Primera alta
-        ce.altaCategoria(nombre);
+        cev.altaCategoria(nombre);
 
         // Intentamos dar de alta la misma categoría
         assertThrows(IllegalArgumentException.class, () -> {
-            ce.altaCategoria(nombre);
+            cev.altaCategoria(nombre);
         }, "No se puede dar de alta una categoría duplicada.");
     }
 
@@ -38,15 +38,15 @@ class TestAltaCategoria {
     void altaCategoria_nombreInvalido() {
         // Intentamos dar de alta una categoría con nombre vacío o null
         assertThrows(IllegalArgumentException.class, () -> {
-            ce.altaCategoria(null);
+            cev.altaCategoria(null);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            ce.altaCategoria("");
+            cev.altaCategoria("");
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
-            ce.altaCategoria("   ");
+            cev.altaCategoria("   ");
         });
     }
 
@@ -54,11 +54,11 @@ class TestAltaCategoria {
     void altaCategoria_caseInsensitive() {
         // Alta con mayúsculas y minúsculas mezcladas
         String nombre = "Inteligencia artificial";
-        ce.altaCategoria(nombre);
+        cev.altaCategoria(nombre);
 
         // El sistema no debería permitir agregarla dos veces con distinto caso
         assertThrows(IllegalArgumentException.class, () -> {
-            ce.altaCategoria("inteligencia artificial");
+            cev.altaCategoria("inteligencia artificial");
         }, "La categoría debe ser case-insensitive.");
     }
 }

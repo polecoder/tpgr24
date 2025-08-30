@@ -2,23 +2,19 @@ package logica;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import logica.datatypes.DTDatosPatrocinio;
-import logica.IControladorEventos;
-import logica.datatypes.DTDetallePatrocinio;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDatosPatrocinio;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
-import logica.ManejadorEventos;
 
 public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
@@ -126,7 +122,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 
 	@Override
-	public List<DTTipoRegistro> listarTipoRegistro() {
+	public Set<DTTipoRegistro> listarTipoRegistro() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -189,15 +185,11 @@ public class ControladorEventos implements IControladorEventos {
 		manejadorEventos.AltaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 	}
 
-	@Override
 	public boolean altaCategoria(String nombre) {
-		// TODO Auto-generated method stub
-		return false;
+		Categoria cat = new Categoria(nombre);
+		categorias.put(nombre, cat);		
+		return true;
 	}
-
-	@Override
-	public boolean existeCategoria(String nombre) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean existeCategoria(String nombre) {return categorias.containsKey(nombre);}
+	public Map<String, Categoria> listarCategorias(){return categorias;}
 }

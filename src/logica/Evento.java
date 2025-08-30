@@ -15,7 +15,7 @@ public class Evento {
 	String descripcion;
 	LocalDate fechaAlta;
 	Map<String, Categoria> categorias;
-	 private final Map<String, Edicion> ediciones = new HashMap<>();
+	 private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
 		this.setNombre(nombre);
