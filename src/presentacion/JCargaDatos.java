@@ -29,6 +29,34 @@ public class JCargaDatos extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[]{1.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
+//		JButton botonCargar = new JButton("Cargar");
+//		GridBagConstraints gbc_botonCargar = new GridBagConstraints();
+//		gbc_botonCargar.gridwidth = 2;
+//		gbc_botonCargar.insets = new Insets(0, 0, 5, 5);
+//		gbc_botonCargar.gridx = 1;
+//		gbc_botonCargar.gridy = 1;
+//		getContentPane().add(botonCargar, gbc_botonCargar);
+//		
+//		botonCargar.addActionListener(e -> {
+//		    JFileChooser fileChooser = new JFileChooser();
+//		    fileChooser.setDialogTitle("Seleccionar archivo CSV");
+//		    
+//		    // Carpeta por defecto: Descargas
+//		    String home = System.getProperty("user.home");
+//		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
+//		    
+//		    // Filtrar para solo ver archivos .CSV
+//		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
+//		    fileChooser.setFileFilter(filtro);
+//		    
+//            int result = fileChooser.showOpenDialog(this);
+//            if (result == JFileChooser.APPROVE_OPTION) {
+//                File archivo = fileChooser.getSelectedFile();
+//                cargaDatos.leerCategorias(archivo.getAbsolutePath());
+//                cargaDatos.cargarCategorias();
+//            }
+//		});
+		
 		JButton botonCargar = new JButton("Cargar");
 		GridBagConstraints gbc_botonCargar = new GridBagConstraints();
 		gbc_botonCargar.gridwidth = 2;
@@ -52,8 +80,8 @@ public class JCargaDatos extends JInternalFrame {
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File archivo = fileChooser.getSelectedFile();
-                cargaDatos.leerCategorias(archivo.getAbsolutePath());
-                cargaDatos.cargarCategorias();
+                cargaDatos.leerInstituciones(archivo.getAbsolutePath());
+                cargaDatos.cargarInstituciones();
             }
 		});
 	}
