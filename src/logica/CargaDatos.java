@@ -1,7 +1,9 @@
 package logica;
 
+import logica.csv.CSVAsistente;
 import logica.csv.CSVCategoria;
 import logica.csv.CSVInstitucion;
+import logica.csv.CSVOrganizador;
 import logica.csv.CSVUsuario;
 
 import java.io.FileNotFoundException;
@@ -23,6 +25,8 @@ public class CargaDatos {
 	private Map<String, CSVInstitucion> instituciones;
 	private Map<String, CSVUsuario> usuariosAsistente;
 	private Map<String, CSVUsuario> usuariosOrganizador;
+	private Map<String, CSVAsistente> asistentes;
+	private Map<String, CSVOrganizador> organizadores;
 	
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
@@ -32,6 +36,8 @@ public class CargaDatos {
 		this.instituciones = new HashMap<>();
 		this.usuariosAsistente = new HashMap<>();
 		this.usuariosOrganizador = new HashMap<>();
+		this.asistentes = new HashMap<>();
+		this.organizadores = new HashMap<>();
 	}
 	
 	public static CargaDatos getInstancia() {
@@ -163,16 +169,84 @@ public class CargaDatos {
 	}
 	
 	/**
-	 * Carga las usuarios que se encuentran en las colecciones asistentes y organizadores al sistema.
-	 * Notar que la operacíón solo carga los valores iniciales, el agregado de campos extras corresponde a funciones específicas de Organizadores y Asistentes
-	 * Si el mapa está vacío, no hace nada.
+	 * Lee un archivo de asistentes desde la ruta indicada por parámetro.
+	 * Guarda la colección de CSVs en el Map asistentes.
+	 * Si existen duplicados, se queda con el último.
+	 * 
+	 * @param ruta
+	 */
+	public void leerAsistentes(String ruta) {
+        CsvToBean<CSVAsistente> asistentesCsv;
+		try {
+			asistentesCsv = new CsvToBeanBuilder<CSVAsistente>(
+			        new FileReader(ruta))
+			        .withType(CSVAsistente.class)
+			        .withSeparator(';')
+			        .withIgnoreLeadingWhiteSpace(true)
+			        .withIgnoreEmptyLine(true)
+			        .build();
+			List<CSVAsistente> listaAsistentes = asistentesCsv.parse();
+	        this.asistentes = listaAsistentes.stream()
+	                						 .collect(Collectors.toMap(
+	                								 CSVAsistente::getRef,
+	                								 d -> d,
+	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+            								 ));
+		} catch (IllegalStateException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Lee un archivo de organizadores desde la ruta indicada por parámetro.
+	 * Guarda la colección de CSVs en el Map organizadores.
+	 * Si existen duplicados, se queda con el último.
+	 * 
+	 * @param ruta
+	 */
+	public void leerOrganizadores(String ruta) {
+        CsvToBean<CSVOrganizador> organizadoresCsv;
+		try {
+			organizadoresCsv = new CsvToBeanBuilder<CSVOrganizador>(
+			        new FileReader(ruta))
+			        .withType(CSVOrganizador.class)
+			        .withSeparator(';')
+			        .withIgnoreLeadingWhiteSpace(true)
+			        .withIgnoreEmptyLine(true)
+			        .build();
+			List<CSVOrganizador> listaOrganizadores = organizadoresCsv.parse();
+	        this.organizadores = listaOrganizadores.stream()
+	                						 .collect(Collectors.toMap(
+	                								 CSVOrganizador::getRef,
+	                								 d -> d,
+	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+            								 ));
+		} catch (IllegalStateException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Carga las usuarios que se encuentran en las colecciones usuariosAsistente, asistentes, usuariosOrganizador y organizadores al sistema.
+	 * Si las colecciones instituciones, asistentes y usuarioAsistente están vacías, entonces no carga los asistentes
+	 * Si las colecciones organizador y usuarioOrganizador están vacías, entonces no hace nada con ellas.
 	 */
 	public void cargarUsuarios() {
-		if (this.usuariosAsistente != null) {
-			for (CSVUsuario asistente: this.usuariosAsistente.values()) {
-				this.manejadorInstituciones.altaInstitucion(institucion.getNombre(), institucion.getDescripcion(), institucion.getSitioWeb());
+		if (this.usuariosAsistente != null && this.asistentes != null && this.instituciones != null) {
+			for (Map.Entry<String, CSVUsuario> entry : this.usuariosAsistente.entrySet()) {
+				CSVUsuario datosUsuario = entry.getValue();
+				CSVAsistente datosAsistente = this.asistentes.get(entry.getKey());
+				String nombreInstitucion = this.instituciones.get(datosAsistente.getInstitucion()).getNombre();
+				Institucion institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
 			}
-			this.manejadorInstituciones.imprimirInstituciones();
+		}
+		if (this.usuariosOrganizador != null && this.organizadores != null) {
+			for (Map.Entry<String, CSVUsuario> entry : this.usuariosOrganizador.entrySet()) {
+				CSVUsuario datosUsuario = entry.getValue();
+				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
+			}
 		}
 	}
 }

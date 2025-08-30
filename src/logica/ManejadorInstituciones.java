@@ -23,7 +23,8 @@ public class ManejadorInstituciones {
 	}
 	
 	/**
-	 * Devuelve la institución i tal que i.nombre == nombreInstitucion
+	 * Devuelve la institución i tal que i.nombre == nombreInstitucion.
+	 * Retorna null en caso de que no exista
 	 * 
 	 * @param nombreInstitucion
 	 * @return

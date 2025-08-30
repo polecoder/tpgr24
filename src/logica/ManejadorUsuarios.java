@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
+	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
 		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
