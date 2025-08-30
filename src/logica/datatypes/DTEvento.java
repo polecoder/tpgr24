@@ -12,7 +12,7 @@ public
 		this.sigla=sigla;
 	}
 
-	String getNombre(){
+	public String getNombre(){
 		return this.nombre;
 	}
 	String getSigla(){

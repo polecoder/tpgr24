@@ -1,6 +1,6 @@
 package logica;
 
-//import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,8 +15,8 @@ public class ManejadorEventos {
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>(); 
 		 
-		/*// crear edición
-		 Edicion ed = new Edicion("ConfTec 2025", "", LocalDate.now(), LocalDate.now(), "", "");
+		// crear edición
+		 Edicion ed = new Edicion("ConfTec 2025", "", LocalDate.now(), LocalDate.now(), LocalDate.now(), "", "");
 		 eventos.put("ConfTec", new Evento("ConfTec", "...", "...", LocalDate.now()));
 		 eventos.get("ConfTec").getediciones().put(ed.getNombre(), ed);
 
@@ -26,7 +26,7 @@ public class ManejadorEventos {
 
 		 // asociarlos a la edición (la edición sí contiene a los tipos)
 		 ed.getTiposRegistro().put(trGen.getNombre(), trGen);
-		 ed.getTiposRegistro().put(trVip.getNombre(),  trVip);*/
+		 ed.getTiposRegistro().put(trVip.getNombre(),  trVip);
 		 
 	};
 	public static ManejadorEventos getInstancia() {
@@ -35,11 +35,16 @@ public class ManejadorEventos {
 		}
 		return instancia;
 	};
-	
+	public void agregarEvento(Evento e) {
+	    this.eventos.put(e.getNombre(), e);
+	}
 	Evento getEventoEdicion(String nombreEdicion) {
 		return eventos.get(nombreEdicion);
 	};
 	
+	Map<String,Evento> getEventos(){
+		return eventos;
+	}
 	boolean contieneEdicion(String NombreEdicion) {
 		//TODO
 		return true;

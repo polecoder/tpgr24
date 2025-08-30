@@ -13,10 +13,10 @@ public class Edicion {
 	private LocalDate fechaAlta;
 	private String ciudad;
 	private String pais;
-	private HashMap<String, TipoRegistro> tiposRegistro;
-	private HashMap<String, Patrocinio> patrocinios;
+	private HashMap<String, TipoRegistro> tiposRegistro= new HashMap<>();
+	private HashMap<String, Patrocinio> patrocinios = new HashMap<>();
 	
-	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -24,8 +24,8 @@ public class Edicion {
 		this.setFechaAlta(LocalDate.now());
 		this.setCiudad(ciudad);
 		this.setPais(pais);
-		this.setPatrocinios(new HashMap<>());
-		this.setTiposRegistro(new HashMap<>());
+		//this.setPatrocinios(new HashMap<>());
+		//this.setTiposRegistro(new HashMap<>());
 	}
 	
 	public String getNombre() {
@@ -115,6 +115,7 @@ public class Edicion {
 		this.tiposRegistro = tiposRegistro;
 	}
 	public void agregarTipoRegistro(TipoRegistro tipoRegistro) {
+		if(tipoRegistro==null||tipoRegistro.getNombre()==null) return;
 		this.tiposRegistro.put(tipoRegistro.getNombre(), tipoRegistro);
 	}
 	public void eliminarTipoRegistro(String nombreTipoRegistro) {

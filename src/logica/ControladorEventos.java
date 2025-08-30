@@ -2,6 +2,7 @@ package logica;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 //import java.util.Locale;
 import java.util.Map;
@@ -17,11 +18,14 @@ import java.time.LocalDate;
 
 public class ControladorEventos {
     private static ControladorEventos instancia;
+    private final ManejadorEventos me;
     
     private final Map<String, Categoria> categorias = new HashMap<>();
 
 
-    private ControladorEventos() { }
+    private ControladorEventos() {
+    	this.me = ManejadorEventos.getInstancia();
+    }
 
     public static ControladorEventos getInstancia() {
         if (instancia == null) instancia = new ControladorEventos();
@@ -63,13 +67,24 @@ public class ControladorEventos {
         // HACER
     }
     
-    public boolean altaCategoria(String nombre) {
-        if (nombre == null) return false;
-        String key = nombre.trim();            // saca espacios extremos
-        if (key.isEmpty()) return false;       
-        if (categorias.containsKey(key)) return false; // si ya existe la categoria
-        categorias.put(key, new Categoria(key));
-        return true;                           
+    public void altaCategoria(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la categoría no puede ser vacío o nulo.");
+        }
+
+        String nombreNormalizado = nombre.trim().toLowerCase();
+
+        if (categorias.containsKey(nombreNormalizado)) {
+            throw new IllegalArgumentException("La categoría '" + nombre + "' ya existe.");
+        }
+
+        categorias.put(nombreNormalizado, new Categoria(nombre));
+    }
+    
+    public Set<String> listarCategorias() {
+        return categorias.values().stream()
+                         .map(Categoria::getNombre)
+                         .collect(Collectors.toSet());
     }
 
     public boolean existeCategoria(String nombre) {
@@ -78,4 +93,20 @@ public class ControladorEventos {
         if (key.isEmpty()) return false;
         return categorias.containsKey(key);
     }
+
+	public DTEvento getDTEvento(String nombreEvento) {
+		Evento ev = me.getEventoEdicion(nombreEvento);
+		DTEvento dte = new DTEvento (ev.getNombre(),ev.getDescripcion(), ev.getSigla());
+		return dte;
+	}
+
+	public Set<String> nombresEdicionesEvento(String nombreEvento) {
+	    Evento ev = me.getEventoEdicion(nombreEvento);
+	    if (ev == null) {
+	        return Set.of(); // evento no existe → conjunto vacío
+	    }
+
+	    // devolvemos el conjunto de nombres de ediciones
+	    return ev.getediciones().keySet();
+	}
 }
