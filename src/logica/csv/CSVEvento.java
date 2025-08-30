@@ -19,11 +19,31 @@ public class CSVEvento {
 	// NECESARIO para OpenCSV
 	public CSVEvento() {}
 	
-	public CSVEvento(String ref, String nombre, String descripcion, String sigla, String FechaAlta, String categorias) {
-		System.out.println(categorias);
+	public CSVEvento(String ref, String nombre, String descripcion, String sigla, String fechaAlta, String categorias) {
+		this.ref = ref;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.sigla = sigla;
+		this.fechaAlta = fechaAlta;
+		this.categorias = categorias;
 	}
 	
+	public String getRef() {
+		return this.ref;
+	}
 	public String getNombre() {
 		return this.nombre;
+	}
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+	public String getSigla() {
+		return this.sigla;
+	}
+	public String getFechaAlta() {
+		return this.fechaAlta;
+	}
+	public String getCategorias() {
+		return this.categorias;
 	}
 }

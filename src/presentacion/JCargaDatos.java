@@ -51,8 +51,8 @@ public class JCargaDatos extends JInternalFrame {
 		    
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File archivo = fileChooser.getSelectedFile();
-                cargaDatos.leerCategorias(archivo.getAbsolutePath());
+                File archivoCategorias = fileChooser.getSelectedFile();
+                cargaDatos.leerCategorias(archivoCategorias.getAbsolutePath());
                 cargaDatos.cargarCategorias();
             }
 		});
@@ -80,9 +80,38 @@ public class JCargaDatos extends JInternalFrame {
 		    
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File archivo = fileChooser.getSelectedFile();
-                cargaDatos.leerCategorias(archivo.getAbsolutePath());
-                cargaDatos.cargarCategorias();
+                File archivoEventos = fileChooser.getSelectedFile();
+                cargaDatos.leerEventos(archivoEventos.getAbsolutePath());
+                cargaDatos.cargarEventos();
+            }
+		});
+		//--------EVENTO---------- 
+		
+		//--------EDICION----------
+		JButton botonEdicion = new JButton("Cargar Edicion");
+		GridBagConstraints gbc_botonEdicion = new GridBagConstraints();
+		gbc_botonEdicion.gridwidth = 2;
+		gbc_botonEdicion.insets = new Insets(0, 0, 5, 5);
+		gbc_botonEdicion.gridx = 1;
+		gbc_botonEdicion.gridy = 2;
+		getContentPane().add(botonEdicion, gbc_botonEdicion);
+		
+		botonEdicion.addActionListener(e -> {
+		    JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setDialogTitle("Seleccionar archivo CSV - Edicion");
+		    // Carpeta por defecto: Descargas
+		    String home = System.getProperty("user.home");
+		    fileChooser.setCurrentDirectory(new File(home, "Downloads"));
+		    
+		    // Filtrar para solo ver archivos .CSV
+		    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV (*.csv)", "csv");
+		    fileChooser.setFileFilter(filtro);
+		    
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File archivoEdicion = fileChooser.getSelectedFile();
+                cargaDatos.leerEdiciones(archivoEdicion.getAbsolutePath());
+                cargaDatos.cargarEdiciones();
             }
 		});
 		//--------EVENTO---------- 
