@@ -4,6 +4,7 @@ import logica.csv.CSVAsistente;
 import logica.csv.CSVCategoria;
 import logica.csv.CSVInstitucion;
 import logica.csv.CSVOrganizador;
+import logica.csv.CSVPatrocinio;
 import logica.csv.CSVUsuario;
 import logica.csv.CSVEdicion;
 import logica.csv.CSVEvento;
@@ -36,6 +37,8 @@ public class CargaDatos {
 	private Map<String, CSVUsuario> usuariosOrganizador;
 	private Map<String, CSVAsistente> asistentes;
 	private Map<String, CSVOrganizador> organizadores;
+	private Map<String, CSVPatrocinio> patrocinios;
+	
 	List<String> nombreArchivosOrdenados = List.of(
 		    "2025Categorias.csv",
 		    "2025Usuarios.csv",
@@ -455,4 +458,43 @@ public class CargaDatos {
 		}
 	}
 	//------------TIPOREGISTRO-----------------
+	
+	//------------PATROCINIO-----------------
+		public void leerPatrocinio(String ruta) {
+		    CsvToBean<CSVPatrocinio> patrocinioCsv;
+			try {
+				patrocinioCsv = new CsvToBeanBuilder<CSVPatrocinio>(
+				        new FileReader(ruta))
+				        .withType(CSVPatrocinio.class)
+				        .withSeparator(';')
+				        .withIgnoreLeadingWhiteSpace(true)
+				        .withIgnoreEmptyLine(true)
+				        .build();
+				List<CSVPatrocinio> listaPatrocinios = patrocinioCsv.parse();
+		        this.patrocinios = listaPatrocinios.stream()
+		                						 .collect(Collectors.toMap(
+		                								 CSVPatrocinio::getRef,
+		                								 d -> d,
+		                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+		        								 ));
+			} catch (IllegalStateException | FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void cargarPatrocinio() {
+			if (this.patrocinios!= null) {
+				for (String ref : this.patrocinios.keySet()) {
+					CSVPatrocinio patrocinio = patrocinios.get(ref);
+					String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
+					String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
+					ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
+					String nombreTipoRegistro = tiposRegistro.get(patrocinio.getTipoRegistro()).getNombre();
+					float aporte = Float.parseFloat(patrocinio.getAporte());
+					int cuposGratuitos = Integer.parseInt(patrocinio.getCuposGratuitos());
+					this.manejadorEventos.altaPatrocinio(nombreEdicion, nombreInstitucion, nivel, nombreTipoRegistro, aporte, patrocinio.getFechaPatrocinio(), cuposGratuitos, patrocinio.getCodigoPatrocinio());
+				}
+			}
+		}
+		//------------PATROCINIO-----------------
 }

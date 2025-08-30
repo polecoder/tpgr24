@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,8 @@ public class ManejadorEventos {
 	}
 	
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) {
+	}
+	public void altaPatrocinio(String nombreEdicion, String nombreInstitucion, ENivelPatrocinio nivel, String nombreTipoRegistro, float aporte, Date fechaPatrocinio, int cuposGratuitos, String codigoPatrocinio) {
 	}
 	/**
 	 * Imprime en consola todas las categorías que existen en la colección de categorías.

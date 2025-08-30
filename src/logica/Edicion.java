@@ -93,7 +93,7 @@ public class Edicion {
 		this.patrocinios = patrocinios;
 	}
 	public void agregarPatrocinio(Patrocinio patrocinio) {
-		this.patrocinios.put(patrocinio.getNombre(), patrocinio);
+		this.patrocinios.put(patrocinio.getCodigoPatrocinio(), patrocinio);
 	}
 	public void eliminarPatrocinio(String nombrePatrocinio) {
 		this.patrocinios.remove(nombrePatrocinio);
