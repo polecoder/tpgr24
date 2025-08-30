@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import logica.datatypes.DTAsistente;
@@ -23,7 +24,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return instance;
 	}
 	
-	public void altaAsistente(String nickname, String nombre, String correo, String apellido, LocalDate fechaNacimiento,String nombreinstitucion) throws Exception {
+	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,String nombreinstitucion) throws Exception {
 		// chequeo campos obligatorios
 		if (nickname == null || nickname.isEmpty() ||nombre == null || nombre.isEmpty() ||apellido == null || apellido.isEmpty() ||correo == null || correo.isEmpty() ||
 			fechaNacimiento == null) {
