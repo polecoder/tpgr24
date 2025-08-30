@@ -19,7 +19,7 @@ public class ManejadorUsuarios {
 		this.conjuntoAsistentes = new HashMap<>();
 		this.conjuntoOrganizadores = new HashMap<>();	 
 		
-		Asistente ana = new Asistente("ana", "Ana", "Pérez", "ana@mail.com", LocalDate.now());
+		/*Asistente ana = new Asistente("ana", "Ana", "Pérez", "ana@mail.com", LocalDate.now());
 		this.conjuntoAsistentes.put(ana.getNickname(), ana);
 		//this.conjuntoUsuarios.put(ana.getNickname(), ana);
 		
@@ -50,7 +50,7 @@ public class ManejadorUsuarios {
 	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, trGen, pat);
 	        juan.getRegistros().add(r2);
 	        //trVip.getRegistros().add(r2);
-	    }
+	    }*/
 	        
 	}
 	
@@ -90,12 +90,12 @@ public class ManejadorUsuarios {
 		return null;
 	}
 	
-	public List<DTAsistente> listarAsistentes() {
-		List<DTAsistente> CtoA = new ArrayList<>();
-        for (Asistente a : conjuntoAsistentes.values()) {
-            CtoA.add(new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
-        }
-        return CtoA;
+	public Map<String, DTAsistente> listarAsistentes() {
+	    Map<String, DTAsistente> CtoA = new HashMap<>();  
+	    for (Asistente a : conjuntoAsistentes.values()) {
+	        CtoA.put(a.getNickname(), new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
+	    }
+	    return CtoA;
 	}
 	
 	public Organizador getOrganizador(String nickname) {

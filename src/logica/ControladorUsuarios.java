@@ -3,6 +3,7 @@ package logica;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
@@ -36,7 +37,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	@Override
-	public List<DTAsistente> listarAsistentes() {
+	public Map<String, DTAsistente> listarAsistentes() {
 		 return manejadorUsuarios.listarAsistentes();
 	}
 	

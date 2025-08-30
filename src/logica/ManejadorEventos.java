@@ -15,7 +15,7 @@ public class ManejadorEventos {
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>(); 
 		 
-		// crear edición
+		/*// crear edición
 		 Edicion ed = new Edicion("ConfTec 2025", "", LocalDate.now(), LocalDate.now(), LocalDate.now(), "", "");
 		 eventos.put("ConfTec", new Evento("ConfTec", "...", "...", LocalDate.now()));
 		 eventos.get("ConfTec").getediciones().put(ed.getNombre(), ed);
@@ -26,7 +26,7 @@ public class ManejadorEventos {
 
 		 // asociarlos a la edición (la edición sí contiene a los tipos)
 		 ed.getTiposRegistro().put(trGen.getNombre(), trGen);
-		 ed.getTiposRegistro().put(trVip.getNombre(),  trVip);
+		 ed.getTiposRegistro().put(trVip.getNombre(),  trVip);*/
 		 
 	};
 	public static ManejadorEventos getInstancia() {
@@ -38,8 +38,8 @@ public class ManejadorEventos {
 	public void agregarEvento(Evento e) {
 	    this.eventos.put(e.getNombre(), e);
 	}
-	Evento getEventoEdicion(String nombreEdicion) {
-		return eventos.get(nombreEdicion);
+	Evento getEventoEdicion(String Evento) {
+		return eventos.get(Evento);
 	};
 	
 	Map<String,Evento> getEventos(){
