@@ -11,11 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 
+
 public class ConsultaUsuario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	public ConsultaUsuario() {
+
 		super("Consulta Usuario", true, true, true, true);
 		setSize(300, 200);       
 		setLocation(50, 50); 
@@ -27,7 +29,6 @@ public class ConsultaUsuario extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		String[] eventosDisponibles = {"nombre evento", "ev 1"};
 		
 		JPanel pnlSelector = new JPanel();
 		GridBagConstraints gbc_pnlSelector = new GridBagConstraints();
@@ -94,3 +95,6 @@ public class ConsultaUsuario extends JInternalFrame {
 	}
 
 }
+
+
+

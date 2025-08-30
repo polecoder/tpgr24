@@ -72,6 +72,6 @@ public class ManejadorInstituciones {
 	}
 	
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
-		return null;
+		return null; 
 	}
 }

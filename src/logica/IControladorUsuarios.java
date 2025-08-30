@@ -2,14 +2,18 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,String nombreinstitucion) throws Exception;
-	public void altaOrganizador(String nickname, String nombre, String correo, String descripcion, String link) throws Exception;
+	void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;
+	void altaOrganizador(String nickname, String nombre, String correo, String descripcion, String link) throws Exception;
 	
 	List<DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
+	Set<String> nombresOrganizadores();
+	
+	
 }

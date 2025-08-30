@@ -1,6 +1,9 @@
 package logica.csv;
 
+import java.util.Date;
+
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvDate;
 
 public class CSVEdicion {
 	@CsvBindByName(column = "Ref")
@@ -18,16 +21,19 @@ public class CSVEdicion {
 	@CsvBindByName(column = "Pais")
 	private String pais;
 	@CsvBindByName(column = "FechaInicio")
-	private String fechaInicio;
+	@CsvDate("dd/MM/yyyy")
+	private Date fechaInicio;
 	@CsvBindByName(column = "FechaFin")
-	private String fechaFin;
+	@CsvDate("dd/MM/yyyy")
+	private Date fechaFin;
 	@CsvBindByName(column = "FechaAlta")
-	private String fechaAlta;
+	@CsvDate("dd/MM/yyyy")
+	private Date fechaAlta;
 	
 	// NECESARIO para OpenCSV
 	public CSVEdicion() {}
 	
-	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, String fechaInicio, String fechaFin, String fechaAlta) {
+	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, Date fechaInicio, Date fechaFin, Date fechaAlta) {
 		this.ref = ref;
 		this.evento = evento;
 		this.organizador = organizador;
@@ -61,13 +67,13 @@ public class CSVEdicion {
 	public String getPais() {
 		return this.pais;
 	}
-	public String getFechaInicio() {
+	public Date getFechaInicio() {
 		return this.fechaInicio;
 	}
-	public String getFechaFin() {
+	public Date getFechaFin() {
 		return this.fechaFin;
 	}
-	public String getFechaAlta() {
+	public Date getFechaAlta() {
 		return this.fechaAlta;
 	}
 }

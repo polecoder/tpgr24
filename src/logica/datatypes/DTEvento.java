@@ -1,25 +1,35 @@
 package logica.datatypes;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class DTEvento {
  private 
  	String nombre;
 	String sigla;
 	String descripcion;
+	Date fechaAlta;
 public
-	DTEvento(String nombre, String descripcion , String sigla) {
+	DTEvento(String nombre, String descripcion , String sigla, Date date) {
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.sigla=sigla;
+		this.fechaAlta=date;
+		
 	}
 
-	String getNombre(){
+	public String getNombre(){
 		return this.nombre;
 	}
-	String getSigla(){
+	public String getSigla(){
 		return this.sigla;
 	}
-	String getDescripcion(){
+	public String getDescripcion(){
 		return this.descripcion;
+	}
+	
+	public Date getFechaAlta() {
+		return this.fechaAlta;
 	}
 	
 	void setNombre(String nombre){

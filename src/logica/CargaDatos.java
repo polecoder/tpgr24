@@ -24,6 +24,8 @@ import java.time.format.DateTimeFormatter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import excepciones.NombreTipoRegistroRepetido;
+
 public class CargaDatos {
 	private static CargaDatos instancia;
 	private ManejadorEventos manejadorEventos;
@@ -354,10 +356,7 @@ public class CargaDatos {
 			for (String ref : this.ediciones.keySet()) {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
-				Date fechaInicio = Date.parse(edicion.getFechaInicio());
-				Date fechaFin = Date.parse(edicion.getFechaFin());
-				Date fechaAlta = Date.parse(edicion.getFechaAlta());
-				this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), fechaInicio, fechaFin, fechaAlta, edicion.getCiudad(), edicion.getPais());
+				this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais());
 			}
 		}
 	}
@@ -392,7 +391,11 @@ public class CargaDatos {
 				CSVTipoRegistro tipoRegistro = tiposRegistro.get(ref);
 				String nombreEdicion = ediciones.get(tipoRegistro.getEdicion()).getNombre();
 				String nombreEvento = eventos.get(ediciones.get(tipoRegistro.getEdicion()).getEvento()).getNombre();
-				this.manejadorEventos.altaTipoRegistro(tipoRegistro.getNombre(), tipoRegistro.getDescripcion(), Float.parseFloat(tipoRegistro.getCosto()), Integer.parseInt(tipoRegistro.getCupos()), nombreEvento, nombreEdicion);
+				try {
+					this.manejadorEventos.altaTipoRegistro(tipoRegistro.getNombre(), tipoRegistro.getDescripcion(), Float.parseFloat(tipoRegistro.getCosto()), Integer.parseInt(tipoRegistro.getCupos()), nombreEvento, nombreEdicion);
+				} catch (NumberFormatException | NombreTipoRegistroRepetido e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

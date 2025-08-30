@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTPatrocinio;
+import logica.datatypes.DTTipoRegistro;
 
 public class Evento {
 	private 
@@ -24,13 +26,13 @@ public class Evento {
 		this.categorias=new HashMap<>();
 		this.ediciones=new HashMap<>();
 	}
-	String getNombre(){
+	public String getNombre(){
 		return this.nombre;
 	}
-	String getSigla(){
+	public String getSigla(){
 		return this.sigla;
 	}
-	String getDescripcion(){
+	public String getDescripcion(){
 		return this.descripcion;
 	}
 	Date getFechaAlta(){
@@ -43,32 +45,46 @@ public class Evento {
 		return this.ediciones;
 	};
 	
-	void setNombre(String nombre){
+	public void setNombre(String nombre){
 		  this.nombre =nombre;
 	}
-	void setDescripcion(String descripcion){
+	public void setDescripcion(String descripcion){
 		 this.descripcion =descripcion;
 	}
-	void setSigla(String sigla){
+	public void setSigla(String sigla){
 		this.sigla=sigla;
 	}
 	void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
-	void agregarCategoria(Categoria categoria) {
+	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
 	}
-	void eliminarCategoria(String nombreCategoria) {
+	public void eliminarCategoria(String nombreCategoria) {
 		this.categorias.remove(nombreCategoria);
 	}
-	void agregarEdicion(Edicion edicion) {
+	public void agregarEdicion(Edicion edicion) {
 		this.ediciones.put(edicion.getNombre(),edicion);
 	}
-	void eliminarEdicion(String nombreEdicion) {
+	public void eliminarEdicion(String nombreEdicion) {
 		this.ediciones.remove(nombreEdicion);
 	}
 	
 	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
+	}
+	
+	public Edicion getEdicion(String nombreEdicion) {
+		return ediciones.get(nombreEdicion);
+	}
+	
+	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		Edicion edicion = ediciones.get(nombreEdiocion);
+		try {
+			edicion.getDTTipoRegistro(nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {
+			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		};
+		return edicion.getDTTipoRegistro(nombreTipoRegistro);
 	}
 }

@@ -13,6 +13,7 @@ public class Asistente extends Usuario {
 	private String apellido;
 	private Date nacimiento;
 	private List<Registro> registros;
+	
 	private Institucion institucion;
 	
 	public Asistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
@@ -37,7 +38,6 @@ public class Asistente extends Usuario {
 		try {
 			this.registros.add(r);
 		}catch(Exception ARError) {
-			// Log the error
             logger.log(Level.SEVERE, "Asistente::addRegistro() ERROR: ", ARError);
 		}
 	}

@@ -5,6 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>Test</testSourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -17,9 +18,9 @@
   </build>
   <dependencies>
     <dependency>
-	  <groupId>com.opencsv</groupId>
-	  <artifactId>opencsv</artifactId>
-	  <version>5.9</version>
+    <groupId>com.opencsv</groupId>
+    <artifactId>opencsv</artifactId>
+    <version>5.9</version>
 	</dependency>
 	<dependency>
         <groupId>commons-beanutils</groupId>
