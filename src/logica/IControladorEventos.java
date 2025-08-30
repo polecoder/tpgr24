@@ -3,6 +3,9 @@ package logica;
 import java.util.List;
 import java.util.Set;
 
+import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
@@ -26,5 +29,9 @@ public interface IControladorEventos {
 	public Set<String> nombresEdicionesEvento(String nombre);
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
 	public void AltaEdicionEvento(String nombreEvento,String nombre,String sigla,LocalDate fechaInicio,LocalDate fechaFin,LocalDate fechaAlt,String ciudad,String pais) throws Exception;
+	public String[] getNombreEventos();
+	public String[] getNombresEdiciones(String itemAt);
+	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
+	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
 	
 }
