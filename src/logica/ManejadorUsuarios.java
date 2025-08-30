@@ -1,57 +1,24 @@
 package logica;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import logica.datatypes.DTAsistente;
 
 public class ManejadorUsuarios {
 	private static ManejadorUsuarios instance = null;
 	
-	private Map<String, Asistente> conjuntoAsistentes;
-	private Map<String, Organizador> conjuntoOrganizadores;
+	private Map<String,Asistente> conjuntoAsistentes;
+	private Map<String,Organizador> conjuntoOrganizadores;
 	
 	// Constructor
 	private ManejadorUsuarios() {
-		this.conjuntoAsistentes = new HashMap<>();
-		this.conjuntoOrganizadores = new HashMap<>();	 
-		
-		/*Asistente ana = new Asistente("ana", "Ana", "Pérez", "ana@mail.com", LocalDate.now());
-		this.conjuntoAsistentes.put(ana.getNickname(), ana);
-		//this.conjuntoUsuarios.put(ana.getNickname(), ana);
-		
-		Asistente juan = new Asistente("juan", "j", "Pérez", "juanj", LocalDate.now());
-		this.conjuntoAsistentes.put(juan.getNickname(), juan);
-		
-		Asistente pedro = new Asistente("pedro", "p", "Pérez", "juanj", LocalDate.now());
-		this.conjuntoAsistentes.put(pedro.getNickname(), pedro);
-		
-		Patrocinio pat = new Patrocinio("PatrocinioDemo");
-		
-		ManejadorEventos me = ManejadorEventos.getInstancia();
-		Evento ev = me.getEventoEdicion("ConfTec");
-		
-		Edicion ed = (ev != null) ? ev.getediciones().get("ConfTec 2025") : null; // o ev.buscarEdicion(...)
-		TipoRegistro trGen = (ed != null) ? ed.getTiposRegistro().get("General") : null;
-	    TipoRegistro trVip = (ed != null) ? ed.getTiposRegistro().get("VIP") : null;
-	    
-	    if (trGen != null) {
-	        Registro r1 = new Registro(java.time.LocalDate.now(),       1000f, ana, trVip, pat);
-	        ana.getRegistros().add(r1);
-	    }
-	    if (trVip != null) {
-	        Registro r3 = new Registro(java.time.LocalDate.now(),       500, ana, trGen, pat);
-	        ana.getRegistros().add(r3);
-	    }
-	    if (trVip != null) {
-	        Registro r2 = new Registro(java.time.LocalDate.now().minusDays(1), 2500f, juan, trGen, pat);
-	        juan.getRegistros().add(r2);
-	        //trVip.getRegistros().add(r2);
-	    }*/
-	        
+		conjuntoAsistentes = new HashMap<>();
+		conjuntoOrganizadores = new HashMap<>();
 	}
 	
 	public static ManejadorUsuarios getInstance() {
@@ -62,11 +29,11 @@ public class ManejadorUsuarios {
 	}
 	
 	// ------- GETTERS ----------
-	public Map<String, Asistente> getConjuntoAsistentes() {
+	public Map<String,Asistente> getConjuntoAsistentes() {
 		return conjuntoAsistentes;
 	}
 	
-	public Map<String, Organizador> getConjuntoOrganizador() {
+	public Map<String,Organizador> getConjuntoOrganizador() {
 		return conjuntoOrganizadores;
 	}
 	
@@ -75,20 +42,32 @@ public class ManejadorUsuarios {
 	}
 	
 	public boolean existeCorreo(String correo) {
-		return false;
+		for (Asistente a : conjuntoAsistentes.values()) {
+	        if (a.getCorreo().equals(correo)) {
+	            return true;
+	        }
+	    }
+		for (Organizador o : conjuntoOrganizadores.values()) {
+	        if (o.getCorreo().equals(correo)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 	
-	public void agregarAsistente(Organizador O) {
-		
+	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
+		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
+		if (institucion!=null) {
+			institucion.asistentes.put(nickname, A);
+		}
+		conjuntoAsistentes.put(A.getNickname(), A);
 	}
 	
-	public Organizador nuevaInstanciaO(String nickname, String correo, String descripcion, String link) {
-		return null;
+	public void agregarOrganizador(String nickname, String nombre, String correo, String descripcion, String link) {
+		Organizador O=new Organizador(nickname,nombre,correo,descripcion,link);
+		conjuntoOrganizadores.put(O.getNickname(), O);
 	}
 	
-	public Asistente nuevaInstanciaA(String nickname, String correo, String apellido, LocalDate fechaNacimiento) {
-		return null;
-	}
 	
 	public Map<String, DTAsistente> listarAsistentes() {
 	    Map<String, DTAsistente> CtoA = new HashMap<>();  

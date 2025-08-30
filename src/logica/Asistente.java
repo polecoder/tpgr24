@@ -12,21 +12,25 @@ public class Asistente extends Usuario {
 	private String apellido;
 	private LocalDate nacimiento;
 	private List<Registro> registros;
+	private Institucion institucion;
 	
-	public Asistente(String nickname, String nombre, String correo, String apellido, LocalDate nacimiento) {
+	public Asistente(String nickname, String nombre, String correo, String apellido, LocalDate nacimiento,Institucion institucion) {
 		super(nickname, nombre, correo);
-		this.apellido = apellido;
-		this.nacimiento = nacimiento;
+		this.setApellido(apellido);
+		this.setNacimiento(nacimiento);
 		this.registros = new ArrayList<>();
+		this.setInstitucion(institucion);
 	}
 	
 	// Getters
 	public String getApellido() {return apellido;}
 	public LocalDate getNacimiento() {return nacimiento;}
 	public List<Registro> getRegistros() {return registros;}
+	public Institucion getInstitucion() {return institucion;}
 	// Setters
 	public void setApellido(String apellido) {this.apellido = apellido;}
 	public void setNacimiento(LocalDate nacimiento) {this.nacimiento = nacimiento;}
+	public void setInstitucion(Institucion institucion) {this.institucion=institucion;}
 	// Metodos
 	public void addRegistro(Registro r) {
 		try {

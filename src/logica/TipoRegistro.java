@@ -1,6 +1,10 @@
 package logica;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import logica.datatypes.DTTipoRegistro;
 
 public class TipoRegistro {
 
@@ -14,11 +18,11 @@ public class TipoRegistro {
     public TipoRegistro() { }
 
     public TipoRegistro(String nombre, String descripcion, float costo, int cuposMax, int cuposDisponibles) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costo = costo;
-        this.cuposMax = cuposMax;
-        this.cuposDisponibles = cuposDisponibles;
+        this.setNombre(nombre);
+        this.setDescripcion(descripcion);
+        this.setCosto(costo);
+        this.setCuposMax(cuposMax);
+        this.setCuposDisponibles(cuposDisponibles);
     }
 
     public String getNombre() { return nombre; }
@@ -47,5 +51,15 @@ public class TipoRegistro {
     public boolean validar(String nicknameAsistente) {
         // HACER
         return true;
+    }
+    
+    public DTTipoRegistro getDTTipoRegistro() {
+    	DTTipoRegistro dtTipoRegistro = new DTTipoRegistro(
+            this.getNombre(), 
+            this.getDescripcion(), 
+            this.getCosto(), 
+            this.getCuposMax(), 
+            this.getCuposDisponibles());
+    	return dtTipoRegistro;
     }
 }

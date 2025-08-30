@@ -1,34 +1,38 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.HashMap;
-//import java.util.Locale;
 import java.util.Map;
 
-import logica.datatypes.DTEdicionEvento;
-import logica.datatypes.DTPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTDatosPatrocinio;
+import logica.IControladorEventos;
+import logica.datatypes.DTDetallePatrocinio;
+import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
+import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
+import logica.ManejadorEventos;
 
-import java.time.LocalDate;
-
-public class ControladorEventos {
+public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
-    private final ManejadorEventos me;
-    
+    private ManejadorEventos manejadorEventos;
     private final Map<String, Categoria> categorias = new HashMap<>();
 
-
     private ControladorEventos() {
-    	this.me = ManejadorEventos.getInstancia();
+    	this.manejadorEventos =ManejadorEventos.getInstancia();
     }
 
-    public static ControladorEventos getInstancia() {
-        if (instancia == null) instancia = new ControladorEventos();
+    public static ControladorEventos getInstance() {
+        if (instancia == null) {
+        	instancia = new ControladorEventos();
+        };
         return instancia;
     }
  
@@ -67,46 +71,121 @@ public class ControladorEventos {
         // HACER
     }
     
-    public void altaCategoria(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la categoría no puede ser vacío o nulo.");
-        }
-
-        String nombreNormalizado = nombre.trim().toLowerCase();
-
-        if (categorias.containsKey(nombreNormalizado)) {
-            throw new IllegalArgumentException("La categoría '" + nombre + "' ya existe.");
-        }
-
-        categorias.put(nombreNormalizado, new Categoria(nombre));
+    public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+    	return false;
     }
     
-    public Set<String> listarCategorias() {
-        return categorias.values().stream()
-                         .map(Categoria::getNombre)
-                         .collect(Collectors.toSet());
+    public String[] getNombreEventos() {
+    	Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
+		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEvento evento : listaEventos) {
+			nombreEventos[i] = evento.getNombre();
+		}
+		return new String[] {"Ev1", "Ev2"};//nombreEventos;
+    }
+    
+    public String[] getNombresEdiciones(String nombreEvento) {
+    	Set<DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
+    	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (DTEdicionEvento evento : listaEdiciones) {
+			nombreEdiciones[i] = evento.getNombre();
+		}
+		return nombreEdiciones;
+    }
+    
+    public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {
+    	if (costo < 0) throw new DatosTipoRegistroInvalidos("El costo debe ser mayor o igual a cero");
+    	if (cuposMax <= 0) throw new DatosTipoRegistroInvalidos("Los cupos máximos deben ser mayores a cero");
+    	System.out.print(nombre);
+    	if (nombre == "") throw new DatosTipoRegistroInvalidos("El nombre no puede ser vacío");
+    	
+    	try {
+    		manejadorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+    	} catch (NombreTipoRegistroRepetido ex) {
+    		throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
+    	}
+    }
+    
+    public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) {
+    	return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
+    }
+    
+    public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+    	try {
+    		manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+    	} catch (TipoRegistroNoExiste ex) {
+    		throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+    	};
+    	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
     }
 
-    public boolean existeCategoria(String nombre) {
-        if (nombre == null) return false;
-        String key = nombre.trim();
-        if (key.isEmpty()) return false;
-        return categorias.containsKey(key);
-    }
+	@Override
+	public List<DTTipoRegistro> listarTipoRegistro() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
-	public DTEvento getDTEvento(String nombreEvento) {
-		Evento ev = me.getEventoEdicion(nombreEvento);
-		DTEvento dte = new DTEvento (ev.getNombre(),ev.getDescripcion(), ev.getSigla());
-		return dte;
+	@Override
+	public DTEvento getDTEvento(String nombre) {
+		return manejadorEventos.getDTEvento(nombre);
 	}
 
-	public Set<String> nombresEdicionesEvento(String nombreEvento) {
-	    Evento ev = me.getEventoEdicion(nombreEvento);
-	    if (ev == null) {
-	        return Set.of(); // evento no existe → conjunto vacío
-	    }
+	@Override
+	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
+		return manejadorEventos.getDTEdicion(eventoSeleccionado,edicionSeleccionada);
+	}
 
-	    // devolvemos el conjunto de nombres de ediciones
-	    return ev.getediciones().keySet();
+	public Set<String> nombresEventos(){
+		  return  manejadorEventos.getNombresEventos(); 
+		}
+	
+	public Set<String> nombresCategorias(String nombre){
+		 return manejadorEventos.getNombresCategorias(nombre);
+		}
+	
+	public Set<String> nombresEdicionesEvento(String nombre) {
+		return manejadorEventos.getNombresEdiciones(nombre);
+	}
+
+	
+	public void AltaEdicionEvento(String nombreEvento, String nombre, String sigla,LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) throws Exception {
+
+		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
+			    throw new Exception("Todos los campos deben estar completos");
+			}
+
+		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
+			throw new Exception("El nombre de la edición ya está en uso");
+		}
+
+		LocalDate hoy = LocalDate.now();
+		if (fechaInicio.isBefore(hoy) || fechaFin.isBefore(hoy) || fechaAlta.isBefore(hoy)) {
+			throw new Exception("Ninguna de las fechas puede estar en el pasado");
+		}
+
+		if (fechaFin.isBefore(fechaInicio)) {
+			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
+		}
+
+		if (fechaAlta.isAfter(fechaInicio) || fechaAlta.isAfter(fechaFin)) {
+			throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
+		}
+
+		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("La ciudad solo puede contener letras y espacios");
+		}
+
+		if (!pais.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("El país solo puede contener letras y espacios");
+		}
+
+		manejadorEventos.AltaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 	}
 }

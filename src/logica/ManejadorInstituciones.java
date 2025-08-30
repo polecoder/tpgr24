@@ -1,18 +1,20 @@
 package logica;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+
+import java.util.Map;
 
 import logica.datatypes.DTPatrocinio;
 
 public class ManejadorInstituciones {
 	private static ManejadorInstituciones instance = null;
 	
-	private List<Institucion> conjuntoInstituciones;
+	private Map<String,Institucion> conjuntoInstituciones;
 	
 	// Constructor
 	private ManejadorInstituciones() {
-		conjuntoInstituciones = new ArrayList<>();
+	    this.conjuntoInstituciones = new HashMap<>();
 	}
 	
 	public static ManejadorInstituciones getInstance() {
@@ -23,12 +25,16 @@ public class ManejadorInstituciones {
 	}
 	
 	// ------- GETTERS ----------
-	public List<Institucion> getConjuntoAsistentes() {
+	public Map<String,Institucion>getConjuntoInstituciones() {
 		return conjuntoInstituciones;
+	}
+	
+	public Institucion getInstitucion(String Nombre) {
+		return conjuntoInstituciones.get(Nombre);
 	}
 	// ------- GETTERS ----------
 	
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
-		return null;
+		return null; 
 	}
 }
