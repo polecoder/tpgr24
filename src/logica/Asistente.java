@@ -40,4 +40,5 @@ public class Asistente extends Usuario {
             logger.log(Level.SEVERE, "Asistente::addRegistro() ERROR: ", ARError);
 		}
 	}
+	//
 }
