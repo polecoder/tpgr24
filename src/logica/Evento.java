@@ -34,13 +34,13 @@ public class Evento {
 	public String getDescripcion(){
 		return this.descripcion;
 	}
-	LocalDate getFechaAlta(){
+	public LocalDate getFechaAlta(){
 		return this.fechaAlta;
 	}
-	Map<String, Categoria> getCategoria(){
+	public Map<String, Categoria> getCategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getEdiciones(){
+	public Map<String, Edicion> getEdiciones(){
 		return this.ediciones;
 	};
 	

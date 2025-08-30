@@ -3,9 +3,9 @@ package logica;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
 
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
@@ -34,11 +34,11 @@ public class ControladorEventos implements IControladorEventos {
     }
   
     public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-        return null;
+        return Collections.emptySet();
     }
 
     public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
-        return null;
+        return Collections.emptySet();
     }
 
     public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio) {
@@ -216,6 +216,6 @@ public class ControladorEventos implements IControladorEventos {
 	@Override
 	public Set<DTTipoRegistro> listarTipoRegistro() {
 		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptySet();
 	}
 }
