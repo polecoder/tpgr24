@@ -26,9 +26,9 @@ public class JCargaDatos extends JInternalFrame {
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0,0,0,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0,0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,1.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 
 		JButton botonCargar = new JButton("Cargar");
