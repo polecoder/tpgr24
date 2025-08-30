@@ -22,6 +22,18 @@ public class ManejadorInstituciones {
 		return instance;
 	}
 	
+	/**
+	 * Devuelve la institución i tal que i.nombre == nombreInstitucion
+	 * 
+	 * @param nombreInstitucion
+	 * @return
+	 */
+	public Institucion getInstitucion(String nombreInstitucion) {
+		if (this.instituciones.containsKey(nombreInstitucion)) {
+			return this.instituciones.get(nombreInstitucion);
+		}
+		return null;
+	}
 	public Map<String, Institucion> getInstituciones() {
 		return instituciones;
 	}

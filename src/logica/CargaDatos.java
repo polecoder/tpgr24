@@ -2,6 +2,7 @@ package logica;
 
 import logica.csv.CSVCategoria;
 import logica.csv.CSVInstitucion;
+import logica.csv.CSVUsuario;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,12 +21,17 @@ public class CargaDatos {
 	private ManejadorUsuarios manejadorUsuarios;
 	private Map<String, CSVCategoria> categorias;
 	private Map<String, CSVInstitucion> instituciones;
+	private Map<String, CSVUsuario> usuariosAsistente;
+	private Map<String, CSVUsuario> usuariosOrganizador;
+	
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorInstituciones = ManejadorInstituciones.getInstance();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 		this.categorias = new HashMap<>();
 		this.instituciones = new HashMap<>();
+		this.usuariosAsistente = new HashMap<>();
+		this.usuariosOrganizador = new HashMap<>();
 	}
 	
 	public static CargaDatos getInstancia() {
@@ -113,6 +119,57 @@ public class CargaDatos {
 	public void cargarInstituciones() {
 		if (this.instituciones != null) {
 			for (CSVInstitucion institucion: this.instituciones.values()) {
+				this.manejadorInstituciones.altaInstitucion(institucion.getNombre(), institucion.getDescripcion(), institucion.getSitioWeb());
+			}
+			this.manejadorInstituciones.imprimirInstituciones();
+		}
+	}
+	
+	/**
+	 * Lee un archivo de usuarios desde la ruta indicada por parámetro.
+	 * Guarda la colección de CSVs en los Map asistentes y organizadores.
+	 * Si existen duplicados, se queda con el último.
+	 * 
+	 * @param ruta
+	 */
+	public void leerUsuarios(String ruta) {
+        CsvToBean<CSVUsuario> usuariosCsv;
+		try {
+			usuariosCsv = new CsvToBeanBuilder<CSVUsuario>(
+			        new FileReader(ruta))
+			        .withType(CSVUsuario.class)
+			        .withSeparator(';')
+			        .withIgnoreLeadingWhiteSpace(true)
+			        .withIgnoreEmptyLine(true)
+			        .build();
+			List<CSVUsuario> listaUsuarios = usuariosCsv.parse();
+	        Map<String, List<CSVUsuario>> listaUsuariosPorTipo = listaUsuarios.stream().collect(Collectors.groupingBy(CSVUsuario::getTipo));
+	        this.usuariosAsistente = listaUsuariosPorTipo.get("A").stream()
+												  .collect(Collectors.toMap(
+														 CSVUsuario::getRef,
+														 d -> d,
+														 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+												  ));
+	        this.usuariosOrganizador = listaUsuariosPorTipo.get("O").stream()
+					  .collect(Collectors.toMap(
+							 CSVUsuario::getRef,
+							 d -> d,
+							 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+					  ));
+	        
+		} catch (IllegalStateException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Carga las usuarios que se encuentran en las colecciones asistentes y organizadores al sistema.
+	 * Notar que la operacíón solo carga los valores iniciales, el agregado de campos extras corresponde a funciones específicas de Organizadores y Asistentes
+	 * Si el mapa está vacío, no hace nada.
+	 */
+	public void cargarUsuarios() {
+		if (this.usuariosAsistente != null) {
+			for (CSVUsuario asistente: this.usuariosAsistente.values()) {
 				this.manejadorInstituciones.altaInstitucion(institucion.getNombre(), institucion.getDescripcion(), institucion.getSitioWeb());
 			}
 			this.manejadorInstituciones.imprimirInstituciones();
