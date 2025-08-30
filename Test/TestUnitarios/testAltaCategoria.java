@@ -8,7 +8,7 @@ import logica.ControladorEventos;
 
 class TestAltaCategoria {
 
-    private final ControladorEventos ce = ControladorEventos.getInstancia();
+    private final ControladorEventos ce = ControladorEventos.getInstance();
 
     @Test
     void altaCategoria_correcta() {

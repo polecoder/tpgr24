@@ -19,7 +19,7 @@ public interface IControladorEventos {
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
 	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Set<DTEvento> listarEventos();
-	public List<DTTipoRegistro> listarTipoRegistro();
+	public Set<DTTipoRegistro> listarTipoRegistro();
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
 	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
 	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);

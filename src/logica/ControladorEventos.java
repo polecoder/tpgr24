@@ -188,4 +188,16 @@ public class ControladorEventos implements IControladorEventos {
 
 		manejadorEventos.AltaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 	}
+
+	@Override
+	public boolean altaCategoria(String nombre) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean existeCategoria(String nombre) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
