@@ -24,7 +24,7 @@ class TestConsultaEvento {
 	    // Simulación de alta de evento
 	    Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", LocalDate.of(2023, 5, 10));
 	    manejador.agregarEvento(evento);
-
+ 
 	    // Simulación de categorías
 	    Categoria cat1= new Categoria("Robótica");
 	    Categoria cat2= new Categoria("IA");
