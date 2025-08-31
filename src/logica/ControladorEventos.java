@@ -56,8 +56,8 @@ public class ControladorEventos implements IControladorEventos {
 		return null;
 	}
 
-	public Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
-		return null;
+	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
 	}
 
 	public boolean validar(String nicknameAsistente, String nombreEdicion,
@@ -65,10 +65,10 @@ public class ControladorEventos implements IControladorEventos {
 		return false;
 	}
 
-	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
+	/* public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
 		// HACER
-	}
+	}*/ // Reemplazada por "altaRegistro()"
 
 
 
@@ -97,9 +97,9 @@ public class ControladorEventos implements IControladorEventos {
 		return this.manejadorEventos.existeEvento(nombreEvento);
 	}
 
-	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+	/*public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
 		return false;
-	}
+	}*/ // Nadie la usa
 
 	/* public String[] getNombreEventos() {  //! TO BE DELETED
 		Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
@@ -242,11 +242,5 @@ public class ControladorEventos implements IControladorEventos {
 		} catch(Exception CRError) {
 
 		}
-	}
-
-	@Override
-	public Set<DTTipoRegistro> listarTipoRegistro() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

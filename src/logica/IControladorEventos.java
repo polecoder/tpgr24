@@ -2,6 +2,7 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import excepciones.DatosTipoRegistroInvalidos;
@@ -13,16 +14,13 @@ import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
-
-import java.time.LocalDate;
-
 public interface IControladorEventos {
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
 	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Set<DTEvento> listarEventos();
-	public Set<DTTipoRegistro> listarTipoRegistro();
+	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion);
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
-	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
+	// public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha); // Reemplazado por "altaRegistro()"
 	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	public Set<String> nombresEventos();
 	public DTEvento getDTEvento(String nombre);

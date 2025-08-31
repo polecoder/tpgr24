@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
@@ -45,7 +46,7 @@ public class ManejadorEventos {
 		return null;
 	};
 	
-	public Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
+	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		//TODO
 		return null;
 	};
