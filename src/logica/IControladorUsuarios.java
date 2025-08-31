@@ -2,13 +2,13 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 import logica.datatypes.DTAsistente;
-import logica.datatypes.DTUsuario;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTRegistro;
+import logica.datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
 	void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;

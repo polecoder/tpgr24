@@ -44,4 +44,7 @@ public class Institucion {
 	void eliminarAsistente(String nickname) {
 		this.asistentes.remove(nickname);
 	}
+	boolean checkAsistente(String nicknameAsistente) {
+		return asistentes.containsKey(nicknameAsistente);
+	}
 }

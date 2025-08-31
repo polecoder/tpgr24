@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.List;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +46,6 @@ public class TipoRegistro {
     	Objects.requireNonNull(r);
         if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
         registros.add(r);
-        cuposDisponibles--;
     }
     
     public List<Registro> getRegistros(){ return registros; }

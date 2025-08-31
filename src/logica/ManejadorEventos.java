@@ -9,6 +9,7 @@ import java.util.Set;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.DTAsistente;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
@@ -41,9 +42,17 @@ public class ManejadorEventos {
 		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
 	
-	public Set<DTEvento> listarEventos(){
-		//TODO
-		return null;
+	public HashMap<String,DTEvento> listarEventos(){
+		HashMap<String, DTEvento> hMLista = new HashMap<>();
+		for (Evento e : eventos.values()) {
+			String nombre = e.getNombre();
+			String descripcion = e.getDescripcion();
+			String sigla = e.getSigla();
+			Date fAlta = e.getFechaAlta();
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta);
+			hMLista.put(nombre, dtEv);  
+		}
+		return hMLista;
 	};
 	
 	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){

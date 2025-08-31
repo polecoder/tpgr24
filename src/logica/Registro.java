@@ -61,6 +61,6 @@ public class Registro {
 	
 	// TODO: Implementar
 	public boolean validar(String nicknameAsistente) {
-		return false;
+		return nicknameAsistente == asistente.getNickname();
 	}
 }
