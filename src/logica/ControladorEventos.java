@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -236,5 +237,14 @@ public class ControladorEventos implements IControladorEventos {
 		} catch(Exception CRError) {
 
 		}
+	}
+	
+	@Override
+	public List<String> getListaCategorias() {
+		List<String> resultado = new ArrayList<>();
+		for (String nombreCategoria: this.manejadorEventos.getCategorias().keySet()) {
+			resultado.add(nombreCategoria);
+		}
+		return resultado;
 	}
 }

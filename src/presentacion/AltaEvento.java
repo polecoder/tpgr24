@@ -133,8 +133,10 @@ public class AltaEvento extends JInternalFrame {
 		gbc_scrollPane.gridy = 5;
 		gbc_scrollPane.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(categoriasScrollPane, gbc_scrollPane);
-		String[] categoriasOpciones = {"Opción 1", "Opción 2", "Opción 3", "Opción 4", "Opción 5", "Opción 6"};
-		JList<String> categoriasList = new JList<>(categoriasOpciones);
+		
+		List<String> listaCategorias = fabrica.getControladorEvento().getListaCategorias();
+		
+		JList<String> categoriasList = new JList<>(listaCategorias.toArray(new String[0]));
 		categoriasScrollPane.setViewportView(categoriasList);
 		categoriasList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		

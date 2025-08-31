@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -57,6 +56,12 @@ public interface IControladorEventos {
 	 * @param nombreEvento
 	 */
 	public boolean existeEvento(String nombreEvento);
-  public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
+	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
 	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion);
+	/**
+	 * Devuelve una lista que contienen el nombre de todas las categorías
+	 * 
+	 * @return
+	 */
+	public List<String> getListaCategorias();
 }
