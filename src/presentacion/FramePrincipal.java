@@ -72,8 +72,8 @@ public class FramePrincipal extends JFrame {
         menuRegistro.add(itemB);
         
 		item_ConsultaTipoRegistro.addActionListener(e -> {
-		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
-		    panel.add(ventanaConsultaTipoRegistro);          
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(null, null, null);
+		    panel.add(ventanaConsultaTipoRegistro);           
 		    ventanaConsultaTipoRegistro.setVisible(true);    
 		    try {
 		    	ventanaConsultaTipoRegistro.setSelected(true); 

@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import excepciones.EventoNoExiste;
+
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -67,7 +70,12 @@ class testConsultaRegistro {
         assertEquals("ExpoTech", dtEv.getNombre());
 
         // B) El evento debe listar la EDICIÓN "Expo"
-        Set<String> ediciones = controlador.nombresEdicionesEvento("ExpoTech");
+        Set<String> ediciones = Collections.emptySet();
+        try { ediciones = controlador.nombresEdicionesEvento("ExpoTech");
+        } catch (EventoNoExiste ex) {
+        	fail("Esperabamos que el evento exista (B)");
+        	return;
+        }
         assertTrue(ediciones.contains("Expo"), "El evento debería listar la edición 'Expo'");
 
         // C) La edición debe tener ambos tipos de registro

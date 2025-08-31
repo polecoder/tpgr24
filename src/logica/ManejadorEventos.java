@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
@@ -81,7 +83,8 @@ public class ManejadorEventos {
 	public Set<String> getNombresCategorias(String Nombre) {
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
-	public Set<String> getNombresEdiciones(String nombre){
+	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {
+		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Edicion no existe"); }
 		return eventos.get(nombre).getEdiciones().keySet();
 	};
 	public DTEvento getDTEvento(String nombre) {
@@ -113,26 +116,29 @@ public class ManejadorEventos {
 		}
 	}
 	
-	public String[] getTiposRegistro(String nombreEvento, String nombreEdiocion) {
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdiocion) throws EventoNoExiste, EdicionNoExiste {
 		Evento evento = eventos.get(nombreEvento);
+		if (evento == null) { throw new EventoNoExiste("Evento no existe"); }
+		
 		Edicion edicion = evento.getEdicion(nombreEdiocion);
+		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); };
 		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
 		
 		int i = 0;
 		String[] nombresTiposRegistro = new String[tiposRegistro.size()];
-		for (Map.Entry<String, TipoRegistro> tipoRegistro : tiposRegistro.entrySet()) {
+		for (Map.Entry<String, TipoRegistro> tipoRegistro : tiposRegistro.entrySet()) { 
 			nombresTiposRegistro[i] = tipoRegistro.getKey();
 			i++;
 		}
 		return nombresTiposRegistro;
 	}
 	
-	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
 		Evento evento = eventos.get(nombreEvento);
-		try {
-			evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
-		} catch (TipoRegistroNoExiste ex) {
-			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
+		if (evento == null) { throw new EventoNoExiste("Evento no existe"); }
+		try { evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste ex) {throw ex;
+		} catch (EdicionNoExiste ex) { throw ex;
 		};
 		return evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 	}

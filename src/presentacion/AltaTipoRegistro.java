@@ -3,13 +3,12 @@ package presentacion;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -133,8 +132,11 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Evento.gridy = 4;
 		getContentPane().add(lbl_Evento, gbc_lbl_Evento);
 		
-		String[] eventos = controladorEventos.getNombreEventos(); // Inicializo los eventos al iniciar el Caso de Uso
-		JComboBox<String> comboEvento = new JComboBox<>(eventos);
+		JComboBox<String> comboEvento = new JComboBox<>();
+		Set<String> eventos = controladorEventos.nombresEventos(); // Inicializo los eventos al iniciar el Caso de Uso
+		if (eventos != null) {
+			for (String evento : eventos) { comboEvento.addItem(evento); }
+		}
 		GridBagConstraints gbc_comboEvento = new GridBagConstraints();
 		gbc_comboEvento.gridx = 1;
 		gbc_comboEvento.gridy = 4;
@@ -154,11 +156,13 @@ public class AltaTipoRegistro extends JInternalFrame {
 		getContentPane().add(lbl_Edicion, gbc_lbl_Edicion);
 		
 		JComboBox<String> comboEdicion = new JComboBox<>();
-		Set<String> ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
+		Set<String> ediciones;
+		try { ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
+		} catch (EventoNoExiste ex) {
+			ediciones = null;
+		}
 		if (ediciones != null){
-	        for (String edicion : ediciones) {
-	            comboEdicion.addItem(edicion);
-	        }
+	        for (String edicion : ediciones) { comboEdicion.addItem(edicion); }
 		}
 		GridBagConstraints gbc_comboEdicion = new GridBagConstraints();
 		gbc_comboEdicion.gridwidth = 2;
@@ -198,11 +202,13 @@ public class AltaTipoRegistro extends JInternalFrame {
             	comboEdicion.removeAllItems();
             	// Agregar nuevas opciones a comboEdicion
             	String eventoSeleccionado = comboEvento.getItemAt(comboEvento.getSelectedIndex());
-            	Set<String> ediciones = controladorEventos.nombresEdicionesEvento(eventoSeleccionado);
+            	Set<String> ediciones;
+            	try { ediciones = controladorEventos.nombresEdicionesEvento(eventoSeleccionado);
+        		} catch (EventoNoExiste ex) {
+        			ediciones = null;
+        		}
         		if (ediciones != null){
-        	        for (String edicion : ediciones) {
-        	            comboEdicion.addItem(edicion);
-        	        }
+        	        for (String edicion : ediciones) { comboEdicion.addItem(edicion); }
         		}
             }
             @Override
@@ -211,48 +217,52 @@ public class AltaTipoRegistro extends JInternalFrame {
         });
 		
 		// Aceptar
-		Button_Aceptar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e ) {
-				// Reviso formatos
-				try {
-					float costo = Float.parseFloat(textField_Costo.getText());
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "El costo debe ser un número");
-					return;
-				};
-				try {
-					int cuposMax = Integer.parseInt(textField_Cupos.getText());
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Los cupos deben ser un entero");
-					return;
-				};
-				if (comboEvento.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Debe seleccionar un evento");
-					return;
-				}
-				if (comboEdicion.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, "Debe seleccionar una edicion");
-					return;
-				}
-				// Reviso formatos
-				String nombre = textField_Nombre.getText(); // Obtengo nombre
-				String descripcion = textField_Descripcion.getText(); // Obtengo descripcion
-				String nombreEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex()); // Obtengo nombreEvento
-				String nombreEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex()); // Obtengo nombreEdicion
-				float costo = Float.parseFloat(textField_Costo.getText()); // Obtengo costo
-				int cuposMax = Integer.parseInt(textField_Cupos.getText()); // Obtengo cuposMax
-				
-				try {
-					controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
-				} catch (NombreTipoRegistroRepetido ex) {
-					JOptionPane.showMessageDialog(null,  ex.getMessage());
-					return;
-				} catch (DatosTipoRegistroInvalidos ex) {
-					JOptionPane.showMessageDialog(null,  ex.getMessage());
-					return;
-				}
+		Button_Aceptar.addActionListener(e -> {
+			// Reviso formatos
+			try {
+				float costo = Float.parseFloat(textField_Costo.getText());
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this, "El costo debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			};
+			try {
+				int cuposMax = Integer.parseInt(textField_Cupos.getText());
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this, "Los cupos deben ser un entero", "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			};
+			if (comboEvento.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(this, "Debe seleccionar un evento", "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
 			}
+			if (comboEdicion.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(this, "Debe seleccionar una edicion", "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			// Reviso formatos
+			String nombre = textField_Nombre.getText(); // Obtengo nombre
+			String descripcion = textField_Descripcion.getText(); // Obtengo descripcion
+			String nombreEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex()); // Obtengo nombreEvento
+			String nombreEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex()); // Obtengo nombreEdicion
+			float costo = Float.parseFloat(textField_Costo.getText()); // Obtengo costo
+			int cuposMax = Integer.parseInt(textField_Cupos.getText()); // Obtengo cuposMax
+			
+			try {
+				controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+			} catch (NombreTipoRegistroRepetido ex) {
+				JOptionPane.showMessageDialog(this,  ex.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			} catch (DatosTipoRegistroInvalidos ex) {
+				JOptionPane.showMessageDialog(this,  ex.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			JOptionPane.showMessageDialog(null,  "Tipo de Registro creado exitosamente");
+			textField_Nombre.setText("");
+			textField_Descripcion.setText("");
+		});
+		
+		Button_Cancelar.addActionListener(e -> {
+			this.dispose();
 		});
 		//----------ACTIONLISTENERS----------
 	}

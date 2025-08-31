@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import excepciones.EdicionNoExiste;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
@@ -80,8 +81,9 @@ public class Evento {
 		return ediciones.get(nombreEdicion);
 	}
 	
-	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste, EdicionNoExiste {
 		Edicion edicion = ediciones.get(nombreEdiocion);
+		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); }
 		try {
 			edicion.getDTTipoRegistro(nombreTipoRegistro);
 		} catch (TipoRegistroNoExiste ex) {
