@@ -45,6 +45,7 @@ public class TipoRegistro {
     	Objects.requireNonNull(r);
         if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
         registros.add(r);
+        cuposDisponibles--;
     }
     
     public List<Registro> getRegistros(){ return registros; }
