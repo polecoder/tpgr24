@@ -4,8 +4,6 @@ import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -180,10 +178,7 @@ public class AltaEvento extends JInternalFrame {
 		botonAceptar.addActionListener(e->{
 			String nombre = nombreTextField.getText().trim();
 			String descripcion = descripcionTextArea.getText().trim();
-			Date fechaAltaSinProcesar = (Date) fechaSpinner.getValue();
-			LocalDate fechaAlta = fechaAltaSinProcesar.toInstant()
-													  .atZone(ZoneId.systemDefault())
-													  .toLocalDate();
+			Date fechaAlta = (Date) fechaSpinner.getValue();
 			String sigla = siglaTextField.getText().trim();
 			List<String> categorias = categoriasList.getSelectedValuesList();
 			
@@ -239,7 +234,7 @@ public class AltaEvento extends JInternalFrame {
 		});
 		
 		/**
-		 * CANCELAR
+		 * RESET
 		 */
 		botonReset.addActionListener(e->{
 			nombreTextField.setText("");

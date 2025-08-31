@@ -1,10 +1,11 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
@@ -14,11 +15,11 @@ import logica.datatypes.DTTipoRegistro;
 public class ManejadorEventos {
 	private 
 	static ManejadorEventos instancia;
-	Map<String, Evento> eventos;
+	Map<String,Evento> eventos;
 	Map<String, Categoria> categorias;
 	ManejadorEventos(){
-		 this.eventos = new HashMap<>();
-		 this.categorias = new HashMap<>();
+		  this.eventos = new HashMap<>();
+		  this.categorias = new HashMap<>();
 	};
 	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
@@ -45,7 +46,7 @@ public class ManejadorEventos {
 		return null;
 	};
 	
-	public Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
+	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		//TODO
 		return null;
 	};
@@ -92,11 +93,6 @@ public class ManejadorEventos {
 	public void agregarEvento(Evento evento) {
 		eventos.put(evento.getNombre(), evento);
 	}
-
-	public void AltaEdicion(String nombreEvento, String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin,LocalDate fechaAlt, String ciudad, String pais) {
-		Edicion edicion=new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
-		eventos.get(nombreEvento).agregarEdicion(edicion);
-	};
 	
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido {
 		Evento evento = eventos.get(nombreEvento);
@@ -217,7 +213,7 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, LocalDate fechaAlta, String sigla, List<String> categorias) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias) {
 		if (!existeEvento(nombre)) {
 			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta);
 			this.eventos.put(nombre, evento);
@@ -226,4 +222,39 @@ public class ManejadorEventos {
 			}
 		}
 	}
+  
+  public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
+		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
+		eventos.get(nombreEvento).agregarEdicion(edicion);
+	};
+		
+	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
+			int cuposGratuitos, Institucion institucion, Edicion edicion) {
+		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion);
+		edicion.agregarPatrocinio(patrocinio);
+	}
+	
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio);
+		tipoRegistro.addRegistro(registro);
+		asistente.addRegistro(registro);
+	}
+	
+	/**
+	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
+	 * 
+	 * @param nombreCategoria
+	 */
+	public void altaCategoria(String nombreCategoria) {
+		Categoria categoria = new Categoria(nombreCategoria);
+		this.categorias.put(nombreCategoria, categoria);
+	}
+	
+	public boolean existeCategoria(String nombreCategoria) {
+		return this.categorias.containsKey(nombreCategoria);
+	}
+	public Map<String, Categoria> getCategorias() {
+		return this.categorias;
+	}
+
 }

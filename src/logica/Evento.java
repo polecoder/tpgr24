@@ -1,6 +1,6 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,17 +13,17 @@ public class Evento {
 	String nombre;
 	String sigla;
 	String descripcion;
-	LocalDate fechaAlta;
+	Date fechaAlta;
 	Map<String, Categoria> categorias;
 	 private final Map<String, Edicion> ediciones;
 	public
-	Evento(String nombre, String descripcion , String sigla, LocalDate fechaAlta) {
+	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
 		this.setFechaAlta(fechaAlta);
 		this.categorias=new HashMap<>();
-		this.ediciones=new HashMap<>();
+		this.ediciones=new HashMap<>(); 
 	}
 	public String getNombre(){
 		return this.nombre;
@@ -34,7 +34,7 @@ public class Evento {
 	public String getDescripcion(){
 		return this.descripcion;
 	}
-	public LocalDate getFechaAlta(){
+	Date getFechaAlta(){
 		return this.fechaAlta;
 	}
 	public Map<String, Categoria> getCategoria(){
@@ -53,7 +53,7 @@ public class Evento {
 	public void setSigla(String sigla){
 		this.sigla=sigla;
 	}
-	public void setFechaAlta(LocalDate fechaAlta) {
+	void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta=fechaAlta;
 	}
 	public void agregarCategoria(Categoria categoria) {

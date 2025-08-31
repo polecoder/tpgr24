@@ -3,8 +3,6 @@ package presentacion;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,8 +20,6 @@ import javax.swing.SpinnerDateModel;
 import logica.Fabrica;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
-
-
 
 public class AltaUsuario extends JInternalFrame {
 
@@ -338,8 +334,7 @@ public class AltaUsuario extends JInternalFrame {
 		    if (esAsistente) {
 		    	String apellido=textField_Apellido.getText();
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
-		    	Date fechaSeleccionada = (Date) Spinner_FechaNacimiento.getValue();
-		    	LocalDate fechaNacimiento = fechaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		    	Date fechaNacimiento = (Date) Spinner_FechaNacimiento.getValue();
 		    	try {
 		            IContUsuario.altaAsistente(nick, nombre, correo, apellido, fechaNacimiento, institucion);
 		            

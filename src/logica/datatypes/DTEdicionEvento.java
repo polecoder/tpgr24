@@ -1,17 +1,17 @@
 package logica.datatypes;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class DTEdicionEvento {
 	private String nombre;
 	private String sigla;
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
+	private Date fechaInicio;
+	private Date fechaFin;
 	private String ciudad;
 	private String pais;
-	private LocalDate fechaAlta;
+	private Date fechaAlta;
 	
-	public DTEdicionEvento(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
+	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
 	    this.setNombre(nombre);
 	    this.setSigla(sigla);
 	    this.setFechaInicio(fechaInicio);
@@ -37,25 +37,25 @@ public class DTEdicionEvento {
 		this.sigla = sigla;
 	}
 	
-	public LocalDate getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
-	public void setFechaInicio(LocalDate fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
-	public LocalDate getFechaFin() {
+	public Date getFechaFin() {
 	    return fechaFin;
 	}
 
-	public void setFechaFin(LocalDate fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 	    this.fechaFin = fechaFin;
 	}
 
-	public LocalDate getFechaAlta() {
+	public Date getFechaAlta() {
 	    return fechaAlta;
 	}
 
-	public void setFechaAlta(LocalDate fechaAlta) {
+	public void setFechaAlta(Date fechaAlta) {
 	    this.fechaAlta = fechaAlta;
 	}
 

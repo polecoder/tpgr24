@@ -1,10 +1,7 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import logica.datatypes.DTAsistente;
@@ -55,7 +52,7 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, LocalDate fechaNacimiento,Institucion institucion) {
+	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
 		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
@@ -85,3 +82,4 @@ public class ManejadorUsuarios {
 		return conjuntoAsistentes.get(nickname);
 	}
 }
+

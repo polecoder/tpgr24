@@ -174,7 +174,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 d.getNombreEdicion(),
                 d.getNicknameAsistente(),
                 d.getNombreTipo(),
-                d.getFecha() != null ? d.getFecha().format(F) : "",
+                d.getFecha(),
                 d.getCosto()
         );
         JOptionPane.showMessageDialog(this, msg, "Detalle del registro", JOptionPane.INFORMATION_MESSAGE);

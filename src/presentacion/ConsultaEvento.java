@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -113,8 +113,8 @@ public class ConsultaEvento extends JInternalFrame {
 		    gbc_lbl_sigla.gridy = 2;
 		    panelDetalles.add(lbl_sigla, gbc_lbl_sigla);
 
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		    String fechaFormateada = detalleEvento.getfechaAlta().format(formatter);
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		    String fechaFormateada = formatter.format(detalleEvento.getFechaAlta());
 
 		    JLabel lbl_FechaAlta = new JLabel("Fecha de Alta:");
 		    GridBagConstraints gbc_lbl_FechaAlta = new GridBagConstraints();

@@ -1,15 +1,15 @@
 package logica.datatypes;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class DTDetalleRegistro {
 	private String nombreEdicion;
 	private String nicknameAsistente;
 	private String nombreTipo;
-	private LocalDate fecha;
+	private Date fecha;
 	private float costo;
 	
-	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, LocalDate fecha, float costo) {
+	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo) {
 		this.setNombreEdicion(nombreEdicion);
 		this.setNicknameAsistente(nicknameAsistente);
 		this.setNombreTipo(nombreTipo);
@@ -38,10 +38,10 @@ public class DTDetalleRegistro {
 		this.nombreTipo = nombreTipo;
 	}
 	
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	

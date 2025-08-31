@@ -1,27 +1,25 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTTipoRegistro;
-import logica.TipoRegistro;
-import logica.Patrocinio;
 
 public class Edicion {
 	private String nombre;
 	private String sigla;
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-	private LocalDate fechaAlta;
+	private Date fechaInicio;
+	private Date fechaFin;
+	private Date fechaAlta;
 	private String ciudad;
 	private String pais;
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
 	
-	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -47,24 +45,24 @@ public class Edicion {
 		this.sigla = sigla;
 	}
 	
-	public LocalDate getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
-	public void setFechaInicio(LocalDate fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	
-	public LocalDate getFechaFin() {
+	public Date getFechaFin() {
 		return fechaFin;
 	}
-	public void setFechaFin(LocalDate fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 	
-	public LocalDate getFechaAlta() {
+	public Date getFechaAlta() {
 		return fechaAlta;
 	}
-	public void setFechaAlta(LocalDate fechaAlta) {
+	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 	
@@ -98,7 +96,7 @@ public class Edicion {
 		this.patrocinios = patrocinios;
 	}
 	public void agregarPatrocinio(Patrocinio patrocinio) {
-		this.patrocinios.put(patrocinio.getNombre(), patrocinio);
+		this.patrocinios.put(patrocinio.getCodigoPatrocinio(), patrocinio);
 	}
 	public void eliminarPatrocinio(String nombrePatrocinio) {
 		this.patrocinios.remove(nombrePatrocinio);

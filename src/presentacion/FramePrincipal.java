@@ -19,7 +19,7 @@ public class FramePrincipal extends JFrame {
         ventana.setVisible(true);
         try {
             ventana.setSelected(true);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {} 
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,15 +70,7 @@ public class FramePrincipal extends JFrame {
         menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
         menuRegistro.add(itemB);
-		
-		item_AltaTipoRegistro.addActionListener(e -> {
-		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
-		    panel.add(ventanaAltaTipoRegistro);          
-		    ventanaAltaTipoRegistro.setVisible(true);    
-		    try {
-		    	ventanaAltaTipoRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
-		});
+        
 		item_ConsultaTipoRegistro.addActionListener(e -> {
 		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
 		    panel.add(ventanaConsultaTipoRegistro);          
@@ -87,7 +79,7 @@ public class FramePrincipal extends JFrame {
 		    	ventanaConsultaTipoRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
-		
+        
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);
 
@@ -98,6 +90,31 @@ public class FramePrincipal extends JFrame {
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(itemD);
         menuInstitucion.add(itemE);
+        
+        JMenu menuCargaDatos = new JMenu("Carga Datos");
+        menuBar.add(menuCargaDatos);
+
+        JMenuItem item_CargaDatos = new JMenuItem("Carga Datos");
+
+        menuCargaDatos.add(item_CargaDatos);
+		
+        item_CargaDatos.addActionListener(e -> {
+			JCargaDatos ventanaCargaDatos = new JCargaDatos();
+			panel.add(ventanaCargaDatos);          
+			ventanaCargaDatos.setVisible(true);    
+			try {
+				ventanaCargaDatos.setSelected(true); 
+			} catch (Exception ex) {}
+		});
+        
+		item_AltaTipoRegistro.addActionListener(e -> {
+		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
+		    panel.add(ventanaAltaTipoRegistro);          
+		    ventanaAltaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaAltaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 				
 		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
@@ -181,5 +198,5 @@ public class FramePrincipal extends JFrame {
 			} catch (Exception ex) {}
 		});
 		setVisible(true);
-    }
+	}
 }

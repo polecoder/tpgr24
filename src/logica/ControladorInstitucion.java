@@ -8,9 +8,9 @@ import logica.datatypes.DTInstitucion;
 
 public class ControladorInstitucion implements IControladorInstitucion {
 	private static ControladorInstitucion instancia;
-	private ManejadorInstituciones ManejadorInstituciones;
+	private ManejadorInstituciones manejadorInstituciones;
 	private ControladorInstitucion() {
-		this.ManejadorInstituciones=logica.ManejadorInstituciones.getInstance();
+		this.manejadorInstituciones=ManejadorInstituciones.getInstance();
 	};
 	public static ControladorInstitucion getInstance() {
 		if (instancia==null) {
@@ -26,12 +26,12 @@ public class ControladorInstitucion implements IControladorInstitucion {
 
 	@Override
 	public Institucion getInstitucion(String nombre) {
-		return ManejadorInstituciones.getInstitucion(nombre);
+		return manejadorInstituciones.getInstitucion(nombre);
 	}
 	@Override
 	public Set<String> nombresInstituciones() {
 	    Set<String> nombresInstituciones = new HashSet<>();
-	    Collection<Institucion> instituciones = ManejadorInstituciones.getConjuntoInstituciones().values();
+	    Collection<Institucion> instituciones = manejadorInstituciones.getInstituciones().values();
 
 	    if (instituciones != null && !instituciones.isEmpty()) {
 	        for (Institucion institucion : instituciones) {
@@ -51,7 +51,7 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	    }
 	    
 	    // Validación de nombre ya existente (sin implementación aún)
-	    if (ManejadorInstituciones.existeNombre(nombre)) {
+	    if (manejadorInstituciones.existeNombre(nombre)) {
 	        throw new Exception("Ya existe una institución con ese nombre");
 	    }
 
@@ -66,7 +66,7 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	    }
 
 	    // Si todo está bien, continuar con la lógica de alta
-	    ManejadorInstituciones.AgregarInstitucion(nombre, descripcion, sitioWeb);
+	    manejadorInstituciones.AgregarInstitucion(nombre, descripcion, sitioWeb);
 	}
 
 }
