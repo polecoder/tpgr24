@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Asistente extends Usuario {
 	
 	private static final Logger logger = Logger.getLogger(Asistente.class.getName());

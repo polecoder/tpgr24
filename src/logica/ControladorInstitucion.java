@@ -41,5 +41,10 @@ public class ControladorInstitucion implements IControladorInstitucion {
 
 	    return nombresInstituciones;
 	}
+	@Override
+	public void AltaInstitucion(String nombre, String descripcion, String sitioWeb) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
