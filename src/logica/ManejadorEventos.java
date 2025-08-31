@@ -201,13 +201,10 @@ public class ManejadorEventos {
 		Edicion edicion=new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
 		eventos.get(nombreEvento).agregarEdicion(edicion);
 	};
-	
-	/**
-	 * Imprime en consola todas las categorías que existen en la colección de categorías.
-	 */
-	public void imprimirCategorias() {
-		if (this.categorias != null) {
-			System.out.println(this.categorias);
-		}
+		
+	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
+			int cuposGratuitos, Institucion institucion, Edicion edicion) {
+		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion);
+		edicion.agregarPatrocinio(patrocinio);
 	}
 }

@@ -4,6 +4,7 @@ import logica.csv.CSVAsistente;
 import logica.csv.CSVCategoria;
 import logica.csv.CSVInstitucion;
 import logica.csv.CSVOrganizador;
+import logica.csv.CSVPatrocinio;
 import logica.csv.CSVUsuario;
 import logica.csv.CSVEdicion;
 import logica.csv.CSVEvento;
@@ -18,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.opencsv.bean.CsvToBean;
@@ -31,29 +31,31 @@ public class CargaDatos {
 	private ManejadorEventos manejadorEventos;
 	private ManejadorInstituciones manejadorInstituciones;
 	private ManejadorUsuarios manejadorUsuarios;
-	
+
 	private Map<String, CSVCategoria> categorias;
 	private Map<String, CSVInstitucion> instituciones;
 	private Map<String, CSVUsuario> usuariosAsistente;
 	private Map<String, CSVUsuario> usuariosOrganizador;
 	private Map<String, CSVAsistente> asistentes;
 	private Map<String, CSVOrganizador> organizadores;
+	private Map<String, CSVPatrocinio> patrocinios;
+
 	List<String> nombreArchivosOrdenados = List.of(
-		    "2025Categorias.csv",
-		    "2025Usuarios.csv",
-		    "2025Instituciones.csv",
-		    "2025Usuarios-Organizadores.csv",
-		    "2025Usuarios-Asistentes.csv",
-		    "2025Eventos.csv",
-		    "2025EdicionesEventos.csv",
-		    "2025TipoRegistro.csv",
-		    "2025Patrocinios.csv",
-		    "2025Registros.csv"
-    );
+			"2025Categorias.csv",
+			"2025Usuarios.csv",
+			"2025Instituciones.csv",
+			"2025Usuarios-Organizadores.csv",
+			"2025Usuarios-Asistentes.csv",
+			"2025Eventos.csv",
+			"2025EdicionesEventos.csv",
+			"2025TipoRegistro.csv",
+			"2025Patrocinios.csv",
+			"2025Registros.csv"
+			);
 	private Map<String, CSVEvento> eventos;
 	private Map<String, CSVEdicion> ediciones;
 	private Map<String, CSVTipoRegistro> tiposRegistro;
-	
+
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorInstituciones = ManejadorInstituciones.getInstance();
@@ -68,18 +70,18 @@ public class CargaDatos {
 		this.ediciones = new HashMap<>();
 		this.tiposRegistro = new HashMap<>();
 	}
-	
+
 	public static CargaDatos getInstancia() {
 		if (instancia == null) {
 			instancia = new CargaDatos();
 		}
-        return instancia;
+		return instancia;
 	}
-	
+
 	public List<String> getNombreArchivosOrdenados() {
 		return this.nombreArchivosOrdenados;
 	}
-	
+
 	//------------CATEGORIA-----------------
 	/**
 	 * Lee un archivo de categorías desde la ruta indicada por parámetro.
@@ -89,27 +91,27 @@ public class CargaDatos {
 	 * @param ruta
 	 */
 	public void leerCategorias(String ruta) {
-        CsvToBean<CSVCategoria> categoriasCsv;
+		CsvToBean<CSVCategoria> categoriasCsv;
 		try {
 			categoriasCsv = new CsvToBeanBuilder<CSVCategoria>(
-			        new FileReader(ruta))
-			        .withType(CSVCategoria.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVCategoria.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVCategoria> listaCategorias = categoriasCsv.parse();
-	        this.categorias = listaCategorias.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVCategoria::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
+			this.categorias = listaCategorias.stream()
+					.collect(Collectors.toMap(
+							CSVCategoria::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Carga las categorías que se encuentran en la colección categorias al sistema.
 	 * Si el mapa está vacío, no hace nada.
@@ -119,10 +121,9 @@ public class CargaDatos {
 			for (CSVCategoria categoria: this.categorias.values()) {
 				this.manejadorEventos.altaCategoria(categoria.getNombre());
 			}
-			this.manejadorEventos.imprimirCategorias();
 		}
 	}
-	
+
 	/**
 	 * Lee un archivo de instituciones desde la ruta indicada por parámetro.
 	 * Guarda la colección de CSVs en el Map instituciones.
@@ -131,27 +132,27 @@ public class CargaDatos {
 	 * @param ruta
 	 */
 	public void leerInstituciones(String ruta) {
-        CsvToBean<CSVInstitucion> institucionesCsv;
+		CsvToBean<CSVInstitucion> institucionesCsv;
 		try {
 			institucionesCsv = new CsvToBeanBuilder<CSVInstitucion>(
-			        new FileReader(ruta))
-			        .withType(CSVInstitucion.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVInstitucion.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVInstitucion> listaInstituciones = institucionesCsv.parse();
-	        this.instituciones = listaInstituciones.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVInstitucion::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
+			this.instituciones = listaInstituciones.stream()
+					.collect(Collectors.toMap(
+							CSVInstitucion::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Carga las instituciones que se encuentran en la colección instituciones al sistema.
 	 * Si el mapa está vacío, no hace nada.
@@ -161,10 +162,9 @@ public class CargaDatos {
 			for (CSVInstitucion institucion: this.instituciones.values()) {
 				this.manejadorInstituciones.altaInstitucion(institucion.getNombre(), institucion.getDescripcion(), institucion.getSitioWeb());
 			}
-			this.manejadorInstituciones.imprimirInstituciones();
 		}
 	}
-	
+
 	/**
 	 * Lee un archivo de usuarios desde la ruta indicada por parámetro.
 	 * Guarda la colección de CSVs en los Map asistentes y organizadores.
@@ -173,35 +173,35 @@ public class CargaDatos {
 	 * @param ruta
 	 */
 	public void leerUsuarios(String ruta) {
-        CsvToBean<CSVUsuario> usuariosCsv;
+		CsvToBean<CSVUsuario> usuariosCsv;
 		try {
 			usuariosCsv = new CsvToBeanBuilder<CSVUsuario>(
-			        new FileReader(ruta))
-			        .withType(CSVUsuario.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVUsuario.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVUsuario> listaUsuarios = usuariosCsv.parse();
-	        Map<String, List<CSVUsuario>> listaUsuariosPorTipo = listaUsuarios.stream().collect(Collectors.groupingBy(CSVUsuario::getTipo));
-	        this.usuariosAsistente = listaUsuariosPorTipo.get("A").stream()
-												  .collect(Collectors.toMap(
-														 CSVUsuario::getRef,
-														 d -> d,
-														 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-												  ));
-	        this.usuariosOrganizador = listaUsuariosPorTipo.get("O").stream()
-					  .collect(Collectors.toMap(
-							 CSVUsuario::getRef,
-							 d -> d,
-							 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-					  ));
-	        
+			Map<String, List<CSVUsuario>> listaUsuariosPorTipo = listaUsuarios.stream().collect(Collectors.groupingBy(CSVUsuario::getTipo));
+			this.usuariosAsistente = listaUsuariosPorTipo.get("A").stream()
+					.collect(Collectors.toMap(
+							CSVUsuario::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
+			this.usuariosOrganizador = listaUsuariosPorTipo.get("O").stream()
+					.collect(Collectors.toMap(
+							CSVUsuario::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
+
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Lee un archivo de asistentes desde la ruta indicada por parámetro.
 	 * Guarda la colección de CSVs en el Map asistentes.
@@ -210,27 +210,27 @@ public class CargaDatos {
 	 * @param ruta
 	 */
 	public void leerAsistentes(String ruta) {
-        CsvToBean<CSVAsistente> asistentesCsv;
+		CsvToBean<CSVAsistente> asistentesCsv;
 		try {
 			asistentesCsv = new CsvToBeanBuilder<CSVAsistente>(
-			        new FileReader(ruta))
-			        .withType(CSVAsistente.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVAsistente.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVAsistente> listaAsistentes = asistentesCsv.parse();
-	        this.asistentes = listaAsistentes.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVAsistente::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
+			this.asistentes = listaAsistentes.stream()
+					.collect(Collectors.toMap(
+							CSVAsistente::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Lee un archivo de organizadores desde la ruta indicada por parámetro.
 	 * Guarda la colección de CSVs en el Map organizadores.
@@ -239,27 +239,27 @@ public class CargaDatos {
 	 * @param ruta
 	 */
 	public void leerOrganizadores(String ruta) {
-        CsvToBean<CSVOrganizador> organizadoresCsv;
+		CsvToBean<CSVOrganizador> organizadoresCsv;
 		try {
 			organizadoresCsv = new CsvToBeanBuilder<CSVOrganizador>(
-			        new FileReader(ruta))
-			        .withType(CSVOrganizador.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVOrganizador.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVOrganizador> listaOrganizadores = organizadoresCsv.parse();
-	        this.organizadores = listaOrganizadores.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVOrganizador::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
+			this.organizadores = listaOrganizadores.stream()
+					.collect(Collectors.toMap(
+							CSVOrganizador::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Carga las usuarios que se encuentran en las colecciones usuariosAsistente, asistentes, usuariosOrganizador y organizadores al sistema.
 	 * Si las colecciones instituciones, asistentes y usuarioAsistente están vacías, entonces no carga los asistentes
@@ -287,31 +287,31 @@ public class CargaDatos {
 			}
 		}
 	}
-	
+
 	//------------EVENTO-----------------
 	public void leerEventos(String ruta) {
-        CsvToBean<CSVEvento> eventosCsv;
+		CsvToBean<CSVEvento> eventosCsv;
 		try {
 			eventosCsv = new CsvToBeanBuilder<CSVEvento>(
-			        new FileReader(ruta))
-			        .withType(CSVEvento.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVEvento.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVEvento> listaEventos = eventosCsv.parse();
-	        this.eventos = listaEventos.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVEvento::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
-	        System.out.println("EVENTOS: " + this.eventos);
+			this.eventos = listaEventos.stream()
+					.collect(Collectors.toMap(
+							CSVEvento::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
+			System.out.println("EVENTOS: " + this.eventos);
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cargarEventos() {
 		if (this.eventos != null) {
 			List<String> categoriasEvento = new ArrayList<String>();
@@ -326,30 +326,30 @@ public class CargaDatos {
 		}
 	}
 	//------------EVENTO-----------------
-	
+
 	//------------EDICION-----------------
 	public void leerEdiciones(String ruta) {
-        CsvToBean<CSVEdicion> edicionesCsv;
+		CsvToBean<CSVEdicion> edicionesCsv;
 		try {
 			edicionesCsv = new CsvToBeanBuilder<CSVEdicion>(
-			        new FileReader(ruta))
-			        .withType(CSVEdicion.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVEdicion.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVEdicion> listaEdiciones = edicionesCsv.parse();
-	        this.ediciones = listaEdiciones.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVEdicion::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-            								 ));
+			this.ediciones = listaEdiciones.stream()
+					.collect(Collectors.toMap(
+							CSVEdicion::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cargarEdiciones() {
 		if (this.eventos != null && this.ediciones!= null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -361,30 +361,30 @@ public class CargaDatos {
 		}
 	}
 	//------------EDICION-----------------
-	
+
 	//------------TIPOREGISTRO-----------------
 	public void leerTipoRegistro(String ruta) {
-	    CsvToBean<CSVTipoRegistro> tipoRegistroCsv;
+		CsvToBean<CSVTipoRegistro> tipoRegistroCsv;
 		try {
 			tipoRegistroCsv = new CsvToBeanBuilder<CSVTipoRegistro>(
-			        new FileReader(ruta))
-			        .withType(CSVTipoRegistro.class)
-			        .withSeparator(';')
-			        .withIgnoreLeadingWhiteSpace(true)
-			        .withIgnoreEmptyLine(true)
-			        .build();
+					new FileReader(ruta))
+					.withType(CSVTipoRegistro.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
 			List<CSVTipoRegistro> listaTipoRegistro = tipoRegistroCsv.parse();
-	        this.tiposRegistro = listaTipoRegistro.stream()
-	                						 .collect(Collectors.toMap(
-	                								 CSVTipoRegistro::getRef,
-	                								 d -> d,
-	                								 (existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
-	        								 ));
+			this.tiposRegistro = listaTipoRegistro.stream()
+					.collect(Collectors.toMap(
+							CSVTipoRegistro::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cargarTipoRegistro() {
 		if (this.tiposRegistro!= null) {
 			for (String ref : this.tiposRegistro.keySet()) {
@@ -400,7 +400,46 @@ public class CargaDatos {
 		}
 	}
 	//------------TIPOREGISTRO-----------------
-	
+
+	//------------PATROCINIO-----------------
+	public void leerPatrocinios(String ruta) {
+		CsvToBean<CSVPatrocinio> patrocinioCsv;
+		try {
+			patrocinioCsv = new CsvToBeanBuilder<CSVPatrocinio>(
+					new FileReader(ruta))
+					.withType(CSVPatrocinio.class)
+					.withSeparator(';')
+					.withIgnoreLeadingWhiteSpace(true)
+					.withIgnoreEmptyLine(true)
+					.build();
+			List<CSVPatrocinio> listaPatrocinios = patrocinioCsv.parse();
+			this.patrocinios = listaPatrocinios.stream()
+					.collect(Collectors.toMap(
+							CSVPatrocinio::getRef,
+							d -> d,
+							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+							));
+		} catch (IllegalStateException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cargarPatrocinios() {
+		if (this.patrocinios != null && this.eventos != null && this.ediciones != null && this.instituciones != null) {
+			for (String ref : this.patrocinios.keySet()) {
+				CSVPatrocinio patrocinio = patrocinios.get(ref);
+				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getRef()).getNombre();
+				String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
+				String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
+				Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+				Institucion institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
+				ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
+				this.manejadorEventos.altaPatrocinio(patrocinio.getCodigoPatrocinio(), patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), nivel, patrocinio.getCuposGratuitos(), institucion, edicion);
+			}
+		}
+	}
+	//------------PATROCINIO-----------------
+
 	/**
 	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
 	 * Si falta alguno de los 10 archivos requeridos para la carga, devuelve un error y no continua con la ejecución
@@ -408,51 +447,51 @@ public class CargaDatos {
 	 * @param rutas
 	 */
 	public void cargarArchivos(String[] rutas) {
-		
-		// Validar que cada archivo requerido esté presente en las rutas
-	    for (String requerido : this.nombreArchivosOrdenados) {
-	        boolean encontrado = Arrays.stream(rutas)
-	                                   .anyMatch(ruta -> ruta.endsWith(requerido));
-	        if (!encontrado) {
-	            throw new IllegalArgumentException(
-	                "Falta el archivo requerido: " + requerido
-	            );
-	        }
-	    }
-		
-		for (String nombreEsperado : this.nombreArchivosOrdenados) {
-	        String rutaEncontrada = null;
-	        for (String ruta : rutas) {
-	            if (ruta.endsWith(nombreEsperado)) {
-	                rutaEncontrada = ruta;
-	                break;
-	            }
-	        }	        
 
-	     // Llamo a la función adecuada según el archivo
-	        if (nombreEsperado.equals("2025Categorias.csv")) {
-	            this.leerCategorias(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Usuarios.csv")) {
-	            this.leerUsuarios(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Instituciones.csv")) {
-	            this.leerInstituciones(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Usuarios-Organizadores.csv")) {
-	            this.leerOrganizadores(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Usuarios-Asistentes.csv")) {
-	            this.leerAsistentes(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Eventos.csv")) {
-	            this.leerEventos(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025EdicionesEventos.csv")) {
-	            this.leerEdiciones(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025TipoRegistro.csv")) {
-	            this.leerTipoRegistro(rutaEncontrada);
-	        } else if (nombreEsperado.equals("2025Patrocinios.csv")) {
-	            // TODO: Implementar
-	        } else if (nombreEsperado.equals("2025Registros.csv")) {
-	            // TODO: Implementar
-	        } else {
-	            System.err.println("Archivo no reconocido: " + nombreEsperado);
-	        }
+		// Validar que cada archivo requerido esté presente en las rutas
+		for (String requerido : this.nombreArchivosOrdenados) {
+			boolean encontrado = Arrays.stream(rutas)
+					.anyMatch(ruta -> ruta.endsWith(requerido));
+			if (!encontrado) {
+				throw new IllegalArgumentException(
+						"Falta el archivo requerido: " + requerido
+						);
+			}
+		}
+
+		for (String nombreEsperado : this.nombreArchivosOrdenados) {
+			String rutaEncontrada = null;
+			for (String ruta : rutas) {
+				if (ruta.endsWith(nombreEsperado)) {
+					rutaEncontrada = ruta;
+					break;
+				}
+			}	        
+
+			// Llamo a la función adecuada según el archivo
+			if (nombreEsperado.equals("2025Categorias.csv")) {
+				this.leerCategorias(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Usuarios.csv")) {
+				this.leerUsuarios(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Instituciones.csv")) {
+				this.leerInstituciones(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Usuarios-Organizadores.csv")) {
+				this.leerOrganizadores(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Usuarios-Asistentes.csv")) {
+				this.leerAsistentes(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Eventos.csv")) {
+				this.leerEventos(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025EdicionesEventos.csv")) {
+				this.leerEdiciones(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025TipoRegistro.csv")) {
+				this.leerTipoRegistro(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025Patrocinios.csv")) {
+				// TODO: Implementar
+			} else if (nombreEsperado.equals("2025Registros.csv")) {
+				// TODO: Implementar
+			} else {
+				System.err.println("Archivo no reconocido: " + nombreEsperado);
+			}
 		}
 		this.cargarCategorias();
 		this.cargarInstituciones();

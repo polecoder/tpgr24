@@ -17,10 +17,12 @@ import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
     private static ControladorEventos instancia;
-	  private ManejadorEventos manejadorEventos;
+    private ManejadorEventos manejadorEventos;
+	private IControladorInstitucion interfazInstitucion;
     
     private ControladorEventos() {
     	this.manejadorEventos = ManejadorEventos.getInstancia();
+    	this.interfazInstitucion = ControladorInstitucion.getInstance();
     }
 
     public static ControladorEventos getInstance() {
@@ -208,5 +210,13 @@ public class ControladorEventos implements IControladorEventos {
     	};
     	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
     }
+
+	@Override
+	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
+			int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion) {
+		Institucion institucion = this.interfazInstitucion.getInstitucion(nombreInstitucion);
+		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+		this.manejadorEventos.altaPatrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion, edicion);
+	}
 }
 	

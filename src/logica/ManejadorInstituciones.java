@@ -62,15 +62,6 @@ public class ManejadorInstituciones {
 		return institucion;
 	}
 	
-	/**
-	 * Imprime en consola todas las instituciones que existen en la colección de instituciones.
-	 */
-	public void imprimirInstituciones() {
-		if (this.instituciones != null) {
-			System.out.println(this.instituciones);
-		}
-	}
-	
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null; 
 	}
