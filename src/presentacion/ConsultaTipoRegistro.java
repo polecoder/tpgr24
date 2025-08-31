@@ -28,6 +28,8 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_CuposDisp;
 	private ControladorEventos controladorEventos = ControladorEventos.getInstance();
 	
+	private JComboBox<String> comboEvento, comboEdicion, comboTipoRegistro;
+	
 	public ConsultaTipoRegistro(String nombreParam, String nombreEventoParam, String nombreEdicionParam) {		
 		super("Consulta Tipo registro", true, true, true, true);
 		setSize(300, 247);       
@@ -50,7 +52,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Evento.gridy = 0;
 		getContentPane().add(lbl_Evento, gbc_lbl_Evento);
 		
-		JComboBox<String> comboEvento = new JComboBox<>();
+		comboEvento = new JComboBox<>();
 		Set<String> eventos = controladorEventos.nombresEventos(); // Inicializo los eventos al iniciar el Caso de Uso
 		if (eventos != null) {
 			for (String evento : eventos) { comboEvento.addItem(evento); }
@@ -77,7 +79,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Edicion.gridy = 1;
 		getContentPane().add(lbl_Edicion, gbc_lbl_Edicion);
 		
-		JComboBox<String> comboEdicion = new JComboBox<>();
+		comboEdicion = new JComboBox<>();
 		Set<String> ediciones;
 		try { ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
 		} catch (EventoNoExiste ex) {
@@ -109,7 +111,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_TipoRegistro.gridy = 2;
 		getContentPane().add(lbl_TipoRegistro, gbc_lbl_TipoRegistro);
 		
-		JComboBox<String> comboTipoRegistro = new JComboBox<>();
+		comboTipoRegistro = new JComboBox<>();
 		String[] tiposRegistro;
 		try { 
 			tiposRegistro = controladorEventos.getTiposRegistro(comboEvento.getItemAt(comboEvento.getSelectedIndex()), comboEdicion.getItemAt(comboEdicion.getSelectedIndex()));
@@ -239,6 +241,10 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		//----------DISPONIBLES----------
 		//--------------------DETALLES--------------------
 		
+		// Agrego datos al inicio
+    	try { actualizarDatos();
+    	} catch (TipoRegistroNoExiste ex) {}
+		
 		
 		//----------ACTIONLISTENERS----------
 		// Actualizo opciones de Edicion y TipoRegistro al cambiar de Evento
@@ -252,11 +258,8 @@ public class ConsultaTipoRegistro extends JInternalFrame {
             	comboEdicion.removeAllItems();
             	comboTipoRegistro.removeAllItems();
             	// Agregar nuevas opciones a comboEdicion
-            	String eventoSeleccionado = comboEvento.getItemAt(comboEvento.getSelectedIndex());
-            	
-            	JComboBox<String> comboEdicion = new JComboBox<>();
         		Set<String> ediciones;
-        		try { ediciones = controladorEventos.nombresEdicionesEvento(eventoSeleccionado);
+        		try { ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
         		} catch (EventoNoExiste ex) {
         			ediciones = null;
         		}
@@ -265,11 +268,9 @@ public class ConsultaTipoRegistro extends JInternalFrame {
         		}
         		
             	// Agregar nuevas opciones a comboTipoRegistro
-            	String edicionSeleccionada = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
-            	
             	String[] nombreTiposRegistro;
         		try { 
-        			nombreTiposRegistro = controladorEventos.getTiposRegistro(eventoSeleccionado, edicionSeleccionada);
+        			nombreTiposRegistro = controladorEventos.getTiposRegistro(comboEvento.getItemAt(comboEvento.getSelectedIndex()), comboEdicion.getItemAt(comboEdicion.getSelectedIndex()));
         		} catch (EventoNoExiste ex) { nombreTiposRegistro = null;
         		} catch (EdicionNoExiste ex) { nombreTiposRegistro = null;
         		}
@@ -278,9 +279,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
             	}
 
             	// Actualizar datos
-            	String tipoRegistroSeleccionado = comboTipoRegistro.getItemAt(comboTipoRegistro.getSelectedIndex());
-            	try {
-                	actualizarDatos(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado);
+            	try { actualizarDatos();
             	} catch (TipoRegistroNoExiste ex) {
             		JOptionPane.showMessageDialog(null,  "El Tipo de Registro no existe");
 					return;
@@ -314,9 +313,8 @@ public class ConsultaTipoRegistro extends JInternalFrame {
             		for (String nombre : nombreTiposRegistro) { comboTipoRegistro.addItem(nombre); }
             	}
             	// Actualizar datos
-            	String tipoRegistroSeleccionado = comboTipoRegistro.getItemAt(comboTipoRegistro.getSelectedIndex());
             	try {
-                	actualizarDatos(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado);
+                	actualizarDatos();
             	} catch (TipoRegistroNoExiste ex) {
             		JOptionPane.showMessageDialog(null,  "El Tipo de Registro no existe");
 					return;
@@ -335,11 +333,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent e) { // Cuando se cierra el combo
             	// Actualizar datos
-            	String eventoSeleccionado = comboEvento.getItemAt(comboEvento.getSelectedIndex());
-            	String edicionSeleccionada = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
-            	String tipoRegistroSeleccionado = comboTipoRegistro.getItemAt(comboTipoRegistro.getSelectedIndex());
-            	try {
-                	actualizarDatos(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado);
+            	try { actualizarDatos();
             	} catch (TipoRegistroNoExiste ex) {
             		JOptionPane.showMessageDialog(null,  "El Tipo de Registro no existe");
 					return;
@@ -352,8 +346,18 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	}
 	
 	// FUNCIONES
-	public void actualizarDatos(String eventoSeleccionado, String edicionSeleccionada, String tipoRegistroSeleccionado) throws TipoRegistroNoExiste {
-    	DTTipoRegistro dtTipoRegistro = null;
+	public void actualizarDatos() throws TipoRegistroNoExiste {
+		String tipoRegistroSeleccionado = comboTipoRegistro.getItemAt(comboTipoRegistro.getSelectedIndex());
+		String eventoSeleccionado = comboEvento.getItemAt(comboEvento.getSelectedIndex());
+		String edicionSeleccionada = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
+		
+		textField_Nombre.setText("");
+    	textField_Descripcion.setText("");
+    	textField_Costo.setText("");
+    	textField_CuposMax.setText("");
+    	textField_CuposDisp.setText("");
+		
+		DTTipoRegistro dtTipoRegistro = null;
 		try {
     		dtTipoRegistro = controladorEventos.getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado);
     	} catch (TipoRegistroNoExiste ex) {
