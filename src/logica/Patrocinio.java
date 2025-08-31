@@ -57,4 +57,14 @@ public class Patrocinio {
 	public void setInstitucion(Institucion institucion) {
 		this.institucion = institucion;
 	}
+	public void setCupos(int cupos) {this.cuposGratuitos = cupos;}
+	
+	public boolean checkAsistente(String nicknameAsistente) {
+		try {
+			return institucion.checkAsistente(nicknameAsistente);
+		}catch(Exception CAError) {
+			System.out.printf("ERROR: Patrocinio::checkAsistente() ERROR {0}", CAError);
+			return false;
+		}
+	}
 }

@@ -1,5 +1,4 @@
 package logica.datatypes;
-
 import java.util.Date;
 
 public class DTEdicionEvento {

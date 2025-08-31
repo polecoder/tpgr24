@@ -19,7 +19,7 @@ public class FramePrincipal extends JFrame {
         ventana.setVisible(true);
         try {
             ventana.setSelected(true);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {} 
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,14 +71,23 @@ public class FramePrincipal extends JFrame {
         menuRegistro.add(itemA);
         menuRegistro.add(itemB);
         
+		item_ConsultaTipoRegistro.addActionListener(e -> {
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(null, null, null);
+		    panel.add(ventanaConsultaTipoRegistro);           
+		    ventanaConsultaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaConsultaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
+        
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);
 
-        JMenuItem itemC = new JMenuItem("Alta Institución");
+        JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem itemD = new JMenuItem("Alta Patrocinio");
         JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
 
-        menuInstitucion.add(itemC);
+        menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(itemD);
         menuInstitucion.add(itemE);
         
@@ -178,6 +187,15 @@ public class FramePrincipal extends JFrame {
 		    try {
 		    	ventanaRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
+		});
+		
+		item_AltaInstitucion.addActionListener(e->{
+			AltaInstitucion ventanaAltaInstitucion = new AltaInstitucion();
+			panel.add(ventanaAltaInstitucion);
+			ventanaAltaInstitucion.setVisible(true);
+			try {
+			    ventanaAltaInstitucion.setSelected(true); 
+			} catch (Exception ex) {}
 		});
 		setVisible(true);
 	}

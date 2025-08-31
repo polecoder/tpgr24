@@ -41,5 +41,33 @@ public class ControladorInstitucion implements IControladorInstitucion {
 
 	    return nombresInstituciones;
 	}
+	@Override
+	public void AltaInstitucion(String nombre, String descripcion, String sitioWeb) throws Exception {
+	    // Validación de campos obligatorios
+	    if (nombre == null || nombre.trim().isEmpty() ||
+	        descripcion == null || descripcion.trim().isEmpty() ||
+	        sitioWeb == null || sitioWeb.trim().isEmpty()) {
+	        throw new Exception("Todos los campos son obligatorios");
+	    }
+	    
+	    // Validación de nombre ya existente (sin implementación aún)
+	    if (manejadorInstituciones.existeNombre(nombre)) {
+	        throw new Exception("Ya existe una institución con ese nombre");
+	    }
+
+	    // Validación de formato de nombre
+	    if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ()\\s]+$")) {
+	        throw new Exception("El nombre solo puede contener letras, espacios y paréntesis");
+	    }
+
+	    // Validación de formato de sitio web
+	    if (!sitioWeb.matches("^(https?://).+")) {
+	        throw new Exception("El sitio web debe comenzar con http:// o https://");
+	    }
+
+	    // Si todo está bien, continuar con la lógica de alta
+	    manejadorInstituciones.AgregarInstitucion(nombre, descripcion, sitioWeb);
+	}
+
 }
 

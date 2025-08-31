@@ -2,10 +2,12 @@ package logica;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.DTTipoRegistro;
 import logica.datatypes.DTTipoRegistro;
 
 public class Edicion {
@@ -144,12 +146,35 @@ public class Edicion {
 	
 	// TODO: Implementar y revisar el nombre
 	public boolean validar(String nicknameAsistente, String nombreTipoRegistro) {
-		return false;
+		TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
+		int cupos = tr.getCuposDisponibles();
+		if(cupos>0) {
+			return tr.validar(nicknameAsistente);
+		}else {
+			System.out.print("Edicion::validar(): No hay cupos disponibles");
+			return false;
+		}
 	}
 	
 	// TODO: Implementar y revisar el nombre
 	public boolean check(String codigoPatrocinio, String nicknameAsistente) {
-		return false;
+		boolean pertenece =  patrocinios.containsKey(codigoPatrocinio);
+		Patrocinio p = patrocinios.get(codigoPatrocinio);
+		boolean checkA = p.checkAsistente(nicknameAsistente);
+		return checkA && pertenece;
+	}
+	
+	public Map<String,DTTipoRegistro> listarTipoRegistro() {
+		Map<String, DTTipoRegistro> mList = new HashMap<>();
+		for(TipoRegistro r : tiposRegistro.values()) {
+			String nombre = r.getNombre();
+			String descripcion = r.getDescripcion();
+			float costo = r.getCosto();
+			int cupoM = r.getCuposMax();
+			int cupoD = r.getCuposDisponibles();
+			mList.put(nombre, new DTTipoRegistro(nombre, descripcion, costo, cupoM, cupoD));
+		}
+		return mList;
 	}
 	
 	public DTTipoRegistro getDTTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste {

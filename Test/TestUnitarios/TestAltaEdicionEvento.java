@@ -3,23 +3,22 @@ package TestUnitarios;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import logica.ControladorEventos;
-import logica.Evento;
-import logica.ManejadorEventos;
+import logica.Fabrica;
+import logica.IControladorEventos; 
 import logica.Utilidades;
 import logica.datatypes.DTEdicionEvento;
 
 class TestAltaEdicionEvento {
-    ControladorEventos controlador = ControladorEventos.getInstance();
-    ManejadorEventos manejador = ManejadorEventos.getInstancia();
-    
+    Fabrica fabrica = Fabrica.getInstancia();
+    IControladorEventos controlador = fabrica.getControladorEvento();
+
     @Test
     void altaEdicionEventoValida() throws Exception {
-    	Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)));
-    	manejador.agregarEvento(evento);
+    	controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
         String nombreEdicion = "ExpoTech2025";
         String sigla = "ET25";
         String ciudad = "Montevideo";
@@ -29,10 +28,10 @@ class TestAltaEdicionEvento {
         LocalDate fechaFin = LocalDate.of(2025, 9, 12);
 
         assertDoesNotThrow(() -> {
-            controlador.altaEdicionEvento("ExpoTech", nombreEdicion, sigla, Utilidades.toDate(fechaInicio), Utilidades.toDate(fechaFin), Utilidades.toDate(fechaAlta), ciudad, pais);
+            controlador.altaEdicionEvento("ExpoTech1", nombreEdicion, sigla, Utilidades.toDate(fechaInicio), Utilidades.toDate(fechaFin), Utilidades.toDate(fechaAlta), ciudad, pais);
         });
 
-        DTEdicionEvento dt = controlador.getDTEdicion(evento.getNombre(), nombreEdicion);
+        DTEdicionEvento dt = controlador.getDTEdicion("ExpoTech1", nombreEdicion);
         assertNotNull(dt);
         assertEquals(nombreEdicion, dt.getNombre());
         assertEquals(sigla, dt.getSigla());
@@ -45,7 +44,7 @@ class TestAltaEdicionEvento {
     @Test
     void altaEdicionConCamposVacios() {
         Exception ex = assertThrows(Exception.class, () -> {
-            controlador.altaEdicionEvento("ExpoTech", "", "", Utilidades.toDate(LocalDate.of(2025, 8, 29)), Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), "", "");
+            controlador.altaEdicionEvento("ExpoTech1", "", "", Utilidades.toDate(LocalDate.of(2025, 8, 29)), Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), "", "");
         });
         assertTrue(ex.getMessage().contains("Todos los campos deben estar completos"));
     }
@@ -53,7 +52,7 @@ class TestAltaEdicionEvento {
     @Test
     void fechaFinAntesDeInicio() {
         Exception ex = assertThrows(Exception.class, () -> {
-            controlador.altaEdicionEvento("ExpoTech", "ExpoTech2026", "ET26", Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo", "Uruguay");
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2026", "ET26", Utilidades.toDate(LocalDate.of(2025, 10, 30)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo", "Uruguay");
         });
         assertTrue(ex.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
     }
@@ -61,30 +60,35 @@ class TestAltaEdicionEvento {
     @Test
     void fechaAltaPosteriorAInicioYFin() {
         Exception ex = assertThrows(Exception.class, () -> {
-            controlador.altaEdicionEvento("ExpoTech", "ExpoTech2027", "ET27", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 15)), Utilidades.toDate(LocalDate.of(2025, 9, 20)), "Montevideo", "Uruguay");
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2027", "ET27", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 15)), Utilidades.toDate(LocalDate.of(2025, 9, 20)), "Montevideo", "Uruguay");
         });
         assertTrue(ex.getMessage().contains("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin"));
     }
 
     @Test
-    void ciudadYPaisConNumerosYFechasInvalidas() {
+    void ciudadYPaisConNumerosYFechasInvalidas() throws Exception {
         // Ciudad con números
+        controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
         Exception ex1 = assertThrows(Exception.class, () -> {
-            controlador.altaEdicionEvento("ExpoTech", "ExpoTech2028", "ET28", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo123", "Uruguay");
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2028", "ET28", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo123", "Uruguay");
         });
         assertTrue(ex1.getMessage().contains("La ciudad solo puede contener letras y espacios"));
 
         // País con números
         Exception ex2 = assertThrows(Exception.class, () -> {
-            controlador.altaEdicionEvento("ExpoTech", "ExpoTech2029", "ET29", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo", "Uruguay2025");
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2029", "ET29", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo", "Uruguay2025");
         });
         assertTrue(ex2.getMessage().contains("El país solo puede contener letras y espacios"));
 
         // Fecha de fin antes que inicio
         Exception ex3 = assertThrows(Exception.class, () -> {
-        	controlador.altaEdicionEvento("ExpoTech", "ExpoTech2030", "ET30",Utilidades.toDate(LocalDate.of(2025, 10, 10)),Utilidades.toDate(LocalDate.of(2025, 10, 5)), Utilidades.toDate(LocalDate.of(2025, 9, 1)),"Montevideo", "Uruguay");
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2030", "ET30",Utilidades.toDate(LocalDate.of(2025, 10, 10)),Utilidades.toDate( LocalDate.of(2025, 10, 5)), Utilidades.toDate(LocalDate.of(2025, 9, 1)),"Montevideo", "Uruguay");
         });
         assertTrue(ex3.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
+
+        assertDoesNotThrow(() -> {
+            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2032", "ET32", Utilidades.toDate(LocalDate.of(2025, 10, 10)), Utilidades.toDate(LocalDate.of(2025, 10, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 1)), "Montevideo", "Uruguay");
+        });
      
 	    // Fecha en el pasado
 	    Exception ex4 = assertThrows(Exception.class, () -> {

@@ -1,10 +1,10 @@
 package logica;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Asistente extends Usuario {
 	
@@ -12,13 +12,12 @@ public class Asistente extends Usuario {
 	private String apellido;
 	private Date nacimiento;
 	private List<Registro> registros;
-	
 	private Institucion institucion;
 	
 	public Asistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
 		super(nickname, nombre, correo);
-		this.apellido = apellido;
-		this.nacimiento = fechaNacimiento;
+		this.setApellido(apellido);
+		this.setNacimiento(fechaNacimiento);
 		this.registros = new ArrayList<>();
 		this.setInstitucion(institucion);
 	}
@@ -40,6 +39,5 @@ public class Asistente extends Usuario {
             logger.log(Level.SEVERE, "Asistente::addRegistro() ERROR: ", ARError);
 		}
 	}
-	//
 }
 

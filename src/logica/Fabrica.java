@@ -18,7 +18,7 @@ public class Fabrica {
         return ControladorEventos.getInstance();
     }
 
-    public ControladorInstitucion getControladorInstitucion() {
+    public IControladorInstitucion getControladorInstitucion() {
         return ControladorInstitucion.getInstance();
     }
 }

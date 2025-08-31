@@ -1,17 +1,18 @@
 package logica;
 
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
 import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDatosPatrocinio;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
@@ -36,9 +37,22 @@ public class ControladorEventos implements IControladorEventos {
 		return instancia;
 	}
 
-	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-		return null;
-	}
+	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
+    	Evento ev = manejadorEventos.getEvento(nombreEvento);
+    	Map<String, Edicion> eds = ev.getEdiciones();
+    	Map<String, DTEdicionEvento> mLista = new HashMap<>();
+    	for(Edicion ed : eds.values()) {
+    		String nombre = ed.getNombre();
+    		String sigla = ed.getSigla();
+    		Date fInicio = ed.getFechaInicio();
+    		Date fFin = ed.getFechaFin();
+    		Date fAlta = ed.getFechaAlta();
+    		String ciudad = ed.getCiudad();
+    		String pais = ed.getPais();
+    		mLista.put(nombre, new DTEdicionEvento(nombre,sigla,fInicio, fFin, fAlta, ciudad, pais));
+    	}
+    	return mLista;
+    }
 
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
 		return null;
@@ -52,23 +66,25 @@ public class ControladorEventos implements IControladorEventos {
 		// HACER
 	}
 
-	public Set<DTEvento> listarEventos() {
-		return null;
+    public Map<String,DTEvento> listarEventos() {
+        return manejadorEventos.listarEventos();
+    }
+
+	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
 	}
 
-	public Set<DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
-		return null;
-	}
+    public boolean validar(String nicknameAsistente, String nombreEdicion,
+                           String nombreTipoRegistro, String nombreEvento) {
+        Evento ev = manejadorEventos.getEvento(nombreEvento);
+        Edicion ed = ev.getEdicion(nombreEdicion);
+        return ed.validar(nicknameAsistente, nombreTipoRegistro);
+    }
 
-	public boolean validar(String nicknameAsistente, String nombreEdicion,
-			String nombreTipoRegistro, String nombreEvento) {
-		return false;
-	}
-
-	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
+	/* public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
 		// HACER
-	}
+	}*/ // Reemplazada por "altaRegistro()"
 
 
 
@@ -97,36 +113,6 @@ public class ControladorEventos implements IControladorEventos {
 		return this.manejadorEventos.existeEvento(nombreEvento);
 	}
 
-	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
-		return false;
-	}
-
-	public String[] getNombreEventos() {
-		Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
-		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
-
-		// Por cada evento, agrego su nombre a la lista
-		int i = 0;
-		for (DTEvento evento : listaEventos) {
-			nombreEventos[i] = evento.getNombre();
-		}
-		return new String[] {"Ev1", "Ev2"}; //nombreEventos;
-	}
-
-
-	@Override
-	public String[] getNombresEdiciones(String nombreEvento) {
-		Set<DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
-		String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
-
-		// Por cada evento, agrego su nombre a la lista
-		int i = 0;
-		for (DTEdicionEvento evento : listaEdiciones) {
-			nombreEdiciones[i] = evento.getNombre();
-		}
-		return nombreEdiciones;
-	}
-
 	@Override
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {
 		if (costo < 0) throw new DatosTipoRegistroInvalidos("El costo debe ser mayor o igual a cero");
@@ -140,27 +126,31 @@ public class ControladorEventos implements IControladorEventos {
 		}
 	}
 
-	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) {
-		return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
-	}
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
+    	try { return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
+    	} catch (EventoNoExiste ex) { throw ex;
+    	} catch (EdicionNoExiste ex) { throw ex;
+    	}
+    }
 
 	@Override
-	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
-		try {
-			manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-		} catch (TipoRegistroNoExiste ex) {
-			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
-		};
-		return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-	}
+	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
+    	try {
+    		manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+    	} catch (TipoRegistroNoExiste ex) { throw ex;
+    	} catch (EventoNoExiste ex) { throw ex; 
+    	} catch (EdicionNoExiste ex) { throw ex;
+    	}
+    	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+    }
 
 	@Override
-	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
-			int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion) {
+	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion) {
 		Institucion institucion = this.interfazInstitucion.getInstitucion(nombreInstitucion);
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		this.manejadorEventos.altaPatrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion, edicion);
 	}
+
 
 	@Override
 	public DTEvento getDTEvento(String nombre) {
@@ -179,9 +169,13 @@ public class ControladorEventos implements IControladorEventos {
 	public Set<String> nombresCategorias(String nombre){
 		return manejadorEventos.getNombresCategorias(nombre);
 	}
-
-	public Set<String> nombresEdicionesEvento(String nombre) {
-		return manejadorEventos.getNombresEdiciones(nombre);
+	
+	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste {
+		try {
+			return manejadorEventos.getNombresEdiciones(nombre);
+		} catch (EventoNoExiste ex) {
+			throw ex;
+		}
 	}
 
 
@@ -242,11 +236,5 @@ public class ControladorEventos implements IControladorEventos {
 		} catch(Exception CRError) {
 
 		}
-	}
-
-	@Override
-	public Set<DTTipoRegistro> listarTipoRegistro() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

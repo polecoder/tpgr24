@@ -1,28 +1,27 @@
 package presentacion;
 
 
-import javax.swing.JInternalFrame;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import excepciones.EventoNoExiste;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.datatypes.DTEvento;
-
-import java.awt.Insets;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Set;
 
 public class ConsultaEvento extends JInternalFrame {
 
@@ -187,7 +186,11 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 		    JComboBox<String> comboEdiciones = new JComboBox<>();
 			
-			Set<String> edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			Set<String> edicionesDisponibles;
+			try { edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			} catch (EventoNoExiste ex){
+				edicionesDisponibles = null;
+			}
 			 if (edicionesDisponibles != null){
 			        for (String edicion : edicionesDisponibles) {
 			            comboEdiciones.addItem(edicion);

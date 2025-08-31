@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import excepciones.EdicionNoExiste;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
@@ -18,12 +19,12 @@ public class Evento {
 	 private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=fechaAlta;
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(fechaAlta);
 		this.categorias=new HashMap<>();
-		this.ediciones=new HashMap<>();
+		this.ediciones=new HashMap<>(); 
 	}
 	public String getNombre(){
 		return this.nombre;
@@ -80,8 +81,9 @@ public class Evento {
 		return ediciones.get(nombreEdicion);
 	}
 	
-	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste {
+	public DTTipoRegistro getDTTipoRegistro(String nombreEdiocion, String nombreTipoRegistro) throws TipoRegistroNoExiste, EdicionNoExiste {
 		Edicion edicion = ediciones.get(nombreEdiocion);
+		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); }
 		try {
 			edicion.getDTTipoRegistro(nombreTipoRegistro);
 		} catch (TipoRegistroNoExiste ex) {

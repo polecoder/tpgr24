@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -169,8 +170,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	
 	@Override
 	public Set<String> nombresOrganizadores() {
-		// TODO Auto-generated method stub
-		return null;
+		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
 }
 
