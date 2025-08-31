@@ -1,6 +1,5 @@
 package logica.datatypes;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class DTEvento {

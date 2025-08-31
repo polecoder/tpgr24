@@ -18,8 +18,6 @@ import logica.IControladorUsuarios;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 
