@@ -1,12 +1,12 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 import logica.datatypes.DTDetalleRegistro;
 
 public class Registro {
-	private LocalDate fechaRegistro;
+	private Date fechaRegistro;
 	private float costo;
 	private Asistente asistente;
 	private Patrocinio patrocinio;
@@ -19,17 +19,17 @@ public class Registro {
 	 * @param asistente
 	 * @param patrocinio
 	 */
-	public Registro(LocalDate fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio) {
+	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
 		this.setAsistente(asistente);
 		this.setPatrocinio(patrocinio);
 	}
 	
-	public LocalDate getFechaRegistro() {
+	public Date getFechaRegistro() {
 		return fechaRegistro;
 	}
-	public void setFechaRegistro(LocalDate fechaRegistro) {
+	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 	

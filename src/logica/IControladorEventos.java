@@ -34,5 +34,6 @@ public interface IControladorEventos {
 	public String[] getNombresEdiciones(String itemAt);
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
+	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
 	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion);
 }

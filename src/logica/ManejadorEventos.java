@@ -198,7 +198,7 @@ public class ManejadorEventos {
 	}
 
 	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
-		Edicion edicion=new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
+		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
 		eventos.get(nombreEvento).agregarEdicion(edicion);
 	};
 		
@@ -206,5 +206,11 @@ public class ManejadorEventos {
 			int cuposGratuitos, Institucion institucion, Edicion edicion) {
 		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion);
 		edicion.agregarPatrocinio(patrocinio);
+	}
+	
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio);
+		tipoRegistro.addRegistro(registro);
+		asistente.addRegistro(registro);
 	}
 }

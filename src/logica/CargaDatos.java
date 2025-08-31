@@ -5,6 +5,7 @@ import logica.csv.CSVCategoria;
 import logica.csv.CSVInstitucion;
 import logica.csv.CSVOrganizador;
 import logica.csv.CSVPatrocinio;
+import logica.csv.CSVRegistro;
 import logica.csv.CSVUsuario;
 import logica.csv.CSVEdicion;
 import logica.csv.CSVEvento;
@@ -25,6 +26,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 
 public class CargaDatos {
 	private static CargaDatos instancia;
@@ -39,7 +41,11 @@ public class CargaDatos {
 	private Map<String, CSVAsistente> asistentes;
 	private Map<String, CSVOrganizador> organizadores;
 	private Map<String, CSVPatrocinio> patrocinios;
-
+	private Map<String, CSVRegistro> registros;
+	private Map<String, CSVEvento> eventos;
+	private Map<String, CSVEdicion> ediciones;
+	private Map<String, CSVTipoRegistro> tiposRegistro;
+	
 	List<String> nombreArchivosOrdenados = List.of(
 			"2025Categorias.csv",
 			"2025Usuarios.csv",
@@ -52,9 +58,6 @@ public class CargaDatos {
 			"2025Patrocinios.csv",
 			"2025Registros.csv"
 			);
-	private Map<String, CSVEvento> eventos;
-	private Map<String, CSVEdicion> ediciones;
-	private Map<String, CSVTipoRegistro> tiposRegistro;
 
 	private CargaDatos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
@@ -69,6 +72,7 @@ public class CargaDatos {
 		this.eventos = new HashMap<>();
 		this.ediciones = new HashMap<>();
 		this.tiposRegistro = new HashMap<>();
+		this.registros = new HashMap<>();
 	}
 
 	public static CargaDatos getInstancia() {
@@ -306,7 +310,6 @@ public class CargaDatos {
 							d -> d,
 							(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
 							));
-			System.out.println("EVENTOS: " + this.eventos);
 		} catch (IllegalStateException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -439,6 +442,52 @@ public class CargaDatos {
 		}
 	}
 	//------------PATROCINIO-----------------
+	
+	//------------REGISTRO-----------------
+		public void leerRegistro(String ruta) {
+			CsvToBean<CSVRegistro> registrosCsv;
+			try {
+				registrosCsv = new CsvToBeanBuilder<CSVRegistro>(
+						new FileReader(ruta))
+						.withType(CSVRegistro.class)
+						.withSeparator(';')
+						.withIgnoreLeadingWhiteSpace(true)
+						.withIgnoreEmptyLine(true)
+						.build();
+				List<CSVRegistro> listaRegistros = registrosCsv.parse();
+				this.registros = listaRegistros.stream()
+						.collect(Collectors.toMap(
+								CSVRegistro::getRef,
+								d -> d,
+								(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+								));
+			} catch (IllegalStateException | FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void cargarRegistros() {
+			if (this.asistentes != null && this.ediciones != null && this.tiposRegistro != null) {
+				for (String ref : this.registros.keySet()) {
+					CSVRegistro registro = registros.get(ref);
+					String nombreAsistente = usuariosAsistente.get(registro.getUsuario()).getNombre();
+					Asistente asistente = this.manejadorUsuarios.getAsistente(nombreAsistente);
+					String nombreEvento = eventos.get(ediciones.get(registro.getEdicion()).getRef()).getNombre();
+					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
+					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
+					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+					TipoRegistro tipoRegistro;
+					try {
+						tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro);
+					} catch (TipoRegistroNoExiste e) {
+						e.printStackTrace();
+						return;
+					}
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, null, registro.getFechaRegistro(), registro.getCosto());
+				}
+			}
+		}
+		//------------REGISTRO-----------------
 
 	/**
 	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
