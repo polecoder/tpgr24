@@ -177,21 +177,25 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		// Event Listener Eventos
 		eventosComboBox.addActionListener(e -> {
 			String selectedEvento = (String) eventosComboBox.getSelectedItem();
-			List<String> listaEdiciones = new ArrayList<>();
-			Map<String, DTEdicionEvento> HMediciones = ICEv.listarEdicionesEvento(selectedEvento);
-			listaEdiciones.addAll(HMediciones.keySet());
-			String[] arrayEdiciones = listaEdiciones.toArray(new String[0]);
-			edicionesComboBox.setModel(new DefaultComboBoxModel<>(arrayEdiciones));
+			if(selectedEvento != "- Seleccione un Evento -") {
+				List<String> listaEdiciones = new ArrayList<>();
+				Map<String, DTEdicionEvento> HMediciones = ICEv.listarEdicionesEvento(selectedEvento);
+				listaEdiciones.addAll(HMediciones.keySet());
+				String[] arrayEdiciones = listaEdiciones.toArray(new String[0]);
+				edicionesComboBox.setModel(new DefaultComboBoxModel<>(arrayEdiciones));				
+			}
 		});
 		// Event Listener Ediciones
 		edicionesComboBox.addActionListener(e -> {
 			String selectedEdicion = (String) edicionesComboBox.getSelectedItem();
-			String selectedEvento = (String) eventosComboBox.getSelectedItem();
-			List<String> listaTipoRegistro = new ArrayList<>();
-			Map<String, DTTipoRegistro> HMTipoRegistros = ICEv.listarTipoRegistro(selectedEvento, selectedEdicion);
-			listaTipoRegistro.addAll(HMTipoRegistros.keySet());
-			String[] arrayTipoRegistros = listaTipoRegistro.toArray(new String[0]);
-			tipoRegistroComboBox.setModel(new DefaultComboBoxModel<>(arrayTipoRegistros));
+			if(selectedEdicion != "- Seleccione una edicion -") {
+				String selectedEvento = (String) eventosComboBox.getSelectedItem();
+				List<String> listaTipoRegistro = new ArrayList<>();
+				Map<String, DTTipoRegistro> HMTipoRegistros = ICEv.listarTipoRegistro(selectedEvento, selectedEdicion);
+				listaTipoRegistro.addAll(HMTipoRegistros.keySet());
+				String[] arrayTipoRegistros = listaTipoRegistro.toArray(new String[0]);
+				tipoRegistroComboBox.setModel(new DefaultComboBoxModel<>(arrayTipoRegistros));				
+			}
 		});
 		// Event Listener Aceptar()
 		aceptarButton.addActionListener(e ->{
@@ -199,32 +203,43 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 			String selectedEdicion = (String) edicionesComboBox.getSelectedItem();
 			String selectedTipoRegistro = (String) tipoRegistroComboBox.getSelectedItem();
 			String selectedAsistente = (String) asistenteComboBox.getSelectedItem();
-			String codigoPatrocinio = (String) codigoPatrocinioField.getText();
-			boolean validacion = ICEv.validar(selectedAsistente, selectedEdicion, selectedTipoRegistro, selectedEvento);
-			if(validacion) {
-				ICEv.altaRegistro(
-						selectedAsistente, 
-						selectedTipoRegistro,
-						selectedEdicion, 
-						selectedEvento,
-						codigoPatrocinio, 
-						Utilidades.toDate(LocalDate.now())); //? LocalDate.now() Es apropiado?
-				JOptionPane.showMessageDialog(this, 
-						"Registro confirmado con exito!", 
-						"Exito!", 
-						JOptionPane.INFORMATION_MESSAGE);
-				this.doDefaultCloseAction();
+			if(
+					selectedEvento == "- Seleccione un Evento -" ||
+					selectedAsistente == "- Seleccione un Asistente -"||
+					selectedEdicion == "- Seleccione una edicion -"||
+					selectedTipoRegistro =="- Seleccione un Tipo de Registro -"
+					) {
+				JOptionPane.showMessageDialog(this, "Hay campos sin seleccionar", "Error",  JOptionPane.ERROR_MESSAGE);
 			}else {
-				int option = JOptionPane.showConfirmDialog(this, 
-						"Los datos ingresados no son correctos. ¿Desea reintentar?", 
-						"Alerta:", 
-						JOptionPane.OK_CANCEL_OPTION, 
-						JOptionPane.WARNING_MESSAGE);
-				if(option == JOptionPane.CANCEL_OPTION) {
+				String codigoPatrocinio = (String) codigoPatrocinioField.getText();
+				boolean validacion = ICEv.validar(selectedAsistente, selectedEdicion, selectedTipoRegistro, selectedEvento);
+				if(validacion) {
+					ICEv.altaRegistro(
+							selectedAsistente, 
+							selectedTipoRegistro,
+							selectedEdicion, 
+							selectedEvento,
+							codigoPatrocinio, 
+							Utilidades.toDate(LocalDate.now())); //? LocalDate.now() Es apropiado?
+					JOptionPane.showMessageDialog(this, 
+							"Registro confirmado con exito!", 
+							"Exito!", 
+							JOptionPane.INFORMATION_MESSAGE);
 					this.doDefaultCloseAction();
+				}else {
+					int option = JOptionPane.showConfirmDialog(this, 
+							"Los datos ingresados no son correctos. ¿Desea reintentar?", 
+							"Alerta:", 
+							JOptionPane.OK_CANCEL_OPTION, 
+							JOptionPane.WARNING_MESSAGE);
+					if(option == JOptionPane.CANCEL_OPTION) {
+						this.doDefaultCloseAction();
+					}
+					
 				}
-
+				
 			}
+			
 		});
 		// Event Listener Cancelar()
 		cancelarButton.addActionListener(e ->{
