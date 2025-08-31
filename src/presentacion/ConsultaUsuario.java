@@ -5,8 +5,14 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import logica.Fabrica;
+import logica.datatypes.DTUsuario;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -20,6 +26,8 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextField nombreTxt;
 	private JTextField correoTxt;
 
+	Fabrica fabrica = Fabrica.getInstancia();
+	
 	public ConsultaUsuario() {
 		super("Consulta Usuario", true, true, true, true);
 		setSize(400, 300);
@@ -41,11 +49,13 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 1;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
-		// TODO: Hardcodeado
 		JComboBox<String> usuariosComboBox = new JComboBox<String>();
-		usuariosComboBox.addItem("Juan Pérez");
-		usuariosComboBox.addItem("María López");
-		usuariosComboBox.addItem("Carlos Gómez");
+		
+		List<DTUsuario> listaUsuarios = fabrica.getControladorUsuarios().listarUsuarios();
+		
+		for (DTUsuario usuario: listaUsuarios) {
+			usuariosComboBox.addItem(usuario.nickname());
+		}
 		GridBagConstraints gbc_usuariosComboBox = new GridBagConstraints();
 		gbc_usuariosComboBox.anchor = GridBagConstraints.WEST;
 		gbc_usuariosComboBox.insets = new Insets(0, 0, 5, 5);

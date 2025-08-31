@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import logica.datatypes.DTAsistente;
+import logica.datatypes.DTDetalleAsistente;
+import logica.datatypes.DTDetalleOrganizador;
+import logica.datatypes.DTDetalleUsuario;
 
 public class ManejadorUsuarios {
 	private static ManejadorUsuarios instance = null;
@@ -74,12 +77,49 @@ public class ManejadorUsuarios {
 	    return CtoA;
 	}
 	
+	/**
+	 * Retorna null en caso de que no exista el organizador
+	 * 
+	 * @param nickname
+	 * @return
+	 */
 	public Organizador getOrganizador(String nickname) {
-		return conjuntoOrganizadores.get(nickname);
+		if (this.conjuntoOrganizadores.containsKey(nickname)) {
+			return conjuntoOrganizadores.get(nickname);
+		}
+		return null;
 	}
 	
+	/**
+	 * Retorna null en caso de que no exista el asistente
+	 * 
+	 * @param nickname
+	 * @return
+	 */
 	public Asistente getAsistente(String nickname) {
-		return conjuntoAsistentes.get(nickname);
+		if (this.conjuntoAsistentes.containsKey(nickname)) {
+			return conjuntoAsistentes.get(nickname);
+		}
+		return null;
+	}
+	
+	/**
+	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una excepción.
+	 * 
+	 * @param nicknameUsuario
+	 * @return
+	 * @throws Exception 
+	 */
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
+		if (this.getOrganizador(nicknameUsuario) != null) {
+			Organizador organizador = this.getOrganizador(nicknameUsuario);
+			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink());
+		} else if (this.getAsistente(nicknameUsuario) != null) {
+			Asistente asistente = this.getAsistente(nicknameUsuario);
+			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento());
+		} else {
+			throw new Exception("El usuario indicado no existe en el sistema.");
+		}
 	}
 }
 
