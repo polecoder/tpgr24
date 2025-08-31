@@ -1,7 +1,5 @@
 package logica;
 
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +13,7 @@ public class TipoRegistro {
     private float costo;
     private int cuposMax;
     private int cuposDisponibles;
-    private final List<Registro> registros = new ArrayList<>();
+    private List<Registro> registros;
 
     public TipoRegistro() { }
 
@@ -25,6 +23,7 @@ public class TipoRegistro {
         this.setCosto(costo);
         this.setCuposMax(cuposMax);
         this.setCuposDisponibles(cuposDisponibles);
+        this.registros = new ArrayList<>();
     }
 
     public String getNombre() { return nombre; }

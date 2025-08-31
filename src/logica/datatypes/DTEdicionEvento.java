@@ -9,8 +9,9 @@ public class DTEdicionEvento {
 	private String ciudad;
 	private String pais;
 	private Date fechaAlta;
+	private String organizadorNickname;
 	
-	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
+	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) {
 	    this.setNombre(nombre);
 	    this.setSigla(sigla);
 	    this.setFechaInicio(fechaInicio);
@@ -18,6 +19,7 @@ public class DTEdicionEvento {
 	    this.setFechaAlta(fechaAlta);
 	    this.setCiudad(ciudad);
 	    this.setPais(pais);
+	    this.setOrganizadorNickname(organizadorNickname);
 	}
 	
 	
@@ -72,5 +74,11 @@ public class DTEdicionEvento {
 
 	public void setPais(String pais) {
 	    this.pais = pais;
+	}
+	public String getOrganizadorNickname() {
+		return organizadorNickname;
+	}
+	public void setOrganizadorNickname(String organizadorNickname) {
+		this.organizadorNickname = organizadorNickname;
 	}
 }

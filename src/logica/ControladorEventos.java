@@ -16,6 +16,9 @@ import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
+import logica.datatypes.DTDetallePatrocinio;
+import logica.datatypes.DTDatosPatrocinio;
+import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
@@ -49,7 +52,8 @@ public class ControladorEventos implements IControladorEventos {
     		Date fAlta = ed.getFechaAlta();
     		String ciudad = ed.getCiudad();
     		String pais = ed.getPais();
-    		mLista.put(nombre, new DTEdicionEvento(nombre,sigla,fInicio, fFin, fAlta, ciudad, pais));
+    		String oNick = ed.getOrganizadorNickname();
+    		mLista.put(nombre, new DTEdicionEvento(nombre,sigla,fInicio, fFin, fAlta, ciudad, pais, oNick));
     	}
     	return mLista;
     }
@@ -237,4 +241,10 @@ public class ControladorEventos implements IControladorEventos {
 
 		}
 	}
+	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+    	return manejadorEventos.listarRegistrosAEdicion(nombreEvento, nombreEdicion);
+    }
+	public Set<String> listarPatrociniosDeEdicion(String nombreEvento, String nombreEdicion) {
+    	return manejadorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
+    }
 }
