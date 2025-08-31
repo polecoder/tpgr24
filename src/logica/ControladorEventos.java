@@ -181,11 +181,6 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("El nombre de la edición ya está en uso");
 		}
 
-		LocalDate hoy = LocalDate.now();
-		if (fechaInicio.isBefore(hoy) || fechaFin.isBefore(hoy) || fechaAlta.isBefore(hoy)) {
-			throw new Exception("Ninguna de las fechas puede estar en el pasado");
-		}
-
 		if (fechaFin.isBefore(fechaInicio)) {
 			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
 		}
@@ -207,7 +202,7 @@ public class ControladorEventos implements IControladorEventos {
 
 	public boolean altaCategoria(String nombre) {
 		Categoria cat = new Categoria(nombre);
-		categorias.put(nombre, cat);		
+		manejadorEventos.categorias.put(nombre, cat);		
 		return true;
 	}
 	public boolean existeCategoria(String nombre) {return categorias.containsKey(nombre);}

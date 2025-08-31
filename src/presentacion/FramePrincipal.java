@@ -91,11 +91,11 @@ public class FramePrincipal extends JFrame {
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);
 
-        JMenuItem itemC = new JMenuItem("Alta Institución");
+        JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem itemD = new JMenuItem("Alta Patrocinio");
         JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
 
-        menuInstitucion.add(itemC);
+        menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(itemD);
         menuInstitucion.add(itemE);
 				
@@ -172,6 +172,14 @@ public class FramePrincipal extends JFrame {
 		    } catch (Exception ex) {}
 		});
 		
+		item_AltaInstitucion.addActionListener(e->{
+			AltaInstitucion ventanaAltaInstitucion = new AltaInstitucion();
+			panel.add(ventanaAltaInstitucion);
+			ventanaAltaInstitucion.setVisible(true);
+			try {
+			    ventanaAltaInstitucion.setSelected(true); 
+			} catch (Exception ex) {}
+		});
 		setVisible(true);
     }
 }

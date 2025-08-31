@@ -195,7 +195,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_FechaFin.gridy = 6;
 	    getContentPane().add(lbl_FechaFin, gbc_lbl_FechaFin);
 	    
-	    SpinnerDateModel dateModel2 = new SpinnerDateModel();
+	    SpinnerDateModel dateModel2 = new SpinnerDateModel(); 
 	    JSpinner Spinner_FechaFin = new JSpinner(dateModel2);
 		Spinner_FechaFin.setEditor(new JSpinner.DateEditor(Spinner_FechaFin, "yyyy-MM-dd"));
 		
@@ -263,11 +263,28 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		    
 		    try {
-				IContEvento.AltaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio ,fechaFin, fechaFin, ciudad, pais);
-				JOptionPane.showMessageDialog(this,"Edición creada correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e1) {
-				 JOptionPane.showMessageDialog(this,e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}
+		        IContEvento.AltaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaFin, ciudad, pais);
+
+		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+		        // Limpiar campos de texto
+		        textField_Nombre.setText("");
+		        textField_Sigla.setText("");
+		        textField_Ciudad.setText("");
+		        textField_Pais.setText("");
+
+		        // Resetear fechas a hoy
+		        Spinner_FechaAlta.setValue(new Date());
+		        Spinner_FechaInicio.setValue(new Date());
+		        Spinner_FechaFin.setValue(new Date());
+
+		        // Deseleccionar combos
+		        comboEventos.setSelectedIndex(-1);
+		        comboOrganizadores.setSelectedIndex(-1);
+
+		    } catch (Exception e1) {
+		        JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		    }
 	    });
 	}
 } 

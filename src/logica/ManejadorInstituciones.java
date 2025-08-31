@@ -37,4 +37,14 @@ public class ManejadorInstituciones {
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null; 
 	}
+
+	public void AgregarInstitucion(String nombre, String descripcion, String sitioWeb) {
+		Institucion insti= new Institucion(nombre,descripcion,sitioWeb);
+		conjuntoInstituciones.put(nombre, insti);
+		
+	}
+
+	public boolean existeNombre(String nombre) {
+		return conjuntoInstituciones.containsKey(nombre);
+	}
 }

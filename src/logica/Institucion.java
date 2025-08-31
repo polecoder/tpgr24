@@ -9,13 +9,12 @@ public class Institucion {
 	String descripcion;
 	String sitioWeb;
 	Map<String,Asistente> asistentes;
-	public 
-	Institucion(String nombre,String descripcion, String sitioWeb) {
-        this.nombre =nombre;
-        this.descripcion =descripcion ;
-        this.sitioWeb=sitioWeb;
-        this.asistentes=new HashMap<>();
-    }
+	public Institucion(String nombre, String descripcion, String sitioWeb) {
+	    setNombre(nombre);
+	    setDescripcion(descripcion);
+	    setSitioWeb(sitioWeb);
+	    this.asistentes = new HashMap<>();
+	}
 	String getNombre(){
 		return this.nombre;
 	}
