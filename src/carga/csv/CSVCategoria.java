@@ -1,4 +1,4 @@
-package logica.csv;
+package carga.csv;
 
 import com.opencsv.bean.CsvBindByName;
 

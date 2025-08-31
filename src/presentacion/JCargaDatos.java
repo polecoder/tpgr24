@@ -13,7 +13,7 @@ import java.awt.Insets;
 import java.io.File;
 import java.util.Arrays;
 
-import logica.CargaDatos;
+import carga.CargaDatos;
 
 public class JCargaDatos extends JInternalFrame {
 

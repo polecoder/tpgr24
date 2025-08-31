@@ -1,30 +1,39 @@
-package logica.csv;
+package carga.csv;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVOrganizador {
+public class CSVInstitucion {
 	@CsvBindByName(column = "Ref")
 	private String ref;
+	@CsvBindByName(column = "Nombre")
+	private String nombre;
 	@CsvBindByName(column = "Descripcion")
 	private String descripcion;
 	@CsvBindByName(column = "SitioWeb")
 	private String sitioWeb;
 	
 	// NECESARIO para OpenCSV
-	public CSVOrganizador() {}
+	public CSVInstitucion() {}
 	
-	public CSVOrganizador(String ref, String descripcion, String sitioWeb) {
-		super();
+	public CSVInstitucion(String ref, String nombre, String descripcion, String sitioWeb) {
 		this.ref = ref;
+		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.sitioWeb = sitioWeb;
 	}
-
+	
 	public String getRef() {
 		return ref;
 	}
 	public void setRef(String ref) {
 		this.ref = ref;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getDescripcion() {

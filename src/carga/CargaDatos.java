@@ -1,20 +1,17 @@
-package logica;
+package carga;
 
-import logica.csv.CSVAsistente;
-import logica.csv.CSVCategoria;
-import logica.csv.CSVInstitucion;
-import logica.csv.CSVOrganizador;
-import logica.csv.CSVPatrocinio;
-import logica.csv.CSVRegistro;
-import logica.csv.CSVUsuario;
-import logica.csv.CSVEdicion;
-import logica.csv.CSVEvento;
-import logica.csv.CSVTipoRegistro;
+import logica.Asistente;
+import logica.ENivelPatrocinio;
+import logica.Edicion;
+import logica.Institucion;
+import logica.ManejadorEventos;
+import logica.ManejadorInstituciones;
+import logica.ManejadorUsuarios;
+import logica.TipoRegistro;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +22,16 @@ import java.time.format.DateTimeFormatter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import carga.csv.CSVAsistente;
+import carga.csv.CSVCategoria;
+import carga.csv.CSVEdicion;
+import carga.csv.CSVEvento;
+import carga.csv.CSVInstitucion;
+import carga.csv.CSVOrganizador;
+import carga.csv.CSVPatrocinio;
+import carga.csv.CSVRegistro;
+import carga.csv.CSVTipoRegistro;
+import carga.csv.CSVUsuario;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 
