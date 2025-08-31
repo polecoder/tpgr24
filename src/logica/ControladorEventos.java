@@ -1,17 +1,15 @@
 package logica;
 
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDatosPatrocinio;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;

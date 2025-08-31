@@ -1,25 +1,23 @@
 package presentacion;
 
-import javax.swing.JInternalFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Date;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
-
-import javax.swing.JComboBox;
-import javax.swing.JButton;
 
 public class AltaEdicionEvento extends JInternalFrame {
 
@@ -192,7 +190,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_FechaFin.gridy = 6;
 	    getContentPane().add(lbl_FechaFin, gbc_lbl_FechaFin);
 	    
-	    SpinnerDateModel dateModel2 = new SpinnerDateModel();
+	    SpinnerDateModel dateModel2 = new SpinnerDateModel(); 
 	    JSpinner Spinner_FechaFin = new JSpinner(dateModel2);
 		Spinner_FechaFin.setEditor(new JSpinner.DateEditor(Spinner_FechaFin, "yyyy-MM-dd"));
 		
@@ -256,11 +254,28 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		    
 		    try {
-				IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio ,fechaFin, fechaAlta, ciudad, pais);
-				JOptionPane.showMessageDialog(this,"Edición creada correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e1) {
-				 JOptionPane.showMessageDialog(this,e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}
+		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
+
+		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+		        // Limpiar campos de texto
+		        textField_Nombre.setText("");
+		        textField_Sigla.setText("");
+		        textField_Ciudad.setText("");
+		        textField_Pais.setText("");
+
+		        // Resetear fechas a hoy
+		        Spinner_FechaAlta.setValue(new Date());
+		        Spinner_FechaInicio.setValue(new Date());
+		        Spinner_FechaFin.setValue(new Date());
+
+		        // Deseleccionar combos
+		        comboEventos.setSelectedIndex(-1);
+		        comboOrganizadores.setSelectedIndex(-1);
+
+		    } catch (Exception e1) {
+		        JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		    }
 	    });
 	}
 } 

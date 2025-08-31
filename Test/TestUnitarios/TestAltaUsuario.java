@@ -6,15 +6,17 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import logica.ControladorInstitucion;
-import logica.ControladorUsuarios;
+import logica.IControladorInstitucion;
+import logica.IControladorUsuarios;
+import logica.Fabrica;
 import logica.ManejadorUsuarios;
 import logica.Organizador;
 import logica.Utilidades;
 
 class TestAltaUsuario {
-    ControladorUsuarios controladorUsuario = ControladorUsuarios.getInstance();
-    ControladorInstitucion controladorInstitucion = ControladorInstitucion.getInstance();
+	Fabrica fabrica= Fabrica.getInstancia();
+    IControladorUsuarios controladorUsuario = fabrica.getControladorUsuarios();
+    IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
 
     // ----------- Casos válidos de alta de usuario -----------
     
