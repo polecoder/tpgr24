@@ -259,6 +259,8 @@ public class AltaTipoRegistro extends JInternalFrame {
 			JOptionPane.showMessageDialog(null,  "Tipo de Registro creado exitosamente");
 			textField_Nombre.setText("");
 			textField_Descripcion.setText("");
+			textField_Costo.setText("");
+			textField_Cupos.setText("");
 		});
 		
 		Button_Cancelar.addActionListener(e -> {
