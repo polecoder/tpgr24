@@ -3,6 +3,7 @@ package logica;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import excepciones.DatosTipoRegistroInvalidos;
@@ -34,9 +35,22 @@ public class ControladorEventos implements IControladorEventos {
 		return instancia;
 	}
 
-	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-		return null;
-	}
+	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
+    	Evento ev = manejadorEventos.getEvento(nombreEvento);
+    	Map<String, Edicion> eds = ev.getEdiciones();
+    	Map<String, DTEdicionEvento> mLista = new HashMap<>();
+    	for(Edicion ed : eds.values()) {
+    		String nombre = ed.getNombre();
+    		String sigla = ed.getSigla();
+    		Date fInicio = ed.getFechaInicio();
+    		Date fFin = ed.getFechaFin();
+    		Date fAlta = ed.getFechaAlta();
+    		String ciudad = ed.getCiudad();
+    		String pais = ed.getPais();
+    		mLista.put(nombre, new DTEdicionEvento(nombre,sigla,fInicio, fFin, fAlta, ciudad, pais));
+    	}
+    	return mLista;
+    }
 
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
 		return null;
@@ -50,18 +64,20 @@ public class ControladorEventos implements IControladorEventos {
 		// HACER
 	}
 
-	public Set<DTEvento> listarEventos() {
-		return null;
-	}
+    public Map<String,DTEvento> listarEventos() {
+        return manejadorEventos.listarEventos();
+    }
 
 	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
 		return manejadorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
 	}
 
-	public boolean validar(String nicknameAsistente, String nombreEdicion,
-			String nombreTipoRegistro, String nombreEvento) {
-		return false;
-	}
+    public boolean validar(String nicknameAsistente, String nombreEdicion,
+                           String nombreTipoRegistro, String nombreEvento) {
+        Evento ev = manejadorEventos.getEvento(nombreEvento);
+        Edicion ed = ev.getEdicion(nombreEdicion);
+        return ed.validar(nicknameAsistente, nombreTipoRegistro);
+    }
 
 	/* public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String codigoPatrocinio, LocalDate fecha) {
