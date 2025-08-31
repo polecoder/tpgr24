@@ -5,12 +5,16 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import logica.Fabrica;
+import logica.datatypes.DTDetalleAsistente;
+import logica.datatypes.DTDetalleOrganizador;
+import logica.datatypes.DTDetalleUsuario;
 import logica.datatypes.DTUsuario;
 
 import javax.swing.JPanel;
@@ -25,6 +29,13 @@ public class ConsultaUsuario extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField nombreTxt;
 	private JTextField correoTxt;
+	private JTextField apellidoTextField;
+	private JTextArea descripcionTextArea;
+	private JTextField fechaNacimientoTextField;
+	private JTextField linkTextField;
+	
+	private JPanel cardPanel, cardPanel1, cardPanel2;
+	private CardLayout cl, cl1, cl2;
 
 	Fabrica fabrica = Fabrica.getInstancia();
 	
@@ -38,7 +49,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gridBagLayout.columnWidths = new int[]{0,0,0,0};
 		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0,0};
 		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
@@ -49,10 +60,8 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 1;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
-		JComboBox<String> usuariosComboBox = new JComboBox<String>();
-		
+		JComboBox<String> usuariosComboBox = new JComboBox<String>(); 
 		List<DTUsuario> listaUsuarios = fabrica.getControladorUsuarios().listarUsuarios();
-		
 		for (DTUsuario usuario: listaUsuarios) {
 			usuariosComboBox.addItem(usuario.nickname());
 		}
@@ -64,20 +73,12 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_usuariosComboBox.gridy = 1;
 		getContentPane().add(usuariosComboBox, gbc_usuariosComboBox);
 		
-		JLabel lblNewLabel_1 = new JLabel("Datos del usuario seleccionado");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridwidth = 2;
-		gbc_lblNewLabel_1.insets = new Insets(5, 0, 10, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 2;
-		getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
 		JLabel lblNewLabel_2 = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 3;
+		gbc_lblNewLabel_2.gridy = 2;
 		getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		nombreTxt = new JTextField();
@@ -86,7 +87,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_nombreTxt.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nombreTxt.gridx = 2;
-		gbc_nombreTxt.gridy = 3;
+		gbc_nombreTxt.gridy = 2;
 		getContentPane().add(nombreTxt, gbc_nombreTxt);
 		nombreTxt.setColumns(10);
 		
@@ -95,7 +96,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 4;
+		gbc_lblNewLabel_3.gridy = 3;
 		getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		correoTxt = new JTextField();
@@ -104,7 +105,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_correoTxt.insets = new Insets(0, 0, 5, 5);
 		gbc_correoTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_correoTxt.gridx = 2;
-		gbc_correoTxt.gridy = 4;
+		gbc_correoTxt.gridy = 3;
 		getContentPane().add(correoTxt, gbc_correoTxt);
 		correoTxt.setColumns(10);
 		
@@ -119,7 +120,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblAp.anchor = GridBagConstraints.EAST;
 		panelAsistente.add(lblApellido, gbcLblAp);
 
-		JTextField apellidoTextField = new JTextField(20);
+		apellidoTextField = new JTextField(20);
 		apellidoTextField.setEditable(false);
 		GridBagConstraints gbcTxtAp = new GridBagConstraints();
 		gbcTxtAp.gridx = 1;
@@ -150,7 +151,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblDesc.anchor = GridBagConstraints.EAST;
 		panelOrganizador.add(lblDesc, gbcLblDesc);
 
-		JTextArea descripcionTextArea = new JTextArea(2, 20);
+		descripcionTextArea = new JTextArea(2, 20);
 		descripcionTextArea.setEditable(false);
 		JScrollPane spDesc = new JScrollPane(descripcionTextArea);
 		GridBagConstraints gbcTxtDesc = new GridBagConstraints();
@@ -172,7 +173,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardOrganizador.add(panelOrganizador, gbcWrapO);
 
 		// ==== CardLayout Campo 1 ====
-		JPanel cardPanel = new JPanel(new CardLayout());
+		cardPanel = new JPanel(new CardLayout());
 		cardPanel.add(cardAsistente,   "Asistente");
 		cardPanel.add(cardOrganizador, "Organizador");
 
@@ -182,10 +183,10 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_cardPanel.fill = GridBagConstraints.BOTH;
 		gbc_cardPanel.gridx = 1;
-		gbc_cardPanel.gridy = 5;
+		gbc_cardPanel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_cardPanel);
 
-		CardLayout cl = (CardLayout) cardPanel.getLayout();
+		cl = (CardLayout) cardPanel.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 2 ====
 		JPanel panelAsistente1 = new JPanel(new GridBagLayout());
@@ -198,7 +199,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblFecha.anchor = GridBagConstraints.EAST;
 		panelAsistente1.add(lblFechaNacimiento, gbcLblFecha);
 
-		JTextField fechaNacimientoTextField = new JTextField(20);
+		fechaNacimientoTextField = new JTextField(20);
 		fechaNacimientoTextField.setEditable(false);
 		GridBagConstraints gbcTxtFecha = new GridBagConstraints();
 		gbcTxtFecha.gridx = 1;
@@ -229,7 +230,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblLink.anchor = GridBagConstraints.EAST;
 		panelOrganizador1.add(lblLink, gbcLblLink);
 
-		JTextField linkTextField = new JTextField(20);
+		linkTextField = new JTextField(20);
 		linkTextField.setEditable(false);
 		GridBagConstraints gbcTxtLink = new GridBagConstraints();
 		gbcTxtLink.gridx = 1;
@@ -250,7 +251,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardOrganizador1.add(panelOrganizador1, gbcWrapO1);
 
 		// ==== CardLayout Campo 2 ====
-		JPanel cardPanel1 = new JPanel(new CardLayout());
+		cardPanel1 = new JPanel(new CardLayout());
 		cardPanel1.add(cardAsistente1, "Asistente");
 		cardPanel1.add(cardOrganizador1, "Organizador");
 
@@ -260,10 +261,10 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel1.insets = new Insets(0, 0, 5, 5);
 		gbc_cardPanel1.fill = GridBagConstraints.BOTH;
 		gbc_cardPanel1.gridx = 1;
-		gbc_cardPanel1.gridy = 6;
+		gbc_cardPanel1.gridy = 5;
 		getContentPane().add(cardPanel1, gbc_cardPanel1);
 
-		CardLayout cl1 = (CardLayout) cardPanel1.getLayout();
+		cl1 = (CardLayout) cardPanel1.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 3 ====
 		JPanel panelAsistente2 = new JPanel(new GridBagLayout());
@@ -340,25 +341,62 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardOrganizador2.add(panelOrganizador2, gbcWrapO2);
 
 		// ==== CardLayout Campo 3 ====
-		JPanel cardPanel2 = new JPanel(new CardLayout());
+		cardPanel2 = new JPanel(new CardLayout());
 		cardPanel2.add(cardAsistente2,   "Asistente");
 		cardPanel2.add(cardOrganizador2, "Organizador");
 
 		// === Agregar el cardPanel al GridBag del frame ===
 		GridBagConstraints gbc_cardPanel2 = new GridBagConstraints();
 		gbc_cardPanel2.gridwidth = 2;
-		gbc_cardPanel2.insets = new Insets(0, 0, 5, 5);
+		gbc_cardPanel2.insets = new Insets(0, 0, 0, 5);
 		gbc_cardPanel2.fill = GridBagConstraints.BOTH;
 		gbc_cardPanel2.gridx = 1;
-		gbc_cardPanel2.gridy = 7;
+		gbc_cardPanel2.gridy = 6;
 		getContentPane().add(cardPanel2, gbc_cardPanel2);
 
-		CardLayout cl2 = (CardLayout) cardPanel2.getLayout();
+		cl2 = (CardLayout) cardPanel2.getLayout();
 		
 		// TODO: Hardcodeado
 		cl.show(cardPanel, "Asistente");
 		cl1.show(cardPanel1, "Asistente");
 		cl2.show(cardPanel2, "Asistente");
+		
+		/**
+		 * Actualización al cambiar el usuario del combo.
+		 */
+		usuariosComboBox.addActionListener(e -> {
+			String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
+		    if (nicknameSeleccionado != null) {
+		        actualizarDatosUsuario(nicknameSeleccionado);
+		    }
+		});
+	}
+	
+	private void actualizarDatosUsuario(String nickname) {
+		try {
+			DTDetalleUsuario usuario = fabrica.getControladorUsuarios().mostrarDetalleUsuario(nickname);
+			this.nombreTxt.setText(usuario.getNombre());
+			correoTxt.setText(usuario.getCorreo());
+			if (usuario instanceof DTDetalleAsistente) {
+				DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
+				apellidoTextField.setText(asistente.getApellido());
+		        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		        String nacimiento = formato.format(asistente.getNacimiento());
+				fechaNacimientoTextField.setText(nacimiento);
+				cl.show(cardPanel, "Asistente");
+				cl1.show(cardPanel1, "Asistente");
+				cl2.show(cardPanel2, "Asistente");
+			} else if (usuario instanceof DTDetalleOrganizador) {
+				DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
+				descripcionTextArea.setText(organizador.getDescripcion());
+				linkTextField.setText(organizador.getLink());
+				cl.show(cardPanel, "Organizador");
+				cl1.show(cardPanel1, "Organizador");
+				cl2.show(cardPanel2, "Organizador");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
