@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.List;
 
 import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTDetallePatrocinio;
@@ -26,13 +28,13 @@ public interface IControladorEventos {
 	public Set<String> nombresEventos();
 	public DTEvento getDTEvento(String nombre);
 	public Set<String> nombresCategorias(String nombre);
-	public Set<String> nombresEdicionesEvento(String nombre);
+	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais) throws Exception;
 	// public String[] getNombreEventos(); //Reemplazada por "nombresEventos()"
 	// public String[] getNombresEdiciones(String itemAt); // Reemplazada por "nombresEdicionesEvento()"
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
-	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
+	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
 	public void altaCategoria(String nombre);
 	public boolean existeCategoria(String nombre);
 

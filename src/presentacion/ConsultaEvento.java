@@ -18,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import excepciones.EventoNoExiste;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.datatypes.DTEvento;
@@ -185,7 +186,11 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 		    JComboBox<String> comboEdiciones = new JComboBox<>();
 			
-			Set<String> edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			Set<String> edicionesDisponibles;
+			try { edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			} catch (EventoNoExiste ex){
+				edicionesDisponibles = null;
+			}
 			 if (edicionesDisponibles != null){
 			        for (String edicion : edicionesDisponibles) {
 			            comboEdiciones.addItem(edicion);
