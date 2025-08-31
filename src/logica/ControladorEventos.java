@@ -213,4 +213,63 @@ public class ControladorEventos implements IControladorEventos {
 		// TODO Auto-generated method stub
 		return Collections.emptySet();
 	}
+
+	@Override
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado,edicionSeleccionada);
+	}
+
+	@Override
+	public void AltaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, String tipoRegistroSeleccionado,
+			String institucionSeleccionada, String NivelPatrocinio, float aporteEco, int cupos,
+			String codigoPatrocinio) throws Exception {
+	    
+	    // Validación de campos obligatorios
+	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
+	        || edicionSeleccionada == null || edicionSeleccionada.isEmpty()
+	        || tipoRegistroSeleccionado == null || tipoRegistroSeleccionado.isEmpty()
+	        || institucionSeleccionada == null || institucionSeleccionada.isEmpty()
+	        || NivelPatrocinio == null || NivelPatrocinio.isEmpty()
+	        || codigoPatrocinio == null || codigoPatrocinio.isEmpty()) {
+	        throw new Exception("Todos los campos deben estar completos");
+	    }
+	    
+	    // Validación del nivel de patrocinio
+	    ENivelPatrocinio nivel;
+	    try {
+	        nivel = ENivelPatrocinio.valueOf(NivelPatrocinio.trim());
+	    } catch (IllegalArgumentException ex) {
+	        throw new Exception("Nivel de patrocinio inválido");
+	    }
+
+	    // Validación del aporte económico
+	    if (Float.isNaN(aporteEco) || aporteEco <= 0) {
+	        throw new Exception("El aporte económico debe ser un número válido y mayor a cero");
+	    }
+	    
+	    // Validación de duplicado
+	    if (manejadorEventos.existePatrocinio(institucionSeleccionada, edicionSeleccionada)) {
+	        throw new Exception("Ya existe un patrocinio de esa institución para la edición seleccionada");
+	    }
+
+	    // Validación de cantidad de cupos
+	    if (cupos < 0) {
+	        throw new Exception("La cantidad de registros gratuitos no puede ser negativa");
+	    }
+
+	    // Validación del 20% del aporte
+	    float valorCupo = manejadorEventos.eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTipoRegistro(tipoRegistroSeleccionado).getCosto(); 
+	    float costoTotalGratuitos = cupos * valorCupo;
+	    float limitePermitido = aporteEco * 0.2f;
+	    if (costoTotalGratuitos > limitePermitido) {
+	        throw new Exception("El costo de los registros gratuitos supera el 20% del aporte económico");
+	    }
+
+	    // Validación del formato del código de patrocinio (alfanumérico)
+	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
+	        throw new Exception("El código de patrocinio solo puede contener letras y números");
+	    }
+		manejadorEventos.AltaPatrocinio(eventoSeleccionado,edicionSeleccionada,tipoRegistroSeleccionado,institucionSeleccionada,nivel,
+				aporteEco,cupos,codigoPatrocinio);
+	}
 }

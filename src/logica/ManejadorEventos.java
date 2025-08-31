@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class ManejadorEventos {
 	Map<String, Categoria> categorias;
 	ManejadorEventos(){
 		 this.eventos = new HashMap<>();
-		 this.categorias = new HashMap<>();
+		 this.categorias = new HashMap<>();    
 	};
 	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
@@ -226,4 +227,32 @@ public class ManejadorEventos {
 			}
 		}
 	}
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+		return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
+	}
+	public void AltaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, String tipoRegistroSeleccionado,
+			String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) {
+		Fabrica fabrica=Fabrica.getInstancia();
+		IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
+		Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
+		Date fechaActual=new Date();
+		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,fechaActual, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion);
+		eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).agregarPatrocinio(patrocinio);
+	}
+	
+	public boolean existePatrocinio(String institucion, String edicion) {
+	    for (Evento evento : eventos.values()) {
+	        Edicion edi = evento.getEdiciones().get(edicion);
+	        if (edi != null) {
+	            for (Patrocinio p : edi.getPatrocinios().values()) {
+	                if (p.getInstitucion().getNombre().equalsIgnoreCase(institucion)) {
+	                    return true;
+	                }
+	            }
+	        }
+	    }
+	    return false;
+	}
+
 }
+

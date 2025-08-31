@@ -13,7 +13,7 @@ public class ManejadorInstituciones {
 	private Map<String,Institucion> conjuntoInstituciones;
 	
 	// Constructor
-	private ManejadorInstituciones() {
+	private ManejadorInstituciones() { 
 	    this.conjuntoInstituciones = new HashMap<>();
 	}
 	
@@ -47,4 +47,6 @@ public class ManejadorInstituciones {
 	public boolean existeNombre(String nombre) {
 		return conjuntoInstituciones.containsKey(nombre);
 	}
+
+	
 }

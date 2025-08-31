@@ -55,4 +55,8 @@ public interface IControladorEventos {
 	 * @param nombreEvento
 	 */
 	public boolean existeEvento(String nombreEvento);
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
+	public void AltaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, String tipoRegistroSeleccionado,
+			String institucionSeleccionada, String nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,
+			String codigoPatrocinio)throws Exception;
 }

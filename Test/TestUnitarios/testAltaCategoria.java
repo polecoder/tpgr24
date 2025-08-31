@@ -21,7 +21,7 @@ class TestAltaCategoria {
         assertTrue(cev.listarCategorias().containsKey(nombre), "La categoría debería haber sido añadida.");
     }
 
-    @Test
+    @Test 
     void altaCategoria_duplicada() {
         String nombre = "Robótica";
 

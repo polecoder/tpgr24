@@ -210,7 +210,7 @@ public class ConsultaEvento extends JInternalFrame {
 			    } catch (Exception ex) {
 			        ex.printStackTrace();
 			    }
-			} );
+			} ); 
 		    panelDetalles.revalidate();
 		    panelDetalles.repaint();
 		});

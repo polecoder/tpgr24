@@ -81,7 +81,7 @@ public class TestAltaTipoRegistro {
 		try {
 			generado = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
 		} catch (TipoRegistroNoExiste ex) {
-			fail("TipoRegistro no existe");
+			fail("TipoRegistro no existe"); 
 		}
 	}
 	

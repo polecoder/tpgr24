@@ -10,6 +10,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		super("Consulta de Edición de Evento", true, true, true, true);
 		setSize(300, 200);
 		setLocation(50, 50);
+		
+		
 	}
 
 }

@@ -98,7 +98,7 @@ public class Edicion {
 		this.patrocinios = patrocinios;
 	}
 	public void agregarPatrocinio(Patrocinio patrocinio) {
-		this.patrocinios.put(patrocinio.getNombre(), patrocinio);
+		this.patrocinios.put(patrocinio.getCodigoPatrocinio(), patrocinio);
 	}
 	public void eliminarPatrocinio(String nombrePatrocinio) {
 		this.patrocinios.remove(nombrePatrocinio);
@@ -109,7 +109,7 @@ public class Edicion {
 	 * 
 	 * @param nombreTipoRegistro
 	 * @return
-	 */
+	 */ 
 	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste{
 		if (!this.tiposRegistro.containsKey(nombreTipoRegistro)) {
 			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");

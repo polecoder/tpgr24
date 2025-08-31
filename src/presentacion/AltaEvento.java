@@ -38,7 +38,7 @@ public class AltaEvento extends JInternalFrame {
 		super("Alta de Evento", true, true, true, true);
 		setSize(400, 300);
 		setMinimumSize(new Dimension(400, 300));
-		setMaximumSize(new Dimension(800, 600));
+		setMaximumSize(new Dimension(800, 600)); 
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0,0,0,0};

@@ -57,7 +57,7 @@ class TestAltaEdicionEvento {
         });
         assertTrue(ex.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
     }
-
+ 
     @Test
     void fechaAltaPosteriorAInicioYFin() {
         Exception ex = assertThrows(Exception.class, () -> {
