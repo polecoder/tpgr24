@@ -20,21 +20,24 @@ public class ManejadorEventos {
 		  this.eventos = new HashMap<>();
 		  this.categorias = new HashMap<>();
 	};
-	public
-	static ManejadorEventos getInstancia() {
+	public static ManejadorEventos getInstancia() {
 		if (instancia==null) {
 			instancia= new ManejadorEventos();
 		}
 		return instancia;
 	};
 	
-	Evento getEventoEdicion(String nombreEdicion) {
-		//TODO
-		return null;
+	// TODO: Hacer Setters
+	// TODO: Hacer Getters
+	Evento getEventoEdicion(String Evento) {
+		return eventos.get(Evento);
 	};
 	
+	Map<String,Evento> getEventos(){
+		return eventos;
+	}
 	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
-		return eventos.get(nombreEvento).ediciones.containsKey(NombreEdicion);
+		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
 	
 	public Set<DTEvento> listarEventos(){
@@ -124,15 +127,37 @@ public class ManejadorEventos {
 		return evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 	}
 	
-	/**
-	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
-	 * 
-	 * @param nombreCategoria
-	 */
-	public void altaCategoria(String nombreCategoria) {
-		Categoria categoria = new Categoria(nombreCategoria);
-		this.categorias.put(nombreCategoria, categoria);
-	}
+    public TipoRegistro encontrarTipoDe(Registro r){
+        for (Evento ev : eventos.values()){
+            for (Edicion ed : ev.getEdiciones().values()){
+                for (TipoRegistro tr : ed.getTiposRegistro().values()){
+                    if (tr.getRegistros().contains(r)) return tr;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Edicion encontrarEdicionQueContiene(TipoRegistro t){
+        for (Evento ev : eventos.values()){
+            for (Edicion ed : ev.getEdiciones().values()){
+                if (ed.getTiposRegistro().containsValue(t)) return ed;
+            }
+        }
+        return null;
+    }
+
+    public String nombreEdicionDeRegistro(Registro r){
+        TipoRegistro t = encontrarTipoDe(r);
+        if (t == null) return "(sin edición)";
+        Edicion ed = encontrarEdicionQueContiene(t);
+        return (ed != null) ? ed.getNombre() : "(sin edición)";
+    }
+
+    public String nombreTipoDeRegistro(Registro r){
+        TipoRegistro t = encontrarTipoDe(r);
+        return (t != null) ? t.getNombre() : "(sin tipo)";
+    }
 	
 	/**
      * Devuelve true si existe un evento e en el sistema tal que e.nombre = nombreEvento.
@@ -196,8 +221,8 @@ public class ManejadorEventos {
 			}
 		}
 	}
-
-	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
+  
+  public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
 		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
 		eventos.get(nombreEvento).agregarEdicion(edicion);
 	};
@@ -213,4 +238,22 @@ public class ManejadorEventos {
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
+	
+	/**
+	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
+	 * 
+	 * @param nombreCategoria
+	 */
+	public void altaCategoria(String nombreCategoria) {
+		Categoria categoria = new Categoria(nombreCategoria);
+		this.categorias.put(nombreCategoria, categoria);
+	}
+	
+	public boolean existeCategoria(String nombreCategoria) {
+		return this.categorias.containsKey(nombreCategoria);
+	}
+	public Map<String, Categoria> getCategorias() {
+		return this.categorias;
+	}
+
 }

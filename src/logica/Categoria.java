@@ -1,12 +1,16 @@
 package logica;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Categoria {
 	private String nombre;
-	private HashMap<String, Evento> eventos;
+	private Map<String, Evento> eventos;
 	
 	public Categoria(String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre de categoría inválido");
+        }
 		this.setNombre(nombre);
 		this.setEventos(new HashMap<>());
 	}
@@ -18,10 +22,10 @@ public class Categoria {
 		this.nombre = nombre;
 	}
 
-	public HashMap<String, Evento> getEventos() {
+	public Map<String, Evento> getEventos() {
 		return eventos;
 	}
-	public void setEventos(HashMap<String, Evento> eventos) {
+	public void setEventos(Map<String, Evento> eventos) {
 		this.eventos = eventos;
 	}
 

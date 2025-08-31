@@ -15,7 +15,7 @@ public class Evento {
 	String descripcion;
 	Date fechaAlta;
 	Map<String, Categoria> categorias;
-	Map<String, Edicion> ediciones;
+	 private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
 		this.nombre=nombre;
@@ -37,10 +37,10 @@ public class Evento {
 	Date getFechaAlta(){
 		return this.fechaAlta;
 	}
-	Map<String, Categoria> getCategoria(){
+	public Map<String, Categoria> getCategoria(){
 		return this.categorias;
 	}
-	Map<String, Edicion> getEdiciones(){
+	public Map<String, Edicion> getEdiciones(){
 		return this.ediciones;
 	};
 	
@@ -63,13 +63,16 @@ public class Evento {
 		this.categorias.remove(nombreCategoria);
 	}
 	public void agregarEdicion(Edicion edicion) {
+		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(),edicion);
 	}
 	public void eliminarEdicion(String nombreEdicion) {
 		this.ediciones.remove(nombreEdicion);
 	}
 	
-	void crearPatrocinio(DTPatrocinio datosPatrocinio) {
+	
+	
+	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO
 	}
 	

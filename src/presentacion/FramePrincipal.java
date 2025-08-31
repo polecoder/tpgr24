@@ -1,12 +1,13 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JDesktopPane;
 
 public class FramePrincipal extends JFrame {
 
@@ -47,12 +48,12 @@ public class FramePrincipal extends JFrame {
         JMenu menuEvento = new JMenu("Evento");
         menuBar.add(menuEvento);
 
-        JMenuItem item4 = new JMenuItem("Alta Evento");
+        JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
         JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
         JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
 
-        menuEvento.add(item4);
+        menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
         menuEvento.add(item7);
@@ -132,7 +133,15 @@ public class FramePrincipal extends JFrame {
 			        ventanaMU.setSelected(true); 
 			    } catch (Exception ex) {}
 			});
-		
+
+		item_AltaEvento.addActionListener(e -> {
+			AltaEvento ventanaAltaEvento = new AltaEvento();
+		    panel.add(ventanaAltaEvento);          
+		    ventanaAltaEvento.setVisible(true);    
+		    try {
+		    	ventanaAltaEvento.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 
 		item_AltaEdicion.addActionListener(e -> {
 				AltaEdicionEvento ventanaAEv = new AltaEdicionEvento();
@@ -150,6 +159,16 @@ public class FramePrincipal extends JFrame {
 		    try {
 		    	ventanaCEv.setSelected(true); 
 		    } catch (Exception ex) {}
+		});
+		
+		itemA.addActionListener(e-> {
+			ConsultaRegistro ventanaCRegistro = new ConsultaRegistro();
+			panel.add(ventanaCRegistro);
+			ventanaCRegistro.setVisible(true);
+			try {
+				ventanaCRegistro.setSelected(true);
+			} catch( Exception ex) {}
+			
 		});
 		
 		itemB.addActionListener(e -> {

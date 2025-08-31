@@ -20,7 +20,7 @@ public interface IControladorEventos {
 	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
 	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Set<DTEvento> listarEventos();
-	public List<DTTipoRegistro> listarTipoRegistro();
+	public Set<DTTipoRegistro> listarTipoRegistro();
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
 	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha);
 	public Set<DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
@@ -34,6 +34,28 @@ public interface IControladorEventos {
 	public String[] getNombresEdiciones(String itemAt);
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste;
-	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
+	public void altaCategoria(String nombre);
+	public boolean existeCategoria(String nombre);
+
+	/**
+	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
+	 * Da de alta un Evento con los parámetros indicados en el sistema.
+	 * Si ya existe un Evento con el nombre indicado en el sistema, no hace nada.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param fechaAlta
+	 * @param sigla
+	 * @param categorias
+	 */
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias);
+	/**
+	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
+	 * Retorna false en cualquier otro caso.
+	 * 
+	 * @param nombreEvento
+	 */
+	public boolean existeEvento(String nombreEvento);
+  public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
 	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion);
 }

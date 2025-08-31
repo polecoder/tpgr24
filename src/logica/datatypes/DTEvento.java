@@ -30,7 +30,7 @@ public
 	public Date getFechaAlta() {
 		return this.fechaAlta;
 	}
-	
+	void setFechaAlta(Date fechaAlta){ this.fechaAlta = fechaAlta;}
 	void setNombre(String nombre){
 		  this.nombre =nombre;
 	}

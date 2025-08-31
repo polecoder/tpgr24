@@ -22,8 +22,8 @@ public class Registro {
 	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
-		this.setAsistente(asistente);
 		this.setPatrocinio(patrocinio);
+		this.setAsistente(asistente);
 	}
 	
 	public Date getFechaRegistro() {

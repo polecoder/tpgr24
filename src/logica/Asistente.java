@@ -20,7 +20,7 @@ public class Asistente extends Usuario {
 		this.apellido = apellido;
 		this.nacimiento = fechaNacimiento;
 		this.registros = new ArrayList<>();
-		this.institucion=institucion;
+		this.setInstitucion(institucion);
 	}
 	
 	// Getters
@@ -40,5 +40,6 @@ public class Asistente extends Usuario {
             logger.log(Level.SEVERE, "Asistente::addRegistro() ERROR: ", ARError);
 		}
 	}
+	//
 }
 

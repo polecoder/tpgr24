@@ -1,8 +1,10 @@
 package logica;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import logica.datatypes.DTDatosPatrocinio;
@@ -24,6 +26,7 @@ public class ControladorEventos implements IControladorEventos {
 	private ControladorEventos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.interfazInstitucion = ControladorInstitucion.getInstance();
+		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 	}
 
 	public static ControladorEventos getInstance() {
@@ -67,9 +70,7 @@ public class ControladorEventos implements IControladorEventos {
 		// HACER
 	}
 
-	public List<DTTipoRegistro> listarTipoRegistro() {
-		return null;
-	}
+
 
 	/**
 	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.
@@ -96,68 +97,10 @@ public class ControladorEventos implements IControladorEventos {
 		return this.manejadorEventos.existeEvento(nombreEvento);
 	}
 
-	@Override
-	public Set<String> nombresEventos() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+		return false;
 	}
 
-	@Override
-	public DTEvento getDTEvento(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<String> nombresCategorias(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<String> nombresEdicionesEvento(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla,Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) throws Exception {
-
-		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
-			throw new Exception("Todos los campos deben estar completos");
-		}
-
-		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
-			throw new Exception("El nombre de la edición ya está en uso");
-		}
-
-		if (fechaFin.before(fechaInicio)) {
-			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
-		}
-
-		if (fechaAlta.after(fechaInicio) || fechaAlta.after(fechaFin)) {
-			throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
-		}
-
-		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
-			throw new Exception("La ciudad solo puede contener letras y espacios");
-		}
-
-		if (!pais.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
-			throw new Exception("El país solo puede contener letras y espacios");
-		}
-
-		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
-	}
-
-
-	@Override
 	public String[] getNombreEventos() {
 		Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
 		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
@@ -218,8 +161,65 @@ public class ControladorEventos implements IControladorEventos {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		this.manejadorEventos.altaPatrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion, edicion);
 	}
-	
+
 	@Override
+	public DTEvento getDTEvento(String nombre) {
+		return manejadorEventos.getDTEvento(nombre);
+	}
+
+	@Override
+	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
+		return manejadorEventos.getDTEdicion(eventoSeleccionado,edicionSeleccionada);
+	}
+
+	public Set<String> nombresEventos(){
+		return  manejadorEventos.getNombresEventos(); 
+	}
+
+	public Set<String> nombresCategorias(String nombre){
+		return manejadorEventos.getNombresCategorias(nombre);
+	}
+
+	public Set<String> nombresEdicionesEvento(String nombre) {
+		return manejadorEventos.getNombresEdiciones(nombre);
+	}
+
+
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla,Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) throws Exception {
+
+		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
+			throw new Exception("Todos los campos deben estar completos");
+		}
+
+		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
+			throw new Exception("El nombre de la edición ya está en uso");
+		}
+
+		if (fechaFin.before(fechaInicio)) {
+			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
+		}
+
+		if (fechaAlta.after(fechaInicio) || fechaAlta.after(fechaFin)) {
+			throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
+		}
+
+		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("La ciudad solo puede contener letras y espacios");
+		}
+
+		if (!pais.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
+			throw new Exception("El país solo puede contener letras y espacios");
+		}
+
+		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
+	}
+
+		public void altaCategoria(String nombre) {
+			this.manejadorEventos.altaCategoria(nombre);		
+		}
+		public boolean existeCategoria(String nombre) {return this.manejadorEventos.existeCategoria(nombre);}
+		public Map<String, Categoria> listarCategorias() {return this.manejadorEventos.getCategorias();}
+
 	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) {
 		try {
@@ -243,5 +243,10 @@ public class ControladorEventos implements IControladorEventos {
 
 		}
 	}
-}
 
+	@Override
+	public Set<DTTipoRegistro> listarTipoRegistro() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
