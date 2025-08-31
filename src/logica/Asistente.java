@@ -17,8 +17,8 @@ public class Asistente extends Usuario {
 	
 	public Asistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
 		super(nickname, nombre, correo);
-		this.apellido = apellido;
-		this.nacimiento = fechaNacimiento;
+		this.setApellido(apellido);
+		this.setNacimiento(fechaNacimiento);
 		this.registros = new ArrayList<>();
 		this.setInstitucion(institucion);
 	}

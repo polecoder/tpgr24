@@ -101,7 +101,7 @@ public class ControladorEventos implements IControladorEventos {
 		return false;
 	}
 
-	public String[] getNombreEventos() {
+	/* public String[] getNombreEventos() {  //! TO BE DELETED
 		Set<DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
 		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
 
@@ -111,11 +111,11 @@ public class ControladorEventos implements IControladorEventos {
 			nombreEventos[i] = evento.getNombre();
 		}
 		return new String[] {"Ev1", "Ev2"}; //nombreEventos;
-	}
+	} */ //Reemplazada por "nombresEventos()"
 
 
-	@Override
-	public String[] getNombresEdiciones(String nombreEvento) {
+	/*@Override //! TO BE DELETED
+	public String[] getNombresEdiciones(String nombreEvento) {  //! TO BE DELETED
 		Set<DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
 		String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
 
@@ -125,7 +125,7 @@ public class ControladorEventos implements IControladorEventos {
 			nombreEdiciones[i] = evento.getNombre();
 		}
 		return nombreEdiciones;
-	}
+	}*/ // Reemplazada por "nombresEdicionesEvento()"
 
 	@Override
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {

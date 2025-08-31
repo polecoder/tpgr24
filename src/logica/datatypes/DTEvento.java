@@ -10,10 +10,10 @@ public class DTEvento {
 	Date fechaAlta;
 public
 	DTEvento(String nombre, String descripcion , String sigla, Date date) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=date;
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(date);
 		
 	}
 

@@ -19,7 +19,7 @@ public class FramePrincipal extends JFrame {
         ventana.setVisible(true);
         try {
             ventana.setSelected(true);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {} 
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +70,15 @@ public class FramePrincipal extends JFrame {
         menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
         menuRegistro.add(itemB);
+        
+		item_ConsultaTipoRegistro.addActionListener(e -> {
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
+		    panel.add(ventanaConsultaTipoRegistro);          
+		    ventanaConsultaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaConsultaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
         
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);

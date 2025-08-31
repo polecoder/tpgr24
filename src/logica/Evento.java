@@ -18,12 +18,12 @@ public class Evento {
 	 private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
-		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.sigla=sigla;
-		this.fechaAlta=fechaAlta;
+		this.setNombre(nombre);
+		this.setDescripcion(descripcion);
+		this.setSigla(sigla);
+		this.setFechaAlta(fechaAlta);
 		this.categorias=new HashMap<>();
-		this.ediciones=new HashMap<>();
+		this.ediciones=new HashMap<>(); 
 	}
 	public String getNombre(){
 		return this.nombre;
