@@ -13,7 +13,7 @@ public class TipoRegistro {
     private float costo;
     private int cuposMax;
     private int cuposDisponibles;
-    private final List<Registro> registros = new ArrayList<>();
+    private List<Registro> registros;
 
     public TipoRegistro() { }
 
@@ -23,6 +23,7 @@ public class TipoRegistro {
         this.setCosto(costo);
         this.setCuposMax(cuposMax);
         this.setCuposDisponibles(cuposDisponibles);
+        this.registros = new ArrayList<>();
     }
 
     public String getNombre() { return nombre; }
@@ -44,7 +45,6 @@ public class TipoRegistro {
     	Objects.requireNonNull(r);
         if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
         registros.add(r);
-        cuposDisponibles--;
     }
     
     public List<Registro> getRegistros(){ return registros; }

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -18,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import excepciones.EventoNoExiste;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.datatypes.DTEvento;
@@ -113,8 +114,8 @@ public class ConsultaEvento extends JInternalFrame {
 		    gbc_lbl_sigla.gridy = 2;
 		    panelDetalles.add(lbl_sigla, gbc_lbl_sigla);
 
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		    String fechaFormateada = detalleEvento.getfechaAlta().format(formatter);
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		    String fechaFormateada = formatter.format(detalleEvento.getFechaAlta());
 
 		    JLabel lbl_FechaAlta = new JLabel("Fecha de Alta:");
 		    GridBagConstraints gbc_lbl_FechaAlta = new GridBagConstraints();
@@ -185,7 +186,11 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 		    JComboBox<String> comboEdiciones = new JComboBox<>();
 			
-			Set<String> edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			Set<String> edicionesDisponibles;
+			try { edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			} catch (EventoNoExiste ex){
+				edicionesDisponibles = null;
+			}
 			 if (edicionesDisponibles != null){
 			        for (String edicion : edicionesDisponibles) {
 			            comboEdiciones.addItem(edicion);

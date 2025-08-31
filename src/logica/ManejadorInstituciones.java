@@ -1,8 +1,6 @@
 package logica;
 
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 import logica.datatypes.DTPatrocinio;
@@ -10,11 +8,11 @@ import logica.datatypes.DTPatrocinio;
 public class ManejadorInstituciones {
 	private static ManejadorInstituciones instance = null;
 	
-	private Map<String,Institucion> conjuntoInstituciones;
+	private Map<String, Institucion> instituciones;
 	
 	// Constructor
-	private ManejadorInstituciones() { 
-	    this.conjuntoInstituciones = new HashMap<>();
+	private ManejadorInstituciones() {
+		setInstituciones(new HashMap<>());
 	}
 	
 	public static ManejadorInstituciones getInstance() {
@@ -24,15 +22,45 @@ public class ManejadorInstituciones {
 		return instance;
 	}
 	
-	// ------- GETTERS ----------
-	public Map<String,Institucion>getConjuntoInstituciones() {
-		return conjuntoInstituciones;
+	/**
+	 * Devuelve la institución i tal que i.nombre == nombreInstitucion.
+	 * Retorna null en caso de que no exista
+	 * 
+	 * @param nombreInstitucion
+	 * @return
+	 */
+	public Institucion getInstitucion(String nombreInstitucion) {
+		if (this.instituciones.containsKey(nombreInstitucion)) {
+			return this.instituciones.get(nombreInstitucion);
+		}
+		return null;
+	}
+	public Map<String, Institucion> getInstituciones() {
+		return instituciones;
+	}
+	public void setInstituciones(Map<String, Institucion> instituciones) {
+		this.instituciones = instituciones;
+	}
+	public void agregarInstitucion(Institucion institucion) {
+		this.instituciones.put(institucion.getNombre(), institucion);
+	}
+	public void eliminarPatrocinio(String nombreInstitucion) {
+		this.instituciones.remove(nombreInstitucion);
 	}
 	
-	public Institucion getInstitucion(String Nombre) {
-		return conjuntoInstituciones.get(Nombre);
+	/**
+	 * Se crea una instancia de Instituciones y se agrega a la colección de instituciones y la retorna.
+	 * 
+	 * @param nombre
+	 * @param descripcion
+	 * @param sitioWeb
+	 * @return
+	 */
+	public Institucion altaInstitucion(String nombre, String descripcion, String sitioWeb) {
+		Institucion institucion = new Institucion(nombre, descripcion, sitioWeb);
+		this.agregarInstitucion(institucion);
+		return institucion;
 	}
-	// ------- GETTERS ----------
 	
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null; 
@@ -40,12 +68,12 @@ public class ManejadorInstituciones {
 
 	public void AgregarInstitucion(String nombre, String descripcion, String sitioWeb) {
 		Institucion insti= new Institucion(nombre,descripcion,sitioWeb);
-		conjuntoInstituciones.put(nombre, insti);
+		instituciones.put(nombre, insti);
 		
 	}
 
 	public boolean existeNombre(String nombre) {
-		return conjuntoInstituciones.containsKey(nombre);
+		return instituciones.containsKey(nombre);
 	}
 
 	

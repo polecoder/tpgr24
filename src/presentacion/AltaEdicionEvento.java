@@ -1,28 +1,23 @@
 package presentacion;
 
-
-import javax.swing.JInternalFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
-
-import javax.swing.JComboBox;
-import javax.swing.JButton;
 
 public class AltaEdicionEvento extends JInternalFrame {
 
@@ -249,21 +244,17 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    String sigla = textField_Sigla.getText().trim();
 		    String ciudad = textField_Ciudad.getText().trim();
 		    String pais = textField_Pais.getText().trim();
-		    Date fechaAltaSeleccionada = (Date) Spinner_FechaAlta.getValue();
-		    Date fechaInicioSeleccionada = (Date) Spinner_FechaInicio.getValue();
-		    Date fechaFinSeleccionada = (Date) Spinner_FechaFin.getValue();
+		    Date fechaAlta = (Date) Spinner_FechaAlta.getValue();
+		    Date fechaInicio = (Date) Spinner_FechaInicio.getValue();
+		    Date fechaFin = (Date) Spinner_FechaFin.getValue();
 		    
-		    LocalDate fechaInicio=fechaInicioSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		    LocalDate fechaFin=fechaFinSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		    fechaAltaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		  
 		    if (comboEventos.getSelectedItem() == null || comboOrganizadores.getSelectedItem() == null) {
 		        JOptionPane.showMessageDialog(null, "Debe seleccionar un evento y un organizador.", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 		    }
 		    
 		    try {
-		        IContEvento.AltaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaFin, ciudad, pais);
+		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 
 		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 

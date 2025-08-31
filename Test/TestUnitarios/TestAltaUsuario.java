@@ -11,6 +11,7 @@ import logica.IControladorUsuarios;
 import logica.Fabrica;
 import logica.ManejadorUsuarios;
 import logica.Organizador;
+import logica.Utilidades;
 
 class TestAltaUsuario {
 	Fabrica fabrica= Fabrica.getInstancia();
@@ -26,7 +27,7 @@ class TestAltaUsuario {
 
     @Test
     void altaAsistenteValido() {
-        assertDoesNotThrow(() -> { controladorUsuario.altaAsistente("florenciaR", "Florencia", "flor.rosas@hotmail.com", "Rosas", LocalDate.of(1992, 3, 14), null); });
+        assertDoesNotThrow(() -> { controladorUsuario.altaAsistente("florenciaR", "Florencia", "flor.rosas@hotmail.com", "Rosas", Utilidades.toDate(LocalDate.of(1992, 3, 14)), null); });
     }
 
     // ----------- Validación de campos obligatorios -----------
@@ -65,19 +66,19 @@ class TestAltaUsuario {
 
     @Test
     void asistenteConCorreoInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("andresV", "Andrés", "andresmail.com", "Varela", LocalDate.of(1988, 7, 22), null); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("andresV", "Andrés", "andresmail.com", "Varela", Utilidades.toDate(LocalDate.of(1988, 7, 22)), null); });
         assertTrue(ex.getMessage().contains("formato del correo"));
     }
 
     @Test
     void asistenteConNombreInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("carlaM", "Carla123", "carla.m@gmail.com", "Martínez", LocalDate.of(1995, 11, 5), null); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("carlaM", "Carla123", "carla.m@gmail.com", "Martínez", Utilidades.toDate(LocalDate.of(1995, 11, 5)), null); });
         assertTrue(ex.getMessage().contains("solo puede contener letras"));
     }
 
     @Test
     void asistenteConApellidoInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sebastianT", "Sebastián", "sebastian.t@gmail.com", "Torres99", LocalDate.of(1993, 9, 30), null); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sebastianT", "Sebastián", "sebastian.t@gmail.com", "Torres99", Utilidades.toDate(LocalDate.of(1993, 9, 30)), null); });
         assertTrue(ex.getMessage().contains("solo puede contener letras"));
     }
 
@@ -92,21 +93,21 @@ class TestAltaUsuario {
 
     @Test
     public void nicknameDuplicadoEntreAsistenteYOrganizador() throws Exception {
-        controladorUsuario.altaAsistente("sofiaG", "Sofía", "sofia.g@gmail.com", "Gómez", LocalDate.of(1990, 1, 1), null);
+        controladorUsuario.altaAsistente("sofiaG", "Sofía", "sofia.g@gmail.com", "Gómez", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("sofiaG", "Gonzalo", "gonzalo.g@gmail.com", "Organizador de charlas", "https://charlasuy.com"); });
         assertTrue(ex.getMessage().contains("El nickname ya existe"));
     }
 
     @Test
     void correoDuplicadoEntreAsistentes() throws Exception {
-        controladorUsuario.altaAsistente("martinC", "Martín", "martin.c@gmail.com", "Cabrera", LocalDate.of(1990, 1, 1), null);
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("luciaD", "Lucía", "martin.c@gmail.com", "Díaz", LocalDate.of(1995, 3, 15), null); });
+        controladorUsuario.altaAsistente("martinC", "Martín", "martin.c@gmail.com", "Cabrera", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("luciaD", "Lucía", "martin.c@gmail.com", "Díaz", Utilidades.toDate(LocalDate.of(1995, 3, 15)), null); });
         assertTrue(ex.getMessage().contains("correo ya está en uso"));
     }
 
     @Test
     public void correoDuplicadoEntreAsistenteYOrganizador() throws Exception {
-        controladorUsuario.altaAsistente("agustinaM", "Agustina", "agustina.m@gmail.com", "Morales", LocalDate.of(1990, 1, 1), null);
+        controladorUsuario.altaAsistente("agustinaM", "Agustina", "agustina.m@gmail.com", "Morales", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("rodrigoP", "Rodrigo", "agustina.m@gmail.com", "Organizador de talleres", "https://talleresuy.com"); });
         assertTrue(ex.getMessage().contains("El correo ya está en uso"));
     }

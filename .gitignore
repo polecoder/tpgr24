@@ -1,2 +1,8 @@
+# Carpetas
 bin/
 target/
+.settings/
+
+# Archivos
+.project
+.classpath

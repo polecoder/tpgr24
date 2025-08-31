@@ -19,7 +19,7 @@ public class FramePrincipal extends JFrame {
         ventana.setVisible(true);
         try {
             ventana.setSelected(true);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {} 
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,12 +51,12 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
         JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
-        JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
+        JMenuItem item_ConsultaEdicionEvento = new JMenuItem("Consulta Edicion de Evento");
 
         menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
-        menuEvento.add(item7);
+        menuEvento.add(item_ConsultaEdicionEvento);
 		
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
@@ -64,30 +64,22 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaTipoRegistro = new JMenuItem("Alta Tipo Registro");
         JMenuItem item_ConsultaTipoRegistro = new JMenuItem("Consulta Tipo Registro");
         JMenuItem itemA = new JMenuItem("Consulta Registro");
-        JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
+        JMenuItem item_RegistroAEdicionEvento = new JMenuItem("Registro a Edicion de Evento");
 
         menuRegistro.add(item_AltaTipoRegistro);
         menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
-        menuRegistro.add(itemB);
-		
-		item_AltaTipoRegistro.addActionListener(e -> {
-		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
-		    panel.add(ventanaAltaTipoRegistro);          
-		    ventanaAltaTipoRegistro.setVisible(true);    
-		    try {
-		    	ventanaAltaTipoRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
-		});
+        menuRegistro.add(item_RegistroAEdicionEvento);
+        
 		item_ConsultaTipoRegistro.addActionListener(e -> {
-		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro();
-		    panel.add(ventanaConsultaTipoRegistro);          
+		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(null, null, null);
+		    panel.add(ventanaConsultaTipoRegistro);           
 		    ventanaConsultaTipoRegistro.setVisible(true);    
 		    try {
 		    	ventanaConsultaTipoRegistro.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
-		
+        
         JMenu menuInstitucion = new JMenu("Institución");
         menuBar.add(menuInstitucion);
 
@@ -98,6 +90,31 @@ public class FramePrincipal extends JFrame {
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(item_AltaPatrocinio);
         menuInstitucion.add(itemE);
+        
+        JMenu menuCargaDatos = new JMenu("Carga Datos");
+        menuBar.add(menuCargaDatos);
+
+        JMenuItem item_CargaDatos = new JMenuItem("Carga Datos");
+
+        menuCargaDatos.add(item_CargaDatos);
+		
+        item_CargaDatos.addActionListener(e -> {
+			JCargaDatos ventanaCargaDatos = new JCargaDatos();
+			panel.add(ventanaCargaDatos);          
+			ventanaCargaDatos.setVisible(true);    
+			try {
+				ventanaCargaDatos.setSelected(true); 
+			} catch (Exception ex) {}
+		});
+        
+		item_AltaTipoRegistro.addActionListener(e -> {
+		    AltaTipoRegistro ventanaAltaTipoRegistro = new AltaTipoRegistro();
+		    panel.add(ventanaAltaTipoRegistro);          
+		    ventanaAltaTipoRegistro.setVisible(true);    
+		    try {
+		    	ventanaAltaTipoRegistro.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 				
 		item_AltaUsuario.addActionListener(e -> {
 				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
@@ -163,7 +180,7 @@ public class FramePrincipal extends JFrame {
 			
 		});
 		
-		itemB.addActionListener(e -> {
+		item_RegistroAEdicionEvento.addActionListener(e -> {
 			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
 		    panel.add(ventanaRegistro);          
 		    ventanaRegistro.setVisible(true);    
@@ -181,6 +198,15 @@ public class FramePrincipal extends JFrame {
 			} catch (Exception ex) {}
 		});
 		
+		item_ConsultaEdicionEvento.addActionListener(e-> {
+			ConsultaEdicionEvento ventanaConsultaEdEv = new ConsultaEdicionEvento(null, null);
+			panel.add(ventanaConsultaEdEv);
+			ventanaConsultaEdEv.setVisible(true);
+			try {
+				ventanaConsultaEdEv.setSelected(true);
+			}catch(Exception ex) {}
+		});
+		
 		item_AltaPatrocinio.addActionListener(e->{
 			AltaPatrocinio ventanaAltaPatrocinio = new AltaPatrocinio();
 			panel.add(ventanaAltaPatrocinio);
@@ -192,5 +218,5 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		setVisible(true); 
-    }
+	}
 }

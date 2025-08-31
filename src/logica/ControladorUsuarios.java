@@ -1,6 +1,7 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return instance;
 	}
 
-	public void altaAsistente(String nickname, String nombre, String correo, String apellido, LocalDate fechaNacimiento,
+	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,
 			String nombreinstitucion) throws Exception {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
@@ -160,3 +161,4 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
 }
+

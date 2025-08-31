@@ -1,27 +1,28 @@
 package logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTTipoRegistro;
-import logica.TipoRegistro;
-import logica.Patrocinio;
+import logica.datatypes.DTTipoRegistro;
 
 public class Edicion {
 	private String nombre;
 	private String sigla;
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-	private LocalDate fechaAlta;
+	private Date fechaInicio;
+	private Date fechaFin;
+	private Date fechaAlta;
 	private String ciudad;
 	private String pais;
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
+	private String organizadorNickname;
 	
-	public Edicion(String nombre, String sigla, LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaAlta, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -47,24 +48,24 @@ public class Edicion {
 		this.sigla = sigla;
 	}
 	
-	public LocalDate getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
-	public void setFechaInicio(LocalDate fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	
-	public LocalDate getFechaFin() {
+	public Date getFechaFin() {
 		return fechaFin;
 	}
-	public void setFechaFin(LocalDate fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 	
-	public LocalDate getFechaAlta() {
+	public Date getFechaAlta() {
 		return fechaAlta;
 	}
-	public void setFechaAlta(LocalDate fechaAlta) {
+	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 	
@@ -146,12 +147,35 @@ public class Edicion {
 	
 	// TODO: Implementar y revisar el nombre
 	public boolean validar(String nicknameAsistente, String nombreTipoRegistro) {
-		return false;
+		TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
+		int cupos = tr.getCuposDisponibles();
+		if(cupos>0) {
+			return tr.validar(nicknameAsistente);
+		}else {
+			System.out.print("Edicion::validar(): No hay cupos disponibles");
+			return false;
+		}
 	}
 	
 	// TODO: Implementar y revisar el nombre
 	public boolean check(String codigoPatrocinio, String nicknameAsistente) {
-		return false;
+		boolean pertenece =  patrocinios.containsKey(codigoPatrocinio);
+		Patrocinio p = patrocinios.get(codigoPatrocinio);
+		boolean checkA = p.checkAsistente(nicknameAsistente);
+		return checkA && pertenece;
+	}
+	
+	public Map<String,DTTipoRegistro> listarTipoRegistro() {
+		Map<String, DTTipoRegistro> mList = new HashMap<>();
+		for(TipoRegistro r : tiposRegistro.values()) {
+			String nombre = r.getNombre();
+			String descripcion = r.getDescripcion();
+			float costo = r.getCosto();
+			int cupoM = r.getCuposMax();
+			int cupoD = r.getCuposDisponibles();
+			mList.put(nombre, new DTTipoRegistro(nombre, descripcion, costo, cupoM, cupoD));
+		}
+		return mList;
 	}
 	
 	public DTTipoRegistro getDTTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste {
@@ -163,4 +187,7 @@ public class Edicion {
 		TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
 		return tipoRegistro.getDTTipoRegistro();
 	}
+	
+	public String getOrganizadorNickname() {return organizadorNickname;}
+	public void setOrganizadorNickname(String organizadorNickname) {this.organizadorNickname=organizadorNickname;}
 }

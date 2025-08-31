@@ -52,4 +52,7 @@ public class Institucion {
 	void agregarEdicion(String edicion){
 		this.edicionesConPatrocinio.add(edicion);
 	}
+	boolean checkAsistente(String nicknameAsistente) {
+		return asistentes.containsKey(nicknameAsistente);
+	}
 }
