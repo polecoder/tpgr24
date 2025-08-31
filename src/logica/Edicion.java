@@ -20,6 +20,7 @@ public class Edicion {
 	private String pais;
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
+	private String organizadorNickname;
 	
 	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
 		this.setNombre(nombre);
@@ -186,4 +187,7 @@ public class Edicion {
 		TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
 		return tipoRegistro.getDTTipoRegistro();
 	}
+	
+	public String getOrganizadorNickname() {return organizadorNickname;}
+	public void setOrganizadorNickname(String organizadorNickname) {this.organizadorNickname=organizadorNickname;}
 }
