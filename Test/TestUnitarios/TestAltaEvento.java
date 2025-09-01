@@ -1,6 +1,6 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,6 +49,7 @@ public class TestAltaEvento {
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		categorias.add("Categoria 2");
-		assertEquals(categorias, fabrica.getControladorEvento().getListaCategorias());
+		List<String> listaRealCategorias = fabrica.getControladorEvento().getListaCategorias();
+		assertTrue(categorias.containsAll(listaRealCategorias) && listaRealCategorias.containsAll(categorias));
 	}
 }

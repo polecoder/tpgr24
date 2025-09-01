@@ -31,6 +31,10 @@ public class ManejadorEventos {
 		return instancia;
 	};
 	
+	public static void resetInstancia() {
+		instancia = null;
+	}
+	
 	// TODO: Hacer Setters
 	// TODO: Hacer Getters
 	Evento getEventoEdicion(String Evento) {

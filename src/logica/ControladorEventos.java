@@ -37,6 +37,12 @@ public class ControladorEventos implements IControladorEventos {
 		};
 		return instancia;
 	}
+	
+	public static void resetInstance() {
+		ManejadorEventos.resetInstancia();
+		ManejadorUsuarios.resetInstance();
+		instancia = null;
+	}
 
 	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
     	Evento ev = manejadorEventos.getEvento(nombreEvento);

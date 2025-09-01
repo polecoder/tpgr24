@@ -11,6 +11,9 @@ public class Fabrica {
     }
 
     public static void resetInstancia() {
+    	ControladorUsuarios.resetInstance();
+    	ControladorEventos.resetInstance();
+    	ControladorInstitucion.resetInstancia();
     	instancia = null;
     }
     
