@@ -257,8 +257,6 @@ public class ControladorEventos implements IControladorEventos {
 				Evento ev = manejadorEventos.getEvento(nombreEvento);
 				Edicion ed = ev.getEdicion(nombreEdicion);
 				TipoRegistro tr = ed.getTipoRegistro(nombreTipoRegistro);
-				int cupo = tr.getCuposDisponibles();
-				tr.setCuposDisponibles(cupo-1);
 				float cost = tr.getCosto();
 				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
 				Patrocinio p = null;

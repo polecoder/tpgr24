@@ -50,8 +50,12 @@ public class TipoRegistro {
     
     public List<Registro> getRegistros(){ return registros; }
     public boolean validar(String nicknameAsistente) {
-        // HACER
-        return true;
+        boolean v = true;
+        System.out.print(registros.size());
+    	for(Registro r: registros) {
+        	v = v || r.validar(nicknameAsistente);
+        }
+        return !v;
     }
     
     public DTTipoRegistro getDTTipoRegistro() {
