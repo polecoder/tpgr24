@@ -189,5 +189,25 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 		return resultado;
 	}
+	
+	/**
+	 * Devuelve el nombre de la institución de un asistente.
+	 * Si no existe devuelve null.
+	 * 
+	 * @param nicknameAsistente
+	 * @return
+	 */
+	@Override
+	public String getNombreInstitucionAsistente(String nicknameAsistente) {
+		Asistente a = this.manejadorUsuarios.getAsistente(nicknameAsistente);
+		if (a != null) {
+			Institucion i = a.getInstitucion();
+			if (i != null) {
+				return i.getNombre();
+			}
+		}
+		return "";
+	}
+
 }
 

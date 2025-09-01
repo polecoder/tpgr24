@@ -29,4 +29,13 @@ public interface IControladorUsuarios {
 	 */
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception;
 	List<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador);
+	
+	/**
+	 * Devuelve el nombre de la institución de un asistente.
+	 * Si no existe devuelve null.
+	 * 
+	 * @param nicknameAsistente
+	 * @return
+	 */
+	String getNombreInstitucionAsistente(String nickname);
 }
