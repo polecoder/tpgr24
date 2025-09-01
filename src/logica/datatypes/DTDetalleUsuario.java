@@ -1,9 +1,9 @@
 package logica.datatypes;
 
 public class DTDetalleUsuario {
-	private String nickname;
-	private String nombre;
-	private String correo;
+	protected String nickname;
+	protected String nombre;
+	protected String correo;
 	
 	public DTDetalleUsuario(String nickname, String nombre, String correo) {
 		super();
