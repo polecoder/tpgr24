@@ -9,12 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
 import javax.swing.JTextField;
 
 import logica.Fabrica;
 import logica.datatypes.DTDetalleAsistente;
 import logica.datatypes.DTDetalleOrganizador;
 import logica.datatypes.DTDetalleUsuario;
+import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
 import javax.swing.JPanel;
@@ -33,13 +35,14 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextArea descripcionTextArea;
 	private JTextField fechaNacimientoTextField;
 	private JTextField linkTextField;
+	private boolean actualizandoComboAsistente = false;
 	
 	private JPanel cardPanel, cardPanel1, cardPanel2;
 	private CardLayout cl, cl1, cl2;
 
 	Fabrica fabrica = Fabrica.getInstancia();
 	
-	public ConsultaUsuario() {
+	public ConsultaUsuario(JDesktopPane desktopPane) {
 		super("Consulta Usuario", true, true, true, true);
 		setSize(400, 300);
 		setMinimumSize(new Dimension(400, 300));
@@ -277,13 +280,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblRegistros.anchor = GridBagConstraints.EAST;
 		panelAsistente2.add(lblRegistros, gbcLblRegistros);
 
-		// TODO: Hardcodeado
-		String[] registros = {
-		    "Registro 1",
-		    "Registro 2",
-		    "Registro 3"
-		};
-		JComboBox<String> registrosCombo = new JComboBox<>(registros);
+		JComboBox<String> registrosCombo = new JComboBox<>();
 		registrosCombo.setPreferredSize(new Dimension(225,20));
 		GridBagConstraints gbcCombo = new GridBagConstraints();
 		gbcCombo.gridx = 1;
@@ -367,8 +364,36 @@ public class ConsultaUsuario extends JInternalFrame {
 		usuariosComboBox.addActionListener(e -> {
 			String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 		    if (nicknameSeleccionado != null) {
+		    	actualizandoComboAsistente = true;
 		        actualizarDatosUsuario(nicknameSeleccionado);
+		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
+				String[] nombresRegistros;
+				registrosCombo.removeAllItems();
+				for (DTRegistro registro: listaRegistros) {
+					registrosCombo.addItem(registro.nombreEdicion());
+				}
+				actualizandoComboAsistente = false;
 		    }
+		});
+		
+		/**
+		 * Actualización al cambiar el registro del combo.
+		 */
+		registrosCombo.addActionListener(e -> {
+			if (!actualizandoComboAsistente) {
+				String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
+				String registroSeleccionado = (String) registrosCombo.getSelectedItem();
+			    if (registroSeleccionado != null) {
+			        ConsultaRegistro ventanaConsultaRegistro = new ConsultaRegistro(nicknameSeleccionado, registroSeleccionado);
+			        desktopPane.add(ventanaConsultaRegistro);
+			        ventanaConsultaRegistro.setVisible(true);
+				    try {
+				        ventanaConsultaRegistro.setSelected(true);
+				    } catch (Exception ex) {
+				        ex.printStackTrace();
+				    }
+			    }
+			}
 		});
 	}
 	

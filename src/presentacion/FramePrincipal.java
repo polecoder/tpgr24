@@ -126,7 +126,7 @@ public class FramePrincipal extends JFrame {
 				});
 		
 		item2.addActionListener(e -> {
-		   ConsultaUsuario ventanaCU = new ConsultaUsuario();
+		   ConsultaUsuario ventanaCU = new ConsultaUsuario(panel);
 		   panel.add(ventanaCU);          
 		   ventanaCU.setVisible(true);    
 		   try {
@@ -171,7 +171,7 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		itemA.addActionListener(e-> {
-			ConsultaRegistro ventanaCRegistro = new ConsultaRegistro();
+			ConsultaRegistro ventanaCRegistro = new ConsultaRegistro(null, null);
 			panel.add(ventanaCRegistro);
 			ventanaCRegistro.setVisible(true);
 			try {

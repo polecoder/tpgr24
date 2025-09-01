@@ -26,7 +26,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private final DateTimeFormatter F = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // ventana: titulo, cerrar, minimizar
-    public ConsultaRegistro() {
+    public ConsultaRegistro(String nombreAsistente, String nombreRegistro) {
         setResizable(true);
         setIconifiable(true);
         setClosable(true);
@@ -51,6 +51,10 @@ public class ConsultaRegistro extends JInternalFrame {
         getContentPane().add(lblUsuario, gbcUlbl);
 
         comboUsuarios = new JComboBox<>(); 
+        // Seleccionar si se pasa por parámetro
+        if (nombreAsistente != null) {
+            comboUsuarios.setSelectedItem(nombreAsistente);
+        }
         GridBagConstraints gbcU = new GridBagConstraints();
         gbcU.insets = new Insets(0,0,5,0);
         gbcU.fill = GridBagConstraints.HORIZONTAL;
@@ -66,7 +70,11 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcRlbl.gridx = 0; gbcRlbl.gridy = 1;
         getContentPane().add(lblReg, gbcRlbl);
 
-        comboRegistros = new JComboBox<>(); 
+        comboRegistros = new JComboBox<>();
+        // Seleccionar si se pasa por parámetro
+        if (nombreRegistro != null) {
+            comboRegistros.setSelectedItem(nombreRegistro);
+        }
         GridBagConstraints gbcR = new GridBagConstraints();
         gbcR.insets = new Insets(0,0,5,0);
         gbcR.fill = GridBagConstraints.HORIZONTAL;
@@ -137,7 +145,7 @@ public class ConsultaRegistro extends JInternalFrame {
        
         
         for(DTRegistro r : regs) {
-        	comboRegistros.addItem(r.nombreEdicion() + " , " + r.nombreTipo());
+        	comboRegistros.addItem(r.nombreEdicion());
         }
         comboRegistros.setEnabled(true);
         comboRegistros.setSelectedIndex(0);
