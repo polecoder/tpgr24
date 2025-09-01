@@ -44,5 +44,4 @@ public class Organizador extends Usuario {
             return new ArrayList<>();
 		}
 	}
-	
 }

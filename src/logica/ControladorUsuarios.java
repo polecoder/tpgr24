@@ -8,6 +8,7 @@ import java.util.Set;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
+import logica.datatypes.DTDetalleUsuario;
 import logica.datatypes.DTUsuario;
 import logica.datatypes.DTRegistro;
 
@@ -160,6 +161,17 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto());
 	}
 
+	/**
+	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una excepción.
+	 * 
+	 * @param nicknameUsuario
+	 * @return
+	 * @throws Exception 
+	 */
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
+		return this.manejadorUsuarios.mostrarDetalleUsuario(nicknameUsuario);
+	}
+	
 	@Override
 	public Set<String> nombresOrganizadores() {
 		return manejadorUsuarios.getConjuntoOrganizador().keySet();
