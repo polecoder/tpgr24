@@ -57,12 +57,8 @@ class testConsultaRegistro {
 		//crear asistente
 		Asistente ana = new Asistente("ana", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()),null);
 		
-		/*
-		//creo patrocinio
-		Patrocinio pat = new Patrocinio("Patrocinio");
-		
 		//creo Registro
-		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, Gen, null);
+		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null);
 		ana.getRegistros().add(reg1);
 		
 		DTEvento dtEv = controlador.getDTEvento("ExpoTech"); // ¡Evento, no "Expo"!
@@ -86,11 +82,11 @@ class testConsultaRegistro {
         assertEquals(1, ana.getRegistros().size(), "El asistente debería tener 1 registro");
         Registro r = ana.getRegistros().get(0);
         assertEquals(100f, r.getCosto(), 0.001f);
-        */
+        
 	}
 	
 	@Test
-	void listarRegistrosUsuario_basico() {
+	void listarRegistrosUsuario() {
 	    // Controladores / manejadores
 	    ControladorUsuarios cu = ControladorUsuarios.getInstance();
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
@@ -117,19 +113,17 @@ class testConsultaRegistro {
 	    ed.agregarTipoRegistro(gen);
 
 	    // --- Patrocinio + Registros del usuario ---
-	    /*
-	    Patrocinio pat = new Patrocinio("Patro");
-	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),100f, ana, gen, pat);
-	    Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, vip, pat);
+	    
+	    Patrocinio pat = new Patrocinio("Patro",Utilidades.toDate(LocalDate.now()), 0, null, 0, null);
+	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),100f, ana, pat);
+	    Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
 	    
 	    gen.addRegistro(r1);
 	    vip.addRegistro(r2);
 
-	    // Si getRegistros() es modificable:
 	    ana.getRegistros().add(r1);
 	    ana.getRegistros().add(r2);
-	    */
-	    // Si NO fuera modificable, usá un método propio: ana.addRegistro(r1); ana.addRegistro(r2);
+	    
 
 	    // --- ACT: listar registros del usuario ---
 	    java.util.List<logica.datatypes.DTRegistro> regs = cu.listarRegistrosUsuario("anaCR");
@@ -138,20 +132,17 @@ class testConsultaRegistro {
 	    assertNotNull(regs);
 	    assertEquals(2, regs.size(), "Debe listar 2 registros");
 
-	    /*java.util.Set<String> tipos = regs.stream()
+	    java.util.Set<String> tipos = regs.stream()
 	            .map(logica.datatypes.DTRegistro::nombreTipo)
-	            .collect(java.util.stream.Collectors.toSet());*/
-	    /*regs.forEach(r ->
-	    System.out.println("-> " + r.nombreEdicion() + " | " + r.nombreTipo())
-	); */
+	            .collect(java.util.stream.Collectors.toSet());
 	    
-	    Set<String> tipos = regs.stream()
+	    Set<String> tipos1 = regs.stream()
 	            .map(DTRegistro::nombreTipo)
 	            .filter(java.util.Objects::nonNull)
 	            .map(s -> s.trim().toLowerCase())
 	            .collect(java.util.stream.Collectors.toSet());
 
-	    assertEquals(java.util.Set.of("general", "vip"), tipos, "Tipos esperados en la lista");
+	    assertEquals(java.util.Set.of("general", "vip"), tipos1, "Tipos esperados en la lista");
 
 	    // Detalle índice 0 (sin asumir orden: solo validamos coherencia)
 	    logica.datatypes.DTDetalleRegistro d0 = cu.obtenerDetalleRegistro("anaCR", 0);
@@ -229,17 +220,20 @@ class testConsultaRegistro {
         ed.getTiposRegistro().put(gen.getNombre(), gen);
         ed.getTiposRegistro().put(vip.getNombre(), vip);
 
-        /*
+        
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
-        Patrocinio pat = new Patrocinio("PAT");
-        Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, gen, pat);
-        Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, vip, pat);
-        Registro r3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, gen, pat);
+        Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null);
+        Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
+        Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
+        Registro r3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
+        gen.addRegistro(r1);
+        vip.addRegistro(r2);
+        gen.addRegistro(r3);
         carlos.getRegistros().add(r1);
         carlos.getRegistros().add(r2);
         carlos.getRegistros().add(r3);
 
-*/
+
         // A) El usuario aparece en listarUsuarios
         Set<String> nicks = cu.listarUsuarios()
                 .stream().map(DTUsuario::nickname).collect(Collectors.toSet());
@@ -284,10 +278,10 @@ class testConsultaRegistro {
         ed.getTiposRegistro().put(gen.getNombre(), gen);
         
         
-        /* Patrocinio pat = new Patrocinio("P"); 
+         Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null); 
 
         // Un solo registro
-        Registro r = new Registro(Utilidades.toDate(LocalDate.now()), 800f, u, gen, pat);
+        Registro r = new Registro(Utilidades.toDate(LocalDate.now()), 800f, u, pat);
         u.getRegistros().add(r);
         // Índices inválidos
         assertNull(cu.obtenerDetalleRegistro(NICK, -1));
@@ -299,6 +293,6 @@ class testConsultaRegistro {
         assertEquals(1, regs.size());
         assertNotNull(cu.obtenerDetalleRegistro(NICK, 0));
         assertNotNull(cu.obtenerDetalleRegistro(NICK, regs.size() - 1));
-        */
+        
     }
 }
