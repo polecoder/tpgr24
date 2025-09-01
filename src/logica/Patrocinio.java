@@ -13,12 +13,12 @@ public class Patrocinio {
 	
 	public Patrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
 			int cuposGratuitos, Institucion institucion) {
-		this.codigoPatrocinio = codigoPatrocinio;
-		this.fechaPatrocinio = fechaPatrocinio;
-		this.aporte = aporte;
-		this.nivel = nivel;
-		this.cuposGratuitos = cuposGratuitos;
-		this.institucion = institucion;
+		this.setCodigoPatrocinio(codigoPatrocinio);
+		this.setFechaPatrocinio(fechaPatrocinio);
+		this.setAporte(aporte);
+		this.setNivel(nivel);
+		this.setCuposGratuitos(cuposGratuitos);
+		this.setInstitucion(institucion);
 	}
 	
 	public String getCodigoPatrocinio() {
