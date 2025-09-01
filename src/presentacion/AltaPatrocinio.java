@@ -33,7 +33,7 @@ import logica.datatypes.DTTipoRegistro;
 	
 	    public AltaPatrocinio() {
 	        super("Alta Patrocinio", true, true, true, true);
-	        setSize(400, 350);
+	        setSize(450, 400);
 	        setLocation(50, 25);
 	
 	        GridBagLayout layout = new GridBagLayout();
@@ -133,7 +133,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_lblNivel.anchor = GridBagConstraints.WEST;
 	        panelFormulario.add(lblNivel, gbc_lblNivel);
 	
-	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"PLATINO", "ORO", "PLATA", "BRONCE"});
+	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"Patrocinio", "Oro", "Plata", "Bronce"});
 	        GridBagConstraints gbc_comboNivel = new GridBagConstraints();
 	        gbc_comboNivel.gridx = 1;
 	        gbc_comboNivel.gridy = 4;

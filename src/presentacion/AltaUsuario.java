@@ -29,7 +29,7 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Correo;
 	public AltaUsuario() {
 		super("Alta de Usuario", true, true, true, true); 
-		setSize(350, 250);       
+		setSize(400, 300);       
 		setLocation(50, 50);
 		
 		Fabrica fabrica=Fabrica.getInstancia();
@@ -47,7 +47,7 @@ public class AltaUsuario extends JInternalFrame {
 		
 		JLabel lbl_nick = new JLabel("Nickname:");
 		GridBagConstraints gbc_lbl_nick = new GridBagConstraints();
-		gbc_lbl_nick.anchor = GridBagConstraints.EAST;
+		gbc_lbl_nick.anchor = GridBagConstraints.CENTER;
 		gbc_lbl_nick.insets = new Insets(0, 0, 5, 5);
 		gbc_lbl_nick.gridx = 0;
 		gbc_lbl_nick.gridy = 1;
@@ -65,7 +65,7 @@ public class AltaUsuario extends JInternalFrame {
 		
 		JLabel lbl_nombre = new JLabel("Nombre:");
 		GridBagConstraints gbc_lbl_nombre = new GridBagConstraints();
-		gbc_lbl_nombre.anchor = GridBagConstraints.EAST;
+		gbc_lbl_nombre.anchor = GridBagConstraints.CENTER;
 		gbc_lbl_nombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lbl_nombre.gridx = 0;
 		gbc_lbl_nombre.gridy = 2;
@@ -84,7 +84,7 @@ public class AltaUsuario extends JInternalFrame {
 
 		JLabel lbl_Correo = new JLabel("Correo:");
 		GridBagConstraints gbc_lbl_Correo = new GridBagConstraints();
-		gbc_lbl_Correo.anchor = GridBagConstraints.EAST;
+		gbc_lbl_Correo.anchor = GridBagConstraints.CENTER;
 		gbc_lbl_Correo.insets = new Insets(0, 0, 5, 5);
 		gbc_lbl_Correo.gridx = 0;
 		gbc_lbl_Correo.gridy = 3;

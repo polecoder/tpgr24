@@ -31,8 +31,8 @@ public class AltaEdicionEvento extends JInternalFrame {
 	private IControladorUsuarios IContUsuario= fabrica.getControladorUsuarios();
 	public AltaEdicionEvento() {
 	    super("Alta Edicion", true, true, true, true); 
-	    setSize(400, 300);       
-	    setLocation(50, 50);   
+	    setSize(450, 350);       
+	    setLocation(50, 25);   
 
 	    GridBagLayout gridBagLayout = new GridBagLayout();
 	    gridBagLayout.columnWidths = new int[]{0, 0, 0 ,0,0};
