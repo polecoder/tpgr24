@@ -28,7 +28,7 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Nombre;
 	private JTextField textField_Correo;
 	public AltaUsuario() {
-		super("Alta de Usuario", true, true, true, true);
+		super("Alta de Usuario", true, true, true, true); 
 		setSize(350, 250);       
 		setLocation(50, 50);
 		
@@ -221,7 +221,7 @@ public class AltaUsuario extends JInternalFrame {
 		GridBagConstraints gbc_combo_instituciones = new GridBagConstraints();
 		gbc_combo_instituciones.gridx = 1;
 		gbc_combo_instituciones.gridy = 5;
-		gbc_combo_instituciones.gridwidth = 2;
+		gbc_combo_instituciones.gridwidth = 2; 
 		gbc_combo_instituciones.fill = GridBagConstraints.HORIZONTAL;
 		gbc_combo_instituciones.insets = new Insets(0, 0, 5, 5);
 		getContentPane().add(comboInstituciones, gbc_combo_instituciones);
@@ -267,7 +267,7 @@ public class AltaUsuario extends JInternalFrame {
 		    repaint();
 		});
 		
-		ButtonGroup grupoTipoUsuario = new ButtonGroup();
+		ButtonGroup grupoTipoUsuario = new ButtonGroup(); 
 		grupoTipoUsuario.add(Button_Organizador);   
 		grupoTipoUsuario.add(Button_Asistente); 
 		

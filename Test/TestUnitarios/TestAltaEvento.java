@@ -26,7 +26,11 @@ public class TestAltaEvento {
 	@Test
 	void altaEventoCorrectaUnaCategoria() {
 		// Creación de categorías
-		fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre");
+		}
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
@@ -35,8 +39,16 @@ public class TestAltaEvento {
 	@Test
 	void altaEventoCorrectaVariasCategorias() {
 		// Creación de categorías
-		fabrica.getControladorEvento().altaCategoria("Categoria 1");
-		fabrica.getControladorEvento().altaCategoria("Categoria 2");
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre");
+		}
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria 2");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre");
+		}
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		categorias.add("Categoria 2");
@@ -45,8 +57,16 @@ public class TestAltaEvento {
 	
 	@Test
 	void listaCategorias() {
-		fabrica.getControladorEvento().altaCategoria("Categoria 1");
-		fabrica.getControladorEvento().altaCategoria("Categoria 2");
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre");
+		}
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria 2");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre");
+		}
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		categorias.add("Categoria 2");
