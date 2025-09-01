@@ -239,6 +239,11 @@ public class AltaEdicionEvento extends JInternalFrame {
 		});
 	    
 	    btnAceptar.addActionListener(e -> {
+	    	if (comboEventos.getSelectedItem() == null || comboOrganizadores.getSelectedItem() == null) {
+			     JOptionPane.showMessageDialog(null, "Debe seleccionar un evento y un organizador.", "Error", JOptionPane.ERROR_MESSAGE);
+			     return;
+			}
+	    	  
 	    	String nombreEvento = comboEventos.getSelectedItem().toString().trim();
 	    	String nombre = textField_Nombre.getText().trim();
 		    String sigla = textField_Sigla.getText().trim();

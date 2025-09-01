@@ -110,7 +110,7 @@ public class Edicion {
 	 * 
 	 * @param nombreTipoRegistro
 	 * @return
-	 */
+	 */ 
 	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste{
 		if (!this.tiposRegistro.containsKey(nombreTipoRegistro)) {
 			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
@@ -152,7 +152,6 @@ public class Edicion {
 		if(cupos>0) {
 			return tr.validar(nicknameAsistente);
 		}else {
-			System.out.print("Edicion::validar(): No hay cupos disponibles");
 			return false;
 		}
 	}

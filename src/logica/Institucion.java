@@ -1,7 +1,9 @@
 package logica;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Institucion {
 	private 
@@ -9,11 +11,14 @@ public class Institucion {
 	String descripcion;
 	String sitioWeb;
 	Map<String,Asistente> asistentes;
+	Set<String> edicionesConPatrocinio;
 	public Institucion(String nombre, String descripcion, String sitioWeb) {
 	    setNombre(nombre);
 	    setDescripcion(descripcion);
 	    setSitioWeb(sitioWeb);
 	    this.asistentes = new HashMap<>();
+	    this.edicionesConPatrocinio = new HashSet<>();
+
 	}
 	String getNombre(){
 		return this.nombre;
@@ -43,6 +48,9 @@ public class Institucion {
 	};
 	void eliminarAsistente(String nickname) {
 		this.asistentes.remove(nickname);
+	}
+	void agregarEdicion(String edicion){
+		this.edicionesConPatrocinio.add(edicion);
 	}
 	boolean checkAsistente(String nicknameAsistente) {
 		return asistentes.containsKey(nicknameAsistente);
