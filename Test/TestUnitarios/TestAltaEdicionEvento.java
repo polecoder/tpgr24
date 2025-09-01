@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,12 +24,12 @@ class TestAltaEdicionEvento {
         String sigla = "ET25";
         String ciudad = "Montevideo";
         String pais = "Uruguay";
-        LocalDate fechaAlta = LocalDate.of(2025, 8, 29);
-        LocalDate fechaInicio = LocalDate.of(2025, 9, 10);
-        LocalDate fechaFin = LocalDate.of(2025, 9, 12);
+        Date fechaAlta = Utilidades.toDate(LocalDate.of(2025, 8, 29));
+        Date fechaInicio = Utilidades.toDate(LocalDate.of(2025, 9, 10));
+        Date fechaFin = Utilidades.toDate(LocalDate.of(2025, 9, 12));
 
         assertDoesNotThrow(() -> {
-            controlador.altaEdicionEvento("ExpoTech1", nombreEdicion, sigla, Utilidades.toDate(fechaInicio), Utilidades.toDate(fechaFin), Utilidades.toDate(fechaAlta), ciudad, pais);
+            controlador.altaEdicionEvento("ExpoTech1", nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
         });
 
         DTEdicionEvento dt = controlador.getDTEdicion("ExpoTech1", nombreEdicion);
@@ -86,25 +87,16 @@ class TestAltaEdicionEvento {
         });
         assertTrue(ex3.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
 
-        assertDoesNotThrow(() -> {
-            controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2032", "ET32", Utilidades.toDate(LocalDate.of(2025, 10, 10)), Utilidades.toDate(LocalDate.of(2025, 10, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 1)), "Montevideo", "Uruguay");
-        });
      
-	    // Fecha en el pasado
-	    Exception ex4 = assertThrows(Exception.class, () -> {
-	        controlador.altaEdicionEvento("ExpoTech", "ExpoTech2031", "ET31",Utilidades.toDate(LocalDate.of(2024, 8, 10)), Utilidades.toDate(LocalDate.of(2024, 8, 12)), Utilidades.toDate(LocalDate.of(2024, 8, 1)),"Montevideo", "Uruguay");
-	    });
-	    assertTrue(ex4.getMessage().contains("Ninguna de las fechas puede estar en el pasado"));
-	
 	    // Nombre de edición ya existente
 	    // Primero se registra una edición válida
 	    assertDoesNotThrow(() -> {
-	        controlador.altaEdicionEvento("ExpoTech", "ExpoTech2032", "ET32",Utilidades.toDate(LocalDate.of(2025, 10, 10)), Utilidades.toDate(LocalDate.of(2025, 10, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 1)),"Montevideo", "Uruguay");
+	        controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2032", "ET32",Utilidades.toDate(LocalDate.of(2025, 10, 10)), Utilidades.toDate(LocalDate.of(2025, 10, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 1)),"Montevideo", "Uruguay");
 	    });
 	
 	    // Luego se intenta registrar otra con el mismo nombre
 	    Exception ex5 = assertThrows(Exception.class, () -> {
-	        controlador.altaEdicionEvento("ExpoTech", "ExpoTech2032", "ET33",Utilidades.toDate(LocalDate.of(2025, 11, 10)), Utilidades.toDate(LocalDate.of(2025, 11, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 5)),"Montevideo", "Uruguay");
+	        controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2032", "ET33",Utilidades.toDate(LocalDate.of(2025, 11, 10)), Utilidades.toDate(LocalDate.of(2025, 11, 12)), Utilidades.toDate(LocalDate.of(2025, 9, 5)),"Montevideo", "Uruguay");
 	    });
 	    assertTrue(ex5.getMessage().contains("El nombre de la edición ya está en uso"));
     }

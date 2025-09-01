@@ -55,7 +55,7 @@ import logica.Utilidades;
 		    void altaExitosa() {
 		        try {
 		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		            controlador.altaPatrocinio("EventoX","Ed2026",Utilidades.toDate( LocalDate.now() ),"InstitutoX", nivel , 500000f, 2, "COD123");
+		            controlador.altaPatrocinio("EventoX","Ed2026",Utilidades.toDate(LocalDate.now( )),"InstitutoX", nivel , 500000f, 2, "COD123");
 		        } catch (Exception ex) {
 		            fail("No se esperaba excepción en alta exitosa: " + ex.getMessage());
 		        }
