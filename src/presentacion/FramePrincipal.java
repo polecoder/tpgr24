@@ -38,11 +38,9 @@ public class FramePrincipal extends JFrame {
 
         JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
         JMenuItem item2 = new JMenuItem("Consulta");
-        JMenuItem item3 = new JMenuItem("Modificar Datos");
 
         menuUsuario.add(item_AltaUsuario);
         menuUsuario.add(item2);
-        menuUsuario.add(item3);
 		
 		    	  
         JMenu menuEvento = new JMenu("Evento");
@@ -133,15 +131,6 @@ public class FramePrincipal extends JFrame {
 		        ventanaCU.setSelected(true); 
 		    } catch (Exception ex) {}
 		});
-		
-		item3.addActionListener(e -> {
-			   ModificarUsuario ventanaMU = new ModificarUsuario();
-			    panel.add(ventanaMU);          
-			    ventanaMU.setVisible(true);    
-			    try {
-			        ventanaMU.setSelected(true); 
-			    } catch (Exception ex) {}
-			});
 
 		item_AltaEvento.addActionListener(e -> {
 			AltaEvento ventanaAltaEvento = new AltaEvento();

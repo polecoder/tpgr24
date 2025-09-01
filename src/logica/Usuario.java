@@ -11,9 +11,9 @@ public abstract class Usuario {
 	
 	// Constructor
     public Usuario(String nickname, String nombre, String correo) {
-        this.nickname = nickname;
-        this.nombre = nombre;
-        this.correo = correo;
+        this.setNickname(nickname);
+        this.setNombre(nombre);
+        this.setCorreo(correo);
     }
     // Getters
     public String getNickname() {return nickname;}
