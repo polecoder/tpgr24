@@ -2,6 +2,7 @@ package logica;
 
 import java.util.Date;
 
+
 public class Patrocinio {
 	String codigoPatrocinio;
 	Date fechaPatrocinio;
@@ -63,7 +64,6 @@ public class Patrocinio {
 		try {
 			return institucion.checkAsistente(nicknameAsistente);
 		}catch(Exception CAError) {
-			System.out.printf("ERROR: Patrocinio::checkAsistente() ERROR {0}", CAError);
 			return false;
 		}
 	}

@@ -20,6 +20,8 @@ import java.awt.GridBagConstraints;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+
 import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -37,7 +39,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	private JTextField ciudadTextField;
 	private JTextField organizadorTextField;
 
-	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion) {
+	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion, JDesktopPane desktopPane) {
 		super("Consulta de Edición de Evento", true, true, true, true);
 		setSize(300, 500);
 		setLocation(50, 50);
@@ -74,10 +76,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		gbc_eventoComboBox.gridx = 3;
 		gbc_eventoComboBox.gridy = 1;
 		getContentPane().add(eventoComboBox, gbc_eventoComboBox);
-
-		if (nombreEvento != null) {
-			eventoComboBox.setSelectedItem(nombreEvento);
-		}
+		
 
 		// Edicion
 		JLabel lblEdicion = new JLabel("Edicion:");
@@ -323,10 +322,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		gbc_patrocinioList.gridy = 2;
 		panel_listas.add(patrocinioList, gbc_patrocinioList);
 
+		
+		
 		// Action Listeners
 		eventoComboBox.addActionListener(e -> {
 			String selectedEvento = (String) eventoComboBox.getSelectedItem();
 			if(selectedEvento != "- Seleccione un Evento -") {
+				System.out.printf("\n ConsultaEdicionEvento::eventoComboBox.actionListener() selectedEvento is: %s",selectedEvento);
+				
 				List<String> listaEdiciones = new ArrayList<>();
 				Map<String, DTEdicionEvento> HMediciones = ICEv.listarEdicionesEvento(selectedEvento);
 				listaEdiciones.addAll(HMediciones.keySet());
@@ -374,6 +377,48 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 				patrocinioList.setModel(pModel);
 			}
 		});
+		tipoRegistroList.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        if (e.getClickCount() == 2) { 
+		            String selectedTR = tipoRegistroList.getSelectedValue();
+		            String selectedEdicion = (String) edicionComboBox.getSelectedItem();
+					String selectedEvento = (String) eventoComboBox.getSelectedItem();
+					System.out.print(selectedTR);
+					System.out.print(".\n");
+					System.out.print(selectedEdicion);
+					System.out.print(".\n");
+					System.out.print(selectedEvento);
+					if(selectedTR != null && selectedEdicion != null && selectedEvento !=null) {
+						ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(selectedTR, selectedEvento, selectedEdicion);
+						desktopPane.add(ventanaConsultaTipoRegistro);           
+						ventanaConsultaTipoRegistro.setVisible(true);    
+						try {
+							ventanaConsultaTipoRegistro.setSelected(true); 
+						} catch (Exception ex) {}						
+					}
+		            
+		        }
+		    }
+		});
+		
+		patrocinioList.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        if (e.getClickCount() == 2) { 
+		            String seleccionado = patrocinioList.getSelectedValue();
+		            System.out.println("Doble clic en: " + seleccionado);
+		        }
+		    }
+		});
+		
+		// Trigger Listeners
+		if (nombreEvento != null && nombreEdicion != null) {
+			eventoComboBox.setSelectedItem("- Seleccione un Evento -");
+			eventoComboBox.setSelectedItem(nombreEvento);
+			edicionComboBox.setSelectedItem("- Seleccione una edicion -");
+			edicionComboBox.setSelectedItem(nombreEdicion);
+		}
 
 	}
 

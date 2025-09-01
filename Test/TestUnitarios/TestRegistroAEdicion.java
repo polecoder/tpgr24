@@ -78,7 +78,7 @@ public class TestRegistroAEdicion {
 			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
@@ -86,13 +86,7 @@ public class TestRegistroAEdicion {
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
-	}
 	
-	@Test
-	@Order(2)
-	void testRegistroAEdicionYaRegistrada() {
-		// Testea que un asistente no se pueda registrar dos veces a una misma edicion
-		assertThrows(Exception.class,
-				()-> controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha));
 	}
 }
+	

@@ -29,12 +29,12 @@ public interface IControladorEventos {
 	public Set<String> nombresCategorias(String nombre);
 	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
-	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais) throws Exception;
+	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais, String organizadorNickname) throws Exception;
 	// public String[] getNombreEventos(); //Reemplazada por "nombresEventos()"
 	// public String[] getNombresEdiciones(String itemAt); // Reemplazada por "nombresEdicionesEvento()"
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
-	public void altaCategoria(String nombre);
+	public void altaCategoria(String nombre) throws Exception;
 	public boolean existeCategoria(String nombre);
 
 	/**
@@ -57,9 +57,11 @@ public interface IControladorEventos {
 	 */
 	public boolean existeEvento(String nombreEvento);
 	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
-	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion);
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception;
+	public Object getNombresEdiciones(String string);
 	
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías

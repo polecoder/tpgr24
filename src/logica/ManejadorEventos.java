@@ -4,19 +4,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import logica.datatypes.DTDetalleRegistro;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
-import logica.datatypes.DTAsistente;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public class ManejadorEventos {
@@ -246,25 +242,40 @@ public class ManejadorEventos {
 			}
 		}
 	}
-  
-  public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
-		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
-		eventos.get(nombreEvento).agregarEdicion(edicion);
-	};
-		
-	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
-			int cuposGratuitos, Institucion institucion, Edicion edicion) {
-		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion);
-		edicion.agregarPatrocinio(patrocinio);
+	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
+			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname);
+			eventos.get(nombreEvento).agregarEdicion(edicion);
+		};
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
+		}
+
+	public void AltaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) {
+		Fabrica fabrica=Fabrica.getInstancia();
+		IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
+		Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
+		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,FechaAlta, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion);
+		eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).agregarPatrocinio(patrocinio);
 	}
-	
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
 		Registro registro = new Registro(fecha, costo, asistente, patrocinio);
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
-	
-	/**
+	public boolean existePatrocinio(String institucion, String edicion) {
+			for (Evento evento : eventos.values()) {
+				Edicion edi = evento.getEdiciones().get(edicion);
+				if (edi != null) {
+					for (Patrocinio p : edi.getPatrocinios().values()) {
+						if (p.getInstitucion().getNombre().equalsIgnoreCase(institucion)) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+/**
 	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
 	 * 
 	 * @param nombreCategoria

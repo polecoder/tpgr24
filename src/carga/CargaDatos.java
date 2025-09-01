@@ -12,6 +12,7 @@ import logica.TipoRegistro;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -367,7 +368,8 @@ public class CargaDatos {
 			for (String ref : this.ediciones.keySet()) {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
-				this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais());
+				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
+				this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname);
 			}
 		}
 	}
@@ -442,11 +444,11 @@ public class CargaDatos {
 				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getEvento()).getNombre();
 				String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
 				String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
-				Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
-				Institucion institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
+				this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+				this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
-				this.manejadorEventos.altaPatrocinio(patrocinio.getCodigoPatrocinio(), patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), nivel, patrocinio.getCuposGratuitos(), institucion, edicion);
-			}
+				this.manejadorEventos.AltaPatrocinio( nombreEvento,patrocinio.getFechaPatrocinio(), nombreEdicion,nombreInstitucion,nivel,patrocinio.getAporte(), patrocinio.getCuposGratuitos(),patrocinio.getCodigoPatrocinio() );
+			} 
 		}
 	}
 	//------------PATROCINIO-----------------

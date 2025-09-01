@@ -8,7 +8,6 @@ import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTTipoRegistro;
-import logica.datatypes.DTTipoRegistro;
 
 public class Edicion {
 	private String nombre;
@@ -22,7 +21,7 @@ public class Edicion {
 	private HashMap<String, Patrocinio> patrocinios;
 	private String organizadorNickname;
 	
-	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -32,6 +31,7 @@ public class Edicion {
 		this.setPais(pais);
 		this.setPatrocinios(new HashMap<>());
 		this.setTiposRegistro(new HashMap<>());
+		this.setOrganizadorNickname(organizadorNickname);
 	}
 	
 	public String getNombre() {
@@ -110,7 +110,7 @@ public class Edicion {
 	 * 
 	 * @param nombreTipoRegistro
 	 * @return
-	 */
+	 */ 
 	public TipoRegistro getTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste{
 		if (!this.tiposRegistro.containsKey(nombreTipoRegistro)) {
 			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
@@ -152,7 +152,6 @@ public class Edicion {
 		if(cupos>0) {
 			return tr.validar(nicknameAsistente);
 		}else {
-			System.out.print("Edicion::validar(): No hay cupos disponibles");
 			return false;
 		}
 	}

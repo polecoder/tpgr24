@@ -207,7 +207,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 			comboEdiciones.addActionListener(o -> {
 			    String edicionSeleccionada = (String) comboEdiciones.getSelectedItem();
-			    ConsultaEdicionEvento consultaEdicion = new ConsultaEdicionEvento(detalleEvento.getNombre(),edicionSeleccionada);
+			    ConsultaEdicionEvento consultaEdicion = new ConsultaEdicionEvento(detalleEvento.getNombre(),edicionSeleccionada, desktopPane);
 			    desktopPane.add(consultaEdicion);
 			    consultaEdicion.setVisible(true);
 			    try {
@@ -215,7 +215,7 @@ public class ConsultaEvento extends JInternalFrame {
 			    } catch (Exception ex) {
 			        ex.printStackTrace();
 			    }
-			} );
+			} ); 
 		    panelDetalles.revalidate();
 		    panelDetalles.repaint();
 		});

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
+import logica.ManejadorEventos;
 import logica.Utilidades;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
@@ -21,6 +22,7 @@ class TestConsultaEvento {
 
     @Test
     void consultaEventoCompleta() throws Exception {
+    	Fabrica.resetInstancia();
         // Crear categorías necesarias
         controlador.altaCategoria("Robótica");
         controlador.altaCategoria("IA");
@@ -28,43 +30,38 @@ class TestConsultaEvento {
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
-        controlador.altaEvento("ExpoTech", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias);
-        controlador.altaEdicionEvento("ExpoTech", "ExpoTech2023", "ET2023", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.of(2023, 8, 3)),"Montevideo", "Uruguay");
+        controlador.altaEvento("ExpoTec", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias);
+        controlador.altaEdicionEvento("ExpoTec", "ExpoTech2023", "ET2023", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.of(2023, 8, 3)),"Montevideo", "Uruguay","organizador16");
 
         Set<String> nombres = controlador.nombresEventos();
-        assertTrue(nombres.contains("ExpoTech"));
+        assertTrue(nombres.contains("ExpoTec"));
 
 	    // Validación: datos del evento
-        DTEvento dtEvento = controlador.getDTEvento("ExpoTech");
-        assertEquals("ExpoTech", dtEvento.getNombre());
+        DTEvento dtEvento = controlador.getDTEvento("ExpoTec");
+        assertEquals("ExpoTec", dtEvento.getNombre());
         assertEquals("EXP", dtEvento.getSigla());
         assertEquals("Feria de tecnología", dtEvento.getDescripcion());
-
 	    // Validación: categorías
-        Set<String> categoriasEvento = controlador.nombresCategorias("ExpoTech");
+        Set<String> categoriasEvento = controlador.nombresCategorias("ExpoTec");
         assertTrue(categoriasEvento.contains("Robótica"));
         assertTrue(categoriasEvento.contains("IA"));
 
 	    // Validación: ediciones
-        Set<String> ediciones = controlador.nombresEdicionesEvento("ExpoTech");
+        Set<String> ediciones = controlador.nombresEdicionesEvento("ExpoTec");
         assertTrue(ediciones.contains("ExpoTech2023"));
 
-        DTEdicionEvento dtEdicion = controlador.getDTEdicion("ExpoTech", "ExpoTech2023");
+        DTEdicionEvento dtEdicion = controlador.getDTEdicion("ExpoTec", "ExpoTech2023");
         assertEquals("ExpoTech2023", dtEdicion.getNombre());
     }
 
     @Test
     void consultaEventoSinEdiciones() throws Exception {
         // Crear categorías necesarias
-        controlador.altaCategoria("Robótica");
-        controlador.altaCategoria("IA");
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
         controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias);
 	    // Validación: detalle de edición
-	    DTEdicionEvento dtEdicion = controlador.getDTEdicion("ExpoTech", "ExpoTech2023");
-	    assertEquals("ExpoTech2023", dtEdicion.getNombre());
 
         DTEvento dt = controlador.getDTEvento("SoloCategorias");
         assertEquals("SoloCategorias", dt.getNombre());
@@ -83,10 +80,10 @@ class TestConsultaEvento {
         		Arrays.asList());
 
         controlador.altaEdicionEvento("DataFest", "DataFest2022", "DF22", Utilidades.toDate(LocalDate.of(2022, 6, 1)), Utilidades.toDate(LocalDate.of(2022, 6, 3)), Utilidades.toDate(LocalDate.of(2022, 5, 1)),
-                "Salto", "Uruguay");
+                "Salto", "Uruguay", "organizador17");
 
         controlador.altaEdicionEvento("DataFest", "DataFest2023", "DF23",Utilidades.toDate(LocalDate.of(2023, 6, 1)), Utilidades.toDate(LocalDate.of(2023, 6, 3)), Utilidades.toDate(LocalDate.of(2023, 5, 1)),
-                "Paysandú", "Uruguay");
+                "Paysandú", "Uruguay", "organizador17");
 
         Set<String> ediciones = controlador.nombresEdicionesEvento("DataFest");
         assertTrue(ediciones.contains("DataFest2022"));
