@@ -238,7 +238,8 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("El país solo puede contener letras y espacios");
 		}
 
-		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname); 
+		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname);
+		this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 	}
 
 		public void altaCategoria(String nombre) throws Exception {
@@ -321,6 +322,5 @@ public class ControladorEventos implements IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	}
-		
 }
 

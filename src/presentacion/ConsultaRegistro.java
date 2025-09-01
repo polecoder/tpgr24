@@ -25,8 +25,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private final IControladorUsuarios cu = ControladorUsuarios.getInstance();
     private final DateTimeFormatter F = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // ventana: titulo, cerrar, minimizar
-    public ConsultaRegistro() {
+    public ConsultaRegistro(String nicknameAsistente, String nombreRegistro) {
         setResizable(true);
         setIconifiable(true);
         setClosable(true);
@@ -66,7 +65,7 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcRlbl.gridx = 0; gbcRlbl.gridy = 1;
         getContentPane().add(lblReg, gbcRlbl);
 
-        comboRegistros = new JComboBox<>(); 
+        comboRegistros = new JComboBox<>();
         GridBagConstraints gbcR = new GridBagConstraints();
         gbcR.insets = new Insets(0,0,5,0);
         gbcR.fill = GridBagConstraints.HORIZONTAL;
@@ -87,43 +86,45 @@ public class ConsultaRegistro extends JInternalFrame {
 
         // Datos + eventos
         cargando=true;
-        cargarUsuarios();
-        wireEvents();
+        cargarUsuarios(nicknameAsistente);
+        wireEvents(nicknameAsistente);
         if (comboUsuarios.getItemCount() > 0) {
-            listarRegistros(); 
+            listarRegistros(nombreRegistro); 
         } else {
             comboRegistros.setEnabled(false);
         }
         cargando = false;
     }
 
-    private void wireEvents() {
+    private void wireEvents(String nicknameAsistente) {
         comboUsuarios.addItemListener(e -> {
             if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             	if(cargando) return;
-                listarRegistros();
+                listarRegistros(nicknameAsistente);
             }
         });
         btnDetalle.addActionListener(e -> verDetalle());
     }
 
-    	//limpia el combobox usuarios ny lo llena con asistentes
-    private void cargarUsuarios() {
+	// limpia el combobox usuarios y lo llena con asistentes
+    private void cargarUsuarios(String nicknameAsistente) {
         comboUsuarios.removeAllItems();
         for (logica.datatypes.DTUsuario u : cu.listarUsuarios()) {
             comboUsuarios.addItem(u.nickname());    
         }
-        if (comboUsuarios.getItemCount() > 0) comboUsuarios.setSelectedIndex(0);
+        // Seleccionar si se pasa por parámetro
+        if (nicknameAsistente != null) {
+            comboUsuarios.setSelectedItem(nicknameAsistente);
+        }
     }
 
-    private void listarRegistros() {
+    private void listarRegistros(String nombreRegistro) {
     	comboRegistros.removeAllItems();
         String nick = (String) comboUsuarios.getSelectedItem();
         if (nick == null || nick.isBlank()) {
         	btnDetalle.setEnabled(false);
         	return;
         }
-
         List<DTRegistro> regs = cu.listarRegistrosUsuario(nick);
 
         if (regs == null || regs.isEmpty()) {
@@ -134,18 +135,18 @@ public class ConsultaRegistro extends JInternalFrame {
             }
             return;
         }
-       
-        
         for(DTRegistro r : regs) {
-        	comboRegistros.addItem(r.nombreEdicion() + " , " + r.nombreTipo());
+        	comboRegistros.addItem(r.nombreEdicion());
         }
         comboRegistros.setEnabled(true);
-        comboRegistros.setSelectedIndex(0);
+        // Seleccionar si se pasa por parámetro
+        if (nombreRegistro != null) {
+            comboRegistros.setSelectedItem(nombreRegistro);
+        }
         btnDetalle.setEnabled(true);
-        
     }
 
-    	// al apretar el boton para ver el detalle del registro
+	// al apretar el boton para ver el detalle del registro
     private void verDetalle() {
     	if(comboUsuarios.getSelectedIndex()==-1) {
     		JOptionPane.showMessageDialog(null, "No hay usuarios seleccionado");
@@ -157,7 +158,6 @@ public class ConsultaRegistro extends JInternalFrame {
     		JOptionPane.showMessageDialog(this, "selecciona un registro", "Atencion" , JOptionPane.WARNING_MESSAGE);
     		return;
     	}
- 
         
         DTDetalleRegistro d = cu.obtenerDetalleRegistro(nick, idRegistro);
         if (d == null) {

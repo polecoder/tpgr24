@@ -44,4 +44,8 @@ public class Organizador extends Usuario {
             return new ArrayList<>();
 		}
 	}
+	
+	public void agregarEdicion(Edicion edicion) {
+		this.ediciones.add(edicion);
+	}
 }
