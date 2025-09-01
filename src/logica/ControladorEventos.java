@@ -238,7 +238,7 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("El país solo puede contener letras y espacios");
 		}
 
-		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname);
+		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname); 
 	}
 
 		public void altaCategoria(String nombre) throws Exception {
