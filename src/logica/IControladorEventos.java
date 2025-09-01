@@ -29,7 +29,7 @@ public interface IControladorEventos {
 	public Set<String> nombresCategorias(String nombre);
 	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
-	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais) throws Exception;
+	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais, String organizadorNickname) throws Exception;
 	// public String[] getNombreEventos(); //Reemplazada por "nombresEventos()"
 	// public String[] getNombresEdiciones(String itemAt); // Reemplazada por "nombresEdicionesEvento()"
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;

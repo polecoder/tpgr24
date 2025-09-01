@@ -8,7 +8,6 @@ import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTTipoRegistro;
-import logica.datatypes.DTTipoRegistro;
 
 public class Edicion {
 	private String nombre;
@@ -22,7 +21,7 @@ public class Edicion {
 	private HashMap<String, Patrocinio> patrocinios;
 	private String organizadorNickname;
 	
-	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais) {
+	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -32,6 +31,7 @@ public class Edicion {
 		this.setPais(pais);
 		this.setPatrocinios(new HashMap<>());
 		this.setTiposRegistro(new HashMap<>());
+		this.setOrganizadorNickname(organizadorNickname);
 	}
 	
 	public String getNombre() {
