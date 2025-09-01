@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import logica.datatypes.DTDetalleRegistro;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
-import logica.datatypes.DTAsistente;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public class ManejadorEventos {
@@ -245,8 +242,8 @@ public class ManejadorEventos {
 			}
 		}
 	}
-	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais) {
-			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais);
+	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
+			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname);
 			eventos.get(nombreEvento).agregarEdicion(edicion);
 		};
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {

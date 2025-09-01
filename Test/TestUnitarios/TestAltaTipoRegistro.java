@@ -99,7 +99,7 @@ public class TestAltaTipoRegistro {
 		}
 		categorias.add(nombreCategoriaTest1);
 		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais);
+		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		try { 
@@ -136,7 +136,7 @@ public class TestAltaTipoRegistro {
 	@Order(3)
 	void testAltaTipoRegistroNombreRepetidoOtraEdicion() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRA Edicion pero MISMO evento
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais);
+		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais,"organizador14");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		try { 
@@ -166,7 +166,7 @@ public class TestAltaTipoRegistro {
 	void testAltaTipoRegistroNombreRepetidoOtroEvento() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRO Evento
 		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias);
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais);
+		try { controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais,"organizador15");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		try { 
