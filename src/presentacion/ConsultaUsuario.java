@@ -16,6 +16,7 @@ import logica.Fabrica;
 import logica.datatypes.DTDetalleAsistente;
 import logica.datatypes.DTDetalleOrganizador;
 import logica.datatypes.DTDetalleUsuario;
+import logica.datatypes.DTEventoEdicion;
 import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
@@ -312,13 +313,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcLblEdiciones.anchor = GridBagConstraints.EAST;
 		panelOrganizador2.add(lblEdiciones, gbcLblEdiciones);
 
-		// TODO: Hardcodeado
-		String[] ediciones = {
-			    "Edición 1",
-			    "Edición 2",
-			    "Edición 3"
-		};
-		JComboBox<String> edicionesCombo = new JComboBox<>(ediciones);
+		JComboBox<String> edicionesCombo = new JComboBox<>();
 		edicionesCombo.setPreferredSize(new Dimension(225,20));
 		GridBagConstraints gbcEdicionesCombo = new GridBagConstraints();
 		gbcEdicionesCombo.gridx = 1;
@@ -368,10 +363,14 @@ public class ConsultaUsuario extends JInternalFrame {
 		    if (nicknameSeleccionado != null) {
 		        actualizarDatosUsuario(nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
-				String[] nombresRegistros;
 				registrosCombo.removeAllItems();
 				for (DTRegistro registro: listaRegistros) {
 					registrosCombo.addItem(registro.nombreEdicion());
+				}
+				List<DTEventoEdicion> listaEdiciones = fabrica.getControladorUsuarios().getEventosEdicionesDeOrganizador(nicknameSeleccionado);
+				edicionesCombo.removeAllItems();
+				for (DTEventoEdicion edicion: listaEdiciones) {
+					edicionesCombo.addItem(edicion.nombreEvento() + ", " + edicion.nombreEdicion());
 				}
 		    }
 		    actualizandoNicknameAsistente = false;
@@ -386,6 +385,29 @@ public class ConsultaUsuario extends JInternalFrame {
 				String registroSeleccionado = (String) registrosCombo.getSelectedItem();
 			    if (registroSeleccionado != null) {
 			        ConsultaRegistro ventanaConsultaRegistro = new ConsultaRegistro(nicknameSeleccionado, registroSeleccionado);
+			        desktopPane.add(ventanaConsultaRegistro);
+			        ventanaConsultaRegistro.setVisible(true);
+				    try {
+				        ventanaConsultaRegistro.setSelected(true);
+				    } catch (Exception ex) {
+				        ex.printStackTrace();
+				    }
+			    }
+			}
+		});
+		
+		/**
+		 * Actualización al cambiar la edicion del combo.
+		 */
+		edicionesCombo.addActionListener(e -> {
+			if (!actualizandoNicknameAsistente) {
+				String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
+				String eventoEdicionSeleccionados = (String) edicionesCombo.getSelectedItem();
+			    if (eventoEdicionSeleccionados != null) {
+			    	String[] separacion = eventoEdicionSeleccionados.split(", ");
+			    	String evento = separacion[0];
+			    	String edicion = separacion[1];
+			        ConsultaEdicionEvento ventanaConsultaRegistro = new ConsultaEdicionEvento(evento, edicion, desktopPane);
 			        desktopPane.add(ventanaConsultaRegistro);
 			        ventanaConsultaRegistro.setVisible(true);
 				    try {

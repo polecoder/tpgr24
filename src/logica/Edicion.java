@@ -20,8 +20,9 @@ public class Edicion {
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
 	private String organizadorNickname;
+	private String nombreEvento;
 	
-	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) {
+	public Edicion(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, String nombreEvento) {
 		this.setNombre(nombre);
 		this.setSigla(sigla);
 		this.setFechaInicio(fechaInicio);
@@ -32,6 +33,7 @@ public class Edicion {
 		this.setPatrocinios(new HashMap<>());
 		this.setTiposRegistro(new HashMap<>());
 		this.setOrganizadorNickname(organizadorNickname);
+		this.setNombreEvento(nombreEvento);
 	}
 	
 	public String getNombre() {
@@ -193,4 +195,12 @@ public class Edicion {
 	
 	public String getOrganizadorNickname() {return organizadorNickname;}
 	public void setOrganizadorNickname(String organizadorNickname) {this.organizadorNickname=organizadorNickname;}
+
+	public String getNombreEvento() {
+		return nombreEvento;
+	}
+
+	public void setNombreEvento(String nombreEvento) {
+		this.nombreEvento = nombreEvento;
+	}
 }

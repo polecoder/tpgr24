@@ -2,11 +2,8 @@ package presentacion;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
-import logica.datatypes.DTDetallePatrocinio;
-import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTTipoRegistro;
 
 import java.util.List;
 import java.util.ArrayList;

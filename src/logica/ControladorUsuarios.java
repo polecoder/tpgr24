@@ -9,6 +9,7 @@ import java.util.Set;
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTDetalleUsuario;
+import logica.datatypes.DTEventoEdicion;
 import logica.datatypes.DTUsuario;
 import logica.datatypes.DTRegistro;
 
@@ -177,5 +178,16 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
 
+	@Override
+	public List<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador) {
+		Organizador o = this.manejadorUsuarios.getOrganizador(nicknameOrganizador);
+		List<DTEventoEdicion> resultado = new ArrayList<>();
+		if (o != null) {
+			for (Edicion e: o.getEdiciones()) {
+				resultado.add(new DTEventoEdicion(e.getNombreEvento(), e.getNombre()));
+			}
+		}
+		return resultado;
+	}
 }
 

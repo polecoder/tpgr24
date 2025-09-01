@@ -20,6 +20,7 @@ public class ManejadorEventos {
 	static ManejadorEventos instancia;
 	Map<String,Evento> eventos;
 	Map<String, Categoria> categorias;
+
 	ManejadorEventos(){
 		  this.eventos = new HashMap<>();
 		  this.categorias = new HashMap<>();
@@ -35,8 +36,6 @@ public class ManejadorEventos {
 		instancia = null;
 	}
 	
-	// TODO: Hacer Setters
-	// TODO: Hacer Getters
 	Evento getEventoEdicion(String Evento) {
 		return eventos.get(Evento);
 	};
@@ -242,9 +241,10 @@ public class ManejadorEventos {
 			}
 		}
 	}
-	public void altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
-			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname);
-			eventos.get(nombreEvento).agregarEdicion(edicion);
+	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
+			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento);
+			this.eventos.get(nombreEvento).agregarEdicion(edicion);
+			return edicion;
 		};
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();

@@ -125,5 +125,18 @@ public class ManejadorUsuarios {
 			throw new Exception("El usuario indicado no existe en el sistema.");
 		}
 	}
+	
+	/**
+	 * Si no existe el organizador no hace nada.
+	 * 
+	 * @param e
+	 * @param nombreOrganizador
+	 */
+	public void agregarEdicionAOrganizador(Edicion e, String nombreOrganizador) {
+		Organizador o = this.getOrganizador(nombreOrganizador);
+		if (o != null) {
+			o.agregarEdicion(e);
+		}
+	}
 }
 

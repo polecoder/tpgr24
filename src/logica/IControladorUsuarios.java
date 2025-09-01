@@ -8,6 +8,7 @@ import java.util.Set;
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTDetalleUsuario;
+import logica.datatypes.DTEventoEdicion;
 import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
@@ -27,4 +28,5 @@ public interface IControladorUsuarios {
 	 * @throws Exception 
 	 */
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception;
+	List<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador);
 }
