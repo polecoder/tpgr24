@@ -33,6 +33,7 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextField nombreTxt;
 	private JTextField correoTxt;
 	private JTextField apellidoTextField;
+	private JTextField institucionTextField;
 	private JTextArea descripcionTextArea;
 	private JTextField fechaNacimientoTextField;
 	private JTextField linkTextField;
@@ -135,6 +136,25 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbcTxtAp.weightx = 1.0;
 		panelAsistente.add(apellidoTextField, gbcTxtAp);
 
+		// Nuevo campo: Teléfono (solo para Asistente)
+		JLabel lblInstitucion = new JLabel("Institucion:");
+		GridBagConstraints gbcLblTel = new GridBagConstraints();
+		gbcLblTel.gridx = 0;
+		gbcLblTel.gridy = 1;
+		gbcLblTel.insets = new Insets(5, 5, 5, 10);
+		gbcLblTel.anchor = GridBagConstraints.EAST;
+		panelAsistente.add(lblInstitucion, gbcLblTel);
+
+		institucionTextField = new JTextField(20);
+		institucionTextField.setEditable(false);
+		GridBagConstraints gbcTxtTel = new GridBagConstraints();
+		gbcTxtTel.gridx = 1;
+		gbcTxtTel.gridy = 1;
+		gbcTxtTel.insets = new Insets(5, 0, 5, 0);
+		gbcTxtTel.fill = GridBagConstraints.HORIZONTAL;
+		gbcTxtTel.weightx = 1.0;
+		panelAsistente.add(institucionTextField, gbcTxtTel);
+		
 		JPanel cardAsistente = new JPanel(new GridBagLayout());
 		GridBagConstraints gbcWrapA = new GridBagConstraints();
 		gbcWrapA.gridx = 0;
@@ -401,7 +421,6 @@ public class ConsultaUsuario extends JInternalFrame {
 		 */
 		edicionesCombo.addActionListener(e -> {
 			if (!actualizandoNicknameAsistente) {
-				String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 				String eventoEdicionSeleccionados = (String) edicionesCombo.getSelectedItem();
 			    if (eventoEdicionSeleccionados != null) {
 			    	String[] separacion = eventoEdicionSeleccionados.split(", ");
@@ -423,10 +442,12 @@ public class ConsultaUsuario extends JInternalFrame {
 	private void actualizarDatosUsuario(String nickname) {
 		try {
 			DTDetalleUsuario usuario = fabrica.getControladorUsuarios().mostrarDetalleUsuario(nickname);
-			this.nombreTxt.setText(usuario.getNombre());
+			nombreTxt.setText(usuario.getNombre());
 			correoTxt.setText(usuario.getCorreo());
 			if (usuario instanceof DTDetalleAsistente) {
 				DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
+				String nombreInstitucion = fabrica.getControladorUsuarios().getNombreInstitucionAsistente(usuario.getNickname());
+				institucionTextField.setText(nombreInstitucion);
 				apellidoTextField.setText(asistente.getApellido());
 		        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		        String nacimiento = formato.format(asistente.getNacimiento());
