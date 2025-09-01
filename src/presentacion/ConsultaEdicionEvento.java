@@ -20,6 +20,8 @@ import java.awt.GridBagConstraints;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+
 import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -37,7 +39,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	private JTextField ciudadTextField;
 	private JTextField organizadorTextField;
 
-	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion) {
+	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion, JDesktopPane desktopPane) {
 		super("Consulta de Edición de Evento", true, true, true, true);
 		setSize(300, 500);
 		setLocation(50, 50);
@@ -373,6 +375,35 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 				}
 				patrocinioList.setModel(pModel);
 			}
+		});
+		tipoRegistroList.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        if (e.getClickCount() == 2) { 
+		            String selectedTR = registroList.getSelectedValue();
+		            String selectedEdicion = (String) edicionComboBox.getSelectedItem();
+					String selectedEvento = (String) eventoComboBox.getSelectedItem();
+					if(selectedTR != null && selectedEdicion != null && selectedEvento !=null) {
+						ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(selectedTR, selectedEvento, selectedEdicion, desktopPane);
+						desktopPane.add(ventanaConsultaTipoRegistro);           
+						ventanaConsultaTipoRegistro.setVisible(true);    
+						try {
+							ventanaConsultaTipoRegistro.setSelected(true); 
+						} catch (Exception ex) {}						
+					}
+		            
+		        }
+		    }
+		});
+		
+		patrocinioList.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        if (e.getClickCount() == 2) { 
+		            String seleccionado = registroList.getSelectedValue();
+		            System.out.println("Doble clic en: " + seleccionado);
+		        }
+		    }
 		});
 
 	}

@@ -199,7 +199,7 @@ public class FramePrincipal extends JFrame {
 		});
 		
 		item_ConsultaEdicionEvento.addActionListener(e-> {
-			ConsultaEdicionEvento ventanaConsultaEdEv = new ConsultaEdicionEvento(null, null);
+			ConsultaEdicionEvento ventanaConsultaEdEv = new ConsultaEdicionEvento(null, null, panel);
 			panel.add(ventanaConsultaEdEv);
 			ventanaConsultaEdEv.setVisible(true);
 			try {
