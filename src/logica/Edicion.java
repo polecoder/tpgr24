@@ -142,7 +142,16 @@ public class Edicion {
 	
 	// TODO: Implementar
 	public DTEdicionEvento listarEdicion() {
-		return null;
+		return new DTEdicionEvento(
+		        this.nombre,
+		        this.sigla,
+		        this.fechaInicio,
+		        this.fechaFin,
+		        this.fechaAlta,
+		        this.ciudad,
+		        this.pais,
+		        this.organizadorNickname
+		    );
 	}
 	
 	// TODO: Implementar y revisar el nombre
