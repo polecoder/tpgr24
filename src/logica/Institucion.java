@@ -20,39 +20,43 @@ public class Institucion {
 	    this.edicionesConPatrocinio = new HashSet<>();
 
 	}
-	String getNombre(){
+	public String getNombre(){
 		return this.nombre;
 	}
-	String getDescripcion(){
+	public String getDescripcion(){
 		return this.descripcion;
 	}
-	String getSitioWeb(){
+	public String getSitioWeb(){
 		return this.sitioWeb;
 	}
-	Map<String,Asistente> getAsistentes(){
+	public Map<String,Asistente> getAsistentes(){
 		return this.asistentes;
 	};
 	
-	void setNombre(String nombre){
+	public void setNombre(String nombre){
 		  this.nombre =nombre;
 	}
-	void setDescripcion(String descripcion){
+	public void setDescripcion(String descripcion){
 		 this.descripcion =descripcion ;
 	}
-	void setSitioWeb(String sitioWeb){
+	public void setSitioWeb(String sitioWeb){
 		this.sitioWeb=sitioWeb;
 	}
 	
-	void agregarAsistente(Asistente asistente){
+	public void agregarAsistente(Asistente asistente){
 		this.asistentes.put(asistente.getNickname(), asistente);
 	};
-	void eliminarAsistente(String nickname) {
+	public void eliminarAsistente(String nickname) {
 		this.asistentes.remove(nickname);
 	}
-	void agregarEdicion(String edicion){
+	public void agregarEdicion(String edicion){
 		this.edicionesConPatrocinio.add(edicion);
 	}
-	boolean checkAsistente(String nicknameAsistente) {
+	
+	public boolean checkAsistente(String nicknameAsistente) {
 		return asistentes.containsKey(nicknameAsistente);
+	}
+	public Set<String> getEdicionesPatrocinadas() {
+		return this.edicionesConPatrocinio;
 	}
 }
