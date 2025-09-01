@@ -34,6 +34,10 @@ public class ManejadorEventos {
 		return instancia;
 	};
 	
+	public static void resetInstancia() {
+		instancia = null;
+	}
+	
 	// TODO: Hacer Setters
 	// TODO: Hacer Getters
 	Evento getEventoEdicion(String Evento) {
@@ -82,9 +86,10 @@ public class ManejadorEventos {
 	};
 	
 	public Edicion getEdicion(String evento, String edicion){
-		return eventos.get(edicion).getEdiciones().get(edicion);
+		return eventos.get(evento).getEdiciones().get(edicion);
 	}
 	public Set<String> getNombresCategorias(String Nombre) {
+		System.out.print(eventos.get(Nombre).getCategoria());
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
 	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {

@@ -19,6 +19,11 @@ public class ControladorInstitucion implements IControladorInstitucion {
 		return instancia;
 	}
 	
+	public static void resetInstancia() {
+		ManejadorInstituciones.getInstance();
+		instancia = null;
+	}
+	
 	public Set<DTInstitucion> listarInstituciones() {
 		//TODO
 		return null;
@@ -68,6 +73,5 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	    // Si todo está bien, continuar con la lógica de alta
 	    manejadorInstituciones.AgregarInstitucion(nombre, descripcion, sitioWeb);
 	}
-
 }
 

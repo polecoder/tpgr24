@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.Set;
 
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
+import logica.datatypes.DTDetalleUsuario;
 import logica.datatypes.DTUsuario;
 import logica.datatypes.DTRegistro;
 
@@ -27,6 +27,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			instance = new ControladorUsuarios();
 		}
 		return instance;
+	}
+	
+	public static void resetInstance() {
+		ManejadorUsuarios.resetInstance();
+		instance = null;
 	}
 
 	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,
@@ -156,9 +161,21 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto());
 	}
 
+	/**
+	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una excepción.
+	 * 
+	 * @param nicknameUsuario
+	 * @return
+	 * @throws Exception 
+	 */
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
+		return this.manejadorUsuarios.mostrarDetalleUsuario(nicknameUsuario);
+	}
+	
 	@Override
 	public Set<String> nombresOrganizadores() {
 		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
+
 }
 

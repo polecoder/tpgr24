@@ -1,8 +1,8 @@
 package logica;
 
 public enum ENivelPatrocinio {
-	PLATINO,
+	Platino,
 	Oro,
-	PLATA,
-	BRONCE
+	Plata,
+	Bronce
 }
