@@ -29,7 +29,7 @@ import logica.datatypes.DTTipoRegistro;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestAltaTipoRegistro {
-	private static IControladorEventos controladorEventos = ControladorEventos.getInstance();
+	private static IControladorEventos controladorEventos;
 	
 	// Declariacion de variable para usar en más de un Test
 	private static String pais, ciudad, sigla, descripcion;
