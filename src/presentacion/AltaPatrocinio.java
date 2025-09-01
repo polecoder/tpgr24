@@ -33,8 +33,8 @@ import logica.datatypes.DTTipoRegistro;
 	
 	    public AltaPatrocinio() {
 	        super("Alta Patrocinio", true, true, true, true);
-	        setSize(400, 350);
-	        setLocation(50, 25);
+	        setSize(470, 350);
+	        setLocation(40, 25);
 	
 	        GridBagLayout layout = new GridBagLayout();
 	        getContentPane().setLayout(layout);
@@ -133,7 +133,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_lblNivel.anchor = GridBagConstraints.WEST;
 	        panelFormulario.add(lblNivel, gbc_lblNivel);
 	
-	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"PLATINO", "ORO", "PLATA", "BRONCE"});
+	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"Platino", "Oro", "Plata", "Bronce"});
 	        GridBagConstraints gbc_comboNivel = new GridBagConstraints();
 	        gbc_comboNivel.gridx = 1;
 	        gbc_comboNivel.gridy = 4;
@@ -257,7 +257,13 @@ import logica.datatypes.DTTipoRegistro;
 	                JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
-
+	            
+	            if (aporteEconomico<0) {
+	            	JOptionPane.showMessageDialog(this, "El aporte debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+	            if (cantidadGratuitos<0) {
+	            	JOptionPane.showMessageDialog(this, "La cantidad de cupos debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
 	           
 	            	// Validación del 20% del aporte
 	            	DTTipoRegistro tipo = null;
