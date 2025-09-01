@@ -35,10 +35,11 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextArea descripcionTextArea;
 	private JTextField fechaNacimientoTextField;
 	private JTextField linkTextField;
-	private boolean actualizandoComboAsistente = false;
 	
 	private JPanel cardPanel, cardPanel1, cardPanel2;
 	private CardLayout cl, cl1, cl2;
+	
+	private boolean actualizandoNicknameAsistente = false;
 
 	Fabrica fabrica = Fabrica.getInstancia();
 	
@@ -362,9 +363,9 @@ public class ConsultaUsuario extends JInternalFrame {
 		 * Actualización al cambiar el usuario del combo.
 		 */
 		usuariosComboBox.addActionListener(e -> {
+			actualizandoNicknameAsistente = true;
 			String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 		    if (nicknameSeleccionado != null) {
-		    	actualizandoComboAsistente = true;
 		        actualizarDatosUsuario(nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				String[] nombresRegistros;
@@ -372,15 +373,15 @@ public class ConsultaUsuario extends JInternalFrame {
 				for (DTRegistro registro: listaRegistros) {
 					registrosCombo.addItem(registro.nombreEdicion());
 				}
-				actualizandoComboAsistente = false;
 		    }
+		    actualizandoNicknameAsistente = false;
 		});
 		
 		/**
 		 * Actualización al cambiar el registro del combo.
 		 */
 		registrosCombo.addActionListener(e -> {
-			if (!actualizandoComboAsistente) {
+			if (!actualizandoNicknameAsistente) {
 				String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 				String registroSeleccionado = (String) registrosCombo.getSelectedItem();
 			    if (registroSeleccionado != null) {
