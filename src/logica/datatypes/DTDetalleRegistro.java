@@ -51,4 +51,13 @@ public class DTDetalleRegistro {
 	public void setCosto(float costo) {
 		this.costo = costo;
 	}
+	
+	public boolean equals(DTDetalleRegistro o) {
+		boolean nombreEdicion = this.getNombreEdicion() == o.getNombreEdicion();
+		boolean nickAsistente = this.getNicknameAsistente() == o.getNicknameAsistente();
+		boolean nombreTipoRegistro = this.getNombreTipo() == o.getNombreTipo();
+		boolean fecha = this.getFecha() == o.getFecha();
+		boolean costo = this.getCosto() == o.getCosto();
+		return nombreEdicion && nickAsistente && nombreTipoRegistro && fecha && costo;
+	}
 }

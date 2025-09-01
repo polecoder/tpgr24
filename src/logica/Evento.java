@@ -77,7 +77,7 @@ public class Evento {
 		//TODO
 	}
 	
-	public Edicion getEdicion(String nombreEdicion) {
+	public Edicion getEdicion(String nombreEdicion)  {
 		return ediciones.get(nombreEdicion);
 	}
 	
