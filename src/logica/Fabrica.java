@@ -10,6 +10,10 @@ public class Fabrica {
         return instancia;
     }
 
+    public static void resetInstancia() {
+    	instancia = null;
+    }
+    
     public IControladorUsuarios getControladorUsuarios() {
         return ControladorUsuarios.getInstance();
     }

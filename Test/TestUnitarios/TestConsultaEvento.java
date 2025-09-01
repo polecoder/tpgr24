@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import logica.*;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.Utilidades;

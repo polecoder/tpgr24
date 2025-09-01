@@ -76,6 +76,7 @@ public class CargaDatos {
 		this.usuariosOrganizador = new HashMap<>();
 		this.asistentes = new HashMap<>();
 		this.organizadores = new HashMap<>();
+		this.patrocinios = new HashMap<>();
 		this.eventos = new HashMap<>();
 		this.ediciones = new HashMap<>();
 		this.tiposRegistro = new HashMap<>();
@@ -438,7 +439,7 @@ public class CargaDatos {
 		if (this.patrocinios != null && this.eventos != null && this.ediciones != null && this.instituciones != null) {
 			for (String ref : this.patrocinios.keySet()) {
 				CSVPatrocinio patrocinio = patrocinios.get(ref);
-				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getRef()).getNombre();
+				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getEvento()).getNombre();
 				String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
 				String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
 				Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
@@ -477,9 +478,9 @@ public class CargaDatos {
 			if (this.asistentes != null && this.ediciones != null && this.tiposRegistro != null) {
 				for (String ref : this.registros.keySet()) {
 					CSVRegistro registro = registros.get(ref);
-					String nombreAsistente = usuariosAsistente.get(registro.getUsuario()).getNombre();
-					Asistente asistente = this.manejadorUsuarios.getAsistente(nombreAsistente);
-					String nombreEvento = eventos.get(ediciones.get(registro.getEdicion()).getRef()).getNombre();
+					String nicknameAsistente = usuariosAsistente.get(registro.getUsuario()).getNickname();
+					Asistente asistente = this.manejadorUsuarios.getAsistente(nicknameAsistente);
+					String nombreEvento = eventos.get(ediciones.get(registro.getEdicion()).getEvento()).getNombre();
 					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
 					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
 					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
@@ -542,9 +543,9 @@ public class CargaDatos {
 			} else if (nombreEsperado.equals("2025TipoRegistro.csv")) {
 				this.leerTipoRegistro(rutaEncontrada);
 			} else if (nombreEsperado.equals("2025Patrocinios.csv")) {
-				// TODO: Implementar
+				this.leerPatrocinios(rutaEncontrada);
 			} else if (nombreEsperado.equals("2025Registros.csv")) {
-				// TODO: Implementar
+				this.leerRegistro(rutaEncontrada);
 			} else {
 				System.err.println("Archivo no reconocido: " + nombreEsperado);
 			}
@@ -555,5 +556,7 @@ public class CargaDatos {
 		this.cargarEventos();
 		this.cargarEdiciones();
 		this.cargarTipoRegistro();
+		this.cargarPatrocinios();
+		this.cargarRegistros();
 	}
 }

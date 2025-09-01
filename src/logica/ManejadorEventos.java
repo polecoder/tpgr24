@@ -78,7 +78,7 @@ public class ManejadorEventos {
 	};
 	
 	public Edicion getEdicion(String evento, String edicion){
-		return eventos.get(edicion).getEdiciones().get(edicion);
+		return eventos.get(evento).getEdiciones().get(edicion);
 	}
 	public Set<String> getNombresCategorias(String Nombre) {
 		return eventos.get(Nombre).getCategoria().keySet();
