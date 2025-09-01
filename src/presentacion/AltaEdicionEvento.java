@@ -239,6 +239,11 @@ public class AltaEdicionEvento extends JInternalFrame {
 		});
 	    
 	    btnAceptar.addActionListener(e -> {
+	    	if (comboEventos.getSelectedItem() == null || comboOrganizadores.getSelectedItem() == null) {
+			     JOptionPane.showMessageDialog(null, "Debe seleccionar un evento y un organizador.", "Error", JOptionPane.ERROR_MESSAGE);
+			     return;
+			}
+	    	  
 	    	String nombreEvento = comboEventos.getSelectedItem().toString().trim();
 	    	String nombre = textField_Nombre.getText().trim();
 		    String sigla = textField_Sigla.getText().trim();
@@ -248,11 +253,8 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    Date fechaInicio = (Date) Spinner_FechaInicio.getValue();
 		    Date fechaFin = (Date) Spinner_FechaFin.getValue();
 		    
-		    if (comboEventos.getSelectedItem() == null || comboOrganizadores.getSelectedItem() == null) {
-		        JOptionPane.showMessageDialog(null, "Debe seleccionar un evento y un organizador.", "Error", JOptionPane.ERROR_MESSAGE);
-		        return;
-		    }
-		    
+		  
+		     							
 		    try {
 		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 

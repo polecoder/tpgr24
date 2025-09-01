@@ -12,9 +12,13 @@
 	import javax.swing.JOptionPane;
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
-	import javax.swing.JButton;
-	
-	import logica.Fabrica;
+
+import excepciones.EventoNoExiste;
+
+import javax.swing.JButton;
+
+import logica.ENivelPatrocinio;
+import logica.Fabrica;
 	import logica.IControladorEventos;
 	import logica.IControladorInstitucion;
 	
@@ -38,7 +42,7 @@
 	        gbc_panelFormulario.gridy = 0;
 	        gbc_panelFormulario.gridwidth = 4;
 	        gbc_panelFormulario.fill = GridBagConstraints.BOTH;
-	        getContentPane().add(panelFormulario, gbc_panelFormulario);
+	        getContentPane().add(panelFormulario, gbc_panelFormulario); 
 	
 	        JLabel lblEvento = new JLabel("Evento:");
 	        GridBagConstraints gbc_lblEvento = new GridBagConstraints();
@@ -189,11 +193,13 @@
 	            comboEdicion.removeAllItems();
 	            comboTipo.removeAllItems();
 
-	            Set<String> edicionesDisponibles = IContEvento.nombresEdicionesEvento(eventoSeleccionado);
-	            if (edicionesDisponibles != null) {
+	            try {
+	                Set<String> edicionesDisponibles = IContEvento.nombresEdicionesEvento(eventoSeleccionado);
 	                for (String edicion : edicionesDisponibles) {
 	                    comboEdicion.addItem(edicion);
 	                }
+	            } catch (EventoNoExiste ex) {
+	                JOptionPane.showMessageDialog(this, "El evento seleccionado no tiene ediciones registradas", "Advertencia", JOptionPane.WARNING_MESSAGE);
 	            }
 	        });
 
@@ -224,11 +230,11 @@
 	        Button_Aceptar.addActionListener(e -> {
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 	            String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
-	            String tipoRegistroSeleccionado = (String) comboTipo.getSelectedItem();
 	            String institucionSeleccionada = (String) comboInstitucion.getSelectedItem();
 	            String nivelPatrocinio = (String) comboNivel.getSelectedItem();
 	            String codigoPatrocinio = txtCodigo.getText().trim();
-
+	            
+	            ENivelPatrocinio nivel=ENivelPatrocinio.valueOf(nivelPatrocinio);
 	            float aporteEconomico;
 	            int cantidadGratuitos;
 
@@ -250,8 +256,8 @@
 
 	            try {
 	                // Llamada al método con validaciones internas
-	            	IContEvento.AltaPatrocinio(eventoSeleccionado,edicionSeleccionada,tipoRegistroSeleccionado,institucionSeleccionada,nivelPatrocinio,
-	            			aporteEconomico,cantidadGratuitos,codigoPatrocinio);
+	            	Date fechaActual=new Date();
+	            	IContEvento.altaPatrocinio(eventoSeleccionado,edicionSeleccionada,fechaActual,institucionSeleccionada,nivel,aporteEconomico,cantidadGratuitos,codigoPatrocinio);
 	            	JOptionPane.showMessageDialog(this,"Patrocinio creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
 	                // limpia los campos si llega al final
 	            	txtAporte.setText("");

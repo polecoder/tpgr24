@@ -249,14 +249,12 @@ public class ManejadorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
 		}
-	}
-	public void AltaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, String tipoRegistroSeleccionado,
-			String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) {
+
+	public void AltaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) {
 		Fabrica fabrica=Fabrica.getInstancia();
 		IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
 		Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
-		Date fechaActual=new Date();
-		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,fechaActual, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion);
+		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,FechaAlta, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion);
 		eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).agregarPatrocinio(patrocinio);
 	}
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
@@ -318,4 +316,4 @@ public class ManejadorEventos {
     	return ed.getPatrocinios().keySet();
 	}
 
-
+}

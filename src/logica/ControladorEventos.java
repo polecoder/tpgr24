@@ -1,5 +1,6 @@
 package logica;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,6 @@ import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
@@ -149,13 +147,12 @@ public class ControladorEventos implements IControladorEventos {
     }
 
 	@Override
-	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion) {
-		Institucion institucion = this.interfazInstitucion.getInstitucion(nombreInstitucion);
-		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
-		this.manejadorEventos.altaPatrocinio(codigoPatrocinio, fechaPatrocinio, aporte, nivel, cuposGratuitos, institucion, edicion);
+	
+	public void altaPatrocinio(String nombreEvento,String nombreEdicion, Date fechaPatrocinio,String nombreInstitucion, ENivelPatrocinio nivel,float aporte, int cuposGratuitos,String codigoPatrocinio) {
+		this.manejadorEventos.AltaPatrocinio(nombreEvento,fechaPatrocinio,nombreEdicion,nombreInstitucion,nivel, aporte, cuposGratuitos,codigoPatrocinio);
 	}
 
-
+ 
 	@Override
 	public DTEvento getDTEvento(String nombre) {
 		return manejadorEventos.getDTEvento(nombre);
@@ -197,8 +194,14 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("La fecha de fin no puede ser anterior a la fecha de inicio");
 		}
 
-		if (fechaAlta.after(fechaInicio) || fechaAlta.after(fechaFin)) {
-			throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+		String alta = sdf.format(fechaAlta);
+		String inicio = sdf.format(fechaInicio);
+		String fin = sdf.format(fechaFin);
+
+		if (alta.compareTo(inicio) > 0 || alta.compareTo(fin) > 0) {
+		    throw new Exception("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin");
 		}
 
 		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
@@ -218,33 +221,66 @@ public class ControladorEventos implements IControladorEventos {
 		public boolean existeCategoria(String nombre) {return this.manejadorEventos.existeCategoria(nombre);}
 		public Map<String, Categoria> listarCategorias() {return this.manejadorEventos.getCategorias();}
 
-	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,
+		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) {
-		try {
-			Evento ev = manejadorEventos.getEvento(nombreEvento);
-			Edicion ed = ev.getEdicion(nombreEdicion);
-			TipoRegistro tr = ed.getTipoRegistro(nombreTipoRegistro);
-			int cupo = tr.getCuposDisponibles();
-			tr.setCuposDisponibles(cupo-1);
-			float cost = tr.getCosto();
-			Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
-			Patrocinio p = null;
-			boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente);
-			if(checkEd) {
-				p = ed.getPatrocinio(codigoPatrocinio);
-				int cuposP = p.getCuposGratuitos();
-				p.setCuposGratuitos(cuposP-1);
-				cost = 0;
+			try {
+				Evento ev = manejadorEventos.getEvento(nombreEvento);
+				Edicion ed = ev.getEdicion(nombreEdicion);
+				TipoRegistro tr = ed.getTipoRegistro(nombreTipoRegistro);
+				int cupo = tr.getCuposDisponibles();
+				tr.setCuposDisponibles(cupo-1);
+				float cost = tr.getCosto();
+				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
+				Patrocinio p = null;
+				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente);
+				if(checkEd) {
+					p = ed.getPatrocinio(codigoPatrocinio);
+					int cuposP = p.getCuposGratuitos();
+					p.setCuposGratuitos(cuposP-1);
+					cost = 0;
+				}
+				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
+			} catch(Exception CRError) {
+	
 			}
-			this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
-		} catch(Exception CRError) {
-
 		}
-	}
 	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
     	return manejadorEventos.listarRegistrosAEdicion(nombreEvento, nombreEdicion);
     }
 	public Set<String> listarPatrociniosDeEdicion(String nombreEvento, String nombreEdicion) {
     	return manejadorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
     }
+
+	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
+    	return false;
+    }
+    
+    public String[] getNombreEventos() {
+    	Map<String,DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
+		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (String evento : listaEventos.keySet()) {
+			nombreEventos[i] = evento;
+		}
+		return new String[] {"Ev1", "Ev2"};//nombreEventos;
+    }
+    
+    public String[] getNombresEdiciones(String nombreEvento) {
+    	Map<String,DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
+    	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
+		
+		// Por cada evento, agrego su nombre a la lista
+		int i = 0;
+		for (String edicion : listaEdiciones.keySet()) {
+			nombreEdiciones[i] = edicion;
+		}
+		return nombreEdiciones;
+    }
+
+	@Override
+	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+	}
 }
