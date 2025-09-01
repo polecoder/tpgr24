@@ -1,9 +1,9 @@
 package logica;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
 
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionNoExiste;
@@ -58,6 +58,9 @@ public interface IControladorEventos {
 	public boolean existeEvento(String nombreEvento);
 	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
 	public void altaPatrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel, int cuposGratuitos, String nombreInstitucion, String nombreEvento,String nombreEdicion);
+	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
+	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
+	
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías
 	 * 
