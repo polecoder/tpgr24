@@ -29,7 +29,7 @@ public class Institucion {
 	String getSitioWeb(){
 		return this.sitioWeb;
 	}
-	Map<String,Asistente> getAsistentes(){
+	public Map<String,Asistente> getAsistentes(){
 		return this.asistentes;
 	};
 	

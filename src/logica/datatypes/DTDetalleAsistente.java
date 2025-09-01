@@ -18,4 +18,13 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 	public Date getNacimiento() {
 		return nacimiento;
 	}
+	
+	public boolean equals(DTDetalleAsistente o) {
+		boolean nickname = this.nickname == o.getNickname();
+		boolean nombre = this.nombre == o.getNombre();
+		boolean correo = this.correo == o.getCorreo();
+		boolean apellido = this.apellido == o.getApellido();
+		boolean nacimiento = this.nacimiento == o.getNacimiento();
+		return nickname && nombre && correo && apellido && nacimiento;
+	}
 }
