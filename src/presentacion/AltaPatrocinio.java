@@ -223,6 +223,7 @@ import logica.datatypes.DTTipoRegistro;
 	        });
 	         
 	        JButton Button_Aceptar = new JButton("Aceptar");
+	        
 	        GridBagConstraints gbc_Button_Aceptar = new GridBagConstraints();
 	        gbc_Button_Aceptar.insets = new Insets(15, 0, 10, 10);
 	        gbc_Button_Aceptar.gridx = 1;
@@ -231,6 +232,12 @@ import logica.datatypes.DTTipoRegistro;
 	        getContentPane().add(Button_Aceptar, gbc_Button_Aceptar);
 
 	        Button_Aceptar.addActionListener(e -> {
+	        	
+	        	if (comboEvento.getSelectedItem() == null || comboEdicion.getSelectedItem() == null) {
+	                JOptionPane.showMessageDialog(this, "Debe seleccionar un evento y una edición.", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	        	
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 	            String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
 	            String institucionSeleccionada = (String) comboInstitucion.getSelectedItem();
