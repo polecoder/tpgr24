@@ -18,6 +18,10 @@ public class ManejadorUsuarios {
 		conjuntoOrganizadores = new HashMap<>();
 	}
 	
+	public static void resetInstance() {
+		instance = null;
+	}
+	
 	public static ManejadorUsuarios getInstance() {
 		if (instance == null) {
 			instance = new ManejadorUsuarios();

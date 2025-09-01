@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -27,6 +26,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			instance = new ControladorUsuarios();
 		}
 		return instance;
+	}
+	
+	public static void resetInstance() {
+		ManejadorUsuarios.resetInstance();
+		instance = null;
 	}
 
 	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,
@@ -160,5 +164,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	public Set<String> nombresOrganizadores() {
 		return manejadorUsuarios.getConjuntoOrganizador().keySet();
 	}
+
 }
 

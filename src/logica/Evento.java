@@ -43,7 +43,7 @@ public class Evento {
 	}
 	public Map<String, Edicion> getEdiciones(){
 		return this.ediciones;
-	};
+	}
 	
 	public void setNombre(String nombre){
 		  this.nombre =nombre;
@@ -60,18 +60,10 @@ public class Evento {
 	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
 	}
-	public void eliminarCategoria(String nombreCategoria) {
-		this.categorias.remove(nombreCategoria);
-	}
 	public void agregarEdicion(Edicion edicion) {
 		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(),edicion);
 	}
-	public void eliminarEdicion(String nombreEdicion) {
-		this.ediciones.remove(nombreEdicion);
-	}
-	
-	
 	
 	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
 		//TODO

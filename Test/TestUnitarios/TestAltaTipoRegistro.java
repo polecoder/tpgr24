@@ -88,8 +88,6 @@ public class TestAltaTipoRegistro {
 		nombreTipoRegistroTest9 = "nombreTipoRegistroTest9";
 	}
 	
-	
-	
 	@Test
 	@Order(1)
 	void testAltaTipoRegistroExitosa (){

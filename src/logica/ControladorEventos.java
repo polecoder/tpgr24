@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,6 @@ import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
@@ -38,6 +36,12 @@ public class ControladorEventos implements IControladorEventos {
 			instancia = new ControladorEventos();
 		};
 		return instancia;
+	}
+	
+	public static void resetInstance() {
+		ManejadorEventos.resetInstancia();
+		ManejadorUsuarios.resetInstance();
+		instancia = null;
 	}
 
 	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
@@ -247,4 +251,13 @@ public class ControladorEventos implements IControladorEventos {
 	public Set<String> listarPatrociniosDeEdicion(String nombreEvento, String nombreEdicion) {
     	return manejadorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
     }
+	
+	@Override
+	public List<String> getListaCategorias() {
+		List<String> resultado = new ArrayList<>();
+		for (String nombreCategoria: this.manejadorEventos.getCategorias().keySet()) {
+			resultado.add(nombreCategoria);
+		}
+		return resultado;
+	}
 }
