@@ -13,7 +13,9 @@
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
 
+import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
+import excepciones.TipoRegistroNoExiste;
 
 import javax.swing.JButton;
 
@@ -21,6 +23,7 @@ import logica.ENivelPatrocinio;
 import logica.Fabrica;
 	import logica.IControladorEventos;
 	import logica.IControladorInstitucion;
+import logica.datatypes.DTTipoRegistro;
 	
 	public class AltaPatrocinio extends JInternalFrame { 
 	    private Fabrica fabrica = Fabrica.getInstancia();
@@ -144,7 +147,7 @@ import logica.Fabrica;
 	        gbc_lblAporte.gridy = 5;
 	        gbc_lblAporte.insets = new Insets(5, 5, 5, 5);
 	        gbc_lblAporte.anchor = GridBagConstraints.WEST;
-	        panelFormulario.add(lblAporte, gbc_lblAporte);
+	        panelFormulario.add(lblAporte, gbc_lblAporte); 
 	
 	        JTextField txtAporte = new JTextField(15);
 	        GridBagConstraints gbc_txtAporte = new GridBagConstraints();
@@ -233,6 +236,7 @@ import logica.Fabrica;
 	            String institucionSeleccionada = (String) comboInstitucion.getSelectedItem();
 	            String nivelPatrocinio = (String) comboNivel.getSelectedItem();
 	            String codigoPatrocinio = txtCodigo.getText().trim();
+	            String tipoRegistro=(String) comboTipo.getSelectedItem();
 	            
 	            ENivelPatrocinio nivel=ENivelPatrocinio.valueOf(nivelPatrocinio);
 	            float aporteEconomico;
@@ -253,6 +257,27 @@ import logica.Fabrica;
 	                JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
+
+	           
+	            	// Validación del 20% del aporte
+	            	DTTipoRegistro tipo = null;
+					try {
+						tipo = IContEvento.getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistro);
+					} catch (TipoRegistroNoExiste e1) {
+						 JOptionPane.showMessageDialog(this, "TipoRegistro no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					} catch (EventoNoExiste e1) {
+						 JOptionPane.showMessageDialog(this, "Evento no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					} catch (EdicionNoExiste e1) {
+						JOptionPane.showMessageDialog(this, "Edicion no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					}
+					
+	            	float valorCupo =tipo.costo();
+	            	float costoTotalGratuitos = cantidadGratuitos * valorCupo;
+	            	float limitePermitido = aporteEconomico * 0.2f;
+	            	if (costoTotalGratuitos > limitePermitido) {
+	            		 JOptionPane.showMessageDialog(this, "El costo de los registros gratuitos supera el 20% del aporte económico", "Error", JOptionPane.ERROR_MESSAGE);
+	            	}
+
 
 	            try {
 	                // Llamada al método con validaciones internas

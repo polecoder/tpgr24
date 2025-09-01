@@ -147,9 +147,28 @@ public class ControladorEventos implements IControladorEventos {
     }
 
 	@Override
-	
-	public void altaPatrocinio(String nombreEvento,String nombreEdicion, Date fechaPatrocinio,String nombreInstitucion, ENivelPatrocinio nivel,float aporte, int cuposGratuitos,String codigoPatrocinio) {
-		this.manejadorEventos.AltaPatrocinio(nombreEvento,fechaPatrocinio,nombreEdicion,nombreInstitucion,nivel, aporte, cuposGratuitos,codigoPatrocinio);
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception {
+	    
+	    // Validación de campos obligatorios
+	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
+	        || edicionSeleccionada == null || edicionSeleccionada.isEmpty()
+	        || institucionSeleccionada == null || institucionSeleccionada.isEmpty()
+	        || nivelPatrocinio == null
+	        || codigoPatrocinio == null || codigoPatrocinio.isEmpty()) {
+	        throw new Exception("Todos los campos deben estar completos");
+	    }
+
+	    // Validación de duplicado
+	    if (manejadorEventos.existePatrocinio(institucionSeleccionada, edicionSeleccionada)) {
+	        throw new Exception("Ya existe un patrocinio de esa institución para la edición seleccionada");
+	    }
+
+
+	    // Validación del formato del código de patrocinio (alfanumérico)
+	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
+	        throw new Exception("El código de patrocinio solo puede contener letras y números");
+	    }
+		manejadorEventos.AltaPatrocinio(eventoSeleccionado,FechaAlta,edicionSeleccionada,institucionSeleccionada,nivelPatrocinio,aporteEconomico,cupos,codigoPatrocinio);
 	}
 
  
@@ -215,7 +234,10 @@ public class ControladorEventos implements IControladorEventos {
 		manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais);
 	}
 
-		public void altaCategoria(String nombre) {
+		public void altaCategoria(String nombre) throws Exception {
+			if (manejadorEventos.existeCategoria(nombre)) {
+			throw new Exception("La Categoría ya existe");
+			}
 			this.manejadorEventos.altaCategoria(nombre);		
 		}
 		public boolean existeCategoria(String nombre) {return this.manejadorEventos.existeCategoria(nombre);}

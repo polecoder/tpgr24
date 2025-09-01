@@ -34,7 +34,7 @@ public interface IControladorEventos {
 	// public String[] getNombresEdiciones(String itemAt); // Reemplazada por "nombresEdicionesEvento()"
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
-	public void altaCategoria(String nombre);
+	public void altaCategoria(String nombre) throws Exception;
 	public boolean existeCategoria(String nombre);
 
 	/**
@@ -60,7 +60,7 @@ public interface IControladorEventos {
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio);
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) throws Exception;
 	public Object getNombresEdiciones(String string);
 	
 }

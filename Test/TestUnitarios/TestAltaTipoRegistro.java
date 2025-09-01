@@ -94,7 +94,11 @@ public class TestAltaTipoRegistro {
 	@Order(1)
 	void testAltaTipoRegistroExitosa (){
 		// Testea un alta exitoso estandar
-		controladorEventos.altaCategoria(nombreCategoriaTest1);
+		try {
+			controladorEventos.altaCategoria(nombreCategoriaTest1);
+		} catch (Exception e) {
+			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
+		}
 		categorias.add(nombreCategoriaTest1);
 		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
 		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais);

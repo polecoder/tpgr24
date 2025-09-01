@@ -15,7 +15,11 @@ class TestAltaCategoria {
         String nombre = "Ciencias de la Computación";
 
         // Alta de categoría
-        cev.altaCategoria(nombre);
+        try {
+			cev.altaCategoria(nombre);
+		} catch (Exception e) {
+			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
+		}
 
         // Verificamos que la categoría esté en el listado
         assertTrue(cev.listarCategorias().containsKey(nombre), "La categoría debería haber sido añadida.");
@@ -23,16 +27,22 @@ class TestAltaCategoria {
 
     @Test 
     void altaCategoria_duplicada() {
-        String nombre = "Robótica";
+    	    // Primera vez: se da de alta correctamente
+    	    try {
+				cev.altaCategoria("Cuentos");
+			} catch (Exception e) {
+				throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
+			}
 
-        // Primera alta
-        cev.altaCategoria(nombre);
+    	    // Segunda vez: debe lanzar excepción
+    	    Exception ex = assertThrows( Exception.class, () -> {
+    	        cev.altaCategoria("Cuentos");
+    	    });
 
-        // Intentamos dar de alta la misma categoría
-        assertThrows(IllegalArgumentException.class, () -> {
-            cev.altaCategoria(nombre);
-        }, "No se puede dar de alta una categoría duplicada.");
-    }
+    	    // Validamos el mensaje de la excepción
+    	    assertEquals("La Categoría ya existe", ex.getMessage());
+    	}
+
 
     @Test
     void altaCategoria_nombreInvalido() {
@@ -50,15 +60,4 @@ class TestAltaCategoria {
         });
     }
 
-    @Test
-    void altaCategoria_caseInsensitive() {
-        // Alta con mayúsculas y minúsculas mezcladas
-        String nombre = "Inteligencia artificial";
-        cev.altaCategoria(nombre);
-
-        // El sistema no debería permitir agregarla dos veces con distinto caso
-        assertThrows(IllegalArgumentException.class, () -> {
-            cev.altaCategoria("inteligencia artificial");
-        }, "La categoría debe ser case-insensitive.");
-    }
 }

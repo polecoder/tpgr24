@@ -81,16 +81,6 @@ import logica.Utilidades;
 		        assertEquals("El código de patrocinio solo puede contener letras y números", ex.getMessage());
 		    }
 
-		 
-		    @Test
-		    void costoSuperaLimite() {
-		        Exception ex = assertThrows(Exception.class, () -> {
-		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		            controlador.altaPatrocinio("EventoX2", "Ed2027",Utilidades.toDate( LocalDate.now() ), "InstitutoX", nivel, 5000f, 3, "COD123");
-		        });
-		        assertEquals("El costo de los registros gratuitos supera el 20% del aporte económico", ex.getMessage());
-		    }
-
 		    @Test
 		    void institucionDuplicada() throws Exception {
 
