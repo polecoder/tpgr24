@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
+import logica.ManejadorEventos;
 import logica.Utilidades;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
@@ -21,6 +22,7 @@ class TestConsultaEvento {
 
     @Test
     void consultaEventoCompleta() throws Exception {
+    	Fabrica.resetInstancia();
         // Crear categorías necesarias
         controlador.altaCategoria("Robótica");
         controlador.altaCategoria("IA");
@@ -39,7 +41,7 @@ class TestConsultaEvento {
         assertEquals("ExpoTech", dtEvento.getNombre());
         assertEquals("EXP", dtEvento.getSigla());
         assertEquals("Feria de tecnología", dtEvento.getDescripcion());
-
+        System.out.print(ManejadorEventos.getInstancia().getEvento("ExpoTech"));
 	    // Validación: categorías
         Set<String> categoriasEvento = controlador.nombresCategorias("ExpoTech");
         assertTrue(categoriasEvento.contains("Robótica"));
