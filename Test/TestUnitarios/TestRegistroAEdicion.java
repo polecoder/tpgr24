@@ -78,7 +78,7 @@ public class TestRegistroAEdicion {
 			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		

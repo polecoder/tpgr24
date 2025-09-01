@@ -43,7 +43,7 @@ class testConsultaRegistro {
 		
 		//creo edicion
 		
-		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023,9,1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay");
+		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023,9,1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1");
 		evento.agregarEdicion(ed1);
 		
 		//creo Tiporegistro
@@ -103,7 +103,7 @@ class testConsultaRegistro {
 	    Edicion ed = new Edicion("Expo", "EXP",
 	            Utilidades.toDate(LocalDate.of(2023, 9, 1)),
 	            Utilidades.toDate(LocalDate.of(2023, 12, 1)),
-	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay");
+	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay","organizador1");
 	    evento.agregarEdicion(ed);
 
 	    // --- Tipos de registro ---
@@ -211,7 +211,7 @@ class testConsultaRegistro {
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
-                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay");
+                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay","organizador2");
         ev.agregarEdicion(ed);
 
         // Tipos
@@ -271,7 +271,7 @@ class testConsultaRegistro {
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),
-                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay");
+                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay","organizador3");
         ev.agregarEdicion(ed);
 
         TipoRegistro gen = new TipoRegistro("General", "Acceso general", 800, 500, 500);
