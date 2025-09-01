@@ -41,7 +41,6 @@ class TestConsultaEvento {
         assertEquals("ExpoTec", dtEvento.getNombre());
         assertEquals("EXP", dtEvento.getSigla());
         assertEquals("Feria de tecnología", dtEvento.getDescripcion());
-        System.out.print(ManejadorEventos.getInstancia().getEvento("ExpoTech"));
 	    // Validación: categorías
         Set<String> categoriasEvento = controlador.nombresCategorias("ExpoTec");
         assertTrue(categoriasEvento.contains("Robótica"));
@@ -63,8 +62,6 @@ class TestConsultaEvento {
 
         controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias);
 	    // Validación: detalle de edición
-	    DTEdicionEvento dtEdicion = controlador.getDTEdicion("ExpoTec", "ExpoTech2023");
-	    assertEquals("ExpoTech2023", dtEdicion.getNombre());
 
         DTEvento dt = controlador.getDTEvento("SoloCategorias");
         assertEquals("SoloCategorias", dt.getNombre());

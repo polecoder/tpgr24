@@ -89,7 +89,6 @@ public class ManejadorEventos {
 		return eventos.get(evento).getEdiciones().get(edicion);
 	}
 	public Set<String> getNombresCategorias(String Nombre) {
-		System.out.print(eventos.get(Nombre).getCategoria());
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
 	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {

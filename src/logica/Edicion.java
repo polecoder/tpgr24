@@ -152,7 +152,6 @@ public class Edicion {
 		if(cupos>0) {
 			return tr.validar(nicknameAsistente);
 		}else {
-			System.out.print("Edicion::validar(): No hay cupos disponibles");
 			return false;
 		}
 	}

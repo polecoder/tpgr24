@@ -152,7 +152,7 @@ public class ControladorEventos implements IControladorEventos {
     	}
     	return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
     }
-
+	
 	@Override
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception {
 	    
@@ -251,7 +251,7 @@ public class ControladorEventos implements IControladorEventos {
 		public Map<String, Categoria> listarCategorias() {return this.manejadorEventos.getCategorias();}
 
 		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,
-			String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) {
+			String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha){
 			try {
 				Evento ev = manejadorEventos.getEvento(nombreEvento);
 				Edicion ed = ev.getEdicion(nombreEdicion);
@@ -288,7 +288,6 @@ public class ControladorEventos implements IControladorEventos {
 		}
 		return resultado;
 	}
-    }
 
 	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
     	return false;
@@ -322,4 +321,6 @@ public class ControladorEventos implements IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	}
+		
 }
+

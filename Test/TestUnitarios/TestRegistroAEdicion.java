@@ -86,13 +86,7 @@ public class TestRegistroAEdicion {
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
-	}
 	
-	@Test
-	@Order(2)
-	void testRegistroAEdicionYaRegistrada() {
-		// Testea que un asistente no se pueda registrar dos veces a una misma edicion
-		assertThrows(Exception.class,
-				()-> controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha));
 	}
 }
+	

@@ -38,8 +38,8 @@ class TestAltaEdicionEvento {
         assertEquals(sigla, dt.getSigla());
         assertEquals(ciudad, dt.getCiudad());
         assertEquals(pais, dt.getPais());
-        assertEquals(Utilidades.toDate(fechaInicio), dt.getFechaInicio());
-        assertEquals(Utilidades.toDate(fechaFin), dt.getFechaFin());
+        assertEquals(fechaInicio, dt.getFechaInicio());
+        assertEquals(fechaFin, dt.getFechaFin());
     }
 
     @Test
