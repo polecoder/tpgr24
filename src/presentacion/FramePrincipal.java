@@ -51,12 +51,12 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaEvento = new JMenuItem("Alta Evento");
         JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
-        JMenuItem item7 = new JMenuItem("Consulta Edicion de Evento");
+        JMenuItem item_ConsultaEdicionEvento = new JMenuItem("Consulta Edicion de Evento");
 
         menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
-        menuEvento.add(item7);
+        menuEvento.add(item_ConsultaEdicionEvento);
 		
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
@@ -64,12 +64,12 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaTipoRegistro = new JMenuItem("Alta Tipo Registro");
         JMenuItem item_ConsultaTipoRegistro = new JMenuItem("Consulta Tipo Registro");
         JMenuItem itemA = new JMenuItem("Consulta Registro");
-        JMenuItem itemB = new JMenuItem("Registro a Edicion de Evento");
+        JMenuItem item_RegistroAEdicionEvento = new JMenuItem("Registro a Edicion de Evento");
 
         menuRegistro.add(item_AltaTipoRegistro);
         menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
-        menuRegistro.add(itemB);
+        menuRegistro.add(item_RegistroAEdicionEvento);
         
 		item_ConsultaTipoRegistro.addActionListener(e -> {
 		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(null, null, null);
@@ -180,7 +180,7 @@ public class FramePrincipal extends JFrame {
 			
 		});
 		
-		itemB.addActionListener(e -> {
+		item_RegistroAEdicionEvento.addActionListener(e -> {
 			RegistroAEdicionEvento ventanaRegistro= new RegistroAEdicionEvento();
 		    panel.add(ventanaRegistro);          
 		    ventanaRegistro.setVisible(true);    
@@ -196,6 +196,15 @@ public class FramePrincipal extends JFrame {
 			try {
 			    ventanaAltaInstitucion.setSelected(true); 
 			} catch (Exception ex) {}
+		});
+		
+		item_ConsultaEdicionEvento.addActionListener(e-> {
+			ConsultaEdicionEvento ventanaConsultaEdEv = new ConsultaEdicionEvento(null, null);
+			panel.add(ventanaConsultaEdEv);
+			ventanaConsultaEdEv.setVisible(true);
+			try {
+				ventanaConsultaEdEv.setSelected(true);
+			}catch(Exception ex) {}
 		});
 		setVisible(true);
 	}
