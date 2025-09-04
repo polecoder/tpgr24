@@ -30,6 +30,7 @@ import java.awt.Dimension;
 public class ConsultaUsuario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
+	private String nicknameSeleccionado;
 	private JTextField nombreTxt;
 	private JTextField correoTxt;
 	private JTextField apellidoTextField;
@@ -369,19 +370,25 @@ public class ConsultaUsuario extends JInternalFrame {
 
 		cl2 = (CardLayout) cardPanel2.getLayout();
 		
-		// TODO: Hardcodeado
+		// Mostrar panel de Asistente por defecto.
 		cl.show(cardPanel, "Asistente");
 		cl1.show(cardPanel1, "Asistente");
 		cl2.show(cardPanel2, "Asistente");
+		
+		// Muestra los datos del usuario seleccionado inicialmente
+		this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
+		if (this.nicknameSeleccionado != null) {
+			actualizarDatosUsuario(this.nicknameSeleccionado);
+		}
 		
 		/**
 		 * Actualización al cambiar el usuario del combo.
 		 */
 		usuariosComboBox.addActionListener(e -> {
 			actualizandoNicknameAsistente = true;
-			String nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		    if (nicknameSeleccionado != null) {
-		        actualizarDatosUsuario(nicknameSeleccionado);
+			this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
+		    if (this.nicknameSeleccionado != null) {
+		        actualizarDatosUsuario(this.nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				registrosCombo.removeAllItems();
 				for (DTRegistro registro: listaRegistros) {
