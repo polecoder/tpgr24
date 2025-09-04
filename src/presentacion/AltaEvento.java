@@ -30,7 +30,10 @@ public class AltaEvento extends JInternalFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JTextField nombreTextField;
+	private JTextArea descripcionTextArea;
 	private JTextField siglaTextField;
+	private JSpinner fechaSpinner;
+	JList<String> categoriasList;
 
 	public AltaEvento() {
 		super("Alta de Evento", true, true, true, true);
@@ -78,8 +81,9 @@ public class AltaEvento extends JInternalFrame {
 		gbc_descripcionScrollPane.gridx = 2;
 		gbc_descripcionScrollPane.gridy = 2;
 		getContentPane().add(descripcionScrollPane, gbc_descripcionScrollPane);
-		JTextArea descripcionTextArea = new JTextArea();
+		descripcionTextArea = new JTextArea();
 		descripcionTextArea.setLineWrap(true);
+		descripcionTextArea.setRows(2);
 		descripcionScrollPane.setViewportView(descripcionTextArea);
 		
 		JLabel lblNewLabel_2 = new JLabel("Alta:");
@@ -89,7 +93,7 @@ public class AltaEvento extends JInternalFrame {
 		gbc_lblNewLabel_2.gridx = 1;
 		gbc_lblNewLabel_2.gridy = 3;
 		getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
-		JSpinner fechaSpinner = new JSpinner(new SpinnerDateModel());
+		fechaSpinner = new JSpinner(new SpinnerDateModel());
 		JSpinner.DateEditor editor = new JSpinner.DateEditor(fechaSpinner, "dd/MM/yyyy");
 		fechaSpinner.setEditor(editor);
 		GridBagConstraints gbc_fechaSpinner = new GridBagConstraints();
@@ -136,7 +140,7 @@ public class AltaEvento extends JInternalFrame {
 		
 		List<String> listaCategorias = fabrica.getControladorEvento().getListaCategorias();
 		
-		JList<String> categoriasList = new JList<>(listaCategorias.toArray(new String[0]));
+		categoriasList = new JList<>(listaCategorias.toArray(new String[0]));
 		categoriasScrollPane.setViewportView(categoriasList);
 		categoriasList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
@@ -213,11 +217,7 @@ public class AltaEvento extends JInternalFrame {
 				        "Aceptar"
 			    );
 			    if (opcion == JOptionPane.YES_OPTION) {
-			        nombreTextField.setText("");
-			        descripcionTextArea.setText("");
-			        siglaTextField.setText("");
-			        fechaSpinner.setValue(new Date());
-			        categoriasList.clearSelection();
+			        resetCampos();
 			    } else if (opcion == JOptionPane.NO_OPTION) {
 			        this.dispose();
 			    }
@@ -226,6 +226,7 @@ public class AltaEvento extends JInternalFrame {
 			// Si pasa todos los checks, se da de Alta finalmente
 			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
 			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
+			resetCampos();
 		});
 		
 		/**
@@ -239,11 +240,16 @@ public class AltaEvento extends JInternalFrame {
 		 * RESET
 		 */
 		botonReset.addActionListener(e->{
-			nombreTextField.setText("");
-	        descripcionTextArea.setText("");
-	        siglaTextField.setText("");
-	        fechaSpinner.setValue(new Date());
-	        categoriasList.clearSelection();
-		});	
+			resetCampos();
+		});
 	}
+
+	private void resetCampos() {
+		nombreTextField.setText("");
+        descripcionTextArea.setText("");
+        siglaTextField.setText("");
+        fechaSpinner.setValue(new Date());
+        categoriasList.clearSelection();
+	}
+	
 }
