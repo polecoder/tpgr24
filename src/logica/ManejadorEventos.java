@@ -36,13 +36,10 @@ public class ManejadorEventos {
 		instancia = null;
 	}
 	
-	Evento getEventoEdicion(String Evento) {
-		return eventos.get(Evento);
-	};
-	
 	Map<String,Evento> getEventos(){
 		return eventos;
 	}
+	
 	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
 		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
@@ -66,21 +63,6 @@ public class ManejadorEventos {
     	return ed.listarTipoRegistro();
 	};
 	
-	public boolean Validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro){
-		//TODO
-		return true;
-	};
-
-	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion) {
-		//TODO
-	};
-	
-	
-	public Registro getRegistro(String nombreEdicion,String nickAsistente){
-		//TODO
-		return null;
-	};
-	
 	public Edicion getEdicion(String evento, String edicion){
 		return eventos.get(evento).getEdiciones().get(edicion);
 	}
@@ -88,7 +70,7 @@ public class ManejadorEventos {
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
 	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {
-		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Edicion no existe"); }
+		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Evento no existe."); }
 		return eventos.get(nombre).getEdiciones().keySet();
 	};
 	public DTEvento getDTEvento(String nombre) {
