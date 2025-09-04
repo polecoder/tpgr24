@@ -134,7 +134,8 @@ public class ControladorEventos implements IControladorEventos {
 			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
 		}
 	}
-
+	
+	@Override
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
     	try { return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
     	} catch (EventoNoExiste ex) { throw ex;

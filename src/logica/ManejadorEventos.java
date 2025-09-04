@@ -102,11 +102,11 @@ public class ManejadorEventos {
 		}
 	}
 	
-	public String[] getTiposRegistro(String nombreEvento, String nombreEdiocion) throws EventoNoExiste, EdicionNoExiste {
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
 		Evento evento = eventos.get(nombreEvento);
 		if (evento == null) { throw new EventoNoExiste("Evento no existe"); }
 		
-		Edicion edicion = evento.getEdicion(nombreEdiocion);
+		Edicion edicion = evento.getEdicion(nombreEdicion);
 		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); };
 		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
 		

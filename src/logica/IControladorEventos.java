@@ -62,11 +62,11 @@ public interface IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception;
 	public Object getNombresEdiciones(String string);
-	
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías
 	 * 
 	 * @return
 	 */
 	public List<String> getListaCategorias();
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
 }
