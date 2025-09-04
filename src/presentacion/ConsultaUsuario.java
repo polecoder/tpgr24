@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import javax.swing.ScrollPaneConstants;
 
 public class ConsultaUsuario extends JInternalFrame {
 
@@ -178,8 +179,10 @@ public class ConsultaUsuario extends JInternalFrame {
 		panelOrganizador.add(lblDesc, gbcLblDesc);
 
 		descripcionTextArea = new JTextArea(2, 20);
+		descripcionTextArea.setLineWrap(true);
 		descripcionTextArea.setEditable(false);
 		JScrollPane spDesc = new JScrollPane(descripcionTextArea);
+		spDesc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbcTxtDesc = new GridBagConstraints();
 		gbcTxtDesc.gridx = 1;
 		gbcTxtDesc.gridy = 0;
