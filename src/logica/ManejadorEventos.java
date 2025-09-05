@@ -63,16 +63,30 @@ public class ManejadorEventos {
     	return ed.listarTipoRegistro();
 	};
 	
+	/**
+	 * Devuelve la edición de nombre "edicion" asociada al evento de nombre "evento".
+	 * Si no existe alguno de los objetos "evento" o "edicion" retorna null.
+	 * 
+	 * @param evento
+	 * @param edicion
+	 * @return
+	 */
 	public Edicion getEdicion(String evento, String edicion){
-		return eventos.get(evento).getEdiciones().get(edicion);
+		if (existeEvento(evento) && contieneEdicion(evento, edicion)) {
+			return eventos.get(evento).getEdiciones().get(edicion);
+		}
+		return null;
 	}
+	
 	public Set<String> getNombresCategorias(String Nombre) {
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
+	
 	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {
 		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Evento no existe."); }
 		return eventos.get(nombre).getEdiciones().keySet();
-	};
+	}
+	
 	public DTEvento getDTEvento(String nombre) {
 		Evento evento=eventos.get(nombre);
 		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getFechaAlta());

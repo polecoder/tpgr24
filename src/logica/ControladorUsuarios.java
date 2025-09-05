@@ -55,7 +55,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname ya existe");
+			throw new Exception("El nickname del asistente ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {
@@ -86,7 +86,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname ya existe");
+			throw new Exception("El nickname del organizador ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {

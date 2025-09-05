@@ -20,7 +20,7 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	}
 	
 	public static void resetInstancia() {
-		ManejadorInstituciones.getInstance();
+		ManejadorInstituciones.resetInstance();
 		instancia = null;
 	}
 	
@@ -55,7 +55,7 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	        throw new Exception("Todos los campos son obligatorios");
 	    }
 	    
-	    // Validación de nombre ya existente (sin implementación aún)
+	    // Validación de nombre ya existente
 	    if (manejadorInstituciones.existeNombre(nombre)) {
 	        throw new Exception("Ya existe una institución con ese nombre");
 	    }
@@ -71,7 +71,7 @@ public class ControladorInstitucion implements IControladorInstitucion {
 	    }
 
 	    // Si todo está bien, continuar con la lógica de alta
-	    manejadorInstituciones.AgregarInstitucion(nombre, descripcion, sitioWeb);
+	    manejadorInstituciones.altaInstitucion(nombre, descripcion, sitioWeb);
 	}
 }
 

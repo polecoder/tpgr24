@@ -166,6 +166,14 @@ public class ControladorEventos implements IControladorEventos {
 	        throw new Exception("Todos los campos deben estar completos");
 	    }
 
+	    if (!manejadorEventos.existeEvento(eventoSeleccionado)) {
+	    	throw new Exception("El evento seleccionado no existe en el sistema.");
+	    }
+	    
+	    if (manejadorEventos.getEdicion(eventoSeleccionado, edicionSeleccionada) == null) {
+	    	throw new Exception("La edición seleccionada no existe en el sistema.");
+	    }
+	    
 	    // Validación de duplicado
 	    if (manejadorEventos.existePatrocinio(institucionSeleccionada, edicionSeleccionada)) {
 	        throw new Exception("Ya existe un patrocinio de esa institución para la edición seleccionada");
