@@ -63,18 +63,6 @@ public class ControladorEventos implements IControladorEventos {
     	return mLista;
     }
 
-	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
-		return null;
-	}
-
-	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio) {
-		return null;
-	}
-
-	public void altaPatrocinio(DTDatosPatrocinio datosPatrocinio) {
-		// HACER
-	}
-
     public Map<String,DTEvento> listarEventos() {
         return manejadorEventos.listarEventos();
     }

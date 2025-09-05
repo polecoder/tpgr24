@@ -1,11 +1,15 @@
 package TestUnitarios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +20,7 @@ import excepciones.NombreTipoRegistroRepetido;
 import logica.ENivelPatrocinio;
 import logica.Fabrica;
 import logica.Utilidades;
+import logica.datatypes.DTEdicionEvento;
 
 public class TestConsultaEdicionEvento {
 private static Fabrica fabrica;
@@ -86,5 +91,24 @@ private static Fabrica fabrica;
 		esperado.add("CODPAT1");
 		Set<String> resultado = fabrica.getControladorEvento().listarPatrociniosDeEdicion("Evento1", "EdicionEvento1");
 		assertEquals(resultado, esperado);
+	}
+	
+	@Test
+	void operacionListarEdicionesEvento() {
+		Map<String, DTEdicionEvento> resultado = fabrica.getControladorEvento().listarEdicionesEvento("Evento1");
+		if (resultado.size() != 1) {
+			fail("El tamaño del resultado no es el esperado.");
+		}
+		// Como solo debería haber un elemento, se hace la prueba para ese elemento.
+		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1");
+		DTEdicionEvento dtResultado = resultado.get("EdicionEvento1");
+		assertEquals(dtEsperado.getNombre(), dtResultado.getNombre());
+		assertEquals(dtEsperado.getSigla(), dtResultado.getSigla());
+		assertEquals(dtEsperado.getFechaInicio(), dtResultado.getFechaInicio());
+		assertEquals(dtEsperado.getFechaFin(), dtResultado.getFechaFin());
+		assertEquals(dtEsperado.getFechaAlta(), dtResultado.getFechaAlta());
+		assertEquals(dtEsperado.getCiudad(), dtResultado.getCiudad());
+		assertEquals(dtEsperado.getPais(), dtResultado.getPais());
+		assertEquals(dtEsperado.getOrganizadorNickname(), dtResultado.getOrganizadorNickname());
 	}
 }

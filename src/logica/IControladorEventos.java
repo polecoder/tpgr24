@@ -17,8 +17,6 @@ import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public interface IControladorEventos {
-	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
-	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Map<String,DTEvento> listarEventos();
 	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion);
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
