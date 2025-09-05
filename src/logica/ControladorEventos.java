@@ -289,10 +289,6 @@ public class ControladorEventos implements IControladorEventos {
 		return resultado;
 	}
 
-	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
-    	return false;
-    }
-    
     public String[] getNombreEventos() {
     	Map<String,DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
 		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres

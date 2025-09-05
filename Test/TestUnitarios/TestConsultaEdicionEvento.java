@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
+import logica.ENivelPatrocinio;
 import logica.Fabrica;
 import logica.Utilidades;
 
@@ -23,10 +24,6 @@ private static Fabrica fabrica;
 	void init() {
 		Fabrica.resetInstancia();
 		fabrica = Fabrica.getInstancia();
-	}
-	
-	@Test
-	void operacionListarRegistrosAEdicion() {
 		// Alta Categoría
 		try {
 			fabrica.getControladorEvento().altaCategoria("Categoria1");
@@ -55,6 +52,10 @@ private static Fabrica fabrica;
 		} catch (NombreTipoRegistroRepetido | DatosTipoRegistroInvalidos e) {
 			throw new IllegalStateException(e.getMessage());
 		}
+	}
+	
+	@Test
+	void operacionListarRegistrosAEdicion() {
 		// Alta Registro
 		fabrica.getControladorEvento().altaRegistro("Asistente1", "TR1", "EdicionEvento1", "Evento1", null, Utilidades.toDate(LocalDate.of(2024, 11, 15)));
 		
@@ -62,6 +63,28 @@ private static Fabrica fabrica;
 		Set<String> esperado = new HashSet<>();
 		esperado.add("TR1-NombreAsistente");
 		Set<String> resultado = fabrica.getControladorEvento().listarRegistrosAEdicion("Evento1", "EdicionEvento1");
+		assertEquals(resultado, esperado);
+	}
+	
+	@Test
+	void operacionListarPatrociniosDeEdicion() {
+		// Alta Institucion
+		try {
+			fabrica.getControladorInstitucion().AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
+		
+		// Alta Patrocinio
+		try {
+			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1");
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
+		// Test de la función
+		Set<String> esperado = new HashSet<>();
+		esperado.add("CODPAT1");
+		Set<String> resultado = fabrica.getControladorEvento().listarPatrociniosDeEdicion("Evento1", "EdicionEvento1");
 		assertEquals(resultado, esperado);
 	}
 }
