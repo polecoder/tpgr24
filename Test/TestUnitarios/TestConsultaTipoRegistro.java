@@ -28,6 +28,7 @@ public class TestConsultaTipoRegistro {
 	
 	@Test
 	void operacionGetTiposRegistro() {
+		// Alta Categoría
 		try {
 			fabrica.getControladorEvento().altaCategoria("Categoria1");
 		} catch (Exception e) {
