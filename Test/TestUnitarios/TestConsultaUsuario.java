@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import logica.IControladorUsuarios;
 import logica.Utilidades;
+import logica.datatypes.DTDetalleAsistente;
 import logica.datatypes.DTDetalleUsuario;
 import logica.datatypes.DTEventoEdicion;
 import logica.datatypes.DTRegistro;
@@ -34,7 +35,7 @@ class TestConsultaUsuario {
         iCU.altaAsistente(nickname, "Juan", "juan@mail.com", "Perez", Utilidades.toDate(LocalDate.now()), "Institucion1");
 
         // Act
-        DTDetalleUsuario detalle = iCU.mostrarDetalleUsuario(nickname);
+        DTDetalleAsistente detalle = (DTDetalleAsistente) iCU.mostrarDetalleUsuario(nickname);
 
         // Assert
         assertNotNull(detalle);
