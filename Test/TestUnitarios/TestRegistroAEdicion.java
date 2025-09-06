@@ -1,7 +1,6 @@
 package TestUnitarios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -10,12 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Order;
 
+import logica.ENivelPatrocinio;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
@@ -39,8 +39,9 @@ public class TestRegistroAEdicion {
 	private static float costo;
 	private static int cuposMax;
 	
-	@BeforeAll
-	public static void iniciar() {
+	@BeforeEach
+	public void iniciar() {
+		Fabrica.resetInstancia();
 		Fabrica fabrica = Fabrica.getInstancia();
 		controladorEventos = fabrica.getControladorEvento();
 		controladorUsuarios = fabrica.getControladorUsuarios();
@@ -70,10 +71,10 @@ public class TestRegistroAEdicion {
 		nombreTipoRegistro = "nombreTipoRegistro";
 	}
 
+	// Testea un registro exitoso estandar sin patrocinio
 	@Test
 	@Order(1)
 	void testRegistroExitosoSinPatrocinio() {
-		// Testea un registro exitoso estandar sin patrocinio
 		try { 
 			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, null);
@@ -86,7 +87,25 @@ public class TestRegistroAEdicion {
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
+	}
 	
+	// Testea un registro exitoso estandar sin patrocinio
+	@Test
+	@Order(2)
+	void testRegistroExitosoConPatrocinio() {
+		try { 
+			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
+			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
+			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
+			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1");
+			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
+		} catch (Exception ex) { fail(ex.getMessage()); }
+		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0);
+		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
 	}
 }
 	

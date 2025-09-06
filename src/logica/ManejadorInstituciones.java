@@ -22,6 +22,10 @@ public class ManejadorInstituciones {
 		return instance;
 	}
 	
+	public static void resetInstance() {
+		instance = null;
+	}
+	
 	/**
 	 * Devuelve la institución i tal que i.nombre == nombreInstitucion.
 	 * Retorna null en caso de que no exista
@@ -64,12 +68,6 @@ public class ManejadorInstituciones {
 	
 	public DTPatrocinio getPatrocinio(String codigoPatrocinio) {
 		return null; 
-	}
-
-	public void AgregarInstitucion(String nombre, String descripcion, String sitioWeb) {
-		Institucion insti= new Institucion(nombre,descripcion,sitioWeb);
-		instituciones.put(nombre, insti);
-		
 	}
 
 	public boolean existeNombre(String nombre) {

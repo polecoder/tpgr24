@@ -17,8 +17,6 @@ import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public interface IControladorEventos {
-	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento);
-	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio);
 	public Map<String,DTEvento> listarEventos();
 	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion);
 	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
@@ -62,11 +60,11 @@ public interface IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception;
 	public Object getNombresEdiciones(String string);
-	
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías
 	 * 
 	 * @return
 	 */
 	public List<String> getListaCategorias();
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
 }

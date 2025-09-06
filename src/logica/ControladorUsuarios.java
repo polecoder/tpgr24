@@ -55,7 +55,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname ya existe");
+			throw new Exception("El nickname del asistente ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {
@@ -86,7 +86,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname ya existe");
+			throw new Exception("El nickname del organizador ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {
@@ -112,19 +112,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 
 	private final ManejadorEventos me = ManejadorEventos.getInstancia();
-
-	private String nombreTipoDe(Registro r) {
-		for (Evento ev : me.getEventos().values()) { // getEventos() público o package
-			for (Edicion ed : ev.getEdiciones().values()) { // idem getEdiciones()
-				for (TipoRegistro tr : ed.getTiposRegistro().values()) {
-					if (tr.getRegistros().contains(r)) {
-						return tr.getNombre();
-					}
-				}
-			}
-		}
-		return "(sin tipo)"; // fallback para no romper
-	}
 
 	@Override
 	public List<DTRegistro> listarRegistrosUsuario(String nickname) {

@@ -34,8 +34,8 @@ public class TestManejadorInstituciones {
         manejador.agregarInstitucion(inst2);
         assertEquals(inst2, manejador.getInstitucion("Inst2"));
 
-        // AgregarInstitucion (duplicado con mayúscula)
-        manejador.AgregarInstitucion("Inst3", "Descripción 3", "http://web3");
+        // altaInstitucion (duplicado con mayúscula)
+        manejador.altaInstitucion("Inst3", "Descripción 3", "http://web3");
         Institucion inst3 = manejador.getInstitucion("Inst3");
         assertNotNull(inst3);
         assertEquals("Inst3", inst3.getNombre());

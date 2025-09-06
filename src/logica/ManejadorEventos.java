@@ -36,13 +36,10 @@ public class ManejadorEventos {
 		instancia = null;
 	}
 	
-	Evento getEventoEdicion(String Evento) {
-		return eventos.get(Evento);
-	};
-	
 	Map<String,Evento> getEventos(){
 		return eventos;
 	}
+	
 	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
 		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
@@ -66,31 +63,30 @@ public class ManejadorEventos {
     	return ed.listarTipoRegistro();
 	};
 	
-	public boolean Validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro){
-		//TODO
-		return true;
-	};
-
-	public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion) {
-		//TODO
-	};
-	
-	
-	public Registro getRegistro(String nombreEdicion,String nickAsistente){
-		//TODO
-		return null;
-	};
-	
+	/**
+	 * Devuelve la edición de nombre "edicion" asociada al evento de nombre "evento".
+	 * Si no existe alguno de los objetos "evento" o "edicion" retorna null.
+	 * 
+	 * @param evento
+	 * @param edicion
+	 * @return
+	 */
 	public Edicion getEdicion(String evento, String edicion){
-		return eventos.get(evento).getEdiciones().get(edicion);
+		if (existeEvento(evento) && contieneEdicion(evento, edicion)) {
+			return eventos.get(evento).getEdiciones().get(edicion);
+		}
+		return null;
 	}
+	
 	public Set<String> getNombresCategorias(String Nombre) {
 		return eventos.get(Nombre).getCategoria().keySet();
 	}
+	
 	public Set<String> getNombresEdiciones(String nombre) throws EventoNoExiste {
-		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Edicion no existe"); }
+		if (eventos.get(nombre) == null) { throw new EventoNoExiste("Evento no existe."); }
 		return eventos.get(nombre).getEdiciones().keySet();
-	};
+	}
+	
 	public DTEvento getDTEvento(String nombre) {
 		Evento evento=eventos.get(nombre);
 		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getFechaAlta());
@@ -120,11 +116,11 @@ public class ManejadorEventos {
 		}
 	}
 	
-	public String[] getTiposRegistro(String nombreEvento, String nombreEdiocion) throws EventoNoExiste, EdicionNoExiste {
+	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
 		Evento evento = eventos.get(nombreEvento);
 		if (evento == null) { throw new EventoNoExiste("Evento no existe"); }
 		
-		Edicion edicion = evento.getEdicion(nombreEdiocion);
+		Edicion edicion = evento.getEdicion(nombreEdicion);
 		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); };
 		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
 		

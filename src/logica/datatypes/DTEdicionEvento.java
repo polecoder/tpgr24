@@ -22,8 +22,6 @@ public class DTEdicionEvento {
 	    this.setOrganizadorNickname(organizadorNickname);
 	}
 	
-	
-
 	public String getNombre() {
 		return nombre;	
 	}
@@ -80,5 +78,22 @@ public class DTEdicionEvento {
 	}
 	public void setOrganizadorNickname(String organizadorNickname) {
 		this.organizadorNickname = organizadorNickname;
+	}
+	
+	/**
+	 * Devuelve true si y solo si los datatypes son iguales.
+	 * 
+	 * @param e
+	 * @return
+	 */
+	public boolean equals(DTEdicionEvento e) {
+		return this.ciudad == e.getCiudad() &&
+			   this.fechaAlta == e.getFechaAlta() &&
+			   this.fechaFin == e.getFechaFin() &&
+			   this.fechaInicio == e.getFechaInicio() &&
+			   this.nombre == e.getNombre() &&
+			   this.organizadorNickname == e.getOrganizadorNickname() &&
+			   this.pais == e.getPais() &&
+			   this.sigla == e.getSigla();
 	}
 }

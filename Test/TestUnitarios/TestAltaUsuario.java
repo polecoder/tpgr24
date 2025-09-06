@@ -88,14 +88,14 @@ class TestAltaUsuario {
     void nicknameDuplicadoEntreOrganizadores() throws Exception {
         controladorUsuario.altaOrganizador("nicoF", "Nicolás", "nicolas.f@gmail.com", "Organizador de congresos", "http://congresosuy.com");
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("nicoF", "Federico", "federico@gmail.com", "Eventos académicos", "http://eventosfed.com"); });
-        assertTrue(ex.getMessage().contains("nickname ya existe"));
+        assertTrue(ex.getMessage().contains("ya existe"));
     }
 
     @Test
     public void nicknameDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("sofiaG", "Sofía", "sofia.g@gmail.com", "Gómez", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("sofiaG", "Gonzalo", "gonzalo.g@gmail.com", "Organizador de charlas", "https://charlasuy.com"); });
-        assertTrue(ex.getMessage().contains("El nickname ya existe"));
+        assertTrue(ex.getMessage().contains("ya existe"));
     }
 
     @Test
@@ -109,7 +109,7 @@ class TestAltaUsuario {
     public void correoDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("agustinaM", "Agustina", "agustina.m@gmail.com", "Morales", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("rodrigoP", "Rodrigo", "agustina.m@gmail.com", "Organizador de talleres", "https://talleresuy.com"); });
-        assertTrue(ex.getMessage().contains("El correo ya está en uso"));
+        assertTrue(ex.getMessage().contains("correo ya está en uso"));
     }
 
     // ----------- Alta de asistente con institución válida -----------

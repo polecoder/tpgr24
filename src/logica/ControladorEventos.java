@@ -63,18 +63,6 @@ public class ControladorEventos implements IControladorEventos {
     	return mLista;
     }
 
-	public Set<DTPatrocinio> listarPatrociniosEdicion(String nombreEdicion, String nombreEvento) {
-		return null;
-	}
-
-	public DTDetallePatrocinio mostrarInfoPatrocinio(String codigoPatrocinio) {
-		return null;
-	}
-
-	public void altaPatrocinio(DTDatosPatrocinio datosPatrocinio) {
-		// HACER
-	}
-
     public Map<String,DTEvento> listarEventos() {
         return manejadorEventos.listarEventos();
     }
@@ -134,7 +122,8 @@ public class ControladorEventos implements IControladorEventos {
 			throw new NombreTipoRegistroRepetido("El nombre del ya está en otro TipoRegistro de esta edicion");
 		}
 	}
-
+	
+	@Override
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
     	try { return manejadorEventos.getTiposRegistro(nombreEvento,nombreEdicion);
     	} catch (EventoNoExiste ex) { throw ex;
@@ -165,6 +154,14 @@ public class ControladorEventos implements IControladorEventos {
 	        throw new Exception("Todos los campos deben estar completos");
 	    }
 
+	    if (!manejadorEventos.existeEvento(eventoSeleccionado)) {
+	    	throw new Exception("El evento seleccionado no existe en el sistema.");
+	    }
+	    
+	    if (manejadorEventos.getEdicion(eventoSeleccionado, edicionSeleccionada) == null) {
+	    	throw new Exception("La edición seleccionada no existe en el sistema.");
+	    }
+	    
 	    // Validación de duplicado
 	    if (manejadorEventos.existePatrocinio(institucionSeleccionada, edicionSeleccionada)) {
 	        throw new Exception("Ya existe un patrocinio de esa institución para la edición seleccionada");
@@ -288,10 +285,6 @@ public class ControladorEventos implements IControladorEventos {
 		return resultado;
 	}
 
-	public boolean existeTipoRegistro(String nombre, String nombreEvento, String nombreEdicion) {
-    	return false;
-    }
-    
     public String[] getNombreEventos() {
     	Map<String,DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
 		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
