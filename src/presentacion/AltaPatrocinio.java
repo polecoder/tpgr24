@@ -191,6 +191,14 @@ import logica.datatypes.DTTipoRegistro;
 	        panelFormulario.add(txtCodigo, gbc_txtCodigo);
 	
 	        comboEvento.addActionListener(e -> {
+	        	comboEdicion.removeAllItems();
+	            comboTipo.removeAllItems();
+	            comboInstitucion.setSelectedIndex(0);
+	            comboNivel.setSelectedIndex(0);
+	            txtCodigo.setText("");
+	            txtAporte.setText("");
+	            txtCupos.setText("");
+	            
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 	            if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()) return;
 
@@ -208,6 +216,13 @@ import logica.datatypes.DTTipoRegistro;
 	        });
 
 	        comboEdicion.addActionListener(e -> {
+	        	 comboTipo.removeAllItems();
+	        	 comboInstitucion.setSelectedIndex(0);
+	        	 comboNivel.setSelectedIndex(0);
+	        	 txtCodigo.setText("");
+	        	 txtAporte.setText("");
+	        	 txtCupos.setText("");
+	        	    
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 	            String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
 	            if (eventoSeleccionado == null || edicionSeleccionada == null
@@ -266,11 +281,13 @@ import logica.datatypes.DTTipoRegistro;
 	                return;
 	            }
 	            
-	            if (aporteEconomico<0) {
+	            if (aporteEconomico<0||aporteEconomico==0) {
 	            	JOptionPane.showMessageDialog(this, "El aporte debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
 	            }
-	            if (cantidadGratuitos<0) {
+	            if (cantidadGratuitos<0||cantidadGratuitos==0) {
 	            	JOptionPane.showMessageDialog(this, "La cantidad de cupos debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
 	            }
 	           
 	            	// Validación del 20% del aporte
@@ -290,6 +307,7 @@ import logica.datatypes.DTTipoRegistro;
 	            	float limitePermitido = aporteEconomico * 0.2f;
 	            	if (costoTotalGratuitos > limitePermitido) {
 	            		 JOptionPane.showMessageDialog(this, "El costo de los registros gratuitos supera el 20% del aporte económico", "Error", JOptionPane.ERROR_MESSAGE);
+	            		 return;
 	            	}
 
 
