@@ -18,6 +18,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private JComboBox<String> comboUsuarios;
     private JComboBox<String> comboRegistros;
     private JButton btnDetalle;
+    private JTextArea txtDetalle;
     
     private boolean cargando = false;
 
@@ -36,9 +37,9 @@ public class ConsultaRegistro extends JInternalFrame {
 
         GridBagLayout g = new GridBagLayout();
         g.columnWidths  = new int[]{0, 0};
-        g.rowHeights    = new int[]{0, 0, 0};
+        g.rowHeights    = new int[]{0, 0, 0, 0};
         g.columnWeights = new double[]{1.0, 1.0};
-        g.rowWeights    = new double[]{0.0, 0.0, 0.0};
+        g.rowWeights    = new double[]{0.0, 0.0, 0.0, 1.0};
         getContentPane().setLayout(g);
 
         // Fila 0: Usuario
@@ -83,6 +84,31 @@ public class ConsultaRegistro extends JInternalFrame {
         btnDetalle = new JButton("Ver Detalle");   //creo el boton
         btnDetalle.setEnabled(false);              
         panel.add(btnDetalle);
+        
+        JLabel lblDetalle = new JLabel("Detalle");
+        GridBagConstraints gbcDlbl = new GridBagConstraints();
+        gbcDlbl.insets = new Insets(0,0,5,5);
+        gbcDlbl.anchor = GridBagConstraints.NORTHEAST;
+        gbcDlbl.gridx = 0; gbcDlbl.gridy = 3;
+        getContentPane().add(lblDetalle, gbcDlbl);
+        
+        txtDetalle = new JTextArea();
+        txtDetalle.setEditable(false);
+        txtDetalle.setLineWrap(true);
+        txtDetalle.setWrapStyleWord(true);
+        txtDetalle.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12)); // opcional para formato tipo "ficha"
+
+        JScrollPane spDetalle = new JScrollPane(txtDetalle,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        GridBagConstraints gbcD = new GridBagConstraints();
+        gbcD.insets = new Insets(0,0,0,0);
+        gbcD.fill = GridBagConstraints.BOTH;
+        gbcD.weightx = 1.0;
+        gbcD.weighty = 1.0;         // que crezca en alto
+        gbcD.gridx = 1; gbcD.gridy = 3;
+        getContentPane().add(spDetalle, gbcD);
 
         // Datos + eventos
         cargando=true;
@@ -120,6 +146,8 @@ public class ConsultaRegistro extends JInternalFrame {
 
     private void listarRegistros(String nombreRegistro) {
     	comboRegistros.removeAllItems();
+    	txtDetalle.setText("");
+    	
         String nick = (String) comboUsuarios.getSelectedItem();
         if (nick == null || nick.isBlank()) {
         	btnDetalle.setEnabled(false);
@@ -133,6 +161,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Este usuario no tiene registros.",
                         "Información", JOptionPane.INFORMATION_MESSAGE);
             }
+            txtDetalle.setText("");
             return;
         }
         for(DTRegistro r : regs) {
@@ -177,6 +206,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 d.getFecha(),
                 d.getCosto()
         );
-        JOptionPane.showMessageDialog(this, msg, "Detalle del registro", JOptionPane.INFORMATION_MESSAGE);
+        txtDetalle.setText(msg);
+        txtDetalle.setCaretPosition(0);
     }
 }
