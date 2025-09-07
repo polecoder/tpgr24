@@ -32,7 +32,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 	
 	public AltaTipoRegistro() {		
 		super("Alta Tipo de registro", true, true, true, true);
-		setSize(300, 247);       
+		setSize(400, 300);       
 		setLocation(50, 50);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();

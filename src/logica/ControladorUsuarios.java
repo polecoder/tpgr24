@@ -111,8 +111,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return usu;
 	}
 
-	private final ManejadorEventos me = ManejadorEventos.getInstancia();
-
 	@Override
 	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
 		Asistente a = manejadorUsuarios.getAsistente(nickname); // mu = ManejadorUsuarios.getInstance()

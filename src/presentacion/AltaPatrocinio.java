@@ -34,7 +34,7 @@ import logica.datatypes.DTTipoRegistro;
 	    public AltaPatrocinio() {
 	        super("Alta Patrocinio", true, true, true, true);
 
-	        setSize(450, 400);
+	        setSize(500, 400);
 	        setLocation(50, 25);
 	
 	        GridBagLayout layout = new GridBagLayout();

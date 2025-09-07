@@ -23,7 +23,7 @@ public class FramePrincipal extends JFrame {
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 500);
+        setBounds(100, 100, 650, 600);
         setTitle("Eventos.uy");
         getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -83,11 +83,11 @@ public class FramePrincipal extends JFrame {
 
         JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem item_AltaPatrocinio = new JMenuItem("Alta Patrocinio");
-        JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
+        //JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
 
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(item_AltaPatrocinio);
-        menuInstitucion.add(itemE);
+        //menuInstitucion.add(itemE);
         
         JMenu menuCargaDatos = new JMenu("Carga Datos");
         menuBar.add(menuCargaDatos);

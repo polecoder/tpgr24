@@ -32,27 +32,28 @@ public class ConsultaRegistro extends JInternalFrame {
         setClosable(true);
         setTitle("Consulta de Registro");
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setSize(350, 250);
+        setSize(400, 300);
+        setLocation(50, 50);
         setMinimumSize(new Dimension(350, 250));
 
         GridBagLayout g = new GridBagLayout();
         g.columnWidths  = new int[]{0, 0};
         g.rowHeights    = new int[]{0, 0, 0, 0};
-        g.columnWeights = new double[]{1.0, 1.0};
-        g.rowWeights    = new double[]{0.0, 0.0, 0.0, 1.0};
+        g.columnWeights = new double[]{0.0, 0.0};
+        g.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(g);
 
         // Fila 0: Usuario
         JLabel lblUsuario = new JLabel("Usuario");
         GridBagConstraints gbcUlbl = new GridBagConstraints();
-        gbcUlbl.insets = new Insets(0,0,5,5);
+        gbcUlbl.insets = new Insets(5,5,5,5);
         gbcUlbl.anchor = GridBagConstraints.EAST;
         gbcUlbl.gridx = 0; gbcUlbl.gridy = 0;
         getContentPane().add(lblUsuario, gbcUlbl);
 
         comboUsuarios = new JComboBox<>(); 
         GridBagConstraints gbcU = new GridBagConstraints();
-        gbcU.insets = new Insets(0,0,5,0);
+        gbcU.insets = new Insets(5,0,5,0);
         gbcU.fill = GridBagConstraints.HORIZONTAL;
         gbcU.weightx = 1.0;
         gbcU.gridx = 1; gbcU.gridy = 0;
@@ -61,7 +62,7 @@ public class ConsultaRegistro extends JInternalFrame {
         // Fila 1: Registros
         JLabel lblReg = new JLabel("Registros");
         GridBagConstraints gbcRlbl = new GridBagConstraints();
-        gbcRlbl.insets = new Insets(0,0,5,5);
+        gbcRlbl.insets = new Insets(0,5,5,5);
         gbcRlbl.anchor = GridBagConstraints.EAST;
         gbcRlbl.gridx = 0; gbcRlbl.gridy = 1;
         getContentPane().add(lblReg, gbcRlbl);
@@ -103,7 +104,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         GridBagConstraints gbcD = new GridBagConstraints();
-        gbcD.insets = new Insets(0,0,0,0);
+        gbcD.insets = new Insets(0,0,5,5);
         gbcD.fill = GridBagConstraints.BOTH;
         gbcD.weightx = 1.0;
         gbcD.weighty = 1.0;         // que crezca en alto

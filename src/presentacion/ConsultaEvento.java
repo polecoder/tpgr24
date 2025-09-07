@@ -30,7 +30,7 @@ public class ConsultaEvento extends JInternalFrame {
 	private IControladorEventos IContEvento= fabrica.getControladorEvento();
 	public ConsultaEvento(JDesktopPane desktopPane) {
 	    super("Consulta Evento", true, true, true, true);
-	    setSize(400, 300);       
+	    setSize(450, 350);       
 		setLocation(50, 50); 
 	
 		GridBagLayout gridBagLayout = new GridBagLayout();

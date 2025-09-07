@@ -193,12 +193,12 @@ public class Edicion {
 	}
 	
 	public DTTipoRegistro getDTTipoRegistro(String nombreTipoRegistro) throws TipoRegistroNoExiste {
+		TipoRegistro tipoRegistro;
 		try {
-			TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
+			 tipoRegistro = getTipoRegistro(nombreTipoRegistro);
 		} catch (TipoRegistroNoExiste ex) {
 			throw new TipoRegistroNoExiste("El Tipo de Registro no existe");
 		};
-		TipoRegistro tipoRegistro = getTipoRegistro(nombreTipoRegistro);
 		return tipoRegistro.getDTTipoRegistro();
 	}
 	

@@ -3,7 +3,6 @@ package presentacion;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.swing.JComboBox;
@@ -11,8 +10,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.event.PopupMenuEvent;
-
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.TipoRegistroNoExiste;
@@ -32,22 +29,22 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	
 	public ConsultaTipoRegistro(String nombreParam, String nombreEventoParam, String nombreEdicionParam) {		
 		super("Consulta Tipo registro", true, true, true, true);
-		setSize(300, 247);       
+		setSize(450, 300);       
 		setLocation(50, 50);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0}; // 3 elementos
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0,0.0,0.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		//----------EVENTO----------
 		JLabel lbl_Evento = new JLabel("Evento:");
 		GridBagConstraints gbc_lbl_Evento= new GridBagConstraints();
 		gbc_lbl_Evento.anchor = GridBagConstraints.EAST;
-		gbc_lbl_Evento.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_Evento.insets = new Insets(5, 0, 5, 5);
 		gbc_lbl_Evento.gridx = 0;
 		gbc_lbl_Evento.gridy = 0;
 		getContentPane().add(lbl_Evento, gbc_lbl_Evento);
@@ -230,7 +227,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		//----------CUPOS MAX----------
 		
 		//----------DISPONIBLES----------
-		JLabel lbl_CuposDisp = new JLabel("Cupos dispobibles:");
+		JLabel lbl_CuposDisp = new JLabel("Cupos disponibles:");
 		GridBagConstraints gbc_lbl_CuposDisp = new GridBagConstraints();
 		gbc_lbl_CuposDisp.anchor = GridBagConstraints.EAST;
 		gbc_lbl_CuposDisp.insets = new Insets(0, 0, 5, 5);
