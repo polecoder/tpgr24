@@ -3,7 +3,14 @@
   <groupId>tpgr24</groupId>
   <artifactId>tpgr24</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <packaging>war</packaging>
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<tomcat.version>11.0.4</tomcat.version>
+  </properties>
   <build>
+  	<finalName>tpgr24</finalName>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>Test</testSourceDirectory>
     <plugins>
@@ -12,6 +19,26 @@
         <version>3.13.0</version>
         <configuration>
           <release>21</release>
+        </configuration>
+      </plugin>
+      <!-- Plugin WAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+        </configuration>
+      </plugin>
+        
+	  <!-- Plugin de Tomcat para desarrollo -->
+	  <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <port>8080</port>
+          <path>/tpgr24</path>
         </configuration>
       </plugin>
     </plugins>
