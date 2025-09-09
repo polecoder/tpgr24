@@ -246,7 +246,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_CuposDisp.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_CuposDisp.gridx = 1;
 		gbc_textField_CuposDisp.gridy = 7;
-		textField_CuposDisp.setEditable(false);
+		textField_CuposDisp.setEditable(false); 
 		getContentPane().add(textField_CuposDisp, gbc_textField_CuposDisp);
 		//----------DISPONIBLES----------
 		//--------------------DETALLES--------------------
