@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Mis Eventos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos UY</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-	<h1>Hola, mundo!</h1>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-600 mb-4">
+                ¡Proyecto configurado con éxito!
+            </h1>
+            <p class="text-gray-600 text-lg">
+                Maven + Tomcat + Tailwind CSS funcionando juntos
+            </p>
+        </header>
+        
+        <main class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    Características incluidas
+                </h2>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                        Proyecto Maven configurado para web
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                        Integración con Tomcat
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                        Tailwind CSS configurado y funcionando
+                    </li>
+                </ul>
+                <a href="/pages/edicion.html">Link a edición</a>
+            </div>
+            
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                <div class="flex">
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            <strong>Próximos pasos:</strong> Puedes empezar a desarrollar tu aplicación web.
+                            Los estilos de Tailwind están listos para usar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
