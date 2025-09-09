@@ -9,7 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import logica.Fabrica;
 import logica.IControladorInstitucion;
@@ -57,15 +60,19 @@ public class AltaInstitucion extends JInternalFrame {
         gbc_lbl_Descripcion.gridy = 2;
         getContentPane().add(lbl_Descripcion, gbc_lbl_Descripcion);
 
-        JTextField textField_Descripcion = new JTextField();
-        GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
-        gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textField_Descripcion.insets = new Insets(0, 0, 5, 5);
-        gbc_textField_Descripcion.gridx = 1;
-        gbc_textField_Descripcion.gridy = 2;
-        gbc_textField_Descripcion.gridwidth = 2;
-        getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
-        textField_Descripcion.setColumns(10);
+        JScrollPane descripcionScrollPane = new JScrollPane();
+		descripcionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_descripcionScrollPane = new GridBagConstraints();
+		gbc_descripcionScrollPane.gridwidth = 2;
+		gbc_descripcionScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_descripcionScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_descripcionScrollPane.gridx = 1;
+		gbc_descripcionScrollPane.gridy = 2;
+		getContentPane().add(descripcionScrollPane, gbc_descripcionScrollPane);
+		JTextArea textField_Descripcion = new JTextArea();
+		textField_Descripcion.setLineWrap(true);
+		textField_Descripcion.setRows(2);
+		descripcionScrollPane.setViewportView(textField_Descripcion);
 
         JLabel lbl_SitioWeb = new JLabel("Sitio web:");
         GridBagConstraints gbc_lbl_SitioWeb = new GridBagConstraints();
