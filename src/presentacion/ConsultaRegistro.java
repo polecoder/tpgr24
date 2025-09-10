@@ -76,6 +76,9 @@ public class ConsultaRegistro extends JInternalFrame {
         gbcR.weightx = 1.0;
         gbcR.gridx = 1; gbcR.gridy = 1;
         getContentPane().add(comboRegistros, gbcR);
+        if (nombreRegistro != null) {
+        	comboRegistros.setSelectedItem(nombreRegistro);
+        }
 
         // Fila 2: Panel + botón
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
@@ -117,8 +120,9 @@ public class ConsultaRegistro extends JInternalFrame {
         cargando=true;
         cargarUsuarios(nicknameAsistente);
         wireEvents(nicknameAsistente);
-        comboRegistros.setEnabled(false);
-        btnDetalle.setEnabled(false);
+        listarRegistros(nombreRegistro);
+        //comboRegistros.setEnabled(false);
+        //btnDetalle.setEnabled(false);
         cargando = false;
     }
 
@@ -183,6 +187,7 @@ public class ConsultaRegistro extends JInternalFrame {
         // Seleccionar si se pasa por parámetro
         if (nombreRegistro != null) {
             comboRegistros.setSelectedItem(nombreRegistro);
+            comboRegistros.setEnabled(true);
         }
         btnDetalle.setEnabled(true);
     }
@@ -196,7 +201,7 @@ public class ConsultaRegistro extends JInternalFrame {
     	String nick = (String) comboUsuarios.getSelectedItem();
     	int idRegistro = comboRegistros.getSelectedIndex(); 
     	if (idRegistro<0) {
-    		JOptionPane.showMessageDialog(this, "selecciona un registro", "Atencion" , JOptionPane.WARNING_MESSAGE);
+    		JOptionPane.showMessageDialog(this, "Selecciona un registro", "Atencion" , JOptionPane.WARNING_MESSAGE);
     		return;
     	}
         
