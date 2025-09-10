@@ -13,22 +13,17 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
 	private static ControladorEventos instancia;
 	private ManejadorEventos manejadorEventos;
 	private ManejadorUsuarios manejadorUsuarios;
-	private IControladorInstitucion interfazInstitucion;
-
 	private ControladorEventos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
-		this.interfazInstitucion = ControladorInstitucion.getInstance();
+		ControladorInstitucion.getInstance();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 	}
 

@@ -54,7 +54,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600));
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,0,0};
+		gridBagLayout.columnWidths = new int[]{0,0,133,0};
 		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0,0};
 		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
 		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
@@ -63,7 +63,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel = new JLabel("Usuario:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 1;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
@@ -75,7 +75,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		}
 		GridBagConstraints gbc_usuariosComboBox = new GridBagConstraints();
 		gbc_usuariosComboBox.anchor = GridBagConstraints.WEST;
-		gbc_usuariosComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_usuariosComboBox.insets = new Insets(5, 0, 5, 5);
 		gbc_usuariosComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_usuariosComboBox.gridx = 2;
 		gbc_usuariosComboBox.gridy = 1;
@@ -84,7 +84,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel_2 = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 1;
 		gbc_lblNewLabel_2.gridy = 2;
 		getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
@@ -92,7 +92,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		nombreTxt = new JTextField();
 		nombreTxt.setEditable(false);
 		GridBagConstraints gbc_nombreTxt = new GridBagConstraints();
-		gbc_nombreTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreTxt.insets = new Insets(5, 0, 5, 5);
 		gbc_nombreTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nombreTxt.gridx = 2;
 		gbc_nombreTxt.gridy = 2;
@@ -102,7 +102,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel_3 = new JLabel("Correo:");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
 		gbc_lblNewLabel_3.gridy = 3;
 		getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
@@ -110,7 +110,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		correoTxt = new JTextField();
 		correoTxt.setEditable(false);
 		GridBagConstraints gbc_correoTxt = new GridBagConstraints();
-		gbc_correoTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_correoTxt.insets = new Insets(5, 0, 5, 5);
 		gbc_correoTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_correoTxt.gridx = 2;
 		gbc_correoTxt.gridy = 3;

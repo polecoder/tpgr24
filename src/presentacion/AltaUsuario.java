@@ -32,7 +32,7 @@ public class AltaUsuario extends JInternalFrame {
 	private JTextField textField_Correo;
 	public AltaUsuario() {
 		super("Alta de Usuario", true, true, true, true); 
-		setSize(400, 300);       
+		setSize(350, 270);       
 		setLocation(50, 50);
 		
 		Fabrica fabrica=Fabrica.getInstancia();
@@ -45,7 +45,7 @@ public class AltaUsuario extends JInternalFrame {
 		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0,0.0,0.0,0.0,0.0,0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lbl_nick = new JLabel("Nickname:");

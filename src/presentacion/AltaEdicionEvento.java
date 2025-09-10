@@ -31,7 +31,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	private IControladorUsuarios IContUsuario= fabrica.getControladorUsuarios();
 	public AltaEdicionEvento() {
 	    super("Alta Edicion", true, true, true, true); 
-	    setSize(450, 350);       
+	    setSize(500, 350);       
 	    setLocation(50, 25);   
 
 	    GridBagLayout gridBagLayout = new GridBagLayout();
@@ -178,6 +178,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		gbc_spinner_FechaInicio.gridx = 1;
 		gbc_spinner_FechaInicio.gridy = 6;
 		gbc_spinner_FechaInicio.gridwidth = 1;
+		gbc_spinner_FechaInicio.insets = new Insets(0, 5, 0, 0);
 		gbc_spinner_FechaInicio.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaInicio, gbc_spinner_FechaInicio);
 
@@ -217,6 +218,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		gbc_Spinner_FechaAlta.gridx = 1;
 		gbc_Spinner_FechaAlta.gridy = 7;
 		gbc_Spinner_FechaAlta.gridwidth = 1;
+		gbc_Spinner_FechaAlta.insets = new Insets(0, 5, 0, 0);
 		gbc_Spinner_FechaAlta.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaAlta, gbc_Spinner_FechaAlta);
 

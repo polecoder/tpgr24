@@ -38,8 +38,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 
 	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion, JDesktopPane desktopPane) {
 		super("Consulta de Edición de Evento", true, true, true, true);
-		setSize(300, 500);
-		setLocation(50, 50);
+		setSize(400, 500);
+		setLocation(100, 10);
 
 		Fabrica fabrica = Fabrica.getInstancia();
 		IControladorEventos ICEv = fabrica.getControladorEvento();
@@ -260,7 +260,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		JPanel panel_listas = new JPanel();
 		GridBagConstraints gbc_panel_listas = new GridBagConstraints();
 		gbc_panel_listas.gridwidth = 3;
-		gbc_panel_listas.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_listas.insets = new Insets(0, 5, 5,0);
 		gbc_panel_listas.fill = GridBagConstraints.BOTH;
 		gbc_panel_listas.gridx = 1;
 		gbc_panel_listas.gridy = 9;

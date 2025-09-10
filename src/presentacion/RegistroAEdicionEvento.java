@@ -18,9 +18,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 import java.awt.Insets;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 import java.util.ArrayList;
@@ -49,19 +47,19 @@ public class RegistroAEdicionEvento extends JInternalFrame {
         listaAsistentes.add("- Seleccione un Asistente -");
         
         
-		setSize(350, 250);       
+		setSize(400, 300);       
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0,0.0,0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 		// Eventos
 		JLabel eventoLabel = new JLabel("Evento");
 		GridBagConstraints gbc_lblEventoLabel = new GridBagConstraints();
-		gbc_lblEventoLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventoLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_lblEventoLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblEventoLabel.gridx = 1;
 		gbc_lblEventoLabel.gridy = 1;
@@ -83,7 +81,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		JLabel edicionesLabel = new JLabel("Ediciones");
 		GridBagConstraints gbc_lblEdicionesLabel = new GridBagConstraints();
 		gbc_lblEdicionesLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblEdicionesLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEdicionesLabel.insets = new Insets(0, 5, 5, 5);
 		gbc_lblEdicionesLabel.gridx = 1;
 		gbc_lblEdicionesLabel.gridy = 2;
 		getContentPane().add(edicionesLabel, gbc_lblEdicionesLabel);
@@ -142,7 +140,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		JLabel codigoPatrocinioLabel = new JLabel("Codigo de Patrocinio");
 		GridBagConstraints gbc_codigoPatrocinioLabel = new GridBagConstraints();
 		gbc_codigoPatrocinioLabel.anchor = GridBagConstraints.EAST;
-		gbc_codigoPatrocinioLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_codigoPatrocinioLabel.insets = new Insets(0, 5, 5, 5);
 		gbc_codigoPatrocinioLabel.gridx = 1;
 		gbc_codigoPatrocinioLabel.gridy = 5;
 		getContentPane().add(codigoPatrocinioLabel, gbc_codigoPatrocinioLabel);
@@ -160,7 +158,6 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		// Boton Aceptar
 		JButton aceptarButton = new JButton("Aceptar");
 		GridBagConstraints gbc_aceptarButton = new GridBagConstraints();
-		gbc_aceptarButton.insets = new Insets(0, 0, 0, 5);
 		gbc_aceptarButton.gridx = 1;
 		gbc_aceptarButton.gridy = 7;
 		getContentPane().add(aceptarButton, gbc_aceptarButton);
