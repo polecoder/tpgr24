@@ -139,7 +139,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_lblNivel.anchor = GridBagConstraints.WEST;
 	        panelFormulario.add(lblNivel, gbc_lblNivel);
 	
-	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"--Seleccionar Patrocinio--", "Oro", "Plata", "Bronce"});
+	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"--Seleccionar Patrocinio--", "Platino", "Oro", "Plata", "Bronce"});
 	        GridBagConstraints gbc_comboNivel = new GridBagConstraints();
 	        gbc_comboNivel.gridx = 1;
 	        gbc_comboNivel.gridy = 4;
