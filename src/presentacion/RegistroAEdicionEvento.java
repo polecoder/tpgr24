@@ -209,7 +209,13 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 				JOptionPane.showMessageDialog(this, "Hay campos sin seleccionar", "Error",  JOptionPane.ERROR_MESSAGE);
 			}else {
 				String codigoPatrocinio = (String) codigoPatrocinioField.getText();
-				boolean validacion = ICEv.validar(selectedAsistente, selectedEdicion, selectedTipoRegistro, selectedEvento);
+				boolean validacion = false;
+				try {
+					validacion = ICEv.validar(selectedAsistente, selectedEdicion, selectedTipoRegistro, selectedEvento);					
+				}catch(Exception ex) {
+		            // Si el controlador lanza error, lo muestro
+		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		        }
 				if(validacion) {
 					ICEv.altaRegistro(
 							selectedAsistente, 

@@ -49,13 +49,19 @@ public class TipoRegistro {
     }
     
     public List<Registro> getRegistros(){ return registros; }
-    public boolean validar(String nicknameAsistente) {
-        boolean v = false;
-        System.out.print(registros.size());
-    	for(Registro r: registros) {
-        	v = v || r.validar(nicknameAsistente);
+    public boolean validar(String nicknameAsistente) throws Exception{
+        try {
+        	boolean v = false;
+        	for(Registro r: registros) {
+        		v = v || r.validar(nicknameAsistente);
+        	}
+        	if(v) {
+        		throw new Exception("Este asistente ya esta registrado");
+        	}
+        	return !v;        	
+        }catch(Exception vError) {
+        	throw vError;
         }
-        return !v;
     }
     
     public DTTipoRegistro getDTTipoRegistro() {

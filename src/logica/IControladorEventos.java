@@ -17,7 +17,7 @@ import logica.datatypes.DTTipoRegistro;
 public interface IControladorEventos {
 	public Map<String,DTEvento> listarEventos();
 	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion);
-	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
+	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento) throws Exception;
 	// public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha); // Reemplazado por "altaRegistro()"
 	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	public Set<String> nombresEventos();

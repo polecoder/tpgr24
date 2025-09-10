@@ -342,9 +342,9 @@ public class ConsultaTipoRegistro extends JInternalFrame {
         });
 		
 		// Trigger Listeners
-		System.out.printf("ConsultaTipoRegistro::create() nombreEventoParam is: %s", nombreEventoParam);
-		System.out.printf("ConsultaTipoRegistro::create() nombreEdicionParam is: %s", nombreEdicionParam);
-		System.out.printf("ConsultaTipoRegistro::create() nombreParam is: %s", nombreParam);
+		//System.out.printf("ConsultaTipoRegistro::create() nombreEventoParam is: %s", nombreEventoParam);
+		//System.out.printf("ConsultaTipoRegistro::create() nombreEdicionParam is: %s", nombreEdicionParam);
+		//System.out.printf("ConsultaTipoRegistro::create() nombreParam is: %s", nombreParam);
 		if (nombreEventoParam != null && nombreEdicionParam != null && nombreParam != null) {
 			comboEvento.setSelectedItem("- Seleccione un Evento -");
 			comboEvento.setSelectedItem(nombreEventoParam);
