@@ -209,7 +209,7 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("Todos los campos deben estar completos");
 		}
 
-		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
+		if (manejadorEventos.existeEdicion(nombre)) {
 			throw new Exception("El nombre de la edición ya está en uso");
 		}
 
