@@ -6,19 +6,40 @@
     <title>Eventos UY - Template</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
-    <div class="max-w-3xl mx-auto">
+  <body class="min-h-screen flex flex-col">
+    <nav class="p-2 bg-blue-400 flex justify-between sm:p-4">
+      <a href="../index.html" class="text-white font-extrabold sm:text-xl"
+        >eventos.uy</a
+      >
+      <ul class="flex gap-4">
+        <li>
+          <a
+            href="#"
+            class="underline uppercase text-xs text-white sm:text-base"
+            >Iniciar sesión</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="underline uppercase text-xs text-white sm:text-base"
+            >Cerrar sesión</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mx-auto flex-grow">
       <div>
-        <h1 class="text-2xl uppercase text-center py-4">
+        <h1 class="text-2xl uppercase text-center py-4 sm:text-3xl">
           Template para las páginas de caso de uso
         </h1>
-        <p class="pt-4 px-4 pb-8">
+        <p class="pt-4 px-4">
           Tengo un tamaño estándar y cuando agrandas mucho la pantalla me
           centro, para respetar los tamaños de pantalla más pequeños.
         </p>
       </div>
       <main
-        class="max-w-xs mx-auto bg-blue-50 py-4 rounded-md border-t-2 border-blue-400"
+        class="max-w-xs mx-auto bg-blue-50 py-4 rounded-md border-t-2 border-blue-400 my-8"
       >
         <form action="" class="flex flex-col gap-8">
           <div class="flex justify-center gap-4">
@@ -50,17 +71,17 @@
           </div>
           <div class="flex justify-between mx-4">
             <input
-              class="px-2 py-1 text-white bg-blue-400 rounded w-20"
+              class="px-2 py-1 text-white bg-blue-400 rounded w-20 border hover:text-blue-400 hover:bg-white hover:border-blue-400 transition-all duration-200"
               type="button"
               value="Aceptar"
             />
             <input
-              class="px-2 py-1 text-white bg-blue-400 rounded w-20"
+              class="px-2 py-1 text-white bg-blue-400 rounded w-20 border hover:text-blue-400 hover:bg-white hover:border-blue-400 transition-all duration-200"
               type="button"
               value="Cancelar"
             />
             <input
-              class="px-2 py-1 text-white bg-blue-400 rounded w-20"
+              class="px-2 py-1 text-white bg-blue-400 rounded w-20 border hover:text-blue-400 hover:bg-white hover:border-blue-400 transition-all duration-200"
               type="button"
               value="Reset"
             />
@@ -68,5 +89,11 @@
         </form>
       </main>
     </div>
+    <footer
+      class="bg-blue-400 p-2 flex justify-between text-white sm:text-lg sm:p-4"
+    >
+      <p class="font-extrabold">TPROG 2025</p>
+      <p>Grupo 24</p>
+    </footer>
   </body>
 </html>
