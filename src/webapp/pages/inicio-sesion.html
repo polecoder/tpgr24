@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos UY - Template</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <nav class="p-2 bg-blue-400 flex justify-between sm:p-4">
+      <a href="../index.html" class="text-white font-extrabold sm:text-xl"
+        >eventos.uy</a
+      >
+      <ul>
+        <li>
+          <a
+            href="./inicio-sesion.html"
+            class="underline uppercase text-xs text-white sm:text-base"
+            >Iniciar sesión</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="max-w-3xl mx-auto flex-grow">
+      <div>
+        <h1 class="text-2xl uppercase text-center pt-4 sm:text-3xl">
+          Iniciar sesión
+        </h1>
+      </div>
+      <main
+        class="max-w-xs mx-auto bg-blue-50 py-4 rounded-md border-t-2 border-blue-400 my-8"
+      >
+        <form action="" class="flex flex-col gap-8 px-4">
+          <div class="flex justify-center gap-4">
+            <label class="leading-7 w-20 text-right" for="usuario"
+              >Usuario:</label
+            >
+            <input
+              class="bg-white rounded py-0.5 focus:outline-none"
+              type="text"
+              name="usuario"
+              id="usuario"
+            />
+          </div>
+          <div class="flex justify-center gap-4">
+            <label class="leading-7 w-20 text-right" for="contrasena"
+              >Contraseña:</label
+            >
+            <input
+              class="bg-white rounded py-0.5 focus:outline-none"
+              type="password"
+              name="contrasena"
+              id="contrasena"
+            />
+          </div>
+          <div class="flex justify-center">
+            <input
+              class="px-2 py-1 text-white bg-blue-400 rounded w-20 border hover:text-blue-400 hover:bg-white hover:border-blue-400 transition-all duration-200"
+              type="button"
+              value="Acceder"
+            />
+          </div>
+        </form>
+      </main>
+    </div>
+    <footer
+      class="bg-blue-400 p-2 flex justify-between text-white sm:text-lg sm:p-4"
+    >
+      <p class="font-extrabold">TPROG 2025</p>
+      <p>Grupo 24</p>
+    </footer>
+  </body>
+</html>
