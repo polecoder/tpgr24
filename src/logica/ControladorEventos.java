@@ -67,10 +67,16 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
     public boolean validar(String nicknameAsistente, String nombreEdicion,
-                           String nombreTipoRegistro, String nombreEvento) {
-        Evento ev = manejadorEventos.getEvento(nombreEvento);
-        Edicion ed = ev.getEdicion(nombreEdicion);
-        return ed.validar(nicknameAsistente, nombreTipoRegistro);
+                           String nombreTipoRegistro, String nombreEvento) throws Exception{
+        try {
+        	boolean ret = false;
+        	Evento ev = manejadorEventos.getEvento(nombreEvento);
+        	Edicion ed = ev.getEdicion(nombreEdicion);
+        	ret = ed.validar(nicknameAsistente, nombreTipoRegistro);
+        	return ret;
+        }catch(Exception vErr) {
+        	throw vErr;
+        }
     }
 
 	/* public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,

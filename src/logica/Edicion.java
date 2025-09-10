@@ -157,13 +157,17 @@ public class Edicion {
 	}
 	
 	// TODO: Implementar y revisar el nombre
-	public boolean validar(String nicknameAsistente, String nombreTipoRegistro) {
-		TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
-		int cupos = tr.getCuposDisponibles();
-		if(cupos>0) {
-			return tr.validar(nicknameAsistente);
-		}else {
-			return false;
+	public boolean validar(String nicknameAsistente, String nombreTipoRegistro) throws Exception {
+		try {
+			TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
+			int cupos = tr.getCuposDisponibles();
+			if(cupos>0) {
+				return tr.validar(nicknameAsistente);
+			}else {
+				throw new Exception("No hay cupos disponibles");
+			}			
+		}catch(Exception vError) {
+			throw vError;
 		}
 	}
 	
