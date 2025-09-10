@@ -23,7 +23,7 @@ public class FramePrincipal extends JFrame {
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 650, 600);
+        setBounds(100, 100, 700, 600);
         setTitle("Eventos.uy");
         getContentPane().setLayout(new BorderLayout(0, 0));
 

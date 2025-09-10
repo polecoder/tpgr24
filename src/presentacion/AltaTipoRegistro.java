@@ -134,6 +134,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		
 		JComboBox<String> comboEvento = new JComboBox<>();
 		Set<String> eventos = controladorEventos.nombresEventos(); // Inicializo los eventos al iniciar el Caso de Uso
+		comboEvento.addItem("-- Seleccionar un Evento --");
 		if (eventos != null) {
 			for (String evento : eventos) { comboEvento.addItem(evento); }
 		}
@@ -157,6 +158,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		
 		JComboBox<String> comboEdicion = new JComboBox<>();
 		Set<String> ediciones;
+		comboEdicion.addItem("--Seleccionar una Edición--");
 		try { ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
 		} catch (EventoNoExiste ex) {
 			ediciones = null;
@@ -231,11 +233,11 @@ public class AltaTipoRegistro extends JInternalFrame {
 				JOptionPane.showMessageDialog(this, "Los cupos deben ser un entero", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			};
-			if (comboEvento.getSelectedIndex() == -1) {
+			if (comboEvento.getSelectedItem() == null ||comboEvento.getSelectedItem()=="-- Seleccionar un Evento --") {
 				JOptionPane.showMessageDialog(this, "Debe seleccionar un evento", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			if (comboEdicion.getSelectedIndex() == -1) {
+			if (comboEdicion.getSelectedItem() == null||comboEdicion.getSelectedItem() == "--Seleccionar una Edición--") {
 				JOptionPane.showMessageDialog(this, "Debe seleccionar una edicion", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			}
