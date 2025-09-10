@@ -13,8 +13,11 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 
 import logica.Fabrica;
@@ -173,16 +176,28 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_textField_Link.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(textField_Link, gbc_textField_Link);
 		
-		JTextField textField_Descripcion = new JTextField();
-		textField_Descripcion.setColumns(10);
-		textField_Descripcion.setVisible(false); 
+		
+		JScrollPane descripcionScrollPane = new JScrollPane();
+		descripcionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_descripcionScrollPane = new GridBagConstraints();
+		gbc_descripcionScrollPane.gridwidth = 2;
+		gbc_descripcionScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_descripcionScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_descripcionScrollPane.gridx = 1;
+		gbc_descripcionScrollPane.gridy = 6;
+		getContentPane().add(descripcionScrollPane, gbc_descripcionScrollPane);
+		JTextArea textField_Descripcion = new JTextArea();
+		textField_Descripcion.setLineWrap(true);
+		textField_Descripcion.setRows(2);
+		descripcionScrollPane.setViewportView(textField_Descripcion);
+		descripcionScrollPane.setVisible(false); 
 		
 		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
 		gbc_textField_Descripcion.gridx = 1;
 		gbc_textField_Descripcion.gridy = 6;
 		gbc_textField_Descripcion.gridwidth = 2;
 		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
+		//getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
 		
 		JTextField textField_Apellido = new JTextField();
 		textField_Apellido.setColumns(10);
@@ -230,7 +245,7 @@ public class AltaUsuario extends JInternalFrame {
 			textField_Link.setVisible(true);  
 		    lbl_link.setVisible(true);       
 		    
-		    textField_Descripcion.setVisible(true);  
+		    descripcionScrollPane.setVisible(true);  
 		    lbl_Descripcion.setVisible(true); 
 		    
 		    comboInstituciones.setVisible(false);
@@ -251,7 +266,7 @@ public class AltaUsuario extends JInternalFrame {
 			textField_Link.setVisible(false);  
 		    lbl_link.setVisible(false);    
 		    
-		    textField_Descripcion.setVisible(false);  
+		    descripcionScrollPane.setVisible(false);  
 		    lbl_Descripcion.setVisible(false); 
 		    
 		    lbl_Institucion.setVisible(true);

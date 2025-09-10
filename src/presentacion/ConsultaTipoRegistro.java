@@ -162,7 +162,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_Nombre.gridy = 3;
 		gbc_textField_Nombre.gridwidth = 2;  
 		getContentPane().add(textField_Nombre, gbc_textField_Nombre);
-		textField_Nombre.setEnabled(false);
+		textField_Nombre.setEditable(false);
 		textField_Nombre.setColumns(10);
 		//----------NOMBRE----------
 		
@@ -183,7 +183,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_Descripcion.gridy = 4;
 		gbc_textField_Descripcion.gridwidth = 2; 
 		getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
-		textField_Descripcion.setEnabled(false);
+		textField_Descripcion.setEditable(false);
 		textField_Descripcion.setColumns(10);
 		//----------DESCRIPCION----------
 		
@@ -204,7 +204,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_Costo.gridy = 5;
 		gbc_textField_Costo.gridwidth = 2; 
 		getContentPane().add(textField_Costo, gbc_textField_Costo);
-		textField_Costo.setEnabled(false);
+		textField_Costo.setEditable(false);
 		textField_Costo.setColumns(10);
 		//----------COSTO----------
 		
@@ -225,7 +225,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_CuposMax.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_CuposMax.gridx = 1;
 		gbc_textField_CuposMax.gridy = 6;
-		textField_CuposMax.setEnabled(false);
+		textField_CuposMax.setEditable(false);
 		getContentPane().add(textField_CuposMax, gbc_textField_CuposMax);
 		//----------CUPOS MAX----------
 		
@@ -246,7 +246,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_textField_CuposDisp.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_CuposDisp.gridx = 1;
 		gbc_textField_CuposDisp.gridy = 7;
-		textField_CuposDisp.setEnabled(false);
+		textField_CuposDisp.setEditable(false); 
 		getContentPane().add(textField_CuposDisp, gbc_textField_CuposDisp);
 		//----------DISPONIBLES----------
 		//--------------------DETALLES--------------------
