@@ -20,6 +20,8 @@ public class ConsultaRegistro extends JInternalFrame {
     private JButton btnDetalle;
     private JTextArea txtDetalle;
     
+    private static final String PLACEHOLDER_USUARIO = "-- Seleccionar un Usuario --";
+    
     private boolean cargando = false;
 
     //Logica
@@ -115,11 +117,8 @@ public class ConsultaRegistro extends JInternalFrame {
         cargando=true;
         cargarUsuarios(nicknameAsistente);
         wireEvents(nicknameAsistente);
-        if (comboUsuarios.getItemCount() > 0) {
-            listarRegistros(nombreRegistro); 
-        } else {
-            comboRegistros.setEnabled(false);
-        }
+        comboRegistros.setEnabled(false);
+        btnDetalle.setEnabled(false);
         cargando = false;
     }
 
@@ -127,7 +126,15 @@ public class ConsultaRegistro extends JInternalFrame {
         comboUsuarios.addItemListener(e -> {
             if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             	if(cargando) return;
-                listarRegistros(nicknameAsistente);
+            	String sel = (String) comboUsuarios.getSelectedItem();
+            	if (sel == null || PLACEHOLDER_USUARIO.equals(sel)) {
+            		comboRegistros.removeAllItems();
+                    comboRegistros.setEnabled(false);
+                    btnDetalle.setEnabled(false);
+                    txtDetalle.setText("");
+            	}else {
+            		listarRegistros(null);
+            	}
             }
         });
         btnDetalle.addActionListener(e -> verDetalle());
@@ -136,12 +143,15 @@ public class ConsultaRegistro extends JInternalFrame {
 	// limpia el combobox usuarios y lo llena con asistentes
     private void cargarUsuarios(String nicknameAsistente) {
         comboUsuarios.removeAllItems();
+        comboUsuarios.addItem(PLACEHOLDER_USUARIO);
         for (logica.datatypes.DTUsuario u : cu.listarUsuarios()) {
             comboUsuarios.addItem(u.nickname());    
         }
         // Seleccionar si se pasa por parámetro
         if (nicknameAsistente != null) {
             comboUsuarios.setSelectedItem(nicknameAsistente);
+        }else {
+            comboUsuarios.setSelectedItem(PLACEHOLDER_USUARIO);
         }
     }
 
@@ -150,7 +160,8 @@ public class ConsultaRegistro extends JInternalFrame {
     	txtDetalle.setText("");
     	
         String nick = (String) comboUsuarios.getSelectedItem();
-        if (nick == null || nick.isBlank()) {
+        if (nick == null || nick.isBlank()|| PLACEHOLDER_USUARIO.equals(nick)) {
+        	comboRegistros.setEnabled(false);
         	btnDetalle.setEnabled(false);
         	return;
         }
@@ -178,13 +189,13 @@ public class ConsultaRegistro extends JInternalFrame {
 
 	// al apretar el boton para ver el detalle del registro
     private void verDetalle() {
-    	if(comboUsuarios.getSelectedIndex()==-1) {
+    	if(comboUsuarios.getSelectedIndex()==-1|| PLACEHOLDER_USUARIO.equals(comboUsuarios.getSelectedItem())) {
     		JOptionPane.showMessageDialog(null, "No hay usuarios seleccionado");
     		return;
     	}
     	String nick = (String) comboUsuarios.getSelectedItem();
     	int idRegistro = comboRegistros.getSelectedIndex(); 
-    	if (nick==null|| idRegistro<0) {
+    	if (idRegistro<0) {
     		JOptionPane.showMessageDialog(this, "selecciona un registro", "Atencion" , JOptionPane.WARNING_MESSAGE);
     		return;
     	}
