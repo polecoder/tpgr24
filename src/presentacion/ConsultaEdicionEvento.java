@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JList;
 
+import java.text.SimpleDateFormat;
+
 public class ConsultaEdicionEvento extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -340,12 +342,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 			if(selectedEvento != "- Seleccione un Evento -" && selectedEdicion != "- Seleccione una edicion -") {
 				DTEdicionEvento dtEd = ICEv.getDTEdicion(selectedEvento, selectedEdicion);
 				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
 				// Text Fields
 				nombreTextField.setText(dtEd.getNombre());
 				siglaTextField.setText(dtEd.getSigla());
-				fechaInicioTextField.setText(dtEd.getFechaInicio().toString());
-				fechaFinTextField.setText(dtEd.getFechaFin().toString());
-				fechaAltaTextField.setText(dtEd.getFechaAlta().toString());
+				fechaInicioTextField.setText(sdf.format(dtEd.getFechaInicio()));
+				fechaFinTextField.setText(sdf.format(dtEd.getFechaFin()));
+				fechaAltaTextField.setText(sdf.format(dtEd.getFechaAlta()));
 				paisTextField.setText(dtEd.getPais());
 				ciudadTextField.setText(dtEd.getCiudad());
 				organizadorTextField.setText(dtEd.getOrganizadorNickname());
