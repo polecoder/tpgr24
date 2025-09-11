@@ -45,7 +45,7 @@ public class TestInstitucion {
     @Test
     void agregarYEliminarAsistenteFunciona() {
     	Date date = Utilidades.toDate(LocalDate.of(2025,10,2));
-    	Asistente asistente = new Asistente("mNick", "abc1234", "mNombre", "correo@ejemplo.com","mApellido", date, institucion);
+    	Asistente asistente = new Asistente("mNick", "Eventos.2025!", "mNombre", "correo@ejemplo.com","mApellido", date, institucion);
         institucion.agregarAsistente(asistente);
 
         Map<String, Asistente> mapa = institucion.getAsistentes();
@@ -63,7 +63,7 @@ public class TestInstitucion {
         Set<String> ediciones = institucion.getEdicionesPatrocinadas();
         assertTrue(ediciones.contains("Ed2025"));
 
-        Asistente asistente = new Asistente("Nicky", "abc1234", "mNombre2", "correo2@ejemplo.com","mApellido2", date, institucion);
+        Asistente asistente = new Asistente("Nicky", "Eventos.2025!", "mNombre2", "correo2@ejemplo.com","mApellido2", date, institucion);
         institucion.agregarAsistente(asistente);
 
         assertTrue(institucion.checkAsistente("Nicky"));

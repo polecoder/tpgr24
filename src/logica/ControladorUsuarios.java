@@ -38,9 +38,9 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
 			String nombreinstitucion) throws Exception {
-		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
+		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
-			throw new Exception("Nick, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
+			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
@@ -63,6 +63,21 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			throw new Exception("El correo ya está en uso");
 		}
 
+		// Validación de contraseña
+		if (contrasena.length() < 8) {
+			throw new Exception("La contraseña debe tener al menos 8 caracteres.");
+		}
+		if (!contrasena.chars().anyMatch(Character::isUpperCase)) {
+			throw new Exception("La contraseña debe tener al menos una mayúscula.");
+		}
+		if (!contrasena.chars().anyMatch(Character::isDigit)) {
+			throw new Exception("La contraseña debe tener al menos un dígito.");
+		}
+        boolean hasSpecial = contrasena.chars().anyMatch(c -> !Character.isLetterOrDigit(c));
+        if (!hasSpecial) {
+            throw new Exception("La contraseña debe tener al menos un carácter especial.");
+        }
+		
 		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
 				IContInstituciones.getInstitucion(nombreinstitucion));
 	}
@@ -93,7 +108,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		if (manejadorUsuarios.existeCorreo(correo)) {
 			throw new Exception("El correo ya está en uso");
 		}
-
+		
 		manejadorUsuarios.agregarOrganizador(nickname, nombre, correo, descripcion, link);
 	}
 

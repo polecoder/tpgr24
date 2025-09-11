@@ -55,7 +55,7 @@ class testConsultaRegistro {
 		ed1.agregarTipoRegistro(Gen);
 		
 		//crear asistente
-		Asistente ana = new Asistente("ana", "abc1234", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()),null);
+		Asistente ana = new Asistente("ana", "Eventos.2025!", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()),null);
 		
 		//creo Registro
 		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null);
@@ -93,7 +93,7 @@ class testConsultaRegistro {
 	    ManejadorEventos   me = ManejadorEventos.getInstancia();
 
 	    // --- Asistente ---
-	    Asistente ana = new Asistente("anaCR", "abc1234", "Ana", "Perez", "anaCR@mail.com", Utilidades.toDate(LocalDate.of(1999, 5, 1)),null);
+	    Asistente ana = new Asistente("anaCR", "Eventos.2025!", "Ana", "Perez", "anaCR@mail.com", Utilidades.toDate(LocalDate.of(1999, 5, 1)),null);
 	    mu.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
@@ -157,7 +157,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
 	    // Usuario sin registros
-	    Asistente bob = new Asistente("bobCR", "abc1234", "Bob", "Lopez", "bobCR@mail.com", Utilidades.toDate(LocalDate.of(2000, 1, 1)),null);
+	    Asistente bob = new Asistente("bobCR", "Eventos.2025!", "Bob", "Lopez", "bobCR@mail.com", Utilidades.toDate(LocalDate.of(2000, 1, 1)),null);
 	    mu.getConjuntoAsistentes().put(bob.getNickname(), bob);
 
 	    // listar → vacío
@@ -203,7 +203,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
         // Usuario
-        Asistente carlos = new Asistente(NICK, "abc1234", "Carlos", "Ríos", MAIL, Utilidades.toDate(LocalDate.of(1995, 7, 4)),null);
+        Asistente carlos = new Asistente(NICK, "Eventos.2025!", "Carlos", "Ríos", MAIL, Utilidades.toDate(LocalDate.of(1995, 7, 4)),null);
         mu.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
@@ -263,7 +263,7 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 		
         final String NICK = "mariaCR";
-        Asistente u = new Asistente(NICK, "abc1234", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)),null);
+        Asistente u = new Asistente(NICK, "Eventos.2025!", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)),null);
         mu.getConjuntoAsistentes().put(u.getNickname(), u);
 
         // Contexto mínimo

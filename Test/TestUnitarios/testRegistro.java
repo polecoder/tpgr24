@@ -15,7 +15,7 @@ class testRegistro {
 
 	@Test
 	void test() {
-		Asistente asistente = new Asistente("nickA", "abc1234", "Ana", "Pérez", "ana@mail.com",
+		Asistente asistente = new Asistente("nickA", "Eventos.2025!", "Ana", "Pérez", "ana@mail.com",
                 Utilidades.toDate(LocalDate.of(2000, 5, 1)), null);
 
         Patrocinio patrocinio = new Patrocinio("PAT01", Utilidades.toDate(LocalDate.now()), 

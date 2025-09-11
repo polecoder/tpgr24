@@ -320,7 +320,9 @@ public class AltaUsuario extends JInternalFrame {
 		        JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un tipo de usuario (Organizador o Asistente)", "Error", JOptionPane.ERROR_MESSAGE);
 		        return;
 		    }
-
+		    
+		    // TODO: Validar que los campos contrasena == confirmarContrasena o devolver mensaje de error.
+		    
 		    if (esOrganizador) {
 		        String descripcion = textField_Descripcion.getText().trim();
 		        String Link = textField_Link.getText();
