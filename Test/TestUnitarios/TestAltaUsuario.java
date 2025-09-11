@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import logica.IControladorInstitucion;
@@ -18,6 +19,13 @@ class TestAltaUsuario {
     IControladorUsuarios controladorUsuario = fabrica.getControladorUsuarios();
     IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
 
+    @BeforeEach
+    public void init() {
+    	Fabrica.resetInstancia();
+    	fabrica = Fabrica.getInstancia();
+    	controladorUsuario = fabrica.getControladorUsuarios();
+        controladorInstitucion = fabrica.getControladorInstitucion();
+    }
     // ----------- Casos válidos de alta de usuario -----------
     
     @Test
@@ -111,10 +119,59 @@ class TestAltaUsuario {
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("rodrigoP", "Eventos.2025!", "Rodrigo", "agustina.m@gmail.com", "Organizador de talleres", "https://talleresuy.com"); });
         assertTrue(ex.getMessage().contains("correo ya está en uso"));
     }
+    
+    @Test
+    public void contrasenaIncorrectaOrganizador() {
+    	// Caso 1
+    	Exception ex1 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaOrganizador("lucasM", "123!aA", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com");; 
+    	});
+    	assertTrue(ex1.getMessage().contains("al menos 8 caracteres"));
+    	// Caso 2
+    	Exception ex2 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaOrganizador("lucasM", "abcde123!", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com");; 
+    	});
+    	assertTrue(ex2.getMessage().contains("al menos una mayúscula"));
+    	// Caso 3
+    	Exception ex3 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaOrganizador("lucasM", "Abcdefgh!", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com");; 
+    	});
+    	assertTrue(ex3.getMessage().contains("al menos un dígito"));
+    	// Caso 4
+    	Exception ex4 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaOrganizador("lucasM", "Abc1defgh", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com");; 
+    	});
+    	assertTrue(ex4.getMessage().contains("al menos un carácter especial"));
+    }
+    
+    @Test
+    public void contrasenaIncorrectaAsistente() {
+    	// Caso 1
+    	Exception ex1 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaAsistente("florenciaR", "123!aA", "Florencia", "flor.rosas@hotmail.com", "Rosas", Utilidades.toDate(LocalDate.of(1992, 3, 14)), null); 
+    	});
+    	assertTrue(ex1.getMessage().contains("al menos 8 caracteres"));
+    	// Caso 2
+    	Exception ex2 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaAsistente("florenciaR", "abcde123!", "Florencia", "flor.rosas@hotmail.com", "Rosas", Utilidades.toDate(LocalDate.of(1992, 3, 14)), null);
+    	});
+    	assertTrue(ex2.getMessage().contains("al menos una mayúscula"));
+    	// Caso 3
+    	Exception ex3 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaAsistente("florenciaR", "Abcdefgh!", "Florencia", "flor.rosas@hotmail.com", "Rosas", Utilidades.toDate(LocalDate.of(1992, 3, 14)), null); 
+    	});
+    	assertTrue(ex3.getMessage().contains("al menos un dígito"));
+    	// Caso 4
+    	Exception ex4 = assertThrows(Exception.class, () -> {
+    		controladorUsuario.altaAsistente("florenciaR", "Abc1defgh", "Florencia", "flor.rosas@hotmail.com", "Rosas", Utilidades.toDate(LocalDate.of(1992, 3, 14)), null); 
+    	});
+    	assertTrue(ex4.getMessage().contains("al menos un carácter especial"));
+    }
 
     // ----------- Alta de asistente con institución válida -----------
     // TODO: implementar test que valide alta con institución existente
-
+    
+    
     // ----------- Verificación post-alta (estado interno del sistema) -----------
 
     @Test

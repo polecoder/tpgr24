@@ -1,6 +1,5 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -55,7 +54,7 @@ public class TestRegistroAEdicion {
 		descripcion = "descripcion";
 		link = "https://nickOrganizador.com";
 		nickAsistente = "nickAsistente";
-		contrasenaAsistente = "abc123";
+		contrasenaAsistente = "Eventos.2025!";
 		nombreAsistente = "nombreAsistente";
 		apellido = "apellido";
 		fecha = Utilidades.toDate(LocalDate.now());
