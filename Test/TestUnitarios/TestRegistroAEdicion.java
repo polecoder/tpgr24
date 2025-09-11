@@ -29,7 +29,7 @@ public class TestRegistroAEdicion {
 	private static IControladorUsuarios controladorUsuarios;
 	private static IControladorInstitucion controladorInstituciones;
 	
-	private static String nickOrganizador, nombreOrganizador, correo1, descripcion, link;
+	private static String nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link;
 	private static String nickAsistente, contrasenaAsistente, nombreAsistente, apellido;
 	private static String nombreEvento, sigla, nombreCategoria;
 	private static Date fecha;
@@ -49,6 +49,7 @@ public class TestRegistroAEdicion {
 		
 		// Variables Generales
 		nickOrganizador = "nickOrganizador";
+		contrasenaOrganizador = "Eventos.2025!";
 		nombreOrganizador = "nombreOrganizador";
 		correo1 = "nombreOrganizador@gamil.com";
 		descripcion = "descripcion";
@@ -77,7 +78,7 @@ public class TestRegistroAEdicion {
 	@Order(1)
 	void testRegistroExitosoSinPatrocinio() {
 		try { 
-			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
+			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
@@ -95,7 +96,7 @@ public class TestRegistroAEdicion {
 	@Order(2)
 	void testRegistroExitosoConPatrocinio() {
 		try { 
-			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
+			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);

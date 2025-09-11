@@ -14,8 +14,8 @@ public class Organizador extends Usuario {
 	private String link;
 	private List<Edicion> ediciones;
 	
-	public Organizador(String nickname, String nombre, String correo, String descripcion, String link) {
-		super(nickname,nombre,correo);
+	public Organizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link) {
+		super(nickname,contrasena,nombre,correo);
 		this.setDescripcion(descripcion);
 		this.setLink(link);
 		this.ediciones = new ArrayList<>();

@@ -327,7 +327,8 @@ public class AltaUsuario extends JInternalFrame {
 		        String descripcion = textField_Descripcion.getText().trim();
 		        String Link = textField_Link.getText();
 		        try {
-		        	IContUsuario.altaOrganizador(nick,nombre,correo,descripcion,Link);
+		        	// TODO: Contraseña hardcodeada
+		        	IContUsuario.altaOrganizador(nick,"HARDCODEADO",nombre,correo,descripcion,Link);
 		        	
 		        	//Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);

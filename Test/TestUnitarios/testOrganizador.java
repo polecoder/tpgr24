@@ -14,7 +14,7 @@ class testOrganizador {
 
 	@Test
 	void testgettersysetters() {
-		Organizador org = new Organizador("nick", "Juan", "juan@mail", "Organizador Principal", "www.com");
+		Organizador org = new Organizador("nick", "Eventos.2025!", "Juan", "juan@mail", "Organizador Principal", "www.com");
 		assertEquals("Organizador Principal", org.getDescripcion());
 		assertEquals("www.com", org.getLink());
 		assertNotNull(org.getEdiciones());
@@ -29,7 +29,7 @@ class testOrganizador {
 	
 	@Test 
 	void testListarEdiciones1(){
-		Organizador org = new Organizador("nick2", "Ana", "ana@mail.com",
+		Organizador org = new Organizador("nick2", "Eventos.2025!", "Ana", "ana@mail.com",
                 "Organizadora", "www.ana.com");
 		
 		Edicion ed = new Edicion("Edicion2025", "ED25",java.sql.Date.valueOf("2025-01-01"),java.sql.Date.valueOf("2025-12-31"),java.sql.Date.valueOf("2024-12-01"),"Montevideo", "Uruguay", "Pedro", "evento");

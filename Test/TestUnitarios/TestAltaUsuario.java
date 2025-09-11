@@ -22,7 +22,7 @@ class TestAltaUsuario {
     
     @Test
     void altaOrganizadorValido() {
-        assertDoesNotThrow(() -> { controladorUsuario.altaOrganizador("lucasM", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com"); }); 
+        assertDoesNotThrow(() -> { controladorUsuario.altaOrganizador("lucasM", "Eventos.2025!", "Lucas", "lucas.martinez@gmail.com", "Encargado de eventos", "https://lucasorganiza.com"); }); 
     }
 
     @Test
@@ -34,8 +34,8 @@ class TestAltaUsuario {
 
     @Test
     void altaOrganizadorConCamposVacios() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("", "", "", "", ""); });
-        assertTrue(ex.getMessage().contains("Nick, nombre, correo y descripción son campos obligatorios"));
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("", "", "", "", "", ""); });
+        assertTrue(ex.getMessage().contains("Nick, contrasena, nombre, correo y descripción son campos obligatorios"));
     }
 
     @Test
@@ -48,19 +48,19 @@ class TestAltaUsuario {
 
     @Test
     void organizadorConCorreoInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("valentinaB", "Valentina", "valentinagmail.com", "Organizadora de ferias", "https://feriasuy.com"); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("valentinaB", "Eventos.2025!", "Valentina", "valentinagmail.com", "Organizadora de ferias", "https://feriasuy.com"); });
         assertTrue(ex.getMessage().contains("formato del correo"));
     }
 
     @Test
     void organizadorConNombreInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("jorge123", "Jorge99", "jorge@mail.com", "Coordinador", "https://jorgeeventos.com"); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("jorge123", "Eventos.2025!", "Jorge99", "jorge@mail.com", "Coordinador", "https://jorgeeventos.com"); });
         assertTrue(ex.getMessage().contains("solo puede contener letras"));
     }
 
     @Test
     void organizadorConLinkInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("marianaL", "Mariana", "mariana.l@gmail.com", "Gestora cultural", "www.mariana.com"); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("marianaL", "Eventos.2025!", "Mariana", "mariana.l@gmail.com", "Gestora cultural", "www.mariana.com"); });
         assertTrue(ex.getMessage().contains("link debe comenzar con http:// o https://"));
     }
 
@@ -86,15 +86,15 @@ class TestAltaUsuario {
 
     @Test
     void nicknameDuplicadoEntreOrganizadores() throws Exception {
-        controladorUsuario.altaOrganizador("nicoF", "Nicolás", "nicolas.f@gmail.com", "Organizador de congresos", "http://congresosuy.com");
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("nicoF", "Federico", "federico@gmail.com", "Eventos académicos", "http://eventosfed.com"); });
+        controladorUsuario.altaOrganizador("nicoF", "Eventos.2025!", "Nicolás", "nicolas.f@gmail.com", "Organizador de congresos", "http://congresosuy.com");
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("nicoF", "Eventos.2025!", "Federico", "federico@gmail.com", "Eventos académicos", "http://eventosfed.com"); });
         assertTrue(ex.getMessage().contains("ya existe"));
     }
 
     @Test
     public void nicknameDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("sofiaG", "Eventos.2025!", "Sofía", "sofia.g@gmail.com", "Gómez", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("sofiaG", "Gonzalo", "gonzalo.g@gmail.com", "Organizador de charlas", "https://charlasuy.com"); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("sofiaG", "Eventos.2025!", "Gonzalo", "gonzalo.g@gmail.com", "Organizador de charlas", "https://charlasuy.com"); });
         assertTrue(ex.getMessage().contains("ya existe"));
     }
 
@@ -108,7 +108,7 @@ class TestAltaUsuario {
     @Test
     public void correoDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("agustinaM", "Eventos.2025!", "Agustina", "agustina.m@gmail.com", "Morales", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("rodrigoP", "Rodrigo", "agustina.m@gmail.com", "Organizador de talleres", "https://talleresuy.com"); });
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("rodrigoP", "Eventos.2025!", "Rodrigo", "agustina.m@gmail.com", "Organizador de talleres", "https://talleresuy.com"); });
         assertTrue(ex.getMessage().contains("correo ya está en uso"));
     }
 
@@ -119,7 +119,7 @@ class TestAltaUsuario {
 
     @Test
     void altaOrganizadorSeAgregaCorrectamente() throws Exception {
-        controladorUsuario.altaOrganizador("mariaS", "María", "maria.s@gmail.com", "Eventos sociales", "https://mariaeventos.com");
+        controladorUsuario.altaOrganizador("mariaS", "Eventos.2025!", "María", "maria.s@gmail.com", "Eventos sociales", "https://mariaeventos.com");
         Organizador org = ManejadorUsuarios.getInstance().getOrganizador("mariaS");
         assertNotNull(org);
         assertEquals("maria.s@gmail.com", org.getCorreo());

@@ -296,7 +296,8 @@ public class CargaDatos {
 			for (Map.Entry<String, CSVUsuario> entry : this.usuariosOrganizador.entrySet()) {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
-				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
+				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), "Eventos.2025!", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
 			}
 		}
 	}

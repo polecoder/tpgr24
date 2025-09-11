@@ -54,7 +54,7 @@ class TestConsultaUsuario {
     void testConsultaOrganizador() throws Exception {
         // Arrange
         String nickname = "organizador1";
-        iCU.altaOrganizador(nickname, "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com");
+        iCU.altaOrganizador(nickname, "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com");
 
         // Act
         DTDetalleUsuario detalle = iCU.mostrarDetalleUsuario(nickname);
