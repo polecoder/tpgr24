@@ -240,7 +240,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		if (nuevaFechaNacimiento == null) throw new Exception("Ingrese una nueva fecha de nacimiento.");
 		
 		// Ningún campo se modificó
-		if (nuevoNombre == asistente.getNombre() && nuevoApellido == asistente.getApellido() && nuevaFechaNacimiento == asistente.getNacimiento()) throw new Exception("No se modificó ningún campo.");
+		if (nuevoNombre.equals(asistente.getNombre()) && nuevoApellido.equals(asistente.getApellido()) && nuevaFechaNacimiento.equals(asistente.getNacimiento())) throw new Exception("No se modificó ningún campo.");
 		
 		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
 		asistente.setNombre(nuevoNombre);
@@ -261,7 +261,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		if (nuevoLink == null || nuevoLink.isEmpty()) throw new Exception("El nuevo link no puede ser vacío.");
 		
 		// Ningún campo se modificó
-		if (nuevoNombre == organizador.getNombre() && nuevaDescripcion == organizador.getDescripcion() && nuevoLink == organizador.getLink()) throw new Exception("No se modificó ningún campo.");
+		if (nuevoNombre.equals(organizador.getNombre()) && nuevaDescripcion.equals(organizador.getDescripcion()) && nuevoLink.equals(organizador.getLink()) ) throw new Exception("No se modificó ningún campo.");
 		
 		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
 		organizador.setNombre(nuevoNombre);

@@ -3,8 +3,11 @@ package presentacion;
 import javax.swing.JInternalFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -22,6 +25,7 @@ import javax.swing.JTextArea;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
@@ -223,7 +227,9 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		//******************** CARD LAYOUT ********************//
 		//*****************************************************//
 		cardPanel = new JPanel(new CardLayout());
+		wrapperAsistente.setName("Asistente");
 		cardPanel.add(wrapperAsistente, "Asistente");
+		panelOrganizador.setName("Organizador");
 		cardPanel.add(panelOrganizador, "Organizador");
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 2;
@@ -246,11 +252,11 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		gbc_panelBotones.gridy = 5;
 		getContentPane().add(panelBotones, gbc_panelBotones);
 		
-		JButton btnNewButton = new JButton("Aceptar");
-		panelBotones.add(btnNewButton);
+		JButton btnAceptar = new JButton("Aceptar");
+		panelBotones.add(btnAceptar);
 		
-		JButton btnNewButton_1 = new JButton("Cancelar");
-		panelBotones.add(btnNewButton_1);
+		JButton btnCancelar = new JButton("Cancelar");
+		panelBotones.add(btnCancelar);
 		
 		// Muestra los datos del usuario seleccionado inicialmente
 		this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
@@ -266,6 +272,32 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		        actualizarDatosUsuario(this.nicknameSeleccionado);
 		    }
 		    actualizandoNickname = false;
+		});
+		
+		// Aceptar modificación
+		btnAceptar.addActionListener(e -> {
+			String nickname = (String) usuariosComboBox.getSelectedItem();
+			String nombre = nombreTxt.getText().trim();
+			if (getCartaActiva().equals("Asistente")) {
+				String apellido = apellidoTxt.getText().trim();
+				Date nacimiento = (Date) fechaSpinner.getValue();
+				try {
+					fabrica.getControladorUsuarios().modificarDatosAsistente(nickname, nombre, apellido, nacimiento);
+					JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			} else if (getCartaActiva().equals("Organizador")) {
+				String descripcion = descripcionTxt.getText().trim();
+				String link = linkTxt.getText().trim();
+				try {
+					fabrica.getControladorUsuarios().modificarDatosOrganizador(nickname, nombre, descripcion, link);
+					JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			this.actualizarDatosUsuario(nickname);
 		});
 	}
 	
@@ -290,4 +322,12 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		}
 	}
 	
+	private String getCartaActiva() {
+	    for (Component componente : cardPanel.getComponents()) {
+	        if (componente.isVisible()) {
+	            return componente.getName();
+	        }
+	    }
+	    return null;
+	}
 }
