@@ -227,5 +227,47 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return "";
 	}
 
+	@Override
+	public void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido,
+			Date nuevaFechaNacimiento) throws Exception {
+		Asistente asistente = this.manejadorUsuarios.getAsistente(nickname);
+		// Asistente no existe en el sistema
+		if (asistente == null) return;
+		
+		// Validación de campos vacíos
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
+		if (nuevoApellido == null || nuevoApellido.isEmpty()) throw new Exception("El nuevo apellido no puede ser vacío.");
+		if (nuevaFechaNacimiento == null) throw new Exception("Ingrese una nueva fecha de nacimiento.");
+		
+		// Ningún campo se modificó
+		if (nuevoNombre == asistente.getNombre() && nuevoApellido == asistente.getApellido() && nuevaFechaNacimiento == asistente.getNacimiento()) throw new Exception("No se modificó ningún campo.");
+		
+		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
+		asistente.setNombre(nuevoNombre);
+		asistente.setApellido(nuevoApellido);
+		asistente.setNacimiento(nuevaFechaNacimiento);
+	}
+
+	@Override
+	public void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion,
+			String nuevoLink) throws Exception {
+		Organizador organizador = this.manejadorUsuarios.getOrganizador(nickname);
+		// Organizador no existe en el sistema
+		if (organizador == null) return;
+		
+		// Validación de campos vacíos
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
+		if (nuevaDescripcion == null || nuevaDescripcion.isEmpty()) throw new Exception("La nueva descripción no puede ser vacía.");
+		if (nuevoLink == null || nuevoLink.isEmpty()) throw new Exception("El nuevo link no puede ser vacío.");
+		
+		// Ningún campo se modificó
+		if (nuevoNombre == organizador.getNombre() && nuevaDescripcion == organizador.getDescripcion() && nuevoLink == organizador.getLink()) throw new Exception("No se modificó ningún campo.");
+		
+		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
+		organizador.setNombre(nuevoNombre);
+		organizador.setDescripcion(nuevaDescripcion);
+		organizador.setLink(nuevoLink);
+	}
+
 }
 
