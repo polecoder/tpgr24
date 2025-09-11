@@ -59,8 +59,8 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
-		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
+	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
+		Asistente A= new Asistente(nickname,contrasena,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
 		}

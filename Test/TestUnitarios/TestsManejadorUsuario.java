@@ -53,7 +53,7 @@ public class TestsManejadorUsuario {
 	void AltaAsistenteConInstitucion() {
 		try {
 			controladorInstitucion.AltaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
-			controladorUsuarios.altaAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion");
+			controladorUsuarios.altaAsistente("nickAsistente", "abc1234", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		Map<String, DTAsistente> asistentes = controladorUsuarios.listarAsistentes();

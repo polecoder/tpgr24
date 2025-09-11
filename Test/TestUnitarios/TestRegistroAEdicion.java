@@ -30,7 +30,7 @@ public class TestRegistroAEdicion {
 	private static IControladorInstitucion controladorInstituciones;
 	
 	private static String nickOrganizador, nombreOrganizador, correo1, descripcion, link;
-	private static String nickAsistente, nombreAsistente, apellido;
+	private static String nickAsistente, contrasenaAsistente, nombreAsistente, apellido;
 	private static String nombreEvento, sigla, nombreCategoria;
 	private static Date fecha;
 	private static List<String> categorias;
@@ -54,6 +54,7 @@ public class TestRegistroAEdicion {
 		descripcion = "descripcion";
 		link = "https://nickOrganizador.com";
 		nickAsistente = "nickAsistente";
+		contrasenaAsistente = "abc123";
 		nombreAsistente = "nombreAsistente";
 		apellido = "apellido";
 		fecha = Utilidades.toDate(LocalDate.now());
@@ -77,7 +78,7 @@ public class TestRegistroAEdicion {
 	void testRegistroExitosoSinPatrocinio() {
 		try { 
 			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
-			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, null);
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
@@ -96,7 +97,7 @@ public class TestRegistroAEdicion {
 		try { 
 			controladorUsuarios.altaOrganizador(nickOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
-			controladorUsuarios.altaAsistente(nickAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);

@@ -35,7 +35,8 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		instance = null;
 	}
 
-	public void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento,
+	@Override
+	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
 			String nombreinstitucion) throws Exception {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
@@ -62,7 +63,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			throw new Exception("El correo ya está en uso");
 		}
 
-		manejadorUsuarios.agregarAsistente(nickname, nombre, correo, apellido, fechaNacimiento,
+		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
 				IContInstituciones.getInstitucion(nombreinstitucion));
 	}
 

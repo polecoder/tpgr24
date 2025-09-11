@@ -13,7 +13,7 @@ import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;
+	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;
 	void altaOrganizador(String nickname, String nombre, String correo, String descripcion, String link) throws Exception;
 	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();

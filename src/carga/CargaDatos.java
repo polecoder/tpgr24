@@ -288,7 +288,8 @@ public class CargaDatos {
 					String nombreInstitucion = this.instituciones.get(refInstitucion).getNombre();
 					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				}
-				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
+				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), "Eventos.2025", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
 			}
 		}
 		if (this.usuariosOrganizador != null && this.organizadores != null) {

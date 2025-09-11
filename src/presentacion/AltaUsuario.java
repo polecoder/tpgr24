@@ -351,7 +351,8 @@ public class AltaUsuario extends JInternalFrame {
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
 		    	Date fechaNacimiento = (Date) Spinner_FechaNacimiento.getValue();
 		    	try {
-		            IContUsuario.altaAsistente(nick, nombre, correo, apellido, fechaNacimiento, institucion);
+		    		// TODO: Contraseña hardcodeada
+		            IContUsuario.altaAsistente(nick, "HARDCODEADO", nombre, correo, apellido, fechaNacimiento, institucion);
 		            
 		            //Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
