@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.FormatoContrasenaInvalido;
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTDetalleUsuario;
@@ -37,7 +38,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
-			String nombreinstitucion) throws Exception {
+			String nombreinstitucion) throws FormatoContrasenaInvalido, Exception  {
 		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
 			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
@@ -65,17 +66,17 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 		// Validación de contraseña
 		if (contrasena.length() < 8) {
-			throw new Exception("La contraseña debe tener al menos 8 caracteres.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos 8 caracteres.");
 		}
 		if (!contrasena.chars().anyMatch(Character::isUpperCase)) {
-			throw new Exception("La contraseña debe tener al menos una mayúscula.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos una mayúscula.");
 		}
 		if (!contrasena.chars().anyMatch(Character::isDigit)) {
-			throw new Exception("La contraseña debe tener al menos un dígito.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un dígito.");
 		}
         boolean hasSpecial = contrasena.chars().anyMatch(c -> !Character.isLetterOrDigit(c));
         if (!hasSpecial) {
-            throw new Exception("La contraseña debe tener al menos un carácter especial.");
+            throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un carácter especial.");
         }
 		
 		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
@@ -84,7 +85,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	
 	@Override
 	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link)
-			throws Exception {
+			throws FormatoContrasenaInvalido, Exception {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || descripcion == null
 				|| descripcion.isEmpty() || correo == null || correo.isEmpty()) {
 			throw new Exception("Nick, contrasena, nombre, correo y descripción son campos obligatorios");
@@ -112,17 +113,17 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		
 		// Validación de contraseña
 		if (contrasena.length() < 8) {
-			throw new Exception("La contraseña debe tener al menos 8 caracteres.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos 8 caracteres.");
 		}
 		if (!contrasena.chars().anyMatch(Character::isUpperCase)) {
-			throw new Exception("La contraseña debe tener al menos una mayúscula.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos una mayúscula.");
 		}
 		if (!contrasena.chars().anyMatch(Character::isDigit)) {
-			throw new Exception("La contraseña debe tener al menos un dígito.");
+			throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un dígito.");
 		}
         boolean hasSpecial = contrasena.chars().anyMatch(c -> !Character.isLetterOrDigit(c));
         if (!hasSpecial) {
-            throw new Exception("La contraseña debe tener al menos un carácter especial.");
+            throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un carácter especial.");
         }
 		
 		manejadorUsuarios.agregarOrganizador(nickname, contrasena, nombre, correo, descripcion, link);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.FormatoContrasenaInvalido;
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTDetalleUsuario;
@@ -13,8 +14,8 @@ import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;
-	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link) throws Exception;
+	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws FormatoContrasenaInvalido, Exception;
+	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link) throws FormatoContrasenaInvalido, Exception;
 	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
 	Set<String> nombresOrganizadores();

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 
+import excepciones.FormatoContrasenaInvalido;
 import logica.Fabrica;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
@@ -386,8 +387,11 @@ public class AltaUsuario extends JInternalFrame {
 				      Spinner_FechaNacimiento.setValue(new Date());
 				      Button_Organizador.setSelected(false);
 				      Button_Asistente.setSelected(false);
+		        } catch (FormatoContrasenaInvalido ex) {
+		        	contrasenaTxt.setText("");
+				    confirmarContrasenaTxt.setText("");
+		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		        } catch (Exception ex) {
-		            // Si el controlador lanza error, lo muestro
 		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		        }
 		        
@@ -412,8 +416,11 @@ public class AltaUsuario extends JInternalFrame {
 				      Spinner_FechaNacimiento.setValue(new Date());
 				      Button_Organizador.setSelected(false);
 				      Button_Asistente.setSelected(false);
+		        } catch (FormatoContrasenaInvalido ex) {
+		        	contrasenaTxt.setText("");
+				    confirmarContrasenaTxt.setText("");
+		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		        } catch (Exception ex) {
-		            // Si el controlador lanza error, lo muestro
 		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		        }
 		    
