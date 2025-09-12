@@ -327,8 +327,8 @@ public class CargaDatos {
 
 	public void cargarEventos() {
 		if (this.eventos != null) {
-			List<String> categoriasEvento = new ArrayList<String>();
 			for (String ref : this.eventos.keySet()) {
+				List<String> categoriasEvento = new ArrayList<String>();
 				CSVEvento evento = this.eventos.get(ref);
 				// Separo las categorias
 				for (String categoria : evento.getCategorias().split(", ")) {
