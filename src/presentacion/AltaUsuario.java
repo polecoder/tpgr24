@@ -284,7 +284,7 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(comboInstituciones, gbc_combo_instituciones);
 
 		Button_Organizador.addActionListener(e -> {
-			setSize(350, 270);
+			setSize(400, 400);
 			
 			textField_Link.setVisible(true);  
 		    lbl_link.setVisible(true);       
@@ -307,7 +307,7 @@ public class AltaUsuario extends JInternalFrame {
 		});
 		
 		Button_Asistente.addActionListener(e -> {
-			setSize(500, 270);
+			setSize(500, 400);
 			textField_Link.setVisible(false);  
 		    lbl_link.setVisible(false);    
 		    
