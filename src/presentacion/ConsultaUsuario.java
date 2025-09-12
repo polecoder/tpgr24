@@ -378,13 +378,6 @@ public class ConsultaUsuario extends JInternalFrame {
 
 		cl2 = (CardLayout) cardPanel2.getLayout();
 		
-		
-		// Muestra los datos del usuario seleccionado inicialmente
-		//this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		//if (this.nicknameSeleccionado != null) {
-		//	actualizarDatosUsuario(this.nicknameSeleccionado);
-		//}
-		
 		/**
 		 * Actualización al cambiar el usuario del combo.
 		 */

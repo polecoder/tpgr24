@@ -72,6 +72,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		
 		JComboBox<String> usuariosComboBox = new JComboBox<String>(); 
 		List<DTUsuario> listaUsuarios = fabrica.getControladorUsuarios().listarUsuarios();
+		usuariosComboBox.addItem("--Seleccionar un Usuario--");
 		for (DTUsuario usuario: listaUsuarios) {
 			usuariosComboBox.addItem(usuario.nickname());
 		}
@@ -231,6 +232,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		cardPanel.add(wrapperAsistente, "Asistente");
 		panelOrganizador.setName("Organizador");
 		cardPanel.add(panelOrganizador, "Organizador");
+		cardPanel.setVisible(false);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 2;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -239,9 +241,6 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		gbc_panel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_panel);
 		cl = (CardLayout) cardPanel.getLayout();
-		
-		// Vista por defecto
-		cl.show(cardPanel, "Asistente");
 		
 		// Botones
 		JPanel panelBotones = new JPanel();
@@ -258,18 +257,16 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		panelBotones.add(btnCancelar);
 		
-		// Muestra los datos del usuario seleccionado inicialmente
-		this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		if (this.nicknameSeleccionado != null) {
-			actualizarDatosUsuario(this.nicknameSeleccionado);
-		}
-
 		// Actualización al cambiar el usuario del combo.
 		usuariosComboBox.addActionListener(e -> {
 			actualizandoNickname = true;
 			this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		    if (this.nicknameSeleccionado != null) {
+		    if (this.nicknameSeleccionado != null && !this.nicknameSeleccionado.equals("--Seleccionar un Usuario--")) {
+		    	cardPanel.setVisible(true);
 		        actualizarDatosUsuario(this.nicknameSeleccionado);
+		    } else {
+		    	cardPanel.setVisible(false);
+		    	resetCampos();
 		    }
 		    actualizandoNickname = false;
 		});
@@ -329,5 +326,14 @@ public class ModificarDatosUsuario extends JInternalFrame {
 	        }
 	    }
 	    return null;
+	}
+	
+	private void resetCampos() {
+		nombreTxt.setText("");
+		correoTxt.setText("");
+		apellidoTxt.setText("");
+		fechaSpinner.setValue(new Date());
+		descripcionTxt.setText("");
+		linkTxt.setText("");
 	}
 }
