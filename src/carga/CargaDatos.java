@@ -288,14 +288,16 @@ public class CargaDatos {
 					String nombreInstitucion = this.instituciones.get(refInstitucion).getNombre();
 					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				}
-				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
+				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), "Eventos.2025", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
 			}
 		}
 		if (this.usuariosOrganizador != null && this.organizadores != null) {
 			for (Map.Entry<String, CSVUsuario> entry : this.usuariosOrganizador.entrySet()) {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
-				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
+				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), "Eventos.2025!", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
 			}
 		}
 	}
@@ -325,8 +327,8 @@ public class CargaDatos {
 
 	public void cargarEventos() {
 		if (this.eventos != null) {
-			List<String> categoriasEvento = new ArrayList<String>();
 			for (String ref : this.eventos.keySet()) {
+				List<String> categoriasEvento = new ArrayList<String>();
 				CSVEvento evento = this.eventos.get(ref);
 				// Separo las categorias
 				for (String categoria : evento.getCategorias().split(", ")) {
