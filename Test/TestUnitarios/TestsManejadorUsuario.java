@@ -43,8 +43,8 @@ public class TestsManejadorUsuario {
 	@Order(1)
 	void AltaOrganizadorCorreoRepetido() {
 		try {
-			controladorUsuarios.altaOrganizador("nickOrganizador1", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com");
-			controladorUsuarios.altaOrganizador("nickOrganizador2", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com");
+			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com");
+			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com");
 		} catch (Exception ex) { assertEquals("El correo ya está en uso", ex.getMessage()); }
 	}
 	
@@ -53,7 +53,7 @@ public class TestsManejadorUsuario {
 	void AltaAsistenteConInstitucion() {
 		try {
 			controladorInstitucion.AltaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
-			controladorUsuarios.altaAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion");
+			controladorUsuarios.altaAsistente("nickAsistente", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		Map<String, DTAsistente> asistentes = controladorUsuarios.listarAsistentes();
@@ -77,7 +77,7 @@ public class TestsManejadorUsuario {
 	@Order(4)
 	void DetalleOrganizador() {
 		try {
-			controladorUsuarios.altaOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
+			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
 			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
 			assertTrue(esperado.equals((DTDetalleOrganizador)detalle));
