@@ -173,6 +173,7 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_textField_Link.gridx = 1;
 		gbc_textField_Link.gridy = 5;
 		gbc_textField_Link.gridwidth = 2;
+		gbc_textField_Link.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Link.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(textField_Link, gbc_textField_Link);
 		
@@ -181,7 +182,7 @@ public class AltaUsuario extends JInternalFrame {
 		descripcionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_descripcionScrollPane = new GridBagConstraints();
 		gbc_descripcionScrollPane.gridwidth = 2;
-		gbc_descripcionScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_descripcionScrollPane.insets = new Insets(5, 0, 5, 5);
 		gbc_descripcionScrollPane.fill = GridBagConstraints.BOTH;
 		gbc_descripcionScrollPane.gridx = 1;
 		gbc_descripcionScrollPane.gridy = 6;
@@ -207,6 +208,7 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_textField_Apellido.gridx = 1;
 		gbc_textField_Apellido.gridy = 7;
 		gbc_textField_Apellido.gridwidth = 2;
+		gbc_textField_Apellido.insets = new Insets(5, 0, 0, 5);
 		gbc_textField_Apellido.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(textField_Apellido, gbc_textField_Apellido);
 		
@@ -219,6 +221,7 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_textField_FechaNacimiento.gridx = 1;
 		gbc_textField_FechaNacimiento.gridy = 8;
 		gbc_textField_FechaNacimiento.gridwidth = 2;
+		gbc_textField_FechaNacimiento.insets = new Insets(5, 0, 0, 5);
 		gbc_textField_FechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaNacimiento, gbc_textField_FechaNacimiento);
         
@@ -238,10 +241,12 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_combo_instituciones.gridy = 5;
 		gbc_combo_instituciones.gridwidth = 2; 
 		gbc_combo_instituciones.fill = GridBagConstraints.HORIZONTAL;
-		gbc_combo_instituciones.insets = new Insets(0, 0, 5, 5);
+		gbc_combo_instituciones.insets = new Insets(5, 0, 5, 5);
 		getContentPane().add(comboInstituciones, gbc_combo_instituciones);
 
 		Button_Organizador.addActionListener(e -> {
+			setSize(350, 270);
+			
 			textField_Link.setVisible(true);  
 		    lbl_link.setVisible(true);       
 		    
@@ -263,6 +268,7 @@ public class AltaUsuario extends JInternalFrame {
 		});
 		
 		Button_Asistente.addActionListener(e -> {
+			setSize(500, 270);
 			textField_Link.setVisible(false);  
 		    lbl_link.setVisible(false);    
 		    
@@ -289,7 +295,7 @@ public class AltaUsuario extends JInternalFrame {
 		JButton Button_Aceptar = new JButton("Aceptar");
 		
 		GridBagConstraints gbc_Button_Aceptar = new GridBagConstraints();
-		gbc_Button_Aceptar.insets = new Insets(0, 0, 0, 10);
+		gbc_Button_Aceptar.insets = new Insets(5, 0, 0, 10);
 		gbc_Button_Aceptar.gridx = 1;
 
 		gbc_Button_Aceptar.gridy = 9;
@@ -298,7 +304,7 @@ public class AltaUsuario extends JInternalFrame {
 		JButton Button_Cancelar = new JButton("Cancelar");
 		
 		GridBagConstraints gbc_Button_Cancelar = new GridBagConstraints();
-		gbc_Button_Cancelar.insets = new Insets(0, 0, 0, 10);
+		gbc_Button_Cancelar.insets = new Insets(5, 0, 0, 10);
 		gbc_Button_Cancelar.gridx = 2;
 		gbc_Button_Cancelar.gridy = 9;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
