@@ -273,28 +273,35 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		
 		// Aceptar modificación
 		btnAceptar.addActionListener(e -> {
-			String nickname = (String) usuariosComboBox.getSelectedItem();
-			String nombre = nombreTxt.getText().trim();
-			if (getCartaActiva().equals("Asistente")) {
-				String apellido = apellidoTxt.getText().trim();
-				Date nacimiento = (Date) fechaSpinner.getValue();
-				try {
-					fabrica.getControladorUsuarios().modificarDatosAsistente(nickname, nombre, apellido, nacimiento);
-					JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			if (!usuariosComboBox.getSelectedItem().equals("--Seleccionar un Usuario--")) {
+				String nickname = (String) usuariosComboBox.getSelectedItem();
+				String nombre = nombreTxt.getText().trim();
+				if (getCartaActiva().equals("Asistente")) {
+					String apellido = apellidoTxt.getText().trim();
+					Date nacimiento = (Date) fechaSpinner.getValue();
+					try {
+						fabrica.getControladorUsuarios().modificarDatosAsistente(nickname, nombre, apellido, nacimiento);
+						JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				} else if (getCartaActiva().equals("Organizador")) {
+					String descripcion = descripcionTxt.getText().trim();
+					String link = linkTxt.getText().trim();
+					try {
+						fabrica.getControladorUsuarios().modificarDatosOrganizador(nickname, nombre, descripcion, link);
+						JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-			} else if (getCartaActiva().equals("Organizador")) {
-				String descripcion = descripcionTxt.getText().trim();
-				String link = linkTxt.getText().trim();
-				try {
-					fabrica.getControladorUsuarios().modificarDatosOrganizador(nickname, nombre, descripcion, link);
-					JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				this.actualizarDatosUsuario(nickname);
 			}
-			this.actualizarDatosUsuario(nickname);
+		});
+		
+		// Cancelar operación
+		btnCancelar.addActionListener(e -> {
+			this.dispose();
 		});
 	}
 	
