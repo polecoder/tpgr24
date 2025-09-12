@@ -39,4 +39,24 @@ public interface IControladorUsuarios {
 	 * @return
 	 */
 	String getNombreInstitucionAsistente(String nickname);
+	/**
+	 * Modifica el Asistente a en el sistema tal que a.nickname = nickname con los datos pasados por parámetro.
+	 * Si el Asistente a no existe entonces no hace nada.
+	 * 
+	 * @param nickname
+	 * @param nuevoNombre
+	 * @param nuevoApellido
+	 * @param nuevaFechaNacimiento
+	 */
+	void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido, Date nuevaFechaNacimiento) throws Exception;
+	/**
+	 * Modifica el Organizador o en el sistema tal que o.nickname = nickname con los datos pasados por parámetro.
+	 * Si el Organizador o no existe entonces no hace nada.
+	 * 
+	 * @param nickname
+	 * @param nuevoNombre
+	 * @param nuevaDescripcion
+	 * @param nuevoLink
+	 */
+	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
 }

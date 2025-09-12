@@ -56,6 +56,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			throw new Exception("El formato del correo es inválido");
 		}
 
+		if (fechaNacimiento.after(new Date())) {
+			throw new Exception("La fecha de nacimiento no puede ser en el futuro.");
+		}
+		
 		if (manejadorUsuarios.existeNick(nickname)) {
 			throw new Exception("El nickname del asistente ya existe");
 		}
@@ -227,5 +231,54 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return "";
 	}
 
-}
+	@Override
+	public void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido,
+			Date nuevaFechaNacimiento) throws Exception {
+		Asistente asistente = this.manejadorUsuarios.getAsistente(nickname);
+		// Asistente no existe en el sistema
+		if (asistente == null) return;
+		
+		// Validación de campos vacíos
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
+		if (nuevoApellido == null || nuevoApellido.isEmpty()) throw new Exception("El nuevo apellido no puede ser vacío.");
+		if (nuevaFechaNacimiento == null) throw new Exception("Ingrese una nueva fecha de nacimiento.");
+		
+		// Ningún campo se modificó
+		if (nuevoNombre.equals(asistente.getNombre()) && nuevoApellido.equals(asistente.getApellido()) && nuevaFechaNacimiento.equals(asistente.getNacimiento())) throw new Exception("No se modificó ningún campo.");
+		
+		// Validación de los datos nuevos
+		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo nombre solo puede contener letras y espacios.");
+		if (!nuevoApellido.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo apellido solo puede contener letras y espacios.");
+		if (nuevaFechaNacimiento.after(new Date())) throw new Exception("La nueva fecha de nacimiento no puede ser en el futuro.");
+		
+		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
+		asistente.setNombre(nuevoNombre);
+		asistente.setApellido(nuevoApellido);
+		asistente.setNacimiento(nuevaFechaNacimiento);
+	}
 
+	@Override
+	public void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion,
+			String nuevoLink) throws Exception {
+		Organizador organizador = this.manejadorUsuarios.getOrganizador(nickname);
+		// Organizador no existe en el sistema
+		if (organizador == null) return;
+		
+		// Validación de campos vacíos
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
+		if (nuevaDescripcion == null || nuevaDescripcion.isEmpty()) throw new Exception("La nueva descripción no puede ser vacía.");
+		if (nuevoLink == null || nuevoLink.isEmpty()) throw new Exception("El nuevo link no puede ser vacío.");
+		
+		// Ningún campo se modificó
+		if (nuevoNombre.equals(organizador.getNombre()) && nuevaDescripcion.equals(organizador.getDescripcion()) && nuevoLink.equals(organizador.getLink()) ) throw new Exception("No se modificó ningún campo.");
+		
+		// Validación de los datos nuevos
+		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo nombre solo puede contener letras y espacios.");
+		if (!nuevoLink.matches("^(https?://).+")) throw new Exception("El nuevo link debe comenzar con http:// o https://.");
+		
+		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
+		organizador.setNombre(nuevoNombre);
+		organizador.setDescripcion(nuevaDescripcion);
+		organizador.setLink(nuevoLink);
+	}
+}

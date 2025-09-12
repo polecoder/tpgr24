@@ -89,6 +89,12 @@ class TestAltaUsuario {
         Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sebastianT", "Eventos.2025!", "Sebastián", "sebastian.t@gmail.com", "Torres99", Utilidades.toDate(LocalDate.of(1993, 9, 30)), null); });
         assertTrue(ex.getMessage().contains("solo puede contener letras"));
     }
+    
+    @Test
+    void asistenteConFechaInvalida() {
+    	Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("fedeC45", "Federico", "fede45@gmail.com", "Colina", Utilidades.toDate(LocalDate.of(2045, 9, 30)), null); });
+        assertTrue(ex.getMessage().contains("en el futuro"));
+    }
 
     // ----------- Validación de duplicados (nickname y correo) -----------
 
@@ -99,6 +105,13 @@ class TestAltaUsuario {
         assertTrue(ex.getMessage().contains("ya existe"));
     }
 
+    @Test
+    void nicknameDuplicadoEntreAsistentes() throws Exception {
+    	controladorUsuario.altaAsistente("sofiaP", "Sofía", "sofia.p@gmail.com", "Pereira", Utilidades.toDate(LocalDate.of(1997, 1, 1)), null);
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sofiaP", "Lucía", "lucia.d@gmail.com", "Díaz", Utilidades.toDate(LocalDate.of(1995, 3, 15)), null); });
+        assertTrue(ex.getMessage().contains("ya existe"));
+    }
+    
     @Test
     public void nicknameDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("sofiaG", "Eventos.2025!", "Sofía", "sofia.g@gmail.com", "Gómez", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null);

@@ -64,7 +64,6 @@ public class AltaEvento extends JInternalFrame {
 		gbc_nombreTextField.gridx = 2;
 		gbc_nombreTextField.gridy = 1;
 		getContentPane().add(nombreTextField, gbc_nombreTextField);
-		nombreTextField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Descripción:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -119,7 +118,6 @@ public class AltaEvento extends JInternalFrame {
 		gbc_siglaTextField.gridx = 2;
 		gbc_siglaTextField.gridy = 4;
 		getContentPane().add(siglaTextField, gbc_siglaTextField);
-		siglaTextField.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Categorías:");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
