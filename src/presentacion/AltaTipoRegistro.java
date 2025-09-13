@@ -16,7 +16,10 @@ import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.PopupMenuEvent;
 
 
@@ -32,7 +35,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 	
 	public AltaTipoRegistro() {		
 		super("Alta Tipo de registro", true, true, true, true);
-		setSize(300, 247);       
+		setSize(400, 300);       
 		setLocation(50, 50);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -72,15 +75,26 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Descripcion.gridy = 1;
 		getContentPane().add(lbl_Descripcion, gbc_lbl_Descripcion);
 		
-		textField_Descripcion = new JTextField();
+		JScrollPane descripcionScrollPane = new JScrollPane();
+		descripcionScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_descripcionScrollPane = new GridBagConstraints();
+		gbc_descripcionScrollPane.gridwidth = 2;
+		gbc_descripcionScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_descripcionScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_descripcionScrollPane.gridx = 1;
+		gbc_descripcionScrollPane.gridy = 1;
+		getContentPane().add(descripcionScrollPane, gbc_descripcionScrollPane);
+		JTextArea textField_Descripcion = new JTextArea();
+		textField_Descripcion.setLineWrap(true);
+		textField_Descripcion.setRows(2);
+		descripcionScrollPane.setViewportView(textField_Descripcion);
+		
 		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
-		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_Descripcion.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Descripcion.gridx = 1;
 		gbc_textField_Descripcion.gridy = 1;
-		gbc_textField_Descripcion.gridwidth = 2; 
-		getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
-		textField_Descripcion.setColumns(10);
+		gbc_textField_Descripcion.gridwidth = 2;
+		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
+		
 		//----------DESCRIPCION----------
 		
 		//----------COSTO----------
@@ -134,6 +148,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		
 		JComboBox<String> comboEvento = new JComboBox<>();
 		Set<String> eventos = controladorEventos.nombresEventos(); // Inicializo los eventos al iniciar el Caso de Uso
+		comboEvento.addItem("-- Seleccionar un Evento --");
 		if (eventos != null) {
 			for (String evento : eventos) { comboEvento.addItem(evento); }
 		}
@@ -157,6 +172,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		
 		JComboBox<String> comboEdicion = new JComboBox<>();
 		Set<String> ediciones;
+		comboEdicion.addItem("--Seleccionar una Edición--");
 		try { ediciones = controladorEventos.nombresEdicionesEvento(comboEvento.getItemAt(comboEvento.getSelectedIndex()));
 		} catch (EventoNoExiste ex) {
 			ediciones = null;
@@ -231,11 +247,11 @@ public class AltaTipoRegistro extends JInternalFrame {
 				JOptionPane.showMessageDialog(this, "Los cupos deben ser un entero", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			};
-			if (comboEvento.getSelectedIndex() == -1) {
+			if (comboEvento.getSelectedItem() == null ||comboEvento.getSelectedItem()=="-- Seleccionar un Evento --") {
 				JOptionPane.showMessageDialog(this, "Debe seleccionar un evento", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			if (comboEdicion.getSelectedIndex() == -1) {
+			if (comboEdicion.getSelectedItem() == null||comboEdicion.getSelectedItem() == "--Seleccionar una Edición--") {
 				JOptionPane.showMessageDialog(this, "Debe seleccionar una edicion", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
 			}

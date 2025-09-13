@@ -44,6 +44,15 @@ public class ManejadorEventos {
 		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
 	
+	public boolean existeEdicion(String nombreEdicion) {
+		for (String evento : this.eventos.keySet()) {
+			if (contieneEdicion(this.eventos.get(evento).getNombre(), nombreEdicion)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public HashMap<String,DTEvento> listarEventos(){
 		HashMap<String, DTEvento> hMLista = new HashMap<>();
 		for (Evento e : eventos.values()) {

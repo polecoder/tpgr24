@@ -10,16 +10,14 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
-import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public interface IControladorEventos {
 	public Map<String,DTEvento> listarEventos();
 	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion);
-	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento);
+	public boolean validar(String nicknameAsistente, String nombreEdicion, String nombreTipoRegistro, String nombreEvento) throws Exception;
 	// public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String codigoPatrocinio, LocalDate fecha); // Reemplazado por "altaRegistro()"
 	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	public Set<String> nombresEventos();

@@ -31,7 +31,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	private IControladorUsuarios IContUsuario= fabrica.getControladorUsuarios();
 	public AltaEdicionEvento() {
 	    super("Alta Edicion", true, true, true, true); 
-	    setSize(450, 350);       
+	    setSize(600, 350);       
 	    setLocation(50, 25);   
 
 	    GridBagLayout gridBagLayout = new GridBagLayout();
@@ -52,6 +52,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    JComboBox<String> comboEventos = new JComboBox<>();
 		
 		Set<String> EventosDisponibles =IContEvento.nombresEventos();
+		 comboEventos.addItem("--Seleccionar Evento--");
 		 if (EventosDisponibles != null) {
 		        for (String evento : EventosDisponibles) {
 		            comboEventos.addItem(evento);
@@ -77,6 +78,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    JComboBox<String> comboOrganizadores = new JComboBox<>();
 		
 		Set<String> OrganizadoresDisponibles =IContUsuario.nombresOrganizadores();
+		comboOrganizadores.addItem("--Seleccionar Organizador--");
 		 if (OrganizadoresDisponibles != null) {
 		        for (String organizador : OrganizadoresDisponibles) {
 		            comboOrganizadores.addItem(organizador);
@@ -178,6 +180,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		gbc_spinner_FechaInicio.gridx = 1;
 		gbc_spinner_FechaInicio.gridy = 6;
 		gbc_spinner_FechaInicio.gridwidth = 1;
+		gbc_spinner_FechaInicio.insets = new Insets(0, 5, 0, 0);
 		gbc_spinner_FechaInicio.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaInicio, gbc_spinner_FechaInicio);
 
@@ -217,6 +220,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		gbc_Spinner_FechaAlta.gridx = 1;
 		gbc_Spinner_FechaAlta.gridy = 7;
 		gbc_Spinner_FechaAlta.gridwidth = 1;
+		gbc_Spinner_FechaAlta.insets = new Insets(0, 5, 0, 0);
 		gbc_Spinner_FechaAlta.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaAlta, gbc_Spinner_FechaAlta);
 
@@ -239,7 +243,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		});
 	    
 	    btnAceptar.addActionListener(e -> {
-	    	if (comboEventos.getSelectedItem() == null || comboOrganizadores.getSelectedItem() == null) {
+	    	if (comboEventos.getSelectedItem() == null ||comboEventos.getSelectedItem() == "--Seleccionar Evento--" || comboOrganizadores.getSelectedItem() == null|| comboOrganizadores.getSelectedItem() == "--Seleccionar Organizador--") {
 			     JOptionPane.showMessageDialog(null, "Debe seleccionar un evento y un organizador.", "Error", JOptionPane.ERROR_MESSAGE);
 			     return;
 			}

@@ -37,7 +37,7 @@ private static Fabrica fabrica;
 		}
 		// Alta Asistente
 		try {
-			fabrica.getControladorUsuarios().altaAsistente("Asistente1", "NombreAsistente", "mail@mail.com", "ApellidoAsistente", Utilidades.toDate(LocalDate.of(2002, 12, 17)), null);
+			fabrica.getControladorUsuarios().altaAsistente("Asistente1", "Eventos.2025!", "NombreAsistente", "mail@mail.com", "ApellidoAsistente", Utilidades.toDate(LocalDate.of(2002, 12, 17)), null);
 		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage());
 		}

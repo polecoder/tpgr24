@@ -55,7 +55,7 @@ public class TestManejadorEventos {
 	@Order(2)
 	void TestListarTipoRegistro() {
 		try {
-			controladorUsuarios.altaOrganizador("nickOrganizadorListarTipoRegistro", "nombreOrganizador", "correo@gmail.com", "descripcion", "https://link.com");
+			controladorUsuarios.altaOrganizador("nickOrganizadorListarTipoRegistro", "Eventos.2025!", "nombreOrganizador", "correo@gmail.com", "descripcion", "https://link.com");
 			controladorEventos.altaEdicionEvento("nombreEvento", "nombreEdicionListarTipoRegistro", "sigla", fecha, fecha, fecha, "ciudad", "pais", "nickOrganizadorListarTipoRegistro");
 			controladorEventos.altaTipoRegistro("nombreTipoRegistro", "descripcion", 1f, 10, "nombreEvento", "nombreEdicionListarTipoRegistro");
 		} catch (Exception ex) { fail(ex.getMessage()); }

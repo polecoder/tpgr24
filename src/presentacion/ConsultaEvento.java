@@ -1,6 +1,5 @@
 package presentacion;
 
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,7 +29,7 @@ public class ConsultaEvento extends JInternalFrame {
 	private IControladorEventos IContEvento= fabrica.getControladorEvento();
 	public ConsultaEvento(JDesktopPane desktopPane) {
 	    super("Consulta Evento", true, true, true, true);
-	    setSize(400, 300);       
+	    setSize(450, 350);       
 		setLocation(50, 50); 
 	
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -51,6 +50,7 @@ public class ConsultaEvento extends JInternalFrame {
 		JComboBox<String> comboEventos = new JComboBox<>();
 		
 		Set<String> eventosDisponibles =IContEvento.nombresEventos();
+		comboEventos.addItem("--Seleccionar un Evento--");
 		 if (eventosDisponibles != null) {
 		        for (String evento : eventosDisponibles) {
 		            comboEventos.addItem(evento);
@@ -78,10 +78,15 @@ public class ConsultaEvento extends JInternalFrame {
 		
 		comboEventos.addActionListener(e -> {
 		    String eventoSeleccionado = (String) comboEventos.getSelectedItem();
+		    
+		    if (eventoSeleccionado != null &&eventoSeleccionado!="--Seleccionar un Evento--") {
+		    	
 		    DTEvento detalleEvento = IContEvento.getDTEvento(eventoSeleccionado);
 
 		    panelDetalles.removeAll(); 
-
+		    
+		   
+		    
 		    JLabel lbl_Nombre = new JLabel("Nombre:");
 		    GridBagConstraints gbc_lbl_Nombre = new GridBagConstraints();
 		    gbc_lbl_Nombre.insets = new Insets(0, 0, 0, 5);
@@ -218,14 +223,21 @@ public class ConsultaEvento extends JInternalFrame {
 			} ); 
 		    panelDetalles.revalidate();
 		    panelDetalles.repaint();
+		  }else {
+			  panelDetalles.removeAll();
+			  panelDetalles.revalidate();
+			  panelDetalles.repaint();
+
+		    }
 		});
 
 		JButton Button_Cancelar = new JButton("Cancelar");
 		
 		GridBagConstraints gbc_Button_Cancelar = new GridBagConstraints();
-		gbc_Button_Cancelar.insets = new Insets(5, 0, 0, 10);
-		gbc_Button_Cancelar.gridx = 2;
+		gbc_Button_Cancelar.insets = new Insets(5, 0, 10, 10);
+		gbc_Button_Cancelar.gridx = 3;
 		gbc_Button_Cancelar.gridy = 9;
+		gbc_Button_Cancelar.anchor=GridBagConstraints.EAST;;
 		getContentPane().add(Button_Cancelar, gbc_Button_Cancelar);
 		
 		Button_Cancelar.addActionListener(e -> {

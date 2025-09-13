@@ -59,16 +59,16 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname,String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
-		Asistente A= new Asistente(nickname,nombre,correo,apellido,fechaNacimiento,institucion);
+	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
+		Asistente A= new Asistente(nickname,contrasena,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
 		}
 		conjuntoAsistentes.put(A.getNickname(), A);
 	}
 	
-	public void agregarOrganizador(String nickname, String nombre, String correo, String descripcion, String link) {
-		Organizador O=new Organizador(nickname,nombre,correo,descripcion,link);
+	public void agregarOrganizador(String nickname, String contrasena,String nombre, String correo, String descripcion, String link) {
+		Organizador O=new Organizador(nickname,contrasena,nombre,correo,descripcion,link);
 		conjuntoOrganizadores.put(O.getNickname(), O);
 	}
 	

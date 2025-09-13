@@ -54,7 +54,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600));
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,0,0};
+		gridBagLayout.columnWidths = new int[]{0,0,133,0};
 		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0,0};
 		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
 		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
@@ -63,19 +63,20 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel = new JLabel("Usuario:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 1;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
 		JComboBox<String> usuariosComboBox = new JComboBox<String>(); 
 		List<DTUsuario> listaUsuarios = fabrica.getControladorUsuarios().listarUsuarios();
+		usuariosComboBox.addItem("--Seleccionar un Usuario--");
 		for (DTUsuario usuario: listaUsuarios) {
 			usuariosComboBox.addItem(usuario.nickname());
 		}
 		GridBagConstraints gbc_usuariosComboBox = new GridBagConstraints();
 		gbc_usuariosComboBox.anchor = GridBagConstraints.WEST;
-		gbc_usuariosComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_usuariosComboBox.insets = new Insets(5, 0, 5, 5);
 		gbc_usuariosComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_usuariosComboBox.gridx = 2;
 		gbc_usuariosComboBox.gridy = 1;
@@ -84,7 +85,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel_2 = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 1;
 		gbc_lblNewLabel_2.gridy = 2;
 		getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
@@ -92,7 +93,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		nombreTxt = new JTextField();
 		nombreTxt.setEditable(false);
 		GridBagConstraints gbc_nombreTxt = new GridBagConstraints();
-		gbc_nombreTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreTxt.insets = new Insets(5, 0, 5, 5);
 		gbc_nombreTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nombreTxt.gridx = 2;
 		gbc_nombreTxt.gridy = 2;
@@ -102,7 +103,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		JLabel lblNewLabel_3 = new JLabel("Correo:");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 1;
 		gbc_lblNewLabel_3.gridy = 3;
 		getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
@@ -110,7 +111,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		correoTxt = new JTextField();
 		correoTxt.setEditable(false);
 		GridBagConstraints gbc_correoTxt = new GridBagConstraints();
-		gbc_correoTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_correoTxt.insets = new Insets(5, 0, 5, 5);
 		gbc_correoTxt.fill = GridBagConstraints.HORIZONTAL;
 		gbc_correoTxt.gridx = 2;
 		gbc_correoTxt.gridy = 3;
@@ -205,7 +206,8 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardPanel = new JPanel(new CardLayout());
 		cardPanel.add(cardAsistente,   "Asistente");
 		cardPanel.add(cardOrganizador, "Organizador");
-
+		cardPanel.setVisible(false);
+	
 		// === Agregar el cardPanel al GridBag del frame ===
 		GridBagConstraints gbc_cardPanel = new GridBagConstraints();
 		gbc_cardPanel.gridwidth = 2;
@@ -283,6 +285,8 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardPanel1 = new JPanel(new CardLayout());
 		cardPanel1.add(cardAsistente1, "Asistente");
 		cardPanel1.add(cardOrganizador1, "Organizador");
+		cardPanel1.setVisible(false);
+
 
 		// === Agregar el cardPanel al GridBag del frame ===
 		GridBagConstraints gbc_cardPanel1 = new GridBagConstraints();
@@ -361,6 +365,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		cardPanel2 = new JPanel(new CardLayout());
 		cardPanel2.add(cardAsistente2,   "Asistente");
 		cardPanel2.add(cardOrganizador2, "Organizador");
+		cardPanel2.setVisible(false);
 
 		// === Agregar el cardPanel al GridBag del frame ===
 		GridBagConstraints gbc_cardPanel2 = new GridBagConstraints();
@@ -373,24 +378,23 @@ public class ConsultaUsuario extends JInternalFrame {
 
 		cl2 = (CardLayout) cardPanel2.getLayout();
 		
-		// Mostrar panel de Asistente por defecto.
-		cl.show(cardPanel, "Asistente");
-		cl1.show(cardPanel1, "Asistente");
-		cl2.show(cardPanel2, "Asistente");
-		
-		// Muestra los datos del usuario seleccionado inicialmente
-		this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		if (this.nicknameSeleccionado != null) {
-			actualizarDatosUsuario(this.nicknameSeleccionado);
-		}
-		
 		/**
 		 * Actualización al cambiar el usuario del combo.
 		 */
 		usuariosComboBox.addActionListener(e -> {
 			actualizandoNicknameAsistente = true;
 			this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
-		    if (this.nicknameSeleccionado != null) {
+			if ( this.nicknameSeleccionado == "--Seleccionar un Usuario--") {
+				nombreTxt.setText("");
+				correoTxt.setText("");
+				edicionesCombo.removeAllItems();
+				cardPanel.setVisible(false);
+				cardPanel1.setVisible(false);
+				cardPanel2.setVisible(false);
+
+				
+			}
+			else if (this.nicknameSeleccionado != null ) {
 		        actualizarDatosUsuario(this.nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				registrosCombo.removeAllItems();
@@ -403,6 +407,7 @@ public class ConsultaUsuario extends JInternalFrame {
 					edicionesCombo.addItem(edicion.nombreEvento() + ", " + edicion.nombreEdicion());
 				}
 		    }
+		    
 		    actualizandoNicknameAsistente = false;
 		});
 		
@@ -451,6 +456,9 @@ public class ConsultaUsuario extends JInternalFrame {
 	
 	private void actualizarDatosUsuario(String nickname) {
 		try {
+			cardPanel.setVisible(true);
+			cardPanel1.setVisible(true);
+			cardPanel2.setVisible(true);
 			DTDetalleUsuario usuario = fabrica.getControladorUsuarios().mostrarDetalleUsuario(nickname);
 			nombreTxt.setText(usuario.getNombre());
 			correoTxt.setText(usuario.getCorreo());

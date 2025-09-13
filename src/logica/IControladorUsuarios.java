@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.FormatoContrasenaInvalido;
 import logica.datatypes.DTAsistente;
 import logica.datatypes.DTDetalleRegistro;
 import logica.datatypes.DTDetalleUsuario;
@@ -13,8 +14,8 @@ import logica.datatypes.DTRegistro;
 import logica.datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	void altaAsistente(String nickname, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws Exception;
-	void altaOrganizador(String nickname, String nombre, String correo, String descripcion, String link) throws Exception;
+	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws FormatoContrasenaInvalido, Exception;
+	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link) throws FormatoContrasenaInvalido, Exception;
 	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
 	Set<String> nombresOrganizadores();
@@ -38,4 +39,24 @@ public interface IControladorUsuarios {
 	 * @return
 	 */
 	String getNombreInstitucionAsistente(String nickname);
+	/**
+	 * Modifica el Asistente a en el sistema tal que a.nickname = nickname con los datos pasados por parámetro.
+	 * Si el Asistente a no existe entonces no hace nada.
+	 * 
+	 * @param nickname
+	 * @param nuevoNombre
+	 * @param nuevoApellido
+	 * @param nuevaFechaNacimiento
+	 */
+	void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido, Date nuevaFechaNacimiento) throws Exception;
+	/**
+	 * Modifica el Organizador o en el sistema tal que o.nickname = nickname con los datos pasados por parámetro.
+	 * Si el Organizador o no existe entonces no hace nada.
+	 * 
+	 * @param nickname
+	 * @param nuevoNombre
+	 * @param nuevaDescripcion
+	 * @param nuevoLink
+	 */
+	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
 }

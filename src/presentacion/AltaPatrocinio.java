@@ -34,7 +34,7 @@ import logica.datatypes.DTTipoRegistro;
 	    public AltaPatrocinio() {
 	        super("Alta Patrocinio", true, true, true, true);
 
-	        setSize(450, 400);
+	        setSize(500, 400);
 	        setLocation(50, 25);
 	
 	        GridBagLayout layout = new GridBagLayout();
@@ -64,6 +64,8 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_comboEvento.insets = new Insets(5, 5, 5, 5);
 	        panelFormulario.add(comboEvento, gbc_comboEvento);
 	        
+	        comboEvento.addItem("--Seleccionar un Evento--");
+	        
 	        Set<String> eventosDisponibles = IContEvento.nombresEventos();
 	        if (eventosDisponibles != null) { 
 	        	for (String evento : eventosDisponibles) { 
@@ -87,6 +89,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_comboEdicion.fill = GridBagConstraints.HORIZONTAL;
 	        gbc_comboEdicion.insets = new Insets(5, 5, 5, 5);
 	        panelFormulario.add(comboEdicion, gbc_comboEdicion);
+	        comboEdicion.addItem("--Seleccionar una Edición--");
 	
 	        JLabel lblTipo = new JLabel("Tipo de Registro:");
 	        GridBagConstraints gbc_lblTipo = new GridBagConstraints();
@@ -103,6 +106,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_comboTipo.fill = GridBagConstraints.HORIZONTAL;
 	        gbc_comboTipo.insets = new Insets(5, 5, 5, 5);
 	        panelFormulario.add(comboTipo, gbc_comboTipo);
+	        comboTipo.addItem("--Seleccionar un Tipo Registro--");
 	
 	        JLabel lblInstitucion = new JLabel("Institución:");
 	        GridBagConstraints gbc_lblInstitucion = new GridBagConstraints();
@@ -120,6 +124,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_comboInstitucion.insets = new Insets(5, 5, 5, 5);
 	        panelFormulario.add(comboInstitucion, gbc_comboInstitucion);
 	        
+	        comboInstitucion.addItem("--Seleccionar Institucion--");
 	        Set<String> instituciones = IContInstituciones.nombresInstituciones();
 	        if (instituciones != null) { 
 	        	for (String inst : instituciones) { 
@@ -134,7 +139,7 @@ import logica.datatypes.DTTipoRegistro;
 	        gbc_lblNivel.anchor = GridBagConstraints.WEST;
 	        panelFormulario.add(lblNivel, gbc_lblNivel);
 	
-	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"Patrocinio", "Oro", "Plata", "Bronce"});
+	        JComboBox<String> comboNivel = new JComboBox<>(new String[]{"--Seleccionar Patrocinio--", "Platino", "Oro", "Plata", "Bronce"});
 	        GridBagConstraints gbc_comboNivel = new GridBagConstraints();
 	        gbc_comboNivel.gridx = 1;
 	        gbc_comboNivel.gridy = 4;
@@ -191,12 +196,22 @@ import logica.datatypes.DTTipoRegistro;
 	        panelFormulario.add(txtCodigo, gbc_txtCodigo);
 	
 	        comboEvento.addActionListener(e -> {
+	        	comboEdicion.removeAllItems();
+	            comboTipo.removeAllItems();
+	            comboInstitucion.setSelectedIndex(0);
+	            comboNivel.setSelectedIndex(0);
+	            txtCodigo.setText("");
+	            txtAporte.setText("");
+	            txtCupos.setText("");
+	            
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
-	            if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()) return;
-
+	            if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()||eventoSeleccionado=="--Seleccionar un Evento--") { 
+	            	return;
+	            }
 	            comboEdicion.removeAllItems();
 	            comboTipo.removeAllItems();
-
+	           
+	            comboEdicion.addItem("--Seleccionar una Edición--");
 	            try {
 	                Set<String> edicionesDisponibles = IContEvento.nombresEdicionesEvento(eventoSeleccionado);
 	                for (String edicion : edicionesDisponibles) {
@@ -208,13 +223,23 @@ import logica.datatypes.DTTipoRegistro;
 	        });
 
 	        comboEdicion.addActionListener(e -> {
+	        	 comboTipo.removeAllItems();
+	        	 comboInstitucion.setSelectedIndex(0);
+	        	 comboNivel.setSelectedIndex(0);
+	        	 txtCodigo.setText("");
+	        	 txtAporte.setText("");
+	        	 txtCupos.setText("");
+	        	    
 	            String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 	            String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
 	            if (eventoSeleccionado == null || edicionSeleccionada == null
-	                || eventoSeleccionado.isEmpty() || edicionSeleccionada.isEmpty()) return;
+	                || eventoSeleccionado=="--Seleccionar un Evento--" || edicionSeleccionada=="--Seleccionar una Edición--") {
+	  
+	            	return;
+	            }
 
 	            comboTipo.removeAllItems();
-
+	            comboTipo.addItem("--Seleccionar un Tipo Registro--");
 	            Set<String> tiposDisponibles = IContEvento.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	            if (tiposDisponibles != null) {
 	                for (String tipo : tiposDisponibles) {
@@ -234,7 +259,8 @@ import logica.datatypes.DTTipoRegistro;
 
 	        Button_Aceptar.addActionListener(e -> {
 	        	
-	        	if (comboEvento.getSelectedItem() == null || comboEdicion.getSelectedItem() == null) {
+	        	if (comboEvento.getSelectedItem() == null || comboEdicion.getSelectedItem() == null||
+	        			comboEvento.getSelectedItem()=="--Seleccionar un Evento--" ||  comboEdicion.getSelectedItem()=="--Seleccionar una Edición--") {
 	                JOptionPane.showMessageDialog(this, "Debe seleccionar un evento y una edición.", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
@@ -246,10 +272,24 @@ import logica.datatypes.DTTipoRegistro;
 	            String codigoPatrocinio = txtCodigo.getText().trim();
 	            String tipoRegistro=(String) comboTipo.getSelectedItem();
 	            
-	            ENivelPatrocinio nivel=ENivelPatrocinio.valueOf(nivelPatrocinio);
+	            
 	            float aporteEconomico;
 	            int cantidadGratuitos;
-
+	            
+	            if(tipoRegistro==null||tipoRegistro=="--Seleccionar un Tipo Registro--") {
+	            	JOptionPane.showMessageDialog(this, "Debe seleccionar un Tipo Registro", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            if(institucionSeleccionada==null||institucionSeleccionada=="--Seleccionar Institucion--") {
+	            	JOptionPane.showMessageDialog(this, "Debe seleccionar una Institución", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            if(nivelPatrocinio=="--Seleccionar Patrocinio--") {
+	            	JOptionPane.showMessageDialog(this, "Debe seleccionar un nivel de Patrocinio", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            ENivelPatrocinio nivel=ENivelPatrocinio.valueOf(nivelPatrocinio);
+	            
 	            try {
 	                // Validación de aporte económico
 	                aporteEconomico = Float.parseFloat(txtAporte.getText().trim());
@@ -266,11 +306,13 @@ import logica.datatypes.DTTipoRegistro;
 	                return;
 	            }
 	            
-	            if (aporteEconomico<0) {
+	            if (aporteEconomico<0||aporteEconomico==0) {
 	            	JOptionPane.showMessageDialog(this, "El aporte debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
 	            }
-	            if (cantidadGratuitos<0) {
+	            if (cantidadGratuitos<0||cantidadGratuitos==0) {
 	            	JOptionPane.showMessageDialog(this, "La cantidad de cupos debe ser un número entero mayor a cero", "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
 	            }
 	           
 	            	// Validación del 20% del aporte
@@ -290,6 +332,7 @@ import logica.datatypes.DTTipoRegistro;
 	            	float limitePermitido = aporteEconomico * 0.2f;
 	            	if (costoTotalGratuitos > limitePermitido) {
 	            		 JOptionPane.showMessageDialog(this, "El costo de los registros gratuitos supera el 20% del aporte económico", "Error", JOptionPane.ERROR_MESSAGE);
+	            		 return;
 	            	}
 
 

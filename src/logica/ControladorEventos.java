@@ -13,22 +13,17 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
-import logica.datatypes.DTDatosPatrocinio;
-import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
-import logica.datatypes.DTPatrocinio;
 import logica.datatypes.DTTipoRegistro;
 
 public class ControladorEventos implements IControladorEventos {
 	private static ControladorEventos instancia;
 	private ManejadorEventos manejadorEventos;
 	private ManejadorUsuarios manejadorUsuarios;
-	private IControladorInstitucion interfazInstitucion;
-
 	private ControladorEventos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
-		this.interfazInstitucion = ControladorInstitucion.getInstance();
+		ControladorInstitucion.getInstance();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 	}
 
@@ -72,10 +67,16 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
     public boolean validar(String nicknameAsistente, String nombreEdicion,
-                           String nombreTipoRegistro, String nombreEvento) {
-        Evento ev = manejadorEventos.getEvento(nombreEvento);
-        Edicion ed = ev.getEdicion(nombreEdicion);
-        return ed.validar(nicknameAsistente, nombreTipoRegistro);
+                           String nombreTipoRegistro, String nombreEvento) throws Exception{
+        try {
+        	boolean ret = false;
+        	Evento ev = manejadorEventos.getEvento(nombreEvento);
+        	Edicion ed = ev.getEdicion(nombreEdicion);
+        	ret = ed.validar(nicknameAsistente, nombreTipoRegistro);
+        	return ret;
+        }catch(Exception vErr) {
+        	throw vErr;
+        }
     }
 
 	/* public void confirmarRegistro(String nicknameAsistente, String nombreTipoRegistro,
@@ -209,7 +210,7 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("Todos los campos deben estar completos");
 		}
 
-		if (manejadorEventos.contieneEdicion(nombreEvento,nombre)) {
+		if (manejadorEventos.existeEdicion(nombre)) {
 			throw new Exception("El nombre de la edición ya está en uso");
 		}
 

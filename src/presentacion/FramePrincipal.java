@@ -23,7 +23,7 @@ public class FramePrincipal extends JFrame {
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 500);
+        setBounds(100, 100, 700, 600);
         setTitle("Eventos.uy");
         getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -37,11 +37,12 @@ public class FramePrincipal extends JFrame {
         menuBar.add(menuUsuario);
 
         JMenuItem item_AltaUsuario = new JMenuItem("Alta Usuario");
-        JMenuItem item2 = new JMenuItem("Consulta");
-
+        JMenuItem item_ConsultaUsuario = new JMenuItem("Consulta Usuario");
+        JMenuItem item_ModificarDatosUsuario = new JMenuItem("Modificar Datos Usuario");
+        
         menuUsuario.add(item_AltaUsuario);
-        menuUsuario.add(item2);
-		
+        menuUsuario.add(item_ConsultaUsuario);
+        menuUsuario.add(item_ModificarDatosUsuario);
 		    	  
         JMenu menuEvento = new JMenu("Evento");
         menuBar.add(menuEvento);
@@ -83,11 +84,11 @@ public class FramePrincipal extends JFrame {
 
         JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem item_AltaPatrocinio = new JMenuItem("Alta Patrocinio");
-        JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
+        //JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
 
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(item_AltaPatrocinio);
-        menuInstitucion.add(itemE);
+        //menuInstitucion.add(itemE);
         
         JMenu menuCargaDatos = new JMenu("Carga Datos");
         menuBar.add(menuCargaDatos);
@@ -115,21 +116,30 @@ public class FramePrincipal extends JFrame {
 		});
 				
 		item_AltaUsuario.addActionListener(e -> {
-				    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
-				    panel.add(ventanaAltaUsuario);          
-				    ventanaAltaUsuario.setVisible(true);    
-				    try {
-				        ventanaAltaUsuario.setSelected(true); 
-				    } catch (Exception ex) {}
-				});
+		    AltaUsuario ventanaAltaUsuario = new AltaUsuario();
+		    panel.add(ventanaAltaUsuario);          
+		    ventanaAltaUsuario.setVisible(true);    
+		    try {
+		        ventanaAltaUsuario.setSelected(true); 
+		    } catch (Exception ex) {}
+		});
 		
-		item2.addActionListener(e -> {
+		item_ConsultaUsuario.addActionListener(e -> {
 		   ConsultaUsuario ventanaCU = new ConsultaUsuario(panel);
 		   panel.add(ventanaCU);          
 		   ventanaCU.setVisible(true);    
 		   try {
 		        ventanaCU.setSelected(true); 
 		    } catch (Exception ex) {}
+		});
+		
+		item_ModificarDatosUsuario.addActionListener(e -> {
+			   ModificarDatosUsuario ventanaModificarDatosUsuario = new ModificarDatosUsuario();
+			   panel.add(ventanaModificarDatosUsuario);          
+			   ventanaModificarDatosUsuario.setVisible(true);    
+			   try {
+			        ventanaModificarDatosUsuario.setSelected(true); 
+			   } catch (Exception ex) {}
 		});
 
 		item_AltaEvento.addActionListener(e -> {

@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JList;
 
+import java.text.SimpleDateFormat;
+
 public class ConsultaEdicionEvento extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -38,8 +40,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 
 	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion, JDesktopPane desktopPane) {
 		super("Consulta de Edición de Evento", true, true, true, true);
-		setSize(300, 500);
-		setLocation(50, 50);
+		setSize(400, 500);
+		setLocation(100, 10);
 
 		Fabrica fabrica = Fabrica.getInstancia();
 		IControladorEventos ICEv = fabrica.getControladorEvento();
@@ -260,7 +262,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		JPanel panel_listas = new JPanel();
 		GridBagConstraints gbc_panel_listas = new GridBagConstraints();
 		gbc_panel_listas.gridwidth = 3;
-		gbc_panel_listas.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_listas.insets = new Insets(0, 5, 5,0);
 		gbc_panel_listas.fill = GridBagConstraints.BOTH;
 		gbc_panel_listas.gridx = 1;
 		gbc_panel_listas.gridy = 9;
@@ -340,12 +342,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 			if(selectedEvento != "- Seleccione un Evento -" && selectedEdicion != "- Seleccione una edicion -") {
 				DTEdicionEvento dtEd = ICEv.getDTEdicion(selectedEvento, selectedEdicion);
 				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
 				// Text Fields
 				nombreTextField.setText(dtEd.getNombre());
 				siglaTextField.setText(dtEd.getSigla());
-				fechaInicioTextField.setText(dtEd.getFechaInicio().toString());
-				fechaFinTextField.setText(dtEd.getFechaFin().toString());
-				fechaAltaTextField.setText(dtEd.getFechaAlta().toString());
+				fechaInicioTextField.setText(sdf.format(dtEd.getFechaInicio()));
+				fechaFinTextField.setText(sdf.format(dtEd.getFechaFin()));
+				fechaAltaTextField.setText(sdf.format(dtEd.getFechaAlta()));
 				paisTextField.setText(dtEd.getPais());
 				ciudadTextField.setText(dtEd.getCiudad());
 				organizadorTextField.setText(dtEd.getOrganizadorNickname());
