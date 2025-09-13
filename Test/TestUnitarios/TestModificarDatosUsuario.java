@@ -25,8 +25,8 @@ public class TestModificarDatosUsuario {
 		fabrica = Fabrica.getInstancia();
 		
 		try {
-			fabrica.getControladorUsuarios().altaAsistente("pedrog", "Pedro", "pedro@mail.com", "García", Utilidades.toDate(LocalDate.of(2001, 10, 2)), null);
-			fabrica.getControladorUsuarios().altaOrganizador("gabrielam", "Gabriel", "gaby@mail.com", "Organizadora de eveos de perros", "https://perritos.gabycom.uy");
+			fabrica.getControladorUsuarios().altaAsistente("pedrog", "Eventos.2025!", "Pedro", "pedro@mail.com", "García", Utilidades.toDate(LocalDate.of(2001, 10, 2)), null);
+			fabrica.getControladorUsuarios().altaOrganizador("gabrielam", "Eventos.2025!", "Gabriel", "gaby@mail.com", "Organizadora de eveos de perros", "https://perritos.gabycom.uy");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -92,7 +92,7 @@ class TestAltaUsuario {
     
     @Test
     void asistenteConFechaInvalida() {
-    	Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("fedeC45", "Federico", "fede45@gmail.com", "Colina", Utilidades.toDate(LocalDate.of(2045, 9, 30)), null); });
+    	Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("fedeC45", "Eventos.2025!", "Federico", "fede45@gmail.com", "Colina", Utilidades.toDate(LocalDate.of(2045, 9, 30)), null); });
         assertTrue(ex.getMessage().contains("en el futuro"));
     }
 
@@ -107,8 +107,8 @@ class TestAltaUsuario {
 
     @Test
     void nicknameDuplicadoEntreAsistentes() throws Exception {
-    	controladorUsuario.altaAsistente("sofiaP", "Sofía", "sofia.p@gmail.com", "Pereira", Utilidades.toDate(LocalDate.of(1997, 1, 1)), null);
-        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sofiaP", "Lucía", "lucia.d@gmail.com", "Díaz", Utilidades.toDate(LocalDate.of(1995, 3, 15)), null); });
+    	controladorUsuario.altaAsistente("sofiaP", "Eventos.2025!", "Sofía", "sofia.p@gmail.com", "Pereira", Utilidades.toDate(LocalDate.of(1997, 1, 1)), null);
+        Exception ex = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("sofiaP", "Eventos.2025!", "Lucía", "lucia.d@gmail.com", "Díaz", Utilidades.toDate(LocalDate.of(1995, 3, 15)), null); });
         assertTrue(ex.getMessage().contains("ya existe"));
     }
     
