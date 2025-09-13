@@ -142,7 +142,6 @@ public class Edicion {
 		this.tiposRegistro.remove(nombreTipoRegistro);
 	}
 	
-	// TODO: Implementar
 	public DTEdicionEvento listarEdicion() {
 		return new DTEdicionEvento(
 		        this.nombre,
