@@ -12,7 +12,7 @@
       'carla|Edición C': `Edición: Edición C\nUsuario: carla\nTipo: General\nFecha: 10/03/2025\nCosto: $150`
     };
 
-    const selectUsuario = document.getElementById('selectUsuario');
+    const selectAsistente = document.getElementById('selectAsistente');
     const selectRegistro = document.getElementById('selectRegistro');
     const btnDetalle = document.getElementById('btnDetalle');
     const textarea = document.getElementById('detalle');
@@ -22,12 +22,12 @@
       const opt = document.createElement('option');
       opt.value = u;
       opt.textContent = u;
-      selectUsuario.appendChild(opt);
+      selectAsistente.appendChild(opt);
     });
 
     // Al cambiar usuario
-    selectUsuario.addEventListener('change', () => {
-      const usuario = selectUsuario.value;
+    selectAsistente.addEventListener('change', () => {
+      const usuario = selectAsistente.value;
       selectRegistro.innerHTML = '';
       textarea.value = '';
       btnDetalle.disabled = true;
@@ -57,7 +57,7 @@
 
     // Al hacer clic en Ver Detalle
     btnDetalle.addEventListener('click', () => {
-      const usuario = selectUsuario.value;
+      const usuario = selectAsistente.value;
       const registro = selectRegistro.value;
       const key = `${usuario}|${registro}`;
 
