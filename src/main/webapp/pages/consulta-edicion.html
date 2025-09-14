@@ -37,22 +37,23 @@
 
       <main
         class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
-        style="max-width: 375px"
+        style="max-width: 500px"
       >
         <form class="d-flex flex-column gap-4">
-          <div class="d-flex justify-content-center gap-3">
+           <div class="d-flex align-items-center gap-3" style="margin-left: -17.5px">
             <label for="evento" class="form-label text-end" style="width: 80px">
               Evento:
             </label>
             <select id="evento" name="evento" class="form-select form-select-sm" style="width: fit-content; min-width: 200px">
-              <option value=""selected>-- Selecciona un evento --</option>
-              <option value="congreso">Congreso Nacional</option>
-              <option value="feria">Feria de Tecnología</option>
-              <option value="seminario">Seminario Académico</option>
+				  <option value="" selected>-- Selecciona un evento --</option>
+				  <option value="Montevideo Rock">Montevideo Rock</option>
+				  <option value="Maratón de Montevideo">Maratón de Montevideo</option>
+				  <option value="Montevideo Comics">Montevideo Comics</option>
+				  <option value="Expointer Uruguay">Expointer Uruguay</option>
             </select>
           </div>
 
-          <div class="d-flex justify-content-center gap-3">
+          <div class="d-flex align-items-center gap-3" style="margin-left: -17.5px">
             <label for="edicion" class="form-label text-end" style="width: 80px">
               Edición:
             </label>
@@ -60,15 +61,15 @@
               <option value=""selected>-- Selecciona una edición --</option>
             </select>
           </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <button type="button" class="btn btn-primary btn-sm px-3">
-              Aceptar
-            </button>
-            <button type="button" class="btn btn-primary btn-sm px-3">
-              Cancelar
-            </button>
-          </div>
+			
+		  <div id="info-edicion" class="mt-2 p-3 border rounded bg-white d-block mx-auto" style="height: fit-content ; width: fit-content ;min-width: 450px;display: none;">
+   		 			<!-- Acá se muestra la info -->
+  		  </div>
+		  
+         <div class="d-flex justify-content-center gap-3">
+    		<button id="btnAceptar" type="button" class="btn btn-primary btn-sm px-3">Aceptar</button>
+    		<button id="btnCancelar" type="button" class="btn btn-primary btn-sm px-3">Cancelar</button>
+  		</div>
         </form>
       </main>
     </div>
@@ -81,5 +82,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="../js/edicion-evento.js"></script>
   </body>
 </html>
