@@ -3,6 +3,16 @@ const usuarioSelect = document.getElementById("usuario");
     const asistenteFields = document.getElementById("asistenteFields");
     const organizadorFields = document.getElementById("organizadorFields");
 
+    const opt = document.createElement('option');
+    opt.value = "Pedro asistente";
+    opt.textContent = "Pedro asistente";
+    usuarioSelect.appendChild(opt);
+
+    const opt2 = document.createElement('option');
+    opt2.value = "Pedro organizador";
+    opt2.textContent = "Pedro organizador";
+    usuarioSelect.appendChild(opt2);
+
     usuarioSelect.addEventListener("change", () => {
       const selected = usuarioSelect.value;
 
