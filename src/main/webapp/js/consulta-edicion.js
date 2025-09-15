@@ -108,7 +108,7 @@ eventoSelect.addEventListener("change", function () {
 });
 
 //aca es para buscar la info 
-
+const btnCancelar = document.getElementById("btnCancelar");
 const btnAceptar = document.getElementById("btnAceptar");
 const infoDiv = document.getElementById("info-edicion");
 
@@ -140,5 +140,21 @@ btnAceptar.addEventListener("click", () => {
     <p><strong>Patrocinadores:</strong> ${edicion.patrocinadores?.join(", ") || "No disponible"}</p>
   `;
   infoDiv.style.display = "block";
+  
+  btnAceptar.style.display = "none";
+  btnCancelar.style.display = "inline-block";
 
+  });
+  
+  btnCancelar.addEventListener("click", () => {
+    // Limpiar selects
+    eventoSelect.value = "";
+    edicionSelect.innerHTML = '<option value="">-- Selecciona una edición --</option>';
+
+    // Ocultar info
+    infoDiv.style.display = "none";
+    infoDiv.innerHTML = "";
+
+    // Mostrar Aceptar nuevamente
+    btnAceptar.style.display = "inline-block";
   });
