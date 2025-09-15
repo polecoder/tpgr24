@@ -14,6 +14,7 @@ import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 public class ManejadorEventos {
 	private 

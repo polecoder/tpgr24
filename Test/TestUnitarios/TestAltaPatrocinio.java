@@ -8,11 +8,11 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import logica.ENivelPatrocinio;
 import logica.Fabrica;
 	import logica.IControladorEventos;
 import logica.IControladorInstitucion;
 import logica.Utilidades;
+import logica.datatypes.ENivelPatrocinio;
 
 	 class TestAltaPatrocinio {
 		 static IControladorEventos controlador;
