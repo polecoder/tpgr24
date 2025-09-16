@@ -19,11 +19,11 @@ import excepciones.TipoRegistroNoExiste;
 
 import javax.swing.JButton;
 
-import logica.ENivelPatrocinio;
 import logica.Fabrica;
 	import logica.IControladorEventos;
 	import logica.IControladorInstitucion;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 	
 	public class AltaPatrocinio extends JInternalFrame { 
 	    private Fabrica fabrica = Fabrica.getInstancia();

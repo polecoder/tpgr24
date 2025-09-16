@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
-import logica.ENivelPatrocinio;
 import logica.Edicion;
 import logica.Institucion;
 import logica.Patrocinio;
 import logica.TipoRegistro;
 import logica.Utilidades;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 class testEdicion {
 	
