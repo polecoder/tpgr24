@@ -2,6 +2,7 @@ package presentacion;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -206,6 +207,7 @@ public class ConsultaRegistro extends JInternalFrame {
     	}
         
         DTDetalleRegistro d = cu.obtenerDetalleRegistro(nick, idRegistro);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         if (d == null) {
             JOptionPane.showMessageDialog(this, "No se encontró el detalle.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -220,7 +222,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 d.getNombreEdicion(),
                 d.getNicknameAsistente(),
                 d.getNombreTipo(),
-                d.getFecha(),
+                formatter.format(d.getFecha()),
                 d.getCosto()
         );
         txtDetalle.setText(msg);
