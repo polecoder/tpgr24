@@ -66,4 +66,6 @@ public interface IControladorEventos {
 	 */
 	public List<String> getListaCategorias();
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
+	public Set<String> nombresEdicionesIngresadas(String eventoSeleccionado);
+	public void SetEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b);
 }

@@ -51,11 +51,13 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
         JMenuItem item_ConsultaEdicionEvento = new JMenuItem("Consulta Edicion de Evento");
-
+        JMenuItem item_AceptarRechazar= new JMenuItem("Autorizar Ediciones");
+        
         menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
         menuEvento.add(item_ConsultaEdicionEvento);
+        menuEvento.add(item_AceptarRechazar);
 		
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
@@ -212,6 +214,16 @@ public class FramePrincipal extends JFrame {
 			ventanaAltaPatrocinio.setVisible(true);
 			try {
 			    ventanaAltaPatrocinio.setSelected(true); 
+			} catch (Exception ex) {}
+			
+		});
+		
+		item_AceptarRechazar.addActionListener(e->{
+			AceptarRechazarEdicion ventanaAceptarRechazarEdicion = new AceptarRechazarEdicion();
+			panel.add(ventanaAceptarRechazarEdicion);
+			ventanaAceptarRechazarEdicion.setVisible(true);
+			try {
+			    ventanaAceptarRechazarEdicion.setSelected(true); 
 			} catch (Exception ex) {}
 			
 		});

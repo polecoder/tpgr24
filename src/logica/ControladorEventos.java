@@ -315,5 +315,19 @@ public class ControladorEventos implements IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	}
+
+	@Override
+	public Set<String> nombresEdicionesIngresadas(String nombreEvento) {
+		Set<String> listaEdicionesIngresadas = manejadorEventos.getNombresEdicionesIngresadas(nombreEvento);
+		return listaEdicionesIngresadas;
+	}
+
+	@Override
+	public void SetEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b) {
+		manejadorEventos.setEstadoEdicion(eventoSeleccionado,edicionSeleccionada,b);
+		
+	}
+
+	
 }
 
