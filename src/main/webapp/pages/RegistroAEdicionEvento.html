@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos UY</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
+      <a href="#" class="fw-bold text-white text-decoration-none fs-5 fs-sm-4" style="line-height: 48px">
+        eventos.uy
+      </a>
+      <ul class="list-unstyled m-0 d-flex gap-3">
+        <li class="d-flex gap-3">
+          <img
+            src="./images/IMG-US01.jpg"
+            alt="Imagen usuario"
+            style="width: 48px; height: 48px"
+          />
+          <a href="#" class="text-white m-0" style="line-height: 48px">Ana Torres</a>
+          <li class="text-uppercase text-white" style="line-height: 48px">
+            <a href="#" class="text-white">Cerrar Sesión</a>
+          </li>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container flex-grow-1 py-4">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+          <nav class="border-primary border rounded mb-4">
+            <div class="mb-2">
+              <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 1</a>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 2</a>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 3</a>
+            </div>
+            <div>
+              <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
+              <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+          <h1 class="text-center text-uppercase mb-4 fs-4">Registro a Edición de Evento</h1>
+          <form id="registroEdicionEventoForm">
+            <div class="mb-3 row">
+              <label for="evento" class="col-sm-4 col-form-label text-end">Evento</label>
+              <div class="col-sm-8">
+                <select id="evento" class="form-select">
+                  <option selected>- Seleccione un Evento -</option>
+                  <!-- Opciones dinámicas -->
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="edicion" class="col-sm-4 col-form-label text-end">Edición</label>
+              <div class="col-sm-8">
+                <select id="edicion" class="form-select">
+                  <option selected>- Seleccione una edición -</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="tipoRegistro" class="col-sm-4 col-form-label text-end">Tipo de Registro</label>
+              <div class="col-sm-8">
+                <select id="tipoRegistro" class="form-select">
+                  <option selected>- Seleccione un Tipo de Registro -</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="asistente" class="col-sm-4 col-form-label text-end">Asistente</label>
+              <div class="col-sm-8">
+                <select id="asistente" class="form-select">
+                  <option selected>- Seleccione un Asistente -</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="codigoPatrocinio" class="col-sm-4 col-form-label text-end">Código de Patrocinio</label>
+              <div class="col-sm-8">
+                <input type="text" id="codigoPatrocinio" class="form-control" />
+              </div>
+            </div>
+
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary me-2">Aceptar</button>
+              <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto">
+      <p class="fw-bold m-0">TPROG 2025</p>
+      <p class="m-0">Grupo 24</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
