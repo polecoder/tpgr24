@@ -30,16 +30,7 @@
              <nav class="border-primary border rounded mb-4" style="width: 200px; height: fit-content;">
                 <div class="mb-2">
                     <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 1</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 2</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Caso de uso 3</a>
-                </div>
-                <div>
-                    <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
+                    <a href="consultaEvento.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consultar Evento</a>
                 </div>
             </nav>
             <!-- Main Content -->
@@ -48,32 +39,32 @@
                 <form id="registroEdicionEventoForm" method="post" action="../RegistroAEdicionEvento" enctype="multipart/form-data" novalidate class="d-flex flex-column gap-4">
                     <div class="d-flex justify-content-center gap-3">
                         <label for="evento" class="form-label text-end" style="width: 80px">Evento</label>
-                        <select id="evento" name="evento" required class="form-select" style="max-width:200px">
-                            <option selected>- Seleccione un Evento -</option>
+                        <select id="evento" name="evento" required class="form-select" style="max-width:400px" disabled>
+                            <option selected>Maratón de Montevideo</option>
                             <!-- Opciones dinámicas -->
                         </select>
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <label for="edicion" class="form-label text-end" style="width: 80px;">Edición</label>
-                        <select id="edicion" name="edicion" required class="form-select" style="max-width: 200px;">
-                            <option selected>- Seleccione una edición -</option>
+                        <select id="edicion" name="edicion" required class="form-select" style="max-width: 400px;" disabled>
+                            <option selected>Maratón de Montevideo 2024</option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-center gap-3">
-                        <label for="tipoRegistro" class="form-label text-end">Tipo de Registro</label>
-                        <select id="tipoRegistro" name="tipoRegistro" required class="form-select" style="max-width: 200px;">
-                            <option selected>- Seleccione un Tipo de Registro -</option>
+                        <label for="tipoRegistro" class="form-label text-end" style="width: 80px;">Tipo de Registro</label>
+                        <select id="tipoRegistro" name="tipoRegistro" required class="form-select" style="max-width: 400px;">
+                            <option selected>Corredor 21K</option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-center gap-3">
-                        <label for="asistente" class="form-label text-end">Asistente</label>
-                        <select id="asistente" class="form-select">
+                        <label for="asistente" class="form-label text-end" style="width: 80px;">Asistente</label>
+                        <select id="asistente" name="asistente" required class="form-select" style="max-width: 400px;" disabled>
                             <option selected>Ana Torres</option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-center gap-3">
-                        <label for="codigoPatrocinio" class="form-label text-end">Código de Patrocinio</label>
-                        <input type="text" id="codigoPatrocinio" name="codigoPatrocinio" class="form-control form-control-sm" style="max-width: 200px;" />
+                        <label for="codigoPatrocinio" class="form-label text-start" style="width: 80px;">Código de Patrocinio</label>
+                        <input type="text" id="codigoPatrocinio" name="codigoPatrocinio" class="form-control form-control-sm" style="max-width: 400px;" />
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary me-2">Aceptar</button>
