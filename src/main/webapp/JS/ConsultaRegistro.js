@@ -10,8 +10,8 @@
       'ana|Edición A': `Edición: Edición A\nUsuario: ana\nTipo: General\nFecha: 01/01/2025\nCosto: $100`,
       'ana|Edición B': `Edición: Edición B\nUsuario: ana\nTipo: VIP\nFecha: 03/02/2025\nCosto: $250`,
       'carla|Edición C': `Edición: Edición C\nUsuario: carla\nTipo: General\nFecha: 10/03/2025\nCosto: $150`,
-      'Ana Torres|Maratón de Montevideo 2024': `Edición: Maratón de Montevideo 2024\nUsuario: Ana Torres\nTipo: Corredor 21K\nFecha: 30/07/2024\nCosto: $500`,
-      'Ana Torres|Web Summit 2026': `Edición: Web Summit 2026\nUsuario: Ana Torres\nTipo: Estudiante\nFecha: 21/08/2025\nCosto: $300`,
+      'Ana Torres|Maratón de Montevideo 2024': `Edición: Maratón de Montevideo 2024\nUsuario: Ana Torres\nTipo: Corredor 21K\nFecha: 30/07/2024\nCosto: $500\nRegistro con código: falso`,
+      'Ana Torres|Web Summit 2026': `Edición: Web Summit 2026\nUsuario: Ana Torres\nTipo: Estudiante\nFecha: 21/08/2025\nCosto: $300\nRegistro con código: falso`,
     };
 
     const selectAsistente = document.getElementById('selectAsistente');
