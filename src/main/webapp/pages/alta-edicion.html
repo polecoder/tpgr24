@@ -18,44 +18,68 @@
         eventos.uy
       </a>
       <ul class="list-unstyled m-0">
-        <li>
-          <a
-            href="./inicio-sesion.html"
-            class="text-white text-uppercase text-decoration-underline small"
-            >Iniciar sesión</a
+        <li class="d-flex gap-3">
+          <img
+            src="../images/IMG-US04.jpeg"
+            alt="Imagen usuario"
+            style="width: 48px; height: 48px"
+          />
+          <a href="#" class="text-white m-0" style="line-height: 48px"
+            >MisEventos</a
           >
         </li>
       </ul>
     </nav>
 
     <div class="container flex-grow-1">
-      <div class="mx-auto" style="max-width: 768px">
+      <div class="mx-auto" style="max-width: 800px">
         <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
           Alta Edición de Evento
         </h1>
       </div>
 
+      <div class="d-flex justify-content-between">
+        <nav
+        class="border-primary border rounded"
+        style="width: 200px; height: fit-content"
+      >
+        <div style="margin-bottom: 0.5rem">
+          <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+          <a
+            href="#"
+            class="d-block px-1 text-primary"
+            style="font-size: 0.875rem"
+            >Deporte</a
+          >
+          <a
+            href="#"
+            class="d-block px-1 text-primary"
+            style="font-size: 0.875rem"
+            >Salud</a
+          >
+        </div>
+      </nav>
+
       <main
         class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
-        style="width: 400px"
+        style="width: 460px"
       >
          <form class="d-flex flex-column gap-4">
-           <div class="d-flex flex-column mb-2">
-            <label for="evento" class="form-label " style="width: 80px">
-              Evento:
+           <div class="row mb-3">
+            <img
+            class="col-4"
+            src="../images/IMG-EV04.png"
+            alt="Imagen usuario"
+            style="width: auto; height: auto; max-width: 100px; max-height: 100px"
+          />
+            <label for="evento" class="col-8 col-form-label fs-3 fw-bold text-nowrap" style="max-width: 180px">
+              Maratón de Montevideo
             </label>
-            <select id="evento" name="evento" class="form-select form-select-sm" style="width: fit-content; min-width: 350px">
-				  <option value="" selected>-- Selecciona un evento --</option>
-				  <option value="Montevideo Rock">Montevideo Rock</option>
-				  <option value="Maratón de Montevideo">Maratón de Montevideo</option>
-				  <option value="Montevideo Comics">Montevideo Comics</option>
-				  <option value="Expointer Uruguay">Expointer Uruguay</option>
-            </select>
           </div>
 
           <div class="d-flex flex-column mb-2">
-            <label for="nombreEdicion" class="form-label " style="width: 80px"
-              >Nombre:<span class="text-danger">*</span></label
+            <label for="nombreEdicion" class="form-label text-nowrap"
+              >Nombre de la edición:<span class="text-danger">*</span></label
             >
             <input
               type="text"
@@ -110,6 +134,16 @@
 			  style="max-width: 350px"
 			  required
 			>
+
+      <label for="fechaFin">Fecha de fin:<span class="text-danger">*</span></label>
+			<input 
+			  type="date" 
+			  id="fechaFin" 
+			  name="fechaFin" 
+			  class="form-control"
+			  style="max-width: 350px"
+			  required
+			>
 		
 			<div class="d-flex flex-column gap-2 mb-2">
 			  <label for="foto" class="form-label" style="width: 200px">Imágen:</label>
@@ -124,14 +158,18 @@
 			</div>
 
 
-          <div class="d-flex justify-content-end mb-2">
-            <button type="button" id="btnAceptar"class="btn btn-primary btn-sm px-3"  style="max-width: 100px">
-              Aceptar
+          <div class="d-flex justify-content-end gap-2 mb-2">
+            <button type="button" id="btnEvento"class="btn btn-primary btn-sm px-3"  style="max-width: 150px">
+              Volver a evento
+            </button> 
+            <button type="button" id="btnAceptar"class="btn btn-primary btn-sm px-3"  style="max-width: 150px">
+              Crear edición
             </button> 
           </div>
         </form>
       </main>
     </div>
+      </div>
 
     <footer
       class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto"
