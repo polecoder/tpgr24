@@ -35,7 +35,7 @@
           Consulta Usuario
         </h1>
 
-        <div class="d-flex justify-content-between gap-5">
+        <div class="d-flex justify-content-between gap-4">
           <nav
             class="border-primary border rounded"
             style="width: 200px; height: fit-content"
@@ -43,22 +43,23 @@
             <div style="margin-bottom: 0.5rem">
               <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
               <a
-                href="#"
+                href="altausuario.html"
                 class="d-block px-1 text-primary"
                 style="font-size: 0.875rem"
-                >Caso de uso 1</a
+                >Registrarse</a
               >
               <a
-                href="#"
+                href="consultaEvento.html"
                 class="d-block px-1 text-primary"
                 style="font-size: 0.875rem"
-                >Caso de uso 2</a
+                >Consulta de Evento</a
               >
+              <!-- ToDo: Necesito consulta de patrocinio aqui -->
               <a
-                href="#"
+                href="#" 
                 class="d-block px-1 text-primary"
                 style="font-size: 0.875rem"
-                >Caso de uso 3</a
+                >Consulta de Patrocinio</a
               >
             </div>
             <div style="margin-bottom: 0.5rem">
@@ -92,20 +93,34 @@
           <form class="bg-light border-top border-2 border-primary rounded p-4">
             <!-- Selector de usuario -->
             <div class="mb-3 row">
-              <label for="usuario" class="col-sm-4 col-form-label text-end"
-                >Usuario:</label
-              >
+              <label for="usuario" class="col-sm-4 col-form-label text-start">Usuario:</label>
               <div class="col-sm-8">
-                <select id="usuario" class="form-select form-select-sm">
-                  <option selected>--Seleccionar un Usuario--</option>
+                <select id="usuario" class="form-select form-select-sm" >
+                  <option selected>Ana Torres</option>
                   <!-- Options dinámicas -->
                 </select>
               </div>
             </div>
 
+            <!-- Imagen -->
+            <div class="mb-3 row">
+              <label for="image" class="col-sm-4 col-form-im text-start"
+                >Imagen:</label
+              >
+              <div class="col-sm-8">
+                <img
+                  src="../images/IMG-US01.jpg"
+                  id="image"
+                  alt="Imagen previa"
+                  class="img-fluid rounded"
+                  style="max-height: 100px;"
+                />
+              </div>
+            </div>
+
             <!-- Nombre -->
             <div class="mb-3 row">
-              <label for="nombre" class="col-sm-4 col-form-label text-end"
+              <label for="nombre" class="col-sm-4 col-form-label text-start"
                 >Nombre:</label
               >
               <div class="col-sm-8">
@@ -114,13 +129,14 @@
                   id="nombre"
                   class="form-control form-control-sm"
                   readonly
+                  value="Ana Torres"
                 />
               </div>
             </div>
 
             <!-- Correo -->
             <div class="mb-3 row">
-              <label for="correo" class="col-sm-4 col-form-label text-end"
+              <label for="correo" class="col-sm-4 col-form-label text-start"
                 >Correo:</label
               >
               <div class="col-sm-8">
@@ -129,14 +145,15 @@
                   id="correo"
                   class="form-control form-control-sm"
                   readonly
+                  value="atorres@gmail.com"
                 />
               </div>
             </div>
 
             <!-- Panel dinámico: Asistente u Organizador -->
-            <div id="panelAsistenteOrganizador" class="d-none">
+            <div id="panelAsistenteOrganizador" >
               <!-- Asistente -->
-              <div id="asistenteFields" class="d-none">
+              <div id="asistenteFields" >
                 <!-- Apellido -->
                 <div class="mb-3 row">
                   <label for="apellido" class="col-sm-4 col-form-label text-end"
@@ -148,6 +165,7 @@
                       id="apellido"
                       class="form-control form-control-sm"
                       readonly
+                      value="Torres"
                     />
                   </div>
                 </div>
@@ -165,6 +183,7 @@
                       id="institucion"
                       class="form-control form-control-sm"
                       readonly
+                      value="Facultad de Ingeniería"
                     />
                   </div>
                 </div>
@@ -182,6 +201,7 @@
                       id="nacimiento"
                       class="form-control form-control-sm"
                       readonly
+                      value="12/05/1990"
                     />
                   </div>
                 </div>
@@ -196,6 +216,8 @@
                   <div class="col-sm-8">
                     <select id="registros" class="form-select form-select-sm">
                       <!-- Opciones dinámicas -->
+                       <option selected>Maratón de Montevideo 2024</option>
+                       <option>Web Summit 2026</option>
                     </select>
                   </div>
                 </div>
