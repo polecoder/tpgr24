@@ -11,22 +11,27 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
   <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
-    <a 
-      href="../index.html" 
-      class="fw-bold text-white text-decoration-none fs-5 fs-sm-4"
+      <a
+        href="#"
+        class="fw-bold text-white text-decoration-none fs-5 fs-sm-4"
+        style="line-height: 48px"
       >
         eventos.uy
       </a>
-    <ul class="list-unstyled m-0">
-      <li>
-        <a 
-          href="./inicio-sesion.html" 
-          class="text-white text-uppercase text-decoration-underline small"
-          >Iniciar sesión</a
-          >
-      </li>
-    </ul>
-  </nav>
+      <ul class="list-unstyled m-0 d-flex gap-3">
+        <li class="d-flex gap-3">
+          <img
+            src="../images/IMG-US01.jpg"
+            alt="Imagen usuario"
+            style="width: 48px; height: 48px"
+          />
+          <a href="#" class="text-white m-0" style="line-height: 48px">Ana Torres</a>
+          <li class="text-uppercase text-white" style="line-height: 48px">
+            <a href="#" class="text-white">Cerrar Sesión</a>
+          </li>
+        </li>
+      </ul>
+    </nav>
 
   <div class="container flex-grow-1">
     <div class="mx-auto" style="max-width: 768px">
@@ -44,7 +49,7 @@
         <div class="d-flex justify-content-center gap-3">
           <label for="selectAsistente" class="form-label text-end" style="width: 80px">Asistente:</label>
           <select id="selectAsistente" class="form-select form-select-sm" style="max-width: 300px">
-            <option selected disabled>-- Seleccionar un Asistente --</option>
+            <option selected disabled>Ana Torres</option>
             <!-- Options a insertar dinámicamente -->
           </select>
         </div>
