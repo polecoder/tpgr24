@@ -54,62 +54,63 @@
                     <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
                 </div>
             </nav>
-            <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px" ></main>
-            <form class="row g-3">
-                <!-- Usuario -->
-                <div class="col-md-6">
-                    <label for="usuario" class="form-label">Usuario:</label>
-                    <select class="form-select" id="usuario">
-                        <option selected>--Seleccionar un Usuario--</option>
-                        <option value="1">usuario1</option>
-                        <option value="2">usuario2</option>
-                        <option value="3">usuario3</option>
-                    </select>
-                </div>
-
-                <!-- Correo -->
-                <div class="col-md-6">
-                    <label for="correo" class="form-label">Correo:</label>
-                    <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com" readonly />
-                </div>
-
-                <!-- Nombre -->
-                <div class="col-md-6">
-                    <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" />
-                </div>
-
-                <!-- Card panels -->
-                <div class="col-12">
-                    <div id="card-asistente" class="border rounded p-3 d-none">
-                        <div class="mb-3">
-                            <label for="apellido" class="form-label">Apellido:</label>
-                            <input type="text" class="form-control" id="apellido" />
+            <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px" >
+                <form class="row g-3">
+                    <!-- Usuario -->
+                    <div class="col-md-6">
+                        <label for="usuario" class="form-label">Usuario:</label>
+                        <select class="form-select" id="usuario">
+                            <option selected>--Seleccionar un Usuario--</option>
+                            <option value="1">usuario1</option>
+                            <option value="2">usuario2</option>
+                            <option value="3">usuario3</option>
+                        </select>
+                    </div>
+    
+                    <!-- Correo -->
+                    <div class="col-md-6">
+                        <label for="correo" class="form-label">Correo:</label>
+                        <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com" readonly />
+                    </div>
+    
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" />
+                    </div>
+    
+                    <!-- Card panels -->
+                    <div class="col-12">
+                        <div id="card-asistente" class="border rounded p-3 d-none">
+                            <div class="mb-3">
+                                <label for="apellido" class="form-label">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha" class="form-label">Nacimiento:</label>
+                                <input type="date" class="form-control" id="fecha" />
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="fecha" class="form-label">Nacimiento:</label>
-                            <input type="date" class="form-control" id="fecha" />
+    
+                        <div id="card-organizador" class="border rounded p-3 d-none">
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción:</label>
+                                <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="link" class="form-label">Link:</label>
+                                <input type="url" class="form-control" id="link" />
+                            </div>
                         </div>
                     </div>
-
-                    <div id="card-organizador" class="border rounded p-3 d-none">
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="descripcion" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="link" class="form-label">Link:</label>
-                            <input type="url" class="form-control" id="link" />
-                        </div>
+    
+                    <!-- Botones -->
+                    <div class="col-12 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                        <button type="reset" class="btn btn-secondary">Cancelar</button>
                     </div>
-                </div>
-
-                <!-- Botones -->
-                <div class="col-12 d-flex justify-content-end gap-2">
-                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                    <button type="reset" class="btn btn-secondary">Cancelar</button>
-                </div>
-            </form>
+                </form>
+            </main>
         </div>
     </div>
 
