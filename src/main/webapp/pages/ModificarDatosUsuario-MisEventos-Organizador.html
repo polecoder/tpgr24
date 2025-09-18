@@ -11,13 +11,14 @@
 <body class="d-flex flex-column min-vh-100">
     <!-- NAV -->
     <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
-        <a href="#" class="fw-bold text-white text-decoration-none fs-5 fs-sm-4" style="line-height: 48px">
+        <a href="../index-organizador.html" class="fw-bold text-white text-decoration-none fs-5 fs-sm-4"
+            style="line-height: 48px">
             eventos.uy
         </a>
         <ul class="list-unstyled m-0 d-flex gap-3">
             <li class="d-flex gap-3">
-                <img src="../images/IMG-US01.jpg" alt="Imagen usuario" style="width: 48px; height: 48px" />
-                <a href="ConsultaUsuario.html" class="text-white m-0" style="line-height: 48px">Ana Torres</a>
+                <img src="../images/IMG-US04.jpeg" alt="Imagen usuario" style="width: 48px; height: 48px" />
+                <a href="ConsultaUsuario.html" class="text-white m-0" style="line-height: 48px">MisEventos</a>
             <li class="text-uppercase text-white" style="line-height: 48px">
                 <a href="../index-visitante.html" class="text-white">Cerrar Sesión</a>
             </li>
@@ -37,12 +38,20 @@
             <nav class="border-primary border rounded" style="width: 200px; height: fit-content">
                 <div style="margin-bottom: 0.5rem">
                     <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-                    <a href="ModificarDatosUsuario.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Modificar Datos de
+                    <a href="ModificarDatosUsuario-MisEventos-Organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Modificar Datos de
                         Usuario</a>
+                    <a href="altaevento.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
+                        Evento</a>
                     <a href="consultaEvento.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta
-                        de Evento</a>
+                        de
+                        Evento</a>
                     <a href="ConsultaRegistro.html" class="d-block px-1 text-primary"
-                        style="font-size: 0.875rem">Consulta de Registro</a>
+                        style="font-size: 0.875rem">Consulta de
+                        Registro</a>
+                    <a href="altainstitucion.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
+                        Institución</a>
+                    <a href="alta-patrocinio.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
+                        Patrocinio</a>
                     <!-- ToDo: Necesito consulta de patrocinio aqui -->
                     <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de Patrocinio</a>
                 </div>
@@ -54,59 +63,59 @@
                     <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
                 </div>
             </nav>
-            <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px" >
+            <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px">
                 <form class="row g-3">
                     <!-- Usuario -->
                     <div class="col-md-6">
                         <label for="usuario" class="form-label">Usuario:</label>
                         <select class="form-select" id="usuario" disabled>
-                            <option selected disabled>Ana Torres</option>
+                            <option selected disabled>MisEventos</option>
                         </select>
                     </div>
-    
+
                     <!-- Correo -->
                     <div class="col-md-6">
                         <label for="correo" class="form-label">Correo:</label>
-                        <input type="email" class="form-control" id="correo" value="atorres@gmail.com" readonly />
+                        <input type="email" class="form-control" id="correo" value="contacto@miseventos.com" readonly />
                     </div>
-    
+
                     <!-- Nombre -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" value="Ana Torres"/>
+                        <input type="text" class="form-control" id="nombre" value="MisEventos" />
                     </div>
 
                     <!-- Nickname -->
                     <div class="col-md-6">
                         <label for="nickname" class="form-label">Nickname:</label>
-                        <input type="text" class="form-control" id="nickname" value="atorres" readonly/>
+                        <input type="text" class="form-control" id="nickname" value="miseventos" readonly />
                     </div>
-    
+
                     <!-- Card panels -->
                     <div class="col-12">
-                        <div id="card-asistente" class="border rounded p-3">
+                        <div id="card-asistente" class="border rounded p-3 d-none">
                             <div class="mb-3">
                                 <label for="apellido" class="form-label">Apellido:</label>
-                                <input type="text" class="form-control" id="apellido" value="Torres"/>
+                                <input type="text" class="form-control" id="apellido" value="Torres" />
                             </div>
                             <div class="mb-3">
                                 <label for="fecha" class="form-label">Nacimiento:</label>
-                                <input type="date" class="form-control" id="fecha" value="1990-05-12"/>
+                                <input type="date" class="form-control" id="fecha" value="1990-05-12" />
                             </div>
                         </div>
-    
-                        <div id="card-organizador" class="border rounded p-3 d-none">
+
+                        <div id="card-organizador" class="border rounded p-3">
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Descripción:</label>
-                                <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                                <textarea class="form-control" id="descripcion" rows="3">Empresa de organización de eventos.</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="link" class="form-label">Link:</label>
-                                <input type="url" class="form-control" id="link" />
+                                <input type="url" class="form-control" id="link" value="https://miseventos.com"/>
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Botones -->
                     <div class="col-12 d-flex justify-content-end gap-2">
                         <button type="submit" class="btn btn-primary">Aceptar</button>
