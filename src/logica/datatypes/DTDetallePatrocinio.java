@@ -1,7 +1,6 @@
 package logica.datatypes;
 
-import java.time.LocalDate;
+import java.util.Date;
+import logica.ENivelPatrocinio;
 
-public record DTDetallePatrocinio(String codigo, LocalDate fecha, float monto, ENivelPatrocinio nivel, int cuposGratuitos) {
-
-}
+public record DTDetallePatrocinio(String nombreInstitucion, String codigo, Date fechaAlta, float aporte, ENivelPatrocinio nivel, int cuposGratuitos) {}

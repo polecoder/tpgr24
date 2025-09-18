@@ -13,6 +13,7 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
@@ -287,18 +288,6 @@ public class ControladorEventos implements IControladorEventos {
 		return resultado;
 	}
 
-    public String[] getNombreEventos() {
-    	Map<String,DTEvento> listaEventos = listarEventos(); // Obtengo los DTEvento
-		String[] nombreEventos = new String[listaEventos.size()]; // Creo lista vacia de nombres
-		
-		// Por cada evento, agrego su nombre a la lista
-		int i = 0;
-		for (String evento : listaEventos.keySet()) {
-			nombreEventos[i] = evento;
-		}
-		return new String[] {"Ev1", "Ev2"};//nombreEventos;
-    }
-    
     public String[] getNombresEdiciones(String nombreEvento) {
     	Map<String,DTEdicionEvento> listaEdiciones = listarEdicionesEvento(nombreEvento);
     	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
@@ -329,5 +318,15 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 	
+
+	@Override
+	public DTDetallePatrocinio mostrarDetallePatrocinio(String nombreEvento, String nombreEdicion, String codigoPatrocinio) {
+		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+		if (edicion != null) {
+			Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos());
+		}
+		return null;
+	}
 }
 

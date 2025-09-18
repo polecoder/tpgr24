@@ -86,11 +86,11 @@ public class FramePrincipal extends JFrame {
 
         JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem item_AltaPatrocinio = new JMenuItem("Alta Patrocinio");
-        //JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
-
+        JMenuItem item_consultaPatrocinio = new JMenuItem("Consulta Patrocinio");
+        
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(item_AltaPatrocinio);
-        //menuInstitucion.add(itemE);
+        menuInstitucion.add(item_consultaPatrocinio);
         
         JMenu menuCargaDatos = new JMenu("Carga Datos");
         menuBar.add(menuCargaDatos);
@@ -226,6 +226,15 @@ public class FramePrincipal extends JFrame {
 			    ventanaAceptarRechazarEdicion.setSelected(true); 
 			} catch (Exception ex) {}
 			
+		});
+		
+		item_consultaPatrocinio.addActionListener(e->{
+			ConsultaPatrocinio ventanaConsultaPatrocinio = new ConsultaPatrocinio();
+			panel.add(ventanaConsultaPatrocinio);
+			ventanaConsultaPatrocinio.setVisible(true);
+			try {
+			    ventanaConsultaPatrocinio.setSelected(true); 
+			} catch (Exception ex) {}
 		});
 		
 		setVisible(true); 
