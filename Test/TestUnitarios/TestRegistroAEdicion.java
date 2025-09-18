@@ -14,13 +14,13 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.Order;
 
-import logica.ENivelPatrocinio;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
 import logica.Utilidades;
 import logica.datatypes.DTDetalleRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestRegistroAEdicion {

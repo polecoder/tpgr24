@@ -14,6 +14,7 @@ import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 public interface IControladorEventos {
 	public Map<String,DTEvento> listarEventos();
@@ -65,6 +66,8 @@ public interface IControladorEventos {
 	 */
 	public List<String> getListaCategorias();
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
+	public Set<String> nombresEdicionesIngresadas(String eventoSeleccionado);
+	public void SetEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b);
 	/**
 	 * Devuelve el detalle del patrocinio específicado por los parámetros.
 	 * Si alguno de los parámetros representa a una instancia que no existe en el sistema, la función devuelve null.

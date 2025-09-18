@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
-import logica.ENivelPatrocinio;
 import logica.Fabrica;
 import logica.Utilidades;
 import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.ENivelPatrocinio;
 
 public class TestConsultaEdicionEvento {
 private static Fabrica fabrica;

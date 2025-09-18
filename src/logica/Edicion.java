@@ -8,6 +8,7 @@ import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.EEstadoEdicion;
 
 public class Edicion {
 	private String nombre;
@@ -17,6 +18,7 @@ public class Edicion {
 	private Date fechaAlta;
 	private String ciudad;
 	private String pais;
+	private EEstadoEdicion estado;
 	private HashMap<String, TipoRegistro> tiposRegistro;
 	private HashMap<String, Patrocinio> patrocinios;
 	private String organizadorNickname;
@@ -30,6 +32,7 @@ public class Edicion {
 		this.setFechaAlta(fechaAlta);
 		this.setCiudad(ciudad);
 		this.setPais(pais);
+		this.setEstado(EEstadoEdicion.Ingresada);
 		this.setPatrocinios(new HashMap<>());
 		this.setTiposRegistro(new HashMap<>());
 		this.setOrganizadorNickname(organizadorNickname);
@@ -84,7 +87,14 @@ public class Edicion {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
-
+	
+	public EEstadoEdicion getEstado() {
+		return estado;
+	}
+	public void setEstado(EEstadoEdicion estado) {
+		this.estado = estado;
+	}
+	
 	/**
 	 * Retorna null en caso de que el Patrocinio no exista en las asociaciones a la edición
 	 * 

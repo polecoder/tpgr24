@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
@@ -14,6 +16,8 @@ import excepciones.TipoRegistroNoExiste;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.EEstadoEdicion;
+import logica.datatypes.ENivelPatrocinio;
 
 public class ManejadorEventos {
 	private 
@@ -320,5 +324,33 @@ public class ManejadorEventos {
     	Edicion ed = ev.getEdicion(nombreEdicion);
     	return ed.getPatrocinios().keySet();
 	}
+	public Set<String> getNombresEdicionesIngresadas(String nombreEvento) {
+		EEstadoEdicion estado=EEstadoEdicion.valueOf("Ingresada");
+		Set<String> edicionesIngresadas = new HashSet<>();
+		for(Edicion e:eventos.get(nombreEvento).getEdiciones().values()) {
+			if(e.getEstado()==estado) {
+			 edicionesIngresadas.add(e.getNombre());
+				
+			}
+		}
+		return edicionesIngresadas;
+	}
+	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b) {
+		EEstadoEdicion estado;
+		String mensaje;
 
+	    if (b) {
+	        estado = EEstadoEdicion.Aceptada;
+	        mensaje = "La edición \"" + edicionSeleccionada + "\" del evento \"" + eventoSeleccionado + "\" fue ACEPTADA.";
+	    } else {
+	        estado = EEstadoEdicion.Rechazada;
+	        mensaje = "La edición \"" + edicionSeleccionada + "\" del evento \"" + eventoSeleccionado + "\" fue RECHAZADA.";
+	    }
+
+	    eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).setEstado(estado);
+
+	    // Mostrar cartel siempre
+	    JOptionPane.showMessageDialog(null, mensaje, "Estado de Edición", JOptionPane.INFORMATION_MESSAGE);
+	}
 }
+

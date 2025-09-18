@@ -2,6 +2,8 @@ package logica;
 
 import java.util.Date;
 
+import logica.datatypes.ENivelPatrocinio;
+
 
 public class Patrocinio {
 	String codigoPatrocinio;
