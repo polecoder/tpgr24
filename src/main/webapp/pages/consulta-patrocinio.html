@@ -32,162 +32,187 @@
       <div class="mx-auto" style="max-width: 768px">
         <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
           Consulta de Patrocinio
+          <span class="text-primary d-block">TECHUDELAR</span>
         </h1>
       </div>
 
-      <main
-        class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
-        style="max-width: px"
+      <div
+        class="d-flex justify-content-between gap-5 mx-auto"
+        style="max-width: 1024px"
       >
-        <form class="d-flex flex-column gap-4">
-          <div class="d-flex justify-content-center gap-3">
-            <label
-              for="comboEvento"
-              class="form-label text-end"
-              style="width: 80px"
-              >Evento:</label
+        <nav
+          class="border-primary border rounded"
+          style="width: 200px; height: fit-content"
+        >
+          <div style="margin-bottom: 0.5rem">
+            <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Caso de uso 1</a
             >
-            <select
-              class="form-select"
-              id="comboEvento"
-              style="width: 250px; font-size: 0.875rem"
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Caso de uso 2</a
             >
-              <option selected disabled>--Seleccionar evento--</option>
-              <option value="1">Evento 1</option>
-              <option value="2">Evento 2</option>
-              <option value="3">Evento 3</option>
-            </select>
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Caso de uso 3</a
+            >
           </div>
+          <div style="margin-bottom: 0.5rem">
+            <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Tecnología</a
+            >
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Innovación</a
+            >
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Deporte</a
+            >
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Salud</a
+            >
+          </div>
+        </nav>
+        <main class="p-4 bg-light border-top border-2 border-primary rounded">
+          <form class="d-flex flex-column gap-4">
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="fecha"
+                class="form-label text-end"
+                style="width: 100px"
+                >Fecha:</label
+              >
+              <input
+                type="text"
+                id="fecha"
+                name="fecha"
+                class="form-control form-control-sm px-2"
+                style="width: 250px"
+                value="21/08/2025"
+                readonly
+              />
+            </div>
 
-          <div class="d-flex justify-content-center gap-3">
-            <label
-              for="comboEdicion"
-              class="form-label text-end"
-              style="width: 80px"
-              >Edición:</label
-            >
-            <select
-              class="form-select"
-              id="comboEdicion"
-              style="width: 250px; font-size: 0.875rem"
-            >
-              <option selected disabled>--Seleccionar edición--</option>
-              <option value="1">Edición 1</option>
-              <option value="2">Edición 2</option>
-              <option value="3">Edición 3</option>
-            </select>
-          </div>
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="aporte"
+                class="form-label text-end"
+                style="width: 100px"
+                >Aporte:</label
+              >
+              <input
+                type="text"
+                id="aporte"
+                name="aporte"
+                class="form-control form-control-sm px-2"
+                style="width: 250px"
+                value="20000.00"
+                readonly
+              />
+            </div>
 
-          <div class="d-flex justify-content-center gap-3">
-            <label
-              for="comboPatrocinio"
-              class="form-label text-end"
-              style="width: 80px"
-              >Patrocinio:</label
-            >
-            <select
-              class="form-select"
-              id="comboPatrocinio"
-              style="width: 250px; font-size: 0.875rem"
-            >
-              <option selected disabled>--Seleccionar patrocinio--</option>
-              <option value="1">Patrocinio 1</option>
-              <option value="2">Patrocinio 2</option>
-              <option value="3">Patrocinio 3</option>
-            </select>
-          </div>
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="nivel"
+                class="form-label text-end"
+                style="width: 100px"
+                >Nivel:</label
+              >
+              <input
+                type="text"
+                id="nivel"
+                name="nivel"
+                class="form-control form-control-sm px-2"
+                style="width: 250px"
+                value="Oro"
+                readonly
+              />
+            </div>
 
-          <div class="d-flex justify-content-center gap-3">
-            <label
-              for="institucion"
-              class="form-label text-end"
-              style="width: 80px"
-              >Institución:</label
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="cuposGratuitos"
+                class="form-label text-end"
+                style="width: 100px"
+                >Cupos:</label
+              >
+              <input
+                type="text"
+                id="cuposGratuitos"
+                name="cuposGratuitos"
+                class="form-control form-control-sm px-2"
+                style="width: 250px"
+                value="4"
+                readonly
+              />
+            </div>
+          </form>
+        </main>
+        <div
+          class="border-primary border rounded"
+          style="max-width: 275px; height: fit-content"
+        >
+          <div>
+            <h3 class="text-white bg-primary p-2 m-0 fs-4">Edición</h3>
+            <div
+              class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center"
             >
-            <input
-              type="text"
-              id="institucion"
-              name="institucion"
-              class="form-control form-control-sm px-2"
-              style="width: 250px"
-              value="Facultad de Ingeniería"
-              readonly
-            />
+              <img
+                src="../images/anonimo.svg"
+                alt="Imagen evento"
+                style="width: 64px; height: 64px"
+              />
+              <!-- TODO: Lleva a CU::ConsultaEdición -->
+              <a href="#" class="text-primary"
+                >Tecnología Punta Del Este 2026</a
+              >
+            </div>
           </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="fecha" class="form-label text-end" style="width: 80px"
-              >Fecha:</label
+          <div>
+            <h3 class="text-white bg-primary p-2 m-0 fs-4">Institución</h3>
+            <div
+              class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center"
             >
-            <input
-              type="text"
-              id="fecha"
-              name="fecha"
-              class="form-control form-control-sm px-2"
-              style="width: 250px"
-              value="13/09/2025"
-              readonly
-            />
+              <img
+                src="../images/anonimo.svg"
+                alt="Imagen institucion"
+                style="width: 64px"
+              />
+              <!-- TODO: Lleva a CU::ConsultaInstitución -->
+              <a href="#" class="text-primary">Facultad de Ingeniería</a>
+            </div>
           </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="aporte" class="form-label text-end" style="width: 80px"
-              >Aporte:</label
+          <div>
+            <h3 class="text-white bg-primary p-2 m-0 fs-4">Tipo de registro</h3>
+            <div
+              class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center"
             >
-            <input
-              type="text"
-              id="aporte"
-              name="aporte"
-              class="form-control form-control-sm px-2"
-              style="width: 250px"
-              value="13000.00"
-              readonly
-            />
+              <!-- TODO: Lleva a CU::ConsultaTipoRegistro -->
+              <a href="#" class="text-primary">Estudiante</a>
+            </div>
           </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="nivel" class="form-label text-end" style="width: 80px"
-              >Institución:</label
-            >
-            <input
-              type="text"
-              id="nivel"
-              name="nivel"
-              class="form-control form-control-sm px-2"
-              style="width: 250px"
-              value="Platino"
-              readonly
-            />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label
-              for="cuposGratuitos"
-              class="form-label text-end"
-              style="width: 80px"
-              >Cupos:</label
-            >
-            <input
-              type="text"
-              id="cuposGratuitos"
-              name="cuposGratuitos"
-              class="form-control form-control-sm px-2"
-              style="width: 250px"
-              value="14"
-              readonly
-            />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <button type="button" class="btn btn-primary btn-sm px-3">
-              Aceptar
-            </button>
-            <button type="reset" class="btn btn-primary btn-sm px-3">
-              Reset
-            </button>
-          </div>
-        </form>
-      </main>
+        </div>
+      </div>
     </div>
 
     <footer
