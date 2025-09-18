@@ -35,7 +35,21 @@ const ediciones = [
 		fotoUrl:"../fotos/montevideoRock.png"
 	}
  ]
- const eventoSelect= document.getElementById("evento")
+ const tiposRegistro = [
+   {
+     nombre: "General",
+     descripcion: "Acceso general a Montevideo Rock (2 días)",
+     precio: 1500,
+     cupos: 2000
+   },
+   {
+     nombre: "Full",
+     descripcion: "Acceso ilimitado + Cena de gala",
+     precio: 1800,
+     cupos: 300
+   }
+ ];
+ const eventoSelect= document.getElementById("evento");
  const edicionSelect = document.getElementById("edicion");
  const tipoRegistroSelect = document.getElementById("tipoRegistro");
  const aporteInput = document.getElementById("aporte");
@@ -71,10 +85,12 @@ edicionSelect.addEventListener("change", () => {
   else {
   tipoRegistroSelect.disabled = false;
   tipoRegistroSelect.innerHTML = '<option value="">-- Seleccionar un Tipo Registro --</option>';
-  const option2 = document.createElement("option");
-  option2.value =  "tipo1"; 
-  option2.textContent = "tipo1";
-  tipoRegistroSelect.appendChild(option2);
+  tiposRegistro.forEach(tr => {
+        const option = document.createElement("option");
+        option.value = tr.nombre;
+        option.textContent = `${tr.nombre}`;
+        tipoRegistroSelect.appendChild(option);
+      });
   }
   }); 
   
@@ -91,7 +107,7 @@ edicionSelect.addEventListener("change", () => {
       { input: codigoInput, nombre: "Código Patrocinio" },
     ];
 
-    let errores = [];
+	let errores = false;
 
     // Limpiar estilos previos
     campos.forEach(c => c.input.style.borderColor = "");
@@ -100,26 +116,38 @@ edicionSelect.addEventListener("change", () => {
     campos.forEach(c => {
       if (!c.input.value.trim()) {
         c.input.style.borderColor = "red";
-        errores.push(`El campo ${c.nombre} es obligatorio.`);
+        errores=true;
       }
     });
-
+	if(errores)return;
 	const aporte = parseFloat(aporteInput.value);
 	if (!aporteInput.value || isNaN(aporte) || aporte <= 0) {
 	  aporteInput.style.borderColor = "red";
-	  errores.push("El Aporte Económico debe ser un número mayor a 0.");
+	  alert("El Aporte Económico debe ser un número mayor a 0.");
+	  errores = true;
+	  return;
 	}
-
 	// Validar cupos gratuitos
 	const cupos = parseInt(cuposInput.value, 10);
 	if (!cuposInput.value || isNaN(cupos) || cupos <= 0) {
 	  cuposInput.style.borderColor = "red";
-	  errores.push("Los Cupos Gratuitos deben ser un número entero mayor a 0.")
+	  alert("Los Cupos Gratuitos deben ser un número entero mayor a 0.");
+	  errores = true;
+	  return;
 	}
-
-	if (errores.length > 0) {
-	    alert("Errores:\n" + errores.join("\n"));
-	    return;
+	
+	 // Validar que costo cupos gratuitos no supere 20% del aporte
+	 if (!errores) {
+	   const tipoSeleccionado = tiposRegistro.find(tr => tr.nombre === tipoRegistroSelect.value);
+	   if (tipoSeleccionado) {
+	     const costoGratuitos = tipoSeleccionado.precio * cupos;
+	     if (costoGratuitos > aporte * 0.2) {
+	       cuposInput.style.borderColor = "red";
+	       alert("El costo de los registros gratuitos no puede superar el 20% del Aporte Económico.");
+	       errores = true;
+		   return;
+	     }
+	   }
 	 }
 
     // Si no hay errores, dar el alta y limpiar campos
