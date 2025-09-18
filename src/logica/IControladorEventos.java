@@ -10,9 +10,11 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import logica.datatypes.DTDetallePatrocinio;
 import logica.datatypes.DTEdicionEvento;
 import logica.datatypes.DTEvento;
 import logica.datatypes.DTTipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 public interface IControladorEventos {
 	public Map<String,DTEvento> listarEventos();
@@ -26,7 +28,6 @@ public interface IControladorEventos {
 	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaEdicionEvento(String nombreEvento,String nombre,String sigla,Date fechaInicio,Date fechaFin,Date fechaAlt,String ciudad,String pais, String organizadorNickname) throws Exception;
-	// public String[] getNombreEventos(); //Reemplazada por "nombresEventos()"
 	// public String[] getNombresEdiciones(String itemAt); // Reemplazada por "nombresEdicionesEvento()"
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento,String nombreEdicion)throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos;
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
@@ -57,7 +58,7 @@ public interface IControladorEventos {
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception;
-	public Object getNombresEdiciones(String string);
+	public String[] getNombresEdiciones(String nombreEvento);
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías
 	 * 
@@ -65,4 +66,16 @@ public interface IControladorEventos {
 	 */
 	public List<String> getListaCategorias();
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
+	public Set<String> nombresEdicionesIngresadas(String eventoSeleccionado);
+	public void SetEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b);
+	/**
+	 * Devuelve el detalle del patrocinio específicado por los parámetros.
+	 * Si alguno de los parámetros representa a una instancia que no existe en el sistema, la función devuelve null.
+	 * 
+	 * @param nombreEvento
+	 * @param nombreEdicion
+	 * @param nombrePatrocinio
+	 * @return
+	 */
+	public DTDetallePatrocinio mostrarDetallePatrocinio(String nombreEvento, String nombreEdicion, String codigoPatrocinio);
 }

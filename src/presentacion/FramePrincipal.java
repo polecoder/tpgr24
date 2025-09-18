@@ -51,11 +51,13 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_AltaEdicion = new JMenuItem("Alta Edición de Evento");
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
         JMenuItem item_ConsultaEdicionEvento = new JMenuItem("Consulta Edicion de Evento");
-
+        JMenuItem item_AceptarRechazar= new JMenuItem("Autorizar Ediciones");
+        
         menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
         menuEvento.add(item_ConsultaEdicionEvento);
+        menuEvento.add(item_AceptarRechazar);
 		
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
@@ -84,11 +86,11 @@ public class FramePrincipal extends JFrame {
 
         JMenuItem item_AltaInstitucion = new JMenuItem("Alta Institución");
         JMenuItem item_AltaPatrocinio = new JMenuItem("Alta Patrocinio");
-        //JMenuItem itemE = new JMenuItem("Consulta de Patrocinio");
-
+        JMenuItem item_consultaPatrocinio = new JMenuItem("Consulta Patrocinio");
+        
         menuInstitucion.add(item_AltaInstitucion);
         menuInstitucion.add(item_AltaPatrocinio);
-        //menuInstitucion.add(itemE);
+        menuInstitucion.add(item_consultaPatrocinio);
         
         JMenu menuCargaDatos = new JMenu("Carga Datos");
         menuBar.add(menuCargaDatos);
@@ -214,6 +216,25 @@ public class FramePrincipal extends JFrame {
 			    ventanaAltaPatrocinio.setSelected(true); 
 			} catch (Exception ex) {}
 			
+		});
+		
+		item_AceptarRechazar.addActionListener(e->{
+			AceptarRechazarEdicion ventanaAceptarRechazarEdicion = new AceptarRechazarEdicion();
+			panel.add(ventanaAceptarRechazarEdicion);
+			ventanaAceptarRechazarEdicion.setVisible(true);
+			try {
+			    ventanaAceptarRechazarEdicion.setSelected(true); 
+			} catch (Exception ex) {}
+			
+		});
+		
+		item_consultaPatrocinio.addActionListener(e->{
+			ConsultaPatrocinio ventanaConsultaPatrocinio = new ConsultaPatrocinio();
+			panel.add(ventanaConsultaPatrocinio);
+			ventanaConsultaPatrocinio.setVisible(true);
+			try {
+			    ventanaConsultaPatrocinio.setSelected(true); 
+			} catch (Exception ex) {}
 		});
 		
 		setVisible(true); 

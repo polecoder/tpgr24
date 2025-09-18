@@ -1,13 +1,13 @@
 package carga;
 
 import logica.Asistente;
-import logica.ENivelPatrocinio;
 import logica.Edicion;
 import logica.Institucion;
 import logica.ManejadorEventos;
 import logica.ManejadorInstituciones;
 import logica.ManejadorUsuarios;
 import logica.TipoRegistro;
+import logica.datatypes.ENivelPatrocinio;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
