@@ -59,36 +59,39 @@
                     <!-- Usuario -->
                     <div class="col-md-6">
                         <label for="usuario" class="form-label">Usuario:</label>
-                        <select class="form-select" id="usuario">
-                            <option selected>--Seleccionar un Usuario--</option>
-                            <option value="1">usuario1</option>
-                            <option value="2">usuario2</option>
-                            <option value="3">usuario3</option>
+                        <select class="form-select" id="usuario" disabled>
+                            <option selected disabled>Ana Torres</option>
                         </select>
                     </div>
     
                     <!-- Correo -->
                     <div class="col-md-6">
                         <label for="correo" class="form-label">Correo:</label>
-                        <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com" readonly />
+                        <input type="email" class="form-control" id="correo" value="atorres@gmail.com" readonly />
                     </div>
     
                     <!-- Nombre -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" />
+                        <input type="text" class="form-control" id="nombre" value="Ana Torres"/>
+                    </div>
+
+                    <!-- Nickname -->
+                    <div class="col-md-6">
+                        <label for="nickname" class="form-label">Nickname:</label>
+                        <input type="text" class="form-control" id="nickname" value="atorres" readonly/>
                     </div>
     
                     <!-- Card panels -->
                     <div class="col-12">
-                        <div id="card-asistente" class="border rounded p-3 d-none">
+                        <div id="card-asistente" class="border rounded p-3">
                             <div class="mb-3">
                                 <label for="apellido" class="form-label">Apellido:</label>
-                                <input type="text" class="form-control" id="apellido" />
+                                <input type="text" class="form-control" id="apellido" value="Torres"/>
                             </div>
                             <div class="mb-3">
                                 <label for="fecha" class="form-label">Nacimiento:</label>
-                                <input type="date" class="form-control" id="fecha" />
+                                <input type="date" class="form-control" id="fecha" value="1990-05-12"/>
                             </div>
                         </div>
     
