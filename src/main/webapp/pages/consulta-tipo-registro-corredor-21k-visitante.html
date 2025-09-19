@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eventos UY - Template</title>
+    <title>Eventos UY - Consulta Tipo Registro</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -29,78 +29,125 @@
     </nav>
 
     <div class="container flex-grow-1">
-      <div class="d-flex justify-content-start">
-        <nav
-        class="border-primary border rounded"
-        style="width: 200px; height: fit-content; margin-top: 7rem"
-      >
-        <div style="margin-bottom: 0.5rem">
-          <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Deporte</a
-          >
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Salud</a
-          >
-        </div>
-      </nav>
-
-      <div class="d-flex flex-column align-items-center gap-2 ms-md-5 mt-3">
+      <div class="d-flex flex-column align-items-center py-5">
         <div class="d-flex align-items-center gap-3">
           <img
             src="../images/IMG-EDEV03.jpeg"
             alt="Imagen usuario"
-            style="max-width: 128px; max-height: 128px; width: auto; height: auto"
+            style="
+              max-width: 128px;
+              max-height: 128px;
+              width: auto;
+              height: auto;
+            "
           />
-            <div class="d-flex flex-column" style="line-height: 1;">
-            <span class="fs-2 fw-bold mb-1">Maratón de Montevideo 2024</span>
-            <a href="./consulta-evento-maraton-montevideo-visitante.html" class="fs-5 text-secondary text-decoration-underline">Maratón Montevideo</a>
-            </div>
+          <div class="d-flex flex-column" style="line-height: 1">
+            <h1 class="fs-2 fw-bold mb-1">Maratón de Montevideo 2024</h1>
+            <a
+              href="./consulta-evento-maraton-montevideo-visitante.html"
+              class="fs-5 text-secondary text-decoration-underline"
+              >Maratón Montevideo</a
+            >
+          </div>
         </div>
+      </div>
+      <div class="d-flex justify-content-between mx-auto" style="width: 768px">
+        <!-- TODO: Modificar barra de navegación -->
+        <nav
+          class="border-primary border rounded"
+          style="width: 200px; height: fit-content"
+        >
+          <div style="margin-bottom: 0.5rem">
+            <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Deporte</a
+            >
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Salud</a
+            >
+          </div>
+        </nav>
         <main
-          class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
+          class="p-4 bg-light border-top border-2 border-primary rounded"
           style="max-width: 450px"
         >
           <form class="d-flex flex-column">
             <label class="text-uppercase py-4 fs-4 fs-sm-3 fw-bold">
-              Datos del tipo de registro 
+              Datos del tipo de registro
             </label>
-            
+
             <div class="d-flex flex-row align-items-center gap-2 mb-3">
-              <label for="nombre" class="form-label text-decoration-underline text-nowrap align-middle mb-0" style="width: auto;">Nombre del tipo de registro:</label>
-              <label class="form-label m-0 text-nowrap align-middle" style="width: auto;">Corredor 21K</label>
+              <label
+                for="nombre"
+                class="form-label text-decoration-underline text-nowrap align-middle mb-0"
+                style="width: auto"
+                >Nombre del tipo de registro:</label
+              >
+              <label
+                class="form-label m-0 text-nowrap align-middle"
+                style="width: auto"
+                >Corredor 21K</label
+              >
             </div>
 
             <div class="d-flex flex-row align-items-center gap-2 mb-3">
-              <label for="descripcion" class="form-label text-decoration-underline text-nowrap align-middle mb-0" style="width: auto;">Descripción:</label>
-              <label class="form-label m-0 align-middle" style="width: auto;">Inscripción a la media maratón</label>
+              <label
+                for="descripcion"
+                class="form-label text-decoration-underline text-nowrap align-middle mb-0"
+                style="width: auto"
+                >Descripción:</label
+              >
+              <label class="form-label m-0 align-middle" style="width: auto"
+                >Inscripción a la media maratón</label
+              >
             </div>
 
             <div class="d-flex flex-row align-items-center gap-2 mb-3">
-              <label for="costo" class="form-label text-decoration-underline text-nowrap align-middle mb-0" style="width: auto;">Costo:</label>
-              <label class="form-label m-0 text-nowrap align-middle" style="width: auto;">$500</label>
+              <label
+                for="costo"
+                class="form-label text-decoration-underline text-nowrap align-middle mb-0"
+                style="width: auto"
+                >Costo:</label
+              >
+              <label
+                class="form-label m-0 text-nowrap align-middle"
+                style="width: auto"
+                >$500</label
+              >
             </div>
-            
+
             <div class="d-flex flex-row align-items-center gap-2 mb-3">
-              <label for="cupos" class="form-label text-decoration-underline text-nowrap align-middle mb-0" style="width: auto;">Cupos:</label>
-              <label class="form-label m-0 text-nowrap align-middle" style="width: auto;">500</label>
+              <label
+                for="cupos"
+                class="form-label text-decoration-underline text-nowrap align-middle mb-0"
+                style="width: auto"
+                >Cupos:</label
+              >
+              <label
+                class="form-label m-0 text-nowrap align-middle"
+                style="width: auto"
+                >500</label
+              >
             </div>
 
             <div class="d-flex justify-content-center gap-3">
-                <a href="./consulta-edicion-maraton-montevideo-2024-visitante.html" class="btn btn-primary btn-sm px-3" id="btnEdicion">
+              <a
+                href="./consulta-edicion-maraton-montevideo-2024-visitante.html"
+                class="btn btn-primary btn-sm px-3"
+                id="btnEdicion"
+              >
                 Volver a la edición
-                </a>
+              </a>
             </div>
           </form>
         </main>
       </div>
-    </div>
     </div>
 
     <footer
@@ -111,6 +158,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-     <script src="../js/alta-tipo-registro.js"></script>
+    <script src="../js/alta-tipo-registro.js"></script>
   </body>
 </html>
