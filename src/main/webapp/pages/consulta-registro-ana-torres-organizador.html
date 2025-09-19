@@ -58,36 +58,15 @@
         </div>
       </nav>
       <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px">
-        <form class="d-flex flex-column gap-4">
-          <!-- Selección de registro -->
-          <div class="d-flex justify-content-center gap-3">
-            <label for="selectRegistro" class="form-label text-end" style="width: 80px">Ediciones:</label>
-            <select id="selectRegistro" class="form-select form-select-sm" style="max-width: 300px">
-              <!-- Options a insertar dinámicamente -->
-            </select>
-          </div>
-
-          <!-- Selección de usuario -->
-          <div class="d-flex justify-content-center gap-3">
-            <label for="selectAsistente" class="form-label text-end" style="width: 80px">Asistente:</label>
-            <select id="selectAsistente" class="form-select form-select-sm" style="max-width: 300px">
-              <option selected disabled></option>
-              <!-- Options a insertar dinámicamente -->
-            </select>
-          </div>
-
-          <!-- Botón Ver Detalle -->
-          <div class="d-flex justify-content-end">
-            <button type="button" id="btnDetalle" class="btn btn-primary btn-sm">Ver Detalle</button>
-          </div>
-
-          <!-- Área de texto para el detalle -->
-          <div>
-            <label for="detalle" class="form-label">Detalle:</label>
-            <textarea id="detalle" class="form-control form-control-sm" rows="6" readonly
-              style="font-family: monospace"></textarea>
-          </div>
-        </form>
+         <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
+         <p><strong>Usuario:</strong> Ana Torres</p>
+          <p><strong>Evento:</strong> Maratón de Montevideo</p>
+          <p><strong>Edición:</strong> Maratón de Montevideo 2024</p>
+          <p><strong>Fecha de registro:</strong> 2024-06-01</p>
+          <p><strong>Tipo de registro:</strong>
+            <a href="./consulta-tipo-registro.html?tipo=Elite" class="link-primary link-underline">Corredor 21K</a>
+          </p>
+          <p><strong>Patrocinio:</strong> No se utilizó código de patrocinio</p>
       </main>
     </div>
   </div>
