@@ -28,110 +28,82 @@
   <div class="container flex-grow-1 my-4">
     <div class="mx-auto" style="max-width: 768px">
       <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">
-        Consulta Usuario
+        Datos de usuario
       </h1>
-
-      <div class="d-flex justify-content-between gap-4">
-        <nav class="border-primary border rounded" style="width: 200px; height: fit-content">
-          <div style="margin-bottom: 0.5rem">
-            <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-            <!-- ToDo: Necesito modificar datos de usuario aqui -->
-            <a href="./modificar-datos-usuario-miseventos-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Modificar Datos de Usuario</a>
-            <a href="./alta-evento-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de Evento</a>
-            <a href="./consulta-evento-maraton-montevideo-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de
-              Evento</a>
-            <a href="./consulta-registro-ana-torres-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de
-              Registro</a>
-            <a href="./alta-institucion-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
-              Institución</a>
-            <a href="./alta-patrocinio.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
-              Patrocinio</a>
-            <!-- ToDo: Necesito consulta de patrocinio aqui -->
-            <a href="./consulta-patrocinio-organizador.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de Patrocinio</a>
-          </div>
-          <div style="margin-bottom: 0.5rem">
-            <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
-          </div>
-        </nav>
-        <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
+      <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
 
-          <!-- Imagen -->
-          <div class="mb-3 row">
-            <label for="image" class="col-sm-4 col-form-im text-start"></label>
-            <div class="col-sm-8">
-              <img src="../images/IMG-US04.jpeg" id="image" alt="Imagen previa" class="img-fluid rounded"
-                style="max-height: 100px;" />
-            </div>
+        <!-- Imagen -->
+        <div class="mb-3 row">
+          <label for="image" class="col-sm-4 col-form-im text-start"></label>
+          <div class="col-sm-8">
+            <img src="../images/IMG-US04.jpeg" id="image" alt="Imagen previa" class="img-fluid rounded"
+              style="max-height: 100px;" />
           </div>
+        </div>
 
-          <!-- Nickname -->
-          <div class="mb-3 row">
-            <label for="nombre" class="col-sm-4 col-form-label text-center">Nickname:</label>
-            <div class="col-sm-8">
-              <input type="text" id="nombre" class="form-control form-control-sm" readonly value="miseventos" />
-            </div>
+        <!-- Nickname -->
+        <div class="mb-3 row">
+          <label for="nombre" class="col-sm-4 col-form-label text-center">Nickname:</label>
+          <div class="col-sm-8">
+            <input type="text" id="nombre" class="form-control form-control-sm" readonly value="miseventos" />
           </div>
+        </div>
 
-          <!-- Nombre -->
-          <div class="mb-3 row">
-            <label for="nombre" class="col-sm-4 col-form-label text-center">Nombre:</label>
-            <div class="col-sm-8">
-              <input type="text" id="nombre" class="form-control form-control-sm" readonly value="MisEventos" />
-            </div>
+        <!-- Nombre -->
+        <div class="mb-3 row">
+          <label for="nombre" class="col-sm-4 col-form-label text-center">Nombre:</label>
+          <div class="col-sm-8">
+            <input type="text" id="nombre" class="form-control form-control-sm" readonly value="MisEventos" />
           </div>
+        </div>
 
-          <!-- Correo -->
-          <div class="mb-3 row">
-            <label for="correo" class="col-sm-4 col-form-label text-center">Correo:</label>
-            <div class="col-sm-8">
-              <input type="text" id="correo" class="form-control form-control-sm" readonly
-                value="contacto@miseventos.com" />
-            </div>
+        <!-- Correo -->
+        <div class="mb-3 row">
+          <label for="correo" class="col-sm-4 col-form-label text-center">Correo:</label>
+          <div class="col-sm-8">
+            <input type="text" id="correo" class="form-control form-control-sm" readonly
+              value="contacto@miseventos.com" />
           </div>
+        </div>
 
-          <!-- Descripción -->
-          <div class="mb-3 row">
-            <label for="descripcion" class="col-sm-4 col-form-label text-center">Descripción:</label>
-            <div class="col-sm-8">
-              <textarea id="descripcion" class="form-control form-control-sm" rows="2"
-                readonly>Empresa de organización de eventos.</textarea>
-            </div>
+        <!-- Descripción -->
+        <div class="mb-3 row">
+          <label for="descripcion" class="col-sm-4 col-form-label text-center">Descripción:</label>
+          <div class="col-sm-8">
+            <textarea id="descripcion" class="form-control form-control-sm" rows="2"
+              readonly>Empresa de organización de eventos.</textarea>
           </div>
+        </div>
 
-          <!-- Link -->
-          <div class="mb-3 row">
-            <label for="link" class="col-sm-4 col-form-label text-center">Link:</label>
-            <div class="col-sm-8">
-              <input type="text" id="link" class="form-control form-control-sm" readonly
-                value="https://miseventos.com" />
-            </div>
+        <!-- Link -->
+        <div class="mb-3 row">
+          <label for="link" class="col-sm-4 col-form-label text-center">Link:</label>
+          <div class="col-sm-8">
+            <input type="text" id="link" class="form-control form-control-sm" readonly
+              value="https://miseventos.com" />
           </div>
+        </div>
 
-          <!-- Ediciones -->
-          <div class="mb-3 row">
-            <label for="ediciones" class="col-sm-4 col-form-label text-center">Ediciones:</label>
-            <div class="col-sm-8 d-flex flex-column gap-2">
-              <a href="consulta-edicion-organizador.html"
-                class="text-primary text-decoration-underline">Maratón de Montevideo 2024 - Aceptada</a>
-              <span class="text-secondary">Maratón de Montevideo 2022 - Rechazada</span>
-              <span class="text-secondary">Maratón de Montevideo 2025 - Ingresada</span>
-            </div>
+        <!-- Ediciones -->
+        <div class="mb-3 row">
+          <label for="ediciones" class="col-sm-4 col-form-label text-center">Ediciones:</label>
+          <div class="col-sm-8 d-flex flex-column gap-2">
+            <a href="consulta-edicion-organizador.html"
+              class="text-primary text-decoration-underline">Maratón de Montevideo 2024 - Aceptada</a>
+            <span class="text-secondary">Maratón de Montevideo 2022 - Rechazada</span>
+            <span class="text-secondary">Maratón de Montevideo 2025 - Ingresada</span>
           </div>
-          <!-- Botón Modificar Usuario con enlace -->
-          <div class="text-end mt-4">
-            <a href="modificar-usuario.html">
-              <a href="./modificar-datos-usuario-miseventos-organizador.html" type="button" class="btn btn-primary">
-                Modificar Usuario
-              </a>
+        </div>
+        <!-- Botón Modificar Usuario con enlace -->
+        <div class="text-end mt-4">
+          <a href="modificar-usuario.html">
+            <a href="./modificar-datos-usuario-miseventos-organizador.html" type="button" class="btn btn-primary">
+              Modificar Usuario
             </a>
-          </div>
-        </form>
-      </div>
+          </a>
+        </div>
+      </form>
     </div>
   </div>
 

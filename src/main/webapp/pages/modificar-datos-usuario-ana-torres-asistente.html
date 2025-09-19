@@ -32,91 +32,69 @@
                 Modificar Datos de Usuario
             </h1>
         </div>
-        <div class="d-flex justify-content-between">
-            <!-- Sidebar -->
-            <nav class="border-primary border rounded me-4" style="width: 200px; height: fit-content">
-                <div style="margin-bottom: 0.5rem">
-                    <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-                    <a href="./modificar-datos-usuario-ana-torres-asistente.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Modificar Datos de
-                        Usuario</a>
-                    <a href="./consulta-evento-maraton-montevideo-asistente.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta
-                        de Evento</a>
-                    <a href="./consulta-registro-ana-torres-asistente.html" class="d-block px-1 text-primary"
-                        style="font-size: 0.875rem">Consulta de Registro</a>
-                    <!-- ToDo: Necesito consulta de patrocinio aqui -->
-                    <a href="./consulta-patrocinio-asistente.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de Patrocinio</a>
+        <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded mb-5 "  >
+            <form class="row g-3">
+                
+                <!-- Nickname -->
+                <div class="col-md-6">
+                    <label for="nickname" class="form-label">Nickname:</label>
+                    <input type="text" class="form-control" id="nickname" value="atorres" readonly/>
                 </div>
-                <div style="margin-bottom: 0.5rem">
-                    <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
-                    <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
+
+                    <!-- Correo -->
+                <div class="col-md-6">
+                    <label for="correo" class="form-label">Correo:</label>
+                    <input type="email" class="form-control" id="correo" value="atorres@gmail.com" readonly />
                 </div>
-            </nav>
-            <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded mb-5 "  >
-                <form class="row g-3">
-                    
-                    <!-- Nickname -->
-                    <div class="col-md-6">
-                        <label for="nickname" class="form-label">Nickname:</label>
-                        <input type="text" class="form-control" id="nickname" value="atorres" readonly/>
-                    </div>
 
-                     <!-- Correo -->
-                    <div class="col-md-6">
-                        <label for="correo" class="form-label">Correo:</label>
-                        <input type="email" class="form-control" id="correo" value="atorres@gmail.com" readonly />
-                    </div>
+                    <!-- Nombre -->
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" value="Ana" />
+                </div>
 
-                     <!-- Nombre -->
-                    <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" value="Ana" />
-                    </div>
+                    <!-- Apellido -->
+                <div class="col-md-6">
+                            <label for="apellido" class="form-label">Apellido:</label>
+                            <input type="text" class="form-control" id="apellido" value="Torres" />
+                </div>
 
-                     <!-- Apellido -->
-                    <div class="col-md-6">
-                                <label for="apellido" class="form-label">Apellido:</label>
-                                <input type="text" class="form-control" id="apellido" value="Torres" />
-                    </div>
 
-    
-                    <!-- Card panels -->
-                    <div class="col-12">
-                        <div id="card-asistente" class="border rounded p-3">
-                           
-                            <div class="mb-3">
-                                <label for="fecha" class="form-label">Nacimiento:</label>
-                                <input type="date" class="form-control" id="fecha" value="1990-05-12" />
-                            </div>
-                        </div>
-    
-                        <div id="card-organizador" class="border rounded p-3 d-none">
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción:</label>
-                                <textarea class="form-control" id="descripcion" rows="3"></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="link" class="form-label">Link:</label>
-                                <input type="url" class="form-control" id="link" />
-                            </div>
+                <!-- Card panels -->
+                <div class="col-12">
+                    <div id="card-asistente" class="border rounded p-3">
+                        
+                        <div class="mb-3">
+                            <label for="fecha" class="form-label">Nacimiento:</label>
+                            <input type="date" class="form-control" id="fecha" value="1990-05-12" />
                         </div>
                     </div>
-                    
-                    <!-- Imagen -->
-                    <div class="col-12 mb-3 p-4">
-                        <img class="d-block mx-auto" src="../images/IMG-US01.jpg"/>
-                    </div>
 
-                    <!-- Botones -->
-                    <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary">Aceptar</button>
-                        <button type="reset" class="btn btn-secondary">Cancelar</button>
+                    <div id="card-organizador" class="border rounded p-3 d-none">
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción:</label>
+                            <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="link" class="form-label">Link:</label>
+                            <input type="url" class="form-control" id="link" />
+                        </div>
                     </div>
-                </form>
-            </main>
-        </div>
+                </div>
+                
+                <!-- Imagen -->
+                <div class="col-12 mb-3 p-4">
+                    <label for="imagen" class="form-label d-block">Cambiar foto de perfil:</label>
+                    <input class="form-control" type="file" id="imagen"/>
+                </div>
+
+                <!-- Botones -->
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <button type="reset" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </main>
     </div>
 
     <!-- FOOTER -->
