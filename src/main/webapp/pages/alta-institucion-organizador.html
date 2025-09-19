@@ -12,12 +12,13 @@
   <body class="d-flex flex-column min-vh-100">
     <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
       <a
-        href="../index.html"
+        href="#"
         class="fw-bold text-white text-decoration-none fs-5 fs-sm-4"
+        style="line-height: 48px"
       >
         eventos.uy
       </a>
-      <ul class="list-unstyled m-0">
+      <ul class="list-unstyled m-0 d-flex gap-3">
         <li class="d-flex gap-3">
           <img
             src="../images/IMG-US04.jpeg"
@@ -27,6 +28,9 @@
           <a href="#" class="text-white m-0" style="line-height: 48px"
             >MisEventos</a
           >
+        </li>
+        <li class="text-uppercase text-white" style="line-height: 48px">
+          <a href="#" class="text-white">Cerrar Sesión</a>
         </li>
       </ul>
     </nav>
@@ -38,117 +42,130 @@
         </h1>
       </div>
 
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between mx-auto" style="width: 768px">
         <nav
-        class="border-primary border rounded"
-        style="width: 200px; height: fit-content"
-      >
-        <div style="margin-bottom: 0.5rem">
-          <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Deporte</a
-          >
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Salud</a
-          >
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Tecnología</a
-          >
-          <a
-            href="#"
-            class="d-block px-1 text-primary"
-            style="font-size: 0.875rem"
-            >Innovación</a
-          >
-        </div>
-      </nav>
-      
-      <main
-        class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
-        style="max-width: 375px"
-      >
-      <div id="alert-area" class="mb-3"></div>
-        <form 
-        	id="altaInstitucionForm"
-      		method="post"
-      		action="../alta-institucion"
-      		enctype="multipart/form-data"
-      		novalidate
-        	class="d-flex flex-column gap-4">
-        
-          <div class="d-flex justify-content-center gap-3">
-            <label for="nombre" class="form-label text-end" style="width: 80px"
-              >Nombre:</label
+          class="border-primary border rounded"
+          style="width: 200px; height: fit-content"
+        >
+          <div style="margin-bottom: 0.5rem">
+            <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Deporte</a
             >
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              class="form-control form-control-sm"
-              style="max-width: 200px"
-            />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="descripcion" class="form-label text-end" style="width: 80px"
-              >Descripcion:</label
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Salud</a
             >
-            <textarea 
-            	id="descripcion" 
-            	name="descripcion" 
-            	rows="3"
-            	class="form-control form-control-sm" 
-            	style="max-width: 200px" 
-            	required>
-            	</textarea>
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="sitioWeb" class="form-label text-end" style="width: 80px"
-              >Sitio web:</label
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Tecnología</a
             >
-            <input
-              type="url"
-              id="sitioWeb"
-              name="sitioWeb"
-              placeholder="https://..."
-              class="form-control form-control-sm"
-              style="max-width: 200px"
-              required
-            />
+            <a
+              href="#"
+              class="d-block px-1 text-primary"
+              style="font-size: 0.875rem"
+              >Innovación</a
+            >
           </div>
-          
-          <div class="d-flex justify-content-center gap-3">
-  			<label for="imagen" class="form-label text-end" style="width: 80px">Imagen:</label>
- 			<input 
- 				type="file" 
- 				id="imagen" 
- 				name="imagen" 
- 				accept="image/*"
-         		class="form-control form-control-sm" 
-         		style="max-width: 200px"/>
-		</div>
+        </nav>
 
-          <div class="d-flex justify-content-center gap-3">
-            <button type="submit" class="btn btn-primary btn-sm px-3">
-              Aceptar
-            </button>
-            <button type="reset" class="btn btn-primary btn-sm px-3">
-              Reset
-            </button>
-          </div>
-        </form>
-      </main>
-    </div>
+        <main class="p-4 bg-light border-top border-2 border-primary rounded">
+          <div id="alert-area" class="mb-3"></div>
+          <form
+            id="altaInstitucionForm"
+            method="post"
+            action="../alta-institucion"
+            enctype="multipart/form-data"
+            novalidate
+            class="d-flex flex-column gap-4"
+          >
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="nombre"
+                class="form-label text-end"
+                style="width: 80px"
+                >Nombre:</label
+              >
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                class="form-control form-control-sm"
+                style="max-width: 300px"
+              />
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="descripcion"
+                class="form-label text-end"
+                style="width: 80px"
+                >Descripcion:</label
+              >
+              <textarea
+                id="descripcion"
+                name="descripcion"
+                rows="3"
+                class="form-control form-control-sm"
+                style="max-width: 300px"
+                required
+              >
+              </textarea>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="sitioWeb"
+                class="form-label text-end"
+                style="width: 80px"
+                >Sitio web:</label
+              >
+              <input
+                type="url"
+                id="sitioWeb"
+                name="sitioWeb"
+                placeholder="https://..."
+                class="form-control form-control-sm"
+                style="max-width: 300px"
+                required
+              />
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+              <label
+                for="imagen"
+                class="form-label text-end"
+                style="width: 80px"
+                >Imagen:</label
+              >
+              <input
+                type="file"
+                id="imagen"
+                name="imagen"
+                accept="image/*"
+                class="form-control form-control-sm"
+                style="max-width: 300px"
+              />
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+              <button type="submit" class="btn btn-primary btn-sm px-3">
+                Aceptar
+              </button>
+              <button type="reset" class="btn btn-primary btn-sm px-3">
+                Reset
+              </button>
+            </div>
+          </form>
+        </main>
+      </div>
     </div>
 
     <footer
