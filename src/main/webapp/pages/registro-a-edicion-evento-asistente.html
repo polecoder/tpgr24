@@ -27,28 +27,19 @@
         </div>
         <div class="d-flex justify-content-between">
             <!-- Sidebar -->
-             <nav class="border-primary border rounded mb-4" style="width: 200px; height: fit-content;">
-                <div class="mb-2">
-                    <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-                    <a href="./consulta-evento-maraton-montevideo-asistente.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consultar Evento</a>
-                </div>
-            </nav>
+            
             <!-- Main Content -->
              <main class="flex-grow-1 mx-auto p-4 bg-light border-top border-2 border-primary rounded  "style="min-width: 500px; max-width: 600px;">
                 <div id="alert-area" class="mb-3"></div>
                 <form id="registroEdicionEventoForm" method="post" action="../RegistroAEdicionEvento" enctype="multipart/form-data" novalidate class="d-flex flex-column gap-4">
                     <div class="d-flex justify-content-center gap-3">
                         <label for="evento" class="form-label text-end" style="width: 80px">Evento</label>
-                        <select id="evento" name="evento" required class="form-select" style="max-width:400px" disabled>
-                            <option selected>Maratón de Montevideo</option>
+                        <input id="evento" name="evento" required class="form-control" style="max-width:400px" disabled value="Maratón de Montevideo">
                             <!-- Opciones dinámicas -->
-                        </select>
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <label for="edicion" class="form-label text-end" style="width: 80px;">Edición</label>
-                        <select id="edicion" name="edicion" required class="form-select" style="max-width: 400px;" disabled>
-                            <option selected>Maratón de Montevideo 2024</option>
-                        </select>
+                        <input id="edicion" name="edicion" required class="form-control" style="max-width: 400px;" disabled value="Maratón de Montevideo 2024">
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <label for="tipoRegistro" class="form-label text-end" style="width: 80px;">Tipo de Registro</label>
@@ -58,9 +49,8 @@
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <label for="asistente" class="form-label text-end" style="width: 80px;">Asistente</label>
-                        <select id="asistente" name="asistente" required class="form-select" style="max-width: 400px;" disabled>
-                            <option selected>Ana Torres</option>
-                        </select>
+                        <input id="asistente" name="asistente" required class="form-control" style="max-width: 400px;" disabled value="Ana Torres">
+                           
                     </div>
                     <div class="d-flex justify-content-center gap-3">
                         <label for="codigoPatrocinio" class="form-label text-start" style="width: 80px;">Código de Patrocinio</label>
