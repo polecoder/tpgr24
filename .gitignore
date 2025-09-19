@@ -6,4 +6,4 @@ target/
 # Archivos
 .project
 .classpath
-.vscode.*
+.vscode
