@@ -27,132 +27,112 @@
       <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">
         Consulta Usuario
       </h1>
+      <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
-      <div class="d-flex justify-content-between gap-4">
-        <nav class="border-primary border rounded" style="width: 200px; height: fit-content">
-          <div style="margin-bottom: 0.5rem">
-            <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
-            <a href="./alta-usuario-visitante.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Registrarse</a>
-            <a href="./consulta-evento-maraton-montevideo-visitante.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de
-              Evento</a>
-            <!-- ToDo: Necesito consulta de patrocinio aqui -->
-            <a href="./consulta-patrocinio-visitante.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de Patrocinio</a>
+        <!-- Imagen -->
+        <div class="mb-3 row">
+          <label for="image" class="col-sm-4 col-form-im text-start"></label>
+          <div class="col-sm-8">
+            <img src="../images/IMG-US01.jpg" id="image" alt="Imagen previa" class="img-fluid rounded"
+              style="max-height: 100px;" />
           </div>
-          <div style="margin-bottom: 0.5rem">
-            <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
-            <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
+        </div>
+
+        <!-- Nickname -->
+        <div class="mb-3 row">
+          <label for="nickname" class="col-sm-4 col-form-label text-end">Nickname:</label>
+          <div class="col-sm-8">
+            <input type="text" id="nombre" class="form-control form-control-sm" readonly value="atorres" />
           </div>
-        </nav>
-        <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
+        </div>
 
-          <!-- Imagen -->
-          <div class="mb-3 row">
-            <label for="image" class="col-sm-4 col-form-im text-start"></label>
-            <div class="col-sm-8">
-              <img src="../images/IMG-US01.jpg" id="image" alt="Imagen previa" class="img-fluid rounded"
-                style="max-height: 100px;" />
-            </div>
+
+        <!-- Nombre -->
+        <div class="mb-3 row">
+          <label for="nombre" class="col-sm-4 col-form-label text-end">Nombre:</label>
+          <div class="col-sm-8">
+            <input type="text" id="nombre" class="form-control form-control-sm" readonly value="Ana Torres" />
           </div>
+        </div>
 
-          <!-- Nickname -->
-          <div class="mb-3 row">
-            <label for="nickname" class="col-sm-4 col-form-label text-end">Nickname:</label>
-            <div class="col-sm-8">
-              <input type="text" id="nombre" class="form-control form-control-sm" readonly value="atorres" />
-            </div>
+        <!-- Correo -->
+        <div class="mb-3 row">
+          <label for="correo" class="col-sm-4 col-form-label text-end">Correo:</label>
+          <div class="col-sm-8">
+            <input type="text" id="correo" class="form-control form-control-sm" readonly value="atorres@gmail.com" />
           </div>
+        </div>
 
-
-          <!-- Nombre -->
-          <div class="mb-3 row">
-            <label for="nombre" class="col-sm-4 col-form-label text-end">Nombre:</label>
-            <div class="col-sm-8">
-              <input type="text" id="nombre" class="form-control form-control-sm" readonly value="Ana Torres" />
-            </div>
-          </div>
-
-          <!-- Correo -->
-          <div class="mb-3 row">
-            <label for="correo" class="col-sm-4 col-form-label text-end">Correo:</label>
-            <div class="col-sm-8">
-              <input type="text" id="correo" class="form-control form-control-sm" readonly value="atorres@gmail.com" />
-            </div>
-          </div>
-
-          <!-- Panel dinámico: Asistente u Organizador -->
-          <div id="panelAsistenteOrganizador">
-            <!-- Asistente -->
-            <div id="asistenteFields">
-              <!-- Apellido -->
-              <div class="mb-3 row">
-                <label for="apellido" class="col-sm-4 col-form-label text-end">Apellido:</label>
-                <div class="col-sm-8">
-                  <input type="text" id="apellido" class="form-control form-control-sm" readonly value="Torres" />
-                </div>
-              </div>
-
-              <!-- Institución -->
-              <div class="mb-3 row">
-                <label for="institucion" class="col-sm-4 col-form-label text-end">Institución:</label>
-                <div class="col-sm-8">
-                  <input type="text" id="institucion" class="form-control form-control-sm" readonly
-                    value="Facultad de Ingeniería" />
-                </div>
-              </div>
-
-              <!-- Fecha de nacimiento -->
-              <div class="mb-3 row">
-                <label for="nacimiento" class="col-sm-4 col-form-label text-end">Nacimiento:</label>
-                <div class="col-sm-8">
-                  <input type="text" id="nacimiento" class="form-control form-control-sm" readonly value="12/05/1990" />
-                </div>
-              </div>
-
-              <div class="mb-3 row">
-                <label for="registros" class="col-sm-4 col-form-label text-end">Registros:</label>
-                <div class="col-sm-8 d-flex flex-column gap-2">
-                  <a href="./consulta-registro-ana-torres-visitante" class="text-primary text-decoration-underline">Maratón de
-                    Montevideo 2024</a>
-                  <a href="./consulta-registro-ana-torres-visitante" class="text-primary text-decoration-underline">Web Summit
-                    2026</a>
-                </div>
+        <!-- Panel dinámico: Asistente u Organizador -->
+        <div id="panelAsistenteOrganizador">
+          <!-- Asistente -->
+          <div id="asistenteFields">
+            <!-- Apellido -->
+            <div class="mb-3 row">
+              <label for="apellido" class="col-sm-4 col-form-label text-end">Apellido:</label>
+              <div class="col-sm-8">
+                <input type="text" id="apellido" class="form-control form-control-sm" readonly value="Torres" />
               </div>
             </div>
 
-            <!-- Organizador -->
-            <div id="organizadorFields" class="d-none">
-              <!-- Descripción -->
-              <div class="mb-3 row">
-                <label for="descripcion" class="col-sm-4 col-form-label text-end">Descripción:</label>
-                <div class="col-sm-8">
-                  <textarea id="descripcion" class="form-control form-control-sm" rows="2" readonly></textarea>
-                </div>
+            <!-- Institución -->
+            <div class="mb-3 row">
+              <label for="institucion" class="col-sm-4 col-form-label text-end">Institución:</label>
+              <div class="col-sm-8">
+                <input type="text" id="institucion" class="form-control form-control-sm" readonly
+                  value="Facultad de Ingeniería" />
               </div>
+            </div>
 
-              <!-- Link -->
-              <div class="mb-3 row">
-                <label for="link" class="col-sm-4 col-form-label text-end">Link:</label>
-                <div class="col-sm-8">
-                  <input type="text" id="link" class="form-control form-control-sm" readonly />
-                </div>
+            <!-- Fecha de nacimiento -->
+            <div class="mb-3 row">
+              <label for="nacimiento" class="col-sm-4 col-form-label text-end">Nacimiento:</label>
+              <div class="col-sm-8">
+                <input type="text" id="nacimiento" class="form-control form-control-sm" readonly value="12/05/1990" />
               </div>
+            </div>
 
-              <!-- Ediciones -->
-              <div class="mb-3 row">
-                <label for="ediciones" class="col-sm-4 col-form-label text-end">Ediciones:</label>
-                <div class="col-sm-8">
-                  <select id="ediciones" class="form-select form-select-sm">
-                    <!-- Opciones dinámicas -->
-                  </select>
-                </div>
+            <div class="mb-3 row">
+              <label for="registros" class="col-sm-4 col-form-label text-end">Registros:</label>
+              <div class="col-sm-8 d-flex flex-column gap-2">
+                <a href="./consulta-registro-ana-torres-visitante" class="text-primary text-decoration-underline">Maratón de
+                  Montevideo 2024</a>
+                <a href="./consulta-registro-ana-torres-visitante" class="text-primary text-decoration-underline">Web Summit
+                  2026</a>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+
+          <!-- Organizador -->
+          <div id="organizadorFields" class="d-none">
+            <!-- Descripción -->
+            <div class="mb-3 row">
+              <label for="descripcion" class="col-sm-4 col-form-label text-end">Descripción:</label>
+              <div class="col-sm-8">
+                <textarea id="descripcion" class="form-control form-control-sm" rows="2" readonly></textarea>
+              </div>
+            </div>
+
+            <!-- Link -->
+            <div class="mb-3 row">
+              <label for="link" class="col-sm-4 col-form-label text-end">Link:</label>
+              <div class="col-sm-8">
+                <input type="text" id="link" class="form-control form-control-sm" readonly />
+              </div>
+            </div>
+
+            <!-- Ediciones -->
+            <div class="mb-3 row">
+              <label for="ediciones" class="col-sm-4 col-form-label text-end">Ediciones:</label>
+              <div class="col-sm-8">
+                <select id="ediciones" class="form-select form-select-sm">
+                  <!-- Opciones dinámicas -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
