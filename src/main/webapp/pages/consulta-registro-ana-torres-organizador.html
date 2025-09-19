@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventos UY - Consulta de Registro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
+    <a href="#" class="fw-bold text-white text-decoration-none fs-5 fs-sm-4" style="line-height: 48px">
+      eventos.uy
+    </a>
+    <ul class="list-unstyled m-0 d-flex gap-3">
+      <li class="d-flex gap-3">
+        <img src="../images/IMG-US04.jpeg" alt="Imagen usuario" style="width: 48px; height: 48px" />
+        <a href="ConsultaUsuario.html" class="text-white m-0" style="line-height: 48px">MisEventos</a>
+      </li>
+      <li class="text-uppercase text-white" style="line-height: 48px">
+        <a href="../index-visitante.html" class="text-white">Cerrar Sesión</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container flex-grow-1">
+    <div class="mx-auto" style="max-width: 768px">
+      <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
+        Consulta de Registro
+      </h1>
+    </div>
+    <div class="d-flex justify-content-between">
+      <!-- Sidebar -->
+      <nav class="border-primary border rounded" style="width: 200px; height: fit-content">
+        <div style="margin-bottom: 0.5rem">
+          <h3 class="text-white bg-primary p-1 fs-5">Operaciones</h3>
+          <!-- ToDo: Necesito modificar datos de usuario aqui -->
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Modificar Datos de Usuario</a>
+          <a href="altaevento.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de Evento</a>
+          <a href="consultaEvento.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de
+            Evento</a>
+          <a href="ConsultaRegistro.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de
+            Registro</a>
+          <a href="altainstitucion.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
+            Institución</a>
+          <a href="alta-patrocinio.html" class="d-block px-1 text-primary" style="font-size: 0.875rem">Alta de
+            Patrocinio</a>
+          <!-- ToDo: Necesito consulta de patrocinio aqui -->
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Consulta de Patrocinio</a>
+        </div>
+        <div style="margin-bottom: 0.5rem">
+          <h3 class="text-white bg-primary p-1 fs-5">Categorías</h3>
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Tecnología</a>
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Innovación</a>
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Deporte</a>
+          <a href="#" class="d-block px-1 text-primary" style="font-size: 0.875rem">Salud</a>
+        </div>
+      </nav>
+      <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px">
+        <form class="d-flex flex-column gap-4">
+          <!-- Selección de registro -->
+          <div class="d-flex justify-content-center gap-3">
+            <label for="selectRegistro" class="form-label text-end" style="width: 80px">Ediciones:</label>
+            <select id="selectRegistro" class="form-select form-select-sm" style="max-width: 300px">
+              <!-- Options a insertar dinámicamente -->
+            </select>
+          </div>
+
+          <!-- Selección de usuario -->
+          <div class="d-flex justify-content-center gap-3">
+            <label for="selectAsistente" class="form-label text-end" style="width: 80px">Asistente:</label>
+            <select id="selectAsistente" class="form-select form-select-sm" style="max-width: 300px">
+              <option selected disabled></option>
+              <!-- Options a insertar dinámicamente -->
+            </select>
+          </div>
+
+          <!-- Botón Ver Detalle -->
+          <div class="d-flex justify-content-end">
+            <button type="button" id="btnDetalle" class="btn btn-primary btn-sm">Ver Detalle</button>
+          </div>
+
+          <!-- Área de texto para el detalle -->
+          <div>
+            <label for="detalle" class="form-label">Detalle:</label>
+            <textarea id="detalle" class="form-control form-control-sm" rows="6" readonly
+              style="font-family: monospace"></textarea>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <footer class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto">
+    <p class="fw-bold m-0">TPROG 2025</p>
+    <p class="m-0">Grupo 24</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/ConsultaRegistro.js"></script>
+</body>
+
+</html>
