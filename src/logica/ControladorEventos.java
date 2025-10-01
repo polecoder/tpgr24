@@ -324,7 +324,8 @@ public class ControladorEventos implements IControladorEventos {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		if (edicion != null) {
 			Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
-			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos());
+			TipoRegistro tr = patrocinio.getTipoRegistro();
+			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos(), tr.getNombre());
 		}
 		return null;
 	}
