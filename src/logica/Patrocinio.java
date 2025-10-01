@@ -12,15 +12,17 @@ public class Patrocinio {
 	ENivelPatrocinio nivel;
 	int cuposGratuitos;
 	Institucion institucion;
+	TipoRegistro tipoRegistro;
 	
 	public Patrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
-			int cuposGratuitos, Institucion institucion) {
+			int cuposGratuitos, Institucion institucion, TipoRegistro tipoRegistro) {
 		this.setCodigoPatrocinio(codigoPatrocinio);
 		this.setFechaPatrocinio(fechaPatrocinio);
 		this.setAporte(aporte);
 		this.setNivel(nivel);
 		this.setCuposGratuitos(cuposGratuitos);
 		this.setInstitucion(institucion);
+		this.setTipoRegistro(tipoRegistro);
 	}
 	
 	public String getCodigoPatrocinio() {
@@ -69,4 +71,6 @@ public class Patrocinio {
 			return false;
 		}
 	}
+	public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro;}
+	public TipoRegistro getTipoRegistro() { return tipoRegistro;}
 }

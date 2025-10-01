@@ -339,7 +339,7 @@ import logica.datatypes.ENivelPatrocinio;
 	            try {
 	                // Llamada al método con validaciones internas
 	            	Date fechaActual=new Date();
-	            	IContEvento.altaPatrocinio(eventoSeleccionado,edicionSeleccionada,fechaActual,institucionSeleccionada,nivel,aporteEconomico,cantidadGratuitos,codigoPatrocinio);
+	            	IContEvento.altaPatrocinio(eventoSeleccionado,edicionSeleccionada,fechaActual,institucionSeleccionada,nivel,aporteEconomico,cantidadGratuitos,codigoPatrocinio,tipoRegistro);
 	            	JOptionPane.showMessageDialog(this,"Patrocinio creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
 	                // limpia los campos si llega al final
 	            	txtAporte.setText("");

@@ -146,7 +146,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 	
 	@Override
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception {
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) throws Exception {
 	    
 	    // Validación de campos obligatorios
 	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
@@ -175,7 +175,7 @@ public class ControladorEventos implements IControladorEventos {
 	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
 	        throw new Exception("El código de patrocinio solo puede contener letras y números");
 	    }
-		manejadorEventos.AltaPatrocinio(eventoSeleccionado,FechaAlta,edicionSeleccionada,institucionSeleccionada,nivelPatrocinio,aporteEconomico,cupos,codigoPatrocinio);
+		manejadorEventos.AltaPatrocinio(eventoSeleccionado,FechaAlta,edicionSeleccionada,institucionSeleccionada,nivelPatrocinio,aporteEconomico,cupos,codigoPatrocinio,tipoRegistroSeleccionado);
 	}
 
  
