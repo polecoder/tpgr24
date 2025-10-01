@@ -260,12 +260,14 @@ public class ControladorEventos implements IControladorEventos {
 				float cost = tr.getCosto();
 				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
 				Patrocinio p = null;
-				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente);
+				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
 				if(checkEd) {
 					p = ed.getPatrocinio(codigoPatrocinio);
 					int cuposP = p.getCuposGratuitos();
-					p.setCuposGratuitos(cuposP-1);
-					cost = 0;
+					if(cuposP > 0) {
+						p.setCuposGratuitos(cuposP-1);
+						cost = 0;						
+					}
 				}
 				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
 			} catch(Exception CRError) {

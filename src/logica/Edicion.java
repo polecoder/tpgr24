@@ -181,12 +181,13 @@ public class Edicion {
 	}
 	
 	// TODO: Implementar y revisar el nombre
-	public boolean check(String codigoPatrocinio, String nicknameAsistente) {
+	public boolean check(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) {
 		boolean pertenece =  patrocinios.containsKey(codigoPatrocinio);
 		if(pertenece) {
 			Patrocinio p = patrocinios.get(codigoPatrocinio);
 			boolean checkA = p.checkAsistente(nicknameAsistente);
-			return checkA && pertenece;			
+			boolean checkTR = p.getTipoRegistro().getNombre() == nombreTipoRegistro;
+			return checkA && pertenece && checkTR;			
 		}else {
 			return false;
 		}
