@@ -114,7 +114,7 @@ class testConsultaRegistro {
 
 	    // --- Patrocinio + Registros del usuario ---
 	    
-	    Patrocinio pat = new Patrocinio("Patro",Utilidades.toDate(LocalDate.now()), 0, null, 0, null);
+	    Patrocinio pat = new Patrocinio("Patro",Utilidades.toDate(LocalDate.now()), 0, null, 0, null,null);
 	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),100f, ana, pat);
 	    Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
 	    
@@ -222,7 +222,7 @@ class testConsultaRegistro {
 
         
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
-        Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null);
+        Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null,null);
         Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
         Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
         Registro r3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
@@ -278,7 +278,7 @@ class testConsultaRegistro {
         ed.getTiposRegistro().put(gen.getNombre(), gen);
         
         
-         Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null); 
+         Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null,null); 
 
         // Un solo registro
         Registro r = new Registro(Utilidades.toDate(LocalDate.now()), 800f, u, pat);

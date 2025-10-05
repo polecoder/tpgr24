@@ -259,12 +259,19 @@ public class ManejadorEventos {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
 		}
 
-	public void AltaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio) {
-		Fabrica fabrica=Fabrica.getInstancia();
-		IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
-		Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
-		Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,FechaAlta, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion);
-		eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).agregarPatrocinio(patrocinio);
+	public void AltaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio, String tipoRegistroSeleccionado) throws Exception{
+		try {
+			Fabrica fabrica=Fabrica.getInstancia();
+			IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
+			Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
+			Evento ev = eventos.get(eventoSeleccionado);
+			Edicion ed = ev.getEdicion(edicionSeleccionada);
+			TipoRegistro tr = ed.getTipoRegistro(tipoRegistroSeleccionado);
+			Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,FechaAlta, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion, tr);
+			ed.agregarPatrocinio(patrocinio);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
 		Registro registro = new Registro(fecha, costo, asistente, patrocinio);

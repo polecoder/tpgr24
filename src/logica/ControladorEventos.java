@@ -146,7 +146,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 	
 	@Override
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception {
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) throws Exception {
 	    
 	    // Validación de campos obligatorios
 	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
@@ -175,7 +175,7 @@ public class ControladorEventos implements IControladorEventos {
 	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
 	        throw new Exception("El código de patrocinio solo puede contener letras y números");
 	    }
-		manejadorEventos.AltaPatrocinio(eventoSeleccionado,FechaAlta,edicionSeleccionada,institucionSeleccionada,nivelPatrocinio,aporteEconomico,cupos,codigoPatrocinio);
+		manejadorEventos.AltaPatrocinio(eventoSeleccionado,FechaAlta,edicionSeleccionada,institucionSeleccionada,nivelPatrocinio,aporteEconomico,cupos,codigoPatrocinio,tipoRegistroSeleccionado);
 	}
 
  
@@ -260,12 +260,14 @@ public class ControladorEventos implements IControladorEventos {
 				float cost = tr.getCosto();
 				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
 				Patrocinio p = null;
-				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente);
+				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
 				if(checkEd) {
 					p = ed.getPatrocinio(codigoPatrocinio);
 					int cuposP = p.getCuposGratuitos();
-					p.setCuposGratuitos(cuposP-1);
-					cost = 0;
+					if(cuposP > 0) {
+						p.setCuposGratuitos(cuposP-1);
+						cost = 0;						
+					}
 				}
 				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
 			} catch(Exception CRError) {
@@ -324,7 +326,8 @@ public class ControladorEventos implements IControladorEventos {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		if (edicion != null) {
 			Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
-			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos());
+			TipoRegistro tr = patrocinio.getTipoRegistro();
+			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos(), tr.getNombre());
 		}
 		return null;
 	}

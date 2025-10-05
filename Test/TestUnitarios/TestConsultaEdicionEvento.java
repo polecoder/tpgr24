@@ -82,7 +82,7 @@ private static Fabrica fabrica;
 		
 		// Alta Patrocinio
 		try {
-			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1");
+			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1","TR1");
 		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage());
 		}

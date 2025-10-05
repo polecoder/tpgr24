@@ -64,7 +64,7 @@ class testEdicion {
 
         TipoRegistro agotado = new TipoRegistro("Agotado", "Sin cupos", 0f, 10, 0 /* cuposDisponibles=0 */);
         ed.agregarTipoRegistro(agotado);
-        assertFalse(ed.validar("nick", "Agotado"));
+        assertThrows(Exception.class, () -> ed.validar("nick", "Agotado"));
 
         assertFalse(ed.check("COD-INEXISTENTE", "nick"));
 
@@ -75,7 +75,8 @@ class testEdicion {
                 10000f,
                 ENivelPatrocinio.Bronce,
                 0,
-                inst);
+                inst,
+                agotado);
         ed.agregarPatrocinio(pat);
 
         assertFalse(ed.check("PAT-001", "cualquierNick"));

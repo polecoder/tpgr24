@@ -57,7 +57,7 @@ public interface IControladorEventos {
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio) throws Exception;
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) throws Exception;
 	public String[] getNombresEdiciones(String nombreEvento);
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías

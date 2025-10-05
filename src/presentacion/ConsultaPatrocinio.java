@@ -33,6 +33,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 	private final String PLACEHOLDER_EVENTO = "--Seleccionar un Evento--";
 	private final String PLACEHOLDER_EDICION = "--Seleccionar una Edición--";
 	private final String PLACEHOLDER_PATROCINIO = "--Seleccionar un Patrocinio--";
+	private JTextField tipoRegistroTxt;
 	
 	public ConsultaPatrocinio() {
 		super("Consulta de Patrocinio", true, true, true, true);
@@ -192,6 +193,24 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		getContentPane().add(cuposTxt, gbc_cuposTxt);
 		cuposTxt.setColumns(10);
 		
+		JLabel tipoRegistroLbl = new JLabel("Tipo de Registro");
+		GridBagConstraints gbc_tipoRegistroLbl = new GridBagConstraints();
+		gbc_tipoRegistroLbl.anchor = GridBagConstraints.EAST;
+		gbc_tipoRegistroLbl.insets = new Insets(0, 0, 0, 5);
+		gbc_tipoRegistroLbl.gridx = 1;
+		gbc_tipoRegistroLbl.gridy = 9;
+		getContentPane().add(tipoRegistroLbl, gbc_tipoRegistroLbl);
+		
+		tipoRegistroTxt = new JTextField();
+		tipoRegistroTxt.setEditable(false);
+		GridBagConstraints gbc_tipoRegistroTxt = new GridBagConstraints();
+		gbc_tipoRegistroTxt.insets = new Insets(0, 0, 0, 5);
+		gbc_tipoRegistroTxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tipoRegistroTxt.gridx = 2;
+		gbc_tipoRegistroTxt.gridy = 9;
+		getContentPane().add(tipoRegistroTxt, gbc_tipoRegistroTxt);
+		tipoRegistroTxt.setColumns(10);
+		
 		comboEvento.addActionListener(e -> {
 			String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 			if (eventoSeleccionado != null && !eventoSeleccionado.equals(PLACEHOLDER_EVENTO)) {
@@ -243,6 +262,9 @@ public class ConsultaPatrocinio extends JInternalFrame {
 				this.fechaTxt.setText(fechaPatrocinio);
 				this.institucionTxt.setText(patrocinio.nombreInstitucion());
 				this.nivelTxt.setText(patrocinio.nivel().name());
+				this.tipoRegistroTxt.setText(patrocinio.tipoRegistro());
+				
+				
 			} else if (patrocinioSeleccionado.equals(PLACEHOLDER_PATROCINIO)) {
 				resetCampos();
 			}

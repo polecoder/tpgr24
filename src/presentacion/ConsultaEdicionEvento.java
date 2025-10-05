@@ -1,30 +1,27 @@
 package presentacion;
 
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.datatypes.DTEdicionEvento;
-import logica.datatypes.DTEvento;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.swing.JInternalFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
-
-import java.awt.Insets;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JList;
 
-import java.text.SimpleDateFormat;
+import logica.Fabrica;
+import logica.IControladorEventos;
+import logica.datatypes.DTEdicionEvento;
+import logica.datatypes.DTEvento;
 
 public class ConsultaEdicionEvento extends JInternalFrame {
 
@@ -327,7 +324,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		eventoComboBox.addActionListener(e -> {
 			String selectedEvento = (String) eventoComboBox.getSelectedItem();
 			if(selectedEvento != "- Seleccione un Evento -") {
-				System.out.printf("\n ConsultaEdicionEvento::eventoComboBox.actionListener() selectedEvento is: %s",selectedEvento);
+				//System.out.printf("\n ConsultaEdicionEvento::eventoComboBox.actionListener() selectedEvento is: %s",selectedEvento);
 				
 				List<String> listaEdiciones = new ArrayList<>();
 				Map<String, DTEdicionEvento> HMediciones = ICEv.listarEdicionesEvento(selectedEvento);

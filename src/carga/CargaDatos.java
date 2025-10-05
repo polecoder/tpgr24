@@ -445,11 +445,16 @@ public class CargaDatos {
 				CSVPatrocinio patrocinio = patrocinios.get(ref);
 				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getEvento()).getNombre();
 				String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
+				String nombreTipoRegistro = tiposRegistro.get(patrocinio.getTipoRegistro()).getNombre();
 				String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
 				this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 				this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
-				this.manejadorEventos.AltaPatrocinio( nombreEvento,patrocinio.getFechaPatrocinio(), nombreEdicion,nombreInstitucion,nivel,patrocinio.getAporte(), patrocinio.getCuposGratuitos(),patrocinio.getCodigoPatrocinio() );
+				try {
+					this.manejadorEventos.AltaPatrocinio( nombreEvento,patrocinio.getFechaPatrocinio(), nombreEdicion,nombreInstitucion,nivel,patrocinio.getAporte(), patrocinio.getCuposGratuitos(),patrocinio.getCodigoPatrocinio(), nombreTipoRegistro );
+				}catch(Exception CPError) {
+					
+				}
 			} 
 		}
 	}

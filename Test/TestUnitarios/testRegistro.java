@@ -19,7 +19,7 @@ class testRegistro {
                 Utilidades.toDate(LocalDate.of(2000, 5, 1)), null);
 
         Patrocinio patrocinio = new Patrocinio("PAT01", Utilidades.toDate(LocalDate.now()), 
-                1000f, null, 5, null);
+                1000f, null, 5, null,null);
 
         Registro reg = new Registro(Utilidades.toDate(LocalDate.now()), 100f, asistente, patrocinio);
         
