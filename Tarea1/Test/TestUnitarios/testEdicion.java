@@ -66,7 +66,7 @@ class testEdicion {
         ed.agregarTipoRegistro(agotado);
         assertThrows(Exception.class, () -> ed.validar("nick", "Agotado"));
 
-        assertFalse(ed.check("COD-INEXISTENTE", "nick"));
+        assertFalse(ed.check("COD-INEXISTENTE", "nick",agotado.getNombre()));
 
         Institucion inst = new Institucion("Fing", "fing@uni.edu", "Facultad Ing.");
         Patrocinio pat = new Patrocinio(
@@ -79,7 +79,7 @@ class testEdicion {
                 agotado);
         ed.agregarPatrocinio(pat);
 
-        assertFalse(ed.check("PAT-001", "cualquierNick"));
+        assertFalse(ed.check("PAT-001", "cualquierNick",agotado.getNombre()));
 
         ed.eliminarPatrocinio("PAT-001");
         assertFalse(ed.getPatrocinios().containsKey("PAT-001"));
