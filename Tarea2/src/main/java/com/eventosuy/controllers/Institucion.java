@@ -37,7 +37,7 @@ public class Institucion extends HttpServlet {
 		switch(action){
 			case "altaInsitucion":
 				// hace que se ejecute el jsp sin cambiar la url
-				request.getRequestDispatcher("/WEB-INF/instituciones/altaInsitucion.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
 				break;
 			case "consultaPatrocinio":
 				// hace que se ejecute el jsp sin cambiar la url
