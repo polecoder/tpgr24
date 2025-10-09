@@ -14,7 +14,7 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 	<jsp:include page="./WEB-INF/templates/header.jsp"></jsp:include>
 	<!-- Contenido principal -->
 	<div class="container flex-grow-1 mt-4">
-		<div class="row g-4">
+		<div class="row g-5">
 			<div class="col-12 col-md-4">
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
 					<div class="mb-4">
@@ -53,12 +53,12 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 			<!-- Eventos disponibles -->
 			<div
 				class="col-12 col-md-8 order-1 order-md-2 justify-content-center">
-				<h1 class="text-center text-uppercase py-3 fs-2">Eventos
+				<h1 class="text-center text-uppercase pb-3 fs-2">Eventos
 					disponibles</h1>
-				<div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
 					<!-- TODO: Hardcodeado -->
 					<!-- Tarjeta: Conferencia de Tecnología -->
-					<div class="col" style="width: 350px">
+					<div class="col">
 						<div class="card h-100 shadow-sm">
 							<a
 								href="./pages/consulta-evento-maraton-montevideo-visitante.html">
@@ -76,7 +76,7 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 					</div>
 					<!-- TODO: Hardcodeado -->
 					<!-- Tarjeta: Maratón de Montevideo -->
-					<div class="col" style="width: 350px">
+					<div class="col">
 						<div class="card h-100 shadow-sm">
 							<a
 								href="./pages/consulta-evento-maraton-montevideo-visitante.html">
@@ -95,9 +95,9 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 					    Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
 					    for (DTEvento e: eventos.values()) {
 					%>
-						<div class="col" style="width: 350px">
+						<div class="col">
 							<div class="card h-100 shadow-sm">
-								<!-- TODO: Cambiar href de anchor y src de imagen -->
+								<!-- TODO: Cambiar href y src de imagen -->
 								<a
 									href="#">
 									<img src="./images/sin-imagen.svg" alt="<%= e.getNombre() %>"
