@@ -20,7 +20,7 @@
 			style="max-width: 700px">
 			<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
 			<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-			<form action="Ediciones?caso_de_uso=AltaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/from-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+			<form action="Ediciones?caso_de_uso=AltaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 				<div class="d-flex gap-3 align-items-center">
 					<img class="col-4" src="" alt="Imagen evento"
 						style="width: auto; height: auto; max-width: 100px; max-height: 100px;" />
@@ -33,7 +33,7 @@
 					<label for="nombreEdicion" class="form-label text-nowrap"
 						style="width: 155px">Nombre de edición:<span class="text-danger">*</span> 
 					</label> 
-					<input type="text" id="nombreEdicion" name="nombreEdicion" class="form-control form-control-sm" style="width: 350px" required/>
+					<input type="text" id="nombreEdicion" name="nombre_edicion" class="form-control form-control-sm" style="width: 350px" required/>
 				</div>
 
 				<div class="d-flex mb-2">
@@ -61,14 +61,14 @@
 					<label for="fechaInicio" 
 						style="height: fit-content; width: 155px">Fecha de inicio:<span class="text-danger">*</span>
 					</label> 
-					<input type="date" id="fechaInicio" name="fechaInicio" class="form-control" style="max-width: 350px" required />
+					<input type="date" id="fechaInicio" name="fecha_inicio" class="form-control" style="max-width: 350px" required />
 				</div>
 
 				<div class="d-flex align-items-center">
 					<label for="fechaFin" 
 						style="height: fit-content; width: 155px">Fecha de fin:<span class="text-danger">*</span>
 					</label> 
-					<input type="date" id="fechaFin" name="fechaFin" class="form-control" style="max-width: 350px" required />
+					<input type="date" id="fechaFin" name="fecha_fin" class="form-control" style="max-width: 350px" required />
 				</div>
 
 				<div class="d-flex mb-2">

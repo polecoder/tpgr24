@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +14,6 @@ import java.util.Set;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
-import excepciones.DatosTipoRegistroInvalidos;
-import excepciones.EdicionNoExiste;
-import excepciones.EventoNoExiste;
-import excepciones.NombreTipoRegistroRepetido;
-import excepciones.TipoRegistroNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,7 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logica.Fabrica;
 import logica.IControladorEventos;
-import logica.IControladorUsuarios;
 import logica.Utilidades;
 
 @WebServlet("/Ediciones")
@@ -34,7 +29,6 @@ public class Ediciones extends HttpServlet {
 	public Ediciones () {super();} // Constructor (no lleva parametros)
 	
 	private final static Fabrica fabrica = Fabrica.getInstancia();
-	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
@@ -60,7 +54,7 @@ public class Ediciones extends HttpServlet {
 			}
 			break;
 		case "ConsultaTipoRegistro":
-			request = CUConsultaTipoRegistro(request);
+			request = CUConsultaTipoRegistro(request, response);
 			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 			break;
 		}
@@ -95,46 +89,66 @@ public class Ediciones extends HttpServlet {
 		return request;
 	}
 	
-	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String nombreEvento = request.getParameter("nombreEvento");
-		String nombreEdicion = request.getParameter("nombreEdicion");
+	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+		String nombreEvento = request.getParameter("nombre_evento");
+		String nombreEdicion = request.getParameter("nombre_edicion");
 		String sigla = request.getParameter("sigla");
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaInicio = formatter.parse(request.getParameter("fechaInicio"));
-		Date fechaFin = formatter.parse(request.getParameter("fechaFin"));
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
+		Date fechaFin = formatter.parse(request.getParameter("fecha_fin"));
 		Date fechaAlta = new Date();
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
 		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
 		
-		controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador);
+		try {
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador);
+		} catch (Exception ex) {
+			request.setAttribute("error_message", ex.getMessage());
+			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			return;
+		}
 		
 		request.setAttribute("nombre_edicion", nombreEdicion);
 		request = CUConsultaEdicion(request);
 		request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 	}
 	
-	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
+	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombreEvento = request.getParameter("nombre_evento");
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		String nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro");
-		DTTipoRegistro dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
+		String nombreTipoRegistro = request.getParameter("nombre_tipo_registro");
+		if (nombreTipoRegistro == null) { nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro"); }
 		
+		DTTipoRegistro dtTipoRegistro = null;
+		try {
+			dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		} catch (Exception ex) {
+			request.setAttribute("error_message", ex.getMessage());
+			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			return request;
+		}
+		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		return request;
 	}
 	
-	private void CUAltaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, ServletException, IOException {
-		String nombreTipoRegistro = request.getParameter("nombreTipoRegistro");
+	private void CUAltaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String nombreTipoRegistro = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		float costo = Float.parseFloat(request.getParameter("costo"));
-		int cuposMax = Integer.parseInt(request.getParameter("cuposMax"));
+		int cuposMax = Integer.parseInt(request.getParameter("cupos_max"));
 		String nombreEvento = request.getParameter("nombre_evento");
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		
-		controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
+		try {
+			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
+		} catch (Exception ex) {
+			request.setAttribute("error_message", ex.getMessage());
+			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			return;
+		}
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistro);
-		request = CUConsultaTipoRegistro(request);
+		request = CUConsultaTipoRegistro(request, response);
 		request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 	}
 	

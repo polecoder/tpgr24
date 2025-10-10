@@ -24,7 +24,7 @@
 				style="max-width: 375px">
 				<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
 				<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-				<form action="Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/from-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+				<form action="Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 
 					<div
 						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
@@ -55,7 +55,7 @@
 						<label for="costo" class="form-label" style="width: 200px">
 							Costo:<span class="text-danger">*</span>
 						</label> 
-						<input type="text" id="costo"
+						<input type="number" id="costo"
 							name="costo" class="form-control form-control-sm" style="max-width: 300px" required
 						/>
 					</div>
@@ -64,8 +64,8 @@
 						<label for="cuposMax" class="form-label" style="width: 200px">
 							Cupos:<span class="text-danger">*</span>
 						</label> 
-						<input type="text" id="cuposMax"
-							name="cuposMax" class="form-control form-control-sm" style="max-width: 300px" required
+						<input type="number" id="cuposMax"
+							name="cupos_max" class="form-control form-control-sm" style="max-width: 300px" required
 						/>
 					</div>
 					<div class="d-flex justify-content-center gap-3">
