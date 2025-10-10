@@ -36,18 +36,20 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 						%>
 					</div>
 
+					<!-- TODO: Agregar filtrado de categorías -->
 					<!-- Categorías -->
 					<div>
 						<h5 class="text-white bg-primary p-2 rounded">Categorías</h5>
 						<ul class="list-unstyled ps-2">
-							<li><a href="#" class="text-primary small d-block mb-2">Tecnología</a>
-							</li>
-							<li><a href="#" class="text-primary small d-block mb-2">Innovación</a>
-							</li>
-							<li><a href="#" class="text-primary small d-block mb-2">Deporte</a>
-							</li>
-							<li><a href="#" class="text-primary small d-block">Salud</a>
-							</li>
+							<%
+							    List<String> categorias = (List<String>) request.getAttribute("categorias");
+							    for (String nombreCategoria: categorias) {
+							%>
+								<li><a href="#" class="text-primary small d-block mb-2"><%=nombreCategoria%></a>
+								</li>
+							<%
+							    }
+							%>
 						</ul>
 					</div>
 				</nav>

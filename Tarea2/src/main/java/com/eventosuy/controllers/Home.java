@@ -29,7 +29,6 @@ public class Home extends HttpServlet {
      */
     public Home() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     /**
@@ -39,10 +38,13 @@ public class Home extends HttpServlet {
     	Fabrica f = Fabrica.getInstancia();
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
+		// Eventos
 		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		
+		// Usuarios
 		try {
 			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
 			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
@@ -50,6 +52,16 @@ public class Home extends HttpServlet {
 			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com");
 		} catch (FormatoContrasenaInvalido e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// Categorias
+		try {
+			f.getControladorEvento().altaCategoria("Categoria1");
+			f.getControladorEvento().altaCategoria("Categoria2");
+			f.getControladorEvento().altaCategoria("Categoria3");
+			f.getControladorEvento().altaCategoria("Categoria4");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,10 +77,10 @@ public class Home extends HttpServlet {
 		req.setAttribute("eventos", eventos);
 		
 		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();
-		for (DTDetalleUsuario u: usuarios) {
-			System.out.println(u.getNombre());
-		}
 		req.setAttribute("usuarios", usuarios);
+		
+		List<String> categorias = f.getControladorEvento().getListaCategorias();
+		req.setAttribute("categorias", categorias);
 		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
