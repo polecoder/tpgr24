@@ -13,7 +13,6 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
 import datatypes.DTUsuario;
 import datatypes.DTRegistro;
-
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
@@ -38,7 +37,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
-			String nombreinstitucion) throws FormatoContrasenaInvalido, Exception  {
+			String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, Exception  {
 		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
 			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
@@ -88,7 +87,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	@Override
-	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link)
+	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen)
 			throws FormatoContrasenaInvalido, Exception {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || descripcion == null
 				|| descripcion.isEmpty() || correo == null || correo.isEmpty()) {
@@ -135,6 +134,18 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	public Map<String, DTAsistente> listarAsistentes() {
 		return manejadorUsuarios.listarAsistentes();
+	}
+	public void actualizarImagenUsuario(String nickname, byte[] imagen) {
+	    if (imagen == null || imagen.length == 0) return;
+	    manejadorUsuarios.actualizarImagenUsuario(nickname, imagen);
+	}
+	
+	public byte[] obtenerImagenPorNickname(String nickname) {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);
+	    if (a != null) return a.getImagen();
+	    Organizador o = manejadorUsuarios.getOrganizador(nickname);
+	    if (o != null) return o.getImagen();
+	    return null;
 	}
 
 	public List<DTUsuario> listarUsuarios() {

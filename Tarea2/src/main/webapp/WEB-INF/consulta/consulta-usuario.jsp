@@ -12,10 +12,10 @@
 
     <%
       // Datos que prepara el servlet
-      Object listaAttr    = request.getAttribute("usuarios");   // Collection<DTUsuario> o null
-      Object usuarioAttr  = request.getAttribute("usuario");    // DTDetalleUsuario o null
-      String ctx          = request.getContextPath();
-      String nickSesion   = (String) session.getAttribute("nick");
+      Object listaAttr   = request.getAttribute("usuarios");   // Collection<DTUsuario> o null
+      Object usuarioAttr = request.getAttribute("usuario");    // DTDetalleUsuario o null
+      String ctx         = request.getContextPath();
+      String nickSesion  = (String) session.getAttribute("nick");
     %>
 
     <div class="container flex-grow-1 my-4">
@@ -53,24 +53,33 @@
 
       <%-- ======================= DETALLE DE UN USUARIO ======================= --%>
       <% } else if (usuarioAttr != null) { %>
+        <%
+          // Resolver la imagen: si el servlet mandó 'imagenDataUri', úsala; si no, imagen por defecto
+          String imgSrc = ctx + "/images/IMG-US01.jpg";
+          Object imgDataUri = request.getAttribute("imagenDataUri");
+          if (imgDataUri != null) {
+              imgSrc = String.valueOf(imgDataUri);
+          }
+        %>
+
         <div class="mx-auto" style="max-width: 512px">
           <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
 
           <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
-            <%-- Imagen (si tenés servlet /img/usuario, usalo; si no, dejar default) --%>
-            <div class="mb-3 row">
-              <label class="col-sm-4 col-form-im text-start"></label>
-              <div class="col-sm-8">
-                <img
-                  src="<%= (request.getAttribute("imagenUrl")!=null
-                           ? String.valueOf(request.getAttribute("imagenUrl"))
-                           : ctx + "/images/IMG-US01.jpg") %>"
-                  alt="Imagen usuario" class="img-fluid rounded" style="max-height:100px;" />
-              </div>
-            </div>
+            <%-- Imagen (solo si hay imagenDataUri) --%>
+<% Object _img = request.getAttribute("imagenDataUri"); %>
+<% if (_img != null && !String.valueOf(_img).isBlank()) { %>
+  <div class="mb-3 row">
+    <label class="col-sm-4 col-form-im text-start"></label>
+    <div class="col-sm-8">
+      <img src="<%= String.valueOf(_img) %>" alt="Imagen usuario"
+           class="img-fluid rounded" style="max-height:100px;" />
+    </div>
+  </div>
+<% } %>
 
-            <%-- Nickname --%>
+            <!-- Nickname -->
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label text-end">Nickname:</label>
               <div class="col-sm-8">
@@ -78,7 +87,7 @@
               </div>
             </div>
 
-            <%-- Nombre --%>
+            <!-- Nombre -->
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label text-end">Nombre:</label>
               <div class="col-sm-8">
@@ -86,7 +95,7 @@
               </div>
             </div>
 
-            <%-- Correo --%>
+            <!-- Correo -->
             <div class="mb-3 row">
               <label class="col-sm-4 col-form-label text-end">Correo:</label>
               <div class="col-sm-8">
@@ -101,8 +110,8 @@
               try { usuarioAttr.getClass().getMethod("descripcion");  esOrganizador = true; } catch (NoSuchMethodException ignore) {}
             %>
 
-            <%-- Panel ASISTENTE --%>
             <% if (esAsistente) { %>
+              <!-- Panel ASISTENTE -->
               <div id="asistenteFields">
                 <div class="mb-3 row">
                   <label class="col-sm-4 col-form-label text-end">Apellido:</label>
@@ -125,9 +134,8 @@
                   </div>
                 </div>
 
-                <%-- Registros del asistente (si el servlet setea 'registros') --%>
                 <%
-                  Object regsAttr = request.getAttribute("registros"); // List<DTRegistro>
+                  Object regsAttr = request.getAttribute("registros"); // List<DTRegistro> opcional
                   if (regsAttr instanceof List) {
                 %>
                   <div class="mb-3 row">
@@ -152,8 +160,8 @@
               </div>
             <% } %>
 
-            <%-- Panel ORGANIZADOR --%>
             <% if (esOrganizador) { %>
+              <!-- Panel ORGANIZADOR -->
               <div id="organizadorFields">
                 <div class="mb-3 row">
                   <label class="col-sm-4 col-form-label text-end">Descripción:</label>
@@ -195,8 +203,8 @@
               </div>
             <% } %>
 
-            <%-- Botón Modificar (si es su propio perfil) --%>
             <%
+              // Botón Modificar si es su propio perfil
               String nickDetalle = null;
               try {
                 java.lang.reflect.Method mNickDet = usuarioAttr.getClass().getMethod("nickname");

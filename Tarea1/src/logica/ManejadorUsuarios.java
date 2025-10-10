@@ -24,6 +24,13 @@ public class ManejadorUsuarios {
 	public static void resetInstance() {
 		instance = null;
 	}
+	 public void actualizarImagenUsuario(String nickname, byte[] imagen) {
+	        if (nickname == null) return;
+	        Asistente a = getAsistente(nickname);
+	        if (a != null) { a.setImagen(imagen); return; }
+	        Organizador o = getOrganizador(nickname);
+	        if (o != null) { o.setImagen(imagen); }
+	    }
 	
 	public static ManejadorUsuarios getInstance() {
 		if (instance == null) {

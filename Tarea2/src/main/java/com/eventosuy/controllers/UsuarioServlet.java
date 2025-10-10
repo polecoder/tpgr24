@@ -79,7 +79,8 @@ public class UsuarioServlet extends HttpServlet {
 								nombre,            
 								email,             
 								descripcion,       
-								web                
+								web,
+								imagen
 								);
 
 
@@ -94,8 +95,9 @@ public class UsuarioServlet extends HttpServlet {
 								nombre,            
 								email,             
 								apellido,          
-								java.sql.Date.valueOf(fechaNac), 
-								institucion       
+								(fechaNac != null ? java.sql.Date.valueOf(fechaNac) : null), 
+								institucion,
+								imagen
 								);
 
 
@@ -106,10 +108,23 @@ public class UsuarioServlet extends HttpServlet {
 						return;
 						// redirigir a pag de error
 					}
+					IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
+					 DTDetalleUsuario u = cu.mostrarDetalleUsuario(nickname);
+			            request.setAttribute("usuario", u);
 					
-					IControladorUsuarios ctrl = Fabrica.getInstancia().getControladorUsuarios();
-					DTDetalleUsuario u = ctrl.mostrarDetalleUsuario(nickname);
-					request.setAttribute("usuario", u);
+			            if (imagen != null && imagen.length > 0) {
+			                String contentType = null;
+			                try {
+			                    Part p = request.getPart("imagen");
+			                    contentType = (p != null ? p.getContentType() : null);
+			                } catch (Exception ignore) { /* sin drama */ }
+			                if (contentType == null || contentType.isBlank()) {
+			                    contentType = "image/jpeg"; // fallback
+			                }
+			                String b64 = java.util.Base64.getEncoder().encodeToString(imagen);
+			                String dataUri = "data:" + contentType + ";base64," + b64;
+			                request.setAttribute("imagenDataUri", dataUri);
+			            }
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp");
 					dispatcher.forward(request, response);
@@ -135,20 +150,20 @@ public class UsuarioServlet extends HttpServlet {
 			String nick = trim(request.getParameter("nick"));
 
 			try {
+				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
 				if (isBlank(nick)) {
 					// listar todos
-					IControladorUsuarios ctrl = Fabrica.getInstancia().getControladorUsuarios();
-					Collection<DTUsuario> usrs = ctrl.listarUsuarios(); 
+					Collection<DTUsuario> usrs = cu.listarUsuarios(); 
 					request.setAttribute("usuarios", usrs);
 					request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp").forward(request, response);
+					return;
 
 				} else {
 					// ver detalle de uno
-					IControladorUsuarios ctrl = Fabrica.getInstancia().getControladorUsuarios();
 
-					DTDetalleUsuario u = null;
+					DTDetalleUsuario u;
 					try {
-						u = ctrl.mostrarDetalleUsuario(nick); 
+						u = cu.mostrarDetalleUsuario(nick); 
 					} catch (Exception e) {
 						// si no exiiste el usuario
 						response.sendError(404);
@@ -158,10 +173,19 @@ public class UsuarioServlet extends HttpServlet {
 					}
 
 					request.setAttribute("usuario", u);
-					request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
-					.forward(request, response);
-				}
-				return;
+					
+					byte[] imgBytes = cu.obtenerImagenPorNickname(nick); 
+		            if (imgBytes != null && imgBytes.length > 0) {
+		                String contentType = "image/jpeg"; 
+		                String b64 = java.util.Base64.getEncoder().encodeToString(imgBytes);
+		                String dataUri = "data:" + contentType + ";base64," + b64;
+		                request.setAttribute("imagenDataUri", dataUri);
+		            }
+
+		            request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
+		                   .forward(request, response);
+		            return; 
+		        }
 
 			} catch (Exception ex) {
 				response.sendError(500);

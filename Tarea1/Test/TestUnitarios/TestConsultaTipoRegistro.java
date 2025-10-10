@@ -36,7 +36,7 @@ public class TestConsultaTipoRegistro {
 		}
 		// Alta Organizador
 		try {
-			fabrica.getControladorUsuarios().altaOrganizador("Organizador1", "Eventos.2025!", "Nombre", "mail@mail.com", "Descripcion1", "https://Link1");
+			fabrica.getControladorUsuarios().altaOrganizador("Organizador1", "Eventos.2025!", "Nombre", "mail@mail.com", "Descripcion1", "https://Link1", null);
 		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage());
 		}

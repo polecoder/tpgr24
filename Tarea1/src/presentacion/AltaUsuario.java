@@ -383,7 +383,7 @@ public class AltaUsuario extends JInternalFrame {
 		        String descripcion = textField_Descripcion.getText().trim();
 		        String Link = textField_Link.getText();
 		        try {
-		        	IContUsuario.altaOrganizador(nick,contrasena, nombre,correo,descripcion,Link);
+		        	IContUsuario.altaOrganizador(nick,contrasena, nombre,correo,descripcion,Link, null);
 		        	
 		        	//Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
@@ -412,7 +412,7 @@ public class AltaUsuario extends JInternalFrame {
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
 		    	Date fechaNacimiento = (Date) Spinner_FechaNacimiento.getValue();
 		    	try {
-		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion);
+		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion, null);
 		            
 		            //Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
