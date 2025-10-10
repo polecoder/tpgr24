@@ -1,15 +1,24 @@
 package com.eventosuy.controllers;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
+import datatypes.DTTipoRegistro;
+import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
+import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,13 +38,7 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if (!("POST".equalsIgnoreCase(request.getMethod()))) {
-			request.setAttribute("caso_de_uso", "AltaEdicion");
-		}
-		request.setAttribute("nombre_evento", "ExpoTech1");
-		
-		
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		String CU = (String) request.getAttribute("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
 		switch (CU) {
 		case "ConsultaEdicion":
@@ -45,13 +48,17 @@ public class Ediciones extends HttpServlet {
 		case "AltaEdicion":
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				request = CUAltaEdicion(request);
-				request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
-			} else { request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); }
+				//request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
+			} else { 
+				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); 
+			}
 			break;
 		case "AltaTipoRegistro":
 			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
 			break;
 		case "ConsultaTipoRegistro":
+			System.out.println("bien");
+			request = CUConsultaTipoRegistro(request);
 			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 			break;
 		}
@@ -104,26 +111,66 @@ public class Ediciones extends HttpServlet {
 		return request;
 	}
 	
-	private void Test()  {
-		Fabrica.getInstancia().getControladorEvento().altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
-        String nombreEdicion = "ExpoTech2025";
-        String sigla = "ET25";
-        String ciudad = "Montevideo";
-        String pais = "Uruguay";
-        Date fechaAlta = Utilidades.toDate(LocalDate.of(2025, 8, 29));
-        Date fechaInicio = Utilidades.toDate(LocalDate.of(2025, 9, 10));
-        Date fechaFin = Utilidades.toDate(LocalDate.of(2025, 9, 12));
-        String organizador = "Organizador3";
-
-        try {
-        	Fabrica.getInstancia().getControladorEvento().altaEdicionEvento("ExpoTech1", nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador);
-        } catch (Exception ex) {
-        	
-        }
+	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
+		String nombreEvento = (String) request.getAttribute("nombre_evento");
+		String nombreEdicion = (String) request.getAttribute("nombre_edicion");
+		String nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro");
+		DTTipoRegistro dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
+		
+		return request;
+	}
+	
+	private HttpServletRequest Test(HttpServletRequest request) throws Exception  {
+		String pais, ciudad, sigla, descripcion;
+		Date fecha;
+		float costo;
+		int cuposMax;
+		List<String> categorias;
+		String nombreEventoTest1, nombreEdicionTest1, nombreCategoriaTest1, nombreTipoRegistroTest1;
+		
+		// Variables generales
+		pais = "Uruguay";
+		ciudad = "Montevideo";
+		sigla = "FING";
+		descripcion = "descripcion";
+		fecha = Utilidades.toDate(LocalDate.now());
+		categorias = new ArrayList<String>();
+		costo = 1f;
+		cuposMax = 1;
+		
+		// Variables Test 1
+		nombreEventoTest1 = "nombreEventoTest1";
+		nombreEdicionTest1 = "nombreEdicionTest1";				
+		nombreCategoriaTest1 = "categoriaTest1";
+		nombreTipoRegistroTest1 = "nombreTipoRegistroTest1";
+		
+		// Testea un alta exitoso estandar
+		try {
+			controladorEventos.altaCategoria(nombreCategoriaTest1);
+		} catch (Exception e) {
+			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
+		}
+		categorias.add(nombreCategoriaTest1);
+		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
+		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "");
+		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
+	
+		request.setAttribute("caso_de_uso", "ConsultaTipoRegistro");
+		request.setAttribute("nombre_evento", nombreEventoTest1);
+		request.setAttribute("nombre_edicion", nombreEdicionTest1);
+		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);
+		
+		return request;
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Test();
+		try {
+			request = Test(request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
@@ -133,7 +180,12 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Test();
+		try {
+			request = Test(request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
