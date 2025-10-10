@@ -26,11 +26,9 @@ import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
+@MultipartConfig 
 @WebServlet("/usuario")                     
-@MultipartConfig(maxFileSize = 5 * 1024 * 1024) // imagen opcional 
+//@MultipartConfig(maxFileSize = 5 * 1024 * 1024) // imagen opcional 
 public class UsuarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +39,7 @@ public class UsuarioServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");  //cualquier caracter
 
-		final String accion = nvl(request.getParameter("action"), "consulta");
+		final String accion = nvl(request.getParameter("accion"), "consulta");
 
 		switch (accion) {
 
@@ -110,11 +108,11 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					
 					IControladorUsuarios ctrl = Fabrica.getInstancia().getControladorUsuarios();
-					DTDetalleUsuario u=  ctrl.mostrarDetalleUsuario(nickname);
-					request.setAttribute("usu", u);
-					
+					DTDetalleUsuario u = ctrl.mostrarDetalleUsuario(nickname);
+					request.setAttribute("usuario", u);
+
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp");
-			        dispatcher.forward(request, response);
+					dispatcher.forward(request, response);
 
 					 //response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta&nick="+ nickname);
 					 return;//redirige
