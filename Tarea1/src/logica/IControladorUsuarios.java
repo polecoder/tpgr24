@@ -59,4 +59,10 @@ public interface IControladorUsuarios {
 	 * @param nuevoLink
 	 */
 	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
+	/**
+	 * Devuelve una lista de todos los datos detallados de todos los usuarios que existen en el sistema.
+	 * 
+	 * @return
+	 */
+	List<DTDetalleUsuario> listarDetalleUsuarios();
 }
