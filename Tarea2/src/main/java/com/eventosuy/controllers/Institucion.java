@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import logica.Fabrica;
  * Servlet implementation class Home 
  */
 @WebServlet ("/Institucion")
+@MultipartConfig
 public class Institucion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,20 +34,28 @@ public class Institucion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = (String) request.getParameter("action");
+		String action = (String) request.getParameter("action"); 
 		
+		HttpSession session = request.getSession();
+		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		System.out.printf("doGet() tipoUsuario is: %s\n", tipoUsuario);
+		
+		// Paginas disponibles a organizadores
+		if(tipoUsuario == "organizador") {
+			switch(action){
+				case "altaInstitucion":
+					request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);					
+					break;
+				case "altaPatrocinio":
+					request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);					
+					break;
+			}
+		}
+		
+		// Paginas disponibles a todos los usuarios
 		switch(action){
-			case "altaInsitucion":
-				// hace que se ejecute el jsp sin cambiar la url
-				request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
-				break;
 			case "consultaPatrocinio":
-				// hace que se ejecute el jsp sin cambiar la url
 				request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
-				break;
-			case "altaPatrocinio":
-				// manda una redirección a otra URL (cambia la URL)
-				request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
 				break;
 		}
 	}

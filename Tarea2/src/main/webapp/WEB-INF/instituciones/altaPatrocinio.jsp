@@ -1,8 +1,24 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page import="datatypes.*" %>
+<%@ page import="java.util.Date" %>
 <% 
-	// Testing session : Añadir / Borrar lo que se necesite
-	session.setAttribute("usuarioNombre","Ana Torres");
-	session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
+	// Testing
+	DTEdicionEvento testingDtEdicion = new DTEdicionEvento(
+			"TestEdicionEvento", 
+			"TEE", 
+			new Date(), 
+			new Date(), 
+			new Date(), 
+			"Montevideo", 
+			"Uruguay", 
+			"MisEventos"
+			);
+	request.setAttribute("dtEdicion", testingDtEdicion);
+	// Fin Testing
+
+	DTEdicionEvento dtEdicion = request.getAttribute("dtEdicion");
+	//String rutaImagenEdicion = dtEdicion.getRutaImagenEdicion();
+	String rutaImagenEdicion = "../images/IMG-EDEV03.jpeg";
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -18,16 +34,16 @@
     <div class="container flex-grow-1">
       <div class="d-flex flex-column align-items-center py-5">
         <div class="d-flex align-items-center gap-3">
-          <img src="../images/IMG-EDEV03.jpeg" alt="Imagen usuario" style="
+          <img src=<%=rutaImagenEdicion %> alt="Imagen usuario" style="
                 max-width: 128px;
                 max-height: 128px;
                 width: auto;
                 height: auto;
               " />
           <div class="d-flex flex-column" style="line-height: 1">
-            <h1 class="fs-2 fw-bold mb-1">Maratón de Montevideo 2024</h1>
-            <a href="./consulta-edicion-organizador.html" class="fs-5 text-secondary text-decoration-underline">Maratón
-              Montevideo</a>
+            <h1 class="fs-2 fw-bold mb-1"><%= dtEdicion.getNombre() %></h1>
+            <a href="./Evento" class="fs-5 text-secondary text-decoration-underline"><%= dtEdicion.getNombre() %></a>
+            <!-- Necesito saber como redirigir al Servlet de Evento -->
           </div>
         </div>
       </div>

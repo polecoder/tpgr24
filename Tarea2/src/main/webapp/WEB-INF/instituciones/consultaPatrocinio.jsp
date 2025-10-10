@@ -1,8 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <% 
-	// Testing session : Añadir / Borrar lo que se necesite
-	session.setAttribute("usuarioNombre","Ana Torres");
-	session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 %>
 <!DOCTYPE html>
 <html lang="es">
