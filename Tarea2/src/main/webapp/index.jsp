@@ -69,7 +69,9 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 					<div class="col">
 						<div class="card h-100 shadow-sm">
 							<!-- TODO: Cambiar href y src de imagen -->
-							<a href="#"> <img src="./images/sin-imagen.svg"
+							<a href="Eventos?accion=consulta&nombre=<%= e.getNombre() %>"> <img src="<%= (e.getImagen() != null && e.getImagen().length > 0) 
+                            ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
+                            : request.getContextPath() + "/images/sin-imagen.svg" %>"
 								alt="<%= e.getNombre() %>" class="card-img-top"
 								style="object-fit: cover" />
 							</a>

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
@@ -155,7 +156,11 @@ public class Eventos extends HttpServlet {
         request.setAttribute("nombre", evento.getNombre());
         request.setAttribute("descripcion", evento.getDescripcion());
         request.setAttribute("sigla", evento.getSigla());
-        request.setAttribute("categorias", IContEv.nombresCategorias(nombre));
+        
+        Set<String> categoriasSet = IContEv.nombresCategorias(nombre);
+        List<String> categoriasList = new ArrayList<>(categoriasSet);
+        request.setAttribute("categorias", categoriasList);
+
         request.setAttribute("imagen", evento.getImagen());
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");

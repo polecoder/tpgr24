@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,25 @@ public class Home extends HttpServlet {
     	Fabrica f = Fabrica.getInstancia();
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
+		
+		//cargo una imagen para probar
+		byte[] imagenEvento=null;
+		
+		try (InputStream is = getServletContext().getResourceAsStream("/images/IMG-EV04.png")) {
+	        if (is != null) {
+	            imagenEvento = is.readAllBytes();
+	        } else {
+	        	imagenEvento = null;
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
 		// Eventos
-		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
-		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
-		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
-		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias,imagenEvento);
+		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias,null);
+		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias,null);
+		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias,null);
 		
 		// Usuarios
 		try {
