@@ -19,7 +19,7 @@ class TestAltaEdicionEvento {
 
     @Test
     void altaEdicionEventoValida() throws Exception {
-    	controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
+    	controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList(),null);
         String nombreEdicion = "ExpoTech2025";
         String sigla = "ET25";
         String ciudad = "Montevideo";
@@ -72,7 +72,7 @@ class TestAltaEdicionEvento {
     @Test
     void ciudadYPaisConNumerosYFechasInvalidas() throws Exception {
         // Ciudad con números
-        controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
+        controlador.altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList(),null);
         Exception ex1 = assertThrows(Exception.class, () -> {
             controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2028", "ET28", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo123", "Uruguay", "organizador6");
         });

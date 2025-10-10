@@ -14,25 +14,27 @@
         <main class="p-4 bg-light border-top border-2 border-primary rounded shadow-sm">
 
             <%
-                // ==== DATOS DEL EVENTO ====
-                String imagen = (String) request.getAttribute("imagen");
-                String nombre = (String) request.getAttribute("nombre");
-                String descripcion = (String) request.getAttribute("descripcion");
-                String sigla = (String) request.getAttribute("sigla");
-                String fechaAlta = (String) request.getAttribute("fechaAlta");
+            // ==== DATOS DEL EVENTO ====
+            String nombre = (String) request.getAttribute("nombre");
+            String descripcion = (String) request.getAttribute("descripcion");
+            String sigla = (String) request.getAttribute("sigla");
+            String fechaAlta = (String) request.getAttribute("fechaAlta");
 
+            // Obtenemos la imagen como byte[]
+            byte[] imagenBytes = (byte[]) request.getAttribute("imagen");
+            String base64Image = null; // declarar antes del if
+            if (imagenBytes != null && imagenBytes.length > 0) {
+                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+            }
 
-                // ==== OTRAS LISTAS ====
-                List<String> categorias = (List<String>) request.getAttribute("categorias");
-                List<String> ediciones = (List<String>) request.getAttribute("ediciones");
-
-                // ==== IMAGEN POR DEFECTO ====
-                String imagenDefectoEdicion = "images/sin-imagen.svg";
+            // ==== OTRAS LISTAS ====
+            List<String> categorias = (List<String>) request.getAttribute("categorias");
+            List<String> ediciones = (List<String>) request.getAttribute("ediciones");
             %>
 
-            <% if (imagen != null && !imagen.isEmpty()) { %>
+            <% if (base64Image != null) { %>
                 <div class="text-center mb-4">
-                    <img src="<%= imagen %>" alt="Imagen del evento"
+                    <img src="data:image/png;base64,<%= base64Image %>" alt="Imagen del evento"
                          class="shadow-sm"
                          style="width: 100%; max-width: 900px; min-width: 350px;
                                 height: 280px; object-fit: cover; border-radius: 12px;">
@@ -47,13 +49,13 @@
                 <h5 class="fw-bold text-primary">Descripción</h5>
                 <p class="fst-italic mb-0"><%= descripcion %></p>
             </div>
-			
-			<!-- Sigla -->
+
+            <!-- Sigla -->
             <div class="mb-3">
                 <h5 class="fw-bold text-primary">Sigla</h5>
                 <p class="fst-italic mb-0"><%= sigla %></p>
             </div>
-            
+
             <!-- Categorías -->
             <div class="mb-3">
                 <h5 class="fw-bold text-primary">Categorías</h5>

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,7 +26,8 @@
                     }
                 %>
 
-                <form id="altaEventoForm" method="post" action="Eventos" class="d-flex flex-column gap-4" onsubmit="return validarFormulario()">
+                <!-- FORMULARIO CORREGIDO: enctype agregado -->
+                <form id="altaEventoForm" method="post" action="Eventos" enctype="multipart/form-data" class="d-flex flex-column gap-4" onsubmit="return validarFormulario()">
                     <input type="hidden" name="accion" value="confirmarAlta"/>
 
                     <!-- Nombre -->
@@ -150,3 +150,4 @@
         </script>
     </body>
 </html>
+

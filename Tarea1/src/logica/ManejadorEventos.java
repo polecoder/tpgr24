@@ -57,18 +57,20 @@ public class ManejadorEventos {
 		return false;
 	}
 	
-	public HashMap<String,DTEvento> listarEventos(){
+	public HashMap<String, DTEvento> listarEventos() {
 		HashMap<String, DTEvento> hMLista = new HashMap<>();
 		for (Evento e : eventos.values()) {
 			String nombre = e.getNombre();
 			String descripcion = e.getDescripcion();
 			String sigla = e.getSigla();
 			Date fAlta = e.getFechaAlta();
-			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta);
+			byte[] imagen = e.getImagen(); // ← nuevo
+
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, imagen); // ← actualizado
 			hMLista.put(nombre, dtEv);  
 		}
 		return hMLista;
-	};
+	}
 	
 	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		Evento ev = eventos.get(nombreEvento);
@@ -101,10 +103,23 @@ public class ManejadorEventos {
 	}
 	
 	public DTEvento getDTEvento(String nombre) {
-		Evento evento=eventos.get(nombre);
-		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getFechaAlta());
+		Evento evento = eventos.get(nombre);
+		if (evento == null) {
+			return null;
+		}
+
+		byte[] imagen = evento.getImagen(); 
+		DTEvento dtEvento = new DTEvento(
+			evento.getNombre(),
+			evento.getDescripcion(),
+			evento.getSigla(),
+			evento.getFechaAlta(),
+			imagen 
+		);
+		
 		return dtEvento;
 	}
+
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
 		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname());
@@ -241,11 +256,12 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
 		if (!existeEvento(nombre)) {
-			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta);
+			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen);
 			this.eventos.put(nombre, evento);
-			for (String nombreCategoria: categorias) {
+
+			for (String nombreCategoria : categorias) {
 				agregarCategoriaAEvento(nombre, nombreCategoria);
 			}
 		}

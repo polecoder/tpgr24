@@ -99,9 +99,10 @@ public class ControladorEventos implements IControladorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias) {
-		this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
-	}
+    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
+    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
+    }
+
 
 	/**
 	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
@@ -331,5 +332,6 @@ public class ControladorEventos implements IControladorEventos {
 		}
 		return null;
 	}
+
 }
 

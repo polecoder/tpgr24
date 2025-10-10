@@ -26,8 +26,8 @@ import datatypes.ENivelPatrocinio;
 		       
 
 		        try {
-		            controlador.altaEvento("EventoX", "Descripción de prueba", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "EVX", List.of("Tecnología"));
-		            controlador.altaEvento("EventoX2", "Descripción de prueba2", Utilidades.toDate(LocalDate.of(2025, 8, 31) ), "EVX2", List.of("Tecnología"));
+		            controlador.altaEvento("EventoX", "Descripción de prueba", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "EVX", List.of("Tecnología"),null);
+		            controlador.altaEvento("EventoX2", "Descripción de prueba2", Utilidades.toDate(LocalDate.of(2025, 8, 31) ), "EVX2", List.of("Tecnología"),null);
 
 		            if (!List.of(controlador.getNombresEdiciones("EventoX")).contains("Ed2026")) {
 		                controlador.altaEdicionEvento("EventoX", "Ed2026", "ED26",Utilidades.toDate( LocalDate.of(2025, 9, 1) ),Utilidades.toDate( LocalDate.of(2025, 12, 31) ),Utilidades.toDate( LocalDate.of(2025, 8, 31) ), "Montevideo", "Uruguay","organizador11");

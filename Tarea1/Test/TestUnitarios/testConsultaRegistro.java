@@ -38,7 +38,7 @@ class testConsultaRegistro {
 		   ManejadorEventos manejador = ManejadorEventos.getInstancia(); 
 		   
 		//creo evento
-		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)));
+		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)),null);
 		manejador.agregarEvento(evento);
 		
 		//creo edicion
@@ -97,7 +97,7 @@ class testConsultaRegistro {
 	    mu.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
-	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)));
+	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)),null);
 	    me.agregarEvento(evento);
 
 	    Edicion ed = new Edicion("Expo", "EXP",
@@ -207,7 +207,7 @@ class testConsultaRegistro {
         mu.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
-        Evento ev = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()));
+        Evento ev = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()),null);
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
@@ -267,7 +267,7 @@ class testConsultaRegistro {
         mu.getConjuntoAsistentes().put(u.getNickname(), u);
 
         // Contexto mínimo
-        Evento ev = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()));
+        Evento ev = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()),null);
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),

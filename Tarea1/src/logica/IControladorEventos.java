@@ -44,8 +44,9 @@ public interface IControladorEventos {
 	 * @param fechaAlta
 	 * @param sigla
 	 * @param categorias
+	 * @param imagen
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias);
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen);
 	/**
 	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
 	 * Retorna false en cualquier otro caso.

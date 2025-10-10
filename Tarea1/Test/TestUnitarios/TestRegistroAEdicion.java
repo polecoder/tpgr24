@@ -79,7 +79,7 @@ public class TestRegistroAEdicion {
 		try { 
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null);
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 		} catch (Exception ex) { fail(ex.getMessage()); }
@@ -98,7 +98,7 @@ public class TestRegistroAEdicion {
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link);
 			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18");
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1",nombreTipoRegistro);

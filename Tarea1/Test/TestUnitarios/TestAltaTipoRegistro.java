@@ -98,7 +98,7 @@ public class TestAltaTipoRegistro {
 			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
 		}
 		categorias.add(nombreCategoriaTest1);
-		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
+		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias,null);
 		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
@@ -165,7 +165,7 @@ public class TestAltaTipoRegistro {
 	@Order(4)
 	void testAltaTipoRegistroNombreRepetidoOtroEvento() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRO Evento
-		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias);
+		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias,null);
 		try { controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais,"organizador15");
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
