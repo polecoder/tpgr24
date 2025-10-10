@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, datatypes.DTEvento" %>
+<%@ page import="java.util.*, datatypes.*"%>
 <%
 // Testing session : Añadir / Borrar lo que se necesite
 session.setAttribute("usuarioNombre", "Ana Torres");
@@ -19,18 +19,21 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
 					<div class="mb-4">
 						<h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
-						<div class="d-flex align-items-center mb-3">
-							<img src="./images/IMG-US01.jpg" alt="Ana Torres"
-								class="rounded-circle me-2" style="width: 48px; height: 48px" />
-							<a href="./pages/consulta-usuario-ana-torres-visitante.html"
-								class="text-primary fw-semibold">Ana Torres</a>
-						</div>
+						<!-- Usuarios -->
+						<%
+						    List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
+						    for (DTDetalleUsuario u: usuarios) {
+						%>
 						<div class="d-flex align-items-center">
-							<img src="./images/IMG-US04.jpeg" alt="MisEventos"
+							<!-- TODO: cambiar src de imagen -->
+							<img src="./images/anonimo.svg" alt="<%= u.getNombre() %>"
 								class="rounded-circle me-2" style="width: 48px; height: 48px" />
-							<a href="./pages/consulta-usuario-ana-torres-visitante.html"
-								class="text-primary fw-semibold">MisEventos</a>
+							<!-- TODO: cambiar href -->
+							<a href="#" class="text-primary fw-semibold"><%= u.getNombre() %></a>
 						</div>
+						<%
+						    }
+						%>
 					</div>
 
 					<!-- Categorías -->
@@ -55,61 +58,26 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 				class="col-12 col-md-8 order-1 order-md-2 justify-content-center">
 				<h1 class="text-center text-uppercase pb-3 fs-2">Eventos
 					disponibles</h1>
-				<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
-					<!-- TODO: Hardcodeado -->
-					<!-- Tarjeta: Conferencia de Tecnología -->
+				<div
+					class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
+					<%
+					    Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
+					    for (DTEvento e: eventos.values()) {
+					%>
 					<div class="col">
 						<div class="card h-100 shadow-sm">
-							<a
-								href="./pages/consulta-evento-maraton-montevideo-visitante.html">
-								<img src="./images/sin-imagen.svg"
-								alt="Conferencia de Tecnología" class="card-img-top"
+							<!-- TODO: Cambiar href y src de imagen -->
+							<a href="#"> <img src="./images/sin-imagen.svg"
+								alt="<%= e.getNombre() %>" class="card-img-top"
 								style="object-fit: cover" />
 							</a>
 							<div class="card-body text-center">
 								<a
 									href="./pages/consulta-evento-maraton-montevideo-visitante.html"
-									class="card-title fs-6 text-decoration-none text-dark fw-semibold">Conferencia
-									de Tecnología</a>
+									class="card-title fs-6 text-decoration-none text-dark fw-semibold"><%= e.getNombre() %></a>
 							</div>
 						</div>
 					</div>
-					<!-- TODO: Hardcodeado -->
-					<!-- Tarjeta: Maratón de Montevideo -->
-					<div class="col">
-						<div class="card h-100 shadow-sm">
-							<a
-								href="./pages/consulta-evento-maraton-montevideo-visitante.html">
-								<img src="./images/IMG-EV04.png" alt="Maratón de Montevideo"
-								class="card-img-top" style="object-fit: cover" />
-							</a>
-							<div class="card-body text-center">
-								<a
-									href="./pages/consulta-evento-maraton-montevideo-visitante.html"
-									class="card-title fs-6 text-decoration-none text-dark fw-semibold">Maratón
-									de Montevideo</a>
-							</div>
-						</div>
-					</div>
-					<%
-					    Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
-					    for (DTEvento e: eventos.values()) {
-					%>
-						<div class="col">
-							<div class="card h-100 shadow-sm">
-								<!-- TODO: Cambiar href y src de imagen -->
-								<a
-									href="#">
-									<img src="./images/sin-imagen.svg" alt="<%= e.getNombre() %>"
-									class="card-img-top" style="object-fit: cover" />
-								</a>
-								<div class="card-body text-center">
-									<a
-										href="./pages/consulta-evento-maraton-montevideo-visitante.html"
-										class="card-title fs-6 text-decoration-none text-dark fw-semibold"><%= e.getNombre() %></a>
-								</div>
-							</div>
-						</div>
 					<%
 					    }
 					%>

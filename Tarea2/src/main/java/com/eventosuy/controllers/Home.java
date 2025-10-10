@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import datatypes.DTDetalleUsuario;
 import datatypes.DTEvento;
+import excepciones.FormatoContrasenaInvalido;
 import logica.Fabrica;
 import logica.Utilidades;
 import jakarta.servlet.ServletException;
@@ -41,6 +43,16 @@ public class Home extends HttpServlet {
 		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		try {
+			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
+			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
+			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com");
+			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com");
+		} catch (FormatoContrasenaInvalido e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
@@ -48,9 +60,16 @@ public class Home extends HttpServlet {
 		// TODO: Hardcodeado
 		testingSession();
 		Fabrica f = Fabrica.getInstancia();
-		Map<String, DTEvento> eventos = f.getControladorEvento().listarEventos();
 		
+		Map<String, DTEvento> eventos = f.getControladorEvento().listarEventos();
 		req.setAttribute("eventos", eventos);
+		
+		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();
+		for (DTDetalleUsuario u: usuarios) {
+			System.out.println(u.getNombre());
+		}
+		req.setAttribute("usuarios", usuarios);
+		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
 	
