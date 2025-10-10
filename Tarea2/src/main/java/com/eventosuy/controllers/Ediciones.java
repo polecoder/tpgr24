@@ -20,7 +20,7 @@ import logica.IControladorEventos;
 import logica.IControladorUsuarios;
 import logica.Utilidades;
 
-@WebServlet("/test")
+@WebServlet("/Ediciones")
 public class Ediciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Ediciones () {super();} // Constructor (no lleva parametros)
@@ -29,11 +29,11 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setAttribute("caso_de_uso", "ConsultaEdicion");
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (!("POST".equalsIgnoreCase(request.getMethod()))) {
+			request.setAttribute("caso_de_uso", "AltaEdicion");
+		}
 		request.setAttribute("nombre_evento", "ExpoTech1");
-		request.setAttribute("nombre_edicion", "ExpoTech2025");
 		
 		
 		String CU = (String) request.getAttribute("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
@@ -43,7 +43,10 @@ public class Ediciones extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 			break;
 		case "AltaEdicion":
-			request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response);
+			if ("POST".equalsIgnoreCase(request.getMethod())) {
+				request = CUAltaEdicion(request);
+				request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
+			} else { request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); }
 			break;
 		case "AltaTipoRegistro":
 			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
@@ -83,6 +86,24 @@ public class Ediciones extends HttpServlet {
 		return request;
 	}
 	
+	private HttpServletRequest CUAltaEdicion(HttpServletRequest request) throws Exception {
+		String nombreEvento = request.getParameter("nombreEvento");
+		String nombreEdicion = request.getParameter("nombreEdicion");
+		String sigla = request.getParameter("sigla");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaInicio = formatter.parse(request.getParameter("fechaInicio"));
+		Date fechaFin = formatter.parse(request.getParameter("fechaFin"));
+		Date fechaAlta = new Date();
+		String ciudad = request.getParameter("ciudad");
+		String pais = request.getParameter("pais");
+		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
+		
+		controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador);
+		
+		request.setAttribute("nombre_edicion", nombreEdicion);
+		return request;
+	}
+	
 	private void Test()  {
 		Fabrica.getInstancia().getControladorEvento().altaEvento("ExpoTech1", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", Collections.emptyList());
         String nombreEdicion = "ExpoTech2025";
@@ -103,11 +124,21 @@ public class Ediciones extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Test();
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Test();
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
