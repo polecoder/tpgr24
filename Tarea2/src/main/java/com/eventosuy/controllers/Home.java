@@ -39,10 +39,10 @@ public class Home extends HttpServlet {
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		// Eventos
-		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
-		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
-		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
-		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
+		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		f.getControladorEvento().altaEvento("Nombre2", "Descripcion2", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		f.getControladorEvento().altaEvento("Nombre3", "Descripcion3", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
+		f.getControladorEvento().altaEvento("Nombre4", "Descripcion4", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias);
 		
 		// Usuarios
 		try {
