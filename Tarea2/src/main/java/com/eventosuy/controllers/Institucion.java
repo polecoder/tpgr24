@@ -1,9 +1,13 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
+import datatypes.DTEdicionEvento;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import logica.Fabrica;
+import logica.IControladorInstitucion;
 
 /**
  * Servlet implementation class Home 
@@ -47,6 +52,25 @@ public class Institucion extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);					
 					break;
 				case "altaPatrocinio":
+					// Testing CARGA-DATOS
+					DTEdicionEvento testingDtEdicion = new DTEdicionEvento(
+							"TestEdicionEvento", 
+							"TEE", 
+							new Date(), 
+							new Date(), 
+							new Date(), 
+							"Montevideo", 
+							"Uruguay", 
+							"MisEventos"
+							);
+					request.setAttribute("dtEdicion", testingDtEdicion);
+					request.setAttribute("listaNombresRegistro", new ArrayList<>(Arrays.asList("tipo1", "tipo2", "tipo3", "tipo4", "tipo5","Corredor 21K")));
+					// Fin Testing
+
+					Fabrica fabrica = Fabrica.getInstancia();
+					IControladorInstitucion IControladorInstitucion = fabrica.getControladorInstitucion();
+					Set<String> listaNombresInstitucion = IControladorInstitucion.nombresInstituciones();
+					request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 					request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);					
 					break;
 			}
@@ -64,23 +88,47 @@ public class Institucion extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Fabrica f = Fabrica.getInstancia();
-		String action = (String) request.getAttribute("action");
+String action = (String) request.getParameter("action"); 
 		
+		HttpSession session = request.getSession();
+		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		System.out.printf("doGet() tipoUsuario is: %s\n", tipoUsuario);
+		
+		// Paginas disponibles a organizadores
+		if(tipoUsuario == "organizador") {
+			switch(action){
+				case "altaInstitucion":
+					request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);					
+					break;
+				case "altaPatrocinio":
+					// Testing CARGA-DATOS
+					DTEdicionEvento testingDtEdicion = new DTEdicionEvento(
+							"TestEdicionEvento", 
+							"TEE", 
+							new Date(), 
+							new Date(), 
+							new Date(), 
+							"Montevideo", 
+							"Uruguay", 
+							"MisEventos"
+							);
+					request.setAttribute("dtEdicion", testingDtEdicion);
+					request.setAttribute("listaNombresRegistro", new ArrayList<>(Arrays.asList("tipo1", "tipo2", "tipo3", "tipo4", "tipo5","Corredor 21K")));
+					// Fin Testing
+
+					Fabrica fabrica = Fabrica.getInstancia();
+					IControladorInstitucion IControladorInstitucion = fabrica.getControladorInstitucion();
+					Set<String> listaNombresInstitucion = IControladorInstitucion.nombresInstituciones();
+					request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+					request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);					
+					break;
+			}
+		}
+		
+		// Paginas disponibles a todos los usuarios
 		switch(action){
-			case "altaInsitucion":
-				// hace que se ejecute el jsp sin cambiar la url
-				request.getRequestDispatcher("/WEB-INF/home/iniciar.jsp").
-						forward(request, response);
-				break;
 			case "consultaPatrocinio":
-				// hace que se ejecute el jsp sin cambiar la url
-				request.getRequestDispatcher("/WEB-INF/home/inicioErroneo.jsp").
-						forward(request, response);
-				break;
-			case "altaPatrocinio":
-				// manda una redirección a otra URL (cambia la URL)
-				response.sendRedirect("/gamebook/perfil");
+				request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
 				break;
 		}
 	}

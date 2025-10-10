@@ -1,24 +1,17 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="datatypes.*" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.Set" %>
 <% 
-	// Testing
-	DTEdicionEvento testingDtEdicion = new DTEdicionEvento(
-			"TestEdicionEvento", 
-			"TEE", 
-			new Date(), 
-			new Date(), 
-			new Date(), 
-			"Montevideo", 
-			"Uruguay", 
-			"MisEventos"
-			);
-	request.setAttribute("dtEdicion", testingDtEdicion);
-	// Fin Testing
-
-	DTEdicionEvento dtEdicion = request.getAttribute("dtEdicion");
+	DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("dtEdicion");
 	//String rutaImagenEdicion = dtEdicion.getRutaImagenEdicion();
-	String rutaImagenEdicion = "../images/IMG-EDEV03.jpeg";
+	String rutaImagenEdicion = "./images/IMG-EDEV03.jpeg";
+	
+	List<String> listaNombresTipoRegistro = (List<String>) request.getAttribute("listaNombresRegistro"); System.out.printf("\naltaPatrocinio.jsp:: listaNombresTipoRegistro is: %s\n", listaNombresTipoRegistro);
+	Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,7 +35,7 @@
               " />
           <div class="d-flex flex-column" style="line-height: 1">
             <h1 class="fs-2 fw-bold mb-1"><%= dtEdicion.getNombre() %></h1>
-            <a href="./Evento" class="fs-5 text-secondary text-decoration-underline"><%= dtEdicion.getNombre() %></a>
+            <a href=<%=rutaImagenEdicion %> class="fs-5 text-secondary text-decoration-underline"><%= dtEdicion.getNombre() %></a>
             <!-- Necesito saber como redirigir al Servlet de Evento -->
           </div>
         </div>
@@ -52,17 +45,25 @@
         <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
           Alta Patrocinio
         </h1>
-        <form class="d-flex flex-column gap-4">
+        <form 
+        	class="d-flex flex-column gap-4"
+        	method="post"
+        	action="./Institucion?action=altaPatrocinio"
+        	enctype="multipart/form-data"
+        	novalidate
+        >
           <!-- Tipo de Registro -->
           <div class="d-flex gap-2">
             <label for="tipoRegistro" class="form-label" style="width: 300px">
               Tipo de Registro: <span class="text-danger">*</span>
             </label>
             <select id="tipoRegistro" name="TipoRegistro" class="form-select form-select-sm" style="max-width: 300px">
-              <option value="" selected>
+              <option value="defaultTipoRegistro" selected>
                 -- Seleccionar un Tipo Registro --
               </option>
-              <option value="Corredor 21K">Corredor 21K</option>
+              <% for(String nombreTipoRegistro: listaNombresTipoRegistro) {%>
+	              <option value=<%=nombreTipoRegistro %>><%=nombreTipoRegistro %></option>
+              <% } %>
             </select>
           </div>
 
@@ -71,12 +72,12 @@
             <label for="instituciones" class="form-label" style="width: 300px">Instituciones: <span
                 class="text-danger">*</span></label>
             <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 300px">
-              <option value="" selected>
+              <option value="defaultInstitucion" selected>
                 -- Seleccionar una Institución --
               </option>
-              <option value="Facultad de Ingenieria">
-                Facultad de Ingenieria
-              </option>
+              <% for(String nombreInstitucion: listaNombresInstitucion) {%>
+	              <option value=<%=nombreInstitucion%>><%=nombreInstitucion%></option>
+              <% } %>
             </select>
           </div>
 
@@ -121,7 +122,7 @@
           <br />
           <!-- Botones -->
           <div class="d-flex flex-column gap-2">
-            <button type="button" id="btnAceptar" class="btn btn-primary btn-sm px-3">
+            <button type="submit" id="btnAceptar" class="btn btn-primary btn-sm px-3">
               Aceptar
             </button>
           </div>
