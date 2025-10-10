@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +38,8 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
-		String CU = (String) request.getAttribute("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
+		String CU = request.getParameter("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
+		if (CU == null) { CU = (String) request.getAttribute("caso_de_uso"); } // Test
 		switch (CU) {
 		case "ConsultaEdicion":
 			request = CUConsultaEdicion(request);
@@ -47,17 +47,19 @@ public class Ediciones extends HttpServlet {
 			break;
 		case "AltaEdicion":
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
-				request = CUAltaEdicion(request);
-				//request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
+				CUAltaEdicion(request, response); // Crea la Edicion y muestra su consulta
 			} else { 
-				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); 
+				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
 		case "AltaTipoRegistro":
-			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
+			if ("POST".equalsIgnoreCase(request.getMethod())) {
+				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
+			} else { 
+				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
+			}
 			break;
 		case "ConsultaTipoRegistro":
-			System.out.println("bien");
 			request = CUConsultaTipoRegistro(request);
 			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 			break;
@@ -93,7 +95,7 @@ public class Ediciones extends HttpServlet {
 		return request;
 	}
 	
-	private HttpServletRequest CUAltaEdicion(HttpServletRequest request) throws Exception {
+	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String nombreEvento = request.getParameter("nombreEvento");
 		String nombreEdicion = request.getParameter("nombreEdicion");
 		String sigla = request.getParameter("sigla");
@@ -108,17 +110,32 @@ public class Ediciones extends HttpServlet {
 		controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador);
 		
 		request.setAttribute("nombre_edicion", nombreEdicion);
-		return request;
+		request = CUConsultaEdicion(request);
+		request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 	}
 	
 	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
-		String nombreEvento = (String) request.getAttribute("nombre_evento");
-		String nombreEdicion = (String) request.getAttribute("nombre_edicion");
+		String nombreEvento = request.getParameter("nombre_evento");
+		String nombreEdicion = request.getParameter("nombre_edicion");
 		String nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro");
 		DTTipoRegistro dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
 		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		
 		return request;
+	}
+	
+	private void CUAltaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, ServletException, IOException {
+		String nombreTipoRegistro = request.getParameter("nombreTipoRegistro");
+		String descripcion = request.getParameter("descripcion");
+		float costo = Float.parseFloat(request.getParameter("costo"));
+		int cuposMax = Integer.parseInt(request.getParameter("cuposMax"));
+		String nombreEvento = request.getParameter("nombre_evento");
+		String nombreEdicion = request.getParameter("nombre_edicion");
+		
+		controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
+		request.setAttribute("nombre_tipo_registro", nombreTipoRegistro);
+		request = CUConsultaTipoRegistro(request);
+		request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 	}
 	
 	private HttpServletRequest Test(HttpServletRequest request) throws Exception  {
@@ -155,8 +172,8 @@ public class Ediciones extends HttpServlet {
 		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
 		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "");
 		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
-	
-		request.setAttribute("caso_de_uso", "ConsultaTipoRegistro");
+		
+		request.setAttribute("caso_de_uso", "AltaTipoRegistro");
 		request.setAttribute("nombre_evento", nombreEventoTest1);
 		request.setAttribute("nombre_edicion", nombreEdicionTest1);
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);
@@ -165,12 +182,12 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+		/*try {
 			request = Test(request);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
@@ -180,12 +197,6 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			request = Test(request);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {

@@ -18,13 +18,13 @@
 		<main
 			class="p-4 bg-light border-top border-2 border-primary rounded mx-auto"
 			style="max-width: 700px">
-			<form action="Ediciones?caso_de_uso=AltaEdicion" method="post" enctype="multipart/from-data" class="d-flex flex-column gap-4 mx-auto"
-				style="max-width: 500px">
+			<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
+			<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
+			<form action="Ediciones?caso_de_uso=AltaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/from-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 				<div class="d-flex gap-3 align-items-center">
 					<img class="col-4" src="" alt="Imagen evento"
 						style="width: auto; height: auto; max-width: 100px; max-height: 100px;" />
 					<h2 class="evento" class="fs-3 fw-bold">
-						<% String nombreEvento = (String) request.getParameter("nombre_evento"); %>
 						<a href="./consulta-edicion-organizador.html"> <%= nombreEvento %> </a>
 					</h2>
 				</div>
