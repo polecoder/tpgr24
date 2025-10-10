@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.ContrasenaIncorrecta;
 import excepciones.FormatoContrasenaInvalido;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
@@ -296,5 +297,24 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink()));
 		}
 		return resultado;
+	}
+
+	@Override
+	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta {
+		Usuario u = this.manejadorUsuarios.getAsistente(usuario);
+		if (u == null) u = this.manejadorUsuarios.getOrganizador(usuario);
+		if (u == null) u = this.manejadorUsuarios.getAsistentePorCorreo(usuario);
+		if (u == null) u = this.manejadorUsuarios.getOrganizadorPorCorreo(usuario);
+		// valido que el usuario exista y en ese caso verifico la contraseña
+		if (u != null && u.getContrasena() == contrasena) {
+			try {
+				return this.mostrarDetalleUsuario(usuario);
+			} catch (Exception e) {
+				return null;
+			}
+		} else if (u.getContrasena() != contrasena) {
+			throw new ContrasenaIncorrecta("La contraseña es incorrecta.");
+		}
+		return null;
 	}
 }
