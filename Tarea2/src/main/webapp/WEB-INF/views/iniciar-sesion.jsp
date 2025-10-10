@@ -14,7 +14,7 @@
         class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
         style="max-width: 375px"
       >
-        <form action="/login" method="post" class="d-flex flex-column gap-4">
+        <form action="${pageContext.request.contextPath}/login" method="post" class="d-flex flex-column gap-4">
           <div class="d-flex justify-content-center gap-3">
             <label for="usuario" class="form-label text-end" style="width: 80px"
               >Usuario:</label

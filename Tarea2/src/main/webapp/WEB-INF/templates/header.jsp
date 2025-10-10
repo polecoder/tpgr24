@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
 	<a
-		href="/Tarea2/index.jsp"
+		href="${pageContext.request.contextPath}/home"
         class="fw-bold text-white text-decoration-none fs-5 fs-sm-4"
         style="line-height: 48px"
       >eventos.uy</a>

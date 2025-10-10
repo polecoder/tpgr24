@@ -29,6 +29,8 @@ public class Home extends HttpServlet {
      */
     public Home() {
         super();
+        // TODO: Hardcodeado
+        testingSession();
     }
     
     /**
@@ -78,8 +80,6 @@ public class Home extends HttpServlet {
 	 */
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO: Hardcodeado
-		testingSession();
 		Fabrica f = Fabrica.getInstancia();
 		
 		Map<String, DTEvento> eventos = f.getControladorEvento().listarEventos();
