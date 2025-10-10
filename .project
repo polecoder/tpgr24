@@ -34,4 +34,11 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>presentacion</name>
+			<type>2</type>
+			<location>C:/Users/santi/OneDrive/Documentos/Facultad/tProg/tProgRepo/tpgr24/Tarea1/src/presentacion</location>
+		</link>
+	</linkedResources>
 </projectDescription>

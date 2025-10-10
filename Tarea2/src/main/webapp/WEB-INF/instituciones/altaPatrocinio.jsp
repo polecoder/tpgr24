@@ -6,11 +6,10 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.Set" %>
 <% 
-	DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("dtEdicion");
-	//String rutaImagenEdicion = dtEdicion.getRutaImagenEdicion();
-	String rutaImagenEdicion = "./images/IMG-EDEV03.jpeg";
+	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
+	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
 	
-	List<String> listaNombresTipoRegistro = (List<String>) request.getAttribute("listaNombresRegistro"); System.out.printf("\naltaPatrocinio.jsp:: listaNombresTipoRegistro is: %s\n", listaNombresTipoRegistro);
+	Set<String> listaNombresTipoRegistro = (Set<String>) request.getAttribute("listaNombresRegistro");
 	Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion");
 %>
 <!DOCTYPE html>
@@ -34,7 +33,7 @@
                 height: auto;
               " />
           <div class="d-flex flex-column" style="line-height: 1">
-            <h1 class="fs-2 fw-bold mb-1"><%= dtEdicion.getNombre() %></h1>
+            <h1 class="fs-2 fw-bold mb-1"><%= nombreEdicion %></h1>
             <a href=<%=rutaImagenEdicion %> class="fs-5 text-secondary text-decoration-underline"><%= dtEdicion.getNombre() %></a>
             <!-- Necesito saber como redirigir al Servlet de Evento -->
           </div>
