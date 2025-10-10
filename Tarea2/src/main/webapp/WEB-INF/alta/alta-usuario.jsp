@@ -1,27 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eventos UY - Alta de Usuario</title>
-   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  </head>
+  <!-- HEAD GLOBAL -->
+  <jsp:include page="/WEB-INF/templates/head.jsp" />
+
   <body class="d-flex flex-column min-vh-100">
-  
-    <nav class="d-flex justify-content-between bg-primary p-2 p-sm-3">
-      <a href="${pageContext.request.contextPath}/index.jsp"
-         class="fw-bold text-white text-decoration-none fs-5 fs-sm-4">
-        eventos.uy
-      </a>
-      <ul class="list-unstyled m-0">
-        <li>
-          <a href="${pageContext.request.contextPath}/pages/usuario/inicio-sesion.jsp"
-             class="text-white text-uppercase text-decoration-underline small">Iniciar sesión</a>
-        </li>
-      </ul>
-    </nav>
+
+    <!-- HEADER GLOBAL -->
+    <jsp:include page="/WEB-INF/templates/header.jsp" />
 
     <div class="container flex-grow-1">
       <div class="mx-auto" style="max-width: 768px">
@@ -30,17 +16,19 @@
 
       <div class="d-flex justify-content-between">
         <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 720px">
+          <!-- Alertas -->
           <div id="alert-area" class="mb-3">
             <% String ok = request.getParameter("ok");
                if ("1".equals(ok)) { %>
               <div class="alert alert-success text-center">Usuario creado correctamente.</div>
-            <% } 
+            <% }
                Object err = request.getAttribute("error");
                if (err != null) { %>
               <div class="alert alert-danger text-center"><%= err %></div>
             <% } %>
           </div>
 
+          <!-- FORM -->
           <form id="altaUsuarioForm"
                 method="post"
                 action="${pageContext.request.contextPath}/usuario?accion=alta"
@@ -48,6 +36,7 @@
                 novalidate
                 class="d-flex flex-column gap-4">
 
+            <!-- Tipo -->
             <div class="d-flex justify-content-center gap-3">
               <label class="form-label text-end" style="width: 80px">Tipo:</label>
               <div>
@@ -65,6 +54,7 @@
               </div>
             </div>
 
+            <!-- Nickname -->
             <div class="d-flex justify-content-center gap-3">
               <label for="nickname" class="form-label text-end" style="width: 80px">Nickname:</label>
               <input type="text" id="nickname" name="nickname" required
@@ -72,6 +62,7 @@
                      value="${param.nickname}" />
             </div>
 
+            <!-- Nombre -->
             <div class="d-flex justify-content-center gap-3">
               <label for="nombre" class="form-label text-end" style="width: 80px">Nombre:</label>
               <input type="text" id="nombre" name="nombre" required
@@ -79,6 +70,7 @@
                      value="${param.nombre}" />
             </div>
 
+            <!-- Correo -->
             <div class="d-flex justify-content-center gap-3">
               <label for="email" class="form-label text-end" style="width: 80px">Correo:</label>
               <input type="email" id="email" name="email"
@@ -86,24 +78,28 @@
                      value="${param.email}" />
             </div>
 
+            <!-- Password -->
             <div class="d-flex justify-content-center gap-3">
               <label for="password" class="form-label text-end" style="width: 80px">Contraseña:</label>
               <input type="password" id="password" name="password"
                      class="form-control form-control-sm" style="max-width: 200px" />
             </div>
 
+            <!-- Confirm -->
             <div class="d-flex justify-content-center gap-3">
               <label for="confirm" class="form-label text-end" style="width: 80px">Confirmación:</label>
               <input type="password" id="confirm" name="confirm"
                      class="form-control form-control-sm" style="max-width: 200px" required />
             </div>
 
+            <!-- Imagen -->
             <div class="d-flex justify-content-center gap-3">
               <label for="imagen" class="form-label text-end" style="width: 80px">Imagen:</label>
               <input type="file" id="imagen" name="imagen" accept="image/*"
                      class="form-control form-control-sm" style="max-width: 200px" />
             </div>
 
+            <!-- Bloque organizador -->
             <div id="bloqueOrganizador" class="d-none border-top pt-3">
               <div class="d-flex justify-content-center gap-3">
                 <label for="descripcion" class="form-label text-end" style="width: 80px">Descripción:</label>
@@ -118,6 +114,7 @@
               </div>
             </div>
 
+            <!-- Bloque asistente -->
             <div id="bloqueAsistente" class="d-none border-top pt-3">
               <div class="d-flex justify-content-center gap-3">
                 <label for="apellido" class="form-label text-end" style="width: 80px">Apellido:</label>
@@ -150,6 +147,7 @@
               </div>
             </div>
 
+            <!-- Botones -->
             <div class="d-flex justify-content-center gap-3">
               <button type="submit" class="btn btn-primary btn-sm px-3">Aceptar</button>
               <button type="reset" class="btn btn-primary btn-sm px-3">Reset</button>
@@ -159,12 +157,10 @@
       </div>
     </div>
 
-   
-    <footer class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto">
-      <p class="fw-bold m-0">TPROG 2025</p>
-      <p class="m-0">Grupo 24</p>
-    </footer>
+    <!-- FOOTER GLOBAL -->
+    <jsp:include page="/WEB-INF/templates/footer.jsp" />
 
+    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       const tipoAsistente = document.getElementById("tipoAsistente");
