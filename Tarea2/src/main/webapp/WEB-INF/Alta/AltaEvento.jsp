@@ -1,105 +1,152 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eventos UY - Alta de Evento</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="d-flex flex-column min-vh-100">
+    <!-- INCLUDE HEAD -->
+    <jsp:include page="/WEB-INF/templates/head.jsp" />
 
-    <!-- INCLUDE HEADER -->
-    <jsp:include page="header.jsp" />
+    <body class="d-flex flex-column min-vh-100">
 
-    <div class="container flex-grow-1" style="width: 900px">
-      <div class="mx-auto">
-        <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de evento</h1>
-      </div>
+        <!-- INCLUDE HEADER -->
+        <jsp:include page="/WEB-INF/templates/header.jsp" />
 
-      <main class="p-4 bg-light border-top border-2 border-primary rounded mx-auto" style="max-width: 550px">
+        <div class="container flex-grow-1" style="width: 900px">
+            <div class="mx-auto">
+                <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de evento</h1>
+            </div>
 
-        <!-- ALERTA DE ERROR -->
-        <c:if test="${not empty error}">
-          <div class="alert alert-danger" role="alert">${error}</div>
-        </c:if>
+            <main class="p-4 bg-light border-top border-2 border-primary rounded mx-auto" style="max-width: 550px">
 
-        <form id="altaEventoForm" method="post" action="Eventos" class="d-flex flex-column gap-4">
-          <input type="hidden" name="accion" value="confirmarAlta"/>
-
-          <!-- Nombre -->
-          <div class="d-flex justify-content-center gap-3 align-items-center">
-            <label for="nombre" class="form-label text-end" style="width: 155px">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" class="form-control form-control-sm" style="width: 300px"
-                   value="${param.nombre}" required />
-          </div>
-
-          <!-- Descripción -->
-          <div class="d-flex justify-content-center gap-3 align-items-center">
-            <label for="descripcion" class="form-label text-end" style="width: 155px">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" rows="3" class="form-control form-control-sm" style="width: 300px"
-                      required>${param.descripcion}</textarea>
-          </div>
-
-          <!-- Sigla -->
-          <div class="d-flex justify-content-center gap-3 align-items-center">
-            <label for="sigla" class="form-label text-end" style="width: 155px">Sigla:</label>
-            <input type="text" id="sigla" name="sigla" class="form-control form-control-sm" style="width: 300px"
-                   value="${param.sigla}" />
-          </div>
-
-          <!-- Categorías -->
-<div class="d-flex justify-content-center gap-3 align-items-center">
-    <label class="form-label text-end" style="width: 155px">Categorías:</label>
-    <div style="width: 300px">
-        <%
-            String[] categorias = {"Deporte", "Salud", "Tecnología", "Innovación"};
-            String[] seleccionadas = request.getParameterValues("categorias");
-            for (String cat : categorias) {
-                boolean checked = false;
-                if (seleccionadas != null) {
-                    for (String sel : seleccionadas) {
-                        if (cat.equals(sel)) {
-                            checked = true;
-                            break;
-                        }
+                <!-- ALERTA DE ERROR DEL SERVLET -->
+                <%
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
+                %>
+                    <div class="alert alert-danger" role="alert"><%= error %></div>
+                <%
                     }
-                }
-        %>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="<%= cat %>" name="categorias" value="<%= cat %>"
-                   <%= checked ? "checked" : "" %> />
-            <label class="form-check-label" for="<%= cat %>"><%= cat %></label>
+                %>
+
+                <form id="altaEventoForm" method="post" action="Eventos" class="d-flex flex-column gap-4" onsubmit="return validarFormulario()">
+                    <input type="hidden" name="accion" value="confirmarAlta"/>
+
+                    <!-- Nombre -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <label for="nombre" class="form-label text-end" style="width: 155px">Nombre:</label>
+                        <div>
+                            <input type="text" id="nombre" name="nombre" class="form-control form-control-sm" style="width: 300px"
+                                   value="<%= request.getParameter("nombre") != null ? request.getParameter("nombre") : "" %>"/>
+                            <div id="errorNombre" class="text-danger"></div>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <label for="descripcion" class="form-label text-end" style="width: 155px">Descripción:</label>
+                        <div>
+                            <textarea id="descripcion" name="descripcion" rows="3" class="form-control form-control-sm" style="width: 300px"><%= request.getParameter("descripcion") != null ? request.getParameter("descripcion") : "" %></textarea>
+                            <div id="errorDescripcion" class="text-danger"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sigla -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <label for="sigla" class="form-label text-end" style="width: 155px">Sigla:</label>
+                        <div>
+                            <input type="text" id="sigla" name="sigla" class="form-control form-control-sm" style="width: 300px"
+                                   value="<%= request.getParameter("sigla") != null ? request.getParameter("sigla") : "" %>"/>
+                            <div id="errorSigla" class="text-danger"></div>
+                        </div>
+                    </div>
+
+                    <!-- Categorías -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <label class="form-label text-end" style="width: 155px">Categorías:</label>
+                        <div style="width: 300px">
+                            <%
+                                String[] categorias = {"Deporte", "Salud", "Tecnología", "Innovación"};
+                                String[] seleccionadas = request.getParameterValues("categorias");
+                                for (String cat : categorias) {
+                                    boolean checked = false;
+                                    if (seleccionadas != null) {
+                                        for (String sel : seleccionadas) {
+                                            if (cat.equals(sel)) {
+                                                checked = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                            %>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="<%= cat %>" name="categorias" value="<%= cat %>"
+                                       <%= checked ? "checked" : "" %> />
+                                <label class="form-check-label" for="<%= cat %>"><%= cat %></label>
+                            </div>
+                            <%
+                                }
+                            %>
+                            <div id="errorCategorias" class="text-danger"></div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen (opcional) -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <label for="imagen" class="form-label text-end" style="width: 155px">Imagen:</label>
+                        <input type="file" id="imagen" name="imagen" accept="image/*" class="form-control form-control-sm" style="width: 300px"/>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-center gap-3 align-items-center">
+                        <button type="submit" class="btn btn-primary btn-sm px-3">Aceptar</button>
+                        <button type="reset" class="btn btn-secondary btn-sm px-3">Reset</button>
+                    </div>
+
+                </form>
+            </main>
         </div>
-        <%
+
+        <!-- INCLUDE FOOTER -->
+        <jsp:include page="/WEB-INF/templates/footer.jsp" />
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            function validarFormulario() {
+                let valido = true;
+
+                // Limpiar errores anteriores
+                document.getElementById("errorNombre").innerText = "";
+                document.getElementById("errorDescripcion").innerText = "";
+                document.getElementById("errorSigla").innerText = "";
+                document.getElementById("errorCategorias").innerText = "";
+
+                // Validar Nombre
+                if (!document.getElementById("nombre").value.trim()) {
+                    document.getElementById("errorNombre").innerText = "Campo obligatorio";
+                    valido = false;
+                }
+
+                // Validar Descripción
+                if (!document.getElementById("descripcion").value.trim()) {
+                    document.getElementById("errorDescripcion").innerText = "Campo obligatorio";
+                    valido = false;
+                }
+
+                // Validar Sigla
+                if (!document.getElementById("sigla").value.trim()) {
+                    document.getElementById("errorSigla").innerText = "Campo obligatorio";
+                    valido = false;
+                }
+
+                // Validar Categorías
+                let checkboxes = document.querySelectorAll('input[name="categorias"]:checked');
+                if (checkboxes.length === 0) {
+                    document.getElementById("errorCategorias").innerText = "Debe seleccionar al menos una categoría";
+                    valido = false;
+                }
+
+                return valido;
             }
-        %>
-    </div>
-</div>
-          <!-- Imagen (opcional) -->
-          <div class="d-flex justify-content-center gap-3 align-items-center">
-            <label for="imagen" class="form-label text-end" style="width: 155px">Imagen:</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" class="form-control form-control-sm" style="width: 300px"/>
-          </div>
-
-          <!-- Botones -->
-          <div class="d-flex justify-content-center gap-3 align-items-center">
-            <button type="submit" class="btn btn-primary btn-sm px-3">Aceptar</button>
-            <button type="reset" class="btn btn-secondary btn-sm px-3">Reset</button>
-          </div>
-
-        </form>
-      </main>
-    </div>
-
-    <!-- INCLUDE FOOTER -->
-    <jsp:include page="footer.jsp" />
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+        </script>
+    </body>
 </html>

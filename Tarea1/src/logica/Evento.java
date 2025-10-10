@@ -16,7 +16,8 @@ public class Evento {
 	String descripcion;
 	Date fechaAlta;
 	Map<String, Categoria> categorias;
-	 private final Map<String, Edicion> ediciones;
+	byte imagen;
+	private final Map<String, Edicion> ediciones;
 	public
 	Evento(String nombre, String descripcion , String sigla, Date fechaAlta) {
 		this.setNombre(nombre);
