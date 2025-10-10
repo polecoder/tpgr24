@@ -151,6 +151,8 @@ public class UsuarioServlet extends HttpServlet {
 
 			try {
 				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
+			    System.out.println("[consulta] param nick = " + nick);
+
 				if (isBlank(nick)) {
 					// listar todos
 					Collection<DTUsuario> usrs = cu.listarUsuarios(); 
@@ -321,7 +323,7 @@ public class UsuarioServlet extends HttpServlet {
 							request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 						}
 					} catch (Exception ignore) {}
-					request.getRequestDispatcher("/pages/usuario/registroEdicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 
@@ -332,12 +334,12 @@ public class UsuarioServlet extends HttpServlet {
 						boolean ok = ce.validar(nick, idEdicion, idTipo, evento);
 						if (!ok) {
 							request.setAttribute("error", "La validación del registro falló.");
-							request.getRequestDispatcher("/pages/usuario/registroEdicion.jsp").forward(request, response);
+							request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 							return;
 						}
 					} catch (Exception e) {
 						request.setAttribute("error", "Error validando el registro: " + safeMsg(e, ""));
-						request.getRequestDispatcher("/pages/usuario/registroEdicion.jsp").forward(request, response);
+						request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 						return;
 					}
 
@@ -354,7 +356,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("eventoSel",   request.getParameter("evento"));
 					request.setAttribute("edicionSel",  request.getParameter("idEdicion"));
 					request.setAttribute("tipoSel",     request.getParameter("idTipoRegistro"));
-					request.getRequestDispatcher("/pages/usuario/registroEdicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 
@@ -384,7 +386,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("error", safeMsg(e, "No fue posible cargar la información de registro."));
 				}
 
-				request.getRequestDispatcher("/pages/usuario/registroEdicion.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 				return;
 			}
 
@@ -471,7 +473,7 @@ public class UsuarioServlet extends HttpServlet {
 				request.setAttribute("error", safeMsg(ex, "No se pudo completar la consulta."));
 			}
 
-			request.getRequestDispatcher("/pages/usuario/consultaRegistro.jsp")
+			request.getRequestDispatcher("/WEB-INF/consulta/consulta-registro.jsp")
 			.forward(request, response);
 			return;
 		}
