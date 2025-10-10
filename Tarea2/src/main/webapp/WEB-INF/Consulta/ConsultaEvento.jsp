@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList" %>
+<%@ page import="datatypes.*" %>
 <!DOCTYPE html>
 <html lang="es">
 <!-- INCLUDE HEAD -->
@@ -29,7 +30,7 @@
 
             // ==== OTRAS LISTAS ====
             List<String> categorias = (List<String>) request.getAttribute("categorias");
-            List<String> ediciones = (List<String>) request.getAttribute("ediciones");
+            List<DTEdicionEvento> ediciones = (List<DTEdicionEvento>) request.getAttribute("ediciones");
             %>
 
             <% if (base64Image != null) { %>
@@ -77,24 +78,30 @@
             <div class="border-top pt-4 mt-4">
                 <h4 class="text-primary mb-3">Ediciones</h4>
                 <% if (ediciones != null && !ediciones.isEmpty()) { %>
-                    <div class="d-flex flex-wrap gap-3 justify-content-center">
-                        <% for (String ed : ediciones) { %>
-                            <div class="card shadow-sm border-0" style="width: 200px;">
-                                <img src="../images/IMG-EDEV03.jpeg" alt="Imagen edición"
-                                     class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
-                                <div class="card-body text-center p-2">
-                                    <a href="Ediciones?accion=consulta&nombreEdicion=<%= ed %>&nombreEvento=<%= nombre %>"
-                                       class="text-decoration-none text-primary fw-semibold">
-                                        <%= ed %>
-                                    </a>
-                                </div>
-                            </div>
-                        <% } %>
-                    </div>
-                <% } else { %>
-                    <p class="text-muted fst-italic">No hay ediciones disponibles.</p>
-                <% } %>
-            </div>
+				    <div class="d-flex flex-wrap gap-3 justify-content-center">
+				        <% for (DTEdicionEvento ed : ediciones) {
+				            byte[] imgBytes = ed.getImagen();
+				            String base64Img = null;
+				            if (imgBytes != null && imgBytes.length > 0) {
+				                base64Img = java.util.Base64.getEncoder().encodeToString(imgBytes);
+				            }
+				        %>
+				        <div class="card shadow-sm border-0" style="width: 200px;">
+				            <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
+				                 alt="Imagen de <%= ed.getNombre() %>"
+				                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
+				            <div class="card-body text-center p-2">
+				                <a href="Ediciones?accion=consulta&nombreEdicion=<%= ed.getNombre() %>&nombreEvento=<%= nombre %>"
+				                   class="text-decoration-none text-primary fw-semibold">
+				                    <%= ed.getNombre() %>
+				                </a>
+				            </div>
+				        </div>
+				        <% } %>
+				    </div>
+				<% } else { %>
+				    <p class="text-muted fst-italic">No hay ediciones disponibles.</p>
+				<% } %>
 
         </main>
     </div>

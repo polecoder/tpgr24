@@ -122,7 +122,7 @@ public class ManejadorEventos {
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
-		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname());
+		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname(),edicion.getImagen());
 		return dtEvento;
 	}
 	
@@ -266,11 +266,11 @@ public class ManejadorEventos {
 			}
 		}
 	}
-	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
-			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento);
-			this.eventos.get(nombreEvento).agregarEdicion(edicion);
-			return edicion;
-		};
+	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad,String pais, String organizadorNickname, byte[] imagen) {  
+	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin,fechaAlt, ciudad, pais,organizadorNickname, nombreEvento, imagen );
+	    this.eventos.get(nombreEvento).agregarEdicion(edicion);
+	    return edicion;
+	}
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
 		}

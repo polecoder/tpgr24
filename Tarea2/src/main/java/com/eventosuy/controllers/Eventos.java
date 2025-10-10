@@ -2,11 +2,16 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -133,7 +138,7 @@ public class Eventos extends HttpServlet {
         request.setAttribute("imagen", imagen);
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(fechaAlta));
-
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Consulta/ConsultaEvento.jsp");
         dispatcher.forward(request, response);
     }
@@ -158,7 +163,12 @@ public class Eventos extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
 
+        Map<String, DTEdicionEvento> edicionesMap = IContEv.listarEdicionesEvento(nombre);
+        List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
+        request.setAttribute("ediciones", edicionesList);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Consulta/ConsultaEvento.jsp");
         dispatcher.forward(request, response);
     }
 }
+

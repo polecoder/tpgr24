@@ -26,7 +26,7 @@
                     }
                 %>
 
-                <form id="altaEventoForm" method="post" action="Eventos" class="d-flex flex-column gap-4">
+                <form id="altaEventoForm" method="post" action="Eventos" enctype="multipart/form-data" class="d-flex flex-column gap-4">
                     <input type="hidden" name="accion" value="confirmarAlta"/>
 
                     <!-- Nombre -->
@@ -88,7 +88,7 @@
                     <!-- Botones -->
                     <div class="d-flex justify-content-center gap-3 align-items-center">
                         <button type="submit" class="btn btn-primary btn-sm px-3">Aceptar</button>
-                        <button type="reset" class="btn btn-secondary btn-sm px-3">Reset</button>
+                       <button type="button" class="btn btn-secondary btn-sm px-3" onclick="limpiarFormulario()">Reset</button>
                     </div>
 
                 </form>
@@ -99,5 +99,23 @@
         <jsp:include page="/WEB-INF/templates/footer.jsp" />
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+					<script>
+					function limpiarFormulario() {
+					    const form = document.getElementById("altaEventoForm");
+					    
+					    // Limpiar inputs de texto
+					    form.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = "");
+					
+					    // Desmarcar checkboxes
+					    form.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+					
+					    // Limpiar file input
+					    form.querySelectorAll('input[type="file"]').forEach(el => el.value = "");
+					
+					    // Opcional: limpiar alertas o mensajes de error
+					    form.querySelectorAll('.text-danger').forEach(el => el.innerText = "");
+					}
+					</script>
     </body>
 </html>
