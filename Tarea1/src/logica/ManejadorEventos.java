@@ -13,6 +13,7 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
@@ -358,6 +359,22 @@ public class ManejadorEventos {
 
 	    // Mostrar cartel siempre
 	    JOptionPane.showMessageDialog(null, mensaje, "Estado de Edición", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+		Evento evento = eventos.get(nombreEvento);
+    	Edicion edicion = evento.getEdicion(nombreEdicion);
+    	
+    	// Tipos Registro
+    	Map<String, TipoRegistro> setTiposRegistro = edicion.getTiposRegistro();
+    	Set<DTDetalleRegistro> setRegistros = new HashSet<>();
+    	for(TipoRegistro tipoRegistro: setTiposRegistro.values()) {
+    		List<Registro> listaRegistros = tipoRegistro.getRegistros();
+    		for(Registro registro: listaRegistros) {
+    			setRegistros.add(registro.mostrarDetalle(nombreEdicion, tipoRegistro.getNombre()));
+    		}
+    	}
+    	return setRegistros;
 	}
 }
 
