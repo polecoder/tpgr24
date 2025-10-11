@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import excepciones.DatosTipoRegistroInvalidos;
@@ -14,6 +15,7 @@ import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import datatypes.DTDetallePatrocinio;
+import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
@@ -42,23 +44,28 @@ public class ControladorEventos implements IControladorEventos {
 		instancia = null;
 	}
 
-	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-    	Evento ev = manejadorEventos.getEvento(nombreEvento);
-    	Map<String, Edicion> eds = ev.getEdiciones();
-    	Map<String, DTEdicionEvento> mLista = new HashMap<>();
-    	for(Edicion ed : eds.values()) {
-    		String nombre = ed.getNombre();
-    		String sigla = ed.getSigla();
-    		Date fInicio = ed.getFechaInicio();
-    		Date fFin = ed.getFechaFin();
-    		Date fAlta = ed.getFechaAlta();
-    		String ciudad = ed.getCiudad();
-    		String pais = ed.getPais();
-    		String oNick = ed.getOrganizadorNickname();
-    		mLista.put(nombre, new DTEdicionEvento(nombre,sigla,fInicio, fFin, fAlta, ciudad, pais, oNick));
-    	}
-    	return mLista;
-    }
+	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
+	    Evento ev = manejadorEventos.getEvento(nombreEvento);
+	    Map<String, Edicion> eds = ev.getEdiciones();
+	    Map<String, DTEdicionEvento> mLista = new HashMap<>();
+	    
+	    for (Edicion ed : eds.values()) {
+	        String nombre = ed.getNombre();
+	        String sigla = ed.getSigla();
+	        Date fInicio = ed.getFechaInicio();
+	        Date fFin = ed.getFechaFin();
+	        Date fAlta = ed.getFechaAlta();
+	        String ciudad = ed.getCiudad();
+	        String pais = ed.getPais();
+	        String oNick = ed.getOrganizadorNickname();
+	        byte[] imagen = ed.getImagen(); 
+
+	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen));
+	    }
+	    
+	    return mLista;
+	}
+
 
     public Map<String,DTEvento> listarEventos() {
         return manejadorEventos.listarEventos();
@@ -99,9 +106,10 @@ public class ControladorEventos implements IControladorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias) {
-		this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
-	}
+    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
+    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
+    }
+
 
 	/**
 	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
@@ -206,7 +214,7 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla,Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) throws Exception {
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla,Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname,byte[]img) throws Exception {
 
 		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
 			throw new Exception("Todos los campos deben estar completos");
@@ -238,7 +246,7 @@ public class ControladorEventos implements IControladorEventos {
 			throw new Exception("El país solo puede contener letras y espacios");
 		}
 
-		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname);
+		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname,img);
 		this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 	}
 
@@ -330,6 +338,11 @@ public class ControladorEventos implements IControladorEventos {
 			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos(), tr.getNombre());
 		}
 		return null;
+	}
+	
+	@Override
+	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 	}
 }
 
