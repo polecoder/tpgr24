@@ -102,7 +102,7 @@ public class Ediciones extends HttpServlet {
 		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador,);
 		} catch (Exception ex) {
 			request.setAttribute("error_message", ex.getMessage());
 			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);

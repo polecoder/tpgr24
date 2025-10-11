@@ -77,8 +77,8 @@ public class TestRegistroAEdicion {
 	@Order(1)
 	void testRegistroExitosoSinPatrocinio() {
 		try { 
-			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link);
-			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null);
+			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link,null);
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha,null, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18",null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
@@ -97,7 +97,7 @@ public class TestRegistroAEdicion {
 		try { 
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
 			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
-			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion");
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion",null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18",null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);

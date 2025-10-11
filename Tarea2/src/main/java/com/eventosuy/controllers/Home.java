@@ -63,10 +63,10 @@ public class Home extends HttpServlet {
 		
 		// Usuarios
 		try {
-			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com");
-			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com");
+			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)),null, null);
+			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)),null, null);
+			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com",null);
+			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com",null);
 		} catch (FormatoContrasenaInvalido e) {
 			e.printStackTrace();
 		} catch (Exception e) {

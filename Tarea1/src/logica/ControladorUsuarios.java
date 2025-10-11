@@ -312,10 +312,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		Map<String, Asistente> asistentes = this.manejadorUsuarios.getConjuntoAsistentes();
 		Map<String, Organizador> organizadores = this.manejadorUsuarios.getConjuntoOrganizador();
 		for (Asistente a: asistentes.values()) {
-			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento()));
+			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento(),a.getImagen()));
 		}
 		for (Organizador o: organizadores.values()) {
-			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink()));
+			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink(),o.getImagen()));
 		}
 		return resultado;
 	}

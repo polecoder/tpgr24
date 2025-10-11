@@ -12,7 +12,7 @@ public class DTDetalleOrganizador extends DTDetalleUsuario {
 	
 	public DTDetalleOrganizador(String nickname, String nombre, String correo,
             String descripcion, String link, byte[] imagen) {
-			super(nickname, nombre, correo, imagen, ETipoUsuario.Organizador);
+			super(nickname, nombre, correo, ETipoUsuario.Organizador, imagen);
 			this.descripcion = descripcion;
 			this.link = link;
 			}

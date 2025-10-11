@@ -396,7 +396,7 @@ out.add(ed.getNombre());
 }
 return out;
 }
-	}
+	
 	
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		Evento evento = eventos.get(nombreEvento);
