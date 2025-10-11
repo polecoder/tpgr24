@@ -34,7 +34,7 @@
               " />
           <div class="d-flex flex-column" style="line-height: 1">
             <h1 class="fs-2 fw-bold mb-1"><%= nombreEdicion %></h1>
-            <a href=<%=rutaImagenEdicion %> class="fs-5 text-secondary text-decoration-underline"><%= dtEdicion.getNombre() %></a>
+            <a href=<%=rutaImagenEdicion %> class="fs-5 text-secondary text-decoration-underline"><%= nombreEdicion %></a>
             <!-- Necesito saber como redirigir al Servlet de Evento -->
           </div>
         </div>

@@ -22,7 +22,7 @@
         <h1>altaPatrocinio</h1>
         	<a href="/Tarea2/Institucion?action=altaPatrocinio&nombreEdicion=TestEdicion&nombreEvento=TestEvento">Click Me!</a>
         <h1>consultaPatrocinio</h1>
-        	<a href="/Tarea2/Institucion?action=consultaPatrocinio&codigoPatrocinio=TECHUDELAR">Click Me!</a>
+        	<a href="/Tarea2/Institucion?action=consultaPatrocinio&codigoPatrocinio=TECHUDELAR&nombreEdicion=TestEdicion">Click Me!</a>
     </main>
     <jsp:include page="WEB-INF/templates/footer.jsp" />
 </body>

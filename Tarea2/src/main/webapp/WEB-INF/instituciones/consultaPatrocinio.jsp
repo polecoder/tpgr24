@@ -1,9 +1,15 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ page import="datatypes.DTDetallePatrocinio" %>
+<%@ page import="datatypes.*" %>
 <% 
-	String codigoPatrocinio = (String) request.getAttribute("codigoPatrocinio"); 
+	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
 	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
+	
+	String codigoPatrocinio = (String) request.getAttribute("codigoPatrocinio"); 
+	
 	String rutaImagenInstitucion = (String) request.getAttribute("rutaImagenInstitucion");
+	
+	DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("dtTipoRegistro");
+	
 	DTDetallePatrocinio dtPatrocinio = (DTDetallePatrocinio) request.getAttribute("dtPatrocinio");
 %>
 <!DOCTYPE html>
@@ -58,7 +64,7 @@
           <div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
             <img src=<%= rutaImagenEdicion %> alt="Imagen evento" style="width: 64px; height: 64px" />
             <!-- TODO: Lleva a CU::ConsultaEdición -->
-            <a href="./Evento" class="text-primary"><%= %></a>
+            <a href="./Evento" class="text-primary"><%= nombreEdicion %></a>
           </div>
         </div>
         <div>
@@ -70,11 +76,11 @@
           </div>
         </div>
         <div>
-          <h3 class="text-white bg-primary p-2 m-0 fs-4"><%= dtPatrocinio.tipoRegistro() %>></h3>
+          <h3 class="text-white bg-primary p-2 m-0 fs-4">Tipo de Registro</h3>
           <div class="d-flex align-items-center gap-2 py-2 px-4 justify-content-between">
             <!-- TODO: Lleva a CU::ConsultaTipoRegistro -->
-            <a href="./consulta-tipo-registro-corredor-21k-organizador.html" class="text-primary">Estudiante</a>
-            <p class="m-0">$1000</p>
+            <a href="./Evento" class="text-primary"><%= dtPatrocinio.tipoRegistro() %></a>
+            <p class="m-0"><%= dtTipoRegistro.costo() %></p>
           </div>
         </div>
       </aside>

@@ -40,72 +40,150 @@ public class Institucion extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Logica
-		Fabrica fabrica = Fabrica.getInstancia();
-		IControladorEventos IControladorEventos = fabrica.getControladorEvento();
-		IControladorInstitucion IControladorInstitucion = fabrica.getControladorInstitucion();
-		// Request Parameters
-		String action = (String) request.getParameter("action"); 
-		String nombreEvento = (String) request.getParameter("nombreEvento");
-		String nombreEdicion = (String) request.getParameter("nombreEdicion");
-		
-		// Request Attributes
-		request.setAttribute("nombreEdicion", nombreEdicion);
-		request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
-		// Session
-		HttpSession session = request.getSession();
-		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-		
-		// Paginas disponibles a organizadores
-		if(tipoUsuario == "organizador") {
-			switch(action){
-				case "altaInstitucion":
-					request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);					
-					break;
-				case "altaPatrocinio":
-					// Precondicion: Necesito que request tenga parametros nombreEdicion & nombreEvento.
-					
-					
-					
-					Set<String> listaNombresTipoRegistro;
-					Set<String> listaNombresInstitucion;
-					
-					try {
-						listaNombresTipoRegistro = IControladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();						
-					}catch(Exception err) {
-						listaNombresTipoRegistro = new HashSet<>(Arrays.asList("Failed. Call support"));
-					}
-					try {
-						listaNombresInstitucion = IControladorInstitucion.nombresInstituciones();						
-					}catch(Exception err) {
-						listaNombresInstitucion = new HashSet<>(Arrays.asList("Failed. Call support"));
-					}
-					
-					
-					request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
-					request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
-					request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);					
-					break;
-			}
-		}
-		
-		// Paginas disponibles a todos los usuarios
-		switch(action){
-			case "consultaPatrocinio":
-				// Precondicion: Necesito que request tenga parametros codigoPatrocinio
-				String codigoPatrocinio = (String) request.getParameter("codigoPatrocinio");
-				
-				DTDetallePatrocinio dtPatrocinio = IControladorEventos.mostrarDetallePatrocinio(nombreEvento, nombreEdicion, codigoPatrocinio);
-				
-				// Request Attributes
-				request.setAttribute("codigoPatrocinio", codigoPatrocinio);
-				request.setAttribute("nombreEvento", nombreEvento);
-				request.setAttribute("dtPatrocinio", dtPatrocinio);
-				request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
-				break;
-		}
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        // Initialize controllers
+        Fabrica fabrica = Fabrica.getInstancia();
+        IControladorEventos controladorEventos = fabrica.getControladorEvento();
+        IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
+        
+        // Extract request parameters
+        String action = request.getParameter("action");
+        String nombreEvento = request.getParameter("nombreEvento");
+        String nombreEdicion = request.getParameter("nombreEdicion");
+        
+        // Set common attributes
+        request.setAttribute("nombreEdicion", nombreEdicion);
+        request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
+        
+        // Get user type from session
+        HttpSession session = request.getSession();
+        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+        
+        // Handle organizer-specific actions
+        if ("organizador".equals(tipoUsuario)) {
+            if (handleOrganizerAction(request, response, action, nombreEvento, nombreEdicion, 
+                    controladorEventos, controladorInstitucion)) {
+                return;
+            }
+        }
+        
+        // Handle public actions
+        handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
+    }
+
+    private boolean handleOrganizerAction(HttpServletRequest request, HttpServletResponse response,
+            String action, String nombreEvento, String nombreEdicion,
+            IControladorEventos controladorEventos, IControladorInstitucion controladorInstitucion) 
+            throws ServletException, IOException {
+        
+        switch (action) {
+            case "altaInstitucion":
+                request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp")
+                       .forward(request, response);
+                return true;
+                
+            case "altaPatrocinio":
+                handleAltaPatrocinio(request, response, nombreEvento, nombreEdicion, 
+                        controladorEventos, controladorInstitucion);
+                return true;
+                
+            default:
+                return false;
+        }
+    }
+
+    private void handleAltaPatrocinio(HttpServletRequest request, HttpServletResponse response,
+            String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
+            IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+        
+        Set<String> listaNombresTipoRegistro = obtenerTiposRegistro(
+                controladorEventos, nombreEvento, nombreEdicion);
+        Set<String> listaNombresInstitucion = obtenerNombresInstituciones(controladorInstitucion);
+        
+        request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
+        request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+        request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp")
+               .forward(request, response);
+    }
+
+    private Set<String> obtenerTiposRegistro(IControladorEventos controladorEventos, 
+            String nombreEvento, String nombreEdicion) {
+        try {
+            return controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();
+        } catch (Exception e) {
+            return new HashSet<>(Arrays.asList("Failed. Call support"));
+        }
+    }
+
+    private Set<String> obtenerNombresInstituciones(IControladorInstitucion controladorInstitucion) {
+        try {
+            return controladorInstitucion.nombresInstituciones();
+        } catch (Exception e) {
+            return new HashSet<>(Arrays.asList("Failed. Call support"));
+        }
+    }
+
+    private void handlePublicAction(HttpServletRequest request, HttpServletResponse response,
+            String action, String nombreEvento, String nombreEdicion, 
+            IControladorEventos controladorEventos) throws ServletException, IOException {
+        
+        if ("consultaPatrocinio".equals(action)) {
+            String codigoPatrocinio = request.getParameter("codigoPatrocinio");
+            
+            DTDetallePatrocinio dtPatrocinio = obtenerDetallePatrocinio(
+                    controladorEventos, nombreEvento, nombreEdicion, codigoPatrocinio);
+            DTTipoRegistro dtTipoRegistro = obtenerTipoRegistro(
+                    controladorEventos, nombreEvento, nombreEdicion, dtPatrocinio.tipoRegistro());
+            
+            request.setAttribute("codigoPatrocinio", codigoPatrocinio);
+            request.setAttribute("nombreEvento", nombreEvento);
+            request.setAttribute("dtPatrocinio", dtPatrocinio);
+            request.setAttribute("dtTipoRegistro", dtTipoRegistro);
+            request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp")
+                   .forward(request, response);
+        }
+    }
+
+    private DTDetallePatrocinio obtenerDetallePatrocinio(IControladorEventos controladorEventos,
+            String nombreEvento, String nombreEdicion, String codigoPatrocinio) {
+        
+        DTDetallePatrocinio dtPatrocinio = controladorEventos.mostrarDetallePatrocinio(
+                nombreEvento, nombreEdicion, codigoPatrocinio);
+        
+        if (dtPatrocinio == null) {
+            return new DTDetallePatrocinio(
+                    "Institucion failed: Call support",
+                    "codigo failed: Call support",
+                    new Date(),
+                    0,
+                    null,
+                    0,
+                    "Tipo de Registro failed: Call support");
+        }
+        return dtPatrocinio;
+    }
+
+    private DTTipoRegistro obtenerTipoRegistro(IControladorEventos controladorEventos,
+            String nombreEvento, String nombreEdicion, String tipoRegistro) {
+        
+        try {
+            DTTipoRegistro dtTipoRegistro = controladorEventos.getDTTipoRegistro(
+                    nombreEvento, nombreEdicion, tipoRegistro);
+            
+            if (dtTipoRegistro != null) {
+                return dtTipoRegistro;
+            }
+        } catch (Exception e) {
+            // Fall through to return default
+        }
+        
+        return new DTTipoRegistro(
+                "Tipo de Registro failed: Call support",
+                "Descripcion failed: Call support",
+                0, 0, 0);
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
