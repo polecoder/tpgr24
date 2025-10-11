@@ -7,6 +7,7 @@ import logica.ManejadorEventos;
 import logica.ManejadorInstituciones;
 import logica.ManejadorUsuarios;
 import logica.TipoRegistro;
+import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 
 import java.io.FileNotFoundException;
@@ -370,7 +371,13 @@ public class CargaDatos {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
-				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname,null);
+				// TODO: Ver que se hace con las ímagenes
+				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname, null);
+				if (edicion.getEstado().equals("Aceptada")) {
+					ed.setEstado(EEstadoEdicion.Aceptada);
+				} else if (edicion.getEstado().equals("Rechazada")) {
+					ed.setEstado(EEstadoEdicion.Rechazada);
+				}
 				this.manejadorUsuarios.agregarEdicionAOrganizador(ed, organizadorNickname);
 			}
 		}
