@@ -5,7 +5,7 @@ public class DTDetalleOrganizador extends DTDetalleUsuario {
 	private String link;
 	
 	public DTDetalleOrganizador(String nickname, String nombre, String correo, String descripcion, String link) {
-		super(nickname, nombre, correo);
+		super(nickname, nombre, correo, ETipoUsuario.Organizador);
 		this.descripcion = descripcion;
 		this.link = link;
 	}

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import excepciones.DatosTipoRegistroInvalidos;
@@ -14,6 +15,7 @@ import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import datatypes.DTDetallePatrocinio;
+import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
@@ -337,6 +339,10 @@ public class ControladorEventos implements IControladorEventos {
 		}
 		return null;
 	}
-
+	
+	@Override
+	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+	}
 }
 
