@@ -6,6 +6,7 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.Set" %>
 <% 
+	String nombreEvento = (String) request.getAttribute("nombreEvento");
 	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
 	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
 	
@@ -47,10 +48,15 @@
         <form 
         	class="d-flex flex-column gap-4"
         	method="post"
-        	action="Institucion?action=altaPatrocinio"
+        	action="Institucion?action=altaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>"
         	enctype="multipart/form-data"
         	novalidate
         >
+          <!-- Campos Ocultos (los necesito en el POST) -->
+          <input type="hidden" id="nombreEdicion" name="nombreEdicion" class="form-control form-control-sm" 
+          	style="max-width: 300px" value=<%=nombreEdicion %> />
+          <input type="hidden" id="nombreEvento" name="nombreEvento" class="form-control form-control-sm" 
+          	style="max-width: 300px" value=<%=nombreEvento %> />
           <!-- Tipo de Registro -->
           <div class="d-flex gap-2">
             <label for="tipoRegistro" class="form-label" style="width: 300px">

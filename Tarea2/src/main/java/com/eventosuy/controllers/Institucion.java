@@ -101,6 +101,7 @@ public class Institucion extends HttpServlet {
 		Set<String> listaNombresTipoRegistro = obtenerTiposRegistro(controladorEventos, nombreEvento, nombreEdicion);
 		Set<String> listaNombresInstitucion = obtenerNombresInstituciones(controladorInstitucion);
 
+		request.setAttribute("nombreEvento", nombreEvento);
 		request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 		request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 		request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
@@ -261,10 +262,59 @@ public class Institucion extends HttpServlet {
 	private void handlePostAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
 			String nombreEdicion, IControladorEventos controladorEventos,
 			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
-		// Get text fields
-		String nombre = request.getParameter("nombre");
+		try {
+		    String nombreTipoRegistro = request.getParameter("TipoRegistro");
+		    String nombreInstitucion = request.getParameter("Instituciones");
+		    String nivelPatrocinio = request.getParameter("Nivel");
+		    
+		    float aporte = 0;
+		    int cupos = 0;
+		    
+		    String aporteStr = request.getParameter("Aporte");
+		    if (aporteStr != null && !aporteStr.isEmpty()) {
+		        aporte = Float.parseFloat(aporteStr);
+		    }
+		    
+		    String cuposStr = request.getParameter("Cupos");
+		    if (cuposStr != null && !cuposStr.isEmpty()) {
+		        cupos = Integer.parseInt(cuposStr);
+		    }
+		    
+		    String codigo = request.getParameter("Codigo");
+		    
+		    darAltaPatrocinio(controladorEventos,
+		    		nombreEvento,
+		    		nombreEdicion,
+		    		new Date(),
+		    		nombreInstitucion, 
+		    		ENivelPatrocinio.valueOf(nivelPatrocinio), 
+		    		aporte, 
+		    		cupos,
+		    		codigo,
+		    		nombreTipoRegistro);
+		} catch (NumberFormatException e) {
+		    // Handle invalid number format
+		    request.setAttribute("error", "Formato de número inválido");
+		    // forward back to form or show error
+		}
 
 		response.sendRedirect("./index.jsp");
+	}
+	private void darAltaPatrocinio(IControladorEventos controladorEventos, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
+			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) {
+		try {
+			controladorEventos.altaPatrocinio(eventoSeleccionado, 
+					edicionSeleccionada,
+					FechaAlta,
+					institucionSeleccionada, 
+					nivelPatrocinio,
+					aporteEconomico,
+					cupos,
+					codigoPatrocinio,
+					tipoRegistroSeleccionado);			
+		}catch(Exception error) {
+			
+		}
 	}
 
 }
