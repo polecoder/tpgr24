@@ -6,6 +6,7 @@ import logica.Institucion;
 import logica.ManejadorEventos;
 import logica.ManejadorInstituciones;
 import logica.ManejadorUsuarios;
+import logica.Patrocinio;
 import logica.TipoRegistro;
 import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
@@ -335,7 +336,8 @@ public class CargaDatos {
 				for (String categoria : evento.getCategorias().split(", ")) {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento,null);
+				// TODO: Ver que se hace con las ímagenes
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, null);
 			}
 		}
 	}
@@ -500,6 +502,8 @@ public class CargaDatos {
 					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
 					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
 					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+					String codigoPatrocinio = this.patrocinios.get(registro.getPatrocinio()).getCodigoPatrocinio();
+					Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
 					TipoRegistro tipoRegistro;
 					try {
 						tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro);
@@ -507,7 +511,7 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, null, registro.getFechaRegistro(), registro.getCosto());
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto());
 				}
 			}
 		}
