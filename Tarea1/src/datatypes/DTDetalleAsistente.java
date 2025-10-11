@@ -7,7 +7,7 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 	private Date nacimiento;
 	
 	public DTDetalleAsistente(String nickname, String nombre, String correo, String apellido, Date nacimiento) {
-		super(nickname, nombre, correo);
+		super(nickname, nombre, correo, ETipoUsuario.Asistente);
 		this.apellido = apellido;
 		this.nacimiento = nacimiento;
 	}

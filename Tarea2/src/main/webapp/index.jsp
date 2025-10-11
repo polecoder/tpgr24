@@ -1,9 +1,9 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, datatypes.*"%>
 <%
-// Testing session : Añadir / Borrar lo que se necesite
-session.setAttribute("usuarioNombre", "Ana Torres");
-session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
+  List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
+  List<String> categorias = (List<String>) request.getAttribute("categorias");
+  Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,39 +17,47 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 		<div class="row g-5">
 			<div class="col-12 col-md-4">
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
-					<div class="mb-4">
-						<h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
+                    <div class="mb-4">
+                        <h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
 						<!-- Usuarios -->
 						<%
-						    List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
-						    for (DTDetalleUsuario u: usuarios) {
+						    if (usuarios != null) {
+						      for (DTDetalleUsuario u: usuarios) {
 						%>
-						<div class="d-flex align-items-center">
-							<!-- TODO: cambiar src de imagen -->
-							<img src="./images/anonimo.svg" alt="<%= u.getNombre() %>"
-								class="rounded-circle me-2" style="width: 48px; height: 48px" />
-							<!-- TODO: cambiar href -->
-							<a href="#" class="text-primary fw-semibold"><%= u.getNombre() %></a>
-						</div>
+                          
+      						<div class="d-flex align-items-center">
+    							<!-- TODO: cambiar src de imagen -->
+    							<img src="./images/anonimo.svg" alt="<%= u.getNombre() %>"
+    								class="rounded-circle me-2" style="width: 48px; height: 48px" />
+    							<!-- TODO: cambiar href -->
+    							<a href="#" class="text-primary fw-semibold"><%= u.getNombre() %></a>
+      						</div>
+  					      
 						<%
+						      }
 						    }
 						%>
-					</div>
-
+                    </div>
 					<!-- TODO: Agregar filtrado de categorías -->
 					<!-- Categorías -->
 					<div>
 						<h5 class="text-white bg-primary p-2 rounded">Categorías</h5>
 						<ul class="list-unstyled ps-2">
 							<%
-							    List<String> categorias = (List<String>) request.getAttribute("categorias");
-							    for (String nombreCategoria: categorias) {
+                                if (categorias != null) {
+							      for (String nombreCategoria: categorias) {
 							%>
 								<li><a href="#" class="text-primary small d-block mb-2"><%=nombreCategoria%></a>
 								</li>
 							<%
-							    }
+							      }
+                                } else {
 							%>
+                                <li>Sin categorías
+                                </li>
+                            <%
+                                }
+                            %>
 						</ul>
 					</div>
 				</nav>
@@ -63,8 +71,8 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 				<div
 					class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
 					<%
-					    Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
-					    for (DTEvento e: eventos.values()) {
+                        if (eventos != null) {
+					      for (DTEvento e: eventos.values()) {
 					%>
 					<div class="col">
 						<div class="card h-100 shadow-sm">
@@ -83,6 +91,7 @@ session.setAttribute("usuarioImagen", "./images/IMG-US01.jpg");
 						</div>
 					</div>
 					<%
+					      }
 					    }
 					%>
 				</div>

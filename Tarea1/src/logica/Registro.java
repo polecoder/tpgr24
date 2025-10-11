@@ -54,9 +54,9 @@ public class Registro {
 		this.patrocinio = patrocinio;
 	}
 	
-	// TODO: Implementar
-	public Set<DTDetalleRegistro> mostrarDetalle() {
-		return null;
+	public DTDetalleRegistro mostrarDetalle(String nombreEdicion, String nombreTipoRegistro) {
+		DTDetalleRegistro dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo);
+		return dtRegistro;
 	}
 	
 	// TODO: Implementar
