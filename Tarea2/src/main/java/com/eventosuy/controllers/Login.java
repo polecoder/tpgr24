@@ -1,7 +1,6 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import com.eventosuy.models.TipoUsuario;
 
@@ -9,9 +8,7 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
 import excepciones.ContrasenaIncorrecta;
-import excepciones.FormatoContrasenaInvalido;
 import logica.Fabrica;
-import logica.Utilidades;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,26 +28,6 @@ public class Login extends HttpServlet {
 	 */
 	public Login() {
 		super();
-		// TODO: Hardcodeado
-		//testingSession();
-	}
-
-	/**
-	 * TODO: Hardcodeado, eliminar todo
-	 */
-	private void testingSession() {
-		Fabrica f = Fabrica.getInstancia();
-		// usuarios
-		try {
-			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com");
-			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com");
-		} catch (FormatoContrasenaInvalido e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -78,7 +55,6 @@ public class Login extends HttpServlet {
 			Fabrica f = Fabrica.getInstancia();
 			datosUsuario = f.getControladorUsuarios().validarLogin(usuario, contrasena);
 			if (datosUsuario != null) {
-				System.out.println(datosUsuario.getNombre());
 				HttpSession session = req.getSession(true);
 				session.setAttribute("usuarioLogeado", datosUsuario);
 				// validación de tipo de usuario

@@ -29,7 +29,7 @@
 	            ><%= datosUsuario.getNombre() %>
 	          </a>
 	          <!-- TODO: Modificar al hacer el logout -->
-	          <a href="#" class="btn btn-light btn-sm ms-2"
+	          <a href="${pageContext.request.contextPath}/logout" class="btn btn-light btn-sm ms-2"
 	            >CERRAR SESIÓN</a
 	          >
           <%
