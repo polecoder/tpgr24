@@ -43,8 +43,8 @@ public class TestsManejadorUsuario {
 	@Order(1)
 	void AltaOrganizadorCorreoRepetido() {
 		try {
-			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com");
-			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com");
+			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com", null);
+			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com", null);
 		} catch (Exception ex) { assertEquals("El correo ya está en uso", ex.getMessage()); }
 	}
 	
@@ -53,7 +53,7 @@ public class TestsManejadorUsuario {
 	void AltaAsistenteConInstitucion() {
 		try {
 			controladorInstitucion.AltaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
-			controladorUsuarios.altaAsistente("nickAsistente", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion");
+			controladorUsuarios.altaAsistente("nickAsistente", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion", null);
 		} catch (Exception ex) { fail(ex.getMessage()); }
 		
 		Map<String, DTAsistente> asistentes = controladorUsuarios.listarAsistentes();
@@ -68,7 +68,7 @@ public class TestsManejadorUsuario {
 	void DetalleAsistente() {
 		try {
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente");
-			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha);
+			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, null);
 			assertTrue(esperado.equals((DTDetalleAsistente)detalle));
 		} catch (Exception ex) { fail(ex.getMessage()); }
 	}
@@ -77,9 +77,9 @@ public class TestsManejadorUsuario {
 	@Order(4)
 	void DetalleOrganizador() {
 		try {
-			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
+			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
-			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
+			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			assertTrue(esperado.equals((DTDetalleOrganizador)detalle));
 		} catch (Exception ex) { fail(ex.getMessage()); }
 	}
