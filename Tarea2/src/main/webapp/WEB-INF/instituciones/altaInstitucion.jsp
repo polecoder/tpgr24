@@ -22,7 +22,7 @@
         <form
           id="altaInstitucionForm"
           method="post"
-          action="../Institucion?action=altaInstitucion"
+          action="Institucion?action=altaInstitucion"
           enctype="multipart/form-data"
           novalidate
           class="d-flex flex-column gap-4"

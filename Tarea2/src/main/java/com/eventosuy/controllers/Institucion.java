@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,7 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
@@ -64,7 +65,7 @@ public class Institucion extends HttpServlet {
 
 		// Handle organizer-specific actions
 		if ("organizador".equals(tipoUsuario)) {
-			if (handleOrganizerAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
+			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
 					controladorInstitucion)) {
 				return;
 			}
@@ -74,7 +75,7 @@ public class Institucion extends HttpServlet {
 		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
 	}
 
-	private boolean handleOrganizerAction(HttpServletRequest request, HttpServletResponse response, String action,
+	private boolean handeGetAccionesOrganizador(HttpServletRequest request, HttpServletResponse response, String action,
 			String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
 			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
 
@@ -135,7 +136,6 @@ public class Institucion extends HttpServlet {
 					dtPatrocinio.tipoRegistro());
 
 			request.setAttribute("codigoPatrocinio", codigoPatrocinio);
-			request.setAttribute("nombreEvento", nombreEvento);
 			request.setAttribute("dtPatrocinio", dtPatrocinio);
 			request.setAttribute("dtTipoRegistro", dtTipoRegistro);
 			request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
@@ -178,53 +178,67 @@ public class Institucion extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = (String) request.getParameter("action");
+		// Initialize controllers
+		Fabrica fabrica = Fabrica.getInstancia();
+		IControladorEventos controladorEventos = fabrica.getControladorEvento();
+		IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
 
+		// Extract request parameters
+		String action = request.getParameter("action");
+		String nombreEvento = request.getParameter("nombreEvento");
+		String nombreEdicion = request.getParameter("nombreEdicion");
+
+		// Set common attributes
+		request.setAttribute("nombreEdicion", nombreEdicion);
+		request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
+
+		// Get user type from session
 		HttpSession session = request.getSession();
 		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-		System.out.printf("doGet() tipoUsuario is: %s\n", tipoUsuario);
-
-		// Paginas disponibles a organizadores
-		if (tipoUsuario == "organizador") {
-			switch (action) {
-			case "altaInstitucion":
-				request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
-				break;
-			case "altaPatrocinio":
-				// Precondicion: Necesito que request tenga el dtEdicionEvento en el atributo
-				// "dtEdicion"
-				// Testing CARGA-DATOS
-				DTEvento testingDtEvento = new DTEvento("TestEvento", "Evento de testing", "TE", new Date());
-				request.setAttribute("dtEvento", testingDtEvento);
-				DTEdicionEvento testingDtEdicion = new DTEdicionEvento("TestEdicionEvento", "TEE", new Date(),
-						new Date(), new Date(), "Montevideo", "Uruguay", "MisEventos");
-				request.setAttribute("dtEdicion", testingDtEdicion);
-
-				// Fin Testing CARGA-DATOS
-				Fabrica fabrica = Fabrica.getInstancia();
-				DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("dtEdicion");
-				DTEvento dtEvento = (DTEvento) request.getAttribute("dtEvento");
-
-				IControladorEventos IControladorEventos = fabrica.getControladorEvento();
-				IControladorInstitucion IControladorInstitucion = fabrica.getControladorInstitucion();
-
-				Map<String, DTTipoRegistro> listaNombresTipoRegistro = IControladorEventos
-						.listarTipoRegistro(dtEvento.getNombre(), dtEdicion.getNombre());
-				Set<String> listaNombresInstitucion = IControladorInstitucion.nombresInstituciones();
-
-				request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
-				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
-				request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
-				break;
+		
+		// Handle organizer-specific actions
+		if ("organizador".equals(tipoUsuario)) {
+			if (handePostAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
+					controladorInstitucion)) {
+				return;
 			}
 		}
 
-		// Paginas disponibles a todos los usuarios
+		// Handle public actions
+		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
+	}
+	
+	private boolean handePostAccionesOrganizador(HttpServletRequest request, HttpServletResponse response, String action,
+			String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
+			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+
 		switch (action) {
-		case "consultaPatrocinio":
-			request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
-			break;
+		case "altaInstitucion":
+			
+			handlePostAltaInsitucion(request, response, nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
+			return true;
+
+		case "altaPatrocinio":
+			handleAltaPatrocinio(request, response, nombreEvento, nombreEdicion, controladorEventos,
+					controladorInstitucion);
+			return true;
+
+		default:
+			return false;
 		}
+	}
+	private void handlePostAltaInsitucion(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
+			String nombreEdicion, IControladorEventos controladorEventos,
+			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+		// Get text fields
+					String nombre = request.getParameter("nombre");
+					String descripcion = request.getParameter("descripcion");
+					String sitioWeb = request.getParameter("sitioWeb");
+
+					// Get the uploaded file
+					Part imagenPart = request.getPart("imagen");
+					String fileName = imagenPart.getSubmittedFileName();
+					InputStream fileContent = imagenPart.getInputStream();
 	}
 
 }
