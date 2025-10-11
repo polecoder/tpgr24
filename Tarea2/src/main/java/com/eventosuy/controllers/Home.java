@@ -38,22 +38,11 @@ public class Home extends HttpServlet {
      * TODO: Hardcodeado, eliminar todo
      */
     private void testingSession() {
+    	if (getServletConfig()==null)return;
     	Fabrica f = Fabrica.getInstancia();
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		
-		//cargo una imagen para probar
-		byte[] imagenEvento=null;
-		
-		try (InputStream is = getServletContext().getResourceAsStream("/images/IMG-EV04.png")) {
-	        if (is != null) {
-	            imagenEvento = is.readAllBytes();
-	        } else {
-	        	imagenEvento = null;
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
 
 		// Eventos
 		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);

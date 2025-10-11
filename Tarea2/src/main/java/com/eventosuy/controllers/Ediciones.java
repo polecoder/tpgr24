@@ -102,7 +102,7 @@ public class Ediciones extends HttpServlet {
 		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador,);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador,null);
 		} catch (Exception ex) {
 			request.setAttribute("error_message", ex.getMessage());
 			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
@@ -183,8 +183,8 @@ public class Ediciones extends HttpServlet {
 			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
 		}
 		categorias.add(nombreCategoriaTest1);
-		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias);
-		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "");
+		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias,null);
+		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "",null);
 		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
 		
 		request.setAttribute("caso_de_uso", "AltaTipoRegistro");
