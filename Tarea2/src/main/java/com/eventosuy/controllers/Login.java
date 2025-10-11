@@ -68,9 +68,9 @@ public class Login extends HttpServlet {
 		String contrasena = req.getParameter("contrasena");
 		
 		// muestro la página de login si el usuario todavía no logeo
-		if (usuario == null || contrasena == null || usuario.isEmpty() || contrasena.isEmpty()) {
-			req.getRequestDispatcher("/WEB-INF/views/iniciar-sesion.jsp").forward(req, resp);
-			return;
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+		    req.getRequestDispatcher("/WEB-INF/views/iniciar-sesion.jsp").forward(req, resp);
+		    return;
 		}
 
 		DTDetalleUsuario datosUsuario;
@@ -78,6 +78,7 @@ public class Login extends HttpServlet {
 			Fabrica f = Fabrica.getInstancia();
 			datosUsuario = f.getControladorUsuarios().validarLogin(usuario, contrasena);
 			if (datosUsuario != null) {
+				System.out.println(datosUsuario.getNombre());
 				HttpSession session = req.getSession(true);
 				session.setAttribute("usuarioLogeado", datosUsuario);
 				// validación de tipo de usuario

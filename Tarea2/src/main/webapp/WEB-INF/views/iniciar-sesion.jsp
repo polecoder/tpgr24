@@ -1,3 +1,7 @@
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+  String error = (String) request.getAttribute("error");
+%>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -15,6 +19,15 @@
         style="max-width: 375px"
       >
         <form action="${pageContext.request.contextPath}/login" method="post" class="d-flex flex-column gap-4">
+          <%
+            if (error != null) {
+          %>
+            <div class="d-flex justify-content-center gap-3">
+              <p class="p-2 rounded" style="margin: 0; background-color: #FFB3B3;"><span style="font-weight: 800; color: #FF6666;">Error</span>: <%= error %></p>
+            </div>
+          <%
+            }
+          %>
           <div class="d-flex justify-content-center gap-3">
             <label for="usuario" class="form-label text-end" style="width: 80px"
               >Usuario:</label
@@ -33,7 +46,7 @@
               for="contrasena"
               class="form-label text-end"
               style="width: 80px"
-              >Contraseña:</label
+              >ContraseÃ±a:</label
             >
             <input
               type="password"
@@ -48,7 +61,7 @@
             <button type="submit" class="btn btn-primary btn-sm px-3">
               Acceder
             </button>
-            <p>¿No tiene una cuenta? <a href="#"
+            <p>Â¿No tiene una cuenta? <a href="#"
               >Registrarse</a></p>
           </div>
         </form>

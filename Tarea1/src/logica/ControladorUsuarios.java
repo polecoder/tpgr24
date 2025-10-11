@@ -305,16 +305,17 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		if (u == null) u = this.manejadorUsuarios.getOrganizador(usuario);
 		if (u == null) u = this.manejadorUsuarios.getAsistentePorCorreo(usuario);
 		if (u == null) u = this.manejadorUsuarios.getOrganizadorPorCorreo(usuario);
-		// valido que el usuario exista y en ese caso verifico la contraseña
-		if (u != null && contrasena.equals(u.getContrasena())) {
-			try {
-				return this.mostrarDetalleUsuario(usuario);
-			} catch (Exception e) {
-				return null;
-			}
-		} else if (!contrasena.equals(u.getContrasena())) {
+		// si el usuario sigue siendo null en este punto entonces no existe en el sistema
+		if (u == null) return null;
+		// valido que la contraseña sea correcta
+		if (!contrasena.equals(u.getContrasena())) {
 			throw new ContrasenaIncorrecta("La contraseña es incorrecta.");
 		}
-		return null;
+		// todas las validaciones ok, retorno el detalle de usuario
+		try {
+			return this.mostrarDetalleUsuario(u.getNickname());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
