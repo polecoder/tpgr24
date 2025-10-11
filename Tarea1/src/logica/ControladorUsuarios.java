@@ -8,6 +8,8 @@ import java.util.Set;
 
 import excepciones.FormatoContrasenaInvalido;
 import datatypes.DTAsistente;
+import datatypes.DTDetalleAsistente;
+import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
@@ -280,5 +282,19 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		organizador.setNombre(nuevoNombre);
 		organizador.setDescripcion(nuevaDescripcion);
 		organizador.setLink(nuevoLink);
+	}
+
+	@Override
+	public List<DTDetalleUsuario> listarDetalleUsuarios() {
+		List<DTDetalleUsuario> resultado = new ArrayList<>();
+		Map<String, Asistente> asistentes = this.manejadorUsuarios.getConjuntoAsistentes();
+		Map<String, Organizador> organizadores = this.manejadorUsuarios.getConjuntoOrganizador();
+		for (Asistente a: asistentes.values()) {
+			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento()));
+		}
+		for (Organizador o: organizadores.values()) {
+			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink()));
+		}
+		return resultado;
 	}
 }

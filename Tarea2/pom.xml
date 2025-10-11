@@ -16,15 +16,18 @@
     </properties>
 
     <dependencies>
-        <!-- Servlet API -->
+    	<!-- Tarea 1 -->
+    	<dependency>
+    		<groupId>tpgr24Tarea1</groupId>
+			<artifactId>tpgr24Tarea1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- JSP (si usás JSPs) -->
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
             <artifactId>jakarta.servlet.jsp-api</artifactId>
