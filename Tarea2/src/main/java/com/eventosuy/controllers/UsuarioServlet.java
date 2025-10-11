@@ -128,6 +128,8 @@ public class UsuarioServlet extends HttpServlet {
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp");
 					dispatcher.forward(request, response);
+					
+					System.out.println("alta: imagen=" + (imagen==null? "null" : imagen.length));
 
 					 //response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta&nick="+ nickname);
 					 return;//redirige
@@ -176,14 +178,15 @@ public class UsuarioServlet extends HttpServlet {
 
 					request.setAttribute("usuario", u);
 					
-					byte[] imgBytes = cu.obtenerImagenPorNickname(nick); 
-		            if (imgBytes != null && imgBytes.length > 0) {
-		                String contentType = "image/jpeg"; 
-		                String b64 = java.util.Base64.getEncoder().encodeToString(imgBytes);
-		                String dataUri = "data:" + contentType + ";base64," + b64;
-		                request.setAttribute("imagenDataUri", dataUri);
-		            }
-
+					byte[] imgBytes = u.getImagen(); // viene del DTO
+					if (imgBytes != null && imgBytes.length > 0) {
+					    String contentType = "image/jpeg";
+					    String b64 = java.util.Base64.getEncoder().encodeToString(imgBytes);
+					    String dataUri = "data:" + contentType + ";base64," + b64;
+					    request.setAttribute("imagenDataUri", dataUri);
+					}
+					
+					System.out.println("consulta: u.getImagen()=" + (u.getImagen()==null? "null" : u.getImagen().length));
 		            request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
 		                   .forward(request, response);
 		            return; 

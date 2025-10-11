@@ -289,7 +289,7 @@ public class CargaDatos {
 					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				}
 				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
-				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), "Eventos.2025", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion);
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), "Eventos.2025", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion, null);
 			}
 		}
 		if (this.usuariosOrganizador != null && this.organizadores != null) {
@@ -297,7 +297,7 @@ public class CargaDatos {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
 				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
-				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), "Eventos.2025!", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb());
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), "Eventos.2025!", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb(), null);
 			}
 		}
 	}

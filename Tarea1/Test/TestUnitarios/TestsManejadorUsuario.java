@@ -68,7 +68,7 @@ public class TestsManejadorUsuario {
 	void DetalleAsistente() {
 		try {
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente");
-			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha);
+			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, null);
 			assertTrue(esperado.equals((DTDetalleAsistente)detalle));
 		} catch (Exception ex) { fail(ex.getMessage()); }
 	}
@@ -79,7 +79,7 @@ public class TestsManejadorUsuario {
 		try {
 			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
-			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com");
+			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			assertTrue(esperado.equals((DTDetalleOrganizador)detalle));
 		} catch (Exception ex) { fail(ex.getMessage()); }
 	}
