@@ -222,7 +222,7 @@ public class AltaEvento extends JInternalFrame {
 			    return;
 			}
 			// Si pasa todos los checks, se da de Alta finalmente
-			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias);
+			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias,null);
 			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 			resetCampos();
 		});

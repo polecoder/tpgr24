@@ -263,7 +263,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		    
 		    try {
-		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador);
+		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador,null);
 
 		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 

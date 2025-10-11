@@ -334,7 +334,7 @@ public class CargaDatos {
 				for (String categoria : evento.getCategorias().split(", ")) {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento);
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento,null);
 			}
 		}
 	}
@@ -370,7 +370,7 @@ public class CargaDatos {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
-				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname);
+				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname,null);
 				this.manejadorUsuarios.agregarEdicionAOrganizador(ed, organizadorNickname);
 			}
 		}
