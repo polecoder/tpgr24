@@ -30,8 +30,8 @@ class TestConsultaEvento {
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
-        controlador.altaEvento("ExpoTec", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias);
-        controlador.altaEdicionEvento("ExpoTec", "ExpoTech2023", "ET2023", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.of(2023, 8, 3)),"Montevideo", "Uruguay","organizador16");
+        controlador.altaEvento("ExpoTec", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias,null);
+        controlador.altaEdicionEvento("ExpoTec", "ExpoTech2023", "ET2023", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.of(2023, 8, 3)),"Montevideo", "Uruguay","organizador16",null);
 
         Set<String> nombres = controlador.nombresEventos();
         assertTrue(nombres.contains("ExpoTec"));
@@ -60,7 +60,7 @@ class TestConsultaEvento {
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
-        controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias);
+        controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias,null);
 	    // Validación: detalle de edición
 
         DTEvento dt = controlador.getDTEvento("SoloCategorias");
@@ -77,13 +77,14 @@ class TestConsultaEvento {
         		"Festival de datos", 
         		Utilidades.toDate(LocalDate.of(2022, 4, 1)), 
         		"DF", 
-        		Arrays.asList());
+        		Arrays.asList()
+        		,null);
 
         controlador.altaEdicionEvento("DataFest", "DataFest2022", "DF22", Utilidades.toDate(LocalDate.of(2022, 6, 1)), Utilidades.toDate(LocalDate.of(2022, 6, 3)), Utilidades.toDate(LocalDate.of(2022, 5, 1)),
-                "Salto", "Uruguay", "organizador17");
+                "Salto", "Uruguay", "organizador17",null);
 
         controlador.altaEdicionEvento("DataFest", "DataFest2023", "DF23",Utilidades.toDate(LocalDate.of(2023, 6, 1)), Utilidades.toDate(LocalDate.of(2023, 6, 3)), Utilidades.toDate(LocalDate.of(2023, 5, 1)),
-                "Paysandú", "Uruguay", "organizador17");
+                "Paysandú", "Uruguay", "organizador17",null);
 
         Set<String> ediciones = controlador.nombresEdicionesEvento("DataFest");
         assertTrue(ediciones.contains("DataFest2022"));

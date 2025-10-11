@@ -10,8 +10,11 @@ public class DTEdicionEvento {
 	private String pais;
 	private Date fechaAlta;
 	private String organizadorNickname;
-	
-	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname) {
+	private byte[] imagen;
+
+
+	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 
+			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] imagen) {
 	    this.setNombre(nombre);
 	    this.setSigla(sigla);
 	    this.setFechaInicio(fechaInicio);
@@ -20,8 +23,10 @@ public class DTEdicionEvento {
 	    this.setCiudad(ciudad);
 	    this.setPais(pais);
 	    this.setOrganizadorNickname(organizadorNickname);
+	    this.setImagen(imagen); 
 	}
-	
+
+	// === Getters y Setters ===
 	public String getNombre() {
 		return nombre;	
 	}
@@ -42,10 +47,10 @@ public class DTEdicionEvento {
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
+
 	public Date getFechaFin() {
 	    return fechaFin;
 	}
-
 	public void setFechaFin(Date fechaFin) {
 	    this.fechaFin = fechaFin;
 	}
@@ -53,7 +58,6 @@ public class DTEdicionEvento {
 	public Date getFechaAlta() {
 	    return fechaAlta;
 	}
-
 	public void setFechaAlta(Date fechaAlta) {
 	    this.fechaAlta = fechaAlta;
 	}
@@ -61,7 +65,6 @@ public class DTEdicionEvento {
 	public String getCiudad() {
 	    return ciudad;
 	}
-
 	public void setCiudad(String ciudad) {
 	    this.ciudad = ciudad;
 	}
@@ -69,22 +72,26 @@ public class DTEdicionEvento {
 	public String getPais() {
 	    return pais;
 	}
-
 	public void setPais(String pais) {
 	    this.pais = pais;
 	}
+
 	public String getOrganizadorNickname() {
 		return organizadorNickname;
 	}
 	public void setOrganizadorNickname(String organizadorNickname) {
 		this.organizadorNickname = organizadorNickname;
 	}
+
+	public byte[] getImagen() {
+		return imagen;
+	}
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
 	
 	/**
 	 * Devuelve true si y solo si los datatypes son iguales.
-	 * 
-	 * @param e
-	 * @return
 	 */
 	public boolean equals(DTEdicionEvento e) {
 		return this.ciudad == e.getCiudad() &&

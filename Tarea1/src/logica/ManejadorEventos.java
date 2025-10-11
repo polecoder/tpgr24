@@ -13,6 +13,7 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
@@ -57,18 +58,20 @@ public class ManejadorEventos {
 		return false;
 	}
 	
-	public HashMap<String,DTEvento> listarEventos(){
+	public HashMap<String, DTEvento> listarEventos() {
 		HashMap<String, DTEvento> hMLista = new HashMap<>();
 		for (Evento e : eventos.values()) {
 			String nombre = e.getNombre();
 			String descripcion = e.getDescripcion();
 			String sigla = e.getSigla();
 			Date fAlta = e.getFechaAlta();
-			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta);
+			byte[] imagen = e.getImagen(); // ← nuevo
+
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, imagen); // ← actualizado
 			hMLista.put(nombre, dtEv);  
 		}
 		return hMLista;
-	};
+	}
 	
 	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		Evento ev = eventos.get(nombreEvento);
@@ -101,13 +104,26 @@ public class ManejadorEventos {
 	}
 	
 	public DTEvento getDTEvento(String nombre) {
-		Evento evento=eventos.get(nombre);
-		DTEvento dtEvento= new DTEvento(evento.getNombre(), evento.getDescripcion() , evento.getSigla(),evento.getFechaAlta());
+		Evento evento = eventos.get(nombre);
+		if (evento == null) {
+			return null;
+		}
+
+		byte[] imagen = evento.getImagen(); 
+		DTEvento dtEvento = new DTEvento(
+			evento.getNombre(),
+			evento.getDescripcion(),
+			evento.getSigla(),
+			evento.getFechaAlta(),
+			imagen 
+		);
+		
 		return dtEvento;
 	}
+
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
-		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname());
+		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname(),edicion.getImagen());
 		return dtEvento;
 	}
 	
@@ -241,20 +257,21 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
 		if (!existeEvento(nombre)) {
-			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta);
+			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen);
 			this.eventos.put(nombre, evento);
-			for (String nombreCategoria: categorias) {
+
+			for (String nombreCategoria : categorias) {
 				agregarCategoriaAEvento(nombre, nombreCategoria);
 			}
 		}
 	}
-	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,Date fechaAlt, String ciudad, String pais, String organizadorNickname) {
-			Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento);
-			this.eventos.get(nombreEvento).agregarEdicion(edicion);
-			return edicion;
-		};
+	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad,String pais, String organizadorNickname, byte[] imagen) {  
+	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin,fechaAlt, ciudad, pais,organizadorNickname, nombreEvento, imagen );
+	    this.eventos.get(nombreEvento).agregarEdicion(edicion);
+	    return edicion;
+	}
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
 		}
@@ -358,6 +375,22 @@ public class ManejadorEventos {
 
 	    // Mostrar cartel siempre
 	    JOptionPane.showMessageDialog(null, mensaje, "Estado de Edición", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+		Evento evento = eventos.get(nombreEvento);
+    	Edicion edicion = evento.getEdicion(nombreEdicion);
+    	
+    	// Tipos Registro
+    	Map<String, TipoRegistro> setTiposRegistro = edicion.getTiposRegistro();
+    	Set<DTDetalleRegistro> setRegistros = new HashSet<>();
+    	for(TipoRegistro tipoRegistro: setTiposRegistro.values()) {
+    		List<Registro> listaRegistros = tipoRegistro.getRegistros();
+    		for(Registro registro: listaRegistros) {
+    			setRegistros.add(registro.mostrarDetalle(nombreEdicion, tipoRegistro.getNombre()));
+    		}
+    	}
+    	return setRegistros;
 	}
 }
 
