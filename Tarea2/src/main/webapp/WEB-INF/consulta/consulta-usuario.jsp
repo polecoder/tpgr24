@@ -104,104 +104,108 @@
             </div>
 
             <%
-              // Inferir tipo de usuario mirando métodos típicos en el DTO de detalle
-              boolean esAsistente = false, esOrganizador = false;
-              try { usuarioAttr.getClass().getMethod("apellido");     esAsistente = true; } catch (NoSuchMethodException ignore) {}
-              try { usuarioAttr.getClass().getMethod("descripcion");  esOrganizador = true; } catch (NoSuchMethodException ignore) {}
-            %>
+  // Inferir tipo de usuario correctamente usando instanceof
+  boolean esAsistente  = (usuarioAttr instanceof datatypes.DTDetalleAsistente);
+  boolean esOrganizador= (usuarioAttr instanceof datatypes.DTDetalleOrganizador);
+%>
 
             <% if (esAsistente) { %>
-              <!-- Panel ASISTENTE -->
-              <div id="asistenteFields">
-                <div class="mb-3 row">
-                  <label class="col-sm-4 col-form-label text-end">Apellido:</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
-                  </div>
-                </div>
+  <!-- Panel ASISTENTE -->
+  <div id="asistenteFields">
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Apellido:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
+      </div>
+    </div>
 
-                <div class="mb-3 row">
-                  <label class="col-sm-4 col-form-label text-end">Institución:</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
-                  </div>
-                </div>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Institución:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
+      </div>
+    </div>
 
-                <div class="mb-3 row">
-                  <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control form-control-sm" readonly value="${usuario.fechaNacimiento}" />
-                  </div>
-                </div>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="${usuario.fechaNacimiento}" />
+      </div>
+    </div>
 
-                <%
-                  Object regsAttr = request.getAttribute("registros"); // List<DTRegistro> opcional
-                  if (regsAttr instanceof List) {
-                %>
-                  <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label text-end">Registros:</label>
-                    <div class="col-sm-8 d-flex flex-column gap-2">
-                      <%
-                        List<?> regs = (List<?>) regsAttr;
-                        for (int i=0; i<regs.size(); i++) {
-                          Object r = regs.get(i);
-                          String nomEd  = "";
-                          try {
-                            java.lang.reflect.Method mEd = r.getClass().getMethod("nombreEdicion");
-                            nomEd = String.valueOf(mEd.invoke(r));
-                          } catch(Exception ignore) {}
-                      %>
-                        <a class="text-primary text-decoration-underline"
-                           href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= nomEd %></a>
-                      <% } %>
-                    </div>
-                  </div>
-                <% } %>
-              </div>
-            <% } %>
+    <%
+      // Normalizo a lista vacía para que el bloque siempre se muestre
+      Object regsObj = request.getAttribute("registros"); // List<DTRegistro> o null
+      java.util.List<?> regs = (regsObj instanceof java.util.List) ? (java.util.List<?>) regsObj : java.util.Collections.emptyList();
+    %>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Registros:</label>
+      <div class="col-sm-8 d-flex flex-column gap-2">
+        <% if (regs.isEmpty()) { %>
+          <div class="form-text">Aún no tenés registros.</div>
+        <% } else { 
+             for (int i=0; i<regs.size(); i++) {
+               Object r = regs.get(i);
+               String nomEd  = "";
+               try {
+                 java.lang.reflect.Method mEd = r.getClass().getMethod("nombreEdicion");
+                 nomEd = String.valueOf(mEd.invoke(r));
+               } catch(Exception ignore) {}
+        %>
+          <a class="text-primary text-decoration-underline"
+             href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= nomEd %></a>
+        <% } } %>
+      </div>
+    </div>
+  </div>
+<% } %>
 
             <% if (esOrganizador) { %>
-              <!-- Panel ORGANIZADOR -->
-              <div id="organizadorFields">
-                <div class="mb-3 row">
-                  <label class="col-sm-4 col-form-label text-end">Descripción:</label>
-                  <div class="col-sm-8">
-                    <textarea class="form-control form-control-sm" rows="2" readonly>${usuario.descripcion}</textarea>
-                  </div>
-                </div>
+  <!-- Panel ORGANIZADOR -->
+  <div id="organizadorFields">
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Descripción:</label>
+      <div class="col-sm-8">
+        <textarea class="form-control form-control-sm" rows="2" readonly>${usuario.descripcion}</textarea>
+      </div>
+    </div>
 
-                <div class="mb-3 row">
-                  <label class="col-sm-4 col-form-label text-end">Link:</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control form-control-sm" readonly value="${usuario.link}" />
-                  </div>
-                </div>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Link:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="${usuario.link}" />
+      </div>
+    </div>
 
-                <%
-                  Object edsAcep = request.getAttribute("edicionesAceptadas");  // Collection<String>
-                  Object edsProp = request.getAttribute("misEdiciones");        // Collection<String>
-                  if (edsAcep instanceof Collection || edsProp instanceof Collection) {
-                %>
-                  <div class="mb-3 row">
-                    <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
-                    <div class="col-sm-8">
-                      <select class="form-select form-select-sm"
-                              onchange="if(this.value){location.href='<%=ctx%>/ediciones?accion=consulta&nombre='+encodeURIComponent(this.value);}">
-                        <option value="">-- seleccionar --</option>
-                        <% if (edsAcep instanceof Collection) {
-                             for (Object s : (Collection<?>) edsAcep) { %>
-                               <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (ACEPTADA)</option>
-                        <% } }
-                           if (edsProp instanceof Collection) {
-                             for (Object s : (Collection<?>) edsProp) { %>
-                               <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%></option>
-                        <% } } %>
-                      </select>
-                    </div>
-                  </div>
-                <% } %>
-              </div>
+    <%
+      // Normalizo ambas colecciones para que el bloque SIEMPRE se muestre
+      Object edsAcepObj = request.getAttribute("edicionesAceptadas"); // Collection<String> o null
+      Object edsPropObj = request.getAttribute("misEdiciones");       // Collection<String> o null
+      java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
+      java.util.Collection<?> edsPropCol = (edsPropObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsPropObj : java.util.Collections.emptyList();
+      boolean sinNada = edsAcepCol.isEmpty() && edsPropCol.isEmpty();
+    %>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
+      <div class="col-sm-8">
+        <% if (sinNada) { %>
+          <div class="form-text">No hay ediciones para mostrar.</div>
+        <% } else { %>
+          <select class="form-select form-select-sm"
+                  onchange="if(this.value){location.href='<%=ctx%>/ediciones?accion=consulta&nombre='+encodeURIComponent(this.value);}">
+            <option value="">-- seleccionar --</option>
+            <% for (Object s : edsAcepCol) { %>
+              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (ACEPTADA)</option>
             <% } %>
+            <% for (Object s : edsPropCol) { %>
+              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%></option>
+            <% } %>
+          </select>
+        <% } %>
+      </div>
+    </div>
+  </div>
+<% } %>
 
             <%
               // Botón Modificar si es su propio perfil

@@ -44,6 +44,16 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
 			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
+			/*manejadorUsuarios.agregarAsistente(
+			        nickname,
+			        contrasena,
+			        nombre,
+			        correo,
+			        apellido,
+			        fechaNacimiento,
+			        IContInstituciones.getInstitucion(nombreinstitucion),
+			        imagen 
+			    );*/
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
@@ -86,7 +96,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
         }
 		
 		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
-				IContInstituciones.getInstitucion(nombreinstitucion));
+				IContInstituciones.getInstitucion(nombreinstitucion), imagen);
 	}
 	
 	@Override
@@ -132,7 +142,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
             throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un carácter especial.");
         }
 		
-		manejadorUsuarios.agregarOrganizador(nickname, contrasena, nombre, correo, descripcion, link);
+		manejadorUsuarios.agregarOrganizador(nickname, contrasena, nombre, correo, descripcion, link, imagen);
 	}
 
 	public Map<String, DTAsistente> listarAsistentes() {
