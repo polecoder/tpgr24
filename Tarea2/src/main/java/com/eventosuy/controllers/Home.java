@@ -38,6 +38,7 @@ public class Home extends HttpServlet {
      * TODO: Hardcodeado, eliminar todo
      */
     private void testingSession() {
+    	if (getServletConfig() == null) return;
     	Fabrica f = Fabrica.getInstancia();
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
