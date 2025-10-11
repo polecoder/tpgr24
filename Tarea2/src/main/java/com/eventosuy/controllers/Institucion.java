@@ -195,7 +195,7 @@ public class Institucion extends HttpServlet {
 		// Get user type from session
 		HttpSession session = request.getSession();
 		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-		
+
 		// Handle organizer-specific actions
 		if ("organizador".equals(tipoUsuario)) {
 			if (handePostAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
@@ -207,19 +207,19 @@ public class Institucion extends HttpServlet {
 		// Handle public actions
 		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
 	}
-	
-	private boolean handePostAccionesOrganizador(HttpServletRequest request, HttpServletResponse response, String action,
-			String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
+
+	private boolean handePostAccionesOrganizador(HttpServletRequest request, HttpServletResponse response,
+			String action, String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
 			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
 
 		switch (action) {
 		case "altaInstitucion":
-			
-			handlePostAltaInsitucion(request, response, nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
+			handlePostAltaInsitucion(request, response, nombreEvento, nombreEdicion, controladorEventos,
+					controladorInstitucion);
 			return true;
 
 		case "altaPatrocinio":
-			handleAltaPatrocinio(request, response, nombreEvento, nombreEdicion, controladorEventos,
+			handlePostAltaPatrocinio(request, response, nombreEvento, nombreEdicion, controladorEventos,
 					controladorInstitucion);
 			return true;
 
@@ -227,18 +227,44 @@ public class Institucion extends HttpServlet {
 			return false;
 		}
 	}
+
 	private void handlePostAltaInsitucion(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
 			String nombreEdicion, IControladorEventos controladorEventos,
 			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
 		// Get text fields
-					String nombre = request.getParameter("nombre");
-					String descripcion = request.getParameter("descripcion");
-					String sitioWeb = request.getParameter("sitioWeb");
+		String nombre = request.getParameter("nombre");
+		String descripcion = request.getParameter("descripcion");
+		String sitioWeb = request.getParameter("sitioWeb");
 
-					// Get the uploaded file
-					Part imagenPart = request.getPart("imagen");
-					String fileName = imagenPart.getSubmittedFileName();
-					InputStream fileContent = imagenPart.getInputStream();
+		// Get the uploaded file
+		Part imagenPart = request.getPart("imagen");
+		String fileName = imagenPart.getSubmittedFileName();
+		InputStream fileContent = imagenPart.getInputStream();
+
+		darAltaInstitucion(controladorInstitucion, nombre, descripcion, sitioWeb);
+
+		response.sendRedirect("./index.jsp");
+
+	}
+
+	private void darAltaInstitucion(IControladorInstitucion controladorInstitucion, String nombre, String descripcion,
+			String sitioWeb) {
+		try {
+			controladorInstitucion.AltaInstitucion(nombre, descripcion, sitioWeb);
+			System.out.println("AltaInstitucion finalizó con Exito!");
+		} catch (Exception error) {
+			// Error AltaInstitucion redirigir a mensaje de error 500.
+			System.out.println("darAltaInstitucion::ERROR");
+		}
+	}
+
+	private void handlePostAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
+			String nombreEdicion, IControladorEventos controladorEventos,
+			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+		// Get text fields
+		String nombre = request.getParameter("nombre");
+
+		response.sendRedirect("./index.jsp");
 	}
 
 }

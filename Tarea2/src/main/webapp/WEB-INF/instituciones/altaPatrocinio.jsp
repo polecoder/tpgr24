@@ -47,7 +47,7 @@
         <form 
         	class="d-flex flex-column gap-4"
         	method="post"
-        	action="./Institucion?action=altaPatrocinio"
+        	action="Institucion?action=altaPatrocinio"
         	enctype="multipart/form-data"
         	novalidate
         >
