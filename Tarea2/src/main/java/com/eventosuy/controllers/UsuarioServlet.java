@@ -14,6 +14,7 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
+import datatypes.EEstadoEdicion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -21,6 +22,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
@@ -125,11 +127,22 @@ public class UsuarioServlet extends HttpServlet {
 			                String dataUri = "data:" + contentType + ";base64," + b64;
 			                request.setAttribute("imagenDataUri", dataUri);
 			            }
+			            
+			            HttpSession ses = request.getSession(true);
+			            ses.setAttribute("nick", nickname);
+			            ses.setAttribute("rol", ("organizador".equalsIgnoreCase(rol) ? "organizador" : "asistente"));     
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp");
 					dispatcher.forward(request, response);
 					
-					System.out.println("alta: imagen=" + (imagen==null? "null" : imagen.length));
+					if ("organizador".equalsIgnoreCase(rol)) {
+					    request.setAttribute("edicionesAceptadas", java.util.Collections.emptyList());
+					    request.setAttribute("misEdiciones", java.util.Collections.emptyList());
+					} else {
+					    request.setAttribute("registros", java.util.Collections.emptyList());
+					}
+					
+					//System.out.println("alta: imagen=" + (imagen==null? "null" : imagen.length));
 
 					 //response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta&nick="+ nickname);
 					 return;//redirige
@@ -150,10 +163,12 @@ public class UsuarioServlet extends HttpServlet {
 			// ==================== CONSULTA USUARIO ====================
 		case "consulta": {
 			String nick = trim(request.getParameter("nick"));
+			String nickSesion = (String) request.getSession().getAttribute("nick");
 
 			try {
 				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
-			    System.out.println("[consulta] param nick = " + nick);
+				 IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
+			    //System.out.println("[consulta] param nick = " + nick);
 
 				if (isBlank(nick)) {
 					// listar todos
@@ -186,7 +201,44 @@ public class UsuarioServlet extends HttpServlet {
 					    request.setAttribute("imagenDataUri", dataUri);
 					}
 					
-					System.out.println("consulta: u.getImagen()=" + (u.getImagen()==null? "null" : u.getImagen().length));
+					boolean esPropio = nickSesion != null && nickSesion.equals(u.getNickname());
+					
+					// ------ ORGANIZADOR ------
+					if (u instanceof DTDetalleOrganizador) {
+					    java.util.List<String> aceptadas =
+					        ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Aceptada);
+					    if (aceptadas == null) aceptadas = java.util.Collections.emptyList();
+					    request.setAttribute("edicionesAceptadas", aceptadas);
+
+					    java.util.List<String> propias = java.util.Collections.emptyList();
+					    if (esPropio) {
+					        java.util.List<String> ingresadas =
+					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Ingresada);
+					        java.util.List<String> rechazadas =
+					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Rechazada);
+					        if (ingresadas == null) ingresadas = java.util.Collections.emptyList();
+					        if (rechazadas == null) rechazadas = java.util.Collections.emptyList();
+
+					        propias = new java.util.ArrayList<>();
+					        propias.addAll(ingresadas);
+					        propias.addAll(rechazadas);
+					    }
+					    request.setAttribute("misEdiciones", propias);
+					}
+
+					// ------ ASISTENTE ------
+					if (u instanceof DTDetalleAsistente) {
+					    // si querés mostrar SIEMPRE el bloque (aunque esté vacío),
+					    // mandá la lista vacía incluso si no es su propio perfil
+					    java.util.List<DTRegistro> regs = java.util.Collections.emptyList();
+					    if (esPropio) {
+					        regs = cu.listarRegistrosUsuario(u.getNickname());
+					        if (regs == null) regs = java.util.Collections.emptyList();
+					    }
+					    request.setAttribute("registros", regs);
+					}
+					
+					
 		            request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
 		                   .forward(request, response);
 		            return; 

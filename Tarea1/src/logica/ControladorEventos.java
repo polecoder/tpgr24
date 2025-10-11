@@ -17,6 +17,7 @@ import datatypes.DTDetallePatrocinio;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
+import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 
 public class ControladorEventos implements IControladorEventos {
@@ -41,6 +42,16 @@ public class ControladorEventos implements IControladorEventos {
 		ManejadorUsuarios.resetInstance();
 		instancia = null;
 	}
+	
+	public List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname,
+            EEstadoEdicion... estados) {
+java.util.Set<EEstadoEdicion> filtro =
+new java.util.HashSet<>(java.util.Arrays.asList(estados));
+
+// Usar la instancia del manejador
+return ManejadorEventos.getInstancia()
+.filtrarEdicionesPorOrganizadorYEstado(organizadorNickname, filtro);
+}
 
 	public Map<String,DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
     	Evento ev = manejadorEventos.getEvento(nombreEvento);
