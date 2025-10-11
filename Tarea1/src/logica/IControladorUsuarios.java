@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.ContrasenaIncorrecta;
 import excepciones.FormatoContrasenaInvalido;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleRegistro;
@@ -61,4 +62,22 @@ public interface IControladorUsuarios {
 	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
 	void actualizarImagenUsuario(String nickname, byte[] imagen);
 	byte[] obtenerImagenPorNickname(String nickname);
+	/**
+	 * Devuelve una lista de todos los datos detallados de todos los usuarios que existen en el sistema.
+	 * 
+	 * @return
+	 */
+	List<DTDetalleUsuario> listarDetalleUsuarios();
+	/**
+	 * Busca el usuario "u" en el sistema tal que u.nickname = usuario o u.correo = usuario. Sino lo encuentra devuelve null
+	 * En caso de que este usuario "u" exista, valida el login, es decir si la contraseña proporcionada es correcta. Si la contraseña no es correcta, retorna null.
+	 * 
+	 * Retorna el detalle del usuario en caso que todas las validaciones se cumplan.
+	 * 
+	 * @param usuario - nickname o correo
+	 * @param contrasena
+	 * @return
+	 * @throws ContrasenaIncorrecta 
+	 */
+	DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta;
 }

@@ -115,6 +115,36 @@ public class ManejadorUsuarios {
 	}
 	
 	/**
+	 * Retorna null en caso de que no exista ningún asistente con el correo pasado por parámetro.
+	 * 
+	 * @param correo
+	 * @return
+	 */
+	public Asistente getAsistentePorCorreo(String correo) {
+		for (Asistente a : conjuntoAsistentes.values()) {
+	        if (a.getCorreo().equals(correo)) {
+	            return a;
+	        }
+	    }
+		return null;
+	}
+	
+	/**
+	 * Retorna null en caso de que no exista ningún asistente con el correo pasado por parámetro.
+	 * 
+	 * @param correo
+	 * @return
+	 */
+	public Organizador getOrganizadorPorCorreo(String correo) {
+		for (Organizador o : conjuntoOrganizadores.values()) {
+			if (o.getCorreo().equals(correo)) {
+				return o;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una excepción.
 	 * 
 	 * @param nicknameUsuario

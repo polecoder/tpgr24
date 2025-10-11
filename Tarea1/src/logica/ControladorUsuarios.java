@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.ContrasenaIncorrecta;
 import excepciones.FormatoContrasenaInvalido;
 import datatypes.DTAsistente;
+import datatypes.DTDetalleAsistente;
+import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
@@ -291,5 +294,39 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		organizador.setNombre(nuevoNombre);
 		organizador.setDescripcion(nuevaDescripcion);
 		organizador.setLink(nuevoLink);
+	}
+
+	@Override
+	public List<DTDetalleUsuario> listarDetalleUsuarios() {
+		List<DTDetalleUsuario> resultado = new ArrayList<>();
+		Map<String, Asistente> asistentes = this.manejadorUsuarios.getConjuntoAsistentes();
+		Map<String, Organizador> organizadores = this.manejadorUsuarios.getConjuntoOrganizador();
+		for (Asistente a: asistentes.values()) {
+			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento()));
+		}
+		for (Organizador o: organizadores.values()) {
+			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink()));
+		}
+		return resultado;
+	}
+
+	@Override
+	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta {
+		Usuario u = this.manejadorUsuarios.getAsistente(usuario);
+		if (u == null) u = this.manejadorUsuarios.getOrganizador(usuario);
+		if (u == null) u = this.manejadorUsuarios.getAsistentePorCorreo(usuario);
+		if (u == null) u = this.manejadorUsuarios.getOrganizadorPorCorreo(usuario);
+		// si el usuario sigue siendo null en este punto entonces no existe en el sistema
+		if (u == null) return null;
+		// valido que la contraseña sea correcta
+		if (!contrasena.equals(u.getContrasena())) {
+			throw new ContrasenaIncorrecta("La contraseña es incorrecta.");
+		}
+		// todas las validaciones ok, retorno el detalle de usuario
+		try {
+			return this.mostrarDetalleUsuario(u.getNickname());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
