@@ -61,8 +61,10 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request) {
-		String nombreEvento = (String) request.getAttribute("nombre_evento");
-		String nombreEdicion = (String) request.getAttribute("nombre_edicion");
+		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		String nombreEdicion = request.getParameter("nombre_edicion");
+		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
 		
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = controladorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
@@ -91,7 +93,11 @@ public class Ediciones extends HttpServlet {
 	
 	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		String nombreEdicion = request.getParameter("nombre_edicion");
+		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
+		
+		
 		String sigla = request.getParameter("sigla");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
@@ -116,7 +122,9 @@ public class Ediciones extends HttpServlet {
 	
 	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		String nombreEdicion = request.getParameter("nombre_edicion");
+		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
 		String nombreTipoRegistro = request.getParameter("nombre_tipo_registro");
 		if (nombreTipoRegistro == null) { nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro"); }
 		
@@ -133,12 +141,15 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	private void CUAltaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		String nombreEdicion = request.getParameter("nombre_edicion");
+		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
+		
 		String nombreTipoRegistro = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		float costo = Float.parseFloat(request.getParameter("costo"));
 		int cuposMax = Integer.parseInt(request.getParameter("cupos_max"));
-		String nombreEvento = request.getParameter("nombre_evento");
-		String nombreEdicion = request.getParameter("nombre_edicion");
 		
 		try {
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
@@ -187,7 +198,7 @@ public class Ediciones extends HttpServlet {
 		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
 		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
 		
-		request.setAttribute("caso_de_uso", "AltaTipoRegistro");
+		request.setAttribute("caso_de_uso", "ConsultaEdicion");
 		request.setAttribute("nombre_evento", nombreEventoTest1);
 		request.setAttribute("nombre_edicion", nombreEdicionTest1);
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);
@@ -196,12 +207,12 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*try {
+		try {
 			request = Test(request);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
