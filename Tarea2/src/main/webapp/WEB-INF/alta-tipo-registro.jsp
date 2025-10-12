@@ -23,8 +23,8 @@
 			<main
 				class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
 				style="max-width: 375px">
-				<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
-				<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
+				<% String nombreEvento = (String) request.getParameter("nombre_evento"); %>
+				<% String nombreEdicion = (String) request.getParameter("nombre_edicion"); %>
 				<form action="Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 
 					<div
@@ -37,7 +37,7 @@
 			            }
 						%>
 						<% if (base64Image != null) { %>
-							<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
+							<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen edicion"
 								style="width: 128px" />
 						<% } %>
 							<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>

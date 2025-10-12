@@ -56,7 +56,7 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
 			} else { 
-				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
