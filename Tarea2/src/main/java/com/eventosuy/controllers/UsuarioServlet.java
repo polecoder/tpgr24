@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -142,8 +143,6 @@ public class UsuarioServlet extends HttpServlet {
 					    request.setAttribute("registros", java.util.Collections.emptyList());
 					}
 					
-					//System.out.println("alta: imagen=" + (imagen==null? "null" : imagen.length));
-
 					 //response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta&nick="+ nickname);
 					 return;//redirige
 
@@ -163,7 +162,7 @@ public class UsuarioServlet extends HttpServlet {
 			// ==================== CONSULTA USUARIO ====================
 		case "consulta": {
 			String nick = trim(request.getParameter("nick"));
-			String nickSesion = (String) request.getSession().getAttribute("nick");
+			DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 
 			try {
 				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
@@ -201,7 +200,7 @@ public class UsuarioServlet extends HttpServlet {
 					    request.setAttribute("imagenDataUri", dataUri);
 					}
 					
-					boolean esPropio = nickSesion != null && nickSesion.equals(u.getNickname());
+					boolean esPropio = usuarioLogeado != null && usuarioLogeado.getNickname().equals(u.getNickname());
 					
 					// ------ ORGANIZADOR ------
 					if (u instanceof DTDetalleOrganizador) {
@@ -209,27 +208,24 @@ public class UsuarioServlet extends HttpServlet {
 					        ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Aceptada);
 					    if (aceptadas == null) aceptadas = java.util.Collections.emptyList();
 					    request.setAttribute("edicionesAceptadas", aceptadas);
-
-					    java.util.List<String> propias = java.util.Collections.emptyList();
+					    
+					    List<String> ingresadas = new ArrayList<>();
+					    List<String> rechazadas = new ArrayList<>();
 					    if (esPropio) {
-					        java.util.List<String> ingresadas =
+					        ingresadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Ingresada);
-					        java.util.List<String> rechazadas =
+					        rechazadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Rechazada);
 					        if (ingresadas == null) ingresadas = java.util.Collections.emptyList();
 					        if (rechazadas == null) rechazadas = java.util.Collections.emptyList();
 
-					        propias = new java.util.ArrayList<>();
-					        propias.addAll(ingresadas);
-					        propias.addAll(rechazadas);
 					    }
-					    request.setAttribute("misEdiciones", propias);
+					    request.setAttribute("misEdicionesIngresadas", ingresadas);
+					    request.setAttribute("misEdicionesRechazadas", rechazadas);
 					}
 
 					// ------ ASISTENTE ------
 					if (u instanceof DTDetalleAsistente) {
-					    // si querés mostrar SIEMPRE el bloque (aunque esté vacío),
-					    // mandá la lista vacía incluso si no es su propio perfil
 					    java.util.List<DTRegistro> regs = java.util.Collections.emptyList();
 					    if (esPropio) {
 					        regs = cu.listarRegistrosUsuario(u.getNickname());
