@@ -105,11 +105,12 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		
 		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
-		String nickname = dtUsuario.getNickname();
+		String nickname = null;
+		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
 		if (nickname != null && nickname.equals(dtEdicion.getOrganizadorNickname())) {
 			request.setAttribute("es_organizador", true);
 			request.setAttribute("lista_registros", setRegistros);
-		} else if (asistentesRegistrados.keySet().contains(nickname)) {
+		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
 			request.setAttribute("es_asistente", true);
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
