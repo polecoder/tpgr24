@@ -104,7 +104,6 @@
 	           <!-- Registros de la edición (organizador) -->
 	          <% Boolean esOrganizador = (Boolean) request.getAttribute("es_organizador"); %>
 	          <% Boolean esAsistente = (Boolean) request.getAttribute("es_asistente"); %>
-	          <% System.out.println(esOrganizador); %>
 	          <% if (Boolean.TRUE.equals(esOrganizador)) { %>
 		          <div class="mt-3">
 		            <h6 class="fw-bold m-0">Registros de la edición:</h6>
