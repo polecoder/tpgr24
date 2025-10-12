@@ -29,9 +29,18 @@
 
 					<div
 						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-						<img src="TODO: mostrar imagen" alt="Imagen evento"
-							style="width: 128px" /> <a
-							href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
+						<%
+						byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
+			            String base64Image = null; // declarar antes del if
+			            if (imagenBytes != null && imagenBytes.length > 0) {
+			                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+			            }
+						%>
+						<% if (base64Image != null) { %>
+							<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
+								style="width: 128px" />
+						<% } %>
+							<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
 					</div>
 
 					<div class="d-flex gap-2">

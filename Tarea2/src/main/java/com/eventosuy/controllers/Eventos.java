@@ -44,8 +44,7 @@ public class Eventos extends HttpServlet {
         String accion = request.getParameter("accion");
 
         if ("alta".equals(accion)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
-            dispatcher.forward(request, response);
+            Alta(request,response);
         } else if ("consulta".equals(accion)) {
             Consulta(request, response);
         } else {
@@ -83,6 +82,8 @@ public class Eventos extends HttpServlet {
     // --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	List<String> categorias = fab.getControladorEvento().getListaCategorias();
+        request.setAttribute("categorias", categorias);         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
         dispatcher.forward(request, response);
     }

@@ -10,8 +10,17 @@
 	<div class="container flex-grow-1">
 		<div class="d-flex flex-column align-items-center py-5 gap-5">
 			<div class="d-flex align-items-center gap-3">
-				<img src="../images/IMG-EDEV03.jpeg" alt="Imagen usuario"
-					style="max-width: 128px; max-height: 128px; width: auto; height: auto;" />
+				<%
+					byte[] imagenBytes = (byte[]) request.getAttribute("imagenEdicion");
+		            String base64Image = null; // declarar antes del if
+		            if (imagenBytes != null && imagenBytes.length > 0) {
+		                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+		            }
+					%>
+				<% if (base64Image != null) { %>
+					<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen usuario"
+						style="max-width: 128px; max-height: 128px; width: auto; height: auto;" />
+				<% } %>
 				<div class="d-flex flex-column" style="line-height: 1">
 					<% String nombreEvento = request.getParameter("nombre_evento"); %>
 					<% String nombreEdicion = request.getParameter("nombre_edicion"); %>

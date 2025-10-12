@@ -28,6 +28,17 @@
 	          	<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
 	          	<% String nombreEvento = request.getParameter("nombre_evento"); %>
 	            <label class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </label>
+	            <%
+				byte[] imagenBytes = (byte[]) ((DTEdicionEvento) request.getAttribute("detalle_edicion")).getImagen();
+	            String base64Image = null; // declarar antes del if
+	            if (imagenBytes != null && imagenBytes.length > 0) {
+	                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+	            }
+				%>
+				<% if (base64Image != null) { %>
+					<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
+						style="width: 128px" />
+				<% } %>
 	          </div>
 			  <% DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion"); %>
 			  <% SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); %>
@@ -146,10 +157,6 @@
 			        </table>
 			      </div>
 		       <% } %>
-				<!--
-	          <img src="../images/IMG-EDEV03.jpeg" alt="Maratón de Montevideo 2024" class="img-fluid rounded w-100"
-	            style="height: auto; max-width: 100%; object-fit: cover;" />
-	             -->
 	        </div>
 			<% if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ORGANIZADOR) { %> 
 		        <div class="d-flex justify-content-center gap-3">
