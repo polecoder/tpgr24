@@ -22,24 +22,24 @@
 		<div class="row g-5">
 			<div class="col-12 col-md-4">
 			<% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
-  <div class="mb-4">
-    <h5 class="text-white bg-primary p-2 rounded">Altas</h5>
-    <ul class="list-unstyled ps-2">
-      <li>
-        <!-- Ajustá el mapping si es distinto -->
-        <a href="<%= request.getContextPath() %>/Eventos?accion=alta" class="text-primary fw-semibold">
-          Alta Evento
-        </a>
-      </li>
-      <li>
-        <!-- Ajustá el mapping si es distinto -->
-        <a href="<%= request.getContextPath() %>/institucion?accion=alta" class="text-primary fw-semibold">
-          Alta Institución
-        </a>
-      </li>
-    </ul>
-  </div>
-<% } %>
+                <div class="mb-4">
+                  <h5 class="text-white bg-primary p-2 rounded">Altas</h5>
+                  <ul class="list-unstyled ps-2">
+                    <li>
+                      <!-- Ajustá el mapping si es distinto -->
+                      <a href="<%= request.getContextPath() %>/Eventos?accion=alta" class="text-primary fw-semibold">
+                        Alta Evento
+                      </a>
+                    </li>
+                    <li>
+                      <!-- Ajustá el mapping si es distinto -->
+                      <a href="<%= request.getContextPath() %>/institucion?accion=alta" class="text-primary fw-semibold">
+                        Alta Institución
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+            <% } %>
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
                     <div class="mb-4">
                         <h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
