@@ -162,7 +162,11 @@ public class ManejadorUsuarios {
 			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
 		} else if (this.getAsistente(nicknameUsuario) != null) {
 			Asistente asistente = this.getAsistente(nicknameUsuario);
-			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(), asistente.getImagen());
+			String insti=null;
+			if (asistente.getInstitucion()!=null) {
+				insti=asistente.getInstitucion().getNombre();
+			}
+			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(),insti, asistente.getImagen());
 		} else {
 			throw new Exception("El usuario indicado no existe en el sistema.");
 		}

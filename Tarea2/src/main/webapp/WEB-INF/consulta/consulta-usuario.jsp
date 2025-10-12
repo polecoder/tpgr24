@@ -117,21 +117,21 @@
       <div class="col-sm-8">
         <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
       </div>
-    </div>
-
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Institución:</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
-      </div>
-    </div>
-
+     </div>
+	 <% if (((datatypes.DTDetalleAsistente)usuarioAttr).getInstitucion()!=null){%>
+	    <div class="mb-3 row">
+	      <label class="col-sm-4 col-form-label text-end">Institución:</label>
+	      <div class="col-sm-8">
+	        <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
+	      </div>
+	    </div>
+	<%}%>
     <div class="mb-3 row">
       <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.fechaNacimiento}" />
+        <input type="text" class="form-control form-control-sm" readonly value="${usuario.nacimiento}" />
       </div>
-    </div>
+    </div> 
 
     <%
       // Normalizo a lista vacía para que el bloque siempre se muestre

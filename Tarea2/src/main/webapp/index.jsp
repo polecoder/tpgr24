@@ -5,7 +5,7 @@
   List<String> categorias = (List<String>) request.getAttribute("categorias");
   Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
 %>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 <jsp:include page="WEB-INF/templates/head.jsp" />
@@ -30,7 +30,7 @@
     							<img src="./images/anonimo.svg" alt="<%= u.getNombre() %>"
     								class="rounded-circle me-2" style="width: 48px; height: 48px" />
     							<!-- TODO: cambiar href -->
-    							<a href="#" class="text-primary fw-semibold"><%= u.getNombre() %></a>
+    							<a href="usuario?accion=consulta&nick=<%= u.getNickname()%>"class="text-primary fw-semibold"><%= u.getNombre() %></a>
       						</div>
   					      
 						<%
