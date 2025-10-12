@@ -1,11 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
+<%@ page import="datatypes.DTDetalleAsistente" %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
   <jsp:include page="/WEB-INF/templates/head.jsp" />
 
   <body class="d-flex flex-column min-vh-100">
+  <%@ page import = "java.text.SimpleDateFormat" %>
 
     <!-- HEADER GLOBAL -->
     <jsp:include page="/WEB-INF/templates/header.jsp" />
@@ -68,16 +70,16 @@
           <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
             <%-- Imagen (solo si hay imagenDataUri) --%>
-<% Object _img = request.getAttribute("imagenDataUri"); %>
-<% if (_img != null && !String.valueOf(_img).isBlank()) { %>
-  <div class="mb-3 row">
-    <label class="col-sm-4 col-form-im text-start"></label>
-    <div class="col-sm-8">
-      <img src="<%= String.valueOf(_img) %>" alt="Imagen usuario"
-           class="img-fluid rounded" style="max-height:100px;" />
-    </div>
-  </div>
-<% } %>
+			<% Object _img = request.getAttribute("imagenDataUri"); %>
+			<% if (_img != null && !String.valueOf(_img).isBlank()) { %>
+			  <div class="mb-3 row">
+			    <label class="col-sm-4 col-form-im text-start"></label>
+			    <div class="col-sm-8">
+			      <img src="<%= String.valueOf(_img) %>" alt="Imagen usuario"
+			           class="img-fluid rounded" style="max-height:100px;" />
+			    </div>
+			  </div>
+			<% } %>
 
             <!-- Nickname -->
             <div class="mb-3 row">
@@ -126,12 +128,15 @@
 	      </div>
 	    </div>
 	<%}%>
-    <div class="mb-3 row">
+	
+    
+	 <% SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); %>
+     <div class="mb-3 row">
       <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.nacimiento}" />
+        <input type="text" class="form-control form-control-sm" readonly 
+               value="<%= formatter.format(((datatypes.DTDetalleAsistente)usuarioAttr).getNacimiento()) %>" />
       </div>
-    </div> 
 
     <%
       // Normalizo a lista vacía para que el bloque siempre se muestre
@@ -154,10 +159,13 @@
         %>
           <a class="text-primary text-decoration-underline"
              href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= nomEd %></a>
+         
         <% } } %>
+        </div>
       </div>
     </div>
   </div>
+  
 <% } %>
 
             <% if (esOrganizador) { %>
