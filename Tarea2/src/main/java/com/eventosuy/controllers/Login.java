@@ -7,6 +7,7 @@ import com.eventosuy.models.TipoUsuario;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
+import datatypes.ETipoUsuario;
 import excepciones.ContrasenaIncorrecta;
 import logica.Fabrica;
 import jakarta.servlet.ServletException;
@@ -59,9 +60,9 @@ public class Login extends HttpServlet {
 				session.setAttribute("usuarioLogeado", datosUsuario);
 				// validación de tipo de usuario
 				if (datosUsuario instanceof DTDetalleAsistente) {
-					session.setAttribute("tipoUsuarioLogeado", TipoUsuario.ASISTENTE);
+					session.setAttribute("tipoUsuarioLogeado", ETipoUsuario.Asistente);
 				} else if (datosUsuario instanceof DTDetalleOrganizador) {
-					session.setAttribute("tipoUsuarioLogeado", TipoUsuario.ORGANIZADOR);
+					session.setAttribute("tipoUsuarioLogeado", ETipoUsuario.Organizador);
 				}
 				resp.sendRedirect(req.getContextPath() + "/home");
 			} else {
