@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.eventosuy.models.TipoUsuario;
+
 import datatypes.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -61,10 +63,10 @@ public class Institucion extends HttpServlet {
 
 		// Get user type from session
 		HttpSession session = request.getSession();
-		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
 
 		// Handle organizer-specific actions
-		if ("organizador".equals(tipoUsuario)) {
+		if (tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
 			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
 					controladorInstitucion)) {
 				return;
@@ -195,10 +197,10 @@ public class Institucion extends HttpServlet {
 
 		// Get user type from session
 		HttpSession session = request.getSession();
-		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
 
 		// Handle organizer-specific actions
-		if ("organizador".equals(tipoUsuario)) {
+		if (tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
 			if (handePostAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
 					controladorInstitucion)) {
 				return;
@@ -298,7 +300,7 @@ public class Institucion extends HttpServlet {
 		    // forward back to form or show error
 		}
 
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath() + "/home");
 	}
 	private void darAltaPatrocinio(IControladorEventos controladorEventos, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
 			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) {
