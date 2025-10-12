@@ -124,7 +124,7 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
+		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
 		String nombreTipoRegistro = request.getParameter("nombre_tipo_registro");
 		if (nombreTipoRegistro == null) { nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro"); }
 		
