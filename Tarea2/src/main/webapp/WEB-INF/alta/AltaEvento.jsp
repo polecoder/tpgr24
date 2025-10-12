@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*, datatypes.*"%>
 <!DOCTYPE html>
 <html lang="es">
     <!-- INCLUDE HEAD -->
@@ -59,35 +60,39 @@
                         </div>
                     </div>
 
-                    <!-- Categorías -->
-                    <div class="d-flex justify-content-center gap-3 align-items-center">
-                        <label class="form-label text-end" style="width: 155px">Categorías:</label>
-                        <div style="width: 300px">
-                            <%
-                                String[] categorias = {"Deporte", "Salud", "Tecnología", "Innovación"};
-                                String[] seleccionadas = request.getParameterValues("categorias");
-                                for (String cat : categorias) {
-                                    boolean checked = false;
-                                    if (seleccionadas != null) {
-                                        for (String sel : seleccionadas) {
-                                            if (cat.equals(sel)) {
-                                                checked = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                            %>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="<%= cat %>" name="categorias" value="<%= cat %>"
-                                       <%= checked ? "checked" : "" %> />
-                                <label class="form-check-label" for="<%= cat %>"><%= cat %></label>
-                            </div>
-                            <%
-                                }
-                            %>
-                            <div id="errorCategorias" class="text-danger"></div>
-                        </div>
-                    </div>
+                   <!-- Categorías -->
+					 <div class="d-flex justify-content-center gap-3 align-items-center">
+					    <label class="form-label text-end" style="width: 155px">Categorías:</label>
+					    <div style="width: 300px">
+					        <%
+					            // Obtener lista de categorías desde el servlet
+					            List<String> categorias = (List<String>) request.getAttribute("categorias");
+					            if (categorias == null) categorias = new ArrayList<>();
+					            String[] seleccionadas = request.getParameterValues("categorias");
+					
+					            for (String cat : categorias) {
+					                boolean checked = false;
+					                if (seleccionadas != null) {
+					                    for (String sel : seleccionadas) {
+					                        if (cat.equals(sel)) {
+					                            checked = true;
+					                            break;
+					                        }
+					                    }
+					                }
+					        %>
+					            <div class="form-check">
+					                <input class="form-check-input" type="checkbox" id="<%= cat %>" name="categorias" value="<%= cat %>"
+					                       <%= checked ? "checked" : "" %> />
+					                <label class="form-check-label" for="<%= cat %>"><%= cat %></label>
+					            </div>
+					        <%
+					            }
+					        %>
+					        <div id="errorCategorias" class="text-danger"></div>
+					    </div>
+					</div>
+                   
 
                     <!-- Imagen (opcional) -->
                     <div class="d-flex justify-content-center gap-3 align-items-center">
