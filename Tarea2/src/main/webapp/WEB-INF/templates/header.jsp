@@ -25,7 +25,7 @@
                   <img src="./images/anonimo.svg" alt="Imagen de <%= datosUsuario.getNickname() %>" style="width: 48px; height: 48px" />
               <% } %>
 	          <a
-	            href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=${datosUsuario.getNickname()}"
+	            href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=datosUsuario.getNickname()%>"
 	            class="text-white m-0"
 	            style="line-height: 48px"
 	            ><%= datosUsuario.getNombre() %>
