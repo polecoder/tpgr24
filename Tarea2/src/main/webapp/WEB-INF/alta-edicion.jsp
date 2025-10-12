@@ -11,6 +11,7 @@
 	/>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<div class="container mx-auto">
 		<div class="mx-auto">
 			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta Edición de Evento</h1>
@@ -86,5 +87,6 @@
 			</form>
 		</main>
 	</div>
+	<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </body>
 </html>

@@ -2,15 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Eventos UY - Consulta Tipo Registro</title>
-	<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-		rel="stylesheet" 
-	/>
+	<jsp:include page="/WEB-INF/templates/head.jsp" />
 </head>
 <body>
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<%@ page import = "datatypes.DTTipoRegistro" %>
 	<div class="container flex-grow-1">
 		<div class="d-flex flex-column align-items-center py-5 gap-5">
@@ -18,8 +13,10 @@
 				<img src="../images/IMG-EDEV03.jpeg" alt="Imagen usuario"
 					style="max-width: 128px; max-height: 128px; width: auto; height: auto;" />
 				<div class="d-flex flex-column" style="line-height: 1">
-					<h1 class="fs-2 fw-bold mb-1"> <%= request.getAttribute("nombre_edicion") %> </h1> 
-					<a href="TODO: agregar JSP a consulta evento" class="fs-5 text-secondary text-decoration-underline"> <%= request.getAttribute("nombre_evento") %> </a>
+					<% String nombreEvento = request.getParameter("nombre_evento"); %>
+					<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
+					<h1 class="fs-2 fw-bold mb-1"> <%=nombreEdicion%> </h1> 
+					<a href="${pageContext.request.contextPath}/Eventos?action=consulta&nombre=<%=nombreEvento%>" class="fs-5 text-secondary text-decoration-underline"> <%=nombreEvento%> </a>
 				</div>
 			</div>
 			<main class="p-4 bg-light border-top border-2 border-primary rounded"
@@ -79,7 +76,7 @@
 					</div>
 
 					<div class="d-flex justify-content-center gap-3">
-						<a href="TODO: agregar JSP a consulta edicion"
+						<a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
 							class="btn btn-primary btn-sm px-3" id="btnEdicion"> Ver edición 
 						</a>
 					</div>
@@ -87,5 +84,6 @@
 			</main>
 		</div>
 	</div>
+	<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </body>
 </html>

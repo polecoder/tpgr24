@@ -2,12 +2,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8" />
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  	<title>Eventos UY - Consulta Edición</title>
-  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<jsp:include page="/WEB-INF/templates/head.jsp" />
 </head>
 <body class="d-flex flex-column min-vh-100">
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<%@ page import = "datatypes.DTEdicionEvento" %>
 	<%@ page import = "datatypes.DTDetalleRegistro" %>
 	<%@ page import = "java.util.Set" %>
@@ -26,7 +24,8 @@
 	          <!-- Título + Imagen en línea -->
 	          <div class="d-flex align-items-center justify-content-between">
 	          	<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-	            <a href="TODO: agregar JSP a consulta evento" class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </a>
+	          	<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
+	            <label class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </label>
 	          </div>
 			  <% DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion"); %>
 			  <% SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); %>
@@ -51,7 +50,9 @@
 		              <tbody>
 		              <% for (String tipoRegistro : setTiposRegistro) { %>
 		                <tr>
-		                  <td> <a href="TODO: agregar JSP a consulta tipo registro" class="link-primary link-underline"> <%= tipoRegistro %> </a> </td>
+		                  <td> <a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" 
+		                  	class="link-primary link-underline"> <%= tipoRegistro %> </a> 
+		                  </td>
 		                </tr>
 		              <% } %>
 		              </tbody>
@@ -106,8 +107,10 @@
 			              <tbody>
 			              <% for (DTDetalleRegistro registro : setRegistros) { %>
 			                <tr>
-			                  <td><a href="TODO: agregar JSP a consulta usuario" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
-			                  <td><a href="TODO: agregar JSP  a consulta tipo registro" class="link-primary link-underline"> <%= registro.getNombreTipo() %> </a></td>
+			                	<% String nickname = (String) request.getSession().getAttribute("nickname"); %>
+			                	<% String tipoRegistro = registro.getNombreTipo(); %>
+			                  <td><a href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=nickname%>" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
+			                  <td><a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" class="link-primary link-underline"> <%=tipoRegistro%> </a></td>
 			                  <td> <%= registro.getFecha() %> </td>
 			                  <td> <%= registro.getCosto() %> </td>
 			                </tr>
@@ -132,7 +135,8 @@
 			            </thead>
 			            <tbody>
 			            <tr>
-			                <td><a href="TODO: agregar JSP a consulta tipo registro" class="link-primary link-underline"> <% dtDetalleRegistro.getNombreTipo(); %> </a></td>
+			            	<% String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo(); %>
+			                <td><a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>" class="link-primary link-underline"> <%=nombreTipoRegistro%> </a></td>
 			                <td> <% dtDetalleRegistro.getFecha(); %> </td>
 			                <td> <% dtDetalleRegistro.getCosto(); %> </td>
 			            </tr>
@@ -147,25 +151,15 @@
 	        </div>
 	
 	        <div class="d-flex justify-content-center gap-3">
-	            <a href="TODO: agregar el JSP a alta patrocinio" class="btn btn-primary btn-sm px-3"
+	            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
 	              >Alta patrocinio</a>
-	            <a href="TODO: agregar el JSP a alta patrocinio" class="btn btn-primary btn-sm px-3"
+	            <a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
 	              >Alta tipo registro</a>
 	        </div>
 	
 	      </form>
 	    </main>
   </div>
-
-
-  <!-- Footer fuera del container -->
-  <footer class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto">
-    <p class="fw-bold m-0">TPROG 2025</p>
-    <p class="m-0">Grupo 24</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/consulta-edicion.js"></script>
-  
+	<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </body>
 </html>

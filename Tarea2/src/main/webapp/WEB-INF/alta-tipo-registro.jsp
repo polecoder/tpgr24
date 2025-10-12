@@ -12,6 +12,7 @@
 	/>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<div class="container flex-grow-1">
 		<div class="mx-auto" style="max-width: 768px">
 			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de Tipo de Registro</h1>
@@ -28,7 +29,7 @@
 
 					<div
 						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-						<img src="../images/IMG-EDEV03.jpeg" alt="Imagen evento"
+						<img src="TODO: mostrar imagen" alt="Imagen evento"
 							style="width: 128px" /> <a
 							href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
 					</div>
@@ -78,4 +79,5 @@
 		</div>
 	</div>
 </body>
+<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </html>
