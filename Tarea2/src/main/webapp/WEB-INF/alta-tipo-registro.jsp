@@ -38,9 +38,9 @@
 						%>
 						<% if (base64Image != null) { %>
 							<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
-								style="width: 128px" /> <a
+								style="width: 128px" />
 						<% } %>
-							href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
+							<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
 					</div>
 
 					<div class="d-flex gap-2">

@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.Utilidades;
@@ -112,10 +114,16 @@ public class Ediciones extends HttpServlet {
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
 		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
-		//byte[] imagen = (byte[]) request.getParameter("foto");
+		Part fotoPart = request.getPart("foto");
+		byte[] imagenBytes = null;
+        if (fotoPart != null && fotoPart.getSize() > 0) {
+            try (InputStream inputStream = fotoPart.getInputStream()) {
+                imagenBytes = inputStream.readAllBytes();
+            }
+        }
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
 		} catch (Exception ex) {
 			request.setAttribute("error_message", ex.getMessage());
 			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
