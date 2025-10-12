@@ -16,7 +16,6 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
 import datatypes.DTUsuario;
 import datatypes.DTRegistro;
-
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
@@ -41,10 +40,20 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
-			String nombreinstitucion) throws FormatoContrasenaInvalido, Exception  {
+			String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, Exception  {
 		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
 			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
+			/*manejadorUsuarios.agregarAsistente(
+			        nickname,
+			        contrasena,
+			        nombre,
+			        correo,
+			        apellido,
+			        fechaNacimiento,
+			        IContInstituciones.getInstitucion(nombreinstitucion),
+			        imagen 
+			    );*/
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
@@ -87,11 +96,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
         }
 		
 		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
-				IContInstituciones.getInstitucion(nombreinstitucion));
+				IContInstituciones.getInstitucion(nombreinstitucion), imagen);
 	}
 	
 	@Override
-	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link)
+	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen)
 			throws FormatoContrasenaInvalido, Exception {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || descripcion == null
 				|| descripcion.isEmpty() || correo == null || correo.isEmpty()) {
@@ -133,11 +142,23 @@ public class ControladorUsuarios implements IControladorUsuarios {
             throw new FormatoContrasenaInvalido("La contraseña debe tener al menos un carácter especial.");
         }
 		
-		manejadorUsuarios.agregarOrganizador(nickname, contrasena, nombre, correo, descripcion, link);
+		manejadorUsuarios.agregarOrganizador(nickname, contrasena, nombre, correo, descripcion, link, imagen);
 	}
 
 	public Map<String, DTAsistente> listarAsistentes() {
 		return manejadorUsuarios.listarAsistentes();
+	}
+	public void actualizarImagenUsuario(String nickname, byte[] imagen) {
+	    if (imagen == null || imagen.length == 0) return;
+	    manejadorUsuarios.actualizarImagenUsuario(nickname, imagen);
+	}
+	
+	public byte[] obtenerImagenPorNickname(String nickname) {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);
+	    if (a != null) return a.getImagen();
+	    Organizador o = manejadorUsuarios.getOrganizador(nickname);
+	    if (o != null) return o.getImagen();
+	    return null;
 	}
 
 	public List<DTUsuario> listarUsuarios() {
@@ -291,10 +312,14 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		Map<String, Asistente> asistentes = this.manejadorUsuarios.getConjuntoAsistentes();
 		Map<String, Organizador> organizadores = this.manejadorUsuarios.getConjuntoOrganizador();
 		for (Asistente a: asistentes.values()) {
-			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento()));
+			String insti=null;
+			if (a.getInstitucion()!=null) {
+				insti=a.getInstitucion().getNombre();
+			}
+			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento(),insti,a.getImagen()));
 		}
 		for (Organizador o: organizadores.values()) {
-			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink()));
+			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink(),o.getImagen()));
 		}
 		return resultado;
 	}

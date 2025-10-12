@@ -61,7 +61,7 @@
             <button type="submit" class="btn btn-primary btn-sm px-3">
               Acceder
             </button>
-            <p>¿No tiene una cuenta? <a href="#"
+            <p>¿No tiene una cuenta? <a href="${pageContext.request.contextPath}/usuario?accion=alta"
               >Registrarse</a></p>
           </div>
         </form>

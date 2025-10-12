@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -222,6 +223,8 @@ public class AltaEvento extends JInternalFrame {
 			    return;
 			}
 			// Si pasa todos los checks, se da de Alta finalmente
+			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+			formato.format(fechaAlta);
 			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias,null);
 			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 			resetCampos();

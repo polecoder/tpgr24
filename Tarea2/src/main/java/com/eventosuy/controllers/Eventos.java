@@ -44,7 +44,7 @@ public class Eventos extends HttpServlet {
         String accion = request.getParameter("accion");
 
         if ("alta".equals(accion)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Alta/AltaEvento.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
             dispatcher.forward(request, response);
         } else if ("consulta".equals(accion)) {
             Consulta(request, response);
@@ -83,7 +83,7 @@ public class Eventos extends HttpServlet {
     // --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Alta/AltaEvento.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -112,7 +112,7 @@ public class Eventos extends HttpServlet {
             categoriasSeleccionadas == null || categoriasSeleccionadas.length == 0) {
 
             request.setAttribute("error", "Todos los campos son obligatorios.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Alta/AltaEvento.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
             dispatcher.forward(request, response);
             return;
         }
@@ -138,7 +138,7 @@ public class Eventos extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(fechaAlta));
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Consulta/ConsultaEvento.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/ConsultaEvento.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -170,7 +170,7 @@ public class Eventos extends HttpServlet {
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
         request.setAttribute("ediciones", edicionesList);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Consulta/ConsultaEvento.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/ConsultaEvento.jsp");
         dispatcher.forward(request, response);
     }
 }

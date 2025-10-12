@@ -45,18 +45,6 @@ public class Home extends HttpServlet {
     	List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		
-		//cargo una imagen para probar
-		byte[] imagenEvento=null;
-		
-		try (InputStream is = getServletContext().getResourceAsStream("/images/IMG-EV04.png")) {
-	        if (is != null) {
-	            imagenEvento = is.readAllBytes();
-	        } else {
-	        	imagenEvento = null;
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
 
 		// Eventos
 		f.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
@@ -66,10 +54,10 @@ public class Home extends HttpServlet {
 		
 		// Usuarios
 		try {
-			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)), null);
-			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com");
-			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com");
+			f.getControladorUsuarios().altaAsistente("Nick1", "Abcdef1!", "Juan", "abc1@abc.com", "Perez", Utilidades.toDate(LocalDate.of(2025, 8, 31)),null, null);
+			f.getControladorUsuarios().altaAsistente("Nick2", "Abcdef1!", "Roberto", "abc2@abc.com", "Gonzalez", Utilidades.toDate(LocalDate.of(2025, 8, 31)),null, null);
+			f.getControladorUsuarios().altaOrganizador("Nick3", "Abcdef1!", "MontevideoOrganiza", "abc3@abc.com", "Descripcion", "https://link.com",null);
+			f.getControladorUsuarios().altaOrganizador("Nick4", "Abcdef1!", "MisEventos", "abc4@abc.com", "Descripcion", "https://link.com",null);
 		} catch (FormatoContrasenaInvalido e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -138,6 +126,7 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 testingSession();
 		processRequest(request, response);
 	}
 

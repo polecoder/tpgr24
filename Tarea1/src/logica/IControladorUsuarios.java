@@ -15,8 +15,8 @@ import datatypes.DTRegistro;
 import datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion) throws FormatoContrasenaInvalido, Exception;
-	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link) throws FormatoContrasenaInvalido, Exception;
+	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, Exception;
+	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) throws FormatoContrasenaInvalido, Exception;
 	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
 	Set<String> nombresOrganizadores();
@@ -60,6 +60,8 @@ public interface IControladorUsuarios {
 	 * @param nuevoLink
 	 */
 	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
+	void actualizarImagenUsuario(String nickname, byte[] imagen);
+	byte[] obtenerImagenPorNickname(String nickname);
 	/**
 	 * Devuelve una lista de todos los datos detallados de todos los usuarios que existen en el sistema.
 	 * 

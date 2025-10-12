@@ -1,5 +1,6 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -376,6 +377,26 @@ public class ManejadorEventos {
 	    // Mostrar cartel siempre
 	    JOptionPane.showMessageDialog(null, mensaje, "Estado de Edición", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	public List<String> filtrarEdicionesPorOrganizadorYEstado(String organizadorNickname,
+            java.util.Set<EEstadoEdicion> estados) {
+List<String> out = new ArrayList<>();
+if (organizadorNickname == null || estados == null || estados.isEmpty()) return out;
+
+for (Evento ev : eventos.values()) {
+for (Edicion ed : ev.getEdiciones().values()) {
+// Ajustá el getter según tu modelo (ej.: getOrganizadorNickname() o getOrganizador().getNickname())
+String orgDeLaEdicion = ed.getOrganizadorNickname();
+if (organizadorNickname.equals(orgDeLaEdicion) && estados.contains(ed.getEstado())) {
+out.add(ed.getNombre()); 
+// Si querés "Evento - Edición": out.add(ev.getNombre() + " - " + ed.getNombre());
+// Si preferís un DTO: out.add(new DTEventoEdicion(ev.getNombre(), ed.getNombre()));
+}
+}
+}
+return out;
+}
+	
 	
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		Evento evento = eventos.get(nombreEvento);
