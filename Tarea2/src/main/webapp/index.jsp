@@ -109,7 +109,7 @@
 							</a>
 							<div class="card-body text-center">
 								<a
-									href="./pages/consulta-evento-maraton-montevideo-visitante.html"
+									href="Eventos?accion=consulta&nombre=<%= e.getNombre() %>"
 									class="card-title fs-6 text-decoration-none text-dark fw-semibold"><%= e.getNombre() %></a>
 							</div>
 						</div>

@@ -357,7 +357,8 @@ public class UsuarioServlet extends HttpServlet {
 				// --- Requiere login ---
 				String nick = getNickFromSession(request);
 				if (nick == null) {
-					response.sendRedirect(request.getContextPath() + "/login?error=loginRequerido");
+					request.setAttribute("error_message", "Debe estae logueado para registrarse a una edicion");
+					response.sendRedirect(request.getContextPath() + "/error.jsp");
 					return;
 				}
 
@@ -562,7 +563,7 @@ public class UsuarioServlet extends HttpServlet {
 		catch (DateTimeParseException e) { return null; }
 	}
 	private static String getNickFromSession(HttpServletRequest req) {
-		Object o = req.getSession().getAttribute("usrNick"); // lo setea tu LoginServlet
+		Object o = req.getSession().getAttribute("nick"); // lo setea tu en action=alta
 		return (o == null) ? null : o.toString();
 	}
 }
