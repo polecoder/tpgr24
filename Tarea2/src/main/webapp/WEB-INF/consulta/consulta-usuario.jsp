@@ -180,10 +180,12 @@
     <%
       // Normalizo ambas colecciones para que el bloque SIEMPRE se muestre
       Object edsAcepObj = request.getAttribute("edicionesAceptadas"); // Collection<String> o null
-      Object edsPropObj = request.getAttribute("misEdiciones");       // Collection<String> o null
+      Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas"); // Collection<String> o null
+      Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas"); // Collection<String> o null
       java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
-      java.util.Collection<?> edsPropCol = (edsPropObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsPropObj : java.util.Collections.emptyList();
-      boolean sinNada = edsAcepCol.isEmpty() && edsPropCol.isEmpty();
+      java.util.Collection<?> misEdsIngCol = (misEdsIngObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsIngObj : java.util.Collections.emptyList();
+      java.util.Collection<?> misEdsRecCol = (misEdsRecObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsRecObj : java.util.Collections.emptyList();
+      boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
     %>
     <div class="mb-3 row">
       <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
@@ -197,8 +199,11 @@
             <% for (Object s : edsAcepCol) { %>
               <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (ACEPTADA)</option>
             <% } %>
-            <% for (Object s : edsPropCol) { %>
-              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%></option>
+            <% for (Object s : misEdsIngCol) { %>
+              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (INGRESADA)</option>
+            <% } %>
+            <% for (Object s : misEdsRecCol) { %>
+              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (RECHAZADA)</option>
             <% } %>
           </select>
         <% } %>
