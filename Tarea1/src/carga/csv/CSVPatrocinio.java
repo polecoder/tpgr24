@@ -19,7 +19,7 @@ public class CSVPatrocinio {
 	@CsvBindByName(column = "Aporte")
 	private float aporte;
 	@CsvBindByName(column = "fechaPatrocinio")
-	@CsvDate("yyyy-MM-dd")
+	@CsvDate("dd/MM/yyyy")
 	private Date fechaPatrocinio;
 	@CsvBindByName(column = "cantidadRegistros")
 	private int cuposGratuitos;

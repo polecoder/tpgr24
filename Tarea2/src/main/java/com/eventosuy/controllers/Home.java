@@ -1,7 +1,6 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,6 @@ public class Home extends HttpServlet {
     public Home() {
         super();
         // TODO: Hardcodeado
-        // testingSession();
-        cargarDatos();
     }
     
     /**
@@ -95,6 +92,12 @@ public class Home extends HttpServlet {
     	
     	CargaDatos cargaDatos = CargaDatos.getInstancia();
     	cargaDatos.cargarArchivos(rutas);
+    }
+    
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        cargarDatos();
     }
     
     /**
