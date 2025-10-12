@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*, datatypes.*" %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -16,6 +16,7 @@
       Object usuarioAttr = request.getAttribute("usuario");    // DTDetalleUsuario o null
       String ctx         = request.getContextPath();
       String nickSesion  = (String) session.getAttribute("nick");
+      List<DTRegistro> regs = (List<DTRegistro>) request.getAttribute("registros"); // List<DTRegistro> o null
     %>
 
     <div class="container flex-grow-1 my-4">
@@ -132,33 +133,27 @@
         <input type="text" class="form-control form-control-sm" readonly value="${usuario.nacimiento}" />
       </div>
     </div> 
-
-    <%
-      // Normalizo a lista vacía para que el bloque siempre se muestre
-      Object regsObj = request.getAttribute("registros"); // List<DTRegistro> o null
-      java.util.List<?> regs = (regsObj instanceof java.util.List) ? (java.util.List<?>) regsObj : java.util.Collections.emptyList();
+    <% 
+    	if (!regs.isEmpty() && regs != null) {
     %>
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Registros:</label>
-      <div class="col-sm-8 d-flex flex-column gap-2">
-        <% if (regs.isEmpty()) { %>
-          <div class="form-text">Aún no tenés registros.</div>
-        <% } else { 
-             for (int i=0; i<regs.size(); i++) {
-               Object r = regs.get(i);
-               String nomEd  = "";
-               try {
-                 java.lang.reflect.Method mEd = r.getClass().getMethod("nombreEdicion");
-                 nomEd = String.valueOf(mEd.invoke(r));
-               } catch(Exception ignore) {}
+	<div class="mb-3 row">
+		<label class="col-sm-4 col-form-label text-end">Registros:</label>
+			<div class="col-sm-8 d-flex flex-column gap-2">
+      <% // Normalizo a lista vacía para que el bloque siempre se muestre
+      	for (int i=0; i < regs.size(); i++) {
+          DTRegistro registro = regs.get(i);
         %>
-          <a class="text-primary text-decoration-underline"
-             href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= nomEd %></a>
-        <% } } %>
+			  <a class="text-primary text-decoration-underline"
+	             href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
+      <% 
+      			}
+      %>
+      	</div>
       </div>
-    </div>
+	  <%
+    	}}
+  %>
   </div>
-<% } %>
 
             <% if (esOrganizador) { %>
   <!-- Panel ORGANIZADOR -->

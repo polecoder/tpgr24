@@ -166,8 +166,7 @@ public class UsuarioServlet extends HttpServlet {
 
 			try {
 				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
-				 IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
-			    //System.out.println("[consulta] param nick = " + nick);
+				IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
 
 				if (isBlank(nick)) {
 					// listar todos
@@ -444,11 +443,7 @@ public class UsuarioServlet extends HttpServlet {
 
 			// ==================== CONSULTA DE REGISTROS ====================
 		case "consulta-registro": {
-			String nick = getNickFromSession(request);
-			if (nick == null) {
-				response.sendRedirect(request.getContextPath() + "/login?error=loginRequerido");
-				return;
-			}
+			DTDetalleUsuario datosUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 
 			IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
 			IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
@@ -459,10 +454,8 @@ public class UsuarioServlet extends HttpServlet {
 			String idxParam = trim(request.getParameter("idx"));      // asistente
 
 			try {
-				// Organizador o Asistente
-				DTDetalleUsuario detalle = cu.mostrarDetalleUsuario(nick);
 
-				if (detalle instanceof DTDetalleOrganizador) {
+				if (datosUsuario instanceof DTDetalleOrganizador) {
 					// --------------------------- ORGANIZADOR ---------------------------
 					if (!isBlank(evento) && !isBlank(edicion) && !isBlank(usuarioX)) {
 						//  detalle de registro de un usuario en esa edición
@@ -504,7 +497,7 @@ public class UsuarioServlet extends HttpServlet {
 
 					} else {
 						//  listar ediciones del organizador
-						request.setAttribute("edicionesOrg", cu.getEventosEdicionesDeOrganizador(nick));
+						request.setAttribute("edicionesOrg", cu.getEventosEdicionesDeOrganizador(datosUsuario.getNickname()));
 					}
 
 				} else {
@@ -512,12 +505,12 @@ public class UsuarioServlet extends HttpServlet {
 					if (!isBlank(idxParam)) {
 						// Ver detalle de uno de mis registros por índice
 						int idx = Integer.parseInt(idxParam);
-						DTDetalleRegistro det = cu.obtenerDetalleRegistro(nick, idx);
+						DTDetalleRegistro det = cu.obtenerDetalleRegistro(datosUsuario.getNickname(), idx);
 						request.setAttribute("detalle", det);
 						request.setAttribute("idxSel", idx);
 					}
 					// Siempre muestro mi lista de registros
-					List<DTRegistro> regs = cu.listarRegistrosUsuario(nick);
+					List<DTRegistro> regs = cu.listarRegistrosUsuario(datosUsuario.getNickname());
 					request.setAttribute("registros", regs);
 				}
 
