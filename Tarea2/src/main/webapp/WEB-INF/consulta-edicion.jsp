@@ -8,6 +8,7 @@
 	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<%@ page import = "datatypes.DTEdicionEvento" %>
 	<%@ page import = "datatypes.DTDetalleRegistro" %>
+	<%@ page import = "datatypes.DTDetalleUsuario" %>
 	<%@ page import = "datatypes.ETipoUsuario" %>
 	<%@ page import = "com.eventosuy.models.TipoUsuario" %>
 	<%@ page import = "java.util.Set" %>
@@ -103,6 +104,7 @@
 	           <!-- Registros de la edición (organizador) -->
 	          <% Boolean esOrganizador = (Boolean) request.getAttribute("es_organizador"); %>
 	          <% Boolean esAsistente = (Boolean) request.getAttribute("es_asistente"); %>
+	          <% System.out.println(esOrganizador); %>
 	          <% if (Boolean.TRUE.equals(esOrganizador)) { %>
 		          <div class="mt-3">
 		            <h6 class="fw-bold m-0">Registros de la edición:</h6>
@@ -120,9 +122,8 @@
 			              <tbody>
 			              <% for (DTDetalleRegistro registro : setRegistros) { %>
 			                <tr>
-			                	<% String nickname = (String) request.getSession().getAttribute("nickname"); %>
 			                	<% String tipoRegistro = registro.getNombreTipo(); %>
-			                  <td><a href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=nickname%>" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
+			                  <td><a href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=registro.getNicknameAsistente()%>" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
 			                  <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" class="link-primary link-underline"> <%=tipoRegistro%> </a></td>
 			                  <td> <%= registro.getFecha() %> </td>
 			                  <td> <%= registro.getCosto() %> </td>
