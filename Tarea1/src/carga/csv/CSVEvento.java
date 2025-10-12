@@ -53,4 +53,7 @@ public class CSVEvento {
 	public String getCategorias() {
 		return this.categorias;
 	}
+	public String getImagen() {
+		return imagen;
+	}
 }
