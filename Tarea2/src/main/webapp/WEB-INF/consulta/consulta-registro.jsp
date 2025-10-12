@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
+<%@ page import="datatypes.DTDetalleRegistro" %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -88,38 +89,21 @@
               <%-- Detalle seleccionado (si viene) --%>
               <%
                 if (detalleAttr != null) {
-                  // DTDetalleRegistro(nombreEdicion, nicknameAsistente, nombreTipo, fechaRegistro, costo)
-                  String nomEd   = "", nickAsis = "", nomTipo = "", fecha = "", costo = "";
-                  try {
-                    Class<?> c = detalleAttr.getClass();
-                    java.lang.reflect.Method mEd   = c.getMethod("nombreEdicion");
-                    java.lang.reflect.Method mNick = c.getMethod("nicknameAsistente");
-                    java.lang.reflect.Method mTipo = c.getMethod("nombreTipo");
-                    java.lang.reflect.Method mFec  = c.getMethod("fechaRegistro");
-                    java.lang.reflect.Method mCos  = c.getMethod("costo");
-                    nomEd   = String.valueOf(mEd.invoke(detalleAttr));
-                    nickAsis= String.valueOf(mNick.invoke(detalleAttr));
-                    nomTipo = String.valueOf(mTipo.invoke(detalleAttr));
-                    Object fecObj = mFec.invoke(detalleAttr);
-                    Object cosObj = mCos.invoke(detalleAttr);
-                    fecha = (fecObj != null ? String.valueOf(fecObj) : "");
-                    costo = (cosObj != null ? String.valueOf(cosObj) : "");
-                  } catch (Exception ignore) {}
-                  boolean patrocinio = false;
-                  try { patrocinio = !costo.isBlank() && Double.parseDouble(costo) == 0.0; } catch (Exception ignore) {}
+	              	DTDetalleRegistro dtDetalle = (DTDetalleRegistro) detalleAttr;
+	              	String nomEd = dtDetalle.getNombreEdicion();
+	              	Date fecha =  dtDetalle.getFecha();
+	              	String nomTipo = dtDetalle.getNombreTipo();
+	              	float patrocinio = dtDetalle.getCosto();
               %>
-                <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
-                <p><strong>Edición:</strong> <%= nomEd %></p>
-                <p><strong>Fecha de registro:</strong> <%= fecha %></p>
-                <p><strong>Tipo de registro:</strong> <%= nomTipo %></p>
-                <p><strong>Patrocinio:</strong> <%= patrocinio ? "Se utilizó código (costo 0)" : "No se utilizó patrocinio" %></p>
-              <%
-                }
-              %>
-
-          <%
+	                <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
+	                <p><strong>Edición:</strong> <%= nomEd %></p>
+	                <p><strong>Fecha de registro:</strong> <%= fecha %></p>
+	                <p><strong>Tipo de registro:</strong> <%= nomTipo %></p>
+	                <p><strong>Patrocinio:</strong> <%= patrocinio %></p>
+              <% } %>
+          	<%
             // ======================== ORGANIZADOR ========================
-            } else {
+            	} else {
               // 1) Si no hay seleccionadas evento/edición/usuario, espero lista de mis ediciones (List<DTEventoEdicion>)
               if (edsOrgAttr instanceof List && (eventoSel == null || eventoSel.isBlank())) {
           %>
