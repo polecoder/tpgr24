@@ -192,7 +192,7 @@
           <div class="form-text">No hay ediciones para mostrar.</div>
         <% } else { %>
           <select class="form-select form-select-sm"
-                  onchange="if(this.value){location.href='<%=ctx%>/ediciones?accion=consulta&nombre='+encodeURIComponent(this.value);}">
+                  onchange="if(this.value){location.href='<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion='+encodeURIComponent(this.value);}">
             <option value="">-- seleccionar --</option>
             <% for (Object s : edsAcepCol) { %>
               <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (ACEPTADA)</option>

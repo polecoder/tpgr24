@@ -36,7 +36,7 @@ public class Ediciones extends HttpServlet {
 		if (accion == null) { accion = (String) request.getAttribute("accion"); } // Test
 		switch (accion) {
 		case "ConsultaEdicion":
-			request = CUConsultaEdicion(request);
+			request = CUConsultaEdicion(request, response);
 			request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 			break;
 		case "AltaEdicion":
@@ -62,11 +62,25 @@ public class Ediciones extends HttpServlet {
 		}
 	}
 	
-	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request) {
-		String nombreEvento = request.getParameter("nombre_evento");
-		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
+		
+		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		if (nombreEvento == null) { 
+			for (String evento : controladorEventos.listarEventos().keySet()) {
+				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
+					nombreEvento = evento;
+					break;
+				}
+			}
+		}
+		if (nombreEvento == null) {
+			request.setAttribute("error_message", "La edicion no es de ningun evento");
+			request.getRequestDispatcher("/WEB-INF/error").forward(request, response);
+			return request;
+		}
 		
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = controladorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
@@ -118,7 +132,7 @@ public class Ediciones extends HttpServlet {
 		}
 		
 		request.setAttribute("nombre_edicion", nombreEdicion);
-		request = CUConsultaEdicion(request);
+		request = CUConsultaEdicion(request, response);
 		request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 	}
 	
