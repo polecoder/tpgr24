@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import carga.CargaDatos;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEvento;
 import excepciones.FormatoContrasenaInvalido;
@@ -31,7 +32,8 @@ public class Home extends HttpServlet {
     public Home() {
         super();
         // TODO: Hardcodeado
-        testingSession();
+        // testingSession();
+        cargarDatos();
     }
     
     /**
@@ -83,6 +85,28 @@ public class Home extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    }
+    
+    /**
+     * Carga todos los datos de prueba ubicados en la carpeta data/
+     */
+    private void cargarDatos() {
+    	List<String> rutasArchivos = List.of(
+    			getServletContext().getRealPath("data/2025Categorias.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios.csv"),
+    			getServletContext().getRealPath("data/2025Instituciones.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios-Organizadores.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios-Asistentes.csv"),
+    			getServletContext().getRealPath("data/2025Eventos.csv"),
+    			getServletContext().getRealPath("data/2025EdicionesEventos.csv"),
+    			getServletContext().getRealPath("data/2025TipoRegistro.csv"),
+    			getServletContext().getRealPath("data/2025Patrocinios.csv"),
+    			getServletContext().getRealPath("data/2025Registros.csv")
+    	);
+    	String[] rutas = rutasArchivos.toArray(new String[0]);
+    	
+    	CargaDatos cargaDatos = CargaDatos.getInstancia();
+    	cargaDatos.cargarArchivos(rutas);
     }
     
     /**
