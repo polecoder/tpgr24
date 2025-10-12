@@ -151,14 +151,15 @@
 	            style="height: auto; max-width: 100%; object-fit: cover;" />
 	             -->
 	        </div>
-			<% if ( request.getSession().getAttribute("tipoUsuarioLogueado") == TipoUsuario.ORGANIZADOR) { %> 
+	        <% System.out.println(request.getSession().getAttribute("tipoUsuarioLogeado")); %>
+			<% if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ORGANIZADOR) { %> 
 		        <div class="d-flex justify-content-center gap-3">
 		            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
 		              >Alta patrocinio</a>
 		            <a href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
 		              >Alta tipo registro</a>
 		        </div>
-	        <% } else if ( request.getSession().getAttribute("tipoUsuarioLogueado") == TipoUsuario.ASISTENTE) { %>
+	        <% } else if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ASISTENTE) { %>
 	        	<div class="d-flex justify-content-center gap-3">
 		            <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
 		              >Registrarse a edicion</a>
