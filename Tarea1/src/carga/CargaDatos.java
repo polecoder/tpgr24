@@ -502,8 +502,12 @@ public class CargaDatos {
 					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
 					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
 					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
-					String codigoPatrocinio = this.patrocinios.get(registro.getPatrocinio()).getCodigoPatrocinio();
-					Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					Patrocinio patrocinio = null;
+					// chequeo si efectivamente el registro se hace con patrocinio
+					if (!registro.getPatrocinio().isEmpty()) {
+						String codigoPatrocinio = this.patrocinios.get(registro.getPatrocinio()).getCodigoPatrocinio();
+						patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					}
 					TipoRegistro tipoRegistro;
 					try {
 						tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro);
