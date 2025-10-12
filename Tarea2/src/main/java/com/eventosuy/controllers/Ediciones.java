@@ -15,6 +15,7 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import logica.IControladorEventos;
 import logica.Utilidades;
 
 @WebServlet("/Ediciones")
+@MultipartConfig
 public class Ediciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Ediciones () {super();} // Constructor (no lleva parametros)
@@ -43,6 +45,8 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaEdicion(request, response); // Crea la Edicion y muestra su consulta
 			} else { 
+				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
@@ -50,6 +54,8 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
 			} else { 
+				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
@@ -96,10 +102,8 @@ public class Ediciones extends HttpServlet {
 	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
-		
-		
 		String sigla = request.getParameter("sigla");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
@@ -108,6 +112,7 @@ public class Ediciones extends HttpServlet {
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
 		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
+		//byte[] imagen = (byte[]) request.getParameter("foto");
 		
 		try {
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, null);
@@ -138,6 +143,8 @@ public class Ediciones extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
 			return request;
 		}
+		byte[] imagenEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen();
+		request.setAttribute("imagenEdicion", imagenEdicion);
 		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		return request;
 	}
@@ -146,7 +153,7 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
+		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
 		
 		String nombreTipoRegistro = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
