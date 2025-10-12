@@ -32,9 +32,9 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
-		String CU = request.getParameter("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
-		if (CU == null) { CU = (String) request.getAttribute("caso_de_uso"); } // Test
-		switch (CU) {
+		String accion = request.getParameter("accion"); // Llamo distinto JSP dependiendo del Caso de Uso
+		if (accion == null) { accion = (String) request.getAttribute("accion"); } // Test
+		switch (accion) {
 		case "ConsultaEdicion":
 			request = CUConsultaEdicion(request);
 			request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
@@ -57,6 +57,8 @@ public class Ediciones extends HttpServlet {
 			request = CUConsultaTipoRegistro(request, response);
 			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 			break;
+		default:
+			request.getRequestDispatcher("/WEB-INF/error.jsp");
 		}
 	}
 	
@@ -198,7 +200,7 @@ public class Ediciones extends HttpServlet {
 		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
 		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
 		
-		request.setAttribute("caso_de_uso", "ConsultaEdicion");
+		request.setAttribute("accion", "ConsultaEdicion");
 		request.setAttribute("nombre_evento", nombreEventoTest1);
 		request.setAttribute("nombre_edicion", nombreEdicionTest1);
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);

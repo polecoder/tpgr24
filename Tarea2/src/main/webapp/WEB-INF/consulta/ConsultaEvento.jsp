@@ -91,7 +91,7 @@
 				                 alt="Imagen de <%= ed.getNombre() %>"
 				                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
 				            <div class="card-body text-center p-2">
-				                <a href="Ediciones?accion=consulta&nombreEdicion=<%= ed.getNombre() %>&nombreEvento=<%= nombre %>"
+				                <a href="Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%= nombre %>"
 				                   class="text-decoration-none text-primary fw-semibold">
 				                    <%= ed.getNombre() %>
 				                </a>

@@ -25,7 +25,7 @@
 				style="max-width: 375px">
 				<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
 				<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-				<form action="Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+				<form action="Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 
 					<div
 						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">

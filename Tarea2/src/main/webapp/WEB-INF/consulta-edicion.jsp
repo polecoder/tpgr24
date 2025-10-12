@@ -8,6 +8,7 @@
 	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<%@ page import = "datatypes.DTEdicionEvento" %>
 	<%@ page import = "datatypes.DTDetalleRegistro" %>
+	<%@ page import = "datatypes.ETipoUsuario" %>
 	<%@ page import = "java.util.Set" %>
 	<%@ page import = "java.text.SimpleDateFormat" %>
 
@@ -23,8 +24,8 @@
 	        <div id="info-edicion" class="mt-2 p-3 border rounded bg-white d-block mx-auto" style="min-width: 450px">
 	          <!-- Título + Imagen en línea -->
 	          <div class="d-flex align-items-center justify-content-between">
-	          	<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-	          	<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
+	          	<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
+	          	<% String nombreEvento = request.getParameter("nombre_evento"); %>
 	            <label class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </label>
 	          </div>
 			  <% DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion"); %>
@@ -50,7 +51,7 @@
 		              <tbody>
 		              <% for (String tipoRegistro : setTiposRegistro) { %>
 		                <tr>
-		                  <td> <a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" 
+		                  <td> <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" 
 		                  	class="link-primary link-underline"> <%= tipoRegistro %> </a> 
 		                  </td>
 		                </tr>
@@ -110,7 +111,7 @@
 			                	<% String nickname = (String) request.getSession().getAttribute("nickname"); %>
 			                	<% String tipoRegistro = registro.getNombreTipo(); %>
 			                  <td><a href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=nickname%>" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
-			                  <td><a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" class="link-primary link-underline"> <%=tipoRegistro%> </a></td>
+			                  <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" class="link-primary link-underline"> <%=tipoRegistro%> </a></td>
 			                  <td> <%= registro.getFecha() %> </td>
 			                  <td> <%= registro.getCosto() %> </td>
 			                </tr>
@@ -136,7 +137,7 @@
 			            <tbody>
 			            <tr>
 			            	<% String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo(); %>
-			                <td><a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>" class="link-primary link-underline"> <%=nombreTipoRegistro%> </a></td>
+			                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>" class="link-primary link-underline"> <%=nombreTipoRegistro%> </a></td>
 			                <td> <% dtDetalleRegistro.getFecha(); %> </td>
 			                <td> <% dtDetalleRegistro.getCosto(); %> </td>
 			            </tr>
@@ -149,14 +150,19 @@
 	            style="height: auto; max-width: 100%; object-fit: cover;" />
 	             -->
 	        </div>
-	
-	        <div class="d-flex justify-content-center gap-3">
-	            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
-	              >Alta patrocinio</a>
-	            <a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
-	              >Alta tipo registro</a>
-	        </div>
-	
+			<% if ( request.getSession().getAttribute("tipoUsuarioLogueado") == ETipoUsuario.Organizador) { %> 
+		        <div class="d-flex justify-content-center gap-3">
+		            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
+		              >Alta patrocinio</a>
+		            <a href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
+		              >Alta tipo registro</a>
+		        </div>
+	        <% } else if ( request.getSession().getAttribute("tipoUsuarioLogueado") == ETipoUsuario.Asistente) { %>
+	        	<div class="d-flex justify-content-center gap-3">
+		            <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
+		              >Registrarse a edicion</a>
+	        	</div>
+			<% } %>	
 	      </form>
 	    </main>
   </div>

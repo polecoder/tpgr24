@@ -16,7 +16,7 @@
 					<% String nombreEvento = request.getParameter("nombre_evento"); %>
 					<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
 					<h1 class="fs-2 fw-bold mb-1"> <%=nombreEdicion%> </h1> 
-					<a href="${pageContext.request.contextPath}/Eventos?action=consulta&nombre=<%=nombreEvento%>" class="fs-5 text-secondary text-decoration-underline"> <%=nombreEvento%> </a>
+					<a href="${pageContext.request.contextPath}/Eventos?accion=consulta&nombre=<%=nombreEvento%>" class="fs-5 text-secondary text-decoration-underline"> <%=nombreEvento%> </a>
 				</div>
 			</div>
 			<main class="p-4 bg-light border-top border-2 border-primary rounded"
@@ -76,7 +76,7 @@
 					</div>
 
 					<div class="d-flex justify-content-center gap-3">
-						<a href="${pageContext.request.contextPath}/Ediciones?caso_de_uso=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
+						<a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
 							class="btn btn-primary btn-sm px-3" id="btnEdicion"> Ver edición 
 						</a>
 					</div>
