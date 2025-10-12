@@ -19,14 +19,22 @@
 		<main
 			class="p-4 bg-light border-top border-2 border-primary rounded mx-auto"
 			style="max-width: 700px">
-			<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
-			<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-			<form action="Ediciones?accion=AltaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+			<% String nombreEvento = (String) request.getParameter("nombre_evento"); %>
+			<form action="${pageContext.request.contextPath}/Ediciones?accion=AltaEdicion&nombre_evento=<%=nombreEvento%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 				<div class="d-flex gap-3 align-items-center">
-					<img class="col-4" src="" alt="Imagen evento"
-						style="width: auto; height: auto; max-width: 100px; max-height: 100px;" />
+					<%
+					byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
+		            String base64Image = null; // declarar antes del if
+		            if (imagenBytes != null && imagenBytes.length > 0) {
+		                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+		            }
+					%>
+					<% if (base64Image != null) { %>
+						<img class="col-4" src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
+							style="width: auto; height: auto; max-width: 100px; max-height: 100px;" />
+					<% } %>
 					<h2 class="evento" class="fs-3 fw-bold">
-						<a href="./consulta-edicion-organizador.html"> <%= nombreEvento %> </a>
+						<a href="${pageContext.request.contextPath}/Eventos?accion=consulta&nombre=<%=nombreEvento%>"> <%= nombreEvento %> </a>
 					</h2>
 				</div>
 
