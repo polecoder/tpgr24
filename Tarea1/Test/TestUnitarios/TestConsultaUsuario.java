@@ -32,7 +32,7 @@ class TestConsultaUsuario {
     void testConsultaAsistente() throws Exception {
         // Arrange
         String nickname = "asistente1";
-        iCU.altaAsistente(nickname, "Eventos.2025!", "Juan", "juan@mail.com", "Perez", Utilidades.toDate(LocalDate.now()), "Institucion1");
+        iCU.altaAsistente(nickname, "Eventos.2025!", "Juan", "juan@mail.com", "Perez", Utilidades.toDate(LocalDate.now()), "Institucion1", null);
 
         // Act
         DTDetalleAsistente detalle = (DTDetalleAsistente) iCU.mostrarDetalleUsuario(nickname);
@@ -54,7 +54,7 @@ class TestConsultaUsuario {
     void testConsultaOrganizador() throws Exception {
         // Arrange
         String nickname = "organizador1";
-        iCU.altaOrganizador(nickname, "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com");
+        iCU.altaOrganizador(nickname, "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com", null);
 
         // Act
         DTDetalleUsuario detalle = iCU.mostrarDetalleUsuario(nickname);

@@ -15,6 +15,7 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
+import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 
 public interface IControladorEventos {
@@ -34,6 +35,8 @@ public interface IControladorEventos {
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
 	public void altaCategoria(String nombre) throws Exception;
 	public boolean existeCategoria(String nombre);
+	List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname,
+            EEstadoEdicion... estados);
 
 	/**
 	 * PRE-CONDICIÓN: Los datos ingresados por parámetro están formateados correctamente.

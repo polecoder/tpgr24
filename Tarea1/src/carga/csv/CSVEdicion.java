@@ -29,11 +29,15 @@ public class CSVEdicion {
 	@CsvBindByName(column = "FechaAlta")
 	@CsvDate("dd/MM/yyyy")
 	private Date fechaAlta;
+	@CsvBindByName(column = "Estado")
+	private String estado;
+	@CsvBindByName(column = "Imagen")
+	private String imagen;
 	
 	// NECESARIO para OpenCSV
 	public CSVEdicion() {}
 	
-	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, Date fechaInicio, Date fechaFin, Date fechaAlta) {
+	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, Date fechaInicio, Date fechaFin, Date fechaAlta, String estado, String imagen) {
 		this.ref = ref;
 		this.evento = evento;
 		this.organizador = organizador;
@@ -44,6 +48,8 @@ public class CSVEdicion {
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.fechaAlta = fechaAlta;
+		this.estado = estado;
+		this.imagen = imagen;
 	}
 	
 	public String getRef() {
@@ -75,5 +81,11 @@ public class CSVEdicion {
 	}
 	public Date getFechaAlta() {
 		return this.fechaAlta;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public String getImagen() {
+		return imagen;
 	}
 }

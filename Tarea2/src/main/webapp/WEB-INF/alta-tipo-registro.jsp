@@ -12,6 +12,7 @@
 	/>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<div class="container flex-grow-1">
 		<div class="mx-auto" style="max-width: 768px">
 			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de Tipo de Registro</h1>
@@ -22,15 +23,24 @@
 			<main
 				class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
 				style="max-width: 375px">
-				<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
-				<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-				<form action="Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+				<% String nombreEvento = (String) request.getParameter("nombre_evento"); %>
+				<% String nombreEdicion = (String) request.getParameter("nombre_edicion"); %>
+				<form action="Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
 
 					<div
 						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-						<img src="../images/IMG-EDEV03.jpeg" alt="Imagen evento"
-							style="width: 128px" /> <a
-							href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
+						<%
+						byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
+			            String base64Image = null; // declarar antes del if
+			            if (imagenBytes != null && imagenBytes.length > 0) {
+			                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+			            }
+						%>
+						<% if (base64Image != null) { %>
+							<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen edicion"
+								style="width: 128px" />
+						<% } %>
+							<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
 					</div>
 
 					<div class="d-flex gap-2">
@@ -78,4 +88,5 @@
 		</div>
 	</div>
 </body>
+<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </html>

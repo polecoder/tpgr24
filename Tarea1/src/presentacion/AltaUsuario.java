@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -383,7 +384,7 @@ public class AltaUsuario extends JInternalFrame {
 		        String descripcion = textField_Descripcion.getText().trim();
 		        String Link = textField_Link.getText();
 		        try {
-		        	IContUsuario.altaOrganizador(nick,contrasena, nombre,correo,descripcion,Link);
+		        	IContUsuario.altaOrganizador(nick,contrasena, nombre,correo,descripcion,Link, null);
 		        	
 		        	//Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
@@ -411,8 +412,10 @@ public class AltaUsuario extends JInternalFrame {
 		    	String apellido=textField_Apellido.getText();
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
 		    	Date fechaNacimiento = (Date) Spinner_FechaNacimiento.getValue();
+		    	SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		    	formato.format(fechaNacimiento);
 		    	try {
-		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion);
+		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion, null);
 		            
 		            //Si todo salió bien, aviso y limpio campos
 		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);

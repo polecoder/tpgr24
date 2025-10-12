@@ -24,6 +24,13 @@ public class ManejadorUsuarios {
 	public static void resetInstance() {
 		instance = null;
 	}
+	 public void actualizarImagenUsuario(String nickname, byte[] imagen) {
+	        if (nickname == null) return;
+	        Asistente a = getAsistente(nickname);
+	        if (a != null) { a.setImagen(imagen); return; }
+	        Organizador o = getOrganizador(nickname);
+	        if (o != null) { o.setImagen(imagen); }
+	    }
 	
 	public static ManejadorUsuarios getInstance() {
 		if (instance == null) {
@@ -59,18 +66,23 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
+	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion, byte[] imagen) {
 		Asistente A= new Asistente(nickname,contrasena,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
 			institucion.asistentes.put(nickname, A);
 		}
 		conjuntoAsistentes.put(A.getNickname(), A);
+		if (imagen != null && imagen.length > 0) A.setImagen(imagen);
+	    conjuntoAsistentes.put(nickname, A);
 	}
 	
-	public void agregarOrganizador(String nickname, String contrasena,String nombre, String correo, String descripcion, String link) {
+	public void agregarOrganizador(String nickname, String contrasena,String nombre, String correo, String descripcion, String link, byte[] imagen) {
 		Organizador O=new Organizador(nickname,contrasena,nombre,correo,descripcion,link);
 		conjuntoOrganizadores.put(O.getNickname(), O);
+		if (imagen != null && imagen.length > 0) O.setImagen(imagen);
+	    conjuntoOrganizadores.put(nickname, O);
 	}
+	
 	
 	
 	public Map<String, DTAsistente> listarAsistentes() {
@@ -147,10 +159,14 @@ public class ManejadorUsuarios {
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
 		if (this.getOrganizador(nicknameUsuario) != null) {
 			Organizador organizador = this.getOrganizador(nicknameUsuario);
-			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink());
+			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
 		} else if (this.getAsistente(nicknameUsuario) != null) {
 			Asistente asistente = this.getAsistente(nicknameUsuario);
-			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento());
+			String insti=null;
+			if (asistente.getInstitucion()!=null) {
+				insti=asistente.getInstitucion().getNombre();
+			}
+			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(),insti, asistente.getImagen());
 		} else {
 			throw new Exception("El usuario indicado no existe en el sistema.");
 		}

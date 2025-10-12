@@ -13,51 +13,44 @@ public class CSVUsuario {
 	private String nombre;
 	@CsvBindByName(column = "Correo")
 	private String correo;
+	@CsvBindByName(column = "Contraseña")
+	private String contrasena;
+	@CsvBindByName(column = "Imagen")
+	private String imagen;
 	
 	// NECESARIO para OpenCSV
 	public CSVUsuario() {}
 
-	public CSVUsuario(String ref, String tipo, String nickname, String nombre, String correo) {
+	public CSVUsuario(String ref, String tipo, String nickname, String nombre, String correo, String contrasena, String imagen) {
 		super();
 		this.ref = ref;
 		this.tipo = tipo;
 		this.nickname = nickname;
 		this.nombre = nombre;
 		this.correo = correo;
+		this.contrasena = contrasena;
+		this.imagen = imagen;
 	}
 	
 	public String getRef() {
 		return ref;
 	}
-	public void setRef(String ref) {
-		this.ref = ref;
-	}
-
 	public String getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getNickname() {
 		return nickname;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getCorreo() {
 		return correo;
 	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public String getContrasena() {
+		return contrasena;
+	}
+	public String getImagen() {
+		return imagen;
 	}
 }

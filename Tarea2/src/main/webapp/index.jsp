@@ -1,11 +1,16 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, datatypes.*"%>
+<%@ page import="com.eventosuy.models.TipoUsuario" %>
+<%
+  DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
+  TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
+%>
 <%
   List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
   List<String> categorias = (List<String>) request.getAttribute("categorias");
   Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
 %>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 <jsp:include page="WEB-INF/templates/head.jsp" />
@@ -16,6 +21,25 @@
 	<div class="container flex-grow-1 mt-4">
 		<div class="row g-5">
 			<div class="col-12 col-md-4">
+			<% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
+                <div class="mb-4">
+                  <h5 class="text-white bg-primary p-2 rounded">Altas</h5>
+                  <ul class="list-unstyled ps-2">
+                    <li>
+                      <!-- Ajustá el mapping si es distinto -->
+                      <a href="<%= request.getContextPath() %>/Eventos?accion=alta" class="text-primary fw-semibold">
+                        Alta Evento
+                      </a>
+                    </li>
+                    <li>
+                      <!-- Ajustá el mapping si es distinto -->
+                      <a href="<%= request.getContextPath() %>/institucion?accion=alta" class="text-primary fw-semibold">
+                        Alta Institución
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+            <% } %>
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
                     <div class="mb-4">
                         <h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
@@ -25,12 +49,15 @@
 						      for (DTDetalleUsuario u: usuarios) {
 						%>
                           
-      						<div class="d-flex align-items-center">
-    							<!-- TODO: cambiar src de imagen -->
-    							<img src="./images/anonimo.svg" alt="<%= u.getNombre() %>"
-    								class="rounded-circle me-2" style="width: 48px; height: 48px" />
-    							<!-- TODO: cambiar href -->
-    							<a href="#" class="text-primary fw-semibold"><%= u.getNombre() %></a>
+      						<div class="d-flex align-items-center mb-2">
+    							<img src="<%= (u.getImagen() != null && u.getImagen().length > 0) 
+                                              ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(u.getImagen())
+                                              : request.getContextPath() + "/images/anonimo.svg" %>" 
+                                     alt="<%= u.getNombre() %>"
+    								 class="rounded-circle me-2"
+                                     style="width: 48px; height: 48px" 
+                                />
+    							<a href="usuario?accion=consulta&nick=<%= u.getNickname()%>"class="text-primary fw-semibold"><%= u.getNombre() %></a>
       						</div>
   					      
 						<%
@@ -76,17 +103,16 @@
 					%>
 					<div class="col">
 						<div class="card h-100 shadow-sm">
-							<!-- TODO: Cambiar href y src de imagen -->
-							<a href="Eventos?accion=consulta&nombre=<%= e.getNombre() %>"> <img src="<%= (e.getImagen() != null && e.getImagen().length > 0) 
+							<a href="Eventos?accion=consulta&nombre=<%= e.getNombre() %>"><img src="<%= (e.getImagen() != null && e.getImagen().length > 0) 
                             ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
                             : request.getContextPath() + "/images/sin-imagen.svg" %>"
 								alt="<%= e.getNombre() %>" class="card-img-top"
-								style="object-fit: cover" />
+								style="object-fit: cover; aspect-ratio: 1 / 1" />
 							</a>
-							<div class="card-body text-center">
+							<div class="card-body text-center d-flex justify-content-center align-items-center">
 								<a
-									href="./pages/consulta-evento-maraton-montevideo-visitante.html"
-									class="card-title fs-6 text-decoration-none text-dark fw-semibold"><%= e.getNombre() %></a>
+									href="Eventos?accion=consulta&nombre=<%= e.getNombre() %>"
+									class="card-title fs-6 text-decoration-none text-dark fw-semibold m-0"><%= e.getNombre() %></a>
 							</div>
 						</div>
 					</div>

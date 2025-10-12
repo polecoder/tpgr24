@@ -2,14 +2,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8" />
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  	<title>Eventos UY - Consulta Edición</title>
-  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<jsp:include page="/WEB-INF/templates/head.jsp" />
 </head>
 <body class="d-flex flex-column min-vh-100">
+	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<%@ page import = "datatypes.DTEdicionEvento" %>
 	<%@ page import = "datatypes.DTDetalleRegistro" %>
+	<%@ page import = "datatypes.DTDetalleUsuario" %>
+	<%@ page import = "datatypes.ETipoUsuario" %>
+	<%@ page import = "com.eventosuy.models.TipoUsuario" %>
 	<%@ page import = "java.util.Set" %>
 	<%@ page import = "java.text.SimpleDateFormat" %>
 
@@ -25,8 +26,20 @@
 	        <div id="info-edicion" class="mt-2 p-3 border rounded bg-white d-block mx-auto" style="min-width: 450px">
 	          <!-- Título + Imagen en línea -->
 	          <div class="d-flex align-items-center justify-content-between">
-	          	<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-	            <a href="TODO: agregar JSP a consulta evento" class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </a>
+	          	<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
+	          	<% String nombreEvento = request.getParameter("nombre_evento"); %>
+	            <label class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </label>
+	            <%
+				byte[] imagenBytes = (byte[]) ((DTEdicionEvento) request.getAttribute("detalle_edicion")).getImagen();
+	            String base64Image = null; // declarar antes del if
+	            if (imagenBytes != null && imagenBytes.length > 0) {
+	                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+	            }
+				%>
+				<% if (base64Image != null) { %>
+					<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
+						style="width: 128px" />
+				<% } %>
 	          </div>
 			  <% DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion"); %>
 			  <% SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); %>
@@ -51,7 +64,9 @@
 		              <tbody>
 		              <% for (String tipoRegistro : setTiposRegistro) { %>
 		                <tr>
-		                  <td> <a href="TODO: agregar JSP a consulta tipo registro" class="link-primary link-underline"> <%= tipoRegistro %> </a> </td>
+		                  <td> <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" 
+		                  	class="link-primary link-underline"> <%= tipoRegistro %> </a> 
+		                  </td>
 		                </tr>
 		              <% } %>
 		              </tbody>
@@ -89,6 +104,7 @@
 	           <!-- Registros de la edición (organizador) -->
 	          <% Boolean esOrganizador = (Boolean) request.getAttribute("es_organizador"); %>
 	          <% Boolean esAsistente = (Boolean) request.getAttribute("es_asistente"); %>
+	          <% System.out.println(esOrganizador); %>
 	          <% if (Boolean.TRUE.equals(esOrganizador)) { %>
 		          <div class="mt-3">
 		            <h6 class="fw-bold m-0">Registros de la edición:</h6>
@@ -106,8 +122,9 @@
 			              <tbody>
 			              <% for (DTDetalleRegistro registro : setRegistros) { %>
 			                <tr>
-			                  <td><a href="TODO: agregar JSP a consulta usuario" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
-			                  <td><a href="TODO: agregar JSP  a consulta tipo registro" class="link-primary link-underline"> <%= registro.getNombreTipo() %> </a></td>
+			                	<% String tipoRegistro = registro.getNombreTipo(); %>
+			                  <td><a href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=registro.getNicknameAsistente()%>" class="link-primary link-underline"> <%= registro.getNicknameAsistente() %> </a></td>
+			                  <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>" class="link-primary link-underline"> <%=tipoRegistro%> </a></td>
 			                  <td> <%= registro.getFecha() %> </td>
 			                  <td> <%= registro.getCosto() %> </td>
 			                </tr>
@@ -132,7 +149,8 @@
 			            </thead>
 			            <tbody>
 			            <tr>
-			                <td><a href="TODO: agregar JSP a consulta tipo registro" class="link-primary link-underline"> <% dtDetalleRegistro.getNombreTipo(); %> </a></td>
+			            	<% String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo(); %>
+			                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>" class="link-primary link-underline"> <%=nombreTipoRegistro%> </a></td>
 			                <td> <% dtDetalleRegistro.getFecha(); %> </td>
 			                <td> <% dtDetalleRegistro.getCosto(); %> </td>
 			            </tr>
@@ -140,32 +158,23 @@
 			        </table>
 			      </div>
 		       <% } %>
-				<!--
-	          <img src="../images/IMG-EDEV03.jpeg" alt="Maratón de Montevideo 2024" class="img-fluid rounded w-100"
-	            style="height: auto; max-width: 100%; object-fit: cover;" />
-	             -->
 	        </div>
-	
-	        <div class="d-flex justify-content-center gap-3">
-	            <a href="TODO: agregar el JSP a alta patrocinio" class="btn btn-primary btn-sm px-3"
-	              >Alta patrocinio</a>
-	            <a href="TODO: agregar el JSP a alta patrocinio" class="btn btn-primary btn-sm px-3"
-	              >Alta tipo registro</a>
-	        </div>
-	
+			<% if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ORGANIZADOR) { %> 
+		        <div class="d-flex justify-content-center gap-3">
+		            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
+		              >Alta patrocinio</a>
+		            <a href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
+		              >Alta tipo registro</a>
+		        </div>
+	        <% } else if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ASISTENTE) { %>
+	        	<div class="d-flex justify-content-center gap-3">
+		            <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
+		              >Registrarse a edicion</a>
+	        	</div>
+			<% } %>	
 	      </form>
 	    </main>
   </div>
-
-
-  <!-- Footer fuera del container -->
-  <footer class="bg-primary text-white d-flex justify-content-between align-items-center p-2 p-sm-3 mt-auto">
-    <p class="fw-bold m-0">TPROG 2025</p>
-    <p class="m-0">Grupo 24</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/consulta-edicion.js"></script>
-  
+	<jsp:include page="/WEB-INF/templates/footer.jsp" />
 </body>
 </html>
