@@ -19,17 +19,20 @@ public class CSVEvento {
 	private Date fechaAlta;
 	@CsvBindByName(column = "Categorias")
 	private String categorias;
+	@CsvBindByName(column = "Imagen")
+	private String imagen;
 	
 	// NECESARIO para OpenCSV
 	public CSVEvento() {}
 	
-	public CSVEvento(String ref, String nombre, String descripcion, String sigla, Date fechaAlta, String categorias) {
+	public CSVEvento(String ref, String nombre, String descripcion, String sigla, Date fechaAlta, String categorias, String imagen) {
 		this.ref = ref;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.sigla = sigla;
 		this.fechaAlta = fechaAlta;
 		this.categorias = categorias;
+		this.imagen = imagen;
 	}
 	
 	public String getRef() {

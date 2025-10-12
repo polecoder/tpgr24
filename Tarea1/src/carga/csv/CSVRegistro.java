@@ -19,22 +19,21 @@ public class CSVRegistro {
 	private Date fechaRegistro;
 	@CsvBindByName(column = "Costo")
 	private float costo;
-	@CsvBindByName(column = "FechaInicio")
-	@CsvDate("dd/MM/yyyy")
-	private Date fechaInicio;
+	@CsvBindByName(column = "Patrocinio")
+	private String patrocinio;
 	
 	// NECESARIO para OpenCSV
 	public CSVRegistro() {}
 
 	public CSVRegistro(String ref, String usuario, String edicion, String tipoRegistro, Date fechaRegistro, float costo,
-			Date fechaInicio) {
+			String patrocinio) {
 		this.ref = ref;
 		this.usuario = usuario;
 		this.edicion = edicion;
 		this.tipoRegistro = tipoRegistro;
 		this.fechaRegistro = fechaRegistro;
 		this.costo = costo;
-		this.fechaInicio = fechaInicio;
+		this.patrocinio = patrocinio;
 	}
 
 	public String getRef() {
@@ -55,7 +54,7 @@ public class CSVRegistro {
 	public float getCosto() {
 		return costo;
 	}
-	public Date getFechaInicio() {
-		return fechaInicio;
+	public String getPatrocinio() {
+		return patrocinio;
 	}
 }

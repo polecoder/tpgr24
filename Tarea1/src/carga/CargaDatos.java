@@ -6,7 +6,9 @@ import logica.Institucion;
 import logica.ManejadorEventos;
 import logica.ManejadorInstituciones;
 import logica.ManejadorUsuarios;
+import logica.Patrocinio;
 import logica.TipoRegistro;
+import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 
 import java.io.FileNotFoundException;
@@ -288,16 +290,16 @@ public class CargaDatos {
 					String nombreInstitucion = this.instituciones.get(refInstitucion).getNombre();
 					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				}
-				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
-				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), "Eventos.2025", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion, null);
+				// TODO: Considerar imagen
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion, null);
 			}
 		}
 		if (this.usuariosOrganizador != null && this.organizadores != null) {
 			for (Map.Entry<String, CSVUsuario> entry : this.usuariosOrganizador.entrySet()) {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
-				// TODO: Por la forma de los datos dados, se ingresa una contraseña hardcodeada
-				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), "Eventos.2025!", datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb(), null);
+				// TODO: Considerar imagen
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb(), null);
 			}
 		}
 	}
@@ -334,7 +336,8 @@ public class CargaDatos {
 				for (String categoria : evento.getCategorias().split(", ")) {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento,null);
+				// TODO: Ver que se hace con las ímagenes
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, null);
 			}
 		}
 	}
@@ -370,7 +373,13 @@ public class CargaDatos {
 				CSVEdicion edicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
-				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname,null);
+				// TODO: Ver que se hace con las ímagenes
+				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname, null);
+				if (edicion.getEstado().equals("Aceptada")) {
+					ed.setEstado(EEstadoEdicion.Aceptada);
+				} else if (edicion.getEstado().equals("Rechazada")) {
+					ed.setEstado(EEstadoEdicion.Rechazada);
+				}
 				this.manejadorUsuarios.agregarEdicionAOrganizador(ed, organizadorNickname);
 			}
 		}
@@ -493,6 +502,12 @@ public class CargaDatos {
 					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
 					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
 					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+					Patrocinio patrocinio = null;
+					// chequeo si efectivamente el registro se hace con patrocinio
+					if (!registro.getPatrocinio().isEmpty()) {
+						String codigoPatrocinio = this.patrocinios.get(registro.getPatrocinio()).getCodigoPatrocinio();
+						patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					}
 					TipoRegistro tipoRegistro;
 					try {
 						tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro);
@@ -500,7 +515,7 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, null, registro.getFechaRegistro(), registro.getCosto());
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto());
 				}
 			}
 		}

@@ -82,8 +82,8 @@ public class Edicion {
     public EEstadoEdicion getEstado() { return estado; }
     public void setEstado(EEstadoEdicion estado) { this.estado = estado; }
 
-    public Patrocinio getPatrocinio(String nombrePatrocinio) {
-        return this.patrocinios.get(nombrePatrocinio);
+    public Patrocinio getPatrocinio(String codigoPatrocinio) {
+        return this.patrocinios.get(codigoPatrocinio);
     }
 
     public HashMap<String, Patrocinio> getPatrocinios() { return patrocinios; }
