@@ -207,12 +207,12 @@ public class Ediciones extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
+		/*try {
 			request = Test(request);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
