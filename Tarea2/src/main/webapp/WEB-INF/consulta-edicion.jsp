@@ -151,7 +151,6 @@
 	            style="height: auto; max-width: 100%; object-fit: cover;" />
 	             -->
 	        </div>
-	        <% System.out.println(request.getSession().getAttribute("tipoUsuarioLogeado")); %>
 			<% if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ORGANIZADOR) { %> 
 		        <div class="d-flex justify-content-center gap-3">
 		            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
