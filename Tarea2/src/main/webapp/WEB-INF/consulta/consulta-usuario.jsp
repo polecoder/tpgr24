@@ -191,16 +191,23 @@
         <% if (sinNada) { %>
           <div class="form-text">No hay ediciones para mostrar.</div>
         <% } else { %>
-          <select class="form-select form-select-sm"
-                  onchange="if(this.value){location.href='<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion='+encodeURIComponent(this.value);}">
-            <option value="">-- seleccionar --</option>
-            <% for (Object s : edsAcepCol) { %>
-              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%> (ACEPTADA)</option>
-            <% } %>
-            <% for (Object s : edsPropCol) { %>
-              <option value="<%=String.valueOf(s)%>"><%=String.valueOf(s)%></option>
-            <% } %>
-          </select>
+	          <div class="lista-ediciones">
+			  <!-- Itera sobre aceptadas -->
+			  <% for (Object s : edsAcepCol) { %>
+			    <a class="edicion-link"
+			       href="<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=java.net.URLEncoder.encode(String.valueOf(s), "UTF-8")%>">
+			       <%=String.valueOf(s)%>
+			    </a><br>
+			  <% } %>
+			
+			  <!-- Itera sobre propuestas -->
+			  <% for (Object s : edsPropCol) { %>
+			    <a class="edicion-link"
+			       href="<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=java.net.URLEncoder.encode(String.valueOf(s), "UTF-8")%>">
+			       <%=String.valueOf(s)%>
+			    </a><br>
+		  <% } %>
+		</div>
         <% } %>
       </div>
     </div>
