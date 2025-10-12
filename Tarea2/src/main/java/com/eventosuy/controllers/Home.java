@@ -31,7 +31,7 @@ public class Home extends HttpServlet {
     public Home() {
         super();
         // TODO: Hardcodeado
-        testingSession();
+        //testingSession();
     }
     
     /**
@@ -102,7 +102,7 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		testingSession();
+		//testingSession();
 		processRequest(request, response);
 	}
 
