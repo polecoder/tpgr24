@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -411,6 +412,8 @@ public class AltaUsuario extends JInternalFrame {
 		    	String apellido=textField_Apellido.getText();
 		    	String institucion = (String) comboInstituciones.getSelectedItem();
 		    	Date fechaNacimiento = (Date) Spinner_FechaNacimiento.getValue();
+		    	SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		    	formato.format(fechaNacimiento);
 		    	try {
 		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion, null);
 		            

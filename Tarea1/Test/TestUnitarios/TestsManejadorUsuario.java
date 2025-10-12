@@ -68,7 +68,7 @@ public class TestsManejadorUsuario {
 	void DetalleAsistente() {
 		try {
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente");
-			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, null);
+			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha,null, null);
 			assertTrue(esperado.equals((DTDetalleAsistente)detalle));
 		} catch (Exception ex) { fail(ex.getMessage()); }
 	}
