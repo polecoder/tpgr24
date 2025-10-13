@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
+import excepciones.UsuarioNoExiste;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,11 +43,11 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextField linkTextField;
 	
 	private JPanel cardPanel, cardPanel1, cardPanel2;
-	private CardLayout cl, cl1, cl2;
+	private CardLayout card1, card2, cl2;
 	
 	private boolean actualizandoNicknameAsistente = false;
 
-	Fabrica fabrica = Fabrica.getInstancia();
+	private Fabrica fabrica = Fabrica.getInstancia();
 	
 	public ConsultaUsuario(JDesktopPane desktopPane) {
 		super("Consulta Usuario", true, true, true, true);
@@ -54,10 +56,10 @@ public class ConsultaUsuario extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600));
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,133,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0,0};
-		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 133, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
@@ -217,7 +219,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_cardPanel);
 
-		cl = (CardLayout) cardPanel.getLayout();
+		card1 = (CardLayout) cardPanel.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 2 ====
 		JPanel panelAsistente1 = new JPanel(new GridBagLayout());
@@ -297,7 +299,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel1.gridy = 5;
 		getContentPane().add(cardPanel1, gbc_cardPanel1);
 
-		cl1 = (CardLayout) cardPanel1.getLayout();
+		card2 = (CardLayout) cardPanel1.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 3 ====
 		JPanel panelAsistente2 = new JPanel(new GridBagLayout());
@@ -311,7 +313,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		panelAsistente2.add(lblRegistros, gbcLblRegistros);
 
 		JComboBox<String> registrosCombo = new JComboBox<>();
-		registrosCombo.setPreferredSize(new Dimension(225,20));
+		registrosCombo.setPreferredSize(new Dimension(225, 20));
 		GridBagConstraints gbcCombo = new GridBagConstraints();
 		gbcCombo.gridx = 1;
 		gbcCombo.gridy = 0;
@@ -342,7 +344,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		panelOrganizador2.add(lblEdiciones, gbcLblEdiciones);
 
 		JComboBox<String> edicionesCombo = new JComboBox<>();
-		edicionesCombo.setPreferredSize(new Dimension(225,20));
+		edicionesCombo.setPreferredSize(new Dimension(225, 20));
 		GridBagConstraints gbcEdicionesCombo = new GridBagConstraints();
 		gbcEdicionesCombo.gridx = 1;
 		gbcEdicionesCombo.gridy = 0;
@@ -392,9 +394,7 @@ public class ConsultaUsuario extends JInternalFrame {
 				cardPanel1.setVisible(false);
 				cardPanel2.setVisible(false);
 
-				
-			}
-			else if (this.nicknameSeleccionado != null ) {
+			}else if (this.nicknameSeleccionado != null ) {
 		        actualizarDatosUsuario(this.nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				registrosCombo.removeAllItems();
@@ -424,7 +424,7 @@ public class ConsultaUsuario extends JInternalFrame {
 			        ventanaConsultaRegistro.setVisible(true);
 				    try {
 				        ventanaConsultaRegistro.setSelected(true);
-				    } catch (Exception ex) {
+				    } catch (PropertyVetoException ex) {
 				        ex.printStackTrace();
 				    }
 			    }
@@ -446,7 +446,7 @@ public class ConsultaUsuario extends JInternalFrame {
 			        ventanaConsultaRegistro.setVisible(true);
 				    try {
 				        ventanaConsultaRegistro.setSelected(true);
-				    } catch (Exception ex) {
+				    } catch (PropertyVetoException ex) {
 				        ex.printStackTrace();
 				    }
 			    }
@@ -470,19 +470,19 @@ public class ConsultaUsuario extends JInternalFrame {
 		        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		        String nacimiento = formato.format(asistente.getNacimiento());
 				fechaNacimientoTextField.setText(nacimiento);
-				cl.show(cardPanel, "Asistente");
-				cl1.show(cardPanel1, "Asistente");
+				card1.show(cardPanel, "Asistente");
+				card2.show(cardPanel1, "Asistente");
 				cl2.show(cardPanel2, "Asistente");
 			} else if (usuario instanceof DTDetalleOrganizador) {
 				DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
 				descripcionTextArea.setText(organizador.getDescripcion());
 				linkTextField.setText(organizador.getLink());
-				cl.show(cardPanel, "Organizador");
-				cl1.show(cardPanel1, "Organizador");
+				card1.show(cardPanel, "Organizador");
+				card2.show(cardPanel1, "Organizador");
 				cl2.show(cardPanel2, "Organizador");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (UsuarioNoExiste exception) {
+			exception.printStackTrace();
 		}
 	}
 

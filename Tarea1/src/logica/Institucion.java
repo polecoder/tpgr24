@@ -6,12 +6,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class Institucion {
-	private 
-	String nombre;
-	String descripcion;
-	String sitioWeb;
-	Map<String,Asistente> asistentes;
-	Set<String> edicionesConPatrocinio;
+	private String nombre;
+	private String descripcion;
+	private String sitioWeb;
+	private Map<String, Asistente> asistentes;
+	private Set<String> edicionesConPatrocinio;
 	public Institucion(String nombre, String descripcion, String sitioWeb) {
 	    setNombre(nombre);
 	    setDescripcion(descripcion);
@@ -29,7 +28,7 @@ public class Institucion {
 	public String getSitioWeb(){
 		return this.sitioWeb;
 	}
-	public Map<String,Asistente> getAsistentes(){
+	public Map<String, Asistente> getAsistentes(){
 		return this.asistentes;
 	};
 	

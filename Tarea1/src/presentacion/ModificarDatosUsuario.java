@@ -2,6 +2,8 @@ package presentacion;
 
 import javax.swing.JInternalFrame;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -18,6 +20,9 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTUsuario;
+import excepciones.FormularioIncompletoAsistente;
+import excepciones.FormularioIncompletoOrganizador;
+import excepciones.UsuarioNoExiste;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -43,11 +48,11 @@ public class ModificarDatosUsuario extends JInternalFrame {
 	private JTextField apellidoTxt;
 	private JTextField linkTxt;
 	private JPanel cardPanel;
-	private CardLayout cl;
+	private CardLayout cardl;
 
-	private boolean actualizandoNickname = false;
+	//private boolean actualizandoNickname = false;
 
-	Fabrica fabrica = Fabrica.getInstancia();
+	private Fabrica fabrica = Fabrica.getInstancia();
 	
 	public ModificarDatosUsuario() {
 		super("Modificar Datos de Usuario", true, true, true, true);
@@ -56,10 +61,10 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600));
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,0,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0};
-		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0 , 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
@@ -124,10 +129,10 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		//***********************************************************//
 		JPanel panelOrganizador = new JPanel();
 		GridBagLayout gbl_panelOrganizador = new GridBagLayout();
-		gbl_panelOrganizador.columnWidths = new int[]{0,0};
-		gbl_panelOrganizador.rowHeights = new int[]{30,30};
-		gbl_panelOrganizador.columnWeights = new double[]{0.5,1.0};
-		gbl_panelOrganizador.rowWeights = new double[]{1.0,0.0};
+		gbl_panelOrganizador.columnWidths = new int[]{0, 0};
+		gbl_panelOrganizador.rowHeights = new int[]{30, 30};
+		gbl_panelOrganizador.columnWeights = new double[]{0.5, 1.0};
+		gbl_panelOrganizador.rowWeights = new double[]{1.0, 0.0};
 		panelOrganizador.setLayout(gbl_panelOrganizador);
 		
 		JLabel lblNewLabel_5 = new JLabel("Descripción:");
@@ -176,10 +181,10 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		JPanel wrapperAsistente = new JPanel(new BorderLayout());
 		wrapperAsistente.add(panelAsistente, BorderLayout.NORTH);
 		GridBagLayout gbl_panelAsistente = new GridBagLayout();
-		gbl_panelAsistente.columnWidths = new int[]{0,0};
-		gbl_panelAsistente.rowHeights = new int[]{30,30};
-		gbl_panelAsistente.columnWeights = new double[]{0.5,1.0};
-		gbl_panelAsistente.rowWeights = new double[]{0.0,0.0};
+		gbl_panelAsistente.columnWidths = new int[]{0, 0};
+		gbl_panelAsistente.rowHeights = new int[]{30, 30};
+		gbl_panelAsistente.columnWeights = new double[]{0.5, 1.0};
+		gbl_panelAsistente.rowWeights = new double[]{0.0, 0.0};
 		panelAsistente.setLayout(gbl_panelAsistente);
 		
 		JLabel lblNewLabel_1 = new JLabel("Apellido:");
@@ -240,7 +245,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_panel);
-		cl = (CardLayout) cardPanel.getLayout();
+		cardl = (CardLayout) cardPanel.getLayout();
 		
 		// Botones
 		JPanel panelBotones = new JPanel();
@@ -259,7 +264,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		
 		// Actualización al cambiar el usuario del combo.
 		usuariosComboBox.addActionListener(e -> {
-			actualizandoNickname = true;
+			boolean actualizandoNickname = true;
 			this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 		    if (this.nicknameSeleccionado != null && !this.nicknameSeleccionado.equals("--Seleccionar un Usuario--")) {
 		    	cardPanel.setVisible(true);
@@ -282,8 +287,8 @@ public class ModificarDatosUsuario extends JInternalFrame {
 					try {
 						fabrica.getControladorUsuarios().modificarDatosAsistente(nickname, nombre, apellido, nacimiento);
 						JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (HeadlessException | FormularioIncompletoAsistente exception) {
+						JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} else if (getCartaActiva().equals("Organizador")) {
 					String descripcion = descripcionTxt.getText().trim();
@@ -291,8 +296,8 @@ public class ModificarDatosUsuario extends JInternalFrame {
 					try {
 						fabrica.getControladorUsuarios().modificarDatosOrganizador(nickname, nombre, descripcion, link);
 						JOptionPane.showMessageDialog(this, "Los datos del asistente han sido modificados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					} catch (HeadlessException | FormularioIncompletoOrganizador exception) {
+						JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				this.actualizarDatosUsuario(nickname);
@@ -314,14 +319,14 @@ public class ModificarDatosUsuario extends JInternalFrame {
 				DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
 				apellidoTxt.setText(asistente.getApellido());
 				fechaSpinner.setValue(asistente.getNacimiento());
-				cl.show(cardPanel, "Asistente");
+				cardl.show(cardPanel, "Asistente");
 			} else if (usuario instanceof DTDetalleOrganizador) {
 				DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
 				descripcionTxt.setText(organizador.getDescripcion());
 				linkTxt.setText(organizador.getLink());
-				cl.show(cardPanel, "Organizador");
+				cardl.show(cardPanel, "Organizador");
 			}
-		} catch (Exception e) {
+		} catch (UsuarioNoExiste e) {
 			e.printStackTrace();
 		}
 	}

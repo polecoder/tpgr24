@@ -56,7 +56,7 @@ public class CargaDatos {
 	private Map<String, CSVEdicion> ediciones;
 	private Map<String, CSVTipoRegistro> tiposRegistro;
 	
-	List<String> nombreArchivosOrdenados = List.of(
+	private List<String> nombreArchivosOrdenados = List.of(
 			"2025Categorias.csv",
 			"2025Usuarios.csv",
 			"2025Instituciones.csv",
@@ -371,17 +371,17 @@ public class CargaDatos {
 		if (this.eventos != null && this.ediciones!= null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.ediciones.keySet()) {
-				CSVEdicion edicion = ediciones.get(ref);
-				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
-				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
-				byte[] bytesImagen = Utilidades.archivoImagenToByte(edicion.getImagen());
-				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname, bytesImagen);
-				if (edicion.getEstado().equals("Aceptada")) {
-					ed.setEstado(EEstadoEdicion.Aceptada);
-				} else if (edicion.getEstado().equals("Rechazada")) {
-					ed.setEstado(EEstadoEdicion.Rechazada);
+				CSVEdicion datosEdicion = ediciones.get(ref);
+				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
+				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosEdicion.getImagen());
+				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, bytesImagen);
+				if (datosEdicion.getEstado().equals("Aceptada")) {
+					edicion.setEstado(EEstadoEdicion.Aceptada);
+				} else if (datosEdicion.getEstado().equals("Rechazada")) {
+					edicion.setEstado(EEstadoEdicion.Rechazada);
 				}
-				this.manejadorUsuarios.agregarEdicionAOrganizador(ed, organizadorNickname);
+				this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 			}
 		}
 	}
@@ -461,9 +461,9 @@ public class CargaDatos {
 				this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
 				try {
-					this.manejadorEventos.AltaPatrocinio( nombreEvento,patrocinio.getFechaPatrocinio(), nombreEdicion,nombreInstitucion,nivel,patrocinio.getAporte(), patrocinio.getCuposGratuitos(),patrocinio.getCodigoPatrocinio(), nombreTipoRegistro );
-				}catch(Exception CPError) {
-					
+					this.manejadorEventos.altaPatrocinio( nombreEvento, patrocinio.getFechaPatrocinio(), nombreEdicion, nombreInstitucion, nivel, patrocinio.getAporte(), patrocinio.getCuposGratuitos(), patrocinio.getCodigoPatrocinio(), nombreTipoRegistro );
+				}catch (TipoRegistroNoExiste CPError) {	
+					CPError.printStackTrace();
 				}
 			} 
 		}

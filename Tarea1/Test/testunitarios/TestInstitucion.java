@@ -1,6 +1,8 @@
-package TestUnitarios;
+package testunitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,7 +18,7 @@ import logica.Utilidades;
 
 public class TestInstitucion {
 
-    Institucion institucion;
+    private Institucion institucion;
 
     @BeforeEach
     void setUp() {
@@ -44,8 +46,8 @@ public class TestInstitucion {
     
     @Test
     void agregarYEliminarAsistenteFunciona() {
-    	Date date = Utilidades.toDate(LocalDate.of(2025,10,2));
-    	Asistente asistente = new Asistente("mNick", "Eventos.2025!", "mNombre", "correo@ejemplo.com","mApellido", date, institucion);
+    	Date date = Utilidades.toDate(LocalDate.of(2025, 10, 2));
+    	Asistente asistente = new Asistente("mNick", "Eventos.2025!", "mNombre", "correo@ejemplo.com", "mApellido", date, institucion);
         institucion.agregarAsistente(asistente);
 
         Map<String, Asistente> mapa = institucion.getAsistentes();
@@ -58,12 +60,12 @@ public class TestInstitucion {
 
     @Test
     void agregarEdicionYCheckAsistenteFuncionan() {
-    	Date date = Utilidades.toDate(LocalDate.of(2025,5,1));
+    	Date date = Utilidades.toDate(LocalDate.of(2025, 5, 1));
         institucion.agregarEdicion("Ed2025");
         Set<String> ediciones = institucion.getEdicionesPatrocinadas();
         assertTrue(ediciones.contains("Ed2025"));
 
-        Asistente asistente = new Asistente("Nicky", "Eventos.2025!", "mNombre2", "correo2@ejemplo.com","mApellido2", date, institucion);
+        Asistente asistente = new Asistente("Nicky", "Eventos.2025!", "mNombre2", "correo2@ejemplo.com", "mApellido2", date, institucion);
         institucion.agregarAsistente(asistente);
 
         assertTrue(institucion.checkAsistente("Nicky"));

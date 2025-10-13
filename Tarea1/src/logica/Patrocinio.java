@@ -6,13 +6,13 @@ import datatypes.ENivelPatrocinio;
 
 
 public class Patrocinio {
-	String codigoPatrocinio;
-	Date fechaPatrocinio;
-	float aporte;
-	ENivelPatrocinio nivel;
-	int cuposGratuitos;
-	Institucion institucion;
-	TipoRegistro tipoRegistro;
+	private String codigoPatrocinio;
+	private Date fechaPatrocinio;
+	private float aporte;
+	private ENivelPatrocinio nivel;
+	private int cuposGratuitos;
+	private Institucion institucion;
+	private TipoRegistro tipoRegistro;
 	
 	public Patrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
 			int cuposGratuitos, Institucion institucion, TipoRegistro tipoRegistro) {
@@ -62,11 +62,11 @@ public class Patrocinio {
 	public void setInstitucion(Institucion institucion) {
 		this.institucion = institucion;
 	}
-	public void setCupos(int cupos) {this.cuposGratuitos = cupos;}
+	public void setCupos(int cupos) {this.cuposGratuitos = cupos; }
 	
 	public boolean checkAsistente(String nicknameAsistente) {
 		return institucion.checkAsistente(nicknameAsistente);
 	}
-	public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro;}
-	public TipoRegistro getTipoRegistro() { return tipoRegistro;}
+	public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
+	public TipoRegistro getTipoRegistro() { return tipoRegistro; }
 }

@@ -22,6 +22,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 
 import excepciones.FormatoContrasenaInvalido;
+import excepciones.FormularioIncompletoAsistente;
+import excepciones.FormularioIncompletoOrganizador;
 import logica.Fabrica;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
@@ -30,9 +32,9 @@ import javax.swing.JPasswordField;
 public class AltaUsuario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_Nick;
-	private JTextField textField_Nombre;
-	private JTextField textField_Correo;
+	private JTextField textFieldNick;
+	private JTextField textFieldNombre;
+	private JTextField textFieldCorreo;
 	private JPasswordField contrasenaTxt;
 	private JPasswordField confirmarContrasenaTxt;
 	public AltaUsuario() {
@@ -47,10 +49,10 @@ public class AltaUsuario extends JInternalFrame {
 		//-----------Ventanas----------
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0,0.0,0.0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lbl_nick = new JLabel("Nickname:");
@@ -61,15 +63,15 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_lbl_nick.gridy = 0;
 		getContentPane().add(lbl_nick, gbc_lbl_nick);
 		
-		textField_Nick = new JTextField();
+		textFieldNick = new JTextField();
 		GridBagConstraints gbc_textField_Nick = new GridBagConstraints();
 		gbc_textField_Nick.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Nick.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Nick.gridx = 1;
 		gbc_textField_Nick.gridy = 0;
 		gbc_textField_Nick.gridwidth = 2;  
-		getContentPane().add(textField_Nick, gbc_textField_Nick);
-		textField_Nick.setColumns(10);
+		getContentPane().add(textFieldNick, gbc_textField_Nick);
+		textFieldNick.setColumns(10);
 		
 		JLabel lbl_contrasena = new JLabel("Contraseña:");
 		GridBagConstraints gbc_lbl_contrasena = new GridBagConstraints();
@@ -111,15 +113,15 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_lbl_nombre.gridy = 3;
 		getContentPane().add(lbl_nombre, gbc_lbl_nombre);
 		
-		textField_Nombre = new JTextField();
+		textFieldNombre = new JTextField();
 		GridBagConstraints gbc_textField_Nombre = new GridBagConstraints();
 		gbc_textField_Nombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Nombre.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Nombre.gridx = 1;
 		gbc_textField_Nombre.gridy = 3;
 		gbc_textField_Nombre.gridwidth = 2; 
-		getContentPane().add(textField_Nombre, gbc_textField_Nombre);
-		textField_Nombre.setColumns(10);
+		getContentPane().add(textFieldNombre, gbc_textField_Nombre);
+		textFieldNombre.setColumns(10);
 		
 
 		JLabel lbl_Correo = new JLabel("Correo:");
@@ -130,15 +132,15 @@ public class AltaUsuario extends JInternalFrame {
 		gbc_lbl_Correo.gridy = 4;
 		getContentPane().add(lbl_Correo, gbc_lbl_Correo);
 		
-		textField_Correo = new JTextField();
+		textFieldCorreo = new JTextField();
 		GridBagConstraints gbc_textField_Correo = new GridBagConstraints();
 		gbc_textField_Correo.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Correo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Correo.gridx = 1;
 		gbc_textField_Correo.gridy = 4;
 		gbc_textField_Correo.gridwidth = 2; 
-		getContentPane().add(textField_Correo, gbc_textField_Correo);
-		textField_Correo.setColumns(10);
+		getContentPane().add(textFieldCorreo, gbc_textField_Correo);
+		textFieldCorreo.setColumns(10);
 		
 		JLabel lbl_TipoUsuario = new JLabel("Tipo Usuario: ");
 		GridBagConstraints gbc_lbl_TipoUsuario = new GridBagConstraints();
@@ -360,11 +362,11 @@ public class AltaUsuario extends JInternalFrame {
 		//---------------Funcionalidades-------------
 		
 		Button_Aceptar.addActionListener(e -> {
-			String nick = textField_Nick.getText().trim();
-		    String nombre = textField_Nombre.getText().trim();
+			String nick = textFieldNick.getText().trim();
+		    String nombre = textFieldNombre.getText().trim();
 		    String contrasena = new String(contrasenaTxt.getPassword()).trim();
 		    String contrasenaConfirmada = new String(confirmarContrasenaTxt.getPassword()).trim();
-		    String correo = textField_Correo.getText().trim();
+		    String correo = textFieldCorreo.getText().trim();
 		    boolean esOrganizador=Button_Organizador.isSelected();
 		    boolean esAsistente=Button_Asistente.isSelected();
 		    
@@ -384,12 +386,12 @@ public class AltaUsuario extends JInternalFrame {
 		        String descripcion = textField_Descripcion.getText().trim();
 		        String Link = textField_Link.getText();
 		        try {
-		        	IContUsuario.altaOrganizador(nick,contrasena, nombre,correo,descripcion,Link, null);
+		        	IContUsuario.altaOrganizador(nick, contrasena, nombre, correo, descripcion, Link, null);
 		        	
 		        	//Si todo salió bien, aviso y limpio campos
-		            JOptionPane.showMessageDialog(this,"Organizador creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
-				      textField_Nombre.setText("");
-				      textField_Correo.setText("");
+		            JOptionPane.showMessageDialog(this, "Organizador creado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				      textFieldNombre.setText("");
+				      textFieldCorreo.setText("");
 				      textField_Link.setText("");
 				      textField_Descripcion.setText("");
 				      textField_Apellido.setText("");
@@ -401,9 +403,9 @@ public class AltaUsuario extends JInternalFrame {
 		        } catch (FormatoContrasenaInvalido ex) {
 		        	contrasenaTxt.setText("");
 				    confirmarContrasenaTxt.setText("");
-		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (FormularioIncompletoOrganizador exception) {
+		            JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		        
 		    }
@@ -418,9 +420,9 @@ public class AltaUsuario extends JInternalFrame {
 		            IContUsuario.altaAsistente(nick, contrasena, nombre, correo, apellido, fechaNacimiento, institucion, null);
 		            
 		            //Si todo salió bien, aviso y limpio campos
-		            JOptionPane.showMessageDialog(this,"Asistente creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
-				      textField_Nombre.setText("");
-				      textField_Correo.setText("");
+		            JOptionPane.showMessageDialog(this, "Asistente creado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				      textFieldNombre.setText("");
+				      textFieldCorreo.setText("");
 				      textField_Link.setText("");
 				      textField_Descripcion.setText("");
 				      textField_Apellido.setText("");
@@ -432,9 +434,9 @@ public class AltaUsuario extends JInternalFrame {
 		        } catch (FormatoContrasenaInvalido ex) {
 		        	contrasenaTxt.setText("");
 				    confirmarContrasenaTxt.setText("");
-		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        } catch (FormularioIncompletoAsistente ex) {
+		            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		    
 		    }

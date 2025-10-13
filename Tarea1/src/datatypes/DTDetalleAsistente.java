@@ -14,8 +14,8 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 	}*/
 	//CON IMAGEN
 	public DTDetalleAsistente(String nickname, String nombre, String correo,
-            String apellido, Date nacimiento,String institucion, byte[] imagen) {
-	super(nickname, nombre, correo, ETipoUsuario.Asistente,imagen);
+            String apellido, Date nacimiento, String institucion, byte[] imagen) {
+	super(nickname, nombre, correo, ETipoUsuario.Asistente, imagen);
 	this.apellido = apellido;
 	this.nacimiento = nacimiento;
 	this.institucion=institucion;
@@ -33,12 +33,12 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 		return institucion;
 	}
 	
-	public boolean equals(DTDetalleAsistente o) {
-		boolean nickname = this.nickname == o.getNickname();
-		boolean nombre = this.nombre == o.getNombre();
-		boolean correo = this.correo == o.getCorreo();
-		boolean apellido = this.apellido == o.getApellido();
-		boolean nacimiento = this.nacimiento == o.getNacimiento();
+	public boolean equalsAsistente(DTDetalleAsistente asistente) {
+		boolean nickname = this.getNickname()== asistente.getNickname();
+		boolean nombre = this.getNombre() == asistente.getNombre();
+		boolean correo = this.getCorreo() == asistente.getCorreo();
+		boolean apellido = this.apellido == asistente.getApellido();
+		boolean nacimiento = this.nacimiento == asistente.getNacimiento();
 		return nickname && nombre && correo && apellido && nacimiento;
 	}
 }

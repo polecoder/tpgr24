@@ -11,7 +11,7 @@ public class DTEdicionEvento {
 	private Date fechaAlta;
 	private String organizadorNickname;
 	private byte[] imagen;
-	EEstadoEdicion estado;
+	private EEstadoEdicion estado;
 
 
 	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 
@@ -103,14 +103,14 @@ public class DTEdicionEvento {
 	/**
 	 * Devuelve true si y solo si los datatypes son iguales.
 	 */
-	public boolean equals(DTEdicionEvento e) {
-		return this.ciudad == e.getCiudad() &&
-			   this.fechaAlta == e.getFechaAlta() &&
-			   this.fechaFin == e.getFechaFin() &&
-			   this.fechaInicio == e.getFechaInicio() &&
-			   this.nombre == e.getNombre() &&
-			   this.organizadorNickname == e.getOrganizadorNickname() &&
-			   this.pais == e.getPais() &&
-			   this.sigla == e.getSigla();
+	public boolean equals(DTEdicionEvento edicion) {
+		return this.ciudad == edicion.getCiudad() &&
+			   this.fechaAlta == edicion.getFechaAlta() &&
+			   this.fechaFin == edicion.getFechaFin() &&
+			   this.fechaInicio == edicion.getFechaInicio() &&
+			   this.nombre == edicion.getNombre() &&
+			   this.organizadorNickname == edicion.getOrganizadorNickname() &&
+			   this.pais == edicion.getPais() &&
+			   this.sigla == edicion.getSigla();
 	}
 }

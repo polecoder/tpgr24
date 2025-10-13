@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +92,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		gbc_edicionComboBox.gridy = 2;
 		getContentPane().add(edicionComboBox, gbc_edicionComboBox);
 		
-		if(nombreEdicion != null) {
+		if (nombreEdicion != null) {
 			edicionComboBox.setSelectedItem(nombreEdicion);
 		}
 
@@ -259,7 +260,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		JPanel panel_listas = new JPanel();
 		GridBagConstraints gbc_panel_listas = new GridBagConstraints();
 		gbc_panel_listas.gridwidth = 3;
-		gbc_panel_listas.insets = new Insets(0, 5, 5,0);
+		gbc_panel_listas.insets = new Insets(0, 5, 5, 0);
 		gbc_panel_listas.fill = GridBagConstraints.BOTH;
 		gbc_panel_listas.gridx = 1;
 		gbc_panel_listas.gridy = 9;
@@ -323,7 +324,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		// Action Listeners
 		eventoComboBox.addActionListener(e -> {
 			String selectedEvento = (String) eventoComboBox.getSelectedItem();
-			if(selectedEvento != "- Seleccione un Evento -") {
+			if (selectedEvento != "- Seleccione un Evento -") {
 				//System.out.printf("\n ConsultaEdicionEvento::eventoComboBox.actionListener() selectedEvento is: %s",selectedEvento);
 				
 				List<String> listaEdiciones = new ArrayList<>();
@@ -336,7 +337,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		edicionComboBox.addActionListener(e -> {
 			String selectedEdicion = (String) edicionComboBox.getSelectedItem();
 			String selectedEvento = (String) eventoComboBox.getSelectedItem();
-			if(selectedEvento != "- Seleccione un Evento -" && selectedEdicion != "- Seleccione una edicion -") {
+			if (selectedEvento != "- Seleccione un Evento -" && selectedEdicion != "- Seleccione una edicion -") {
 				DTEdicionEvento dtEd = ICEv.getDTEdicion(selectedEvento, selectedEdicion);
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -377,8 +378,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		});
 		tipoRegistroList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent e) {
-		        if (e.getClickCount() == 2) { 
+		    public void mouseClicked(java.awt.event.MouseEvent mouseev) {
+		        if (mouseev.getClickCount() == 2) { 
 		            String selectedTR = tipoRegistroList.getSelectedValue();
 		            String selectedEdicion = (String) edicionComboBox.getSelectedItem();
 					String selectedEvento = (String) eventoComboBox.getSelectedItem();
@@ -387,13 +388,15 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 					System.out.print(selectedEdicion);
 					System.out.print(".\n");
 					System.out.print(selectedEvento);
-					if(selectedTR != null && selectedEdicion != null && selectedEvento !=null) {
+					if (selectedTR != null && selectedEdicion != null && selectedEvento !=null) {
 						ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(selectedTR, selectedEvento, selectedEdicion);
 						desktopPane.add(ventanaConsultaTipoRegistro);           
 						ventanaConsultaTipoRegistro.setVisible(true);    
 						try {
 							ventanaConsultaTipoRegistro.setSelected(true); 
-						} catch (Exception ex) {}						
+						} catch (PropertyVetoException exception) {
+							exception.printStackTrace();
+						}						
 					}
 		            
 		        }
@@ -402,8 +405,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		
 		patrocinioList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent e) {
-		        if (e.getClickCount() == 2) { 
+		    public void mouseClicked(java.awt.event.MouseEvent mouseevent) {
+		        if (mouseevent.getClickCount() == 2) { 
 		            String seleccionado = patrocinioList.getSelectedValue();
 		            System.out.println("Doble clic en: " + seleccionado);
 		        }

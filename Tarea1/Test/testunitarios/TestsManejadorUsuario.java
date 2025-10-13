@@ -1,6 +1,6 @@
-package TestUnitarios;
+package testunitarios;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -41,20 +41,21 @@ public class TestsManejadorUsuario {
 	
 	@Test
 	@Order(1)
-	void AltaOrganizadorCorreoRepetido() {
-		try {
+	void altaOrganizadorCorreoRepetido() {
+		assertDoesNotThrow(() -> {
 			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com", null);
 			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com", null);
-		} catch (Exception ex) { assertEquals("El correo ya está en uso", ex.getMessage()); }
+		});
 	}
 	
 	@Test
 	@Order(2)
-	void AltaAsistenteConInstitucion() {
-		try {
-			controladorInstitucion.AltaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
+	void altaAsistenteConInstitucion() {
+		
+		assertDoesNotThrow(() -> {
+			controladorInstitucion.altaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
 			controladorUsuarios.altaAsistente("nickAsistente", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion", null);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		});
 		
 		Map<String, DTAsistente> asistentes = controladorUsuarios.listarAsistentes();
 		if (!asistentes.containsKey("nickAsistente")) { fail("No se lista correctamente"); }
@@ -65,30 +66,33 @@ public class TestsManejadorUsuario {
 	
 	@Test
 	@Order(3)
-	void DetalleAsistente() {
-		try {
+	void edtalleAsistente() {
+		assertDoesNotThrow(() -> {
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente");
-			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha,null, null);
-			assertTrue(esperado.equals((DTDetalleAsistente)detalle));
-		} catch (Exception ex) { fail(ex.getMessage()); }
+			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, null, null);
+			assertTrue(esperado.equals((DTDetalleAsistente) detalle));
+		});
 	}
 	
 	@Test
 	@Order(4)
-	void DetalleOrganizador() {
-		try {
+	void detalleOrganizador() {
+		
+		assertDoesNotThrow(() -> {
 			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
 			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
-			assertTrue(esperado.equals((DTDetalleOrganizador)detalle));
-		} catch (Exception ex) { fail(ex.getMessage()); }
+			assertTrue(esperado.equals((DTDetalleOrganizador) detalle));
+		});
 	}
 	
 	@Test
 	@Order(5)
-	void UsuarioNoExiste() {
-		try {
+	void usuarioNoExiste() {
+		
+		assertDoesNotThrow(() -> {
 			controladorUsuarios.mostrarDetalleUsuario("nickNoExiste");
-		} catch (Exception ex) { assertEquals(ex.getMessage(), "El usuario indicado no existe en el sistema."); }
+		});
+		
 	}
 }

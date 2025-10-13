@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import datatypes.DTTipoRegistro;
+import excepciones.AsistenteYaRegistrado;
 
 public class TipoRegistro {
 
@@ -41,27 +42,24 @@ public class TipoRegistro {
     public int getCuposDisponibles() { return cuposDisponibles; }
     public void setCuposDisponibles(int cuposDisponibles) { this.cuposDisponibles = cuposDisponibles; }
 
-    public void addRegistro(Registro r) {
-    	Objects.requireNonNull(r);
+    public void addRegistro(Registro registro) {
+    	Objects.requireNonNull(registro);
         if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
-        registros.add(r);
+        registros.add(registro);
         cuposDisponibles--;
     }
     
     public List<Registro> getRegistros(){ return registros; }
-    public boolean validar(String nicknameAsistente) throws Exception{
-        try {
-        	boolean v = false;
-        	for(Registro r: registros) {
-        		v = v || r.validar(nicknameAsistente);
-        	}
-        	if(v) {
-        		throw new Exception("Este asistente ya esta registrado");
-        	}
-        	return !v;        	
-        }catch(Exception vError) {
-        	throw vError;
-        }
+    
+    public boolean validar(String nicknameAsistente) throws AsistenteYaRegistrado {
+    	boolean valid = false;
+    	for (Registro r: registros) {
+    		valid = valid || r.validar(nicknameAsistente);
+    	}
+    	if (valid) {
+    		throw new AsistenteYaRegistrado("Este asistente ya esta registrado");
+    	}
+    	return !valid; 
     }
     
     public DTTipoRegistro getDTTipoRegistro() {

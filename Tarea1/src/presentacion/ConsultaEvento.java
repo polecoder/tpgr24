@@ -4,8 +4,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -26,17 +28,17 @@ public class ConsultaEvento extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Fabrica fabrica= Fabrica.getInstancia();
-	private IControladorEventos IContEvento= fabrica.getControladorEvento();
+	private IControladorEventos iContEvento = fabrica.getControladorEvento();
 	public ConsultaEvento(JDesktopPane desktopPane) {
 	    super("Consulta Evento", true, true, true, true);
 	    setSize(450, 350);       
 		setLocation(50, 50); 
 	
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0,0.0,0.0,0.0,0.0,0.0, 0.0};
-		gridBagLayout.rowWeights = new double[]{0.0,0.0,0.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lbl_Eventos = new JLabel("Eventos Disponibles:");
@@ -49,7 +51,7 @@ public class ConsultaEvento extends JInternalFrame {
 		
 		JComboBox<String> comboEventos = new JComboBox<>();
 		
-		Set<String> eventosDisponibles =IContEvento.nombresEventos();
+		Set<String> eventosDisponibles =iContEvento.nombresEventos();
 		comboEventos.addItem("--Seleccionar un Evento--");
 		 if (eventosDisponibles != null) {
 		        for (String evento : eventosDisponibles) {
@@ -58,7 +60,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    }
 		 
 		GridBagConstraints gbc_comboEventos = new GridBagConstraints();
-		gbc_comboEventos.insets= new Insets(10,0,0,10);
+		gbc_comboEventos.insets= new Insets(10, 0, 0, 10);
 		gbc_comboEventos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboEventos.gridx = 2;
 		gbc_comboEventos.gridy = 0;
@@ -81,7 +83,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 		    if (eventoSeleccionado != null &&eventoSeleccionado!="--Seleccionar un Evento--") {
 		    	
-		    DTEvento detalleEvento = IContEvento.getDTEvento(eventoSeleccionado);
+		    DTEvento detalleEvento = iContEvento.getDTEvento(eventoSeleccionado);
 
 		    panelDetalles.removeAll(); 
 		    
@@ -154,8 +156,8 @@ public class ConsultaEvento extends JInternalFrame {
 		    gbc_lbl_descripcion.gridy = 4;
 		    panelDetalles.add(lbl_descripcion, gbc_lbl_descripcion);
 
-		    ArrayList<String> datos = new ArrayList<>();
-		    Set<String> categorias = IContEvento.nombresCategorias(detalleEvento.getNombre());
+		    List<String> datos = new ArrayList<>();
+		    Set<String> categorias = iContEvento.nombresCategorias(detalleEvento.getNombre());
 		    for (String categoria : categorias) {
 		        datos.add(categoria);
 		    }
@@ -192,7 +194,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    JComboBox<String> comboEdiciones = new JComboBox<>();
 			
 			Set<String> edicionesDisponibles;
-			try { edicionesDisponibles =IContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
+			try { edicionesDisponibles =iContEvento.nombresEdicionesEvento(detalleEvento.getNombre());
 			} catch (EventoNoExiste ex){
 				edicionesDisponibles = null;
 			}
@@ -203,7 +205,7 @@ public class ConsultaEvento extends JInternalFrame {
 			}
 			 
 			GridBagConstraints gbc_comboEdiciones = new GridBagConstraints();
-			gbc_comboEdiciones.insets= new Insets(10,0,0,10);
+			gbc_comboEdiciones.insets= new Insets(10, 0, 0, 10);
 			gbc_comboEdiciones.fill = GridBagConstraints.HORIZONTAL;
 			gbc_comboEdiciones.gridx = 2;
 			gbc_comboEdiciones.gridy = 6;
@@ -212,12 +214,12 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 			comboEdiciones.addActionListener(o -> {
 			    String edicionSeleccionada = (String) comboEdiciones.getSelectedItem();
-			    ConsultaEdicionEvento consultaEdicion = new ConsultaEdicionEvento(detalleEvento.getNombre(),edicionSeleccionada, desktopPane);
+			    ConsultaEdicionEvento consultaEdicion = new ConsultaEdicionEvento(detalleEvento.getNombre(), edicionSeleccionada, desktopPane);
 			    desktopPane.add(consultaEdicion);
 			    consultaEdicion.setVisible(true);
 			    try {
 			        consultaEdicion.setSelected(true);
-			    } catch (Exception ex) {
+			    } catch (PropertyVetoException ex) {
 			        ex.printStackTrace();
 			    }
 			} ); 

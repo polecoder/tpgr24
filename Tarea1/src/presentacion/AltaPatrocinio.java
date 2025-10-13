@@ -15,6 +15,7 @@
 
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
+import excepciones.FormularioIncompletoPatrocinio;
 import excepciones.TipoRegistroNoExiste;
 
 import javax.swing.JButton;
@@ -27,8 +28,8 @@ import datatypes.ENivelPatrocinio;
 	
 	public class AltaPatrocinio extends JInternalFrame { 
 	    private Fabrica fabrica = Fabrica.getInstancia();
-	    private IControladorEventos IContEvento = fabrica.getControladorEvento();
-	    private IControladorInstitucion IContInstituciones = fabrica.getControladorInstitucion();
+	    private IControladorEventos iContEvento = fabrica.getControladorEvento();
+	    private IControladorInstitucion iContInstituciones = fabrica.getControladorInstitucion();
 	    private static final long serialVersionUID = 1L;
 	
 	    public AltaPatrocinio() {
@@ -66,7 +67,7 @@ import datatypes.ENivelPatrocinio;
 	        
 	        comboEvento.addItem("--Seleccionar un Evento--");
 	        
-	        Set<String> eventosDisponibles = IContEvento.nombresEventos();
+	        Set<String> eventosDisponibles = iContEvento.nombresEventos();
 	        if (eventosDisponibles != null) { 
 	        	for (String evento : eventosDisponibles) { 
 	        		comboEvento.addItem(evento); 
@@ -125,7 +126,7 @@ import datatypes.ENivelPatrocinio;
 	        panelFormulario.add(comboInstitucion, gbc_comboInstitucion);
 	        
 	        comboInstitucion.addItem("--Seleccionar Institucion--");
-	        Set<String> instituciones = IContInstituciones.nombresInstituciones();
+	        Set<String> instituciones = iContInstituciones.nombresInstituciones();
 	        if (instituciones != null) { 
 	        	for (String inst : instituciones) { 
 	        		comboInstitucion.addItem(inst); } 
@@ -213,7 +214,7 @@ import datatypes.ENivelPatrocinio;
 	           
 	            comboEdicion.addItem("--Seleccionar una Edición--");
 	            try {
-	                Set<String> edicionesDisponibles = IContEvento.nombresEdicionesEvento(eventoSeleccionado);
+	                Set<String> edicionesDisponibles = iContEvento.nombresEdicionesEvento(eventoSeleccionado);
 	                for (String edicion : edicionesDisponibles) {
 	                    comboEdicion.addItem(edicion);
 	                }
@@ -240,7 +241,7 @@ import datatypes.ENivelPatrocinio;
 
 	            comboTipo.removeAllItems();
 	            comboTipo.addItem("--Seleccionar un Tipo Registro--");
-	            Set<String> tiposDisponibles = IContEvento.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+	            Set<String> tiposDisponibles = iContEvento.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	            if (tiposDisponibles != null) {
 	                for (String tipo : tiposDisponibles) {
 	                    comboTipo.addItem(tipo);
@@ -276,15 +277,15 @@ import datatypes.ENivelPatrocinio;
 	            float aporteEconomico;
 	            int cantidadGratuitos;
 	            
-	            if(tipoRegistro==null||tipoRegistro=="--Seleccionar un Tipo Registro--") {
+	            if (tipoRegistro==null||tipoRegistro=="--Seleccionar un Tipo Registro--") {
 	            	JOptionPane.showMessageDialog(this, "Debe seleccionar un Tipo Registro", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
-	            if(institucionSeleccionada==null||institucionSeleccionada=="--Seleccionar Institucion--") {
+	            if (institucionSeleccionada==null||institucionSeleccionada=="--Seleccionar Institucion--") {
 	            	JOptionPane.showMessageDialog(this, "Debe seleccionar una Institución", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
-	            if(nivelPatrocinio=="--Seleccionar Patrocinio--") {
+	            if (nivelPatrocinio=="--Seleccionar Patrocinio--") {
 	            	JOptionPane.showMessageDialog(this, "Debe seleccionar un nivel de Patrocinio", "Error", JOptionPane.ERROR_MESSAGE);
 	                return;
 	            }
@@ -318,7 +319,7 @@ import datatypes.ENivelPatrocinio;
 	            	// Validación del 20% del aporte
 	            	DTTipoRegistro tipo = null;
 					try {
-						tipo = IContEvento.getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistro);
+						tipo = iContEvento.getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistro);
 					} catch (TipoRegistroNoExiste e1) {
 						 JOptionPane.showMessageDialog(this, "TipoRegistro no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
 					} catch (EventoNoExiste e1) {
@@ -339,8 +340,8 @@ import datatypes.ENivelPatrocinio;
 	            try {
 	                // Llamada al método con validaciones internas
 	            	Date fechaActual=new Date();
-	            	IContEvento.altaPatrocinio(eventoSeleccionado,edicionSeleccionada,fechaActual,institucionSeleccionada,nivel,aporteEconomico,cantidadGratuitos,codigoPatrocinio,tipoRegistro);
-	            	JOptionPane.showMessageDialog(this,"Patrocinio creado correctamente","Éxito",JOptionPane.INFORMATION_MESSAGE);
+	            	iContEvento.altaPatrocinio(eventoSeleccionado, edicionSeleccionada, fechaActual, institucionSeleccionada, nivel, aporteEconomico, cantidadGratuitos, codigoPatrocinio, tipoRegistro);
+	            	JOptionPane.showMessageDialog(this, "Patrocinio creado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 	                // limpia los campos si llega al final
 	            	txtAporte.setText("");
 	            	txtCupos.setText("");
@@ -351,8 +352,8 @@ import datatypes.ENivelPatrocinio;
 	            	comboInstitucion.setSelectedIndex(-1);
 	            	comboNivel.setSelectedIndex(-1);
 
-	            } catch (Exception e1) {
-	                JOptionPane.showMessageDialog(AltaPatrocinio.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	            } catch (FormularioIncompletoPatrocinio exception) {
+	                JOptionPane.showMessageDialog(AltaPatrocinio.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	            }
 	        });
 

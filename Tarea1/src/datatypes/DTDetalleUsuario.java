@@ -3,18 +3,18 @@ package datatypes;
 import java.util.Arrays;
 
 public class DTDetalleUsuario {
-	protected String nickname;
-	protected String nombre;
-	protected String correo;
-	protected byte[] imagen;
-	protected ETipoUsuario tipo;
+	private String nickname;
+	private String nombre;
+	private String correo;
+	private byte[] imagen;
+	private ETipoUsuario tipo;
 	
-	public DTDetalleUsuario(String nickname, String nombre, String correo, ETipoUsuario tipo,byte[] imagen) {
+	public DTDetalleUsuario(String nickname, String nombre, String correo, ETipoUsuario tipo, byte[] imagen) {
 		super();
 		this.nickname = nickname;
 		this.nombre = nombre;
 		this.correo = correo;
-		this.imagen   = (imagen == null ? null : Arrays.copyOf(imagen, imagen.length));
+		this.imagen   = imagen == null ? null : Arrays.copyOf(imagen, imagen.length);
 		this.tipo = tipo;
 	}
 	

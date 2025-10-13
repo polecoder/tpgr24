@@ -1,10 +1,21 @@
 package presentacion;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import logica.IControladorUsuarios;
 import logica.ControladorUsuarios;
@@ -26,8 +37,8 @@ public class ConsultaRegistro extends JInternalFrame {
     private boolean cargando = false;
 
     //Logica
-    private final IControladorUsuarios cu = ControladorUsuarios.getInstance();
-    private final DateTimeFormatter F = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final IControladorUsuarios controladorusu = ControladorUsuarios.getInstance();
+    //private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public ConsultaRegistro(String nicknameAsistente, String nombreRegistro) {
         setResizable(true);
@@ -39,24 +50,24 @@ public class ConsultaRegistro extends JInternalFrame {
         setLocation(50, 50);
         setMinimumSize(new Dimension(350, 250));
 
-        GridBagLayout g = new GridBagLayout();
-        g.columnWidths  = new int[]{0, 0};
-        g.rowHeights    = new int[]{0, 0, 0, 0};
-        g.columnWeights = new double[]{0.0, 0.0};
-        g.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0};
-        getContentPane().setLayout(g);
+        GridBagLayout gridbagl = new GridBagLayout();
+        gridbagl.columnWidths  = new int[]{0, 0};
+        gridbagl.rowHeights    = new int[]{0, 0, 0, 0};
+        gridbagl.columnWeights = new double[]{0.0, 0.0};
+        gridbagl.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0};
+        getContentPane().setLayout(gridbagl);
 
         // Fila 0: Usuario
         JLabel lblUsuario = new JLabel("Usuario");
         GridBagConstraints gbcUlbl = new GridBagConstraints();
-        gbcUlbl.insets = new Insets(5,5,5,5);
+        gbcUlbl.insets = new Insets(5, 5, 5, 5);
         gbcUlbl.anchor = GridBagConstraints.EAST;
         gbcUlbl.gridx = 0; gbcUlbl.gridy = 0;
         getContentPane().add(lblUsuario, gbcUlbl);
 
         comboUsuarios = new JComboBox<>(); 
         GridBagConstraints gbcU = new GridBagConstraints();
-        gbcU.insets = new Insets(5,0,5,0);
+        gbcU.insets = new Insets(5, 0, 5, 0);
         gbcU.fill = GridBagConstraints.HORIZONTAL;
         gbcU.weightx = 1.0;
         gbcU.gridx = 1; gbcU.gridy = 0;
@@ -65,14 +76,14 @@ public class ConsultaRegistro extends JInternalFrame {
         // Fila 1: Registros
         JLabel lblReg = new JLabel("Registros");
         GridBagConstraints gbcRlbl = new GridBagConstraints();
-        gbcRlbl.insets = new Insets(0,5,5,5);
+        gbcRlbl.insets = new Insets(0, 5, 5, 5);
         gbcRlbl.anchor = GridBagConstraints.EAST;
         gbcRlbl.gridx = 0; gbcRlbl.gridy = 1;
         getContentPane().add(lblReg, gbcRlbl);
 
         comboRegistros = new JComboBox<>();
         GridBagConstraints gbcR = new GridBagConstraints();
-        gbcR.insets = new Insets(0,0,5,0);
+        gbcR.insets = new Insets(0, 0, 5, 0);
         gbcR.fill = GridBagConstraints.HORIZONTAL;
         gbcR.weightx = 1.0;
         gbcR.gridx = 1; gbcR.gridy = 1;
@@ -82,7 +93,7 @@ public class ConsultaRegistro extends JInternalFrame {
         }
 
         // Fila 2: Panel + botón
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        JPanel panel = new JPanel();
         GridBagConstraints gbcP = new GridBagConstraints();
         gbcP.gridx = 0; gbcP.gridy = 2; gbcP.gridwidth = 2;
         gbcP.fill = GridBagConstraints.HORIZONTAL;
@@ -94,7 +105,7 @@ public class ConsultaRegistro extends JInternalFrame {
         
         JLabel lblDetalle = new JLabel("Detalle");
         GridBagConstraints gbcDlbl = new GridBagConstraints();
-        gbcDlbl.insets = new Insets(0,0,5,5);
+        gbcDlbl.insets = new Insets(0, 0, 5, 5);
         gbcDlbl.anchor = GridBagConstraints.NORTHEAST;
         gbcDlbl.gridx = 0; gbcDlbl.gridy = 3;
         getContentPane().add(lblDetalle, gbcDlbl);
@@ -110,7 +121,7 @@ public class ConsultaRegistro extends JInternalFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         GridBagConstraints gbcD = new GridBagConstraints();
-        gbcD.insets = new Insets(0,0,5,5);
+        gbcD.insets = new Insets(0, 0, 5, 5);
         gbcD.fill = GridBagConstraints.BOTH;
         gbcD.weightx = 1.0;
         gbcD.weighty = 1.0;         // que crezca en alto
@@ -130,7 +141,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private void wireEvents(String nicknameAsistente) {
         comboUsuarios.addItemListener(e -> {
             if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            	if(cargando) return;
+            	if (cargando) return;
             	String sel = (String) comboUsuarios.getSelectedItem();
             	if (sel == null || PLACEHOLDER_USUARIO.equals(sel)) {
             		comboRegistros.removeAllItems();
@@ -149,7 +160,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private void cargarUsuarios(String nicknameAsistente) {
         comboUsuarios.removeAllItems();
         comboUsuarios.addItem(PLACEHOLDER_USUARIO);
-        for (datatypes.DTUsuario u : cu.listarUsuarios()) {
+        for (datatypes.DTUsuario u : controladorusu.listarUsuarios()) {
             comboUsuarios.addItem(u.nickname());    
         }
         // Seleccionar si se pasa por parámetro
@@ -170,7 +181,7 @@ public class ConsultaRegistro extends JInternalFrame {
         	btnDetalle.setEnabled(false);
         	return;
         }
-        List<DTRegistro> regs = cu.listarRegistrosUsuario(nick);
+        List<DTRegistro> regs = controladorusu.listarRegistrosUsuario(nick);
 
         if (regs == null || regs.isEmpty()) {
             comboRegistros.setEnabled(false);
@@ -181,7 +192,7 @@ public class ConsultaRegistro extends JInternalFrame {
             txtDetalle.setText("");
             return;
         }
-        for(DTRegistro r : regs) {
+        for (DTRegistro r : regs) {
         	comboRegistros.addItem(r.nombreEdicion());
         }
         comboRegistros.setEnabled(true);
@@ -195,7 +206,7 @@ public class ConsultaRegistro extends JInternalFrame {
 
 	// al apretar el boton para ver el detalle del registro
     private void verDetalle() {
-    	if(comboUsuarios.getSelectedIndex()==-1|| PLACEHOLDER_USUARIO.equals(comboUsuarios.getSelectedItem())) {
+    	if (comboUsuarios.getSelectedIndex()==-1|| PLACEHOLDER_USUARIO.equals(comboUsuarios.getSelectedItem())) {
     		JOptionPane.showMessageDialog(null, "No hay usuarios seleccionado");
     		return;
     	}
@@ -206,9 +217,9 @@ public class ConsultaRegistro extends JInternalFrame {
     		return;
     	}
         
-        DTDetalleRegistro d = cu.obtenerDetalleRegistro(nick, idRegistro);
+        DTDetalleRegistro detallereg = controladorusu.obtenerDetalleRegistro(nick, idRegistro);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        if (d == null) {
+        if (detallereg == null) {
             JOptionPane.showMessageDialog(this, "No se encontró el detalle.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -219,11 +230,11 @@ public class ConsultaRegistro extends JInternalFrame {
                 Fecha: %s
                 Costo: %s
                 """.formatted(
-                d.getNombreEdicion(),
-                d.getNicknameAsistente(),
-                d.getNombreTipo(),
-                formatter.format(d.getFecha()),
-                d.getCosto()
+                detallereg.getNombreEdicion(),
+                detallereg.getNicknameAsistente(),
+                detallereg.getNombreTipo(),
+                formatter.format(detallereg.getFecha()),
+                detallereg.getCosto()
         );
         txtDetalle.setText(msg);
         txtDetalle.setCaretPosition(0);

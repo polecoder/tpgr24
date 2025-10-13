@@ -61,12 +61,12 @@ public class DTDetalleRegistro {
 		this.codigoPatrocinio = codigoPatrocinio;
 	}
 	
-	public boolean equals(DTDetalleRegistro o) {
-		boolean nombreEdicion = this.getNombreEdicion() == o.getNombreEdicion();
-		boolean nickAsistente = this.getNicknameAsistente() == o.getNicknameAsistente();
-		boolean nombreTipoRegistro = this.getNombreTipo() == o.getNombreTipo();
-		boolean fecha = this.getFecha() == o.getFecha();
-		boolean costo = this.getCosto() == o.getCosto();
+	public boolean equalsRegistro(DTDetalleRegistro evento) {
+		boolean nombreEdicion = this.getNombreEdicion() == evento.getNombreEdicion();
+		boolean nickAsistente = this.getNicknameAsistente() == evento.getNicknameAsistente();
+		boolean nombreTipoRegistro = this.getNombreTipo() == evento.getNombreTipo();
+		boolean fecha = this.getFecha() == evento.getFecha();
+		boolean costo = this.getCosto() == evento.getCosto();
 		return nombreEdicion && nickAsistente && nombreTipoRegistro && fecha && costo;
 	}
 }

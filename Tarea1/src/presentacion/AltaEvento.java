@@ -27,14 +27,14 @@ import javax.swing.ScrollPaneConstants;
 
 public class AltaEvento extends JInternalFrame {
 
-	Fabrica fabrica = Fabrica.getInstancia();
+	private Fabrica fabrica = Fabrica.getInstancia();
 	
 	private static final long serialVersionUID = 1L;
 	private JTextField nombreTextField;
 	private JTextArea descripcionTextArea;
 	private JTextField siglaTextField;
 	private JSpinner fechaSpinner;
-	JList<String> categoriasList;
+	private JList<String> categoriasList;
 
 	public AltaEvento() {
 		super("Alta de Evento", true, true, true, true);
@@ -43,10 +43,10 @@ public class AltaEvento extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600)); 
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {0,0,0,0};
-		gridBagLayout.rowHeights = new int[] {0,0,0,0,0,0,0,0,0};
-		gridBagLayout.columnWeights = new double[]{1.0,0.0,0.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.columnWidths = new int[] {0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("Nombre:");
@@ -151,9 +151,9 @@ public class AltaEvento extends JInternalFrame {
 		gbc_panel.gridy = 6;
 		getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0,0,0};
+		gbl_panel.columnWidths = new int[]{0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0};
-		gbl_panel.columnWeights = new double[]{1.0,1.0,1.0};
+		gbl_panel.columnWeights = new double[]{1.0, 1.0, 1.0};
 		gbl_panel.rowWeights = new double[]{1.0};
 		panel.setLayout(gbl_panel);
 		
@@ -180,7 +180,7 @@ public class AltaEvento extends JInternalFrame {
 		/**
 		 * ACEPTAR
 		 */
-		botonAceptar.addActionListener(e->{
+		botonAceptar.addActionListener(e-> {
 			String nombre = nombreTextField.getText().trim();
 			String descripcion = descripcionTextArea.getText().trim();
 			Date fechaAlta = (Date) fechaSpinner.getValue();
@@ -225,7 +225,7 @@ public class AltaEvento extends JInternalFrame {
 			// Si pasa todos los checks, se da de Alta finalmente
 			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 			formato.format(fechaAlta);
-			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias,null);
+			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, null);
 			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 			resetCampos();
 		});
@@ -240,7 +240,7 @@ public class AltaEvento extends JInternalFrame {
 		/**
 		 * RESET
 		 */
-		botonReset.addActionListener(e->{
+		botonReset.addActionListener(e-> {
 			resetCampos();
 		});
 	}

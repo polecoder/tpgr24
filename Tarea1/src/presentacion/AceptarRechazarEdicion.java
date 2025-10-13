@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import excepciones.EventoNoExiste;
 import logica.Fabrica;
 import logica.IControladorEventos;
 
@@ -21,7 +20,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
     private static final long serialVersionUID = 1L;
 
     private Fabrica fabrica = Fabrica.getInstancia();
-    private IControladorEventos IContEvento = fabrica.getControladorEvento();
+    private IControladorEventos iContEvento = fabrica.getControladorEvento();
 
     public AceptarRechazarEdicion() {
         super("Autorizar Ediciones", true, true, true, true);
@@ -29,9 +28,9 @@ public class AceptarRechazarEdicion extends JInternalFrame {
         setLocation(50, 50);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{50,100, 100,50};
+        gridBagLayout.columnWidths = new int[]{50, 100, 100, 50};
         gridBagLayout.rowHeights = new int[]{30, 30, 30, 30};
-        gridBagLayout.columnWeights = new double[]{0.0, 0.0,0.0}; // col 1 se expande
+        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0}; // col 1 se expande
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
         getContentPane().setLayout(gridBagLayout);
 
@@ -55,7 +54,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 
         comboEvento.addItem("--Seleccionar un Evento--");
 
-        Set<String> eventosDisponibles = IContEvento.nombresEventos();
+        Set<String> eventosDisponibles = iContEvento.nombresEventos();
         if (eventosDisponibles != null) {
             for (String evento : eventosDisponibles) {
                 comboEvento.addItem(evento);
@@ -115,7 +114,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
             }
 
             comboEdicion.addItem("--Seleccionar una Edición--");
-            Set<String> edicionesDisponibles = IContEvento.nombresEdicionesIngresadas(eventoSeleccionado);
+            Set<String> edicionesDisponibles = iContEvento.nombresEdicionesIngresadas(eventoSeleccionado);
             if (edicionesDisponibles.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay ediciones por evaluar", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -164,10 +163,10 @@ public class AceptarRechazarEdicion extends JInternalFrame {
                 return;
             }
 
-            if(Button_Aceptar.isSelected()) {
-            	IContEvento.SetEstadoEdicion(eventoSeleccionado,edicionSeleccionada,true);
+            if (Button_Aceptar.isSelected()) {
+            	iContEvento.setEstadoEdicion(eventoSeleccionado, edicionSeleccionada, true);
             }else {
-            	IContEvento.SetEstadoEdicion(eventoSeleccionado,edicionSeleccionada,false);
+            	iContEvento.setEstadoEdicion(eventoSeleccionado, edicionSeleccionada, false);
             }
 
             // 5. Limpiar campos

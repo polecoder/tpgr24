@@ -10,13 +10,12 @@ import datatypes.DTPatrocinio;
 import datatypes.DTTipoRegistro;
 
 public class Evento {
-	private 
-	String nombre;
-	String sigla;
-	String descripcion;
-	Date fechaAlta;
-	Map<String, Categoria> categorias;
-	byte[] imagen; 
+	private String nombre;
+	private String sigla;
+	private String descripcion;
+	private Date fechaAlta;
+	private Map<String, Categoria> categorias;
+	private byte[] imagen; 
 	private final Map<String, Edicion> ediciones;
 
 	public

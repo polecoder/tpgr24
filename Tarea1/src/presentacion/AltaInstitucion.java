@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import excepciones.FormularioIncompletoInstitucion;
 import logica.Fabrica;
 import logica.IControladorInstitucion;
 
@@ -21,7 +22,7 @@ public class AltaInstitucion extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
     private Fabrica fabrica= Fabrica.getInstancia();
-    private IControladorInstitucion IContInstitucion = fabrica.getControladorInstitucion();
+    private IControladorInstitucion iContInstitucion = fabrica.getControladorInstitucion();
    
     public AltaInstitucion() {
         super("Alta Institución", true, true, true, true);
@@ -116,14 +117,14 @@ public class AltaInstitucion extends JInternalFrame {
     	    String sitioWeb = textField_SitioWeb.getText().trim();
 
     	    try {
-    	        IContInstitucion.AltaInstitucion(nombre, descripcion, sitioWeb);
+    	        iContInstitucion.altaInstitucion(nombre, descripcion, sitioWeb);
 
     	        // Si todo salió bien, aviso y limpio campos
     	        JOptionPane.showMessageDialog(this, "Institución creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     	        textField_Nombre.setText("");
     	        textField_Descripcion.setText("");
     	        textField_SitioWeb.setText("");
-    	    } catch (Exception ex) {
+    	    } catch (FormularioIncompletoInstitucion ex) {
     	        // Si el controlador lanza error, lo muestro
     	        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     	    }
