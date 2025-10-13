@@ -130,7 +130,9 @@ public class Ediciones extends HttpServlet {
 		Date fechaAlta = new Date();
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
-		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickOrganizador = null;
+		if (dtUsuario != null) {nickOrganizador = dtUsuario.getNickname();}
 		Part fotoPart = request.getPart("foto");
 		byte[] imagenBytes = null;
         if (fotoPart != null && fotoPart.getSize() > 0) {
