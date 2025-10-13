@@ -204,8 +204,15 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		ManejadorEventos me = ManejadorEventos.getInstancia();
 		String nombreEd = me.nombreEdicionDeRegistro(r);
 		String nombreTipo = me.nombreTipoDeRegistro(r);
-
-		return new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto());
+		
+		DTDetalleRegistro dtRegistro = null;
+		if (r.getPatrocinio() != null) {
+			dtRegistro = new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto(), r.getPatrocinio().getCodigoPatrocinio());
+		} else {
+			dtRegistro = new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto(), null);
+		}
+		
+		return dtRegistro;
 	}
 
 	/**

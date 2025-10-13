@@ -280,6 +280,7 @@ return ManejadorEventos.getInstancia()
 				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
 				Patrocinio p = null;
 				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
+				System.out.println("checkEd"+checkEd);
 				if(checkEd) {
 					p = ed.getPatrocinio(codigoPatrocinio);
 					int cuposP = p.getCuposGratuitos();
@@ -288,6 +289,7 @@ return ManejadorEventos.getInstancia()
 						cost = 0;						
 					}
 				}
+				System.out.println("patrocinio:"+p);
 				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
 			} catch(Exception CRError) {
 	

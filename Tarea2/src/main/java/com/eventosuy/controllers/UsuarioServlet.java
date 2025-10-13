@@ -552,7 +552,7 @@ public class UsuarioServlet extends HttpServlet {
 		catch (DateTimeParseException e) { return null; }
 	}
 	private static String getNickFromSession(HttpServletRequest req) {
-		Object o = req.getSession().getAttribute("nick"); // lo setea tu en action=alta
-		return (o == null) ? null : o.toString();
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) req.getSession().getAttribute("usuarioLogeado"); // lo setea tu en action=alta
+		return (dtUsuario == null) ? null : dtUsuario.getNickname();
 	}
 }

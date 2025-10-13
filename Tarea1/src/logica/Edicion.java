@@ -160,7 +160,7 @@ public class Edicion {
         if (pertenece) {
             Patrocinio p = patrocinios.get(codigoPatrocinio);
             boolean checkA = p.checkAsistente(nicknameAsistente);
-            boolean checkTR = p.getTipoRegistro().getNombre() == nombreTipoRegistro;
+            boolean checkTR = nombreTipoRegistro.equals(p.getTipoRegistro().getNombre());
             return checkA && pertenece && checkTR;
         } else {
             return false;

@@ -69,9 +69,8 @@ public class ManejadorUsuarios {
 	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion, byte[] imagen) {
 		Asistente A= new Asistente(nickname,contrasena,nombre,correo,apellido,fechaNacimiento,institucion);
 		if (institucion!=null) {
-			institucion.asistentes.put(nickname, A);
+			institucion.agregarAsistente(A);
 		}
-		conjuntoAsistentes.put(A.getNickname(), A);
 		if (imagen != null && imagen.length > 0) A.setImagen(imagen);
 	    conjuntoAsistentes.put(nickname, A);
 	}
