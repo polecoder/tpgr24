@@ -100,7 +100,7 @@ private static Fabrica fabrica;
 			fail("El tamaño del resultado no es el esperado.");
 		}
 		// Como solo debería haber un elemento, se hace la prueba para ese elemento.
-		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1",null);
+		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1",null, null);
 		DTEdicionEvento dtResultado = resultado.get("EdicionEvento1");
 		assertEquals(dtEsperado.getNombre(), dtResultado.getNombre());
 		assertEquals(dtEsperado.getSigla(), dtResultado.getSigla());
