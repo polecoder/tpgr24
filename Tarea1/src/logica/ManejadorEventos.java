@@ -67,8 +67,8 @@ public class ManejadorEventos {
 			String sigla = e.getSigla();
 			Date fAlta = e.getFechaAlta();
 			byte[] imagen = e.getImagen(); // ← nuevo
-
-			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, imagen); // ← actualizado
+			Map<String, Categoria> categorias=e.getCategoria();
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta,categorias.keySet(), imagen); 
 			hMLista.put(nombre, dtEv);  
 		}
 		return hMLista;
@@ -116,6 +116,7 @@ public class ManejadorEventos {
 			evento.getDescripcion(),
 			evento.getSigla(),
 			evento.getFechaAlta(),
+			evento.getCategoria().keySet(),
 			imagen 
 		);
 		
