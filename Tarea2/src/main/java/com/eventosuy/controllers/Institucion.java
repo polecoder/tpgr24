@@ -286,7 +286,6 @@ public class Institucion extends HttpServlet {
 		    }
 		    
 		    String codigo = request.getParameter("Codigo");
-		    System.out.println(nombreInstitucion+","+nombreTipoRegistro+","+nivelPatrocinio+","+aporte+","+cupos+","+codigo);
 		    if (nombreTipoRegistro.isEmpty() || nombreInstitucion.isEmpty() || nivelPatrocinio.isEmpty() || aporte < 0 || cupos < 0 || codigo.isEmpty()) {
 		    	request.setAttribute("error", "Debe completar todos los campos");
 		    	handeGetAccionesOrganizador(request, response, "altaPatrocinio", nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
