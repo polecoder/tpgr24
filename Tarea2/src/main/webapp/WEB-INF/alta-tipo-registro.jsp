@@ -11,7 +11,7 @@
 		rel="stylesheet" 
 	/>
 </head>
-<body>
+  <body class="d-flex flex-column min-vh-100">
 	<jsp:include page="/WEB-INF/templates/header.jsp" />
 	<div class="container flex-grow-1">
 		<div class="mx-auto" style="max-width: 768px">
