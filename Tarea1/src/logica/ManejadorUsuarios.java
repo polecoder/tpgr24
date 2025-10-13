@@ -191,13 +191,13 @@ public class ManejadorUsuarios {
 	/**
 	 * Si no existe el organizador no hace nada.
 	 * 
-	 * @param e
+	 * @param edicion
 	 * @param nombreOrganizador
 	 */
-	public void agregarEdicionAOrganizador(Edicion e, String nombreOrganizador) {
+	public void agregarEdicionAOrganizador(Edicion edicion, String nombreOrganizador) {
 		Organizador organizador = this.getOrganizador(nombreOrganizador);
 		if (organizador != null) {
-			organizador.agregarEdicion(e);
+			organizador.agregarEdicion(edicion);
 		}
 	}
 }

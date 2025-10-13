@@ -64,13 +64,13 @@ class testEdicion {
 	
 	@Test
     void patrociniosvalidarycheckramasyeliminar() throws Exception {
-        Edicion ed = nuevaEdicion();
+        Edicion edicion = nuevaEdicion();
 
         TipoRegistro agotado = new TipoRegistro("Agotado", "Sin cupos", 0f, 10, 0 /* cuposDisponibles=0 */);
-        ed.agregarTipoRegistro(agotado);
-        assertThrows(Exception.class, () -> ed.validar("nick", "Agotado"));
+        edicion.agregarTipoRegistro(agotado);
+        assertThrows(Exception.class, () -> edicion.validar("nick", "Agotado"));
 
-        assertFalse(ed.check("COD-INEXISTENTE", "nick", agotado.getNombre()));
+        assertFalse(edicion.check("COD-INEXISTENTE", "nick", agotado.getNombre()));
 
         Institucion inst = new Institucion("Fing", "fing@uni.edu", "Facultad Ing.");
         Patrocinio pat = new Patrocinio(
@@ -81,12 +81,12 @@ class testEdicion {
                 0,
                 inst,
                 agotado);
-        ed.agregarPatrocinio(pat);
+        edicion.agregarPatrocinio(pat);
 
-        assertFalse(ed.check("PAT-001", "cualquierNick", agotado.getNombre()));
+        assertFalse(edicion.check("PAT-001", "cualquierNick", agotado.getNombre()));
 
-        ed.eliminarPatrocinio("PAT-001");
-        assertFalse(ed.getPatrocinios().containsKey("PAT-001"));
+        edicion.eliminarPatrocinio("PAT-001");
+        assertFalse(edicion.getPatrocinios().containsKey("PAT-001"));
     }
 
 }

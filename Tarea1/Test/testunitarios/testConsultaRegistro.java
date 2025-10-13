@@ -84,53 +84,53 @@ class testConsultaRegistro {
 
         // D) El asistente debe tener exactamente 1 registro y con costo 100
         assertEquals(1, ana.getRegistros().size(), "El asistente debería tener 1 registro");
-        Registro r = ana.getRegistros().get(0);
-        assertEquals(100f, r.getCosto(), 0.001f);
+        Registro registro = ana.getRegistros().get(0);
+        assertEquals(100f, registro.getCosto(), 0.001f);
         
 	}
 	
 	@Test
 	void listarRegistrosUsuario() {
 	    // Controladores / manejadores
-	    ControladorUsuarios cu = ControladorUsuarios.getInstance();
-	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
-	    ManejadorEventos   me = ManejadorEventos.getInstancia();
+	    ControladorUsuarios controladorusuarios = ControladorUsuarios.getInstance();
+	    ManejadorUsuarios  manejadorusuarios = ManejadorUsuarios.getInstance();
+	    ManejadorEventos   manejadoreventos = ManejadorEventos.getInstancia();
 
 	    // --- Asistente ---
 	    Asistente ana = new Asistente("anaCR", "Eventos.2025!", "Ana", "Perez", "anaCR@mail.com", Utilidades.toDate(LocalDate.of(1999, 5, 1)), null);
-	    mu.getConjuntoAsistentes().put(ana.getNickname(), ana);
+	    manejadorusuarios.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
 	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null);
-	    me.agregarEvento(evento);
+	    manejadoreventos.agregarEvento(evento);
 
-	    Edicion ed = new Edicion("Expo", "EXP",
+	    Edicion edicion = new Edicion("Expo", "EXP",
 	            Utilidades.toDate(LocalDate.of(2023, 9, 1)),
 	            Utilidades.toDate(LocalDate.of(2023, 12, 1)),
 	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null);
-	    evento.agregarEdicion(ed);
+	    evento.agregarEdicion(edicion);
 
 	    // --- Tipos de registro ---
 	    TipoRegistro gen = new TipoRegistro("General", "Acceso General", 100, 200, 500);
 	    TipoRegistro vip = new TipoRegistro("Vip",     "Acceso vip",     250, 300, 200);
-	    ed.agregarTipoRegistro(vip);
-	    ed.agregarTipoRegistro(gen);
+	    edicion.agregarTipoRegistro(vip);
+	    edicion.agregarTipoRegistro(gen);
 
 	    // --- Patrocinio + Registros del usuario ---
 	    
 	    Patrocinio pat = new Patrocinio("Patro", Utilidades.toDate(LocalDate.now()), 0, null, 0, null, null);
-	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat);
-	    Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
+	    Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat);
+	    Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
 	    
-	    gen.addRegistro(r1);
-	    vip.addRegistro(r2);
+	    gen.addRegistro(registro1);
+	    vip.addRegistro(registro2);
 
-	    ana.getRegistros().add(r1);
-	    ana.getRegistros().add(r2);
+	    ana.getRegistros().add(registro1);
+	    ana.getRegistros().add(registro2);
 	    
 
 	    // --- ACT: listar registros del usuario ---
-	    java.util.List<datatypes.DTRegistro> regs = cu.listarRegistrosUsuario("anaCR");
+	    java.util.List<datatypes.DTRegistro> regs = controladorusuarios.listarRegistrosUsuario("anaCR");
 
 	    // --- ASSERTS ---
 	    assertNotNull(regs);
@@ -149,102 +149,102 @@ class testConsultaRegistro {
 	    assertEquals(java.util.Set.of("general", "vip"), tipos1, "Tipos esperados en la lista");
 
 	    // Detalle índice 0 (sin asumir orden: solo validamos coherencia)
-	    datatypes.DTDetalleRegistro d0 = cu.obtenerDetalleRegistro("anaCR", 0);
-	    assertNotNull(d0);
-	    assertEquals("anaCR", d0.getNicknameAsistente());
-	    assertTrue(java.util.Set.of("General", "Vip").contains(d0.getNombreTipo()));
+	    datatypes.DTDetalleRegistro datatypes = controladorusuarios.obtenerDetalleRegistro("anaCR", 0);
+	    assertNotNull(datatypes);
+	    assertEquals("anaCR", datatypes.getNicknameAsistente());
+	    assertTrue(java.util.Set.of("General", "Vip").contains(datatypes.getNombreTipo()));
 	}
 	
 	@Test
 	void obtenerDetalleRegistrousuarioSinRegistroseindicesInvalidos() {
-	    ControladorUsuarios cu = ControladorUsuarios.getInstance();
-	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
+	    ControladorUsuarios controladorusuarios = ControladorUsuarios.getInstance();
+	    ManejadorUsuarios  manejadorusuarios = ManejadorUsuarios.getInstance();
 
 	    // Usuario sin registros
 	    Asistente bob = new Asistente("bobCR", "Eventos.2025!", "Bob", "Lopez", "bobCR@mail.com", Utilidades.toDate(LocalDate.of(2000, 1, 1)), null);
-	    mu.getConjuntoAsistentes().put(bob.getNickname(), bob);
+	    manejadorusuarios.getConjuntoAsistentes().put(bob.getNickname(), bob);
 
 	    // listar → vacío
-	    java.util.List<datatypes.DTRegistro> regs = cu.listarRegistrosUsuario("bobCR");
+	    java.util.List<datatypes.DTRegistro> regs = controladorusuarios.listarRegistrosUsuario("bobCR");
 	    assertNotNull(regs);
 	    assertTrue(regs.isEmpty(), "Sin registros → lista vacía");
 
 	    // obtenerDetalle → null (no debe lanzar excepción)
-	    assertNull(cu.obtenerDetalleRegistro("bobCR", 0));
-	    assertNull(cu.obtenerDetalleRegistro("bobCR", -1));
-	    assertNull(cu.obtenerDetalleRegistro("bobCR", 99));
+	    assertNull(controladorusuarios.obtenerDetalleRegistro("bobCR", 0));
+	    assertNull(controladorusuarios.obtenerDetalleRegistro("bobCR", -1));
+	    assertNull(controladorusuarios.obtenerDetalleRegistro("bobCR", 99));
 	}
 	
 	@Test
     void listarydetalleusuarioInexistenteoNickInvalido() {
 		
-		 ControladorUsuarios cu = ControladorUsuarios.getInstance();
+		 ControladorUsuarios controlador = ControladorUsuarios.getInstance();
         // inexistente
-        List<DTRegistro> r1 = cu.listarRegistrosUsuario("no-existe-CR");
-        assertNotNull(r1);
-        assertTrue(r1.isEmpty());
-        assertNull(cu.obtenerDetalleRegistro("no-existe-CR", 0));
+        List<DTRegistro> registro1 = controlador.listarRegistrosUsuario("no-existe-CR");
+        assertNotNull(registro1);
+        assertTrue(registro1.isEmpty());
+        assertNull(controlador.obtenerDetalleRegistro("no-existe-CR", 0));
 
         // nick vacío
-        List<DTRegistro> r2 = cu.listarRegistrosUsuario("");
-        assertNotNull(r2);
-        assertTrue(r2.isEmpty());
-        assertNull(cu.obtenerDetalleRegistro("", 0));
+        List<DTRegistro> registro2 = controlador.listarRegistrosUsuario("");
+        assertNotNull(registro2);
+        assertTrue(registro2.isEmpty());
+        assertNull(controlador.obtenerDetalleRegistro("", 0));
 
         // nick null
-        List<DTRegistro> r3 = cu.listarRegistrosUsuario(null);
-        assertNotNull(r3);
-        assertTrue(r3.isEmpty());
-        assertNull(cu.obtenerDetalleRegistro(null, 0));
+        List<DTRegistro> registro3 = controlador.listarRegistrosUsuario(null);
+        assertNotNull(registro3);
+        assertTrue(registro3.isEmpty());
+        assertNull(controlador.obtenerDetalleRegistro(null, 0));
     }
 	@Test
     void listarydetalleordenYUltimo() {
         final String NICK = "carlosCR";
         final String MAIL = "carlosCR@mail.com";
         
-        ManejadorEventos   me = ManejadorEventos.getInstancia();
-        ControladorUsuarios cu = ControladorUsuarios.getInstance();
-	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
+        ManejadorEventos   manejadoreventos = ManejadorEventos.getInstancia();
+        ControladorUsuarios controladorusuarios = ControladorUsuarios.getInstance();
+	    ManejadorUsuarios  manejadorusuarios = ManejadorUsuarios.getInstance();
 
         // Usuario
         Asistente carlos = new Asistente(NICK, "Eventos.2025!", "Carlos", "Ríos", MAIL, Utilidades.toDate(LocalDate.of(1995, 7, 4)), null);
-        mu.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
+        manejadorusuarios.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
-        Evento ev = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null);
-        me.agregarEvento(ev);
-        Edicion ed = new Edicion("DevConf 2026", "DC26",
+        Evento evento = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null);
+        manejadoreventos.agregarEvento(evento);
+        Edicion edicion = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
-                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador2", ev.getNombre(), null);
-        ev.agregarEdicion(ed);
+                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador2", evento.getNombre(), null);
+        evento.agregarEdicion(edicion);
 
         // Tipos
         TipoRegistro gen = new TipoRegistro("General", "Acceso general", 500, 1000, 1000);
         TipoRegistro vip = new TipoRegistro("VIP", "Acceso VIP", 1500, 200, 200);
-        ed.getTiposRegistro().put(gen.getNombre(), gen);
-        ed.getTiposRegistro().put(vip.getNombre(), vip);
+        edicion.getTiposRegistro().put(gen.getNombre(), gen);
+        edicion.getTiposRegistro().put(vip.getNombre(), vip);
 
         
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
         Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null, null);
-        Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
-        Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
-        Registro r3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
-        gen.addRegistro(r1);
-        vip.addRegistro(r2);
-        gen.addRegistro(r3);
-        carlos.getRegistros().add(r1);
-        carlos.getRegistros().add(r2);
-        carlos.getRegistros().add(r3);
+        Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
+        Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
+        Registro registro3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
+        gen.addRegistro(registro1);
+        vip.addRegistro(registro2);
+        gen.addRegistro(registro3);
+        carlos.getRegistros().add(registro1);
+        carlos.getRegistros().add(registro2);
+        carlos.getRegistros().add(registro3);
 
 
         // A) El usuario aparece en listarUsuarios
-        Set<String> nicks = cu.listarUsuarios()
+        Set<String> nicks = controladorusuarios.listarUsuarios()
                 .stream().map(DTUsuario::nickname).collect(Collectors.toSet());
         assertTrue(nicks.contains(NICK));
 
         // B) listar registros → 3, con tipos esperados (sin asumir orden)
-        List<DTRegistro> regs = cu.listarRegistrosUsuario(NICK);
+        List<DTRegistro> regs = controladorusuarios.listarRegistrosUsuario(NICK);
         assertNotNull(regs);
         assertEquals(3, regs.size());
         Set<String> tipos = regs.stream().map(DTRegistro::nombreTipo).collect(Collectors.toSet());
@@ -252,7 +252,7 @@ class testConsultaRegistro {
 
         // C) detalle del último índice válido
         int last = regs.size() - 1;
-        DTDetalleRegistro det = cu.obtenerDetalleRegistro(NICK, last);
+        DTDetalleRegistro det = controladorusuarios.obtenerDetalleRegistro(NICK, last);
         assertNotNull(det);
         assertEquals(NICK, det.getNicknameAsistente());
         assertTrue(Set.of("General", "VIP").contains(det.getNombreTipo()));
@@ -262,41 +262,41 @@ class testConsultaRegistro {
 	@Test
     void detalleindicesInvalidosyBorde() {
 		
-		ManejadorEventos   me = ManejadorEventos.getInstancia();
-        ControladorUsuarios cu = ControladorUsuarios.getInstance();
-	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
+		ManejadorEventos   manejadoreventos = ManejadorEventos.getInstancia();
+        ControladorUsuarios controladorusuarios = ControladorUsuarios.getInstance();
+	    ManejadorUsuarios  manejadorusuarios = ManejadorUsuarios.getInstance();
 		
         final String NICK = "mariaCR";
-        Asistente u = new Asistente(NICK, "Eventos.2025!", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)), null);
-        mu.getConjuntoAsistentes().put(u.getNickname(), u);
+        Asistente asistente = new Asistente(NICK, "Eventos.2025!", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)), null);
+        manejadorusuarios.getConjuntoAsistentes().put(asistente.getNickname(), asistente);
 
         // Contexto mínimo
-        Evento ev = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null);
-        me.agregarEvento(ev);
-        Edicion ed = new Edicion("DataDay 2025", "DD25",
+        Evento evento = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null);
+        manejadoreventos.agregarEvento(evento);
+        Edicion edicion = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),
-                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay", "organizador3", ev.getNombre(), null);
-        ev.agregarEdicion(ed);
+                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay", "organizador3", evento.getNombre(), null);
+        evento.agregarEdicion(edicion);
 
         TipoRegistro gen = new TipoRegistro("General", "Acceso general", 800, 500, 500);
-        ed.getTiposRegistro().put(gen.getNombre(), gen);
+        edicion.getTiposRegistro().put(gen.getNombre(), gen);
         
         
          Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null, null); 
 
         // Un solo registro
-        Registro r = new Registro(Utilidades.toDate(LocalDate.now()), 800f, u, pat);
-        u.getRegistros().add(r);
+        Registro registro = new Registro(Utilidades.toDate(LocalDate.now()), 800f, asistente, pat);
+        asistente.getRegistros().add(registro);
         // Índices inválidos
-        assertNull(cu.obtenerDetalleRegistro(NICK, -1));
-        assertNull(cu.obtenerDetalleRegistro(NICK, 5));
+        assertNull(controladorusuarios.obtenerDetalleRegistro(NICK, -1));
+        assertNull(controladorusuarios.obtenerDetalleRegistro(NICK, 5));
 
         // Índices válidos
-        List<DTRegistro> regs = cu.listarRegistrosUsuario(NICK);
+        List<DTRegistro> regs = controladorusuarios.listarRegistrosUsuario(NICK);
         assertNotNull(regs);
         assertEquals(1, regs.size());
-        assertNotNull(cu.obtenerDetalleRegistro(NICK, 0));
-        assertNotNull(cu.obtenerDetalleRegistro(NICK, regs.size() - 1));
+        assertNotNull(controladorusuarios.obtenerDetalleRegistro(NICK, 0));
+        assertNotNull(controladorusuarios.obtenerDetalleRegistro(NICK, regs.size() - 1));
         
     }
 }

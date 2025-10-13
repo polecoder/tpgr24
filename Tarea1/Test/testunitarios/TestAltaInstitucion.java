@@ -28,26 +28,26 @@ class TestAltaInstitucion {
 
     @Test
     void altaInstitucionConCamposVacios() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaInstitucion("", "", "");
         });
-        assertEquals("Todos los campos son obligatorios", ex.getMessage());
+        assertEquals("Todos los campos son obligatorios", excepcion.getMessage());
     }
 
     @Test
     void altaInstitucionConNombreInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaInstitucion("Instituto@123", "Centro de investigación", "https://robotica.edu.uy");
         });
-        assertEquals("El nombre solo puede contener letras, espacios y paréntesis", ex.getMessage());
+        assertEquals("El nombre solo puede contener letras, espacios y paréntesis", excepcion.getMessage());
     }
 
     @Test
     void altaInstitucionConSitioWebInvalido() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaInstitucion("Instituto de IA", "Centro de IA", "robotica.edu.uy");
         });
-        assertEquals("El sitio web debe comenzar con http:// o https://", ex.getMessage());
+        assertEquals("El sitio web debe comenzar con http:// o https://", excepcion.getMessage());
     }
 
     @Test

@@ -61,26 +61,26 @@ class TestAltaEdicionEvento {
 
     @Test
     void altaEdicionConCamposVacios() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaEdicionEvento("ExpoTech1", "", "", Utilidades.toDate(LocalDate.of(2025, 8, 29)), Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 12)), "", "", "", null);
         });
-        assertTrue(ex.getMessage().contains("Todos los campos deben estar completos"));
+        assertTrue(excepcion.getMessage().contains("Todos los campos deben estar completos"));
     }
 
     @Test
     void fechaFinAntesDeInicio() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2026", "ET26", Utilidades.toDate(LocalDate.of(2025, 10, 30)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 29)), "Montevideo", "Uruguay", "organizador4", null);
         });
-        assertTrue(ex.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
+        assertTrue(excepcion.getMessage().contains("La fecha de fin no puede ser anterior a la fecha de inicio"));
     }
  
     @Test
     void fechaAltaPosteriorAInicioYFin() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2027", "ET27", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 15)), Utilidades.toDate(LocalDate.of(2025, 9, 20)), "Montevideo", "Uruguay", "organizador5", null);
         });
-        assertTrue(ex.getMessage().contains("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin"));
+        assertTrue(excepcion.getMessage().contains("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin"));
     }
 
     @Test

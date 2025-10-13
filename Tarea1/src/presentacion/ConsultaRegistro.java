@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -39,7 +38,7 @@ public class ConsultaRegistro extends JInternalFrame {
 
     //Logica
     private final IControladorUsuarios controladorusu = ControladorUsuarios.getInstance();
-    private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public ConsultaRegistro(String nicknameAsistente, String nombreRegistro) {
         setResizable(true);

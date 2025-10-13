@@ -64,29 +64,29 @@ import datatypes.ENivelPatrocinio;
 		   @Test
 		   
 		    void camposConEspacios() {
-		        Exception ex = assertThrows(Exception.class, () -> {
+		        Exception excepcion = assertThrows(Exception.class, () -> {
 		        	 ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
 		        	controlador.altaPatrocinio("", "Ed2027", Utilidades.toDate( LocalDate.now() ), "InstitutoX", nivel, 500000f, 2, "COD123", "General");
 		        });
-		        assertEquals("Todos los campos deben estar completos", ex.getMessage());
+		        assertEquals("Todos los campos deben estar completos", excepcion.getMessage());
 		    }
 		   
 		 @Test
 		    void codigoConCaracteresInvalidos() {
-		        Exception ex = assertThrows(Exception.class, () -> {
+		        Exception excepcion = assertThrows(Exception.class, () -> {
 		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
 		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate( LocalDate.now() ), "InstitutoA", nivel, 500000f, 2, "COD@123", "General");
 		        });
-		        assertEquals("El código de patrocinio solo puede contener letras y números", ex.getMessage());
+		        assertEquals("El código de patrocinio solo puede contener letras y números", excepcion.getMessage());
 		    }
 
 		    @Test
 		    void institucionDuplicada() throws Exception {
 
-		        Exception ex = assertThrows(Exception.class, () -> {
+		        Exception excepcion = assertThrows(Exception.class, () -> {
 		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
 		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate( LocalDate.now() ), "InstitutoX", nivel, 6000f, 1, "COD456", "General");
 		        });
-		        assertEquals("Ya existe un patrocinio de esa institución para la edición seleccionada", ex.getMessage());
+		        assertEquals("Ya existe un patrocinio de esa institución para la edición seleccionada", excepcion.getMessage());
 		    }
 		}
