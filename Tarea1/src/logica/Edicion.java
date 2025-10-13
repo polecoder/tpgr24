@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import excepciones.AsistenteYaRegistrado;
+import excepciones.NoHayCuposDisponibles;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
 import datatypes.DTEdicionEvento;
@@ -141,17 +143,17 @@ public class Edicion {
         );
     }
 
-    public boolean validar(String nicknameAsistente, String nombreTipoRegistro) throws Exception {
+    public boolean validar(String nicknameAsistente, String nombreTipoRegistro) throws NoHayCuposDisponibles, AsistenteYaRegistrado {
         try {
             TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
             int cupos = tr.getCuposDisponibles();
             if (cupos > 0) {
                 return tr.validar(nicknameAsistente);
             } else {
-                throw new Exception("No hay cupos disponibles");
+                throw new NoHayCuposDisponibles("No hay cupos disponibles");
             }
-        } catch (Exception vError) {
-            throw vError;
+        } catch (AsistenteYaRegistrado exception) {
+            throw exception;
         }
     }
 

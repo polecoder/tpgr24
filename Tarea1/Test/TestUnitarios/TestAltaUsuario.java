@@ -1,6 +1,10 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
@@ -15,9 +19,19 @@ import logica.Organizador;
 import logica.Utilidades;
 
 class TestAltaUsuario {
-	Fabrica fabrica= Fabrica.getInstancia();
-    IControladorUsuarios controladorUsuario = fabrica.getControladorUsuarios();
-    IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
+	private Fabrica fabrica= Fabrica.getInstancia();
+    private IControladorUsuarios controladorUsuario = fabrica.getControladorUsuarios();
+    private IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
+    
+    /*public Fabrica getFabrica() {
+    	return Fabrica.getInstancia();
+    	}
+    
+    public IControladorUsuarios getControlador() {
+    	return Fabrica.getInstancia().getControladorUsuarios();
+    }
+    
+    public */
 
     @BeforeEach
     public void init() {

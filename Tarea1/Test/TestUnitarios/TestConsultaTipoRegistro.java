@@ -1,5 +1,6 @@
 package TestUnitarios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -29,27 +30,25 @@ public class TestConsultaTipoRegistro {
 	@Test
 	void operacionGetTiposRegistro() {
 		// Alta Categoría
-		try {
-			fabrica.getControladorEvento().altaCategoria("Categoria1");
-		} catch (Exception e) {
-			throw new IllegalStateException("Ya existe una categoría con ese nombre.");
-		}
+		
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		});
+		
 		// Alta Organizador
-		try {
+		assertDoesNotThrow(() -> {
 			fabrica.getControladorUsuarios().altaOrganizador("Organizador1", "Eventos.2025!", "Nombre", "mail@mail.com", "Descripcion1", "https://Link1", null);
-		} catch (Exception e) {
-			throw new IllegalStateException(e.getMessage());
-		}
+		});
+		
 		// Alta Evento
 		List<String> listaCategorias = new ArrayList<>();
 		listaCategorias.add("Categoria1");
-		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias,null);
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null);
 		// Alta Edición
-		try {
-			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1",null);
-		} catch (Exception e) {
-			throw new IllegalStateException(e.getMessage());
-		}
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null);
+		});
+		
 		// Alta Tipo Registro
 		try {
 			fabrica.getControladorEvento().altaTipoRegistro("TR1", "Descripcion1", 100, 50, "Evento1", "EdicionEvento1");

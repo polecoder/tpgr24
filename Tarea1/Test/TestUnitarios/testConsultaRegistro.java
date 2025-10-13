@@ -1,10 +1,14 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
 import excepciones.EventoNoExiste;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -38,12 +42,12 @@ class testConsultaRegistro {
 		   ManejadorEventos manejador = ManejadorEventos.getInstancia(); 
 		   
 		//creo evento
-		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)),null);
+		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null);
 		manejador.agregarEvento(evento);
 		
 		//creo edicion
 		
-		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023,9,1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(),null);
+		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null);
 		evento.agregarEdicion(ed1);
 		
 		//creo Tiporegistro
@@ -55,7 +59,7 @@ class testConsultaRegistro {
 		ed1.agregarTipoRegistro(Gen);
 		
 		//crear asistente
-		Asistente ana = new Asistente("ana", "Eventos.2025!", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()),null);
+		Asistente ana = new Asistente("ana", "Eventos.2025!", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()), null);
 		
 		//creo Registro
 		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null);
@@ -93,17 +97,17 @@ class testConsultaRegistro {
 	    ManejadorEventos   me = ManejadorEventos.getInstancia();
 
 	    // --- Asistente ---
-	    Asistente ana = new Asistente("anaCR", "Eventos.2025!", "Ana", "Perez", "anaCR@mail.com", Utilidades.toDate(LocalDate.of(1999, 5, 1)),null);
+	    Asistente ana = new Asistente("anaCR", "Eventos.2025!", "Ana", "Perez", "anaCR@mail.com", Utilidades.toDate(LocalDate.of(1999, 5, 1)), null);
 	    mu.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
-	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)),null);
+	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null);
 	    me.agregarEvento(evento);
 
 	    Edicion ed = new Edicion("Expo", "EXP",
 	            Utilidades.toDate(LocalDate.of(2023, 9, 1)),
 	            Utilidades.toDate(LocalDate.of(2023, 12, 1)),
-	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay","organizador1", evento.getNombre(),null);
+	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null);
 	    evento.agregarEdicion(ed);
 
 	    // --- Tipos de registro ---
@@ -114,8 +118,8 @@ class testConsultaRegistro {
 
 	    // --- Patrocinio + Registros del usuario ---
 	    
-	    Patrocinio pat = new Patrocinio("Patro",Utilidades.toDate(LocalDate.now()), 0, null, 0, null,null);
-	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),100f, ana, pat);
+	    Patrocinio pat = new Patrocinio("Patro", Utilidades.toDate(LocalDate.now()), 0, null, 0, null, null);
+	    Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat);
 	    Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
 	    
 	    gen.addRegistro(r1);
@@ -152,12 +156,12 @@ class testConsultaRegistro {
 	}
 	
 	@Test
-	void obtenerDetalleRegistro_usuarioSinRegistros_e_indicesInvalidos() {
+	void obtenerDetalleRegistrousuarioSinRegistroseindicesInvalidos() {
 	    ControladorUsuarios cu = ControladorUsuarios.getInstance();
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
 	    // Usuario sin registros
-	    Asistente bob = new Asistente("bobCR", "Eventos.2025!", "Bob", "Lopez", "bobCR@mail.com", Utilidades.toDate(LocalDate.of(2000, 1, 1)),null);
+	    Asistente bob = new Asistente("bobCR", "Eventos.2025!", "Bob", "Lopez", "bobCR@mail.com", Utilidades.toDate(LocalDate.of(2000, 1, 1)), null);
 	    mu.getConjuntoAsistentes().put(bob.getNickname(), bob);
 
 	    // listar → vacío
@@ -172,7 +176,7 @@ class testConsultaRegistro {
 	}
 	
 	@Test
-    void listar_y_detalle_usuarioInexistente_oNickInvalido() {
+    void listarydetalleusuarioInexistenteoNickInvalido() {
 		
 		 ControladorUsuarios cu = ControladorUsuarios.getInstance();
         // inexistente
@@ -194,7 +198,7 @@ class testConsultaRegistro {
         assertNull(cu.obtenerDetalleRegistro(null, 0));
     }
 	@Test
-    void listar_y_detalle_ordenYUltimo() {
+    void listarydetalleordenYUltimo() {
         final String NICK = "carlosCR";
         final String MAIL = "carlosCR@mail.com";
         
@@ -203,15 +207,15 @@ class testConsultaRegistro {
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 
         // Usuario
-        Asistente carlos = new Asistente(NICK, "Eventos.2025!", "Carlos", "Ríos", MAIL, Utilidades.toDate(LocalDate.of(1995, 7, 4)),null);
+        Asistente carlos = new Asistente(NICK, "Eventos.2025!", "Carlos", "Ríos", MAIL, Utilidades.toDate(LocalDate.of(1995, 7, 4)), null);
         mu.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
-        Evento ev = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()),null);
+        Evento ev = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null);
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
-                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay","organizador2", ev.getNombre(),null);
+                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador2", ev.getNombre(), null);
         ev.agregarEdicion(ed);
 
         // Tipos
@@ -222,7 +226,7 @@ class testConsultaRegistro {
 
         
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
-        Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null,null);
+        Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null, null);
         Registro r1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
         Registro r2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
         Registro r3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
@@ -256,29 +260,29 @@ class testConsultaRegistro {
         // assertEquals("DevConf 2026", det.getNombreEdicion());
     }
 	@Test
-    void detalle_indicesInvalidos_yBorde() {
+    void detalleindicesInvalidosyBorde() {
 		
 		ManejadorEventos   me = ManejadorEventos.getInstancia();
         ControladorUsuarios cu = ControladorUsuarios.getInstance();
 	    ManejadorUsuarios  mu = ManejadorUsuarios.getInstance();
 		
         final String NICK = "mariaCR";
-        Asistente u = new Asistente(NICK, "Eventos.2025!", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)),null);
+        Asistente u = new Asistente(NICK, "Eventos.2025!", "María", "Quintana", "maria@mail.com", Utilidades.toDate(LocalDate.of(1998, 2, 2)), null);
         mu.getConjuntoAsistentes().put(u.getNickname(), u);
 
         // Contexto mínimo
-        Evento ev = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()),null);
+        Evento ev = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null);
         me.agregarEvento(ev);
         Edicion ed = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),
-                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay","organizador3", ev.getNombre(),null);
+                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay", "organizador3", ev.getNombre(), null);
         ev.agregarEdicion(ed);
 
         TipoRegistro gen = new TipoRegistro("General", "Acceso general", 800, 500, 500);
         ed.getTiposRegistro().put(gen.getNombre(), gen);
         
         
-         Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null,null); 
+         Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null, null); 
 
         // Un solo registro
         Registro r = new Registro(Utilidades.toDate(LocalDate.now()), 800f, u, pat);

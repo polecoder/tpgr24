@@ -8,6 +8,9 @@ import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
 import excepciones.FormatoContrasenaInvalido;
+import excepciones.FormularioIncompletoAsistente;
+import excepciones.FormularioIncompletoOrganizador;
+import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
@@ -19,11 +22,11 @@ import datatypes.DTRegistro;
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
-	private IControladorInstitucion IContInstituciones;
+	private IControladorInstitucion iContInstituciones;
 
 	private ControladorUsuarios() {
 		manejadorUsuarios = ManejadorUsuarios.getInstance();
-		IContInstituciones = ControladorInstitucion.getInstance();
+		iContInstituciones = ControladorInstitucion.getInstance();
 	}
 
 	public static ControladorUsuarios getInstance() {
@@ -40,10 +43,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
-			String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, Exception  {
+			String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoAsistente  {
 		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
 				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
-			throw new Exception("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
+			throw new FormularioIncompletoAsistente("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
 			/*manejadorUsuarios.agregarAsistente(
 			        nickname,
 			        contrasena,
@@ -57,27 +60,27 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
-			throw new Exception("El nombre solo puede contener letras y espacios");
+			throw new FormularioIncompletoAsistente("El nombre solo puede contener letras y espacios");
 		}
 
 		if (!apellido.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
-			throw new Exception("El apellido solo puede contener letras y espacios");
+			throw new FormularioIncompletoAsistente("El apellido solo puede contener letras y espacios");
 		}
 
 		if (!correo.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-			throw new Exception("El formato del correo es inválido");
+			throw new FormularioIncompletoAsistente("El formato del correo es inválido");
 		}
 
 		if (fechaNacimiento.after(new Date())) {
-			throw new Exception("La fecha de nacimiento no puede ser en el futuro.");
+			throw new FormularioIncompletoAsistente("La fecha de nacimiento no puede ser en el futuro.");
 		}
 		
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname del asistente ya existe");
+			throw new FormularioIncompletoAsistente("El nickname del asistente ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {
-			throw new Exception("El correo ya está en uso");
+			throw new FormularioIncompletoAsistente("El correo ya está en uso");
 		}
 
 		// Validación de contraseña
@@ -96,35 +99,35 @@ public class ControladorUsuarios implements IControladorUsuarios {
         }
 		
 		manejadorUsuarios.agregarAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
-				IContInstituciones.getInstitucion(nombreinstitucion), imagen);
+				iContInstituciones.getInstitucion(nombreinstitucion), imagen);
 	}
 	
 	@Override
 	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen)
-			throws FormatoContrasenaInvalido, Exception {
+			throws FormatoContrasenaInvalido, FormularioIncompletoOrganizador {
 		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || descripcion == null
 				|| descripcion.isEmpty() || correo == null || correo.isEmpty()) {
-			throw new Exception("Nick, contrasena, nombre, correo y descripción son campos obligatorios");
+			throw new FormularioIncompletoOrganizador("Nick, contrasena, nombre, correo y descripción son campos obligatorios");
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
-			throw new Exception("El nombre solo puede contener letras y espacios");
+			throw new FormularioIncompletoOrganizador("El nombre solo puede contener letras y espacios");
 		}
 
 		if (!correo.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-			throw new Exception("El formato del correo es inválido");
+			throw new FormularioIncompletoOrganizador("El formato del correo es inválido");
 		}
 
 		if (link != null && !link.isEmpty() && !link.matches("^(https?://).+")) {
-			throw new Exception("El link debe comenzar con http:// o https://");
+			throw new FormularioIncompletoOrganizador("El link debe comenzar con http:// o https://");
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new Exception("El nickname del organizador ya existe");
+			throw new FormularioIncompletoOrganizador("El nickname del organizador ya existe");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {
-			throw new Exception("El correo ya está en uso");
+			throw new FormularioIncompletoOrganizador("El correo ya está en uso");
 		}
 		
 		// Validación de contraseña
@@ -215,7 +218,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	 * @return
 	 * @throws Exception 
 	 */
-	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste {
 		return this.manejadorUsuarios.mostrarDetalleUsuario(nicknameUsuario);
 	}
 	
@@ -257,23 +260,23 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido,
-			Date nuevaFechaNacimiento) throws Exception {
+			Date nuevaFechaNacimiento) throws FormularioIncompletoAsistente {
 		Asistente asistente = this.manejadorUsuarios.getAsistente(nickname);
 		// Asistente no existe en el sistema
 		if (asistente == null) return;
 		
 		// Validación de campos vacíos
-		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
-		if (nuevoApellido == null || nuevoApellido.isEmpty()) throw new Exception("El nuevo apellido no puede ser vacío.");
-		if (nuevaFechaNacimiento == null) throw new Exception("Ingrese una nueva fecha de nacimiento.");
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new FormularioIncompletoAsistente("El nuevo nombre no puede ser vacío.");
+		if (nuevoApellido == null || nuevoApellido.isEmpty()) throw new FormularioIncompletoAsistente("El nuevo apellido no puede ser vacío.");
+		if (nuevaFechaNacimiento == null) throw new FormularioIncompletoAsistente("Ingrese una nueva fecha de nacimiento.");
 		
 		// Ningún campo se modificó
-		if (nuevoNombre.equals(asistente.getNombre()) && nuevoApellido.equals(asistente.getApellido()) && nuevaFechaNacimiento.equals(asistente.getNacimiento())) throw new Exception("No se modificó ningún campo.");
+		if (nuevoNombre.equals(asistente.getNombre()) && nuevoApellido.equals(asistente.getApellido()) && nuevaFechaNacimiento.equals(asistente.getNacimiento())) throw new FormularioIncompletoAsistente("No se modificó ningún campo.");
 		
 		// Validación de los datos nuevos
-		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo nombre solo puede contener letras y espacios.");
-		if (!nuevoApellido.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo apellido solo puede contener letras y espacios.");
-		if (nuevaFechaNacimiento.after(new Date())) throw new Exception("La nueva fecha de nacimiento no puede ser en el futuro.");
+		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new FormularioIncompletoAsistente("El nuevo nombre solo puede contener letras y espacios.");
+		if (!nuevoApellido.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new FormularioIncompletoAsistente("El nuevo apellido solo puede contener letras y espacios.");
+		if (nuevaFechaNacimiento.after(new Date())) throw new FormularioIncompletoAsistente("La nueva fecha de nacimiento no puede ser en el futuro.");
 		
 		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
 		asistente.setNombre(nuevoNombre);
@@ -283,22 +286,22 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion,
-			String nuevoLink) throws Exception {
+			String nuevoLink) throws FormularioIncompletoOrganizador {
 		Organizador organizador = this.manejadorUsuarios.getOrganizador(nickname);
 		// Organizador no existe en el sistema
 		if (organizador == null) return;
 		
 		// Validación de campos vacíos
-		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new Exception("El nuevo nombre no puede ser vacío.");
-		if (nuevaDescripcion == null || nuevaDescripcion.isEmpty()) throw new Exception("La nueva descripción no puede ser vacía.");
-		if (nuevoLink == null || nuevoLink.isEmpty()) throw new Exception("El nuevo link no puede ser vacío.");
+		if (nuevoNombre == null || nuevoNombre.isEmpty()) throw new FormularioIncompletoOrganizador("El nuevo nombre no puede ser vacío.");
+		if (nuevaDescripcion == null || nuevaDescripcion.isEmpty()) throw new FormularioIncompletoOrganizador("La nueva descripción no puede ser vacía.");
+		if (nuevoLink == null || nuevoLink.isEmpty()) throw new FormularioIncompletoOrganizador("El nuevo link no puede ser vacío.");
 		
 		// Ningún campo se modificó
-		if (nuevoNombre.equals(organizador.getNombre()) && nuevaDescripcion.equals(organizador.getDescripcion()) && nuevoLink.equals(organizador.getLink()) ) throw new Exception("No se modificó ningún campo.");
+		if (nuevoNombre.equals(organizador.getNombre()) && nuevaDescripcion.equals(organizador.getDescripcion()) && nuevoLink.equals(organizador.getLink()) ) throw new FormularioIncompletoOrganizador("No se modificó ningún campo.");
 		
 		// Validación de los datos nuevos
-		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new Exception("El nuevo nombre solo puede contener letras y espacios.");
-		if (!nuevoLink.matches("^(https?://).+")) throw new Exception("El nuevo link debe comenzar con http:// o https://.");
+		if (!nuevoNombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) throw new FormularioIncompletoOrganizador("El nuevo nombre solo puede contener letras y espacios.");
+		if (!nuevoLink.matches("^(https?://).+")) throw new FormularioIncompletoOrganizador("El nuevo link debe comenzar con http:// o https://.");
 		
 		// Seteo los campos (notar que si los datos son iguales a los anteriores no se hace nada)
 		organizador.setNombre(nuevoNombre);
@@ -316,10 +319,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 			if (a.getInstitucion()!=null) {
 				insti=a.getInstitucion().getNombre();
 			}
-			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento(),insti,a.getImagen()));
+			resultado.add(new DTDetalleAsistente(a.getNickname(), a.getNombre(), a.getCorreo(), a.getApellido(), a.getNacimiento(), insti, a.getImagen()));
 		}
 		for (Organizador o: organizadores.values()) {
-			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink(),o.getImagen()));
+			resultado.add(new DTDetalleOrganizador(o.getNickname(), o.getNombre(), o.getCorreo(), o.getDescripcion(), o.getLink(), o.getImagen()));
 		}
 		return resultado;
 	}
@@ -339,7 +342,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		// todas las validaciones ok, retorno el detalle de usuario
 		try {
 			return this.mostrarDetalleUsuario(u.getNickname());
-		} catch (Exception e) {
+		} catch (UsuarioNoExiste e) {
 			return null;
 		}
 	}

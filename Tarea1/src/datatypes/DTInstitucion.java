@@ -1,13 +1,12 @@
 package datatypes;
 
-public class DTInstitucion {
-	private 
-	String nombre;
-	String descripcion;
-	String sitioWeb;
+public class DTInstitucion { 
+	private String nombre;
+	private String descripcion;
+	private String sitioWeb;
 	
 	public 
-	DTInstitucion(String nombre,String descripcion, String sitioWeb) {
+	DTInstitucion(String nombre, String descripcion, String sitioWeb) {
         this.nombre =nombre;
         this.descripcion =descripcion ;
         this.sitioWeb=sitioWeb;

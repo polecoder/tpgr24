@@ -15,6 +15,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
+import excepciones.FormularioIncompletoEdicion;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
@@ -22,22 +23,22 @@ import logica.IControladorUsuarios;
 public class AltaEdicionEvento extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_Nombre;
-	private JTextField textField_Sigla;
-	private JTextField textField_Ciudad;
-	private JTextField textField_Pais;
+	private JTextField textFieldNombre;
+	private JTextField textFieldSigla;
+	private JTextField textFieldCiudad;
+	private JTextField textFieldPais;
 	private Fabrica fabrica= Fabrica.getInstancia();
-	private IControladorEventos IContEvento= fabrica.getControladorEvento();
-	private IControladorUsuarios IContUsuario= fabrica.getControladorUsuarios();
+	private IControladorEventos iContEvento= fabrica.getControladorEvento();
+	private IControladorUsuarios iContUsuario= fabrica.getControladorUsuarios();
 	public AltaEdicionEvento() {
 	    super("Alta Edicion", true, true, true, true); 
 	    setSize(600, 350);       
 	    setLocation(50, 25);   
 
 	    GridBagLayout gridBagLayout = new GridBagLayout();
-	    gridBagLayout.columnWidths = new int[]{0, 0, 0 ,0,0};
+	    gridBagLayout.columnWidths = new int[]{0, 0, 0 , 0, 0};
 	    gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-	    gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0,0.0};
+	    gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 	    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	    getContentPane().setLayout(gridBagLayout);
 
@@ -51,7 +52,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
 	    JComboBox<String> comboEventos = new JComboBox<>();
 		
-		Set<String> EventosDisponibles =IContEvento.nombresEventos();
+		Set<String> EventosDisponibles =iContEvento.nombresEventos();
 		 comboEventos.addItem("--Seleccionar Evento--");
 		 if (EventosDisponibles != null) {
 		        for (String evento : EventosDisponibles) {
@@ -60,7 +61,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		 
 	    GridBagConstraints gbc_comboEventos = new GridBagConstraints();
-	    gbc_comboEventos.insets = new Insets(5, 5 ,5, 3);
+	    gbc_comboEventos.insets = new Insets(5, 5 , 5, 3);
 	    gbc_comboEventos.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_comboEventos.gridx = 1;
 	    gbc_comboEventos.gridy = 0;
@@ -77,7 +78,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
 	    JComboBox<String> comboOrganizadores = new JComboBox<>();
 		
-		Set<String> OrganizadoresDisponibles =IContUsuario.nombresOrganizadores();
+		Set<String> OrganizadoresDisponibles =iContUsuario.nombresOrganizadores();
 		comboOrganizadores.addItem("--Seleccionar Organizador--");
 		 if (OrganizadoresDisponibles != null) {
 		        for (String organizador : OrganizadoresDisponibles) {
@@ -100,15 +101,15 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_Nombre.gridy = 2;
 	    getContentPane().add(lbl_Nombre, gbc_lbl_Nombre);
 
-	    textField_Nombre = new JTextField();
+	    textFieldNombre = new JTextField();
 	    GridBagConstraints gbc_textField_Nombre = new GridBagConstraints();
 	    gbc_textField_Nombre.insets = new Insets(5, 5, 5, 5);
 	    gbc_textField_Nombre.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_textField_Nombre.gridx = 1;
 	    gbc_textField_Nombre.gridy = 2;
 	    gbc_textField_Nombre.gridwidth = 2;
-	    getContentPane().add(textField_Nombre, gbc_textField_Nombre);
-	    textField_Nombre.setColumns(10);
+	    getContentPane().add(textFieldNombre, gbc_textField_Nombre);
+	    textFieldNombre.setColumns(10);
 
 	    JLabel lbl_Sigla = new JLabel("Sigla:");
 	    GridBagConstraints gbc_lbl_Sigla = new GridBagConstraints();
@@ -118,15 +119,15 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_Sigla.gridy = 3;
 	    getContentPane().add(lbl_Sigla, gbc_lbl_Sigla);
 
-	    textField_Sigla = new JTextField();
+	    textFieldSigla = new JTextField();
 	    GridBagConstraints gbc_textField_Sigla = new GridBagConstraints();
 	    gbc_textField_Sigla.insets = new Insets(5, 5, 5, 5);
 	    gbc_textField_Sigla.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_textField_Sigla.gridx = 1;
 	    gbc_textField_Sigla.gridy = 3;
 	    gbc_textField_Sigla.gridwidth = 2;
-	    getContentPane().add(textField_Sigla, gbc_textField_Sigla);
-	    textField_Sigla.setColumns(10);
+	    getContentPane().add(textFieldSigla, gbc_textField_Sigla);
+	    textFieldSigla.setColumns(10);
 
 	    JLabel lbl_Ciudad = new JLabel("Ciudad:");
 	    GridBagConstraints gbc_lbl_Ciudad = new GridBagConstraints();
@@ -136,15 +137,15 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_Ciudad.gridy = 4;
 	    getContentPane().add(lbl_Ciudad, gbc_lbl_Ciudad);
 
-	    textField_Ciudad = new JTextField();
+	    textFieldCiudad = new JTextField();
 	    GridBagConstraints gbc_textField_Ciudad = new GridBagConstraints();
 	    gbc_textField_Ciudad.insets = new Insets(5, 5, 5, 5);
 	    gbc_textField_Ciudad.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_textField_Ciudad.gridx = 1;
 	    gbc_textField_Ciudad.gridy = 4;
 	    gbc_textField_Ciudad.gridwidth = 2;
-	    getContentPane().add(textField_Ciudad, gbc_textField_Ciudad);
-	    textField_Ciudad.setColumns(10);
+	    getContentPane().add(textFieldCiudad, gbc_textField_Ciudad);
+	    textFieldCiudad.setColumns(10);
 
 	    JLabel lbl_Pais = new JLabel("Pais:");
 	    GridBagConstraints gbc_lbl_Pais = new GridBagConstraints();
@@ -154,15 +155,15 @@ public class AltaEdicionEvento extends JInternalFrame {
 	    gbc_lbl_Pais.gridy = 5;
 	    getContentPane().add(lbl_Pais, gbc_lbl_Pais);
 
-	    textField_Pais = new JTextField();
+	    textFieldPais = new JTextField();
 	    GridBagConstraints gbc_textField_Pais = new GridBagConstraints();
 	    gbc_textField_Pais.insets = new Insets(5, 5, 5, 5);
 	    gbc_textField_Pais.fill = GridBagConstraints.HORIZONTAL;
 	    gbc_textField_Pais.gridx = 1;
 	    gbc_textField_Pais.gridy = 5;
 	    gbc_textField_Pais.gridwidth = 2;
-	    getContentPane().add(textField_Pais, gbc_textField_Pais); 
-	    textField_Pais.setColumns(10);
+	    getContentPane().add(textFieldPais, gbc_textField_Pais); 
+	    textFieldPais.setColumns(10);
 
 	    JLabel lbl_FechaInicio = new JLabel("Fecha de Inicio:");
 	    GridBagConstraints gbc_lbl_FechaInicio = new GridBagConstraints();
@@ -249,10 +250,10 @@ public class AltaEdicionEvento extends JInternalFrame {
 			}
 	    	  
 	    	String nombreEvento = comboEventos.getSelectedItem().toString().trim();
-	    	String nombre = textField_Nombre.getText().trim();
-		    String sigla = textField_Sigla.getText().trim();
-		    String ciudad = textField_Ciudad.getText().trim();
-		    String pais = textField_Pais.getText().trim();
+	    	String nombre = textFieldNombre.getText().trim();
+		    String sigla = textFieldSigla.getText().trim();
+		    String ciudad = textFieldCiudad.getText().trim();
+		    String pais = textFieldPais.getText().trim();
 		    Date fechaAlta = (Date) Spinner_FechaAlta.getValue();
 		    Date fechaInicio = (Date) Spinner_FechaInicio.getValue();
 		    Date fechaFin = (Date) Spinner_FechaFin.getValue();
@@ -263,15 +264,15 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		    
 		    try {
-		        IContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador,null);
+		        iContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador, null);
 
 		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
 		        // Limpiar campos de texto
-		        textField_Nombre.setText("");
-		        textField_Sigla.setText("");
-		        textField_Ciudad.setText("");
-		        textField_Pais.setText("");
+		        textFieldNombre.setText("");
+		        textFieldSigla.setText("");
+		        textFieldCiudad.setText("");
+		        textFieldPais.setText("");
 
 		        // Resetear fechas a hoy
 		        Spinner_FechaAlta.setValue(new Date());
@@ -282,8 +283,8 @@ public class AltaEdicionEvento extends JInternalFrame {
 		        comboEventos.setSelectedIndex(-1);
 		        comboOrganizadores.setSelectedIndex(-1);
 
-		    } catch (Exception e1) {
-		        JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		    } catch (FormularioIncompletoEdicion exception) {
+		        JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		    }
 	    });
 	}

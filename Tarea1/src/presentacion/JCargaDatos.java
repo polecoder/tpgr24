@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -25,9 +27,9 @@ public class JCargaDatos extends JInternalFrame {
 		setSize(400, 300);
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,0,0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0,0.0,0.0,1.0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 
@@ -67,14 +69,15 @@ public class JCargaDatos extends JInternalFrame {
                         "Éxito",
                         JOptionPane.INFORMATION_MESSAGE
                     );
-                } catch (Exception ex) {
+                } catch (HeadlessException ex) {
                     JOptionPane.showMessageDialog(
                         this,
                         "Error al cargar los archivos.\n" + ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                     );
-                };
+                }
+                ;
             }
 		});
 	}

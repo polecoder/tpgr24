@@ -26,11 +26,11 @@ public class DTDetalleOrganizador extends DTDetalleUsuario {
 	}
 	
 	public boolean equals(DTDetalleOrganizador o) {
-		boolean nickname = this.nickname == o.getNickname();
-		boolean nombre = this.nombre == o.getNombre();
-		boolean correo = this.correo == o.getCorreo();
-		boolean descripcion = this.descripcion == o.getDescripcion();
-		boolean link = this.link == o.getLink();
+		boolean nickname = this.getNickname() == o.getNickname();
+		boolean nombre = this.getNombre() == o.getNombre();
+		boolean correo = this.getCorreo() == o.getCorreo();
+		boolean descripcion = this.getDescripcion() == o.getDescripcion();
+		boolean link = this.getLink() == o.getLink();
 		return nickname && nombre && correo && descripcion && link;
 	}
 }

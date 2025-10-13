@@ -25,10 +25,10 @@ import javax.swing.event.PopupMenuEvent;
 
 public class AltaTipoRegistro extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_Nombre;
-	private JTextField textField_Descripcion;
-	private JTextField textField_Costo;
-	private JTextField textField_Cupos;
+	private JTextField textFieldNombre;
+	private JTextField textFieldDescripcion;
+	private JTextField textFieldCosto;
+	private JTextField textFieldCupos;
 	
 	private Fabrica fabrica = Fabrica.getInstancia();
 	private IControladorEventos controladorEventos = fabrica.getControladorEvento();
@@ -40,9 +40,9 @@ public class AltaTipoRegistro extends JInternalFrame {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		
-		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0}; // 7 elementos
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0,0.0,1.0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -55,15 +55,15 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Nombre.gridy = 0;
 		getContentPane().add(lbl_Nombre, gbc_lbl_Nombre);
 		
-		textField_Nombre = new JTextField();
+		textFieldNombre = new JTextField();
 		GridBagConstraints gbc_textField_Nombre = new GridBagConstraints();
 		gbc_textField_Nombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Nombre.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Nombre.gridx = 1;
 		gbc_textField_Nombre.gridy = 0;
 		gbc_textField_Nombre.gridwidth = 2;  
-		getContentPane().add(textField_Nombre, gbc_textField_Nombre);
-		textField_Nombre.setColumns(10);
+		getContentPane().add(textFieldNombre, gbc_textField_Nombre);
+		textFieldNombre.setColumns(10);
 		//----------NOMBRE----------
 		
 		//----------DESCRIPCION----------
@@ -106,15 +106,15 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Costo.gridy = 2;
 		getContentPane().add(lbl_Costo, gbc_lbl_Costo);
 		
-		textField_Costo = new JTextField();
+		textFieldCosto = new JTextField();
 		GridBagConstraints gbc_textField_Costo = new GridBagConstraints();
 		gbc_textField_Costo.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Costo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Costo.gridx = 1;
 		gbc_textField_Costo.gridy = 2;
 		gbc_textField_Costo.gridwidth = 2; 
-		getContentPane().add(textField_Costo, gbc_textField_Costo);
-		textField_Costo.setColumns(10);
+		getContentPane().add(textFieldCosto, gbc_textField_Costo);
+		textFieldCosto.setColumns(10);
 		//----------COSTO----------
 		
 		//----------CUPOS----------
@@ -126,15 +126,15 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Cupos.gridy = 3;
 		getContentPane().add(lbl_Cupos, gbc_lbl_Cupos);
 		
-		textField_Cupos = new JTextField();
-		textField_Cupos.setColumns(10);
+		textFieldCupos = new JTextField();
+		textFieldCupos.setColumns(10);
 		GridBagConstraints gbc_textField_Cupos = new GridBagConstraints();
 		gbc_textField_Cupos.gridwidth = 2;
 		gbc_textField_Cupos.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Cupos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Cupos.gridx = 1;
 		gbc_textField_Cupos.gridy = 3;
-		getContentPane().add(textField_Cupos, gbc_textField_Cupos);
+		getContentPane().add(textFieldCupos, gbc_textField_Cupos);
 		//----------CUPOS----------
 		
 		//----------EVENTO----------
@@ -236,17 +236,19 @@ public class AltaTipoRegistro extends JInternalFrame {
 		Button_Aceptar.addActionListener(e -> {
 			// Reviso formatos
 			try {
-				float costo = Float.parseFloat(textField_Costo.getText());
+				float costo = Float.parseFloat(textFieldCosto.getText());
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this, "El costo debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
-			};
+			}
+			;
 			try {
-				int cuposMax = Integer.parseInt(textField_Cupos.getText());
+				int cuposMax = Integer.parseInt(textFieldCupos.getText());
 			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(this, "Los cupos deben ser un entero", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
-			};
+			}
+			;
 			if (comboEvento.getSelectedItem() == null ||comboEvento.getSelectedItem()=="-- Seleccionar un Evento --") {
 				JOptionPane.showMessageDialog(this, "Debe seleccionar un evento", "Error",  JOptionPane.ERROR_MESSAGE);
 				return;
@@ -256,12 +258,12 @@ public class AltaTipoRegistro extends JInternalFrame {
 				return;
 			}
 			// Reviso formatos
-			String nombre = textField_Nombre.getText(); // Obtengo nombre
+			String nombre = textFieldNombre.getText(); // Obtengo nombre
 			String descripcion = textField_Descripcion.getText(); // Obtengo descripcion
 			String nombreEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex()); // Obtengo nombreEvento
 			String nombreEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex()); // Obtengo nombreEdicion
-			float costo = Float.parseFloat(textField_Costo.getText()); // Obtengo costo
-			int cuposMax = Integer.parseInt(textField_Cupos.getText()); // Obtengo cuposMax
+			float costo = Float.parseFloat(textFieldCosto.getText()); // Obtengo costo
+			int cuposMax = Integer.parseInt(textFieldCupos.getText()); // Obtengo cuposMax
 			
 			try {
 				controladorEventos.altaTipoRegistro(nombre, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
@@ -273,10 +275,10 @@ public class AltaTipoRegistro extends JInternalFrame {
 				return;
 			}
 			JOptionPane.showMessageDialog(null,  "Tipo de Registro creado exitosamente");
-			textField_Nombre.setText("");
-			textField_Descripcion.setText("");
-			textField_Costo.setText("");
-			textField_Cupos.setText("");
+			textFieldNombre.setText("");
+			textFieldDescripcion.setText("");
+			textFieldCosto.setText("");
+			textFieldCupos.setText("");
 		});
 		
 		Button_Cancelar.addActionListener(e -> {

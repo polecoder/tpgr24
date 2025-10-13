@@ -7,6 +7,9 @@ import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
 import excepciones.FormatoContrasenaInvalido;
+import excepciones.FormularioIncompletoAsistente;
+import excepciones.FormularioIncompletoOrganizador;
+import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
@@ -15,8 +18,8 @@ import datatypes.DTRegistro;
 import datatypes.DTUsuario;
 
 public interface IControladorUsuarios {
-	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, Exception;
-	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) throws FormatoContrasenaInvalido, Exception;
+	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoAsistente;
+	void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoOrganizador;
 	Map<String, DTAsistente> listarAsistentes();
 	List<DTUsuario> listarUsuarios();
 	Set<String> nombresOrganizadores();
@@ -29,7 +32,7 @@ public interface IControladorUsuarios {
 	 * @return
 	 * @throws Exception 
 	 */
-	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception;
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste;
 	List<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador);
 	
 	/**
@@ -49,7 +52,7 @@ public interface IControladorUsuarios {
 	 * @param nuevoApellido
 	 * @param nuevaFechaNacimiento
 	 */
-	void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido, Date nuevaFechaNacimiento) throws Exception;
+	void modificarDatosAsistente(String nickname, String nuevoNombre, String nuevoApellido, Date nuevaFechaNacimiento) throws FormularioIncompletoAsistente;
 	/**
 	 * Modifica el Organizador o en el sistema tal que o.nickname = nickname con los datos pasados por parámetro.
 	 * Si el Organizador o no existe entonces no hace nada.
@@ -59,7 +62,7 @@ public interface IControladorUsuarios {
 	 * @param nuevaDescripcion
 	 * @param nuevoLink
 	 */
-	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws Exception;
+	void modificarDatosOrganizador(String nickname, String nuevoNombre, String nuevaDescripcion, String nuevoLink) throws FormularioIncompletoOrganizador;
 	void actualizarImagenUsuario(String nickname, byte[] imagen);
 	byte[] obtenerImagenPorNickname(String nickname);
 	/**

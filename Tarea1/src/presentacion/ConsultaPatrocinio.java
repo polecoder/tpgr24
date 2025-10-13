@@ -9,8 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JComboBox;
@@ -19,7 +17,6 @@ import javax.swing.JTextField;
 import excepciones.EventoNoExiste;
 import logica.Fabrica;
 import datatypes.DTDetallePatrocinio;
-import datatypes.DTEvento;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 
@@ -30,9 +27,9 @@ public class ConsultaPatrocinio extends JInternalFrame {
 	private JTextField aporteTxt;
 	private JTextField nivelTxt;
 	private JTextField cuposTxt;
-	private final String PLACEHOLDER_EVENTO = "--Seleccionar un Evento--";
-	private final String PLACEHOLDER_EDICION = "--Seleccionar una Edición--";
-	private final String PLACEHOLDER_PATROCINIO = "--Seleccionar un Patrocinio--";
+	private final String pLACEHOLDEREVENTO = "--Seleccionar un Evento--";
+	private final String pLACEHOLDEREDICION = "--Seleccionar una Edición--";
+	private final String pLACEHOLDERPATROCINIO = "--Seleccionar un Patrocinio--";
 	private JTextField tipoRegistroTxt;
 	
 	public ConsultaPatrocinio() {
@@ -42,10 +39,10 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600)); 
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,0,0};
-		gridBagLayout.rowHeights = new int[]{0,0, 0, 0, 0, 0, 0, 0, 0,0};
-		gridBagLayout.columnWeights = new double[]{1.0,0.0,1.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel eventoLbl = new JLabel("Evento:");
@@ -57,7 +54,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		getContentPane().add(eventoLbl, gbc_eventoLbl);
 		
 		JComboBox<String> comboEvento = new JComboBox<String>();
-		comboEvento.addItem(PLACEHOLDER_EVENTO);
+		comboEvento.addItem(pLACEHOLDEREVENTO);
 		Set<String> eventos = fabrica.getControladorEvento().nombresEventos();
 		for (String evento: eventos) {
 			comboEvento.addItem(evento);
@@ -78,7 +75,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		getContentPane().add(edicionLbl, gbc_edicionLbl);
 		
 		JComboBox<String> comboEdicion = new JComboBox<String>();
-		comboEdicion.addItem(PLACEHOLDER_EDICION);
+		comboEdicion.addItem(pLACEHOLDEREDICION);
 		GridBagConstraints gbc_comboEdicion = new GridBagConstraints();
 		gbc_comboEdicion.insets = new Insets(0, 0, 5, 5);
 		gbc_comboEdicion.fill = GridBagConstraints.HORIZONTAL;
@@ -95,7 +92,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		getContentPane().add(patrocinioLbl, gbc_patrocinioLbl);
 		
 		JComboBox<String> comboPatrocinio = new JComboBox<String>();
-		comboPatrocinio.addItem(PLACEHOLDER_PATROCINIO);
+		comboPatrocinio.addItem(pLACEHOLDERPATROCINIO);
 		GridBagConstraints gbc_comboPatrocinio = new GridBagConstraints();
 		gbc_comboPatrocinio.insets = new Insets(0, 0, 5, 5);
 		gbc_comboPatrocinio.fill = GridBagConstraints.HORIZONTAL;
@@ -211,14 +208,13 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		getContentPane().add(tipoRegistroTxt, gbc_tipoRegistroTxt);
 		tipoRegistroTxt.setColumns(10);
 		
-		comboEvento.addActionListener(e -> {
-			String eventoSeleccionado = (String) comboEvento.getSelectedItem();
-			if (eventoSeleccionado != null && !eventoSeleccionado.equals(PLACEHOLDER_EVENTO)) {
+		comboEvento.addActionListener(e -> {			String eventoSeleccionado = (String) comboEvento.getSelectedItem();
+			if (eventoSeleccionado != null && !eventoSeleccionado.equals(pLACEHOLDEREVENTO)) {
 				try {
 					Set<String> ediciones = fabrica.getControladorEvento().nombresEdicionesEvento(eventoSeleccionado);
 					actualizarCombobox(comboEdicion, () -> {
 						comboEdicion.removeAllItems();
-						comboEdicion.addItem(PLACEHOLDER_EDICION);
+						comboEdicion.addItem(pLACEHOLDEREDICION);
 						for (String edicion: ediciones) {
 							comboEdicion.addItem(edicion);
 						}
@@ -227,25 +223,25 @@ public class ConsultaPatrocinio extends JInternalFrame {
 					ex.printStackTrace();
 				}
 			}
-			comboEdicion.setSelectedItem(PLACEHOLDER_EDICION);
-			comboPatrocinio.setSelectedItem(PLACEHOLDER_PATROCINIO);
+			comboEdicion.setSelectedItem(pLACEHOLDEREDICION);
+			comboPatrocinio.setSelectedItem(pLACEHOLDERPATROCINIO);
 			resetCampos();
 		});
 		
 		comboEdicion.addActionListener(e -> {
 			String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 			String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
-			if (edicionSeleccionada != null && !edicionSeleccionada.equals(PLACEHOLDER_EDICION)) {
+			if (edicionSeleccionada != null && !edicionSeleccionada.equals(pLACEHOLDEREDICION)) {
 				Set<String> patrocinios = fabrica.getControladorEvento().listarPatrociniosDeEdicion(eventoSeleccionado, edicionSeleccionada);
 				actualizarCombobox(comboPatrocinio, () -> {
 					comboPatrocinio.removeAllItems();
-					comboPatrocinio.addItem(PLACEHOLDER_PATROCINIO);
+					comboPatrocinio.addItem(pLACEHOLDERPATROCINIO);
 					for (String patrocinio: patrocinios) {
 						comboPatrocinio.addItem(patrocinio);
 					}
 				});
 			}
-			comboPatrocinio.setSelectedItem(PLACEHOLDER_PATROCINIO);
+			comboPatrocinio.setSelectedItem(pLACEHOLDERPATROCINIO);
 			resetCampos();
 		});
 		
@@ -253,7 +249,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 			String eventoSeleccionado = (String) comboEvento.getSelectedItem();
 			String edicionSeleccionada = (String) comboEdicion.getSelectedItem();
 			String patrocinioSeleccionado = (String) comboPatrocinio.getSelectedItem();
-			if (patrocinioSeleccionado != null && !patrocinioSeleccionado.equals(PLACEHOLDER_PATROCINIO)) {
+			if (patrocinioSeleccionado != null && !patrocinioSeleccionado.equals(pLACEHOLDERPATROCINIO)) {
 				DTDetallePatrocinio patrocinio = fabrica.getControladorEvento().mostrarDetallePatrocinio(eventoSeleccionado, edicionSeleccionada, patrocinioSeleccionado);
 				this.aporteTxt.setText(String.valueOf(patrocinio.aporte()));
 				this.cuposTxt.setText(String.valueOf(patrocinio.cuposGratuitos()));
@@ -265,7 +261,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 				this.tipoRegistroTxt.setText(patrocinio.tipoRegistro());
 				
 				
-			} else if (patrocinioSeleccionado.equals(PLACEHOLDER_PATROCINIO)) {
+			} else if (patrocinioSeleccionado.equals(pLACEHOLDERPATROCINIO)) {
 				resetCampos();
 			}
 		});

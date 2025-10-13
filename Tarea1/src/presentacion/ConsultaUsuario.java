@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ConsultaUsuario extends JInternalFrame {
 	
 	private boolean actualizandoNicknameAsistente = false;
 
-	Fabrica fabrica = Fabrica.getInstancia();
+	private Fabrica fabrica = Fabrica.getInstancia();
 	
 	public ConsultaUsuario(JDesktopPane desktopPane) {
 		super("Consulta Usuario", true, true, true, true);
@@ -54,10 +55,10 @@ public class ConsultaUsuario extends JInternalFrame {
 		setMaximumSize(new Dimension(800, 600));
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0,133,0};
-		gridBagLayout.rowHeights = new int[]{0,0,0,0,0,0,0,0};
-		gridBagLayout.columnWeights = new double[]{1.0,1.0,1.0,1.0};
-		gridBagLayout.rowWeights = new double[]{1.0,0.0,0.0,0.0,0.0,0.0,1.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 133, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
@@ -311,7 +312,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		panelAsistente2.add(lblRegistros, gbcLblRegistros);
 
 		JComboBox<String> registrosCombo = new JComboBox<>();
-		registrosCombo.setPreferredSize(new Dimension(225,20));
+		registrosCombo.setPreferredSize(new Dimension(225, 20));
 		GridBagConstraints gbcCombo = new GridBagConstraints();
 		gbcCombo.gridx = 1;
 		gbcCombo.gridy = 0;
@@ -342,7 +343,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		panelOrganizador2.add(lblEdiciones, gbcLblEdiciones);
 
 		JComboBox<String> edicionesCombo = new JComboBox<>();
-		edicionesCombo.setPreferredSize(new Dimension(225,20));
+		edicionesCombo.setPreferredSize(new Dimension(225, 20));
 		GridBagConstraints gbcEdicionesCombo = new GridBagConstraints();
 		gbcEdicionesCombo.gridx = 1;
 		gbcEdicionesCombo.gridy = 0;
@@ -392,9 +393,7 @@ public class ConsultaUsuario extends JInternalFrame {
 				cardPanel1.setVisible(false);
 				cardPanel2.setVisible(false);
 
-				
-			}
-			else if (this.nicknameSeleccionado != null ) {
+			}else if (this.nicknameSeleccionado != null ) {
 		        actualizarDatosUsuario(this.nicknameSeleccionado);
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				registrosCombo.removeAllItems();
@@ -424,7 +423,7 @@ public class ConsultaUsuario extends JInternalFrame {
 			        ventanaConsultaRegistro.setVisible(true);
 				    try {
 				        ventanaConsultaRegistro.setSelected(true);
-				    } catch (Exception ex) {
+				    } catch (PropertyVetoException ex) {
 				        ex.printStackTrace();
 				    }
 			    }
@@ -446,7 +445,7 @@ public class ConsultaUsuario extends JInternalFrame {
 			        ventanaConsultaRegistro.setVisible(true);
 				    try {
 				        ventanaConsultaRegistro.setSelected(true);
-				    } catch (Exception ex) {
+				    } catch (PropertyVetoException ex) {
 				        ex.printStackTrace();
 				    }
 			    }
@@ -481,7 +480,7 @@ public class ConsultaUsuario extends JInternalFrame {
 				cl1.show(cardPanel1, "Organizador");
 				cl2.show(cardPanel2, "Organizador");
 			}
-		} catch (Exception e) {
+		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
 	}

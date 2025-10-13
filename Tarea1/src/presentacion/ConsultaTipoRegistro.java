@@ -18,11 +18,11 @@ import datatypes.DTTipoRegistro;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_Nombre;
-	private JTextField textField_Descripcion;
-	private JTextField textField_Costo;
-	private JTextField textField_CuposMax;
-	private JTextField textField_CuposDisp;
+	private JTextField textFieldNombre;
+	private JTextField textFieldDescripcion;
+	private JTextField textFieldCosto;
+	private JTextField textFieldCuposMax;
+	private JTextField textFieldCuposDisp;
 	private ControladorEventos controladorEventos = ControladorEventos.getInstance();
 	
 	private JComboBox<String> comboEvento, comboEdicion, comboTipoRegistro;
@@ -36,7 +36,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0}; // 3 elementos
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0,0.0,0.0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -80,7 +80,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		Set<String> ediciones;
 		try { 
 			String selectedEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex());
-			if(selectedEvento != null && selectedEvento != "- Seleccione un Evento -") {
+			if (selectedEvento != null && selectedEvento != "- Seleccione un Evento -") {
 				ediciones = controladorEventos.nombresEdicionesEvento(selectedEvento);
 			}else {
 				ediciones = null;
@@ -118,7 +118,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		try { 
 			String selectedEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex());
 			String selectedEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
-			if(selectedEvento != null && selectedEvento != "- Seleccione un Evento -"
+			if (selectedEvento != null && selectedEvento != "- Seleccione un Evento -"
 					&& selectedEdicion != null && selectedEdicion != "- Seleccione una edicion -") {
 				tiposRegistro = controladorEventos.getTiposRegistro(comboEvento.getItemAt(comboEvento.getSelectedIndex()), comboEdicion.getItemAt(comboEdicion.getSelectedIndex()));				
 			}else {
@@ -151,16 +151,16 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Nombre.gridy = 3;
 		getContentPane().add(lbl_Nombre, gbc_lbl_Nombre);
 		
-		textField_Nombre = new JTextField();
+		textFieldNombre = new JTextField();
 		GridBagConstraints gbc_textField_Nombre = new GridBagConstraints();
 		gbc_textField_Nombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Nombre.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Nombre.gridx = 1;
 		gbc_textField_Nombre.gridy = 3;
 		gbc_textField_Nombre.gridwidth = 2;  
-		getContentPane().add(textField_Nombre, gbc_textField_Nombre);
-		textField_Nombre.setEditable(false);
-		textField_Nombre.setColumns(10);
+		getContentPane().add(textFieldNombre, gbc_textField_Nombre);
+		textFieldNombre.setEditable(false);
+		textFieldNombre.setColumns(10);
 		//----------NOMBRE----------
 		
 		//----------DESCRIPCION----------
@@ -172,16 +172,16 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Descripcion.gridy = 4;
 		getContentPane().add(lbl_Descripcion, gbc_lbl_Descripcion);
 		
-		textField_Descripcion = new JTextField();
+		textFieldDescripcion = new JTextField();
 		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
 		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Descripcion.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Descripcion.gridx = 1;
 		gbc_textField_Descripcion.gridy = 4;
 		gbc_textField_Descripcion.gridwidth = 2; 
-		getContentPane().add(textField_Descripcion, gbc_textField_Descripcion);
-		textField_Descripcion.setEditable(false);
-		textField_Descripcion.setColumns(10);
+		getContentPane().add(textFieldDescripcion, gbc_textField_Descripcion);
+		textFieldDescripcion.setEditable(false);
+		textFieldDescripcion.setColumns(10);
 		//----------DESCRIPCION----------
 		
 		//----------COSTO----------
@@ -193,16 +193,16 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_Costo.gridy = 5;
 		getContentPane().add(lbl_Costo, gbc_lbl_Costo);
 		
-		textField_Costo = new JTextField();
+		textFieldCosto = new JTextField();
 		GridBagConstraints gbc_textField_Costo = new GridBagConstraints();
 		gbc_textField_Costo.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_Costo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_Costo.gridx = 1;
 		gbc_textField_Costo.gridy = 5;
 		gbc_textField_Costo.gridwidth = 2; 
-		getContentPane().add(textField_Costo, gbc_textField_Costo);
-		textField_Costo.setEditable(false);
-		textField_Costo.setColumns(10);
+		getContentPane().add(textFieldCosto, gbc_textField_Costo);
+		textFieldCosto.setEditable(false);
+		textFieldCosto.setColumns(10);
 		//----------COSTO----------
 		
 		//----------CUPOS MAX----------
@@ -214,16 +214,16 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_CuposMax.gridy = 6;
 		getContentPane().add(lbl_CuposMax, gbc_lbl_CuposMax);
 		
-		textField_CuposMax = new JTextField();
-		textField_CuposMax.setColumns(10);
+		textFieldCuposMax = new JTextField();
+		textFieldCuposMax.setColumns(10);
 		GridBagConstraints gbc_textField_CuposMax = new GridBagConstraints();
 		gbc_textField_CuposMax.gridwidth = 2;
 		gbc_textField_CuposMax.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_CuposMax.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_CuposMax.gridx = 1;
 		gbc_textField_CuposMax.gridy = 6;
-		textField_CuposMax.setEditable(false);
-		getContentPane().add(textField_CuposMax, gbc_textField_CuposMax);
+		textFieldCuposMax.setEditable(false);
+		getContentPane().add(textFieldCuposMax, gbc_textField_CuposMax);
 		//----------CUPOS MAX----------
 		
 		//----------DISPONIBLES----------
@@ -235,22 +235,24 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lbl_CuposDisp.gridy = 7;
 		getContentPane().add(lbl_CuposDisp, gbc_lbl_CuposDisp);
 		
-		textField_CuposDisp = new JTextField();
-		textField_CuposDisp.setColumns(10);
+		textFieldCuposDisp = new JTextField();
+		textFieldCuposDisp.setColumns(10);
 		GridBagConstraints gbc_textField_CuposDisp = new GridBagConstraints();
 		gbc_textField_CuposDisp.gridwidth = 2;
 		gbc_textField_CuposDisp.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_CuposDisp.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_CuposDisp.gridx = 1;
 		gbc_textField_CuposDisp.gridy = 7;
-		textField_CuposDisp.setEditable(false); 
-		getContentPane().add(textField_CuposDisp, gbc_textField_CuposDisp);
+		textFieldCuposDisp.setEditable(false); 
+		getContentPane().add(textFieldCuposDisp, gbc_textField_CuposDisp);
 		//----------DISPONIBLES----------
 		//--------------------DETALLES--------------------
 		
 		// Agrego datos al inicio
     	try { actualizarDatos();
-    	} catch (TipoRegistroNoExiste ex) {}
+    	} catch (TipoRegistroNoExiste ex) {
+    		ex.printStackTrace();
+    	}
 		
 		
 		//----------ACTIONLISTENERS----------
@@ -263,7 +265,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
     		Set<String> ediciones2;
     		try { 
     			String selectedEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex());
-    			if(selectedEvento != null && selectedEvento != "- Seleccione un Evento -") {
+    			if (selectedEvento != null && selectedEvento != "- Seleccione un Evento -") {
     				ediciones2 = controladorEventos.nombresEdicionesEvento(selectedEvento);
     			}else {
     				ediciones2 = null;
@@ -280,7 +282,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
     		try { 
     			String selectedEvento = comboEvento.getItemAt(comboEvento.getSelectedIndex());
     			String selectedEdicion = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
-    			if(selectedEvento != null && selectedEvento != "- Seleccione un Evento -"
+    			if (selectedEvento != null && selectedEvento != "- Seleccione un Evento -"
     					&& selectedEdicion != null && selectedEdicion != "- Seleccione una edicion -") {
     				nombreTiposRegistro = controladorEventos.getTiposRegistro(comboEvento.getItemAt(comboEvento.getSelectedIndex()), comboEdicion.getItemAt(comboEdicion.getSelectedIndex()));				
     			}else {
@@ -301,7 +303,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
         	}
         });
 		// Actualizo opciones de  TipoRegistro al cambiar de Edicion
-		comboEdicion.addActionListener(e ->{ // Cuando se cierra el combo
+		comboEdicion.addActionListener(e -> { // Cuando se cierra el combo
         	// Limpiar opciones viejas
         	comboTipoRegistro.removeAllItems();
         	// Agregar nuevas opciones a comboTipoRegistro
@@ -310,7 +312,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
         	
         	String[] nombreTiposRegistro;
     		try { 
-    			if(eventoSeleccionado != null && eventoSeleccionado != "- Seleccione un Evento -"
+    			if (eventoSeleccionado != null && eventoSeleccionado != "- Seleccione un Evento -"
     					&& edicionSeleccionada != null && edicionSeleccionada != "- Seleccione una edicion -") {
     				nombreTiposRegistro = controladorEventos.getTiposRegistro(comboEvento.getItemAt(comboEvento.getSelectedIndex()), comboEdicion.getItemAt(comboEdicion.getSelectedIndex()));				
     			}else {
@@ -361,15 +363,15 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		String eventoSeleccionado = comboEvento.getItemAt(comboEvento.getSelectedIndex());
 		String edicionSeleccionada = comboEdicion.getItemAt(comboEdicion.getSelectedIndex());
 		
-		textField_Nombre.setText("");
-    	textField_Descripcion.setText("");
-    	textField_Costo.setText("");
-    	textField_CuposMax.setText("");
-    	textField_CuposDisp.setText("");
+		textFieldNombre.setText("");
+    	textFieldDescripcion.setText("");
+    	textFieldCosto.setText("");
+    	textFieldCuposMax.setText("");
+    	textFieldCuposDisp.setText("");
 		
 		DTTipoRegistro dtTipoRegistro = null;
 		try {
-			if(tipoRegistroSeleccionado!= null && tipoRegistroSeleccionado != "- Seleccione un Tipo Registro -" &&
+			if (tipoRegistroSeleccionado!= null && tipoRegistroSeleccionado != "- Seleccione un Tipo Registro -" &&
 					eventoSeleccionado != null && eventoSeleccionado != "- Seleccione un Evento -" &&
 					edicionSeleccionada!= null && edicionSeleccionada != "- Seleccione una edicion -") {
 				dtTipoRegistro = controladorEventos.getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado);				
@@ -382,11 +384,11 @@ public class ConsultaTipoRegistro extends JInternalFrame {
     		return;
     	}
 		if (dtTipoRegistro != null) {
-			textField_Nombre.setText(dtTipoRegistro.nombre());
-	    	textField_Descripcion.setText(dtTipoRegistro.descripcion());
-	    	textField_Costo.setText(String.valueOf(dtTipoRegistro.costo()));
-	    	textField_CuposMax.setText(String.valueOf(dtTipoRegistro.cuposMax()));
-	    	textField_CuposDisp.setText(String.valueOf(dtTipoRegistro.cuposDisponibles()));
+			textFieldNombre.setText(dtTipoRegistro.nombre());
+	    	textFieldDescripcion.setText(dtTipoRegistro.descripcion());
+	    	textFieldCosto.setText(String.valueOf(dtTipoRegistro.costo()));
+	    	textFieldCuposMax.setText(String.valueOf(dtTipoRegistro.cuposMax()));
+	    	textFieldCuposDisp.setText(String.valueOf(dtTipoRegistro.cuposDisponibles()));
 		}
 	}
 }

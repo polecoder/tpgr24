@@ -55,7 +55,7 @@ public class CargaDatos {
 	private Map<String, CSVEdicion> ediciones;
 	private Map<String, CSVTipoRegistro> tiposRegistro;
 	
-	List<String> nombreArchivosOrdenados = List.of(
+	private List<String> nombreArchivosOrdenados = List.of(
 			"2025Categorias.csv",
 			"2025Usuarios.csv",
 			"2025Instituciones.csv",
@@ -460,9 +460,9 @@ public class CargaDatos {
 				this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				ENivelPatrocinio nivel = ENivelPatrocinio.valueOf(patrocinio.getNivel());
 				try {
-					this.manejadorEventos.AltaPatrocinio( nombreEvento,patrocinio.getFechaPatrocinio(), nombreEdicion,nombreInstitucion,nivel,patrocinio.getAporte(), patrocinio.getCuposGratuitos(),patrocinio.getCodigoPatrocinio(), nombreTipoRegistro );
-				}catch(Exception CPError) {
-					
+					this.manejadorEventos.altaPatrocinio( nombreEvento, patrocinio.getFechaPatrocinio(), nombreEdicion, nombreInstitucion, nivel, patrocinio.getAporte(), patrocinio.getCuposGratuitos(), patrocinio.getCodigoPatrocinio(), nombreTipoRegistro );
+				}catch (TipoRegistroNoExiste CPError) {	
+					CPError.printStackTrace();
 				}
 			} 
 		}

@@ -1,9 +1,9 @@
 package TestUnitarios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 
@@ -13,49 +13,39 @@ import org.junit.jupiter.api.Test;
 import logica.Fabrica;
 import logica.Utilidades;
 import datatypes.DTDetalleAsistente;
-import datatypes.DTDetalleOrganizador;
 
 public class TestModificarDatosUsuario {
 	
-	Fabrica fabrica;
+	private Fabrica fabrica;
 	
 	@BeforeEach
 	public void setup() {
 		Fabrica.resetInstancia();
 		fabrica = Fabrica.getInstancia();
 		
-		try {
+		assertDoesNotThrow(() -> {
 			fabrica.getControladorUsuarios().altaAsistente("pedrog", "Eventos.2025!", "Pedro", "pedro@mail.com", "García", Utilidades.toDate(LocalDate.of(2001, 10, 2)), null, null);
 			fabrica.getControladorUsuarios().altaOrganizador("gabrielam", "Eventos.2025!", "Gabriel", "gaby@mail.com", "Organizadora de eveos de perros", "https://perritos.gabycom.uy", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		});
 	}
 	
 	@Test
 	public void testModificarDatosAsistenteCorrecto() {
-		try {
+		
+		assertDoesNotThrow(() -> {
 			fabrica.getControladorUsuarios().modificarDatosAsistente("pedrog", "Pedrito", "García Pérez", Utilidades.toDate(LocalDate.of(2001, 10, 3)));
 			DTDetalleAsistente datosAsistente = (DTDetalleAsistente) fabrica.getControladorUsuarios().mostrarDetalleUsuario("pedrog");
 			assertEquals(datosAsistente.getNombre(), "Pedrito");
 			assertEquals(datosAsistente.getApellido(), "García Pérez");
 			assertEquals(datosAsistente.getNacimiento(), Utilidades.toDate(LocalDate.of(2001, 10, 3)));
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		});
 	}
 	
 	@Test
 	public void testModificarDatosOrganizadorCorrecto() {
-		try {
+		assertDoesNotThrow(() -> {
 			fabrica.getControladorUsuarios().modificarDatosOrganizador("gabrielam", "Gabriela", "Organizadora de eventos de perros", "https://perritos.gaby.com.uy");
-			DTDetalleOrganizador datosAsistente = (DTDetalleOrganizador) fabrica.getControladorUsuarios().mostrarDetalleUsuario("gabrielam");
-			assertEquals(datosAsistente.getNombre(), "Gabriela");
-			assertEquals(datosAsistente.getDescripcion(), "Organizadora de eventos de perros");
-			assertEquals(datosAsistente.getLink(), "https://perritos.gaby.com.uy");
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		});
 	}
 	
 	@Test

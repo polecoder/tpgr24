@@ -1,6 +1,10 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -26,8 +30,8 @@ class testEdicion {
              Utilidades.toDate(LocalDate.of(2025, 9, 1)),
              Utilidades.toDate(LocalDate.of(2025, 9, 3)),
              Utilidades.toDate(LocalDate.now()),
-             "Montevideo", "Uruguay", "Edicion", "Edicion",null);
-	}
+             "Montevideo", "Uruguay", "Edicion", "Edicion", null);
+	} 
 	@Test
 	void test1() throws Exception{
 		
@@ -59,14 +63,14 @@ class testEdicion {
 	}
 	
 	@Test
-    void patrocinios_validar_y_check_ramas_y_eliminar() throws Exception {
+    void patrociniosvalidarycheckramasyeliminar() throws Exception {
         Edicion ed = nuevaEdicion();
 
         TipoRegistro agotado = new TipoRegistro("Agotado", "Sin cupos", 0f, 10, 0 /* cuposDisponibles=0 */);
         ed.agregarTipoRegistro(agotado);
         assertThrows(Exception.class, () -> ed.validar("nick", "Agotado"));
 
-        assertFalse(ed.check("COD-INEXISTENTE", "nick",agotado.getNombre()));
+        assertFalse(ed.check("COD-INEXISTENTE", "nick", agotado.getNombre()));
 
         Institucion inst = new Institucion("Fing", "fing@uni.edu", "Facultad Ing.");
         Patrocinio pat = new Patrocinio(
@@ -79,7 +83,7 @@ class testEdicion {
                 agotado);
         ed.agregarPatrocinio(pat);
 
-        assertFalse(ed.check("PAT-001", "cualquierNick",agotado.getNombre()));
+        assertFalse(ed.check("PAT-001", "cualquierNick", agotado.getNombre()));
 
         ed.eliminarPatrocinio("PAT-001");
         assertFalse(ed.getPatrocinios().containsKey("PAT-001"));

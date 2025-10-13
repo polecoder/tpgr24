@@ -8,12 +8,13 @@ import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
+import excepciones.UsuarioNoExiste;
 
 public class ManejadorUsuarios {
 	private static ManejadorUsuarios instance = null;
 	
-	private Map<String,Asistente> conjuntoAsistentes;
-	private Map<String,Organizador> conjuntoOrganizadores;
+	private Map<String, Asistente> conjuntoAsistentes;
+	private Map<String, Organizador> conjuntoOrganizadores;
 	
 	// Constructor
 	private ManejadorUsuarios() {
@@ -40,11 +41,11 @@ public class ManejadorUsuarios {
 	}
 	
 	// ------- GETTERS ----------
-	public Map<String,Asistente> getConjuntoAsistentes() {
+	public Map<String, Asistente> getConjuntoAsistentes() {
 		return conjuntoAsistentes;
 	}
 	
-	public Map<String,Organizador> getConjuntoOrganizador() {
+	public Map<String, Organizador> getConjuntoOrganizador() {
 		return conjuntoOrganizadores;
 	}
 	
@@ -66,18 +67,18 @@ public class ManejadorUsuarios {
 	    return false;
 	}
 	
-	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion, byte[] imagen) {
-		Asistente A= new Asistente(nickname,contrasena,nombre,correo,apellido,fechaNacimiento,institucion);
+	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, Institucion institucion, byte[] imagen) {
+		Asistente A= new Asistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento, institucion);
 		if (institucion!=null) {
-			institucion.asistentes.put(nickname, A);
+			institucion.getAsistentes().put(nickname, A);
 		}
 		conjuntoAsistentes.put(A.getNickname(), A);
 		if (imagen != null && imagen.length > 0) A.setImagen(imagen);
 	    conjuntoAsistentes.put(nickname, A);
 	}
 	
-	public void agregarOrganizador(String nickname, String contrasena,String nombre, String correo, String descripcion, String link, byte[] imagen) {
-		Organizador O=new Organizador(nickname,contrasena,nombre,correo,descripcion,link);
+	public void agregarOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) {
+		Organizador O=new Organizador(nickname, contrasena, nombre, correo, descripcion, link);
 		conjuntoOrganizadores.put(O.getNickname(), O);
 		if (imagen != null && imagen.length > 0) O.setImagen(imagen);
 	    conjuntoOrganizadores.put(nickname, O);
@@ -156,7 +157,7 @@ public class ManejadorUsuarios {
 	 * @return
 	 * @throws Exception 
 	 */
-	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws Exception {
+	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste {
 		if (this.getOrganizador(nicknameUsuario) != null) {
 			Organizador organizador = this.getOrganizador(nicknameUsuario);
 			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
@@ -166,9 +167,9 @@ public class ManejadorUsuarios {
 			if (asistente.getInstitucion()!=null) {
 				insti=asistente.getInstitucion().getNombre();
 			}
-			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(),insti, asistente.getImagen());
+			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(), insti, asistente.getImagen());
 		} else {
-			throw new Exception("El usuario indicado no existe en el sistema.");
+			throw new UsuarioNoExiste("El usuario indicado no existe en el sistema.");
 		}
 	}
 	

@@ -3,7 +3,6 @@ package logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Asistente extends Usuario {
@@ -15,7 +14,7 @@ public class Asistente extends Usuario {
 	private Institucion institucion;
 	private byte[] imagen;
 	
-	public Asistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,Institucion institucion) {
+	public Asistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, Institucion institucion) {
 		super(nickname, contrasena, nombre, correo);
 		this.setApellido(apellido);
 		this.setNacimiento(fechaNacimiento);
@@ -25,23 +24,19 @@ public class Asistente extends Usuario {
 	}
 	
 	// Getters
-	public String getApellido() {return apellido;}
-	public Date getNacimiento() {return nacimiento;}
-	public List<Registro> getRegistros() {return registros;}
-	public Institucion getInstitucion() {return institucion;}
+	public String getApellido() {return apellido; }
+	public Date getNacimiento() {return nacimiento; }
+	public List<Registro> getRegistros() {return registros; }
+	public Institucion getInstitucion() {return institucion; }
 	public byte[] getImagen() { return imagen; }
 	// Setters
-	public void setApellido(String apellido) {this.apellido = apellido;}
-	public void setNacimiento(Date nacimiento) {this.nacimiento = nacimiento;}
-	public void setInstitucion(Institucion institucion) {this.institucion=institucion;}
+	public void setApellido(String apellido) {this.apellido = apellido; }
+	public void setNacimiento(Date nacimiento) {this.nacimiento = nacimiento; }
+	public void setInstitucion(Institucion institucion) {this.institucion=institucion; }
 	public void setImagen(byte[] imagen) { this.imagen = imagen; }
 	// Metodos
 	public void addRegistro(Registro r) {
-		try {
-			this.registros.add(r);
-		}catch(Exception ARError) {
-            logger.log(Level.SEVERE, "Asistente::addRegistro() ERROR: ", ARError);
-		}
+		this.registros.add(r);
 	}
 }
 

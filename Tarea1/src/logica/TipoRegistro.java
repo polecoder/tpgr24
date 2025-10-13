@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import datatypes.DTTipoRegistro;
+import excepciones.AsistenteYaRegistrado;
 
 public class TipoRegistro {
 
@@ -49,19 +50,16 @@ public class TipoRegistro {
     }
     
     public List<Registro> getRegistros(){ return registros; }
-    public boolean validar(String nicknameAsistente) throws Exception{
-        try {
-        	boolean v = false;
-        	for(Registro r: registros) {
-        		v = v || r.validar(nicknameAsistente);
-        	}
-        	if(v) {
-        		throw new Exception("Este asistente ya esta registrado");
-        	}
-        	return !v;        	
-        }catch(Exception vError) {
-        	throw vError;
-        }
+    
+    public boolean validar(String nicknameAsistente) throws AsistenteYaRegistrado {
+    	boolean v = false;
+    	for (Registro r: registros) {
+    		v = v || r.validar(nicknameAsistente);
+    	}
+    	if (v) {
+    		throw new AsistenteYaRegistrado("Este asistente ya esta registrado");
+    	}
+    	return !v; 
     }
     
     public DTTipoRegistro getDTTipoRegistro() {

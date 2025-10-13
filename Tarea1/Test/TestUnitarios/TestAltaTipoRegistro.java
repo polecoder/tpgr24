@@ -1,8 +1,8 @@
 package TestUnitarios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
@@ -21,7 +21,6 @@ import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
-import logica.ControladorEventos;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.Utilidades;
@@ -90,17 +89,18 @@ public class TestAltaTipoRegistro {
 	
 	@Test
 	@Order(1)
-	void testAltaTipoRegistroExitosa (){
+	void testAltaTipoRegistroExitosa(){
 		// Testea un alta exitoso estandar
-		try {
+		
+		assertDoesNotThrow(() -> {
 			controladorEventos.altaCategoria(nombreCategoriaTest1);
-		} catch (Exception e) {
-			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
-		}
+		});
 		categorias.add(nombreCategoriaTest1);
-		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias,null);
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "",null);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias, null);
+		
+		assertDoesNotThrow(() -> {
+			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
+		});
 		
 		try { 
 			controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
@@ -136,8 +136,10 @@ public class TestAltaTipoRegistro {
 	@Order(3)
 	void testAltaTipoRegistroNombreRepetidoOtraEdicion() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRA Edicion pero MISMO evento
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais,"organizador14",null);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		
+		assertDoesNotThrow(() -> {
+			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais, "organizador14", null);
+		});
 		
 		try { 
 			controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest3);
@@ -165,9 +167,11 @@ public class TestAltaTipoRegistro {
 	@Order(4)
 	void testAltaTipoRegistroNombreRepetidoOtroEvento() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRO Evento
-		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias,null);
-		try { controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais,"organizador15",null);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias, null);
+		
+		assertDoesNotThrow(() -> {
+			controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais, "organizador15", null);
+		});
 		
 		try { 
 			controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest4, nombreEdicionTest4);

@@ -1,8 +1,10 @@
 	package TestUnitarios;
 	
-	import static org.junit.jupiter.api.Assertions.*;
-	
-	import java.time.LocalDate;
+	import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.LocalDate;
 	import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -15,50 +17,47 @@ import logica.Utilidades;
 import datatypes.ENivelPatrocinio;
 
 	 class TestAltaPatrocinio {
-		 static IControladorEventos controlador;
-		 static IControladorInstitucion controladorInsti;
+		 private static IControladorEventos controlador;
+		 private static IControladorInstitucion controladorInsti;
 		 
 		 @BeforeAll
 		 static void prepararDatos() {
 		        Fabrica fabrica = Fabrica.getInstancia();
 		        controlador = fabrica.getControladorEvento();
 		        controladorInsti = fabrica.getControladorInstitucion();
-		       
-
-		        try {
-		            controlador.altaEvento("EventoX", "Descripción de prueba", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "EVX", List.of("Tecnología"),null);
-		            controlador.altaEvento("EventoX2", "Descripción de prueba2", Utilidades.toDate(LocalDate.of(2025, 8, 31) ), "EVX2", List.of("Tecnología"),null);
-
+		        
+		        assertDoesNotThrow(() -> {
+		            controlador.altaEvento("EventoX", "Descripción de prueba",
+		                    Utilidades.toDate(LocalDate.of(2025, 8, 31)), null, null, null);
+		            controlador.altaEvento("EventoX2", "Descripción de prueba2",
+		                    Utilidades.toDate(LocalDate.of(2025, 9, 10)), null, null, null);
+		            
 		            if (!List.of(controlador.getNombresEdiciones("EventoX")).contains("Ed2026")) {
-		                controlador.altaEdicionEvento("EventoX", "Ed2026", "ED26",Utilidades.toDate( LocalDate.of(2025, 9, 1) ),Utilidades.toDate( LocalDate.of(2025, 12, 31) ),Utilidades.toDate( LocalDate.of(2025, 8, 31) ), "Montevideo", "Uruguay","organizador11",null);
+		                controlador.altaEdicionEvento("EventoX", "Ed2026", "ED26", Utilidades.toDate( LocalDate.of(2025, 9, 1) ), Utilidades.toDate( LocalDate.of(2025, 12, 31) ), Utilidades.toDate( LocalDate.of(2025, 8, 31) ), "Montevideo", "Uruguay", "organizador11", null);
 		            }
 
 		            if (!List.of(controlador.getNombresEdiciones("EventoX2")).contains("Ed2027")) {
-		                controlador.altaEdicionEvento("EventoX2", "Ed2027", "ED27", Utilidades.toDate( LocalDate.of(2025, 9, 1) ),Utilidades.toDate( LocalDate.of(2025, 12, 31) ),Utilidades.toDate( LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "organizador12",null);
+		                controlador.altaEdicionEvento("EventoX2", "Ed2027", "ED27", Utilidades.toDate( LocalDate.of(2025, 9, 1) ), Utilidades.toDate( LocalDate.of(2025, 12, 31) ), Utilidades.toDate( LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "organizador12", null);
 		            }
 
 		            controlador.altaTipoRegistro("General", "Acceso completo", 1000f, 100, "EventoX", "Ed2026");
-		            controladorInsti.AltaInstitucion("InstitutoX", "descrip", "http://web");
-		            controladorInsti.AltaInstitucion("InstitutoA", "descrip", "http://web");
-		            controladorInsti.AltaInstitucion("InstitutoB", "descrip", "http://web");
+		            controladorInsti.altaInstitucion("InstitutoX", "descrip", "http://web");
+		            controladorInsti.altaInstitucion("InstitutoA", "descrip", "http://web");
+		            controladorInsti.altaInstitucion("InstitutoB", "descrip", "http://web");
 		            
-		            
-
-		        } catch (Exception ex) {
-		            fail("Error al preparar datos de prueba: " + ex.getMessage());
-		        }
-		    }
+		        });
+		 }
+		     
 
 
 		    @Test
 		   
 		    void altaExitosa() {
-		        try {
-		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		            controlador.altaPatrocinio("EventoX","Ed2026",Utilidades.toDate(LocalDate.now( )),"InstitutoX", nivel , 500000f, 2, "COD123", "General");
-		        } catch (Exception ex) {
-		            fail("No se esperaba excepción en alta exitosa: " + ex.getMessage());
-		        }
+		    	
+		    	assertDoesNotThrow(() -> {
+		    		ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
+		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate(LocalDate.now( )), "InstitutoX", nivel , 500000f, 2, "COD123", "General");
+		    	});
 		    }
 		    
 		    
@@ -67,7 +66,7 @@ import datatypes.ENivelPatrocinio;
 		    void camposConEspacios() {
 		        Exception ex = assertThrows(Exception.class, () -> {
 		        	 ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		        	controlador.altaPatrocinio("","Ed2027",Utilidades.toDate( LocalDate.now() ),"InstitutoX", nivel, 500000f, 2, "COD123","General");
+		        	controlador.altaPatrocinio("", "Ed2027", Utilidades.toDate( LocalDate.now() ), "InstitutoX", nivel, 500000f, 2, "COD123", "General");
 		        });
 		        assertEquals("Todos los campos deben estar completos", ex.getMessage());
 		    }
@@ -76,7 +75,7 @@ import datatypes.ENivelPatrocinio;
 		    void codigoConCaracteresInvalidos() {
 		        Exception ex = assertThrows(Exception.class, () -> {
 		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		            controlador.altaPatrocinio("EventoX", "Ed2026",Utilidades.toDate( LocalDate.now() ), "InstitutoA", nivel, 500000f, 2, "COD@123","General");
+		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate( LocalDate.now() ), "InstitutoA", nivel, 500000f, 2, "COD@123", "General");
 		        });
 		        assertEquals("El código de patrocinio solo puede contener letras y números", ex.getMessage());
 		    }
@@ -86,7 +85,7 @@ import datatypes.ENivelPatrocinio;
 
 		        Exception ex = assertThrows(Exception.class, () -> {
 		        	ENivelPatrocinio nivel=ENivelPatrocinio.valueOf("Oro");
-		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate( LocalDate.now() ),"InstitutoX", nivel, 6000f, 1, "COD456","General");
+		            controlador.altaPatrocinio("EventoX", "Ed2026", Utilidades.toDate( LocalDate.now() ), "InstitutoX", nivel, 6000f, 1, "COD456", "General");
 		        });
 		        assertEquals("Ya existe un patrocinio de esa institución para la edición seleccionada", ex.getMessage());
 		    }

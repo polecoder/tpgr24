@@ -3,12 +3,11 @@ package datatypes;
 import java.util.Date;
 
 public class DTEvento {
-	private 
-	String nombre;
-	String sigla;
-	String descripcion;
-	Date fechaAlta;
-	byte[] imagen;
+	private String nombre;
+	private String sigla;
+	private String descripcion;
+	private Date fechaAlta;
+	private byte[] imagen;
 
 	public
 	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen) {

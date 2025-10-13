@@ -1,6 +1,9 @@
 package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ class testOrganizador {
 		Organizador org = new Organizador("nick2", "Eventos.2025!", "Ana", "ana@mail.com",
                 "Organizadora", "www.ana.com");
 		
-		Edicion ed = new Edicion("Edicion2025", "ED25",java.sql.Date.valueOf("2025-01-01"),java.sql.Date.valueOf("2025-12-31"),java.sql.Date.valueOf("2024-12-01"),"Montevideo", "Uruguay", "Pedro", "evento",null);
+		Edicion ed = new Edicion("Edicion2025", "ED25", java.sql.Date.valueOf("2025-01-01"), java.sql.Date.valueOf("2025-12-31"), java.sql.Date.valueOf("2024-12-01"), "Montevideo", "Uruguay", "Pedro", "evento", null);
         org.getEdiciones().add(ed);
         
         List<DTEdicionEvento> lista = org.listarEdiciones();

@@ -6,6 +6,8 @@ import logica.IControladorEventos;
 
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
+import excepciones.AsistenteYaRegistrado;
+import excepciones.NoHayCuposDisponibles;
 import datatypes.DTAsistente;
 import datatypes.DTEdicionEvento;
 
@@ -50,9 +52,9 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		setSize(400, 300);       
 		setLocation(50, 50);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0,0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0,0.0,0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -174,7 +176,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		// Event Listener Eventos
 		eventosComboBox.addActionListener(e -> {
 			String selectedEvento = (String) eventosComboBox.getSelectedItem();
-			if(selectedEvento != "- Seleccione un Evento -") {
+			if (selectedEvento != "- Seleccione un Evento -") {
 				List<String> listaEdiciones = new ArrayList<>();
 				Map<String, DTEdicionEvento> HMediciones = ICEv.listarEdicionesEvento(selectedEvento);
 				listaEdiciones.addAll(HMediciones.keySet());
@@ -185,7 +187,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		// Event Listener Ediciones
 		edicionesComboBox.addActionListener(e -> {
 			String selectedEdicion = (String) edicionesComboBox.getSelectedItem();
-			if(selectedEdicion != "- Seleccione una edicion -") {
+			if (selectedEdicion != "- Seleccione una edicion -") {
 				String selectedEvento = (String) eventosComboBox.getSelectedItem();
 				List<String> listaTipoRegistro = new ArrayList<>();
 				Map<String, DTTipoRegistro> HMTipoRegistros = ICEv.listarTipoRegistro(selectedEvento, selectedEdicion);
@@ -195,12 +197,12 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 			}
 		});
 		// Event Listener Aceptar()
-		aceptarButton.addActionListener(e ->{
+		aceptarButton.addActionListener(e -> {
 			String selectedEvento = (String) eventosComboBox.getSelectedItem();
 			String selectedEdicion = (String) edicionesComboBox.getSelectedItem();
 			String selectedTipoRegistro = (String) tipoRegistroComboBox.getSelectedItem();
 			String selectedAsistente = (String) asistenteComboBox.getSelectedItem();
-			if(
+			if (
 					selectedEvento == "- Seleccione un Evento -" ||
 					selectedAsistente == "- Seleccione un Asistente -"||
 					selectedEdicion == "- Seleccione una edicion -"||
@@ -212,11 +214,11 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 				boolean validacion = false;
 				try {
 					validacion = ICEv.validar(selectedAsistente, selectedEdicion, selectedTipoRegistro, selectedEvento);					
-				}catch(Exception ex) {
+				}catch (AsistenteYaRegistrado | NoHayCuposDisponibles exception) {
 		            // Si el controlador lanza error, lo muestro
-		            JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		        }
-				if(validacion) {
+				if (validacion) {
 					ICEv.altaRegistro(
 							selectedAsistente, 
 							selectedTipoRegistro,
@@ -235,7 +237,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 							"Alerta:", 
 							JOptionPane.OK_CANCEL_OPTION, 
 							JOptionPane.WARNING_MESSAGE);
-					if(option == JOptionPane.CANCEL_OPTION) {
+					if (option == JOptionPane.CANCEL_OPTION) {
 						this.doDefaultCloseAction();
 					}
 					
@@ -245,7 +247,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 			
 		});
 		// Event Listener Cancelar()
-		cancelarButton.addActionListener(e ->{
+		cancelarButton.addActionListener(e -> {
 			this.doDefaultCloseAction();
 		});
 

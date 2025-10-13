@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.Date;
-import java.util.Set;
 
 import datatypes.DTDetalleRegistro;
 
@@ -59,7 +58,6 @@ public class Registro {
 		return dtRegistro;
 	}
 	
-	// TODO: Implementar
 	public boolean validar(String nicknameAsistente) {
 		return nicknameAsistente == asistente.getNickname();
 	}

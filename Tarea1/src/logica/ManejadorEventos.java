@@ -24,8 +24,8 @@ import datatypes.ENivelPatrocinio;
 public class ManejadorEventos {
 	private 
 	static ManejadorEventos instancia;
-	Map<String,Evento> eventos;
-	Map<String, Categoria> categorias;
+	private Map<String, Evento> eventos;
+	private Map<String, Categoria> categorias;
 
 	ManejadorEventos(){
 		  this.eventos = new HashMap<>();
@@ -42,11 +42,11 @@ public class ManejadorEventos {
 		instancia = null;
 	}
 	
-	Map<String,Evento> getEventos(){
+	Map<String, Evento> getEventos(){
 		return eventos;
 	}
 	
-	public boolean contieneEdicion(String nombreEvento,String NombreEdicion) {
+	public boolean contieneEdicion(String nombreEvento, String NombreEdicion) {
 		return eventos.get(nombreEvento).getEdiciones().containsKey(NombreEdicion);
 	};
 	
@@ -74,7 +74,7 @@ public class ManejadorEventos {
 		return hMLista;
 	}
 	
-	public Map<String,DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
+	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
 		Evento ev = eventos.get(nombreEvento);
     	Edicion ed = ev.getEdicion(nombreEdicion);
     	return ed.listarTipoRegistro();
@@ -124,7 +124,7 @@ public class ManejadorEventos {
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
-		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname(),edicion.getImagen());
+		DTEdicionEvento dtEvento= new DTEdicionEvento(edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), edicion.getOrganizadorNickname(), edicion.getImagen());
 		return dtEvento;
 	}
 	
@@ -151,7 +151,9 @@ public class ManejadorEventos {
 		if (evento == null) { throw new EventoNoExiste("Evento no existe"); }
 		
 		Edicion edicion = evento.getEdicion(nombreEdicion);
-		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); };
+		if (edicion == null) { throw new EdicionNoExiste("Edicion no existe"); 
+		}
+		;
 		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
 		
 		int i = 0;
@@ -169,7 +171,8 @@ public class ManejadorEventos {
 		try { evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 		} catch (TipoRegistroNoExiste ex) {throw ex;
 		} catch (EdicionNoExiste ex) { throw ex;
-		};
+		}
+		;
 		return evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 	}
 	
@@ -268,8 +271,8 @@ public class ManejadorEventos {
 			}
 		}
 	}
-	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad,String pais, String organizadorNickname, byte[] imagen) {  
-	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin,fechaAlt, ciudad, pais,organizadorNickname, nombreEvento, imagen );
+	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen) {  
+	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento, imagen );
 	    this.eventos.get(nombreEvento).agregarEdicion(edicion);
 	    return edicion;
 	}
@@ -277,7 +280,7 @@ public class ManejadorEventos {
 			return eventos.get(eventoSeleccionado).getEdicion(edicionSeleccionada).getTiposRegistro().keySet();
 		}
 
-	public void AltaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada,String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos,String codigoPatrocinio, String tipoRegistroSeleccionado) throws Exception{
+	public void altaPatrocinio(String eventoSeleccionado, Date FechaAlta, String edicionSeleccionada, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cantidadGratuitos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws TipoRegistroNoExiste{
 		try {
 			Fabrica fabrica=Fabrica.getInstancia();
 			IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
@@ -285,10 +288,10 @@ public class ManejadorEventos {
 			Evento ev = eventos.get(eventoSeleccionado);
 			Edicion ed = ev.getEdicion(edicionSeleccionada);
 			TipoRegistro tr = ed.getTipoRegistro(tipoRegistroSeleccionado);
-			Patrocinio patrocinio = new Patrocinio(codigoPatrocinio,FechaAlta, aporteEconomico,nivelPatrocinio,cantidadGratuitos,institucion, tr);
+			Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, FechaAlta, aporteEconomico, nivelPatrocinio, cantidadGratuitos, institucion, tr);
 			ed.agregarPatrocinio(patrocinio);
-		} catch (Exception e) {
-			throw e;
+		} catch (TipoRegistroNoExiste tr) {
+			throw tr;
 		}
 	}
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
@@ -333,9 +336,9 @@ public class ManejadorEventos {
     	// Tipos Registro
     	Map<String, TipoRegistro> trs = ed.getTiposRegistro();
     	Set<String> sR = new HashSet<>();
-    	for(TipoRegistro tr: trs.values()) {
+    	for (TipoRegistro tr: trs.values()) {
     		List<Registro> lr = tr.getRegistros();
-    		for(Registro r: lr) {
+    		for (Registro r: lr) {
     			String rNombre = tr.getNombre() 
     					+ "-" + r.getAsistente().getNombre();
     			sR.add(rNombre);
@@ -352,8 +355,8 @@ public class ManejadorEventos {
 	public Set<String> getNombresEdicionesIngresadas(String nombreEvento) {
 		EEstadoEdicion estado=EEstadoEdicion.valueOf("Ingresada");
 		Set<String> edicionesIngresadas = new HashSet<>();
-		for(Edicion e:eventos.get(nombreEvento).getEdiciones().values()) {
-			if(e.getEstado()==estado) {
+		for (Edicion e:eventos.get(nombreEvento).getEdiciones().values()) {
+			if (e.getEstado()==estado) {
 			 edicionesIngresadas.add(e.getNombre());
 				
 			}
@@ -405,9 +408,9 @@ return out;
     	// Tipos Registro
     	Map<String, TipoRegistro> setTiposRegistro = edicion.getTiposRegistro();
     	Set<DTDetalleRegistro> setRegistros = new HashSet<>();
-    	for(TipoRegistro tipoRegistro: setTiposRegistro.values()) {
+    	for (TipoRegistro tipoRegistro: setTiposRegistro.values()) {
     		List<Registro> listaRegistros = tipoRegistro.getRegistros();
-    		for(Registro registro: listaRegistros) {
+    		for (Registro registro: listaRegistros) {
     			setRegistros.add(registro.mostrarDetalle(nombreEdicion, tipoRegistro.getNombre()));
     		}
     	}

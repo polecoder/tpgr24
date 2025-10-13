@@ -1,6 +1,7 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -19,7 +20,9 @@ public class FramePrincipal extends JFrame {
         ventana.setVisible(true);
         try {
             ventana.setSelected(true);
-        } catch (Exception ex) {} 
+        } catch (PropertyVetoException ex) {
+        	ex.printStackTrace();
+        } 
     }
     public FramePrincipal() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,7 +81,9 @@ public class FramePrincipal extends JFrame {
 		    ventanaConsultaTipoRegistro.setVisible(true);    
 		    try {
 		    	ventanaConsultaTipoRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
         
         JMenu menuInstitucion = new JMenu("Institución");
@@ -105,7 +110,9 @@ public class FramePrincipal extends JFrame {
 			ventanaCargaDatos.setVisible(true);    
 			try {
 				ventanaCargaDatos.setSelected(true); 
-			} catch (Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 		});
         
 		item_AltaTipoRegistro.addActionListener(e -> {
@@ -114,7 +121,9 @@ public class FramePrincipal extends JFrame {
 		    ventanaAltaTipoRegistro.setVisible(true);    
 		    try {
 		    	ventanaAltaTipoRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 				
 		item_AltaUsuario.addActionListener(e -> {
@@ -123,7 +132,9 @@ public class FramePrincipal extends JFrame {
 		    ventanaAltaUsuario.setVisible(true);    
 		    try {
 		        ventanaAltaUsuario.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 		
 		item_ConsultaUsuario.addActionListener(e -> {
@@ -132,7 +143,9 @@ public class FramePrincipal extends JFrame {
 		   ventanaCU.setVisible(true);    
 		   try {
 		        ventanaCU.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 		
 		item_ModificarDatosUsuario.addActionListener(e -> {
@@ -141,7 +154,9 @@ public class FramePrincipal extends JFrame {
 			   ventanaModificarDatosUsuario.setVisible(true);    
 			   try {
 			        ventanaModificarDatosUsuario.setSelected(true); 
-			   } catch (Exception ex) {}
+			   } catch (PropertyVetoException exception) {
+				   exception.printStackTrace();
+			   }
 		});
 
 		item_AltaEvento.addActionListener(e -> {
@@ -150,7 +165,9 @@ public class FramePrincipal extends JFrame {
 		    ventanaAltaEvento.setVisible(true);    
 		    try {
 		    	ventanaAltaEvento.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 
 		item_AltaEdicion.addActionListener(e -> {
@@ -159,7 +176,9 @@ public class FramePrincipal extends JFrame {
 			    ventanaAEv.setVisible(true);    
 			    try {
 			    	ventanaAEv.setSelected(true); 
-			    } catch (Exception ex) {}
+			    } catch (PropertyVetoException exception) {
+			    	exception.printStackTrace();
+			    }
 			});
 		
 		item_ConsultaEvento.addActionListener(e -> {
@@ -168,7 +187,9 @@ public class FramePrincipal extends JFrame {
 		    ventanaCEv.setVisible(true);    
 		    try {
 		    	ventanaCEv.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 		
 		itemA.addActionListener(e-> {
@@ -177,7 +198,9 @@ public class FramePrincipal extends JFrame {
 			ventanaCRegistro.setVisible(true);
 			try {
 				ventanaCRegistro.setSelected(true);
-			} catch( Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 			
 		});
 		
@@ -187,16 +210,20 @@ public class FramePrincipal extends JFrame {
 		    ventanaRegistro.setVisible(true);    
 		    try {
 		    	ventanaRegistro.setSelected(true); 
-		    } catch (Exception ex) {}
+		    } catch (PropertyVetoException exception) {
+		    	exception.printStackTrace();
+		    }
 		});
 		
-		item_AltaInstitucion.addActionListener(e->{
+		item_AltaInstitucion.addActionListener(e-> {
 			AltaInstitucion ventanaAltaInstitucion = new AltaInstitucion();
 			panel.add(ventanaAltaInstitucion);
 			ventanaAltaInstitucion.setVisible(true);
 			try {
 			    ventanaAltaInstitucion.setSelected(true); 
-			} catch (Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 		});
 		
 		item_ConsultaEdicionEvento.addActionListener(e-> {
@@ -205,36 +232,44 @@ public class FramePrincipal extends JFrame {
 			ventanaConsultaEdEv.setVisible(true);
 			try {
 				ventanaConsultaEdEv.setSelected(true);
-			}catch(Exception ex) {}
+			}catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 		});
 		
-		item_AltaPatrocinio.addActionListener(e->{
+		item_AltaPatrocinio.addActionListener(e-> {
 			AltaPatrocinio ventanaAltaPatrocinio = new AltaPatrocinio();
 			panel.add(ventanaAltaPatrocinio);
 			ventanaAltaPatrocinio.setVisible(true);
 			try {
 			    ventanaAltaPatrocinio.setSelected(true); 
-			} catch (Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 			
 		});
 		
-		item_AceptarRechazar.addActionListener(e->{
+		item_AceptarRechazar.addActionListener(e-> {
 			AceptarRechazarEdicion ventanaAceptarRechazarEdicion = new AceptarRechazarEdicion();
 			panel.add(ventanaAceptarRechazarEdicion);
 			ventanaAceptarRechazarEdicion.setVisible(true);
 			try {
 			    ventanaAceptarRechazarEdicion.setSelected(true); 
-			} catch (Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 			
 		});
 		
-		item_consultaPatrocinio.addActionListener(e->{
+		item_consultaPatrocinio.addActionListener(e-> {
 			ConsultaPatrocinio ventanaConsultaPatrocinio = new ConsultaPatrocinio();
 			panel.add(ventanaConsultaPatrocinio);
 			ventanaConsultaPatrocinio.setVisible(true);
 			try {
 			    ventanaConsultaPatrocinio.setSelected(true); 
-			} catch (Exception ex) {}
+			} catch (PropertyVetoException exception) {
+				exception.printStackTrace();
+			}
 		});
 		
 		setVisible(true); 

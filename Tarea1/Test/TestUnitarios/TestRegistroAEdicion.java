@@ -1,7 +1,7 @@
 package TestUnitarios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -76,13 +76,14 @@ public class TestRegistroAEdicion {
 	@Test
 	@Order(1)
 	void testRegistroExitosoSinPatrocinio() {
-		try { 
-			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link,null);
-			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha,null, null);
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18",null);
-			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		
+		assertDoesNotThrow(() -> {
+			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null, null);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18", null);
+			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion); 
+		});
 		
 		controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha);
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
@@ -94,16 +95,17 @@ public class TestRegistroAEdicion {
 	@Test
 	@Order(2)
 	void testRegistroExitosoConPatrocinio() {
-		try { 
+		
+		assertDoesNotThrow(() -> {
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
-			controladorInstituciones.AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
-			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion",null);
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias,null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18",null);
+			controladorInstituciones.altaInstitucion("Institucion", "Descripcion1", "https://insti.com");
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion", null);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18", null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
-			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1",nombreTipoRegistro);
+			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1", nombreTipoRegistro);
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
-		} catch (Exception ex) { fail(ex.getMessage()); }
+		});
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
