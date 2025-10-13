@@ -20,6 +20,7 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
+import excepciones.UsuarioNoExiste;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -480,8 +481,8 @@ public class ConsultaUsuario extends JInternalFrame {
 				cl1.show(cardPanel1, "Organizador");
 				cl2.show(cardPanel2, "Organizador");
 			}
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
+		} catch (UsuarioNoExiste exception) {
+			exception.printStackTrace();
 		}
 	}
 
