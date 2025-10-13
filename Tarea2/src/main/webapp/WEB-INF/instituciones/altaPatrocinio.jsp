@@ -78,7 +78,7 @@
                 -- Seleccionar un Tipo Registro --
               </option>
               <% for(String nombreTipoRegistro: listaNombresTipoRegistro) {%>
-	              <option value=<%=nombreTipoRegistro %>><%=nombreTipoRegistro %></option>
+	              <option value="<%=nombreTipoRegistro%>"><%=nombreTipoRegistro %></option>
               <% } %>
             </select>
           </div>
@@ -92,7 +92,7 @@
                 -- Seleccionar una Institución --
               </option>
               <% for(String nombreInstitucion: listaNombresInstitucion) { %>
-	              <option value=<%=nombreInstitucion%>><%=nombreInstitucion%></option>
+	              <option value="<%=nombreInstitucion%>"><%=nombreInstitucion%></option>
 	          <% } %>
             </select>
           </div>

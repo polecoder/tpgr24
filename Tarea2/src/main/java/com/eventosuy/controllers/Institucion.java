@@ -252,7 +252,7 @@ public class Institucion extends HttpServlet {
 
 		darAltaInstitucion(controladorInstitucion, nombre, descripcion, sitioWeb);
 
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/home");
 
 	}
 
@@ -260,10 +260,8 @@ public class Institucion extends HttpServlet {
 			String sitioWeb) {
 		try {
 			controladorInstitucion.AltaInstitucion(nombre, descripcion, sitioWeb);
-			System.out.println("AltaInstitucion finalizó con Exito!");
 		} catch (Exception error) {
 			// Error AltaInstitucion redirigir a mensaje de error 500.
-			System.out.println("darAltaInstitucion::ERROR");
 		}
 	}
 
@@ -288,8 +286,8 @@ public class Institucion extends HttpServlet {
 		    }
 		    
 		    String codigo = request.getParameter("Codigo");
-		    System.out.println("inst:"+nombreInstitucion);
-		    if (nombreTipoRegistro.isEmpty() || nombreInstitucion.isEmpty() || nivelPatrocinio.isEmpty() || aporte < 0 || cupos < 0 || codigo != null) {
+		    System.out.println(nombreInstitucion+","+nombreTipoRegistro+","+nivelPatrocinio+","+aporte+","+cupos+","+codigo);
+		    if (nombreTipoRegistro.isEmpty() || nombreInstitucion.isEmpty() || nivelPatrocinio.isEmpty() || aporte < 0 || cupos < 0 || codigo.isEmpty()) {
 		    	request.setAttribute("error", "Debe completar todos los campos");
 		    	handeGetAccionesOrganizador(request, response, "altaPatrocinio", nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
 		    } else {
