@@ -92,4 +92,22 @@ class TestConsultaUsuario {
     	List<String> resultado = fabrica.getControladorEvento().getEdicionesDeOrganizadorPorEstado("lauraorganiza", EEstadoEdicion.Ingresada);
     	assertEquals(resultado.get(0), "Edicion1");
     }
+    
+    @Test
+    void testOperacionListarDetalleUsuarios() {
+    	Fabrica fabrica = Fabrica.getInstancia();
+    	assertDoesNotThrow(() -> {
+    		fabrica.getControladorInstitucion().AltaInstitucion("Institucion", "Descripcion1", "https://a.com");
+    		iCU.altaOrganizador("lauraorganiza", "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com", null);
+    		iCU.altaAsistente("asistente", "Eventos.2025!", "Juan", "juan@mail.com", "Perez", Utilidades.toDate(LocalDate.now()), "Institucion", null);
+    		fabrica.getControladorEvento().altaCategoria("Categoria1");
+    		List<String> categorias = new ArrayList<>();
+    		categorias.add("Categoria1");
+    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
+    		fabrica.getControladorEvento().altaEdicionEvento("Nombre1", "Edicion1", "SIG1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "lauraorganiza", null);
+    	});
+    	
+    	List<DTDetalleUsuario> resultado = fabrica.getControladorUsuarios().listarDetalleUsuarios();
+    	// TODO: Comparar de alguna forma el resultado
+    }
 }
