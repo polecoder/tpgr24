@@ -42,15 +42,17 @@
 				<% } %>
 	          </div>
 			  <% DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion"); %>
-			  <% SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy"); %>
+			  <% SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); %>
 	          <!-- Datos de la edición -->
 	          <p><strong>Organizador:</strong> <%= dtEdicion.getOrganizadorNickname() %></p>
 	          <p><strong>Sigla:</strong> <%= dtEdicion.getSigla() %> </p>
 	          <p><strong>País:</strong> <%= dtEdicion.getPais() %> </p>
 	          <p><strong>Ciudad:</strong> <%= dtEdicion.getCiudad() %></p>
-	          <p><strong>Fecha de inicio:</strong> <%= dtEdicion.getFechaInicio() %> </p>
-	          <p><strong>Fecha de fin:</strong> <%= dtEdicion.getFechaFin() %> </p>
-	          <p><strong>Fecha de alta:</strong> <%= dtEdicion.getFechaAlta() %> </p>
+	          <p><strong>Fecha de inicio:</strong> <%= formatter.format(dtEdicion.getFechaInicio()) %> </p>
+	          <p><strong>Fecha de fin:</strong> <%= formatter.format(dtEdicion.getFechaFin()) %> </p>
+	          <p><strong>Fecha de alta:</strong> <%= formatter.format(dtEdicion.getFechaAlta()) %> </p>
+	         
+	          
 	          <div class="mt-3">
 	            <h6 class="fw-bold m-0">Tipos de registro:</h6>
 	            <% Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_registro"); %>
