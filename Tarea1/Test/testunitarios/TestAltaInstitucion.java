@@ -56,9 +56,9 @@ class TestAltaInstitucion {
         controlador.altaInstitucion("Instituto de Datos", "Centro de análisis", "https://datos.edu.uy");
 
         // Intento duplicado
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception exception = assertThrows(Exception.class, () -> {
             controlador.altaInstitucion("Instituto de Datos", "Otro centro", "https://duplicado.edu.uy");
         });
-        assertEquals("Ya existe una institución con ese nombre", ex.getMessage());
+        assertEquals("Ya existe una institución con ese nombre", exception.getMessage());
     }
 }

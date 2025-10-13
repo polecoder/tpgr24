@@ -63,8 +63,8 @@ class TestConsultaEvento {
         controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias, null);
 	    // Validación: detalle de edición
 
-        DTEvento dt = controlador.getDTEvento("SoloCategorias");
-        assertEquals("SoloCategorias", dt.getNombre());
+        DTEvento dtevento = controlador.getDTEvento("SoloCategorias");
+        assertEquals("SoloCategorias", dtevento.getNombre());
 
         Set<String> ediciones = controlador.nombresEdicionesEvento("SoloCategorias");
         assertTrue(ediciones.isEmpty());
