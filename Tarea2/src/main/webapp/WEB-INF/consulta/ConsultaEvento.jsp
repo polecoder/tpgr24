@@ -98,17 +98,17 @@
 				                base64Img = java.util.Base64.getEncoder().encodeToString(imgBytes);
 				            }
 				        %>
-				        <div class="card shadow-sm border-0" style="width: 200px;">
-				            <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
-				                 alt="Imagen de <%= ed.getNombre() %>"
-				                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
-				            <div class="card-body text-center p-2">
-				                <a href="Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%= nombre %>"
-				                   class="text-decoration-none text-primary fw-semibold">
-				                    <%= ed.getNombre() %>
-				                </a>
-				            </div>
-				        </div>
+					        <div class="card shadow-sm border-0" style="width: 200px;">
+					            <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
+					                 alt="Imagen de <%= ed.getNombre() %>"
+					                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
+					            <div class="card-body text-center p-2">
+					                <a href="Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%= nombre %>"
+					                   class="text-decoration-none text-primary fw-semibold">
+					                    <%= ed.getNombre() %>
+					                </a>
+					            </div>
+					        </div>
 				        <% } %>
 				    </div>
 				<% } else { %>
