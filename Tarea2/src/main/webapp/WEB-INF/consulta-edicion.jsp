@@ -1,4 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%
+	DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -164,8 +167,10 @@
 		        <div class="d-flex justify-content-center gap-3">
 		            <a href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>" class="btn btn-primary btn-sm px-3"
 		              >Alta patrocinio</a>
-		            <a href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
-		              >Alta tipo registro</a>
+		            <% if ( datosUsuario.getNickname() == dtEdicion.getOrganizadorNickname()) { %>  
+			            <a href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="btn btn-primary btn-sm px-3"
+			              >Alta tipo registro</a>
+			        <% } %>
 		        </div>
 	        <% } else if ( request.getSession().getAttribute("tipoUsuarioLogeado") == TipoUsuario.ASISTENTE) { %>
 	        	<div class="d-flex justify-content-center gap-3">
