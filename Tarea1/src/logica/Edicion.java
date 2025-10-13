@@ -136,7 +136,8 @@ public class Edicion {
                 this.ciudad,
                 this.pais,
                 this.organizadorNickname,
-                this.imagen
+                this.imagen,
+                this.estado
         );
     }
 

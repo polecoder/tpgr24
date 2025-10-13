@@ -86,8 +86,8 @@ public class ManejadorEventos {
 			String sigla = e.getSigla();
 			Date fAlta = e.getFechaAlta();
 			byte[] imagen = e.getImagen(); // ← nuevo
-
-			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, imagen); // ← actualizado
+			Map<String, Categoria> categorias=e.getCategoria();
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta,categorias.keySet(), imagen); 
 			hMLista.put(nombre, dtEv);  
 		}
 		return hMLista;
@@ -135,6 +135,7 @@ public class ManejadorEventos {
 			evento.getDescripcion(),
 			evento.getSigla(),
 			evento.getFechaAlta(),
+			evento.getCategoria().keySet(),
 			imagen 
 		);
 		
@@ -143,7 +144,7 @@ public class ManejadorEventos {
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
-		DTEdicionEvento dtEdicion= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname(),edicion.getImagen());
+		DTEdicionEvento dtEdicion= new DTEdicionEvento(edicion.getNombre(),edicion.getSigla(), edicion.getFechaInicio(),edicion.getFechaFin(),edicion.getFechaAlta(),edicion.getCiudad(),edicion.getPais(), edicion.getOrganizadorNickname(),edicion.getImagen(), edicion.getEstado());
 		return dtEdicion;
 	}
 	

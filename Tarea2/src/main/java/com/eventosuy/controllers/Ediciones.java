@@ -87,7 +87,7 @@ public class Ediciones extends HttpServlet {
 		}
 		if (nombreEvento == null) {
 			request.setAttribute("error_message", "La edicion no es de ningun evento");
-			request.getRequestDispatcher("/WEB-INF/error").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
 			return request;
 		}
 		
@@ -130,7 +130,9 @@ public class Ediciones extends HttpServlet {
 		Date fechaAlta = new Date();
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
-		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickOrganizador = null;
+		if (dtUsuario != null) {nickOrganizador = dtUsuario.getNickname();}
 		Part fotoPart = request.getPart("foto");
 		byte[] imagenBytes = null;
         if (fotoPart != null && fotoPart.getSize() > 0) {
@@ -161,13 +163,12 @@ public class Ediciones extends HttpServlet {
 		if (nombreTipoRegistro == null) { nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro"); }
 		
 		DTTipoRegistro dtTipoRegistro = null;
-		try {
-			dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-		} catch (Exception ex) {
-			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
-			return request;
-		}
+		 try {
+		        dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		        request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
+		    } catch (Exception ex) {
+		        request.setAttribute("error_tipo_registro", "El nombre del tipo de registro ya está en uso");
+		    }
 		byte[] imagenEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen();
 		request.setAttribute("imagenEdicion", imagenEdicion);
 		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
@@ -184,12 +185,12 @@ public class Ediciones extends HttpServlet {
 		String descripcion = request.getParameter("descripcion");
 		float costo = Float.parseFloat(request.getParameter("costo"));
 		int cuposMax = Integer.parseInt(request.getParameter("cupos_max"));
-		
+		request.setAttribute("error_tipo_registro",null);
 		try {
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
 		} catch (Exception ex) {
-			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			request.setAttribute("error_tipo_registro", "Ya existe un tipo de registro con ese nombre.");
+			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
 			return;
 		}
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistro);
