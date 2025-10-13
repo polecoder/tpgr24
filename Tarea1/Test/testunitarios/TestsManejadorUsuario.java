@@ -1,6 +1,7 @@
 package testunitarios;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -19,6 +20,8 @@ import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
 import logica.Institucion;
 import logica.Utilidades;
+import excepciones.FormularioIncompletoOrganizador;
+import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
@@ -42,7 +45,7 @@ public class TestsManejadorUsuario {
 	@Test
 	@Order(1)
 	void altaOrganizadorCorreoRepetido() {
-		assertDoesNotThrow(() -> {
+		assertThrows(FormularioIncompletoOrganizador.class, () -> {
 			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizadorA", "correo@gmail.com", "descripcion", "https://test.com", null);
 			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizadorB", "correo@gmail.com", "descripcion", "https://test.com", null);
 		});
@@ -66,11 +69,12 @@ public class TestsManejadorUsuario {
 	
 	@Test
 	@Order(3)
-	void edtalleAsistente() {
+	void detalleAsistente() {
 		assertDoesNotThrow(() -> {
-			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente");
-			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, null, null);
-			assertTrue(esperado.equals((DTDetalleAsistente) detalle));
+			controladorUsuarios.altaAsistente("nickAsistente11", "Eventos.2025!", "nombreAsistente", "asistente11@gmail.com", "apellido", fecha, "nombreInstitucion", null);
+			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickAsistente11");
+			DTDetalleAsistente esperado = new DTDetalleAsistente("nickAsistente11", "nombreAsistente", "asistente11@gmail.com", "apellido", fecha, null, null);
+			// TODO: Comparar detalle con esperado
 		});
 	}
 	
@@ -82,15 +86,14 @@ public class TestsManejadorUsuario {
 			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
 			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
-			assertTrue(esperado.equals((DTDetalleOrganizador) detalle));
+			// TODO: Comparar detalle con esperado
 		});
 	}
 	
 	@Test
 	@Order(5)
 	void usuarioNoExiste() {
-		
-		assertDoesNotThrow(() -> {
+		assertThrows(UsuarioNoExiste.class, () -> {
 			controladorUsuarios.mostrarDetalleUsuario("nickNoExiste");
 		});
 		

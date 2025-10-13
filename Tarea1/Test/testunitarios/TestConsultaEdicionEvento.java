@@ -82,7 +82,7 @@ private static Fabrica fabrica;
 		// Alta Patrocinio
 		 
 		 assertDoesNotThrow(() -> {
-			 fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1", "TR1");
+			 fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 10000f, 1, "CODPAT1", "TR1");
 	        });
 		 
 		// Test de la función

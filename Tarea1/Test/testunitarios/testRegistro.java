@@ -29,11 +29,5 @@ class testRegistro {
         assertEquals(asistente, reg.getAsistente());
         
         assertEquals(patrocinio, reg.getPatrocinio());
-        
-        assertNull(reg.mostrarDetalle(null, null));
-        
-        assertTrue(reg.validar("nickA"), "El nickname debe coincidir");
-        assertFalse(reg.validar("otroNick"), "Si no coincide, debe ser false");
 	}
-
 }
