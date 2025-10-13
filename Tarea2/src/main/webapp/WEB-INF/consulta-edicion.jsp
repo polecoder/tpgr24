@@ -30,7 +30,8 @@
 	          <!-- Título + Imagen en línea -->
 	          <div class="d-flex align-items-center justify-content-between">
 	          	<% String nombreEdicion = request.getParameter("nombre_edicion"); %>
-	          	<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
+	          	<% String nombreEvento = request.getParameter("nombre_evento"); %>
+	          	<% if (nombreEvento == null ) { nombreEvento = (String) request.getAttribute("nombre_evento"); } %>
 	            <label class="mb-3 fs-4 text-center w-100"> <%= nombreEdicion %> </label>
 	            <%
 				byte[] imagenBytes = (byte[]) ((DTEdicionEvento) request.getAttribute("detalle_edicion")).getImagen();
