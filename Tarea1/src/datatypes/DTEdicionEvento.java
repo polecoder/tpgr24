@@ -11,10 +11,12 @@ public class DTEdicionEvento {
 	private Date fechaAlta;
 	private String organizadorNickname;
 	private byte[] imagen;
+	EEstadoEdicion estado;
 
 
 	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 
-			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] imagen) {
+			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] imagen,
+			 EEstadoEdicion estado) {
 	    this.setNombre(nombre);
 	    this.setSigla(sigla);
 	    this.setFechaInicio(fechaInicio);
@@ -24,6 +26,7 @@ public class DTEdicionEvento {
 	    this.setPais(pais);
 	    this.setOrganizadorNickname(organizadorNickname);
 	    this.setImagen(imagen); 
+	    this.setEstado(estado);
 	}
 
 	// === Getters y Setters ===
@@ -88,6 +91,13 @@ public class DTEdicionEvento {
 	}
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
+	}
+	
+	public EEstadoEdicion getEstado() {
+		return this.estado;
+	}
+	public void setEstado(EEstadoEdicion estado) {
+		this.estado = estado;
 	}
 	
 	/**

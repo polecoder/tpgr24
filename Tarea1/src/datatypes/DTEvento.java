@@ -1,21 +1,25 @@
 package datatypes;
 
 import java.util.Date;
+import java.util.Set;
 
 public class DTEvento {
-	private String nombre;
-	private String sigla;
-	private String descripcion;
-	private Date fechaAlta;
-	private byte[] imagen;
+	private 
+	String nombre;
+	String sigla;
+	String descripcion;
+	Date fechaAlta;
+	byte[] imagen;
+	Set<String> categorias;
 
 	public
-	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen) {
+	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, Set<String> categorias, byte[] imagen) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
 		this.setFechaAlta(fechaAlta);
 		this.setImagen(imagen);
+		this.setCategorias(categorias);
 	}
 
 	public String getNombre(){
@@ -49,4 +53,13 @@ public class DTEvento {
 	void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
+	
+	private void setCategorias(Set<String> categorias) {
+		this.categorias=categorias;
+		
+	}
+	public Set<String> getCategorias(){
+		return this.categorias;
+	}
+
 }

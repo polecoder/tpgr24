@@ -42,3 +42,4 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 		return nickname && nombre && correo && apellido && nacimiento;
 	}
 }
+

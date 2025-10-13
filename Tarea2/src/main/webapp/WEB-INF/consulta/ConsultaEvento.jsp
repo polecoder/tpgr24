@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList" %>
-<%@ page import="datatypes.*" %>
+<%@page import="datatypes.*, com.eventosuy.models.*" %>
+
 <!DOCTYPE html>
 <html lang="es">
 <!-- INCLUDE HEAD -->
@@ -20,6 +21,9 @@
             String descripcion = (String) request.getAttribute("descripcion");
             String sigla = (String) request.getAttribute("sigla");
             String fechaAlta = (String) request.getAttribute("fechaAlta");
+            
+            DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
+        	TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
 
             // Obtenemos la imagen como byte[]
             byte[] imagenBytes = (byte[]) request.getAttribute("imagen");
@@ -76,7 +80,15 @@
 
             <!-- Ediciones -->
             <div class="border-top pt-4 mt-4">
-                <h4 class="text-primary mb-3">Ediciones</h4>
+		    <div class="d-flex justify-content-between align-items-center mb-3">
+		        <h4 class="text-primary mb-0">Ediciones</h4>
+		        <% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
+		            <a href="<%= request.getContextPath() %>/Ediciones?accion=AltaEdicion&nombre_evento=<%= nombre %>"
+		               class="btn btn-primary fw-semibold shadow-sm px-3">
+		                ➕ Dar de alta nueva edición
+		            </a>
+		        <% } %>
+		    </div>
                 <% if (ediciones != null && !ediciones.isEmpty()) { %>
 				    <div class="d-flex flex-wrap gap-3 justify-content-center">
 				        <% for (DTEdicionEvento ed : ediciones) {
@@ -86,17 +98,17 @@
 				                base64Img = java.util.Base64.getEncoder().encodeToString(imgBytes);
 				            }
 				        %>
-				        <div class="card shadow-sm border-0" style="width: 200px;">
-				            <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
-				                 alt="Imagen de <%= ed.getNombre() %>"
-				                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
-				            <div class="card-body text-center p-2">
-				                <a href="Ediciones?accion=consulta&nombreEdicion=<%= ed.getNombre() %>&nombreEvento=<%= nombre %>"
-				                   class="text-decoration-none text-primary fw-semibold">
-				                    <%= ed.getNombre() %>
-				                </a>
-				            </div>
-				        </div>
+					        <div class="card shadow-sm border-0" style="width: 200px;">
+					            <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
+					                 alt="Imagen de <%= ed.getNombre() %>"
+					                 class="card-img-top rounded-top" style="height: 120px; object-fit: cover;">
+					            <div class="card-body text-center p-2">
+					                <a href="Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%= nombre %>"
+					                   class="text-decoration-none text-primary fw-semibold">
+					                    <%= ed.getNombre() %>
+					                </a>
+					            </div>
+					        </div>
 				        <% } %>
 				    </div>
 				<% } else { %>

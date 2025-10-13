@@ -73,9 +73,10 @@ return ManejadorEventos.getInstancia()
 	        String ciudad = ed.getCiudad();
 	        String pais = ed.getPais();
 	        String oNick = ed.getOrganizadorNickname();
-	        byte[] imagen = ed.getImagen(); 
+	        byte[] imagen = ed.getImagen();
+	        EEstadoEdicion estado = ed.getEstado();
 
-	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen));
+	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen,estado));
 	    }
 	    
 	    return mLista;

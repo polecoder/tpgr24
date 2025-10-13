@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -142,8 +143,6 @@ public class UsuarioServlet extends HttpServlet {
 					    request.setAttribute("registros", java.util.Collections.emptyList());
 					}
 					
-					//System.out.println("alta: imagen=" + (imagen==null? "null" : imagen.length));
-
 					 //response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta&nick="+ nickname);
 					 return;//redirige
 
@@ -163,12 +162,11 @@ public class UsuarioServlet extends HttpServlet {
 			// ==================== CONSULTA USUARIO ====================
 		case "consulta": {
 			String nick = trim(request.getParameter("nick"));
-			String nickSesion = (String) request.getSession().getAttribute("nick");
+			DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 
 			try {
 				IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
-				 IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
-			    //System.out.println("[consulta] param nick = " + nick);
+				IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
 
 				if (isBlank(nick)) {
 					// listar todos
@@ -201,7 +199,7 @@ public class UsuarioServlet extends HttpServlet {
 					    request.setAttribute("imagenDataUri", dataUri);
 					}
 					
-					boolean esPropio = nickSesion != null && nickSesion.equals(u.getNickname());
+					boolean esPropio = usuarioLogeado != null && usuarioLogeado.getNickname().equals(u.getNickname());
 					
 					// ------ ORGANIZADOR ------
 					if (u instanceof DTDetalleOrganizador) {
@@ -209,27 +207,24 @@ public class UsuarioServlet extends HttpServlet {
 					        ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Aceptada);
 					    if (aceptadas == null) aceptadas = java.util.Collections.emptyList();
 					    request.setAttribute("edicionesAceptadas", aceptadas);
-
-					    java.util.List<String> propias = java.util.Collections.emptyList();
+					    
+					    List<String> ingresadas = new ArrayList<>();
+					    List<String> rechazadas = new ArrayList<>();
 					    if (esPropio) {
-					        java.util.List<String> ingresadas =
+					        ingresadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Ingresada);
-					        java.util.List<String> rechazadas =
+					        rechazadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Rechazada);
 					        if (ingresadas == null) ingresadas = java.util.Collections.emptyList();
 					        if (rechazadas == null) rechazadas = java.util.Collections.emptyList();
 
-					        propias = new java.util.ArrayList<>();
-					        propias.addAll(ingresadas);
-					        propias.addAll(rechazadas);
 					    }
-					    request.setAttribute("misEdiciones", propias);
+					    request.setAttribute("misEdicionesIngresadas", ingresadas);
+					    request.setAttribute("misEdicionesRechazadas", rechazadas);
 					}
 
 					// ------ ASISTENTE ------
 					if (u instanceof DTDetalleAsistente) {
-					    // si querés mostrar SIEMPRE el bloque (aunque esté vacío),
-					    // mandá la lista vacía incluso si no es su propio perfil
 					    java.util.List<DTRegistro> regs = java.util.Collections.emptyList();
 					    if (esPropio) {
 					        regs = cu.listarRegistrosUsuario(u.getNickname());
@@ -355,9 +350,12 @@ public class UsuarioServlet extends HttpServlet {
 		case "registro-edicion":
 			if (isPost(request)) {
 				// --- Requiere login ---
-				String nick = getNickFromSession(request);
+				DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+				String nick = usuarioLogeado.getNickname();
+				
 				if (nick == null) {
-					response.sendRedirect(request.getContextPath() + "/login?error=loginRequerido");
+					request.setAttribute("error_message", "Debe estae logueado para registrarse a una edicion");
+					response.sendRedirect(request.getContextPath() + "/WEB-INF/error.jsp");
 					return;
 				}
 
@@ -447,11 +445,7 @@ public class UsuarioServlet extends HttpServlet {
 
 			// ==================== CONSULTA DE REGISTROS ====================
 		case "consulta-registro": {
-			String nick = getNickFromSession(request);
-			if (nick == null) {
-				response.sendRedirect(request.getContextPath() + "/login?error=loginRequerido");
-				return;
-			}
+			DTDetalleUsuario datosUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 
 			IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
 			IControladorEventos  ce = Fabrica.getInstancia().getControladorEvento();
@@ -462,10 +456,8 @@ public class UsuarioServlet extends HttpServlet {
 			String idxParam = trim(request.getParameter("idx"));      // asistente
 
 			try {
-				// Organizador o Asistente
-				DTDetalleUsuario detalle = cu.mostrarDetalleUsuario(nick);
 
-				if (detalle instanceof DTDetalleOrganizador) {
+				if (datosUsuario instanceof DTDetalleOrganizador) {
 					// --------------------------- ORGANIZADOR ---------------------------
 					if (!isBlank(evento) && !isBlank(edicion) && !isBlank(usuarioX)) {
 						//  detalle de registro de un usuario en esa edición
@@ -507,7 +499,7 @@ public class UsuarioServlet extends HttpServlet {
 
 					} else {
 						//  listar ediciones del organizador
-						request.setAttribute("edicionesOrg", cu.getEventosEdicionesDeOrganizador(nick));
+						request.setAttribute("edicionesOrg", cu.getEventosEdicionesDeOrganizador(datosUsuario.getNickname()));
 					}
 
 				} else {
@@ -515,12 +507,12 @@ public class UsuarioServlet extends HttpServlet {
 					if (!isBlank(idxParam)) {
 						// Ver detalle de uno de mis registros por índice
 						int idx = Integer.parseInt(idxParam);
-						DTDetalleRegistro det = cu.obtenerDetalleRegistro(nick, idx);
+						DTDetalleRegistro det = cu.obtenerDetalleRegistro(datosUsuario.getNickname(), idx);
 						request.setAttribute("detalle", det);
 						request.setAttribute("idxSel", idx);
 					}
 					// Siempre muestro mi lista de registros
-					List<DTRegistro> regs = cu.listarRegistrosUsuario(nick);
+					List<DTRegistro> regs = cu.listarRegistrosUsuario(datosUsuario.getNickname());
 					request.setAttribute("registros", regs);
 				}
 
@@ -562,7 +554,7 @@ public class UsuarioServlet extends HttpServlet {
 		catch (DateTimeParseException e) { return null; }
 	}
 	private static String getNickFromSession(HttpServletRequest req) {
-		Object o = req.getSession().getAttribute("usrNick"); // lo setea tu LoginServlet
+		Object o = req.getSession().getAttribute("nick"); // lo setea tu en action=alta
 		return (o == null) ? null : o.toString();
 	}
 }

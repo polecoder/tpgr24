@@ -11,73 +11,92 @@
 		rel="stylesheet" 
 	/>
 </head>
-<body>
-	<jsp:include page="/WEB-INF/templates/header.jsp" />
-	<div class="container flex-grow-1">
-		<div class="mx-auto" style="max-width: 768px">
-			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de Tipo de Registro</h1>
-		</div>
+<body class="d-flex flex-column min-vh-100">
+<jsp:include page="/WEB-INF/templates/header.jsp" />
+<%
+    String nombreEvento = (String) request.getParameter("nombre_evento");
+    String nombreEdicion = (String) request.getParameter("nombre_edicion");
+    String errorNombre = (String) request.getAttribute("error_tipo_registro");
+    byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
+    String base64Image = null;
+    if (imagenBytes != null && imagenBytes.length > 0) {
+        base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+    }
+%>
 
-		<div class="d-flex justify-content-between gap-5 mx-auto"
-			style="max-width: 1024px">
-			<main
-				class="mx-auto p-4 bg-light border-top border-2 border-primary rounded"
-				style="max-width: 375px">
-				<% String nombreEvento = (String) request.getAttribute("nombre_evento"); %>
-				<% String nombreEdicion = (String) request.getAttribute("nombre_edicion"); %>
-				<form action="Ediciones?caso_de_uso=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
-
-					<div
-						class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-						<img src="TODO: mostrar imagen" alt="Imagen evento"
-							style="width: 128px" /> <a
-							href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
-					</div>
-
-					<div class="d-flex gap-2">
-						<label for="nombre" class="form-label" style="width: 200px">
-							Nombre:<span class="text-danger">*</span>
-						</label> 
-						<input type="text" id="nombre" 
-							name="nombre" class="form-control form-control-sm" style="max-width: 300px" required
-						/>
-					</div>
-
-					<div class="d-flex gap-2">
-						<label for="descripcion" class="form-label" style="width: 200px">
-							Descripción:<span class="text-danger">*</span>
-						</label> 
-						<input type="text" id="descripcion"
-							name="descripcion" class="form-control form-control-sm" style="max-width: 300px" required
-						/>
-					</div>
-
-					<div class="d-flex gap-2">
-						<label for="costo" class="form-label" style="width: 200px">
-							Costo:<span class="text-danger">*</span>
-						</label> 
-						<input type="number" id="costo"
-							name="costo" class="form-control form-control-sm" style="max-width: 300px" required
-						/>
-					</div>
-
-					<div class="d-flex gap-2">
-						<label for="cuposMax" class="form-label" style="width: 200px">
-							Cupos:<span class="text-danger">*</span>
-						</label> 
-						<input type="number" id="cuposMax"
-							name="cupos_max" class="form-control form-control-sm" style="max-width: 300px" required
-						/>
-					</div>
-					<div class="d-flex justify-content-center gap-3">
-						<button type="submit" id="btnAceptar" class="btn btn-primary btn-sm px-3">
-							Aceptar
-						</button>
-					</div>
-				</form>
-			</main>
-		</div>
+<div class="container flex-grow-1">
+	<div class="mx-auto" style="max-width: 768px">
+		<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta de Tipo de Registro</h1>
 	</div>
-</body>
+
+	<div class="d-flex justify-content-between gap-5 mx-auto" style="max-width: 1024px">
+		<main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 375px">
+
+			<% if (errorNombre != null) { %>
+			    <div class="alert alert-danger text-center">
+			        <%= errorNombre %>
+			    </div>
+			<% } %>
+
+			<form action="Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
+
+				<div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
+					<% if (base64Image != null) { %>
+						<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen edicion" style="width: 128px" />
+					<% } %>
+					<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
+				</div>
+
+				<div class="d-flex gap-2">
+					<label for="nombre" class="form-label" style="width: 200px">
+						Nombre:<span class="text-danger">*</span>
+					</label> 
+					<input type="text" id="nombre" 
+						name="nombre" class="form-control form-control-sm" style="max-width: 300px" required
+					/>
+				</div>
+
+				<div class="d-flex gap-2">
+					<label for="descripcion" class="form-label" style="width: 200px">
+						Descripción:<span class="text-danger">*</span>
+					</label> 
+					<input type="text" id="descripcion"
+						name="descripcion" class="form-control form-control-sm" style="max-width: 300px" required
+					/>
+				</div>
+
+				<div class="d-flex gap-2">
+			        <label for="costo" class="form-label" style="width: 200px">
+			            Costo:<span class="text-danger">*</span>
+			        </label> 
+			        <input type="number" id="costo" name="costo" class="form-control form-control-sm" style="max-width: 300px" min="0" required
+			               oninput="this.setCustomValidity('')" 
+			               oninvalid="this.setCustomValidity('Debe ingresar un número mayor o igual a cero')" />
+			    </div>
+
+				<div class="d-flex gap-2">
+				    <label for="cuposMax" class="form-label" style="width: 200px">
+				        Cupos:<span class="text-danger">*</span>
+				    </label> 
+				    <input type="number" id="cuposMax"
+				        name="cupos_max" class="form-control form-control-sm" style="max-width: 300px" required
+				        min="1"
+				        oninput="this.setCustomValidity('')"
+				        oninvalid="this.setCustomValidity('Debe ingresar un número mayor a cero')"
+				    />
+				</div>
+
+				<div class="d-flex justify-content-center gap-3">
+					<button type="submit" id="btnAceptar" class="btn btn-primary btn-sm px-3">
+						Aceptar
+					</button>
+				</div>
+			</form>
+		</main>
+	</div>
+</div>
+
 <jsp:include page="/WEB-INF/templates/footer.jsp" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

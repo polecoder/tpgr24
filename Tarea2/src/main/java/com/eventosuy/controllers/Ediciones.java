@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -12,18 +13,22 @@ import java.util.Map;
 import java.util.Set;
 
 import datatypes.DTDetalleRegistro;
+import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.Utilidades;
 
 @WebServlet("/Ediciones")
+@MultipartConfig
 public class Ediciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Ediciones () {super();} // Constructor (no lleva parametros)
@@ -32,17 +37,19 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
-		String CU = request.getParameter("caso_de_uso"); // Llamo distinto JSP dependiendo del Caso de Uso
-		if (CU == null) { CU = (String) request.getAttribute("caso_de_uso"); } // Test
-		switch (CU) {
+		String accion = request.getParameter("accion"); // Llamo distinto JSP dependiendo del Caso de Uso
+		if (accion == null) { accion = (String) request.getAttribute("accion"); } // Test
+		switch (accion) {
 		case "ConsultaEdicion":
-			request = CUConsultaEdicion(request);
+			request = CUConsultaEdicion(request, response);
 			request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 			break;
 		case "AltaEdicion":
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaEdicion(request, response); // Crea la Edicion y muestra su consulta
 			} else { 
+				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
@@ -50,6 +57,8 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
 			} else { 
+				byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
+				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
@@ -57,14 +66,30 @@ public class Ediciones extends HttpServlet {
 			request = CUConsultaTipoRegistro(request, response);
 			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
 			break;
+		default:
+			request.getRequestDispatcher("/WEB-INF/error.jsp");
 		}
 	}
 	
-	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request) {
-		String nombreEvento = request.getParameter("nombre_evento");
-		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
+		
+		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		if (nombreEvento == null) { 
+			for (String evento : controladorEventos.listarEventos().keySet()) {
+				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
+					nombreEvento = evento;
+					break;
+				}
+			}
+		}
+		if (nombreEvento == null) {
+			request.setAttribute("error_message", "La edicion no es de ningun evento");
+			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+			return request;
+		}
 		
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = controladorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
@@ -79,11 +104,13 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		
-		String nickname = (String) request.getSession().getAttribute("nickname");
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickname = null;
+		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
 		if (nickname != null && nickname.equals(dtEdicion.getOrganizadorNickname())) {
 			request.setAttribute("es_organizador", true);
 			request.setAttribute("lista_registros", setRegistros);
-		} else if (asistentesRegistrados.keySet().contains(nickname)) {
+		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
 			request.setAttribute("es_asistente", true);
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
@@ -94,10 +121,8 @@ public class Ediciones extends HttpServlet {
 	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
-		
-		
 		String sigla = request.getParameter("sigla");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
@@ -105,10 +130,19 @@ public class Ediciones extends HttpServlet {
 		Date fechaAlta = new Date();
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
-		String nickOrganizador = (String) request.getSession().getAttribute("nickname");
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickOrganizador = null;
+		if (dtUsuario != null) {nickOrganizador = dtUsuario.getNickname();}
+		Part fotoPart = request.getPart("foto");
+		byte[] imagenBytes = null;
+        if (fotoPart != null && fotoPart.getSize() > 0) {
+            try (InputStream inputStream = fotoPart.getInputStream()) {
+                imagenBytes = inputStream.readAllBytes();
+            }
+        }
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
 		} catch (Exception ex) {
 			request.setAttribute("error_message", ex.getMessage());
 			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
@@ -116,7 +150,7 @@ public class Ediciones extends HttpServlet {
 		}
 		
 		request.setAttribute("nombre_edicion", nombreEdicion);
-		request = CUConsultaEdicion(request);
+		request = CUConsultaEdicion(request, response);
 		request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
 	}
 	
@@ -129,13 +163,14 @@ public class Ediciones extends HttpServlet {
 		if (nombreTipoRegistro == null) { nombreTipoRegistro = (String) request.getAttribute("nombre_tipo_registro"); }
 		
 		DTTipoRegistro dtTipoRegistro = null;
-		try {
-			dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-		} catch (Exception ex) {
-			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
-			return request;
-		}
+		 try {
+		        dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		        request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
+		    } catch (Exception ex) {
+		        request.setAttribute("error_tipo_registro", "El nombre del tipo de registro ya está en uso");
+		    }
+		byte[] imagenEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen();
+		request.setAttribute("imagenEdicion", imagenEdicion);
 		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		return request;
 	}
@@ -144,18 +179,18 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		String nombreEdicion = request.getParameter("nombre_edicion");
-		if (nombreEdicion == null) { nombreEvento = (String) request.getAttribute("nombre_edicion"); }
+		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
 		
 		String nombreTipoRegistro = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
 		float costo = Float.parseFloat(request.getParameter("costo"));
 		int cuposMax = Integer.parseInt(request.getParameter("cupos_max"));
-		
+		request.setAttribute("error_tipo_registro",null);
 		try {
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
 		} catch (Exception ex) {
-			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			request.setAttribute("error_tipo_registro", "Ya existe un tipo de registro con ese nombre.");
+			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
 			return;
 		}
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistro);
@@ -198,7 +233,7 @@ public class Ediciones extends HttpServlet {
 		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
 		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
 		
-		request.setAttribute("caso_de_uso", "ConsultaEdicion");
+		request.setAttribute("accion", "ConsultaEdicion");
 		request.setAttribute("nombre_evento", nombreEventoTest1);
 		request.setAttribute("nombre_edicion", nombreEdicionTest1);
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);

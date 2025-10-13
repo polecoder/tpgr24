@@ -1,11 +1,12 @@
-package testunitarios;
+package TestUnitarios;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,25 +30,27 @@ private static Fabrica fabrica;
 		Fabrica.resetInstancia();
 		fabrica = Fabrica.getInstancia();
 		// Alta Categoría
-		assertDoesNotThrow(() -> {
-			fabrica.getControladorEvento().altaCategoria("Categoria 1");
-		});
-		
+		try {
+			fabrica.getControladorEvento().altaCategoria("Categoria1");
+		} catch (Exception e) {
+			throw new IllegalStateException("Ya existe una categoría con ese nombre.");
+		}
 		// Alta Asistente
-		assertDoesNotThrow(() -> {
+		try {
 			fabrica.getControladorUsuarios().altaAsistente("Asistente1", "Eventos.2025!", "NombreAsistente", "mail@mail.com", "ApellidoAsistente", Utilidades.toDate(LocalDate.of(2002, 12, 17)), null, null);
-		});
-		
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
 		// Alta Evento
 		List<String> listaCategorias = new ArrayList<>();
 		listaCategorias.add("Categoria1");
-		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null);
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias,null);
 		// Alta Edición
-		
-		assertDoesNotThrow(() -> {
-			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null);
-		});
-		
+		try {
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1",null);
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
 		// Alta Tipo Registro
 		try {
 			fabrica.getControladorEvento().altaTipoRegistro("TR1", "Descripcion1", 100, 50, "Evento1", "EdicionEvento1");
@@ -71,17 +74,18 @@ private static Fabrica fabrica;
 	@Test
 	void operacionListarPatrociniosDeEdicion() {
 		// Alta Institucion
-		
-		assertDoesNotThrow(() -> {
-			fabrica.getControladorInstitucion().altaInstitucion("Institucion", "Descripcion1", "https://insti.com");
-		});
+		try {
+			fabrica.getControladorInstitucion().AltaInstitucion("Institucion", "Descripcion1", "https://insti.com");
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
 		
 		// Alta Patrocinio
-		
-		assertDoesNotThrow(() -> {
-			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1", "TR1");
-		});
-		
+		try {
+			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 100f, 50, "CODPAT1","TR1");
+		} catch (Exception e) {
+			throw new IllegalStateException(e.getMessage());
+		}
 		// Test de la función
 		Set<String> esperado = new HashSet<>();
 		esperado.add("CODPAT1");
@@ -96,7 +100,7 @@ private static Fabrica fabrica;
 			fail("El tamaño del resultado no es el esperado.");
 		}
 		// Como solo debería haber un elemento, se hace la prueba para ese elemento.
-		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null);
+		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1",null, null);
 		DTEdicionEvento dtResultado = resultado.get("EdicionEvento1");
 		assertEquals(dtEsperado.getNombre(), dtResultado.getNombre());
 		assertEquals(dtEsperado.getSigla(), dtResultado.getSigla());

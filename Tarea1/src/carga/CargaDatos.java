@@ -8,6 +8,7 @@ import logica.ManejadorInstituciones;
 import logica.ManejadorUsuarios;
 import logica.Patrocinio;
 import logica.TipoRegistro;
+import logica.Utilidades;
 import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 
@@ -290,16 +291,16 @@ public class CargaDatos {
 					String nombreInstitucion = this.instituciones.get(refInstitucion).getNombre();
 					institucion = this.manejadorInstituciones.getInstitucion(nombreInstitucion);
 				}
-				// TODO: Considerar imagen
-				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion, null);
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosUsuario.getImagen());
+				this.manejadorUsuarios.agregarAsistente(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosAsistente.getApellido(), datosAsistente.getFechaNacimiento(), institucion, bytesImagen);
 			}
 		}
 		if (this.usuariosOrganizador != null && this.organizadores != null) {
 			for (Map.Entry<String, CSVUsuario> entry : this.usuariosOrganizador.entrySet()) {
 				CSVUsuario datosUsuario = entry.getValue();
 				CSVOrganizador datosOrganizador = this.organizadores.get(entry.getKey());
-				// TODO: Considerar imagen
-				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb(), null);
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosUsuario.getImagen());
+				this.manejadorUsuarios.agregarOrganizador(datosUsuario.getNickname(), datosUsuario.getContrasena(), datosUsuario.getNombre(), datosUsuario.getCorreo(), datosOrganizador.getDescripcion(), datosOrganizador.getSitioWeb(), bytesImagen);
 			}
 		}
 	}
@@ -336,8 +337,8 @@ public class CargaDatos {
 				for (String categoria : evento.getCategorias().split(", ")) {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
-				// TODO: Ver que se hace con las ímagenes
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, null);
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(evento.getImagen());
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen);
 			}
 		}
 	}
@@ -373,7 +374,7 @@ public class CargaDatos {
 				CSVEdicion datosEdicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
-				// TODO: Ver que se hace con las ímagenes
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(edicion.getImagen());
 				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, null);
 				if (datosEdicion.getEstado().equals("Aceptada")) {
 					edicion.setEstado(EEstadoEdicion.Aceptada);
