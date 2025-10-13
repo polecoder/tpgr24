@@ -58,7 +58,12 @@ public class Institucion extends HttpServlet {
 
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
-		request.setAttribute("imagenEdicion", controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen());
+		try {
+			DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+			request.setAttribute("imagenEdicion", dtEdicion.getImagen());			
+		}catch(Exception error) {
+			error.printStackTrace();
+		}
 		
 		// Get user type from session
 		HttpSession session = request.getSession();
@@ -196,7 +201,12 @@ public class Institucion extends HttpServlet {
 
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
-		request.setAttribute("imagenEdicion", controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen());
+		try {
+			DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+			request.setAttribute("imagenEdicion", dtEdicion.getImagen());			
+		}catch(Exception error) {
+			error.printStackTrace();
+		}
 
 		// Get user type from session
 		HttpSession session = request.getSession();
