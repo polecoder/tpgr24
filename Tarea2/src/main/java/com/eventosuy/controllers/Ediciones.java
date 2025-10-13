@@ -81,6 +81,7 @@ public class Ediciones extends HttpServlet {
 			for (String evento : controladorEventos.listarEventos().keySet()) {
 				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
 					nombreEvento = evento;
+					request.setAttribute("nombre_evento", nombreEvento);
 					break;
 				}
 			}
