@@ -154,6 +154,10 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 			} else {
+				
+				Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
+				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+				
 				request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
 				.forward(request, response);
 				return;
@@ -554,7 +558,7 @@ public class UsuarioServlet extends HttpServlet {
 		catch (DateTimeParseException e) { return null; }
 	}
 	private static String getNickFromSession(HttpServletRequest req) {
-		Object o = req.getSession().getAttribute("nick"); // lo setea tu en action=alta
-		return (o == null) ? null : o.toString();
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) req.getSession().getAttribute("usuarioLogeado"); // lo setea tu en action=alta
+		return (dtUsuario == null) ? null : dtUsuario.getNickname();
 	}
 }

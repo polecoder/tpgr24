@@ -54,7 +54,12 @@ public class Registro {
 	}
 	
 	public DTDetalleRegistro mostrarDetalle(String nombreEdicion, String nombreTipoRegistro) {
-		DTDetalleRegistro dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo);
+		DTDetalleRegistro dtRegistro = null;
+		if (this.getPatrocinio() != null) {
+			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, this.getPatrocinio().getCodigoPatrocinio());
+		} else {
+			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, null);
+		}
 		return dtRegistro;
 	}
 	

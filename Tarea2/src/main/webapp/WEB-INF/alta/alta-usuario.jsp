@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.Set" %>
+<% Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion"); %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -38,7 +40,7 @@
 
             <!-- Tipo -->
             <div class="d-flex justify-content-center gap-3">
-              <label class="form-label text-end" style="width: 80px">Tipo:</label>
+              <label class="form-label text-end" style="width: 90px">Tipo:</label>
               <div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="rol" id="tipoAsistente" value="asistente"
@@ -56,7 +58,7 @@
 
             <!-- Nickname -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="nickname" class="form-label text-end" style="width: 80px">Nickname:</label>
+              <label for="nickname" class="form-label text-end" style="width: 90px">Nickname:</label>
               <input type="text" id="nickname" name="nickname" required
                      class="form-control form-control-sm" style="max-width: 200px"
                      value="${param.nickname}" />
@@ -64,7 +66,7 @@
 
             <!-- Nombre -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="nombre" class="form-label text-end" style="width: 80px">Nombre:</label>
+              <label for="nombre" class="form-label text-end" style="width: 90px">Nombre:</label>
               <input type="text" id="nombre" name="nombre" required
                      class="form-control form-control-sm" style="max-width: 200px"
                      value="${param.nombre}" />
@@ -72,7 +74,7 @@
 
             <!-- Correo -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="email" class="form-label text-end" style="width: 80px">Correo:</label>
+              <label for="email" class="form-label text-end" style="width: 90px">Correo:</label>
               <input type="email" id="email" name="email"
                      class="form-control form-control-sm" style="max-width: 200px"
                      value="${param.email}" />
@@ -80,21 +82,21 @@
 
             <!-- Password -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="password" class="form-label text-end" style="width: 80px">Contraseña:</label>
+              <label for="password" class="form-label text-end" style="width: 90px">Contraseña:</label>
               <input type="password" id="password" name="password"
                      class="form-control form-control-sm" style="max-width: 200px" />
             </div>
 
             <!-- Confirm -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="confirm" class="form-label text-end" style="width: 80px">Confirmación:</label>
+              <label for="confirm" class="form-label text-end" style="width: 90px">Confirmación:</label>
               <input type="password" id="confirm" name="confirm"
                      class="form-control form-control-sm" style="max-width: 200px" required />
             </div>
 
             <!-- Imagen -->
             <div class="d-flex justify-content-center gap-3">
-              <label for="imagen" class="form-label text-end" style="width: 80px">Imagen:</label>
+              <label for="imagen" class="form-label text-end" style="width: 90px">Imagen:</label>
               <input type="file" id="imagen" name="imagen" accept="image/*"
                      class="form-control form-control-sm" style="max-width: 200px" />
             </div>
@@ -102,12 +104,12 @@
             <!-- Bloque organizador -->
             <div id="bloqueOrganizador" class="d-none border-top pt-3">
               <div class="d-flex justify-content-center gap-3">
-                <label for="descripcion" class="form-label text-end" style="width: 80px">Descripción:</label>
+                <label for="descripcion" class="form-label text-end" style="width: 90px">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" rows="3"
                           class="form-control form-control-sm" style="max-width: 200px">${param.descripcion}</textarea>
               </div>
               <div class="d-flex justify-content-center gap-3">
-                <label for="web" class="form-label text-end" style="width: 80px">Sitio web:</label>
+                <label for="web" class="form-label text-end" style="width: 90px">Sitio web:</label>
                 <input type="url" id="web" name="web" placeholder="https://…"
                        class="form-control form-control-sm" style="max-width: 200px"
                        value="${param.web}" />
@@ -117,34 +119,30 @@
             <!-- Bloque asistente -->
             <div id="bloqueAsistente" class="d-none border-top pt-3">
               <div class="d-flex justify-content-center gap-3">
-                <label for="apellido" class="form-label text-end" style="width: 80px">Apellido:</label>
+                <label for="apellido" class="form-label text-end" style="width: 90px">Apellido:</label>
                 <input type="text" id="apellido" name="apellido"
                        class="form-control form-control-sm" style="max-width: 200px"
                        value="${param.apellido}" />
               </div>
 
               <div class="d-flex justify-content-center gap-3">
-                <label for="fechaNac" class="form-label text-end" style="width: 80px">Nacimiento:</label>
+                <label for="fechaNac" class="form-label text-end" style="width: 90px">Nacimiento:</label>
                 <input type="date" id="fechaNac" name="fechaNac"
                        class="form-control form-control-sm" style="max-width: 200px"
                        value="${param.fechaNac}" />
               </div>
 
-              <div class="d-flex justify-content-center gap-3">
-                <label class="form-label text-end" style="width: 80px"></label>
-                <div class="form-check">
-                  <input id="perteneceInstitucion" name="perteneceInstitucion" type="checkbox" class="form-check-input"
-                         <%= request.getParameter("institucion") != null && !request.getParameter("institucion").isBlank() ? "checked" : "" %> />
-                  <label class="form-check-label" for="perteneceInstitucion">Pertenece a una institución</label>
-                </div>
-              </div>
-
-              <div id="filaInstitucion" class="d-none d-flex justify-content-center gap-3">
-                <label for="institucion" class="form-label text-end" style="width: 80px">Institución:</label>
-                <input id="institucion" name="institucion"
-                       class="form-control form-control-sm" style="max-width: 200px"
-                       value="${param.institucion}" />
-              </div>
+              <div class="d-flex gap-2">
+	            <label for="instituciones" class="form-label" style="width: 90px">Instituciones: </label>
+	            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 240px" required>
+	              <option value="" selected>
+	                -- No pertenece a institucion --
+	              </option>
+	              <% for(String nombreInstitucion: listaNombresInstitucion) { %>
+		              <option value="<%=nombreInstitucion%>"><%=nombreInstitucion%></option>
+		          <% } %>
+	            </select>
+	          </div>
             </div>
 
             <!-- Botones -->

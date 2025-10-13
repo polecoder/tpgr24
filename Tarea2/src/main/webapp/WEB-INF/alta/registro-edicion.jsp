@@ -137,7 +137,7 @@
 
             <div class="d-flex justify-content-center gap-3">
               <label for="codigo" class="form-label text-end" style="width: 120px;">Código patrocinio</label>
-              <input type="text" id="codigo" name="codigo" class="form-control form-control-sm" style="max-width: 400px;" />
+              <input type="text" id="codigo" name="codigo" class="form-control form-control-sm" style="max-width: 400px;"/>
             </div>
 
             <div class="text-end">

@@ -93,13 +93,17 @@
 	              	String nomEd = dtDetalle.getNombreEdicion();
 	              	Date fecha =  dtDetalle.getFecha();
 	              	String nomTipo = dtDetalle.getNombreTipo();
-	              	float patrocinio = dtDetalle.getCosto();
+	              	float costo = dtDetalle.getCosto();
+	              	String codigoPatrocinio = dtDetalle.getCodigoPatrocinio();
               %>
 	                <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
 	                <p><strong>Edición:</strong> <%= nomEd %></p>
 	                <p><strong>Fecha de registro:</strong> <%= fecha %></p>
 	                <p><strong>Tipo de registro:</strong> <%= nomTipo %></p>
-	                <p><strong>Patrocinio:</strong> <%= patrocinio %></p>
+	                <p><strong>Costo:</strong> <%=costo%></p>
+	                <% if (codigoPatrocinio != null) { %>
+	                	<p><strong>Patrocinio:</strong> <%=codigoPatrocinio%></p>
+	                <% } %>
               <% } %>
           	<%
             // ======================== ORGANIZADOR ========================
@@ -214,7 +218,7 @@
                 <p><strong>Usuario:</strong> <%= nickAsis %></p>
                 <p><strong>Fecha de registro:</strong> <%= fecha %></p>
                 <p><strong>Tipo de registro:</strong> <%= nomTipo %></p>
-                <p><strong>Patrocinio:</strong> <%= patrocinio ? "Se utilizó código (costo 0)" : "No se utilizó patrocinio" %></p>
+                <p><strong>Costo:</strong> <%= patrocinio ? "Se utilizó código (costo 0)" : "No se utilizó patrocinio" %></p>
 
                 <div class="text-end mt-4">
                   <a class="btn btn-secondary"

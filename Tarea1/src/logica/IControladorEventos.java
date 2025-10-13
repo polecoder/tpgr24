@@ -88,4 +88,6 @@ public interface IControladorEventos {
 	 */
 	public DTDetallePatrocinio mostrarDetallePatrocinio(String nombreEvento, String nombreEdicion, String codigoPatrocinio);
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion);
+	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion);
+	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador);
 }

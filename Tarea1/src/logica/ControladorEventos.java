@@ -51,12 +51,12 @@ public class ControladorEventos implements IControladorEventos {
 	
 	public List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname,
             EEstadoEdicion... estados) {
-java.util.Set<EEstadoEdicion> filtro =
-new java.util.HashSet<>(java.util.Arrays.asList(estados));
-
-// Usar la instancia del manejador
-return ManejadorEventos.getInstancia()
-.filtrarEdicionesPorOrganizadorYEstado(organizadorNickname, filtro);
+		java.util.Set<EEstadoEdicion> filtro =
+		new java.util.HashSet<>(java.util.Arrays.asList(estados));
+		
+		// Usar la instancia del manejador
+		return ManejadorEventos.getInstancia()
+				.filtrarEdicionesPorOrganizadorYEstado(organizadorNickname, filtro);
 }
 
 	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
@@ -363,6 +363,15 @@ return ManejadorEventos.getInstancia()
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 	}
-
+	
+	@Override
+	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+	}
+	
+	@Override
+	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
+		return manejadorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
+	}
 }
 

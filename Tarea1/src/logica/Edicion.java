@@ -25,9 +25,8 @@ public class Edicion {
     private Map<String, Patrocinio> patrocinios;
     private String organizadorNickname;
     private String nombreEvento;
-    private byte[] imagen; // ✅ nuevo atributo
+    private byte[] imagen; 
 
-    // ✅ ÚNICO CONSTRUCTOR (incluye imagen)
     public Edicion(
             String nombre,
             String sigla,
@@ -161,9 +160,9 @@ public class Edicion {
     public boolean check(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) {
         boolean pertenece = patrocinios.containsKey(codigoPatrocinio);
         if (pertenece) {
-            Patrocinio bool = patrocinios.get(codigoPatrocinio);
-            boolean checkA = bool.checkAsistente(nicknameAsistente);
-            boolean checkTR = bool.getTipoRegistro().getNombre() == nombreTipoRegistro;
+            Patrocinio p = patrocinios.get(codigoPatrocinio);
+            boolean checkA = p.checkAsistente(nicknameAsistente);
+            boolean checkTR = nombreTipoRegistro.equals(p.getTipoRegistro().getNombre());
             return checkA && pertenece && checkTR;
         } else {
             return false;
@@ -198,7 +197,14 @@ public class Edicion {
 
     public String getNombreEvento() { return nombreEvento; }
     public void setNombreEvento(String nombreEvento) { this.nombreEvento = nombreEvento; }
-
     
+    public Patrocinio getPatrocinioInstitucion(String institucion) {
+    	for (Patrocinio patrocinio : this.patrocinios.values()) {
+    		if (institucion.equals(patrocinio.getInstitucion().getNombre())) {
+    			return patrocinio;
+    		}
+    	}
+    	return null;
+    }
 }
 

@@ -79,7 +79,7 @@ public class ManejadorUsuarios {
 		Asistente asistente = new Asistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
 				institucion);
 		if (institucion != null) {
-			institucion.getAsistentes().put(nickname, asistente);
+			institucion.agregarAsistente(asistente);
 		}
 		conjuntoAsistentes.put(asistente.getNickname(), asistente);
 		if (imagen != null && imagen.length > 0)

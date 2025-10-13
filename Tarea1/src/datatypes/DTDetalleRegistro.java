@@ -8,13 +8,15 @@ public class DTDetalleRegistro {
 	private String nombreTipo;
 	private Date fecha;
 	private float costo;
+	private String codigoPatrocinio;
 	
-	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo) {
+	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo, String codigoPatrocinio) {
 		this.setNombreEdicion(nombreEdicion);
 		this.setNicknameAsistente(nicknameAsistente);
 		this.setNombreTipo(nombreTipo);
 		this.setFecha(fecha);
 		this.setCosto(costo);
+		this.setCodigoPatrocinio(codigoPatrocinio);
 	}
 	
 	public String getNombreEdicion() {
@@ -50,6 +52,13 @@ public class DTDetalleRegistro {
 	}
 	public void setCosto(float costo) {
 		this.costo = costo;
+	}
+	
+	public String getCodigoPatrocinio() {
+		return codigoPatrocinio;
+	}
+	public void setCodigoPatrocinio(String codigoPatrocinio) {
+		this.codigoPatrocinio = codigoPatrocinio;
 	}
 	
 	public boolean equalsRegistro(DTDetalleRegistro evento) {

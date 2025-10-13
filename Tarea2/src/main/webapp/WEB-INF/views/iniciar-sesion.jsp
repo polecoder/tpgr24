@@ -8,6 +8,7 @@
   <jsp:include page="../templates/head.jsp"/>
   </head>
   <body class="d-flex flex-column min-vh-100">
+  <jsp:include page="../templates/header.jsp"/>
     <div class="container flex-grow-1">
       <div class="mx-auto" style="max-width: 768px">
         <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">

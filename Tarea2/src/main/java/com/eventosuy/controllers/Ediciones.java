@@ -81,6 +81,7 @@ public class Ediciones extends HttpServlet {
 			for (String evento : controladorEventos.listarEventos().keySet()) {
 				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
 					nombreEvento = evento;
+					request.setAttribute("nombre_evento", nombreEvento);
 					break;
 				}
 			}
@@ -92,7 +93,7 @@ public class Ediciones extends HttpServlet {
 		}
 		
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
-		Set<String> setPatrocinios = controladorEventos.listarPatrociniosDeEdicion(nombreEvento, nombreEdicion);
+		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
 		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
 		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
