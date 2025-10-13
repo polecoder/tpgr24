@@ -374,7 +374,7 @@ public class CargaDatos {
 				CSVEdicion datosEdicion = ediciones.get(ref);
 				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
-				byte[] bytesImagen = Utilidades.archivoImagenToByte(edicion.getImagen());
+				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosEdicion.getImagen());
 				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, null);
 				if (datosEdicion.getEstado().equals("Aceptada")) {
 					edicion.setEstado(EEstadoEdicion.Aceptada);
