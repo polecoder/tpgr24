@@ -13,6 +13,7 @@
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
 
+import excepciones.AporteInsuficiente;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.FormularioIncompletoPatrocinio;
@@ -354,7 +355,19 @@ import datatypes.ENivelPatrocinio;
 
 	            } catch (FormularioIncompletoPatrocinio exception) {
 	                JOptionPane.showMessageDialog(AltaPatrocinio.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	            }
+	            } catch (AporteInsuficiente e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (TipoRegistroNoExiste e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (EventoNoExiste e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (EdicionNoExiste e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 	        });
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import excepciones.AporteInsuficiente;
 import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionNoExiste;
@@ -66,7 +67,7 @@ public interface IControladorEventos {
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio;
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
 	public String[] getNombresEdiciones(String nombreEvento);
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías

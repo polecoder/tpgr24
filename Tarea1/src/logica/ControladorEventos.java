@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
+import excepciones.AporteInsuficiente;
 import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionNoExiste;
@@ -170,7 +171,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 	
 	@Override
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio {
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
 	    
 	    // Validación de campos obligatorios
 	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
@@ -198,6 +199,13 @@ public class ControladorEventos implements IControladorEventos {
 	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
 	        throw new FormularioIncompletoPatrocinio("El código de patrocinio solo puede contener letras y números");
 	    }
+	    
+	    // Validacion del 20%
+	    float costoTipoRegistro = getDTTipoRegistro(eventoSeleccionado, edicionSeleccionada, tipoRegistroSeleccionado).costo();
+	    if (aporteEconomico*0.20 < costoTipoRegistro*cupos) {
+	    	throw new AporteInsuficiente("El aporte debe superar el 20% del costo del total de los cupos");
+	    }
+	    
 		try {
 			manejadorEventos.altaPatrocinio(eventoSeleccionado, FechaAlta, edicionSeleccionada, institucionSeleccionada, nivelPatrocinio, aporteEconomico, cupos, codigoPatrocinio, tipoRegistroSeleccionado);
 		} catch (TipoRegistroNoExiste exception) {

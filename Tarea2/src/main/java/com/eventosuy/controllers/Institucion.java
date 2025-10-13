@@ -2,11 +2,9 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import com.eventosuy.models.TipoUsuario;
@@ -60,8 +58,8 @@ public class Institucion extends HttpServlet {
 
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
-		request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
-
+		request.setAttribute("imagenEdicion", controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen());
+		
 		// Get user type from session
 		HttpSession session = request.getSession();
 		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
@@ -198,7 +196,6 @@ public class Institucion extends HttpServlet {
 
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
-		// TODO: hardcodeado
 		request.setAttribute("imagenEdicion", controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen());
 
 		// Get user type from session
@@ -291,6 +288,7 @@ public class Institucion extends HttpServlet {
 		    	handeGetAccionesOrganizador(request, response, "altaPatrocinio", nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
 		    } else {
 		    	darAltaPatrocinio(controladorEventos,
+		    			controladorInstitucion,
 			    		nombreEvento,
 			    		nombreEdicion,
 			    		new Date(),
@@ -311,7 +309,7 @@ public class Institucion extends HttpServlet {
 
 		response.sendRedirect(request.getContextPath() + "/home");
 	}
-	private void darAltaPatrocinio(IControladorEventos controladorEventos, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
+	private void darAltaPatrocinio(IControladorEventos controladorEventos, IControladorInstitucion controladorInstitucion, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
 			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			controladorEventos.altaPatrocinio(eventoSeleccionado, 
@@ -323,7 +321,11 @@ public class Institucion extends HttpServlet {
 					cupos,
 					codigoPatrocinio,
 					tipoRegistroSeleccionado);			
-		}catch(Exception error) {
+		}catch (Exception error) {
+			Set<String> listaNombresInstitucion = obtenerNombresInstituciones(controladorInstitucion);
+			Set<String> listaNombresTipoRegistro = obtenerTiposRegistro(controladorEventos, eventoSeleccionado, edicionSeleccionada);
+			request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
+			request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 			request.setAttribute("error", error.getMessage());
 			request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
 		}
