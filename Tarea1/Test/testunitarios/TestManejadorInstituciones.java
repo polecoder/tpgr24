@@ -61,7 +61,7 @@ public class TestManejadorInstituciones {
         assertNull(manejador.getInstitucion("Inst2"));
 
         // getPatrocinio (actualmente devuelve null)
-        DTPatrocinio dt = manejador.getPatrocinio("COD123");
-        assertNull(dt);
+        DTPatrocinio dtpatrocinio = manejador.getPatrocinio("COD123");
+        assertNull(dtpatrocinio);
     }
 }
