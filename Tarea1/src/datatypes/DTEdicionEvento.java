@@ -11,7 +11,7 @@ public class DTEdicionEvento {
 	private Date fechaAlta;
 	private String organizadorNickname;
 	private byte[] imagen;
-	EEstadoEdicion estado;
+	private EEstadoEdicion estado;
 
 
 	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 

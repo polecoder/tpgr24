@@ -76,7 +76,7 @@ return ManejadorEventos.getInstancia()
 	        byte[] imagen = ed.getImagen();
 	        EEstadoEdicion estado = ed.getEstado();
 
-	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen,estado));
+	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen, estado));
 	    }
 	    
 	    return mLista;
