@@ -87,7 +87,7 @@ public class TestRegistroAEdicion {
 		
 		controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha);
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
 	}
 	
@@ -107,7 +107,7 @@ public class TestRegistroAEdicion {
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
 		});
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null);
 		assertTrue(dtRegistroEsperado.equals(dtRegistroGenerado));
 	}
 }

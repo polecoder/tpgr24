@@ -1,6 +1,10 @@
-package TestUnitarios;
+package testunitarios;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,8 +29,8 @@ class TestConsultaUsuario {
     @BeforeEach
     void setUp() {
     	Fabrica.resetInstancia();
-    	Fabrica f = Fabrica.getInstancia();
-        iCU = f.getControladorUsuarios();
+    	Fabrica fabrica = Fabrica.getInstancia();
+        iCU = fabrica.getControladorUsuarios();
     }
 
     @Test
@@ -97,7 +101,7 @@ class TestConsultaUsuario {
     void testOperacionListarDetalleUsuarios() {
     	Fabrica fabrica = Fabrica.getInstancia();
     	assertDoesNotThrow(() -> {
-    		fabrica.getControladorInstitucion().AltaInstitucion("Institucion", "Descripcion1", "https://a.com");
+    		fabrica.getControladorInstitucion().altaInstitucion("Institucion", "Descripcion1", "https://a.com");
     		iCU.altaOrganizador("lauraorganiza", "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com", null);
     		iCU.altaAsistente("asistente", "Eventos.2025!", "Juan", "juan@mail.com", "Perez", Utilidades.toDate(LocalDate.now()), "Institucion", null);
     		fabrica.getControladorEvento().altaCategoria("Categoria1");

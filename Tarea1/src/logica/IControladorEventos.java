@@ -76,7 +76,7 @@ public interface IControladorEventos {
 	public List<String> getListaCategorias();
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste;
 	public Set<String> nombresEdicionesIngresadas(String eventoSeleccionado);
-	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b);
+	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean bool);
 	/**
 	 * Devuelve el detalle del patrocinio específicado por los parámetros.
 	 * Si alguno de los parámetros representa a una instancia que no existe en el sistema, la función devuelve null.
