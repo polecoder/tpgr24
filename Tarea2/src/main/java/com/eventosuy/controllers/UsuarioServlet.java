@@ -70,7 +70,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 				byte[] imagen = readPartBytes(request.getPart("imagen")); 
-
+				
 				try {
 					if ("organizador".equalsIgnoreCase(rol)) {
 						String descripcion = trim(request.getParameter("descripcion"));
@@ -148,6 +148,10 @@ public class UsuarioServlet extends HttpServlet {
 
 				} catch (Exception ex) {
 					request.setAttribute("error", safeMsg(ex, "No se pudo crear el usuario."));
+					
+					Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
+					request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+					
 					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
 					.forward(request, response);
 					return;
