@@ -154,6 +154,10 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 			} else {
+				
+				Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
+				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+				
 				request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
 				.forward(request, response);
 				return;
