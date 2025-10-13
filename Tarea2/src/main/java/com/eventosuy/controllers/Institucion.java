@@ -199,7 +199,7 @@ public class Institucion extends HttpServlet {
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		// TODO: hardcodeado
-		request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
+		request.setAttribute("imagenEdicion", controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen());
 
 		// Get user type from session
 		HttpSession session = request.getSession();

@@ -9,7 +9,12 @@
 	String error = (String) request.getAttribute("error");
 	String nombreEvento = (String) request.getAttribute("nombreEvento");
 	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
-	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
+	
+	byte[] imagenBytes = (byte[]) request.getAttribute("imagenEdicion");
+    String base64Image = null; // declarar antes del if
+    if (imagenBytes != null && imagenBytes.length > 0) {
+        base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+    }
 	
 	Set<String> listaNombresTipoRegistro = (Set<String>) request.getAttribute("listaNombresRegistro");
 	Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion");
@@ -27,15 +32,17 @@
     <div class="container flex-grow-1">
       <div class="d-flex flex-column align-items-center py-5">
         <div class="d-flex align-items-center gap-3">
-          <img src=<%=rutaImagenEdicion %> alt="Imagen usuario" style="
+        <% if (base64Image != null) { %>
+          <img src="data:image/png;base64,<%=base64Image%>" alt="Imagen edicion" style="
                 max-width: 128px;
                 max-height: 128px;
                 width: auto;
                 height: auto;
               " />
+         <% } %>
           <div class="d-flex flex-column" style="line-height: 1">
             <h1 class="fs-2 fw-bold mb-1"><%= nombreEdicion %></h1>
-            <a href=<%=rutaImagenEdicion %> class="fs-5 text-secondary text-decoration-underline"><%= nombreEdicion %></a>
+            	<a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="fs-5 text-secondary text-decoration-underline"><%= nombreEdicion %></a>
             <!-- Necesito saber como redirigir al Servlet de Evento -->
           </div>
         </div>

@@ -44,7 +44,7 @@
 					<% if (base64Image != null) { %>
 						<img src="data:image/png;base64,<%=base64Image%>" alt="Imagen edicion" style="width: 128px" />
 					<% } %>
-					<a href="./consulta-edicion-organizador.html" class="text-primary"> <%=nombreEdicion%> </a>
+					<a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="text-primary"> <%=nombreEdicion%> </a>
 				</div>
 
 				<div class="d-flex gap-2">
