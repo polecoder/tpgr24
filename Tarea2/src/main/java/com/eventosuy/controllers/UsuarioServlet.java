@@ -350,10 +350,12 @@ public class UsuarioServlet extends HttpServlet {
 		case "registro-edicion":
 			if (isPost(request)) {
 				// --- Requiere login ---
-				String nick = getNickFromSession(request);
+				DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+				String nick = usuarioLogeado.getNickname();
+				
 				if (nick == null) {
 					request.setAttribute("error_message", "Debe estae logueado para registrarse a una edicion");
-					response.sendRedirect(request.getContextPath() + "/error.jsp");
+					response.sendRedirect(request.getContextPath() + "/WEB-INF/error.jsp");
 					return;
 				}
 
