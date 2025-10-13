@@ -5,13 +5,16 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.EEstadoEdicion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -169,7 +172,12 @@ public class Eventos extends HttpServlet {
 
         Map<String, DTEdicionEvento> edicionesMap = IContEv.listarEdicionesEvento(nombre);
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
-        request.setAttribute("ediciones", edicionesList);
+        List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
+        	    .filter(element -> EEstadoEdicion.Aceptada == element.getEstado())
+        	    .collect(Collectors.toList());
+        
+        
+        request.setAttribute("ediciones", edicionesAceptadas);
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/ConsultaEvento.jsp");
         dispatcher.forward(request, response);
