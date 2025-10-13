@@ -40,7 +40,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="<%= request.getContextPath() %>/institucion?accion=alta" class="text-primary fw-semibold">
+								<a href="${pageContext.request.contextPath}/Institucion?action=altaInstitucion" class="text-primary fw-semibold">
 									Alta Institución
 								</a>
 							</li>
@@ -162,4 +162,3 @@
 	<jsp:include page="./WEB-INF/templates/footer.jsp" />
 </body>
 </html>
-

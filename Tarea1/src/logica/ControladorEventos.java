@@ -281,6 +281,7 @@ return ManejadorEventos.getInstancia()
 				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
 				Patrocinio p = null;
 				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
+				System.out.println("checkEd"+checkEd);
 				if(checkEd) {
 					p = ed.getPatrocinio(codigoPatrocinio);
 					int cuposP = p.getCuposGratuitos();
@@ -289,6 +290,7 @@ return ManejadorEventos.getInstancia()
 						cost = 0;						
 					}
 				}
+				System.out.println("patrocinio:"+p);
 				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
 			} catch(Exception CRError) {
 	
@@ -355,6 +357,16 @@ return ManejadorEventos.getInstancia()
 	@Override
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+	}
+	
+	@Override
+	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+	}
+	
+	@Override
+	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
+		return manejadorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
 	}
 }
 
