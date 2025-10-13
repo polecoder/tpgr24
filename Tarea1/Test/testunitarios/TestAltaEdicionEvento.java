@@ -47,16 +47,16 @@ class TestAltaEdicionEvento {
             controlador.altaEdicionEvento("ExpoTech1", nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador, null);
         });
 
-        DTEdicionEvento dt = controlador.getDTEdicion("ExpoTech1", nombreEdicion);
-        assertNotNull(dt);
-        assertEquals(nombreEdicion, dt.getNombre());
-        assertEquals(sigla, dt.getSigla());
-        assertEquals(ciudad, dt.getCiudad());
-        assertEquals(pais, dt.getPais());
-        assertEquals(fechaInicio, dt.getFechaInicio());
-        assertEquals(fechaAlta, dt.getFechaAlta());
-        assertEquals(fechaFin, dt.getFechaFin());
-        assertEquals(organizador, dt.getOrganizadorNickname());
+        DTEdicionEvento dtedicion = controlador.getDTEdicion("ExpoTech1", nombreEdicion);
+        assertNotNull(dtedicion);
+        assertEquals(nombreEdicion, dtedicion.getNombre());
+        assertEquals(sigla, dtedicion.getSigla());
+        assertEquals(ciudad, dtedicion.getCiudad());
+        assertEquals(pais, dtedicion.getPais());
+        assertEquals(fechaInicio, dtedicion.getFechaInicio());
+        assertEquals(fechaAlta, dtedicion.getFechaAlta());
+        assertEquals(fechaFin, dtedicion.getFechaFin());
+        assertEquals(organizador, dtedicion.getOrganizadorNickname());
     }
 
     @Test
