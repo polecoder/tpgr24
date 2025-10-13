@@ -21,7 +21,6 @@ import javax.swing.JComboBox;
 import java.awt.Insets;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField codigoPatrocinioField;
-	private static final Logger logger = Logger.getLogger(RegistroAEdicionEvento.class.getName());
+	
 
 	public RegistroAEdicionEvento() {
 		super("Registro a Edicion Evento", true, true, true, true);

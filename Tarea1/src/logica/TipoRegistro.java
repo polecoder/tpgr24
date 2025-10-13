@@ -42,24 +42,24 @@ public class TipoRegistro {
     public int getCuposDisponibles() { return cuposDisponibles; }
     public void setCuposDisponibles(int cuposDisponibles) { this.cuposDisponibles = cuposDisponibles; }
 
-    public void addRegistro(Registro r) {
-    	Objects.requireNonNull(r);
+    public void addRegistro(Registro registro) {
+    	Objects.requireNonNull(registro);
         if (cuposDisponibles <= 0) throw new IllegalStateException("Sin cupos");
-        registros.add(r);
+        registros.add(registro);
         cuposDisponibles--;
     }
     
     public List<Registro> getRegistros(){ return registros; }
     
     public boolean validar(String nicknameAsistente) throws AsistenteYaRegistrado {
-    	boolean v = false;
+    	boolean valid = false;
     	for (Registro r: registros) {
-    		v = v || r.validar(nicknameAsistente);
+    		valid = valid || r.validar(nicknameAsistente);
     	}
-    	if (v) {
+    	if (valid) {
     		throw new AsistenteYaRegistrado("Este asistente ya esta registrado");
     	}
-    	return !v; 
+    	return !valid; 
     }
     
     public DTTipoRegistro getDTTipoRegistro() {

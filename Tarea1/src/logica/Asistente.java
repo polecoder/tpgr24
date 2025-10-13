@@ -3,11 +3,10 @@ package logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Asistente extends Usuario {
 	
-	private static final Logger logger = Logger.getLogger(Asistente.class.getName());
+	
 	private String apellido;
 	private Date nacimiento;
 	private List<Registro> registros;
@@ -35,8 +34,8 @@ public class Asistente extends Usuario {
 	public void setInstitucion(Institucion institucion) {this.institucion=institucion; }
 	public void setImagen(byte[] imagen) { this.imagen = imagen; }
 	// Metodos
-	public void addRegistro(Registro r) {
-		this.registros.add(r);
+	public void addRegistro(Registro registro) {
+		this.registros.add(registro);
 	}
 }
 

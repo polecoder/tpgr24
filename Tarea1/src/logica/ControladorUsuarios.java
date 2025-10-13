@@ -157,10 +157,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	public byte[] obtenerImagenPorNickname(String nickname) {
-	    Asistente a = manejadorUsuarios.getAsistente(nickname);
-	    if (a != null) return a.getImagen();
-	    Organizador o = manejadorUsuarios.getOrganizador(nickname);
-	    if (o != null) return o.getImagen();
+	    Asistente asistente = manejadorUsuarios.getAsistente(nickname);
+	    if (asistente != null) return asistente.getImagen();
+	    Organizador organizador = manejadorUsuarios.getOrganizador(nickname);
+	    if (organizador != null) return organizador.getImagen();
 	    return null;
 	}
 
@@ -177,16 +177,16 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
-		Asistente a = manejadorUsuarios.getAsistente(nickname); // mu = ManejadorUsuarios.getInstance()
+		Asistente asistente = manejadorUsuarios.getAsistente(nickname); // mu = ManejadorUsuarios.getInstance()
 		List<DTRegistro> out = new ArrayList<>();
-		if (a == null)
+		if (asistente == null)
 			return out;
 
-		ManejadorEventos me = ManejadorEventos.getInstancia();
+		ManejadorEventos manejadoreventos = ManejadorEventos.getInstancia();
 
-		for (Registro r : a.getRegistros()) {
-			String nombreEd = me.nombreEdicionDeRegistro(r);
-			String nombreTipo = me.nombreTipoDeRegistro(r);
+		for (Registro r : asistente.getRegistros()) {
+			String nombreEd = manejadoreventos.nombreEdicionDeRegistro(r);
+			String nombreTipo = manejadoreventos.nombreTipoDeRegistro(r);
 			out.add(new DTRegistro(nombreEd, nombreTipo));
 		}
 		return out;
@@ -194,21 +194,21 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public DTDetalleRegistro obtenerDetalleRegistro(String nickname, int indice) {
-		Asistente a = manejadorUsuarios.getAsistente(nickname);
-		if (a == null)
+		Asistente asistente = manejadorUsuarios.getAsistente(nickname);
+		if (asistente == null)
 			return null;
 
-		List<Registro> regs = a.getRegistros();
+		List<Registro> regs = asistente.getRegistros();
 		if (indice < 0 || indice >= regs.size())
 			return null;
 
-		Registro r = regs.get(indice);
+		Registro registro = regs.get(indice);
 
-		ManejadorEventos me = ManejadorEventos.getInstancia();
-		String nombreEd = me.nombreEdicionDeRegistro(r);
-		String nombreTipo = me.nombreTipoDeRegistro(r);
+		ManejadorEventos manejadoreventos = ManejadorEventos.getInstancia();
+		String nombreEd = manejadoreventos.nombreEdicionDeRegistro(registro);
+		String nombreTipo = manejadoreventos.nombreTipoDeRegistro(registro);
 
-		return new DTDetalleRegistro(nombreEd, a.getNickname(), nombreTipo, r.getFechaRegistro(), r.getCosto());
+		return new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto());
 	}
 
 	/**
@@ -229,10 +229,10 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public List<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador) {
-		Organizador o = this.manejadorUsuarios.getOrganizador(nicknameOrganizador);
+		Organizador organizador = this.manejadorUsuarios.getOrganizador(nicknameOrganizador);
 		List<DTEventoEdicion> resultado = new ArrayList<>();
-		if (o != null) {
-			for (Edicion e: o.getEdiciones()) {
+		if (organizador != null) {
+			for (Edicion e: organizador.getEdiciones()) {
 				resultado.add(new DTEventoEdicion(e.getNombreEvento(), e.getNombre()));
 			}
 		}
@@ -248,11 +248,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	 */
 	@Override
 	public String getNombreInstitucionAsistente(String nicknameAsistente) {
-		Asistente a = this.manejadorUsuarios.getAsistente(nicknameAsistente);
-		if (a != null) {
-			Institucion i = a.getInstitucion();
-			if (i != null) {
-				return i.getNombre();
+		Asistente asistente = this.manejadorUsuarios.getAsistente(nicknameAsistente);
+		if (asistente != null) {
+			Institucion institucion = asistente.getInstitucion();
+			if (institucion != null) {
+				return institucion.getNombre();
 			}
 		}
 		return "";
@@ -329,19 +329,19 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta {
-		Usuario u = this.manejadorUsuarios.getAsistente(usuario);
-		if (u == null) u = this.manejadorUsuarios.getOrganizador(usuario);
-		if (u == null) u = this.manejadorUsuarios.getAsistentePorCorreo(usuario);
-		if (u == null) u = this.manejadorUsuarios.getOrganizadorPorCorreo(usuario);
+		Usuario usuario1 = this.manejadorUsuarios.getAsistente(usuario);
+		if (usuario1 == null) usuario1 = this.manejadorUsuarios.getOrganizador(usuario);
+		if (usuario1 == null) usuario1 = this.manejadorUsuarios.getAsistentePorCorreo(usuario);
+		if (usuario1 == null) usuario1 = this.manejadorUsuarios.getOrganizadorPorCorreo(usuario);
 		// si el usuario sigue siendo null en este punto entonces no existe en el sistema
-		if (u == null) return null;
+		if (usuario1 == null) return null;
 		// valido que la contraseña sea correcta
-		if (!contrasena.equals(u.getContrasena())) {
+		if (!contrasena.equals(usuario1.getContrasena())) {
 			throw new ContrasenaIncorrecta("La contraseña es incorrecta.");
 		}
 		// todas las validaciones ok, retorno el detalle de usuario
 		try {
-			return this.mostrarDetalleUsuario(u.getNickname());
+			return this.mostrarDetalleUsuario(usuario1.getNickname());
 		} catch (UsuarioNoExiste e) {
 			return null;
 		}

@@ -15,85 +15,95 @@ public class ManejadorUsuarios {
 	
 	private Map<String, Asistente> conjuntoAsistentes;
 	private Map<String, Organizador> conjuntoOrganizadores;
-	
+
 	// Constructor
 	private ManejadorUsuarios() {
 		conjuntoAsistentes = new HashMap<>();
 		conjuntoOrganizadores = new HashMap<>();
 	}
-	
+
 	public static void resetInstance() {
 		instance = null;
 	}
-	 public void actualizarImagenUsuario(String nickname, byte[] imagen) {
-	        if (nickname == null) return;
-	        Asistente a = getAsistente(nickname);
-	        if (a != null) { a.setImagen(imagen); return; }
-	        Organizador o = getOrganizador(nickname);
-	        if (o != null) { o.setImagen(imagen); }
-	    }
-	
+
+	public void actualizarImagenUsuario(String nickname, byte[] imagen) {
+		if (nickname == null)
+			return;
+		Asistente asistente = getAsistente(nickname);
+		if (asistente != null) {
+			asistente.setImagen(imagen);
+			return;
+		}
+		Organizador organizador = getOrganizador(nickname);
+		if (organizador != null) {
+			organizador.setImagen(imagen);
+		}
+	}
+
 	public static ManejadorUsuarios getInstance() {
 		if (instance == null) {
 			instance = new ManejadorUsuarios();
 		}
 		return instance;
 	}
-	
+
 	// ------- GETTERS ----------
 	public Map<String, Asistente> getConjuntoAsistentes() {
 		return conjuntoAsistentes;
 	}
-	
+
 	public Map<String, Organizador> getConjuntoOrganizador() {
 		return conjuntoOrganizadores;
 	}
-	
+
 	public boolean existeNick(String nickname) {
 		return conjuntoAsistentes.containsKey(nickname) || conjuntoOrganizadores.containsKey(nickname);
 	}
-	
+
 	public boolean existeCorreo(String correo) {
 		for (Asistente a : conjuntoAsistentes.values()) {
-	        if (a.getCorreo().equals(correo)) {
-	            return true;
-	        }
-	    }
-		for (Organizador o : conjuntoOrganizadores.values()) {
-	        if (o.getCorreo().equals(correo)) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
-	
-	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, Institucion institucion, byte[] imagen) {
-		Asistente A= new Asistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento, institucion);
-		if (institucion!=null) {
-			institucion.getAsistentes().put(nickname, A);
+			if (a.getCorreo().equals(correo)) {
+				return true;
+			}
 		}
-		conjuntoAsistentes.put(A.getNickname(), A);
-		if (imagen != null && imagen.length > 0) A.setImagen(imagen);
-	    conjuntoAsistentes.put(nickname, A);
+		for (Organizador o : conjuntoOrganizadores.values()) {
+			if (o.getCorreo().equals(correo)) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
-	public void agregarOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) {
-		Organizador O=new Organizador(nickname, contrasena, nombre, correo, descripcion, link);
-		conjuntoOrganizadores.put(O.getNickname(), O);
-		if (imagen != null && imagen.length > 0) O.setImagen(imagen);
-	    conjuntoOrganizadores.put(nickname, O);
+
+	public void agregarAsistente(String nickname, String contrasena, String nombre, String correo, String apellido,
+			Date fechaNacimiento, Institucion institucion, byte[] imagen) {
+		Asistente asistente = new Asistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento,
+				institucion);
+		if (institucion != null) {
+			institucion.getAsistentes().put(nickname, asistente);
+		}
+		conjuntoAsistentes.put(asistente.getNickname(), asistente);
+		if (imagen != null && imagen.length > 0)
+			asistente.setImagen(imagen);
+		conjuntoAsistentes.put(nickname, asistente);
 	}
-	
-	
-	
+
+	public void agregarOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion,
+			String link, byte[] imagen) {
+		Organizador organizador = new Organizador(nickname, contrasena, nombre, correo, descripcion, link);
+		conjuntoOrganizadores.put(organizador.getNickname(), organizador);
+		if (imagen != null && imagen.length > 0)
+			organizador.setImagen(imagen);
+		conjuntoOrganizadores.put(nickname, organizador);
+	}
+
 	public Map<String, DTAsistente> listarAsistentes() {
-	    Map<String, DTAsistente> CtoA = new HashMap<>();  
-	    for (Asistente a : conjuntoAsistentes.values()) {
-	        CtoA.put(a.getNickname(), new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
-	    }
-	    return CtoA;
+		Map<String, DTAsistente> CtoA = new HashMap<>();
+		for (Asistente a : conjuntoAsistentes.values()) {
+			CtoA.put(a.getNickname(), new DTAsistente(a.getNickname(), a.getNombre(), a.getCorreo()));
+		}
+		return CtoA;
 	}
-	
+
 	/**
 	 * Retorna null en caso de que no exista el organizador
 	 * 
@@ -106,7 +116,7 @@ public class ManejadorUsuarios {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retorna null en caso de que no exista el asistente
 	 * 
@@ -119,24 +129,26 @@ public class ManejadorUsuarios {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Retorna null en caso de que no exista ningún asistente con el correo pasado por parámetro.
+	 * Retorna null en caso de que no exista ningún asistente con el correo pasado
+	 * por parámetro.
 	 * 
 	 * @param correo
 	 * @return
 	 */
 	public Asistente getAsistentePorCorreo(String correo) {
 		for (Asistente a : conjuntoAsistentes.values()) {
-	        if (a.getCorreo().equals(correo)) {
-	            return a;
-	        }
-	    }
+			if (a.getCorreo().equals(correo)) {
+				return a;
+			}
+		}
 		return null;
 	}
-	
+
 	/**
-	 * Retorna null en caso de que no exista ningún asistente con el correo pasado por parámetro.
+	 * Retorna null en caso de que no exista ningún asistente con el correo pasado
+	 * por parámetro.
 	 * 
 	 * @param correo
 	 * @return
@@ -149,30 +161,33 @@ public class ManejadorUsuarios {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una excepción.
+	 * Devuelve el detalle del usuario, en caso de que no exista devuelve una
+	 * excepción.
 	 * 
 	 * @param nicknameUsuario
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste {
 		if (this.getOrganizador(nicknameUsuario) != null) {
 			Organizador organizador = this.getOrganizador(nicknameUsuario);
-			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(), organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
+			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(),
+					organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
 		} else if (this.getAsistente(nicknameUsuario) != null) {
 			Asistente asistente = this.getAsistente(nicknameUsuario);
-			String insti=null;
-			if (asistente.getInstitucion()!=null) {
-				insti=asistente.getInstitucion().getNombre();
+			String insti = null;
+			if (asistente.getInstitucion() != null) {
+				insti = asistente.getInstitucion().getNombre();
 			}
-			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(), asistente.getApellido(), asistente.getNacimiento(), insti, asistente.getImagen());
+			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(),
+					asistente.getApellido(), asistente.getNacimiento(), insti, asistente.getImagen());
 		} else {
 			throw new UsuarioNoExiste("El usuario indicado no existe en el sistema.");
 		}
 	}
-	
+
 	/**
 	 * Si no existe el organizador no hace nada.
 	 * 
@@ -180,10 +195,9 @@ public class ManejadorUsuarios {
 	 * @param nombreOrganizador
 	 */
 	public void agregarEdicionAOrganizador(Edicion e, String nombreOrganizador) {
-		Organizador o = this.getOrganizador(nombreOrganizador);
-		if (o != null) {
-			o.agregarEdicion(e);
+		Organizador organizador = this.getOrganizador(nombreOrganizador);
+		if (organizador != null) {
+			organizador.agregarEdicion(e);
 		}
 	}
 }
-

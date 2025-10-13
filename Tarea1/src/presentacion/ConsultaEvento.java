@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -155,7 +156,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    gbc_lbl_descripcion.gridy = 4;
 		    panelDetalles.add(lbl_descripcion, gbc_lbl_descripcion);
 
-		    ArrayList<String> datos = new ArrayList<>();
+		    List<String> datos = new ArrayList<>();
 		    Set<String> categorias = iContEvento.nombresCategorias(detalleEvento.getNombre());
 		    for (String categoria : categorias) {
 		        datos.add(categoria);

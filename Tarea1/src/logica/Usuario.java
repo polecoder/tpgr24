@@ -1,14 +1,14 @@
 package logica;
 import datatypes.DTUsuario;
 
-public abstract class Usuario {
+public class Usuario {
 	private	String nickname;
 	private String nombre;
 	private String correo;
 	private String contrasena;
 	
 	// Constructor
-    public Usuario(String nickname, String contrasena, String nombre, String correo) {
+    protected Usuario(String nickname, String contrasena, String nombre, String correo) {
         this.setNickname(nickname);
         this.setContrasena(contrasena);
         this.setNombre(nombre);

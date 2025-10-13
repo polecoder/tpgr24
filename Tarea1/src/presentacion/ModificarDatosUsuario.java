@@ -48,9 +48,9 @@ public class ModificarDatosUsuario extends JInternalFrame {
 	private JTextField apellidoTxt;
 	private JTextField linkTxt;
 	private JPanel cardPanel;
-	private CardLayout cl;
+	private CardLayout cardl;
 
-	private boolean actualizandoNickname = false;
+	//private boolean actualizandoNickname = false;
 
 	private Fabrica fabrica = Fabrica.getInstancia();
 	
@@ -245,7 +245,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_panel);
-		cl = (CardLayout) cardPanel.getLayout();
+		cardl = (CardLayout) cardPanel.getLayout();
 		
 		// Botones
 		JPanel panelBotones = new JPanel();
@@ -264,7 +264,7 @@ public class ModificarDatosUsuario extends JInternalFrame {
 		
 		// Actualización al cambiar el usuario del combo.
 		usuariosComboBox.addActionListener(e -> {
-			actualizandoNickname = true;
+			boolean actualizandoNickname = true;
 			this.nicknameSeleccionado = (String) usuariosComboBox.getSelectedItem();
 		    if (this.nicknameSeleccionado != null && !this.nicknameSeleccionado.equals("--Seleccionar un Usuario--")) {
 		    	cardPanel.setVisible(true);
@@ -319,12 +319,12 @@ public class ModificarDatosUsuario extends JInternalFrame {
 				DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
 				apellidoTxt.setText(asistente.getApellido());
 				fechaSpinner.setValue(asistente.getNacimiento());
-				cl.show(cardPanel, "Asistente");
+				cardl.show(cardPanel, "Asistente");
 			} else if (usuario instanceof DTDetalleOrganizador) {
 				DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
 				descripcionTxt.setText(organizador.getDescripcion());
 				linkTxt.setText(organizador.getLink());
-				cl.show(cardPanel, "Organizador");
+				cardl.show(cardPanel, "Organizador");
 			}
 		} catch (UsuarioNoExiste e) {
 			e.printStackTrace();

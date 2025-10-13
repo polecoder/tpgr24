@@ -2,12 +2,10 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import datatypes.DTEdicionEvento;
 
 public class Organizador extends Usuario {
-	private static final Logger logger = Logger.getLogger(Organizador.class.getName());
 	
 	private String descripcion;
 	private String link;

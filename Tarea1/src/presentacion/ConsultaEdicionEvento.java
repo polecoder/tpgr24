@@ -378,8 +378,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		});
 		tipoRegistroList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent e) {
-		        if (e.getClickCount() == 2) { 
+		    public void mouseClicked(java.awt.event.MouseEvent mouseev) {
+		        if (mouseev.getClickCount() == 2) { 
 		            String selectedTR = tipoRegistroList.getSelectedValue();
 		            String selectedEdicion = (String) edicionComboBox.getSelectedItem();
 					String selectedEvento = (String) eventoComboBox.getSelectedItem();
@@ -405,8 +405,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		
 		patrocinioList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
-		    public void mouseClicked(java.awt.event.MouseEvent e) {
-		        if (e.getClickCount() == 2) { 
+		    public void mouseClicked(java.awt.event.MouseEvent mouseevent) {
+		        if (mouseevent.getClickCount() == 2) { 
 		            String seleccionado = patrocinioList.getSelectedValue();
 		            System.out.println("Doble clic en: " + seleccionado);
 		        }

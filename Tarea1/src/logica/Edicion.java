@@ -21,8 +21,8 @@ public class Edicion {
     private String ciudad;
     private String pais;
     private EEstadoEdicion estado;
-    private HashMap<String, TipoRegistro> tiposRegistro;
-    private HashMap<String, Patrocinio> patrocinios;
+    private Map<String, TipoRegistro> tiposRegistro;
+    private Map<String, Patrocinio> patrocinios;
     private String organizadorNickname;
     private String nombreEvento;
     private byte[] imagen; // ✅ nuevo atributo
@@ -88,8 +88,8 @@ public class Edicion {
         return this.patrocinios.get(codigoPatrocinio);
     }
 
-    public HashMap<String, Patrocinio> getPatrocinios() { return patrocinios; }
-    public void setPatrocinios(HashMap<String, Patrocinio> patrocinios) { this.patrocinios = patrocinios; }
+    public Map<String, Patrocinio> getPatrocinios() { return patrocinios; }
+    public void setPatrocinios(Map<String, Patrocinio> patrocinios) { this.patrocinios = patrocinios; }
 
     public void agregarPatrocinio(Patrocinio patrocinio) {
         this.patrocinios.put(patrocinio.getCodigoPatrocinio(), patrocinio);
@@ -107,8 +107,8 @@ public class Edicion {
         }
     }
 
-    public HashMap<String, TipoRegistro> getTiposRegistro() { return tiposRegistro; }
-    public void setTiposRegistro(HashMap<String, TipoRegistro> tiposRegistro) { this.tiposRegistro = tiposRegistro; }
+    public Map<String, TipoRegistro> getTiposRegistro() { return tiposRegistro; }
+    public void setTiposRegistro(Map<String, TipoRegistro> tiposRegistro) { this.tiposRegistro = tiposRegistro; }
 
     public void agregarTipoRegistro(String nombre, String descripcion, float costo, int cuposMax)
             throws NombreTipoRegistroRepetido {
@@ -145,10 +145,10 @@ public class Edicion {
 
     public boolean validar(String nicknameAsistente, String nombreTipoRegistro) throws NoHayCuposDisponibles, AsistenteYaRegistrado {
         try {
-            TipoRegistro tr = tiposRegistro.get(nombreTipoRegistro);
-            int cupos = tr.getCuposDisponibles();
+            TipoRegistro tiporegistro = tiposRegistro.get(nombreTipoRegistro);
+            int cupos = tiporegistro.getCuposDisponibles();
             if (cupos > 0) {
-                return tr.validar(nicknameAsistente);
+                return tiporegistro.validar(nicknameAsistente);
             } else {
                 throw new NoHayCuposDisponibles("No hay cupos disponibles");
             }
@@ -160,9 +160,9 @@ public class Edicion {
     public boolean check(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) {
         boolean pertenece = patrocinios.containsKey(codigoPatrocinio);
         if (pertenece) {
-            Patrocinio p = patrocinios.get(codigoPatrocinio);
-            boolean checkA = p.checkAsistente(nicknameAsistente);
-            boolean checkTR = p.getTipoRegistro().getNombre() == nombreTipoRegistro;
+            Patrocinio bool = patrocinios.get(codigoPatrocinio);
+            boolean checkA = bool.checkAsistente(nicknameAsistente);
+            boolean checkTR = bool.getTipoRegistro().getNombre() == nombreTipoRegistro;
             return checkA && pertenece && checkTR;
         } else {
             return false;

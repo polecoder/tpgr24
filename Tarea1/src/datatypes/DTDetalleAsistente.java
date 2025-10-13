@@ -33,12 +33,12 @@ public class DTDetalleAsistente extends DTDetalleUsuario {
 		return institucion;
 	}
 	
-	public boolean equals(DTDetalleAsistente o) {
-		boolean nickname = this.getNickname()== o.getNickname();
-		boolean nombre = this.getNombre() == o.getNombre();
-		boolean correo = this.getCorreo() == o.getCorreo();
-		boolean apellido = this.apellido == o.getApellido();
-		boolean nacimiento = this.nacimiento == o.getNacimiento();
+	public boolean equalsAsistente(DTDetalleAsistente asistente) {
+		boolean nickname = this.getNickname()== asistente.getNickname();
+		boolean nombre = this.getNombre() == asistente.getNombre();
+		boolean correo = this.getCorreo() == asistente.getCorreo();
+		boolean apellido = this.apellido == asistente.getApellido();
+		boolean nacimiento = this.nacimiento == asistente.getNacimiento();
 		return nickname && nombre && correo && apellido && nacimiento;
 	}
 }

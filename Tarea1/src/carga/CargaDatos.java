@@ -370,17 +370,17 @@ public class CargaDatos {
 		if (this.eventos != null && this.ediciones!= null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.ediciones.keySet()) {
-				CSVEdicion edicion = ediciones.get(ref);
-				String nombreEvento = eventos.get(edicion.getEvento()).getNombre();
-				String organizadorNickname = usuariosOrganizador.get(edicion.getOrganizador()).getNickname();
+				CSVEdicion datosEdicion = ediciones.get(ref);
+				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
+				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
 				// TODO: Ver que se hace con las ímagenes
-				Edicion ed = this.manejadorEventos.altaEdicion(nombreEvento, edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), organizadorNickname, null);
-				if (edicion.getEstado().equals("Aceptada")) {
-					ed.setEstado(EEstadoEdicion.Aceptada);
-				} else if (edicion.getEstado().equals("Rechazada")) {
-					ed.setEstado(EEstadoEdicion.Rechazada);
+				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, null);
+				if (datosEdicion.getEstado().equals("Aceptada")) {
+					edicion.setEstado(EEstadoEdicion.Aceptada);
+				} else if (datosEdicion.getEstado().equals("Rechazada")) {
+					edicion.setEstado(EEstadoEdicion.Rechazada);
 				}
-				this.manejadorUsuarios.agregarEdicionAOrganizador(ed, organizadorNickname);
+				this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 			}
 		}
 	}

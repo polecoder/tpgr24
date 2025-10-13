@@ -210,10 +210,10 @@ public class AltaTipoRegistro extends JInternalFrame {
 		// Actualizo opciones de Edicion al cambiar de Evento
 		comboEvento.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
             @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) { // Cuando se abre el combo
+            public void popupMenuWillBecomeVisible(PopupMenuEvent popmenuevento) { // Cuando se abre el combo
             }
             @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) { // Cuando se cierra el combo
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent popmenuevent) { // Cuando se cierra el combo
             	// Limpiar opciones viejas de comboEdicion
             	comboEdicion.removeAllItems();
             	// Agregar nuevas opciones a comboEdicion
@@ -228,7 +228,7 @@ public class AltaTipoRegistro extends JInternalFrame {
         		}
             }
             @Override
-            public void popupMenuCanceled(PopupMenuEvent e) { // No necesitamos hacer nada acá
+            public void popupMenuCanceled(PopupMenuEvent popmenuev) { // No necesitamos hacer nada acá
             }
         });
 		

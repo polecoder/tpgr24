@@ -59,8 +59,8 @@ public class ManejadorEventos {
 		return false;
 	}
 	
-	public HashMap<String, DTEvento> listarEventos() {
-		HashMap<String, DTEvento> hMLista = new HashMap<>();
+	public Map<String, DTEvento> listarEventos() {
+		Map<String, DTEvento> hMLista = new HashMap<>();
 		for (Evento e : eventos.values()) {
 			String nombre = e.getNombre();
 			String descripcion = e.getDescripcion();
@@ -75,9 +75,9 @@ public class ManejadorEventos {
 	}
 	
 	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion){
-		Evento ev = eventos.get(nombreEvento);
-    	Edicion ed = ev.getEdicion(nombreEdicion);
-    	return ed.listarTipoRegistro();
+		Evento evento = eventos.get(nombreEvento);
+    	Edicion edicion = evento.getEdicion(nombreEdicion);
+    	return edicion.listarTipoRegistro();
 	};
 	
 	/**
@@ -156,11 +156,11 @@ public class ManejadorEventos {
 		;
 		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
 		
-		int i = 0;
+		int contador = 0;
 		String[] nombresTiposRegistro = new String[tiposRegistro.size()];
 		for (Map.Entry<String, TipoRegistro> tipoRegistro : tiposRegistro.entrySet()) { 
-			nombresTiposRegistro[i] = tipoRegistro.getKey();
-			i++;
+			nombresTiposRegistro[contador] = tipoRegistro.getKey();
+			contador++;
 		}
 		return nombresTiposRegistro;
 	}
@@ -176,36 +176,36 @@ public class ManejadorEventos {
 		return evento.getDTTipoRegistro(nombreEdicion, nombreTipoRegistro);
 	}
 	
-    public TipoRegistro encontrarTipoDe(Registro r){
+    public TipoRegistro encontrarTipoDe(Registro registro){
         for (Evento ev : eventos.values()){
             for (Edicion ed : ev.getEdiciones().values()){
                 for (TipoRegistro tr : ed.getTiposRegistro().values()){
-                    if (tr.getRegistros().contains(r)) return tr;
+                    if (tr.getRegistros().contains(registro)) return tr;
                 }
             }
         }
         return null;
     }
 
-    public Edicion encontrarEdicionQueContiene(TipoRegistro t){
+    public Edicion encontrarEdicionQueContiene(TipoRegistro tiporeg){
         for (Evento ev : eventos.values()){
             for (Edicion ed : ev.getEdiciones().values()){
-                if (ed.getTiposRegistro().containsValue(t)) return ed;
+                if (ed.getTiposRegistro().containsValue(tiporeg)) return ed;
             }
         }
         return null;
     }
 
-    public String nombreEdicionDeRegistro(Registro r){
-        TipoRegistro t = encontrarTipoDe(r);
-        if (t == null) return "(sin edición)";
-        Edicion ed = encontrarEdicionQueContiene(t);
-        return (ed != null) ? ed.getNombre() : "(sin edición)";
+    public String nombreEdicionDeRegistro(Registro registro){
+        TipoRegistro tiporegistro = encontrarTipoDe(registro);
+        if (tiporegistro == null) return "(sin edición)";
+        Edicion edicion = encontrarEdicionQueContiene(tiporegistro);
+        return (edicion != null) ? edicion.getNombre() : "(sin edición)";
     }
 
-    public String nombreTipoDeRegistro(Registro r){
-        TipoRegistro t = encontrarTipoDe(r);
-        return (t != null) ? t.getNombre() : "(sin tipo)";
+    public String nombreTipoDeRegistro(Registro registro){
+        TipoRegistro tiporegistro = encontrarTipoDe(registro);
+        return (tiporegistro != null) ? tiporegistro.getNombre() : "(sin tipo)";
     }
 	
 	/**
@@ -285,11 +285,11 @@ public class ManejadorEventos {
 			Fabrica fabrica=Fabrica.getInstancia();
 			IControladorInstitucion IContInstitucion= fabrica.getControladorInstitucion();
 			Institucion institucion =IContInstitucion.getInstitucion(institucionSeleccionada);
-			Evento ev = eventos.get(eventoSeleccionado);
-			Edicion ed = ev.getEdicion(edicionSeleccionada);
-			TipoRegistro tr = ed.getTipoRegistro(tipoRegistroSeleccionado);
-			Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, FechaAlta, aporteEconomico, nivelPatrocinio, cantidadGratuitos, institucion, tr);
-			ed.agregarPatrocinio(patrocinio);
+			Evento evento = eventos.get(eventoSeleccionado);
+			Edicion edicion = evento.getEdicion(edicionSeleccionada);
+			TipoRegistro tiporeg = edicion.getTipoRegistro(tipoRegistroSeleccionado);
+			Patrocinio patrocinio = new Patrocinio(codigoPatrocinio, FechaAlta, aporteEconomico, nivelPatrocinio, cantidadGratuitos, institucion, tiporeg);
+			edicion.agregarPatrocinio(patrocinio);
 		} catch (TipoRegistroNoExiste tr) {
 			throw tr;
 		}
@@ -330,27 +330,27 @@ public class ManejadorEventos {
 	}
 	
 	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
-    	Evento ev = eventos.get(nombreEvento);
-    	Edicion ed = ev.getEdicion(nombreEdicion);
+    	Evento evento = eventos.get(nombreEvento);
+    	Edicion edicion = evento.getEdicion(nombreEdicion);
     	
     	// Tipos Registro
-    	Map<String, TipoRegistro> trs = ed.getTiposRegistro();
-    	Set<String> sR = new HashSet<>();
+    	Map<String, TipoRegistro> trs = edicion.getTiposRegistro();
+    	Set<String> ctoreg = new HashSet<>();
     	for (TipoRegistro tr: trs.values()) {
-    		List<Registro> lr = tr.getRegistros();
-    		for (Registro r: lr) {
+    		List<Registro> lreg = tr.getRegistros();
+    		for (Registro r: lreg) {
     			String rNombre = tr.getNombre() 
     					+ "-" + r.getAsistente().getNombre();
-    			sR.add(rNombre);
+    			ctoreg.add(rNombre);
     		}
     	}
     	
-    	return sR;
+    	return ctoreg;
     }
 	public Set<String> listarPatrociniosDeEdicion(String nombreEvento, String nombreEdicion){
-		Evento ev = eventos.get(nombreEvento);
-    	Edicion ed = ev.getEdicion(nombreEdicion);
-    	return ed.getPatrocinios().keySet();
+		Evento evento = eventos.get(nombreEvento);
+    	Edicion edicion = evento.getEdicion(nombreEdicion);
+    	return edicion.getPatrocinios().keySet();
 	}
 	public Set<String> getNombresEdicionesIngresadas(String nombreEvento) {
 		EEstadoEdicion estado=EEstadoEdicion.valueOf("Ingresada");
@@ -363,11 +363,11 @@ public class ManejadorEventos {
 		}
 		return edicionesIngresadas;
 	}
-	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b) {
+	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean bool) {
 		EEstadoEdicion estado;
 		String mensaje;
 
-	    if (b) {
+	    if (bool) {
 	        estado = EEstadoEdicion.Aceptada;
 	        mensaje = "La edición \"" + edicionSeleccionada + "\" del evento \"" + eventoSeleccionado + "\" fue ACEPTADA.";
 	    } else {

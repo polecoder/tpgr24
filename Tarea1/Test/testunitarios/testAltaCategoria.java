@@ -1,4 +1,4 @@
-package TestUnitarios;
+package testunitarios;
 
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,12 +36,12 @@ class TestAltaCategoria {
     	    
 
     	    // Segunda vez: debe lanzar excepción
-    	    Exception ex = assertThrows( Exception.class, () -> {
+    	    Exception excepcion = assertThrows( Exception.class, () -> {
     	        cev.altaCategoria("Cuentos");
     	    });
 
     	    // Validamos el mensaje de la excepción
-    	    assertEquals("La Categoría ya existe", ex.getMessage());
+    	    assertEquals("La Categoría ya existe", excepcion.getMessage());
     	}
 
 

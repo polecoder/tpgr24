@@ -38,8 +38,8 @@ public class ConsultaRegistro extends JInternalFrame {
     private boolean cargando = false;
 
     //Logica
-    private final IControladorUsuarios cu = ControladorUsuarios.getInstance();
-    private final DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final IControladorUsuarios controladorusu = ControladorUsuarios.getInstance();
+    private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public ConsultaRegistro(String nicknameAsistente, String nombreRegistro) {
         setResizable(true);
@@ -51,12 +51,12 @@ public class ConsultaRegistro extends JInternalFrame {
         setLocation(50, 50);
         setMinimumSize(new Dimension(350, 250));
 
-        GridBagLayout g = new GridBagLayout();
-        g.columnWidths  = new int[]{0, 0};
-        g.rowHeights    = new int[]{0, 0, 0, 0};
-        g.columnWeights = new double[]{0.0, 0.0};
-        g.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0};
-        getContentPane().setLayout(g);
+        GridBagLayout gridbagl = new GridBagLayout();
+        gridbagl.columnWidths  = new int[]{0, 0};
+        gridbagl.rowHeights    = new int[]{0, 0, 0, 0};
+        gridbagl.columnWeights = new double[]{0.0, 0.0};
+        gridbagl.rowWeights    = new double[]{0.0, 0.0, 0.0, 0.0};
+        getContentPane().setLayout(gridbagl);
 
         // Fila 0: Usuario
         JLabel lblUsuario = new JLabel("Usuario");
@@ -161,7 +161,7 @@ public class ConsultaRegistro extends JInternalFrame {
     private void cargarUsuarios(String nicknameAsistente) {
         comboUsuarios.removeAllItems();
         comboUsuarios.addItem(PLACEHOLDER_USUARIO);
-        for (datatypes.DTUsuario u : cu.listarUsuarios()) {
+        for (datatypes.DTUsuario u : controladorusu.listarUsuarios()) {
             comboUsuarios.addItem(u.nickname());    
         }
         // Seleccionar si se pasa por parámetro
@@ -182,7 +182,7 @@ public class ConsultaRegistro extends JInternalFrame {
         	btnDetalle.setEnabled(false);
         	return;
         }
-        List<DTRegistro> regs = cu.listarRegistrosUsuario(nick);
+        List<DTRegistro> regs = controladorusu.listarRegistrosUsuario(nick);
 
         if (regs == null || regs.isEmpty()) {
             comboRegistros.setEnabled(false);
@@ -218,9 +218,9 @@ public class ConsultaRegistro extends JInternalFrame {
     		return;
     	}
         
-        DTDetalleRegistro d = cu.obtenerDetalleRegistro(nick, idRegistro);
+        DTDetalleRegistro detallereg = controladorusu.obtenerDetalleRegistro(nick, idRegistro);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        if (d == null) {
+        if (detallereg == null) {
             JOptionPane.showMessageDialog(this, "No se encontró el detalle.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -231,11 +231,11 @@ public class ConsultaRegistro extends JInternalFrame {
                 Fecha: %s
                 Costo: %s
                 """.formatted(
-                d.getNombreEdicion(),
-                d.getNicknameAsistente(),
-                d.getNombreTipo(),
-                formatter.format(d.getFecha()),
-                d.getCosto()
+                detallereg.getNombreEdicion(),
+                detallereg.getNicknameAsistente(),
+                detallereg.getNombreTipo(),
+                formatter.format(detallereg.getFecha()),
+                detallereg.getCosto()
         );
         txtDetalle.setText(msg);
         txtDetalle.setCaretPosition(0);

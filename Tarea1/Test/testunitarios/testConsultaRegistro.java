@@ -1,4 +1,4 @@
-package TestUnitarios;
+package testunitarios;
 
 import org.junit.jupiter.api.Test;
 

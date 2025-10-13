@@ -60,8 +60,8 @@ return ManejadorEventos.getInstancia()
 }
 
 	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-	    Evento ev = manejadorEventos.getEvento(nombreEvento);
-	    Map<String, Edicion> eds = ev.getEdiciones();
+	    Evento asistente = manejadorEventos.getEvento(nombreEvento);
+	    Map<String, Edicion> eds = asistente.getEdiciones();
 	    Map<String, DTEdicionEvento> mLista = new HashMap<>();
 	    
 	    for (Edicion ed : eds.values()) {
@@ -94,9 +94,9 @@ return ManejadorEventos.getInstancia()
                            String nombreTipoRegistro, String nombreEvento) throws AsistenteYaRegistrado, NoHayCuposDisponibles {
     	try {
     		boolean ret = false;
-        	Evento ev = manejadorEventos.getEvento(nombreEvento);
-        	Edicion ed = ev.getEdicion(nombreEdicion);
-        	ret = ed.validar(nicknameAsistente, nombreTipoRegistro);
+        	Evento evento = manejadorEventos.getEvento(nombreEvento);
+        	Edicion edicion = evento.getEdicion(nombreEdicion);
+        	ret = edicion.validar(nicknameAsistente, nombreTipoRegistro);
         	return ret;
     	} catch (AsistenteYaRegistrado | NoHayCuposDisponibles exception ) {
     		throw exception;
@@ -280,22 +280,22 @@ return ManejadorEventos.getInstancia()
 		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro,
 			String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha){
 			try {
-				Evento ev = manejadorEventos.getEvento(nombreEvento);
-				Edicion ed = ev.getEdicion(nombreEdicion);
-				TipoRegistro tr = ed.getTipoRegistro(nombreTipoRegistro);
-				float cost = tr.getCosto();
-				Asistente as = manejadorUsuarios.getAsistente(nicknameAsistente);
-				Patrocinio p = null;
-				boolean checkEd = ed.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
+				Evento evento = manejadorEventos.getEvento(nombreEvento);
+				Edicion edicion = evento.getEdicion(nombreEdicion);
+				TipoRegistro tiporegistro = edicion.getTipoRegistro(nombreTipoRegistro);
+				float cost = tiporegistro.getCosto();
+				Asistente asistente = manejadorUsuarios.getAsistente(nicknameAsistente);
+				Patrocinio patrocinio = null;
+				boolean checkEd = edicion.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
 				if (checkEd) {
-					p = ed.getPatrocinio(codigoPatrocinio);
-					int cuposP = p.getCuposGratuitos();
+					patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					int cuposP = patrocinio.getCuposGratuitos();
 					if (cuposP > 0) {
-						p.setCuposGratuitos(cuposP-1);
+						patrocinio.setCuposGratuitos(cuposP-1);
 						cost = 0;						
 					}
 				}
-				this.manejadorEventos.altaRegistro(as, tr, p, fecha, cost);
+				this.manejadorEventos.altaRegistro(asistente, tiporegistro, patrocinio, fecha, cost);
 			} catch (TipoRegistroNoExiste exception) {
 				exception.printStackTrace();
 			}
@@ -321,9 +321,9 @@ return ManejadorEventos.getInstancia()
     	String[] nombreEdiciones= new String[listaEdiciones.size()]; // Creo lista vacia de nombres
 		
 		// Por cada evento, agrego su nombre a la lista
-		int i = 0;
+		int contador = 0;
 		for (String edicion : listaEdiciones.keySet()) {
-			nombreEdiciones[i] = edicion;
+			nombreEdiciones[contador] = edicion;
 		}
 		return nombreEdiciones;
     }
@@ -340,8 +340,8 @@ return ManejadorEventos.getInstancia()
 	}
 
 	@Override
-	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean b) {
-		manejadorEventos.setEstadoEdicion(eventoSeleccionado, edicionSeleccionada, b);
+	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean bool) {
+		manejadorEventos.setEstadoEdicion(eventoSeleccionado, edicionSeleccionada, bool);
 		
 	}
 
@@ -352,8 +352,8 @@ return ManejadorEventos.getInstancia()
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		if (edicion != null) {
 			Patrocinio patrocinio = edicion.getPatrocinio(codigoPatrocinio);
-			TipoRegistro tr = patrocinio.getTipoRegistro();
-			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos(), tr.getNombre());
+			TipoRegistro tiporeg = patrocinio.getTipoRegistro();
+			if (patrocinio != null) return new DTDetallePatrocinio(patrocinio.getInstitucion().getNombre(), codigoPatrocinio, patrocinio.getFechaPatrocinio(), patrocinio.getAporte(), patrocinio.getNivel(), patrocinio.getCuposGratuitos(), tiporeg.getNombre());
 		}
 		return null;
 	}

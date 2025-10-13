@@ -43,7 +43,7 @@ public class ConsultaUsuario extends JInternalFrame {
 	private JTextField linkTextField;
 	
 	private JPanel cardPanel, cardPanel1, cardPanel2;
-	private CardLayout cl, cl1, cl2;
+	private CardLayout card1, card2, cl2;
 	
 	private boolean actualizandoNicknameAsistente = false;
 
@@ -219,7 +219,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel.gridy = 4;
 		getContentPane().add(cardPanel, gbc_cardPanel);
 
-		cl = (CardLayout) cardPanel.getLayout();
+		card1 = (CardLayout) cardPanel.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 2 ====
 		JPanel panelAsistente1 = new JPanel(new GridBagLayout());
@@ -299,7 +299,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		gbc_cardPanel1.gridy = 5;
 		getContentPane().add(cardPanel1, gbc_cardPanel1);
 
-		cl1 = (CardLayout) cardPanel1.getLayout();
+		card2 = (CardLayout) cardPanel1.getLayout();
 		
 		// ==== Panel ASISTENTE Campo 3 ====
 		JPanel panelAsistente2 = new JPanel(new GridBagLayout());
@@ -470,15 +470,15 @@ public class ConsultaUsuario extends JInternalFrame {
 		        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		        String nacimiento = formato.format(asistente.getNacimiento());
 				fechaNacimientoTextField.setText(nacimiento);
-				cl.show(cardPanel, "Asistente");
-				cl1.show(cardPanel1, "Asistente");
+				card1.show(cardPanel, "Asistente");
+				card2.show(cardPanel1, "Asistente");
 				cl2.show(cardPanel2, "Asistente");
 			} else if (usuario instanceof DTDetalleOrganizador) {
 				DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
 				descripcionTextArea.setText(organizador.getDescripcion());
 				linkTextField.setText(organizador.getLink());
-				cl.show(cardPanel, "Organizador");
-				cl1.show(cardPanel1, "Organizador");
+				card1.show(cardPanel, "Organizador");
+				card2.show(cardPanel1, "Organizador");
 				cl2.show(cardPanel2, "Organizador");
 			}
 		} catch (UsuarioNoExiste exception) {
