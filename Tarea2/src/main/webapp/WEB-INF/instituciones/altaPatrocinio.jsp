@@ -6,6 +6,7 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.Set" %>
 <% 
+	String error = (String) request.getAttribute("error");
 	String nombreEvento = (String) request.getAttribute("nombreEvento");
 	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
 	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
@@ -22,7 +23,6 @@
     <jsp:include page="../templates/header.jsp" />
     <div class="container flex-grow-1">
     <div class="mx-auto" style="max-width: 768px"></div>
-    
     <!-- Evento y Edición -->
     <div class="container flex-grow-1">
       <div class="d-flex flex-column align-items-center py-5">
@@ -52,6 +52,17 @@
         	enctype="multipart/form-data"
         	novalidate
         >
+        	<%
+		       if (error != null) {
+		     %>
+		       <div class="d-flex justify-content-center gap-3">
+		         <p class="p-2 rounded" style="margin: 0; background-color: #FFB3B3;"><span style="font-weight: 800; color: #FF6666;">Error</span>: <%= error %></p>
+		       </div>
+		     <%
+		       }
+		     %>
+        
+        
           <!-- Campos Ocultos (los necesito en el POST) -->
           <input type="hidden" id="nombreEdicion" name="nombreEdicion" class="form-control form-control-sm" 
           	style="max-width: 300px" value=<%=nombreEdicion %> />
@@ -62,8 +73,8 @@
             <label for="tipoRegistro" class="form-label" style="width: 300px">
               Tipo de Registro: <span class="text-danger">*</span>
             </label>
-            <select id="tipoRegistro" name="TipoRegistro" class="form-select form-select-sm" style="max-width: 300px">
-              <option value="defaultTipoRegistro" selected>
+            <select id="tipoRegistro" name="TipoRegistro" class="form-select form-select-sm" style="max-width: 300px" required>
+              <option value="" selected>
                 -- Seleccionar un Tipo Registro --
               </option>
               <% for(String nombreTipoRegistro: listaNombresTipoRegistro) {%>
@@ -76,13 +87,13 @@
           <div class="d-flex gap-2">
             <label for="instituciones" class="form-label" style="width: 300px">Instituciones: <span
                 class="text-danger">*</span></label>
-            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 300px">
-              <option value="defaultInstitucion" selected>
+            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 300px" required>
+              <option value="" selected>
                 -- Seleccionar una Institución --
               </option>
-              <% for(String nombreInstitucion: listaNombresInstitucion) {%>
+              <% for(String nombreInstitucion: listaNombresInstitucion) { %>
 	              <option value=<%=nombreInstitucion%>><%=nombreInstitucion%></option>
-              <% } %>
+	          <% } %>
             </select>
           </div>
 
@@ -90,7 +101,7 @@
           <div class="d-flex gap-2">
             <label for="nivelPatrocinio" class="form-label" style="width: 300px">Nivel de Patrocinio: <span
                 class="text-danger">*</span></label>
-            <select id="nivelPatrocinio" name="Nivel" class="form-select form-select-sm" style="max-width: 300px">
+            <select id="nivelPatrocinio" name="Nivel" class="form-select form-select-sm" style="max-width: 300px" required>
               <option value="" selected>
                 -- Seleccionar Nivel del Patrocinio --
               </option>
@@ -106,14 +117,14 @@
             <label for="aporteEconomico" class="form-label" style="width: 300px">Aporte Económico: <span
                 class="text-danger">*</span></label>
             <input type="text" id="aporte" name="Aporte" class="form-control form-control-sm"
-              style="max-width: 300px" />
+              style="max-width: 300px" required/>
           </div>
 
           <!-- Cupos Gratuitos -->
           <div class="d-flex gap-2">
             <label for="cuposGratuitos" class="form-label" style="width: 300px">Cant. cupos Gratuitos:
               <span class="text-danger">*</span></label>
-            <input type="text" id="cupos" name="Cupos" class="form-control form-control-sm" style="max-width: 300px" />
+            <input type="text" id="cupos" name="Cupos" class="form-control form-control-sm" style="max-width: 300px" required/>
           </div>
 
           <!-- Código Patrocinio -->
@@ -121,7 +132,7 @@
             <label for="codigoPatrocinio" class="form-label" style="width: 300px">Código Patrocinio: <span
                 class="text-danger">*</span></label>
             <input type="text" id="codigo" name="Codigo" class="form-control form-control-sm"
-              style="max-width: 300px" />
+              style="max-width: 300px" required />
           </div>
 
           <br />

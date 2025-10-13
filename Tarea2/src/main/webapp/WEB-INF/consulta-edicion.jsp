@@ -93,7 +93,9 @@
 			              <tbody>
 			              <% for (String patrocinador : setPatrocinios) { %>
 			                <tr>
-			                  <td> <%= patrocinador %> </td>
+			                	<td>
+			                		<a href="${pageContext.request.contextPath}/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>" class="link-primary link-underline"> <%= patrocinador %> </a>
+			                	</td>
 			                </tr>
 			              <% } %>
 			              </tbody>

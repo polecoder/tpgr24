@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +38,24 @@ public class ManejadorEventos {
 		} 
 		return instancia;
 	};
+	
+	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion) {
+		Evento evento = eventos.get(nombreEvento);
+		Edicion edicion = evento.getEdicion(nombreEdicion);
+		Collection<Patrocinio> setPatrocinios = edicion.getPatrocinios().values();
+		Set<String> setPatrocinadores = new HashSet<String>();
+		for (Patrocinio patrocinio : setPatrocinios) {
+			setPatrocinadores.add(patrocinio.getInstitucion().getNombre());
+		}
+		return setPatrocinadores;
+	}
+	
+	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
+		Evento evento = eventos.get(nombreEvento);
+		Edicion edicion = evento.getEdicion(nombreEdicion);
+		Patrocinio patrocinio = edicion.getPatrocinioInstitucion(patrocinador);
+		return patrocinio;
+	}
 	
 	public static void resetInstancia() {
 		instancia = null;

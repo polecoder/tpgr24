@@ -2,6 +2,7 @@
 <%@ page import="datatypes.*" %>
 <% 
 	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
+	String nombreEvento = (String) request.getAttribute("nombreEvento");
 	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
 	
 	String codigoPatrocinio = (String) request.getAttribute("codigoPatrocinio"); 
@@ -64,7 +65,7 @@
           <div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
             <img src=<%= rutaImagenEdicion %> alt="Imagen evento" style="width: 64px; height: 64px" />
             <!-- TODO: Lleva a CU::ConsultaEdición -->
-            <a href="./Evento" class="text-primary"><%= nombreEdicion %></a>
+            <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="text-primary"><%= nombreEdicion %></a>
           </div>
         </div>
         <div>
@@ -72,14 +73,14 @@
           <div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
             <img src=<%= rutaImagenInstitucion%> alt="Imagen institucion" style="width: 64px" />
             <!-- TODO: Lleva a CU::ConsultaInstitución -->
-            <a href="" class="text-primary"><%= dtPatrocinio.nombreInstitucion() %></a>
+            <p class="text-black p-2 m-0 fs-5"><%= dtPatrocinio.nombreInstitucion() %></p>
           </div>
         </div>
         <div>
           <h3 class="text-white bg-primary p-2 m-0 fs-4">Tipo de Registro</h3>
           <div class="d-flex align-items-center gap-2 py-2 px-4 justify-content-between">
             <!-- TODO: Lleva a CU::ConsultaTipoRegistro -->
-            <a href="./Evento" class="text-primary"><%= dtPatrocinio.tipoRegistro() %></a>
+            <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=dtPatrocinio.tipoRegistro()%>" class="text-primary"><%= dtPatrocinio.tipoRegistro() %></a>
             <p class="m-0"><%= dtTipoRegistro.costo() %></p>
           </div>
         </div>

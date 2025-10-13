@@ -23,6 +23,7 @@ import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
+import logica.Patrocinio;
 
 /**
  * Servlet implementation class Home
@@ -66,7 +67,7 @@ public class Institucion extends HttpServlet {
 		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
 
 		// Handle organizer-specific actions
-		if (tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
+		if (tipoUsuario != null && tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
 			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
 					controladorInstitucion)) {
 				return;
@@ -131,13 +132,17 @@ public class Institucion extends HttpServlet {
 			throws ServletException, IOException {
 
 		if ("consultaPatrocinio".equals(action)) {
-			String codigoPatrocinio = request.getParameter("codigoPatrocinio");
+			String patrocinador = request.getParameter("nombre_patrocinador");
+			Patrocinio patrocinio = controladorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
+			
+			String codigoPatrocinio = patrocinio.getCodigoPatrocinio();
 
 			DTDetallePatrocinio dtPatrocinio = obtenerDetallePatrocinio(controladorEventos, nombreEvento, nombreEdicion,
 					codigoPatrocinio);
 			DTTipoRegistro dtTipoRegistro = obtenerTipoRegistro(controladorEventos, nombreEvento, nombreEdicion,
 					dtPatrocinio.tipoRegistro());
-
+			
+			request.setAttribute("nombreEvento", nombreEvento);
 			request.setAttribute("codigoPatrocinio", codigoPatrocinio);
 			request.setAttribute("dtPatrocinio", dtPatrocinio);
 			request.setAttribute("dtTipoRegistro", dtTipoRegistro);
@@ -193,6 +198,7 @@ public class Institucion extends HttpServlet {
 
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
+		// TODO: hardcodeado
 		request.setAttribute("rutaImagenEdicion", "./images/IMG-EDEV03.jpeg");
 
 		// Get user type from session
@@ -269,31 +275,37 @@ public class Institucion extends HttpServlet {
 		    String nombreInstitucion = request.getParameter("Instituciones");
 		    String nivelPatrocinio = request.getParameter("Nivel");
 		    
-		    float aporte = 0;
-		    int cupos = 0;
-		    
+		    float aporte = -1;
 		    String aporteStr = request.getParameter("Aporte");
 		    if (aporteStr != null && !aporteStr.isEmpty()) {
 		        aporte = Float.parseFloat(aporteStr);
 		    }
 		    
+		    int cupos = -1;
 		    String cuposStr = request.getParameter("Cupos");
 		    if (cuposStr != null && !cuposStr.isEmpty()) {
 		        cupos = Integer.parseInt(cuposStr);
 		    }
 		    
 		    String codigo = request.getParameter("Codigo");
-		    
-		    darAltaPatrocinio(controladorEventos,
-		    		nombreEvento,
-		    		nombreEdicion,
-		    		new Date(),
-		    		nombreInstitucion, 
-		    		ENivelPatrocinio.valueOf(nivelPatrocinio), 
-		    		aporte, 
-		    		cupos,
-		    		codigo,
-		    		nombreTipoRegistro);
+		    System.out.println("inst:"+nombreInstitucion);
+		    if (nombreTipoRegistro.isEmpty() || nombreInstitucion.isEmpty() || nivelPatrocinio.isEmpty() || aporte < 0 || cupos < 0 || codigo != null) {
+		    	request.setAttribute("error", "Debe completar todos los campos");
+		    	handeGetAccionesOrganizador(request, response, "altaPatrocinio", nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
+		    } else {
+		    	darAltaPatrocinio(controladorEventos,
+			    		nombreEvento,
+			    		nombreEdicion,
+			    		new Date(),
+			    		nombreInstitucion, 
+			    		ENivelPatrocinio.valueOf(nivelPatrocinio), 
+			    		aporte, 
+			    		cupos,
+			    		codigo,
+			    		nombreTipoRegistro,
+			    		request,
+			    		response);
+		    }
 		} catch (NumberFormatException e) {
 		    // Handle invalid number format
 		    request.setAttribute("error", "Formato de número inválido");
@@ -303,7 +315,7 @@ public class Institucion extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + "/home");
 	}
 	private void darAltaPatrocinio(IControladorEventos controladorEventos, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
-			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado) {
+			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			controladorEventos.altaPatrocinio(eventoSeleccionado, 
 					edicionSeleccionada,
@@ -315,7 +327,8 @@ public class Institucion extends HttpServlet {
 					codigoPatrocinio,
 					tipoRegistroSeleccionado);			
 		}catch(Exception error) {
-			
+			request.setAttribute("error", error.getMessage());
+			request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
 		}
 	}
 

@@ -33,7 +33,7 @@
                     </li>
                     <li>
                       <!-- Ajustá el mapping si es distinto -->
-                      <a href="<%= request.getContextPath() %>/institucion?accion=alta" class="text-primary fw-semibold">
+                      <a href="<%= request.getContextPath() %>/Institucion?action=altaInstitucion" class="text-primary fw-semibold">
                         Alta Institución
                       </a>
                     </li>

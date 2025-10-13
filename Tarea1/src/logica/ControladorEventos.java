@@ -357,5 +357,15 @@ return ManejadorEventos.getInstancia()
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 	}
+	
+	@Override
+	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion) {
+		return manejadorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+	}
+	
+	@Override
+	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
+		return manejadorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
+	}
 }
 
