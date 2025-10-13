@@ -259,7 +259,7 @@ public class Institucion extends HttpServlet {
 	private void darAltaInstitucion(IControladorInstitucion controladorInstitucion, String nombre, String descripcion,
 			String sitioWeb) {
 		try {
-			controladorInstitucion.AltaInstitucion(nombre, descripcion, sitioWeb);
+			controladorInstitucion.altaInstitucion(nombre, descripcion, sitioWeb);
 		} catch (Exception error) {
 			// Error AltaInstitucion redirigir a mensaje de error 500.
 		}
