@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import datatypes.DTDetalleRegistro;
+import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
 import jakarta.servlet.ServletException;
@@ -56,7 +57,7 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
 			} else { 
-				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
@@ -103,11 +104,13 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		
-		String nickname = (String) request.getSession().getAttribute("nickname");
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickname = null;
+		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
 		if (nickname != null && nickname.equals(dtEdicion.getOrganizadorNickname())) {
 			request.setAttribute("es_organizador", true);
 			request.setAttribute("lista_registros", setRegistros);
-		} else if (asistentesRegistrados.keySet().contains(nickname)) {
+		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
 			request.setAttribute("es_asistente", true);
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}

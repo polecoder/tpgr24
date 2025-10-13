@@ -50,7 +50,7 @@ public class Edicion {
         this.setTiposRegistro(new HashMap<>());
         this.setOrganizadorNickname(organizadorNickname);
         this.setNombreEvento(nombreEvento);
-        this.setImagen(imagen); // ✅ guardar imagen
+        this.setImagen(imagen);
     }
 
     // ==== Getters y Setters ====
