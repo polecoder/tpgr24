@@ -3,7 +3,7 @@ package TestUnitarios;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEventoEdicion;
 import datatypes.DTRegistro;
-
+import datatypes.EEstadoEdicion;
 import logica.Fabrica;
 
 class TestConsultaUsuario {
@@ -24,6 +24,7 @@ class TestConsultaUsuario {
 
     @BeforeEach
     void setUp() {
+    	Fabrica.resetInstancia();
     	Fabrica f = Fabrica.getInstancia();
         iCU = f.getControladorUsuarios();
     }
@@ -69,5 +70,26 @@ class TestConsultaUsuario {
         assertNotNull(eventosEdiciones);
         // Al inicio debería estar vacío
         assertTrue(eventosEdiciones.isEmpty());
+    }
+    
+    @Test
+    void testOperacionGetEdicionesDeOrganizadorPorEstado() {
+    	Fabrica fabrica = Fabrica.getInstancia();
+    	assertDoesNotThrow(() -> {
+    		iCU.altaOrganizador("lauraorganiza", "Eventos.2025!", "Laura", "laura@mail.com", "Organizadora de eventos", "http://laura.com", null);
+    		fabrica.getControladorEvento().altaCategoria("Categoria1");
+    		List<String> categorias = new ArrayList<>();
+    		categorias.add("Categoria1");
+    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
+    		fabrica.getControladorEvento().altaEdicionEvento("Nombre1", "Edicion1", "SIG1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "lauraorganiza", null);
+    	});
+    	
+    	assertTrue(fabrica.getControladorEvento().existeEvento("Nombre1"));
+    	assertFalse(fabrica.getControladorEvento().existeEvento("Nombre2"));
+    	assertTrue(fabrica.getControladorEvento().existeCategoria("Categoria1"));
+    	assertFalse(fabrica.getControladorEvento().existeCategoria("Categoria2"));
+    	
+    	List<String> resultado = fabrica.getControladorEvento().getEdicionesDeOrganizadorPorEstado("lauraorganiza", EEstadoEdicion.Ingresada);
+    	assertEquals(resultado.get(0), "Edicion1");
     }
 }

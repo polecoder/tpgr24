@@ -1,12 +1,13 @@
 package TestUnitarios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.NombreTipoRegistroRepetido;
 import logica.Fabrica;
 import logica.Utilidades;
+import datatypes.DTDetallePatrocinio;
 import datatypes.DTEdicionEvento;
 import datatypes.ENivelPatrocinio;
 
@@ -110,5 +112,33 @@ private static Fabrica fabrica;
 		assertEquals(dtEsperado.getCiudad(), dtResultado.getCiudad());
 		assertEquals(dtEsperado.getPais(), dtResultado.getPais());
 		assertEquals(dtEsperado.getOrganizadorNickname(), dtResultado.getOrganizadorNickname());
+	}
+	
+	@Test
+	void testOperacionGetNombresTipoRegistro() {
+		Set<String> resultado = fabrica.getControladorEvento().getNombresTipoRegistro("Evento1", "EdicionEvento1");
+		if (resultado.size() != 1) {
+			fail("El tamaño del resultado no es el esperado.");
+		}
+		assertTrue(resultado.contains("TR1"));
+	}
+	
+	@Test
+	void testOperacionMostrarDetallePatrocinio() {
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorInstitucion().AltaInstitucion("Institucion", "Descripcion1", "https://web.web.com");
+			fabrica.getControladorEvento().altaPatrocinio("Evento1", "EdicionEvento1", Utilidades.toDate(LocalDate.of(2025, 10, 1)), "Institucion", ENivelPatrocinio.Platino, 10000, 1, "CODPAT1", "TR1");
+		});
+		DTDetallePatrocinio resultado1 = fabrica.getControladorEvento().mostrarDetallePatrocinio("Evento1", "EdicionEvento1", "CODPAT1");
+		assertEquals(resultado1.fechaAlta(), Utilidades.toDate(LocalDate.of(2025, 10, 1)));
+		assertEquals(resultado1.nombreInstitucion(), "Institucion");
+		assertEquals(resultado1.nivel(), ENivelPatrocinio.Platino);
+		assertEquals(resultado1.aporte(), 10000);
+		assertEquals(resultado1.cuposGratuitos(), 1);
+		assertEquals(resultado1.codigo(), "CODPAT1");
+		assertEquals(resultado1.tipoRegistro(), "TR1");
+		
+		DTDetallePatrocinio resultado2 = fabrica.getControladorEvento().mostrarDetallePatrocinio("Evento1", "EdicionInexistente", "CODPAT1");
+		assertNull(resultado2);
 	}
 }
