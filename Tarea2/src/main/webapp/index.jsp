@@ -47,6 +47,7 @@
 						</ul>
 					</div>
 				<% } %>
+
 				<nav class="border border-primary rounded p-3 bg-white shadow-sm">
 					<!-- Usuarios -->
 					<div class="mb-4">
@@ -161,4 +162,3 @@
 	<jsp:include page="./WEB-INF/templates/footer.jsp" />
 </body>
 </html>
-
