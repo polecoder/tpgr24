@@ -1,10 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="datatypes.*" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Arrays" %>
-<%@ page import="java.util.Set" %>
+<%@ page import="java.util.*" %>
 <% 
 	String error = (String) request.getAttribute("error");
 	String nombreEvento = (String) request.getAttribute("nombreEvento");
