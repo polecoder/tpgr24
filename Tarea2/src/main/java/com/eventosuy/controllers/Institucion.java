@@ -2,15 +2,12 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.eventosuy.models.TipoUsuario;
 
 import datatypes.*;
-import excepciones.FormularioIncompletoInstitucion;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -61,7 +58,7 @@ public class Institucion extends HttpServlet {
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		try {
 			DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
-			request.setAttribute("imagenEdicion", dtEdicion.getImagen());			
+			request.setAttribute("imagenEdicion", dtEdicion.getImagen());
 		}catch(Exception error) {
 			error.printStackTrace();
 		}
@@ -105,30 +102,13 @@ public class Institucion extends HttpServlet {
 			String nombreEdicion, IControladorEventos controladorEventos,
 			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
 
-		Set<String> listaNombresTipoRegistro = obtenerTiposRegistro(controladorEventos, nombreEvento, nombreEdicion);
-		Set<String> listaNombresInstitucion = obtenerNombresInstituciones(controladorInstitucion);
+		Set<String> listaNombresTipoRegistro = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();
+		Set<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones();
 
 		request.setAttribute("nombreEvento", nombreEvento);
 		request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 		request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 		request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
-	}
-
-	private Set<String> obtenerTiposRegistro(IControladorEventos controladorEventos, String nombreEvento,
-			String nombreEdicion) {
-		try {
-			return controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();
-		} catch (Exception e) {
-			return new HashSet<>(Arrays.asList("Failed. Call support"));
-		}
-	}
-
-	private Set<String> obtenerNombresInstituciones(IControladorInstitucion controladorInstitucion) {
-		try {
-			return controladorInstitucion.nombresInstituciones();
-		} catch (Exception e) {
-			return new HashSet<>(Arrays.asList("Failed. Call support"));
-		}
 	}
 
 	private void handlePublicAction(HttpServletRequest request, HttpServletResponse response, String action,
@@ -298,6 +278,7 @@ public class Institucion extends HttpServlet {
 		    if (nombreTipoRegistro.isEmpty() || nombreInstitucion.isEmpty() || nivelPatrocinio.isEmpty() || aporte < 0 || cupos < 0 || codigo.isEmpty()) {
 		    	request.setAttribute("error", "Debe completar todos los campos");
 		    	handeGetAccionesOrganizador(request, response, "altaPatrocinio", nombreEvento, nombreEdicion, controladorEventos, controladorInstitucion);
+		    	return;
 		    } else {
 		    	darAltaPatrocinio(controladorEventos,
 		    			controladorInstitucion,
@@ -316,10 +297,8 @@ public class Institucion extends HttpServlet {
 		} catch (NumberFormatException e) {
 		    // Handle invalid number format
 		    request.setAttribute("error", "Formato de número inválido");
-		    // forward back to form or show error
+		    request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
 		}
-
-		response.sendRedirect(request.getContextPath() + "/home");
 	}
 	private void darAltaPatrocinio(IControladorEventos controladorEventos, IControladorInstitucion controladorInstitucion, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
 			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -332,15 +311,17 @@ public class Institucion extends HttpServlet {
 					aporteEconomico,
 					cupos,
 					codigoPatrocinio,
-					tipoRegistroSeleccionado);			
-		}catch (Exception error) {
-			Set<String> listaNombresInstitucion = obtenerNombresInstituciones(controladorInstitucion);
-			Set<String> listaNombresTipoRegistro = obtenerTiposRegistro(controladorEventos, eventoSeleccionado, edicionSeleccionada);
+					tipoRegistroSeleccionado);
+			response.sendRedirect(request.getContextPath() + "/home"); // hago redirect a home solo si el alta fue éxitoso
+		} catch (Exception error) {
+			Set<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones();
+			Set<String> listaNombresTipoRegistro = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 			request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 			request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
+			request.setAttribute("nombreEvento", eventoSeleccionado);
+			request.setAttribute("nombreEdicion", edicionSeleccionada);
 			request.setAttribute("error", error.getMessage());
 			request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
 		}
 	}
-
 }
