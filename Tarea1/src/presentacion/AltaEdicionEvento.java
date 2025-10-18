@@ -205,26 +205,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 		gbc_Spinner_FechaFin.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(Spinner_FechaFin, gbc_Spinner_FechaFin);
 
-	    JLabel lbl_FechaAlta = new JLabel("Fecha de Alta:");
-	    GridBagConstraints gbc_lbl_FechaAlta = new GridBagConstraints();
-	    gbc_lbl_FechaAlta.anchor = GridBagConstraints.EAST;
-	    gbc_lbl_FechaAlta.insets = new Insets(5, 5, 5, 5);
-	    gbc_lbl_FechaAlta.gridx = 0;
-	    gbc_lbl_FechaAlta.gridy = 7;
-	    getContentPane().add(lbl_FechaAlta, gbc_lbl_FechaAlta);
-
-	    SpinnerDateModel dateModel3 = new SpinnerDateModel();
-	    JSpinner Spinner_FechaAlta = new JSpinner(dateModel3);
-		Spinner_FechaAlta.setEditor(new JSpinner.DateEditor(Spinner_FechaAlta, "yyyy-MM-dd"));
-		
-		GridBagConstraints gbc_Spinner_FechaAlta = new GridBagConstraints();
-		gbc_Spinner_FechaAlta.gridx = 1;
-		gbc_Spinner_FechaAlta.gridy = 7;
-		gbc_Spinner_FechaAlta.gridwidth = 1;
-		gbc_Spinner_FechaAlta.insets = new Insets(0, 5, 0, 0);
-		gbc_Spinner_FechaAlta.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(Spinner_FechaAlta, gbc_Spinner_FechaAlta);
-
 	    JButton btnAceptar = new JButton("Aceptar");
 	    GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 	    gbc_btnAceptar.insets = new Insets(10, 5, 5, 5);
@@ -254,7 +234,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    String sigla = textFieldSigla.getText().trim();
 		    String ciudad = textFieldCiudad.getText().trim();
 		    String pais = textFieldPais.getText().trim();
-		    Date fechaAlta = (Date) Spinner_FechaAlta.getValue();
+		    Date fechaAlta = new Date();
 		    Date fechaInicio = (Date) Spinner_FechaInicio.getValue();
 		    Date fechaFin = (Date) Spinner_FechaFin.getValue();
 		    String organizador = (String) comboOrganizadores.getSelectedItem();
@@ -275,7 +255,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 		        textFieldPais.setText("");
 
 		        // Resetear fechas a hoy
-		        Spinner_FechaAlta.setValue(new Date());
 		        Spinner_FechaInicio.setValue(new Date());
 		        Spinner_FechaFin.setValue(new Date());
 
