@@ -160,9 +160,9 @@ public class Edicion {
     public boolean check(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) {
         boolean pertenece = patrocinios.containsKey(codigoPatrocinio);
         if (pertenece) {
-            Patrocinio patrocinio = patrocinios.get(codigoPatrocinio);
-            boolean checkA = patrocinio.checkAsistente(nicknameAsistente);
-            boolean checkTR = nombreTipoRegistro.equals(patrocinio.getTipoRegistro().getNombre());
+            Patrocinio p = patrocinios.get(codigoPatrocinio);
+            boolean checkA = p.checkAsistente(nicknameAsistente);
+            boolean checkTR = nombreTipoRegistro.equals(p.getTipoRegistro().getNombre());
             return checkA && pertenece && checkTR;
         } else {
             return false;
