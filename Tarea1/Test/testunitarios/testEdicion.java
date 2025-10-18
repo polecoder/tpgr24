@@ -35,31 +35,31 @@ class testEdicion {
 	@Test
 	void test1() throws Exception{
 		
-		Edicion edicion = nuevaEdicion();
+		Edicion ed = nuevaEdicion();
 		
-		edicion.agregarTipoRegistro("General", "Acceso general", 1000f, 100);
-        edicion.agregarTipoRegistro("VIP",     "Acceso VIP",     3000f,  50);
+		ed.agregarTipoRegistro("General", "Acceso general", 1000f, 100);
+        ed.agregarTipoRegistro("VIP",     "Acceso VIP",     3000f,  50);
         
-        Map<String, DTTipoRegistro> listado = edicion.listarTipoRegistro();
+        Map<String, DTTipoRegistro> listado = ed.listarTipoRegistro();
         assertEquals(2, listado.size());
         assertTrue(listado.containsKey("General"));
         assertTrue(listado.containsKey("VIP"));
         assertEquals("Acceso general", listado.get("General").descripcion());
         assertEquals(3000f, listado.get("VIP").costo(), 0.001f);
         
-        DTTipoRegistro dtGen = edicion.getDTTipoRegistro("General");
+        DTTipoRegistro dtGen = ed.getDTTipoRegistro("General");
         assertEquals("General", dtGen.nombre());
         
-        assertThrows(TipoRegistroNoExiste.class, () -> edicion.getDTTipoRegistro("NO-EXISTE"));
+        assertThrows(TipoRegistroNoExiste.class, () -> ed.getDTTipoRegistro("NO-EXISTE"));
 		
-        assertThrows(TipoRegistroNoExiste.class, () -> edicion.getTipoRegistro("X"));
+        assertThrows(TipoRegistroNoExiste.class, () -> ed.getTipoRegistro("X"));
         
         assertThrows(NombreTipoRegistroRepetido.class,
-                () -> edicion.agregarTipoRegistro("General", "otra", 1f, 1));
+                () -> ed.agregarTipoRegistro("General", "otra", 1f, 1));
         
         TipoRegistro estudiante = new TipoRegistro("Estudiante", "Desc", 500, 10, 10);
-        edicion.agregarTipoRegistro(estudiante);
-        assertTrue(edicion.getTiposRegistro().containsKey("Estudiante"));
+        ed.agregarTipoRegistro(estudiante);
+        assertTrue(ed.getTiposRegistro().containsKey("Estudiante"));
 	}
 	
 	@Test

@@ -359,13 +359,12 @@ public class UsuarioServlet extends HttpServlet {
 			if (isPost(request)) {
 				// --- Requiere login ---
 				DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
-				String nick = usuarioLogeado.getNickname();
-				
-				if (nick == null) {
-					request.setAttribute("error_message", "Debe estae logueado para registrarse a una edicion");
-					response.sendRedirect(request.getContextPath() + "/WEB-INF/error.jsp");
-					return;
+				if (usuarioLogeado == null) {
+				    request.setAttribute("error", "Debe estar logueado para registrarse a una edición.");
+				    request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+				    return;
 				}
+				String nick = usuarioLogeado.getNickname();
 
 				String evento    = trim(request.getParameter("evento"));        
 				String idEdicion = trim(request.getParameter("idEdicion"));     
@@ -387,19 +386,26 @@ public class UsuarioServlet extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 					return;
 				}
-
+				IControladorEventos ce = Fabrica.getInstancia().getControladorEvento();
 				try {
-					IControladorEventos ce = Fabrica.getInstancia().getControladorEvento();
-
+					
 					try {
 						boolean ok = ce.validar(nick, idEdicion, idTipo, evento);
 						if (!ok) {
 							request.setAttribute("error", "La validación del registro falló.");
+							request.setAttribute("eventoSel", evento);
+							request.setAttribute("edicionSel", idEdicion);
+							request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
+							request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 							request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 							return;
 						}
 					} catch (Exception e) {
 						request.setAttribute("error", "Error validando el registro: " + safeMsg(e, ""));
+						request.setAttribute("eventoSel", evento);
+						request.setAttribute("edicionSel", idEdicion);
+						request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
+						request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 						request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 						return;
 					}
@@ -417,6 +423,8 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("eventoSel",   request.getParameter("evento"));
 					request.setAttribute("edicionSel",  request.getParameter("idEdicion"));
 					request.setAttribute("tipoSel",     request.getParameter("idTipoRegistro"));
+					request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
+					request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
 					return;
 				}

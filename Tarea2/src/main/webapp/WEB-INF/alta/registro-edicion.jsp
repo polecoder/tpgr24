@@ -25,7 +25,11 @@
 
       // Fallback a parámetros si no hay atributos
       if (eventoSel == null || eventoSel.isBlank())  eventoSel  = request.getParameter("evento");
-      if (edicionSel == null || edicionSel.isBlank()) edicionSel = request.getParameter("edicion");
+      if (edicionSel == null || edicionSel.isBlank()) {
+    	  edicionSel = (request.getParameter("idEdicion") != null && !request.getParameter("idEdicion").isBlank())
+    	                 ? request.getParameter("idEdicion")
+    	                 : request.getParameter("edicion");
+    	}
 
       String error = (String) request.getAttribute("error");
     %>
