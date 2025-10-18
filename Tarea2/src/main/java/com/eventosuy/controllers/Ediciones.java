@@ -145,8 +145,10 @@ public class Ediciones extends HttpServlet {
 		try {
 			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
 		} catch (Exception ex) {
+			byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response);
 			return;
 		}
 		
