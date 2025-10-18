@@ -11,13 +11,21 @@
     <div class="container flex-grow-1">
       <div class="mx-auto" style="max-width: 768px">
         <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
-          Alta de institucion
+          Alta de institución
         </h1>
       </div>
       <main
         class="p-4 bg-light border-top border-2 border-primary rounded mx-auto"
         style="max-width: 520px"
       >
+      <%
+           String error = (String) request.getAttribute("error");
+           if (error != null) {
+      %>
+      <div class="alert alert-danger" role="alert"><%= error %></div>
+      <%
+         }
+      %>
         <div id="alert-area" class="mb-3"></div>
         <form
           id="altaInstitucionForm"
@@ -45,7 +53,7 @@
               for="descripcion"
               class="form-label text-end"
               style="width: 80px"
-              >Descripcion:</label
+              >Descripción:</label
             >
             <textarea
               id="descripcion"

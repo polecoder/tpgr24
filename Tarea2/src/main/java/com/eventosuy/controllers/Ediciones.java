@@ -192,6 +192,8 @@ public class Ediciones extends HttpServlet {
 		try {
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
 		} catch (Exception ex) {
+			byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
+			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_tipo_registro", "Ya existe un tipo de registro con ese nombre.");
 			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
 			return;

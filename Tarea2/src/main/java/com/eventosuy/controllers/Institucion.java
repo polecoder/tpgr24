@@ -10,6 +10,7 @@ import java.util.Set;
 import com.eventosuy.models.TipoUsuario;
 
 import datatypes.*;
+import excepciones.FormularioIncompletoInstitucion;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -257,19 +258,20 @@ public class Institucion extends HttpServlet {
 		String fileName = imagenPart.getSubmittedFileName();
 		InputStream fileContent = imagenPart.getInputStream();
 
-		darAltaInstitucion(controladorInstitucion, nombre, descripcion, sitioWeb);
-
-		response.sendRedirect(request.getContextPath()+"/home");
-
+		try {
+	        darAltaInstitucion(controladorInstitucion, nombre, descripcion, sitioWeb);
+	        response.sendRedirect(request.getContextPath() + "/home");
+	    } catch (Exception ex) {
+	    	
+	        request.setAttribute("error", ex.getMessage());
+	        request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
+	    }
 	}
 
 	private void darAltaInstitucion(IControladorInstitucion controladorInstitucion, String nombre, String descripcion,
-			String sitioWeb) {
-		try {
+			String sitioWeb) throws Exception{
 			controladorInstitucion.altaInstitucion(nombre, descripcion, sitioWeb);
-		} catch (Exception error) {
-			// Error AltaInstitucion redirigir a mensaje de error 500.
-		}
+		
 	}
 
 	private void handlePostAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
