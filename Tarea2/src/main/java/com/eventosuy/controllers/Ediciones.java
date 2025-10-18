@@ -109,10 +109,8 @@ public class Ediciones extends HttpServlet {
 		String nickname = null;
 		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
 		if (nickname != null && nickname.equals(dtEdicion.getOrganizadorNickname())) {
-			request.setAttribute("es_organizador", true);
 			request.setAttribute("lista_registros", setRegistros);
 		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
-			request.setAttribute("es_asistente", true);
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
 		
