@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -123,8 +122,10 @@ public class Eventos extends HttpServlet {
 
         // Validar existencia de evento
         if (IContEv.existeEvento(nombre)) {
+        	List<String> categorias = fab.getControladorEvento().getListaCategorias();
+            request.setAttribute("categorias", categorias);    
             request.setAttribute("error", "Ya existe un evento con este nombre");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Errores/altaEventoError.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/alta/AltaEvento.jsp");
             dispatcher.forward(request, response);
             return;
         }
