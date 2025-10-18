@@ -18,9 +18,17 @@
 			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta Edición de Evento</h1>
 		</div>
 
-		<main
-			class="p-4 bg-light border-top border-2 border-primary rounded mx-auto"
-			style="max-width: 700px">
+		<main class="p-4 bg-light border-top border-2 border-primary rounded mx-auto" style="max-width: 700px">
+			
+                <%
+                    String error = (String) request.getAttribute("error_message");
+                    if (error != null) {
+                %>
+                    <div class="alert alert-danger" role="alert"><%= error %></div>
+                <%
+                    }
+                %>
+			
 			
 			<% 
 				String nombreEvento = (String) request.getParameter("nombre_evento"); 
