@@ -154,7 +154,7 @@
                 <textarea id="descripcion" name="descripcion" rows="3"
                           class="form-control form-control-sm" style="max-width: 200px">${param.descripcion}</textarea>
               </div>
-              <div class="d-flex justify-content-center gap-3">
+              <div class="d-flex justify-content-center gap-3 mt-3">
                 <label for="web" class="form-label text-end" style="width: 90px">Sitio web:</label>
                 <input type="url" id="web" name="web" placeholder="https://…"
                        class="form-control form-control-sm" style="max-width: 200px"
@@ -171,7 +171,7 @@
                        value="${param.fechaNac}" />
               </div>
 
-              <div class="d-flex justify-content-center gap-3">
+              <div class="d-flex justify-content-center gap-3 mt-3">
 	            <label for="instituciones" class="form-label" style="width: 90px">Instituciones: </label>
 	            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 240px" required>
 	              <option value="" selected>
