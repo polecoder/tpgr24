@@ -37,10 +37,10 @@
                 enctype="multipart/form-data"
                 novalidate
                 class="d-flex flex-column gap-4">
-
+			
             <!-- Tipo -->
             <div class="d-flex justify-content-center gap-3">
-              <label class="form-label text-end" style="width: 90px">Tipo:</label>
+              <label class="text-end" style="width: 90px">Tipo:</label>
               <div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="rol" id="tipoAsistente" value="asistente"
@@ -52,9 +52,47 @@
                          <%= "organizador".equalsIgnoreCase(request.getParameter("rol")) ? "checked" : "" %> />
                   <label class="form-check-label" for="tipoOrganizador">Organizador</label>
                 </div>
-                <div id="tipoFeedback" class="invalid-feedback d-block" style="display: none">Seleccioná un tipo.</div>
+                <div id="tipoFeedback" class="invalid-feedback" style="display: none">Seleccioná un tipo.</div>
               </div>
             </div>
+
+			<!-- Script para mostrar asistente u organizador -->
+			<script>
+				function mostrarBloqueSi(idBloque, condicion) {
+				  const bloque = document.getElementById(idBloque);
+				  if (bloque) {
+				    bloque.style.display = condicion ? "block" : "none";
+				  }
+				}
+				function mostrarApellidoSi(idBloque, condicion) {
+					const bloque = document.getElementById(idBloque);
+					if (condicion) {
+						bloque.classList.remove("d-none");
+						bloque.classList.add("d-flex");	
+					} else {
+						bloque.classList.remove("d-flex");
+						bloque.classList.add("d-none");
+					}
+				}
+
+			 function actualizarContenido() {
+			 	const seleccionado = document.querySelector('input[name="rol"]:checked');
+			 	const tipo = seleccionado ? seleccionado.value : null;
+			 	
+				mostrarBloqueSi("bloqueAsistente", tipo === "asistente");
+				mostrarBloqueSi("bloqueOrganizador", tipo === "organizador");
+			    mostrarBloqueSi("tipoFeedback", !tipo);
+			    mostrarApellidoSi("bloqueApellido", tipo === "asistente");
+			  }
+			
+			  // Ejecutar al cargar la página
+			  window.addEventListener("DOMContentLoaded", actualizarContenido);
+			
+			  // Ejecutar al cambiar selección
+			  document.querySelectorAll('input[name="rol"]').forEach(el => {
+			    el.addEventListener("change", actualizarContenido);
+			  });
+			</script>
 
             <!-- Nickname -->
             <div class="d-flex justify-content-center gap-3">
@@ -70,6 +108,14 @@
               <input type="text" id="nombre" name="nombre" required
                      class="form-control form-control-sm" style="max-width: 200px"
                      value="${param.nombre}" />
+            </div>
+            
+            <!--  Apellido -->
+            <div id="bloqueApellido" class="d-none justify-content-center gap-3">
+                <label for="apellido" class="form-label text-end" style="width: 90px">Apellido:</label>
+                <input type="text" id="apellido" name="apellido"
+                       class="form-control form-control-sm" style="max-width: 200px"
+                       value="${param.apellido}" />
             </div>
 
             <!-- Correo -->
@@ -102,7 +148,7 @@
             </div>
 
             <!-- Bloque organizador -->
-            <div id="bloqueOrganizador" class="d-none border-top pt-3">
+            <div id="bloqueOrganizador" class="d-none border-top pt-3" style="display: none;">
               <div class="d-flex justify-content-center gap-3">
                 <label for="descripcion" class="form-label text-end" style="width: 90px">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" rows="3"
@@ -117,14 +163,7 @@
             </div>
 
             <!-- Bloque asistente -->
-            <div id="bloqueAsistente" class="d-none border-top pt-3">
-              <div class="d-flex justify-content-center gap-3">
-                <label for="apellido" class="form-label text-end" style="width: 90px">Apellido:</label>
-                <input type="text" id="apellido" name="apellido"
-                       class="form-control form-control-sm" style="max-width: 200px"
-                       value="${param.apellido}" />
-              </div>
-
+            <div id="bloqueAsistente" class="d-none border-top pt-3" style="display: none;">
               <div class="d-flex justify-content-center gap-3">
                 <label for="fechaNac" class="form-label text-end" style="width: 90px">Nacimiento:</label>
                 <input type="date" id="fechaNac" name="fechaNac"
@@ -132,15 +171,17 @@
                        value="${param.fechaNac}" />
               </div>
 
-              <div class="d-flex gap-2">
+              <div class="d-flex justify-content-center gap-3">
 	            <label for="instituciones" class="form-label" style="width: 90px">Instituciones: </label>
 	            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 240px" required>
 	              <option value="" selected>
 	                -- No pertenece a institucion --
 	              </option>
-	              <% for(String nombreInstitucion: listaNombresInstitucion) { %>
-		              <option value="<%=nombreInstitucion%>"><%=nombreInstitucion%></option>
-		          <% } %>
+	              <% if (listaNombresInstitucion != null) { %>
+		              <% for(String nombreInstitucion: listaNombresInstitucion) { %>
+			              <option value="<%=nombreInstitucion%>"><%=nombreInstitucion%></option>
+			          <% } %>
+			     <% } %> 
 	            </select>
 	          </div>
             </div>
@@ -187,10 +228,10 @@
           filaInstitucion.classList.remove("d-none");
         }
       })();
-
-      chkInstitucion.addEventListener("change", function() {
-        filaInstitucion.classList.toggle("d-none", !chkInstitucion.checked);
-      });
+       
+      //chkInstitucion.addEventListener("change", function() {
+      //  filaInstitucion.classList.toggle("d-none", !chkInstitucion.checked);
+      //});
     </script>
   </body>
 </html>
