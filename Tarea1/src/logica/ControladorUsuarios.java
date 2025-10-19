@@ -44,20 +44,30 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	@Override
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento,
 			String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoAsistente  {
-		if (nickname == null || nickname.isEmpty() || contrasena == null || contrasena.isEmpty() || nombre == null || nombre.isEmpty() || apellido == null
-				|| apellido.isEmpty() || correo == null || correo.isEmpty() || fechaNacimiento == null) {
-			throw new FormularioIncompletoAsistente("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios");
-			/*manejadorUsuarios.agregarAsistente(
-			        nickname,
-			        contrasena,
-			        nombre,
-			        correo,
-			        apellido,
-			        fechaNacimiento,
-			        IContInstituciones.getInstitucion(nombreinstitucion),
-			        imagen 
-			    );*/
+		if (nickname == null || nickname.isBlank()) {
+		    throw new FormularioIncompletoAsistente("El campo nickname es obligatorio.");
 		}
+
+		if (contrasena == null || contrasena.isBlank()) {
+		    throw new FormularioIncompletoAsistente("El campo contraseña es obligatorio.");
+		}
+
+		if (nombre == null || nombre.isBlank()) {
+		    throw new FormularioIncompletoAsistente("El campo nombre es obligatorio.");
+		}
+
+		if (apellido == null || apellido.isBlank()) {
+		    throw new FormularioIncompletoAsistente("El campo apellido es obligatorio.");
+		}
+
+		if (correo == null || correo.isBlank()) {
+		    throw new FormularioIncompletoAsistente("El campo correo es obligatorio.");
+		}
+
+		if (fechaNacimiento == null) {
+		    throw new FormularioIncompletoAsistente("El campo fecha de nacimiento es obligatorio.");
+		}
+
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
 			throw new FormularioIncompletoAsistente("El nombre solo puede contener letras y espacios");
@@ -105,9 +115,20 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	@Override
 	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen)
 			throws FormatoContrasenaInvalido, FormularioIncompletoOrganizador {
-		if (nickname == null || nickname.isEmpty() || nombre == null || nombre.isEmpty() || descripcion == null
-				|| descripcion.isEmpty() || correo == null || correo.isEmpty()) {
-			throw new FormularioIncompletoOrganizador("Nick, contrasena, nombre, correo y descripción son campos obligatorios");
+		if (nickname == null || nickname.isBlank()) {
+		    throw new FormularioIncompletoOrganizador("El campo nickname es obligatorio.");
+		}
+
+		if (nombre == null || nombre.isBlank()) {
+		    throw new FormularioIncompletoOrganizador("El campo nombre es obligatorio.");
+		}
+
+		if (descripcion == null || descripcion.isBlank()) {
+		    throw new FormularioIncompletoOrganizador("El campo descripción es obligatorio.");
+		}
+
+		if (correo == null || correo.isBlank()) {
+		    throw new FormularioIncompletoOrganizador("El campo correo es obligatorio.");
 		}
 
 		if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$")) {
@@ -123,7 +144,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 
 		if (manejadorUsuarios.existeNick(nickname)) {
-			throw new FormularioIncompletoOrganizador("El nickname del organizador ya existe");
+			throw new FormularioIncompletoOrganizador("El nickname ya está en uso");
 		}
 
 		if (manejadorUsuarios.existeCorreo(correo)) {

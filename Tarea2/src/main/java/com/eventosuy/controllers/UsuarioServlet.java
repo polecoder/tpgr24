@@ -54,21 +54,6 @@ public class UsuarioServlet extends HttpServlet {
 				String nombre    = trim(request.getParameter("nombre"));
 				String email     = trim(request.getParameter("email"));
 				String password  = trim(request.getParameter("password"));
-				String confirm   = trim(request.getParameter("confirm"));
-
-				if (anyBlank(rol, nickname, nombre, email, password)) {
-					request.setAttribute("error", "Faltan campos obligatorios.");
-					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
-					.forward(request, response);
-					return;
-				}
-				if (!password.equals(confirm)) {
-					request.setAttribute("error", "La contraseña y su confirmación no coinciden.");
-					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
-					.forward(request, response);
-					return;
-				}
-
 				byte[] imagen = readPartBytes(request.getPart("imagen")); 
 				
 				try {
@@ -109,7 +94,6 @@ public class UsuarioServlet extends HttpServlet {
 						request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
 						.forward(request, response);
 						return;
-						// redirigir a pag de error
 					}
 					IControladorUsuarios cu = Fabrica.getInstancia().getControladorUsuarios();
 					 DTDetalleUsuario u = cu.mostrarDetalleUsuario(nickname);
@@ -148,17 +132,11 @@ public class UsuarioServlet extends HttpServlet {
 
 				} catch (Exception ex) {
 					request.setAttribute("error", safeMsg(ex, "No se pudo crear el usuario."));
-					
-					Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
-					request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
-					
-					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
-					.forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp").forward(request, response);
 					return;
 				}
 
 			} else {
-				
 				Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
 				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 				

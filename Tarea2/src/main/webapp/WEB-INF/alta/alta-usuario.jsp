@@ -99,7 +99,7 @@
               <label for="nickname" class="form-label text-end" style="width: 90px">Nickname:</label>
               <input type="text" id="nickname" name="nickname" required
                      class="form-control form-control-sm" style="max-width: 200px"
-                     value="${param.nickname}" />
+                     value="${param.nickname}"/>
             </div>
 
             <!-- Nombre -->
