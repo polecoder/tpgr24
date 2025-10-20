@@ -68,8 +68,8 @@ public class TestInstitucion {
         Asistente asistente = new Asistente("Nicky", "Eventos.2025!", "mNombre2", "correo2@ejemplo.com", "mApellido2", date, institucion);
         institucion.agregarAsistente(asistente);
 
-        assertTrue(institucion.checkAsistente("Nicky"));
-        assertFalse(institucion.checkAsistente("otroNick"));
+        assertTrue(institucion.asistentePertence("Nicky"));
+        assertFalse(institucion.asistentePertence("otroNick"));
     }
 }
 

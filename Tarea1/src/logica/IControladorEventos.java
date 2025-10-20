@@ -16,7 +16,10 @@ import excepciones.FormularioIncompletoEdicion;
 import excepciones.FormularioIncompletoPatrocinio;
 import excepciones.NoHayCuposDisponibles;
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.PatrocinioInvalido;
 import excepciones.TipoRegistroNoExiste;
+import excepciones.UsuarioNoExiste;
+import excepciones.YaAsisteAEdicion;
 import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
@@ -65,7 +68,7 @@ public interface IControladorEventos {
 	 * @param nombreEvento
 	 */
 	public boolean existeEvento(String nombreEvento);
-	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste;
+	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion;
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);

@@ -143,7 +143,10 @@ public class ManejadorEventos {
 	}
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
-		Edicion edicion=eventos.get(eventoSeleccionado).getEdiciones().get(edicionSeleccionada);
+		Evento evento = eventos.get(eventoSeleccionado);
+		if (evento == null) { return null; }
+		Edicion edicion = evento.getEdiciones().get(edicionSeleccionada);
+		if (edicion == null) { return null; }
 		DTEdicionEvento dtEdicion= new DTEdicionEvento(edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), edicion.getOrganizadorNickname(), edicion.getImagen(), edicion.getEstado());
 		return dtEdicion;
 	}

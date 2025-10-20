@@ -19,7 +19,10 @@ import excepciones.FormularioIncompletoEdicion;
 import excepciones.FormularioIncompletoPatrocinio;
 import excepciones.NoHayCuposDisponibles;
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.PatrocinioInvalido;
 import excepciones.TipoRegistroNoExiste;
+import excepciones.UsuarioNoExiste;
+import excepciones.YaAsisteAEdicion;
 import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
@@ -294,27 +297,33 @@ public class ControladorEventos implements IControladorEventos {
 		public boolean existeCategoria(String nombre) {return this.manejadorEventos.existeCategoria(nombre); }
 		public Map<String, Categoria> listarCategorias() {return this.manejadorEventos.getCategorias(); }
 
-		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste{
+		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion{
 			Evento evento = manejadorEventos.getEvento(nombreEvento);
 			if (evento == null) { throw new EventoNoExiste("El evento no existe"); }
+			
 			Edicion edicion = evento.getEdicion(nombreEdicion);
 			if (edicion == null) { throw new EdicionNoExiste("La edición no existe"); }
-			if (edicion.getFechaFin().before(new Date())) { throw new FechaFinEsPasada("La edición ya terminó, no puedes registrarte"); }
 			
-			TipoRegistro tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro);
-			float cost = tipoRegistro.getCosto();
+			if (edicion.yaAsiste(nicknameAsistente)) { throw new YaAsisteAEdicion("Ya está registrado a esta edición."); }
+			if (edicion.getFechaFin().before(new Date())) { throw new FechaFinEsPasada("La edición ya terminó, no puedes registrarte."); }
+			
 			Asistente asistente = manejadorUsuarios.getAsistente(nicknameAsistente);
+			if (asistente == null) { throw new UsuarioNoExiste("El asistente no existe"); }
+			
+			TipoRegistro tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro); // Si no existe hace el throw
+			
+			float costo = tipoRegistro.getCosto();
+			
 			Patrocinio patrocinio = null;
-			boolean checkEd = edicion.check(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
-			if (checkEd) {
-				patrocinio = edicion.getPatrocinio(codigoPatrocinio);
-				int cuposP = patrocinio.getCuposGratuitos();
-				if (cuposP > 0) {
-					patrocinio.setCuposGratuitos(cuposP-1);
-					cost = 0;					
+			if (codigoPatrocinio != null && !codigoPatrocinio.isBlank()) {
+				boolean patrocinioValido = edicion.patrocinioValido(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
+				if (patrocinioValido) {
+					patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					patrocinio.usarCupo();
+					costo = 0f;
 				}
 			}
-			this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, fecha, cost);
+			this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, new Date(), costo);
 		}
 	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
     	return manejadorEventos.listarRegistrosAEdicion(nombreEvento, nombreEdicion);

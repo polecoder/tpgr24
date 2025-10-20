@@ -12,6 +12,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.PatrocinioInvalido;
 import excepciones.TipoRegistroNoExiste;
 import logica.Edicion;
 import logica.Institucion;
@@ -70,7 +71,7 @@ class testEdicion {
         edicion.agregarTipoRegistro(agotado);
         assertThrows(Exception.class, () -> edicion.validar("nick", "Agotado"));
 
-        assertFalse(edicion.check("COD-INEXISTENTE", "nick", agotado.getNombre()));
+        assertThrows(PatrocinioInvalido.class, () -> edicion.patrocinioValido("COD-INEXISTENTE", "nick", agotado.getNombre()));
 
         Institucion inst = new Institucion("Fing", "fing@uni.edu", "Facultad Ing.");
         Patrocinio pat = new Patrocinio(
@@ -83,7 +84,7 @@ class testEdicion {
                 agotado);
         edicion.agregarPatrocinio(pat);
 
-        assertFalse(edicion.check("PAT-001", "cualquierNick", agotado.getNombre()));
+        assertThrows(PatrocinioInvalido.class, () -> edicion.patrocinioValido("PAT-001", "cualquierNick", agotado.getNombre()));
 
         edicion.eliminarPatrocinio("PAT-001");
         assertFalse(edicion.getPatrocinios().containsKey("PAT-001"));

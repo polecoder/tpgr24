@@ -7,6 +7,7 @@ import java.util.Map;
 import excepciones.AsistenteYaRegistrado;
 import excepciones.NoHayCuposDisponibles;
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.PatrocinioInvalido;
 import excepciones.TipoRegistroNoExiste;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
@@ -157,16 +158,22 @@ public class Edicion {
         }
     }
 
-    public boolean check(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) {
-        boolean pertenece = patrocinios.containsKey(codigoPatrocinio);
-        if (pertenece) {
-            Patrocinio p = patrocinios.get(codigoPatrocinio);
-            boolean checkA = p.checkAsistente(nicknameAsistente);
-            boolean checkTR = nombreTipoRegistro.equals(p.getTipoRegistro().getNombre());
-            return checkA && pertenece && checkTR;
+    public boolean patrocinioValido(String codigoPatrocinio, String nicknameAsistente, String nombreTipoRegistro) throws PatrocinioInvalido{
+        Patrocinio patrocinio = patrocinios.get(codigoPatrocinio);
+        boolean asistenteCorrecto = false;
+        boolean tipoRegistroCorrecto = false;
+        boolean quedanCupos = false;
+        if (patrocinio != null) { 
+        	asistenteCorrecto = patrocinio.asistenteAplicaAPatrocinio(nicknameAsistente);
+        	if (!asistenteCorrecto) { throw new PatrocinioInvalido("El asistente no pertenece a la institución del patrocinio"); }
+            tipoRegistroCorrecto = nombreTipoRegistro.equals(patrocinio.getTipoRegistro().getNombre());
+            if (!tipoRegistroCorrecto) { throw new PatrocinioInvalido("El tipo de registro no crresponde al patrocinio."); }
+            quedanCupos = patrocinio.getCuposGratuitos() > 0;
+            if (!quedanCupos) { throw new PatrocinioInvalido("No quedan cupos para este patrocinio."); }
         } else {
-            return false;
+        	throw new PatrocinioInvalido("No existe el patrocinio ingresado.");
         }
+        return (patrocinio != null) && asistenteCorrecto && tipoRegistroCorrecto && quedanCupos;
     }
 
     public Map<String, DTTipoRegistro> listarTipoRegistro() {
@@ -205,6 +212,17 @@ public class Edicion {
     		}
     	}
     	return null;
+    }
+    
+    public boolean yaAsiste(String nicknameAsistente) {
+    	boolean asiste = false;
+    	for (TipoRegistro tipoRegistro : this.tiposRegistro.values()) {
+    		if (tipoRegistro.asiste(nicknameAsistente)) {
+    			asiste = true;
+    			break;
+    		}
+    	}
+    	return asiste;
     }
 }
 
