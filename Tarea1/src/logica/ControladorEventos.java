@@ -11,6 +11,7 @@ import java.util.Set;
 import excepciones.AporteInsuficiente;
 import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.FormularioIncompletoEdicion;
@@ -171,7 +172,7 @@ public class ControladorEventos implements IControladorEventos {
     }
 	
 	@Override
-	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
+	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, EdicionFinalizada {
 	    
 	    // Validación de campos obligatorios
 	    if (eventoSeleccionado == null || eventoSeleccionado.isEmpty()
@@ -198,6 +199,12 @@ public class ControladorEventos implements IControladorEventos {
 	    // Validación del formato del código de patrocinio (alfanumérico)
 	    if (!codigoPatrocinio.matches("[a-zA-Z0-9]+")) {
 	        throw new FormularioIncompletoPatrocinio("El código de patrocinio solo puede contener letras y números");
+	    }
+	    
+	    // La edición sigue vigente
+	    Edicion edicion = manejadorEventos.getEdicion(eventoSeleccionado, edicionSeleccionada);
+	    if (edicion.getFechaFin().before(new Date())) {
+	    	throw new EdicionFinalizada("La edición seleccionada ya ha finalizado.");
 	    }
 	    
 	    // Validacion del 20%
