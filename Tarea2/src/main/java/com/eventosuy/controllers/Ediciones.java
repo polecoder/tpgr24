@@ -16,6 +16,8 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
+import datatypes.DTUsuario;
+import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
+import logica.IControladorUsuarios;
 import logica.Utilidades;
 
 @WebServlet("/Ediciones")
@@ -35,6 +38,7 @@ public class Ediciones extends HttpServlet {
 	
 	private final static Fabrica fabrica = Fabrica.getInstancia();
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
+	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		String accion = request.getParameter("accion"); // Llamo distinto JSP dependiendo del Caso de Uso
@@ -86,6 +90,8 @@ public class Ediciones extends HttpServlet {
 				}
 			}
 		}
+		
+		
 		if (nombreEvento == null) {
 			request.setAttribute("error_message", "La edicion no es de ningun evento");
 			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
@@ -118,6 +124,14 @@ public class Ediciones extends HttpServlet {
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
 		
+		DTEdicionEvento ed =controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		try {
+			DTDetalleUsuario u =controladorUsuarios.mostrarDetalleUsuario(ed.getOrganizadorNickname());
+			request.setAttribute("imagenOrg",u.getImagen());
+		} catch (UsuarioNoExiste e) {
+			//no va a entrar aca nunca
+			e.printStackTrace();
+		}
 		return request;
 	}
 	
