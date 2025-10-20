@@ -104,6 +104,10 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("detalle_edicion", dtEdicion);
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
+		request.setAttribute("finalizada", false);
+		if (dtEdicion.getFechaFin().before(new Date())) { 
+			request.setAttribute("finalizada", true);
+		}
 		
 		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 		String nickname = null;

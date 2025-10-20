@@ -190,38 +190,37 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
           <%
           } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) {
               DTDetalleRegistro dtDetalleRegistro = (DTDetalleRegistro) request.getAttribute("detalle_registro");
-              String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
+              if (dtDetalleRegistro != null) {
+              	String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
           %>
-          <div class="mt-3">
-            <h6 class="fw-bold m-0">Tu registro en esta edición:</h6>
-            <table class="table table-sm table-bordered mt-2 mb-3">
-              <thead class="table-light">
-                <tr>
-                  <th scope="col">Tipo</th>
-                  <th scope="col">Fecha</th>
-                  <th scope="col">Costo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a
-                    href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
-                    class="link-primary link-underline"
-                  > <%= dtDetalleRegistro.getNombreTipo() %>
-                  </a></td>
-                  <td>
-                    <%= dtDetalleRegistro.getFecha() %>
-                  </td>
-                  <td>
-                    <%= dtDetalleRegistro.getCosto() %>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <%
-          }
-          %>
+		          <div class="mt-3">
+		            <h6 class="fw-bold m-0">Tu registro en esta edición:</h6>
+		            <table class="table table-sm table-bordered mt-2 mb-3">
+		              <thead class="table-light">
+		                <tr>
+		                  <th scope="col">Tipo</th>
+		                  <th scope="col">Fecha</th>
+		                  <th scope="col">Costo</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <tr>
+		                  <td><a
+		                    href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
+		                    class="link-primary link-underline"
+		                  > <%= dtDetalleRegistro.getNombreTipo() %>
+		                  </a></td>
+		                  <td>
+		                    <%= dtDetalleRegistro.getFecha() %>
+		                  </td>
+		                  <td>
+		                    <%= dtDetalleRegistro.getCosto() %>
+		                  </td>
+		                </tr>
+		              </tbody>
+		            </table>
+		          </div>
+          <% }} %>
         </div>
         <%-- si el usuario logeado es organizador y organiza la edición --%>
         <%
@@ -239,14 +238,16 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
           >Alta tipo registro</a>
         </div>
         <%-- si el usuario es asistente --%>
-        <% } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) { %>
-        <div class="d-flex justify-content-center gap-3">
-          <a
-            href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-            class="btn btn-primary btn-sm px-3"
-          >Registrarse a edicion</a>
-        </div>
-        <% } %>
+        <% } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) { 
+        		boolean finalizado = (boolean) request.getAttribute("finalizada");
+        		if (!finalizado) { %>
+			        <div class="d-flex justify-content-center gap-3">
+			          <a
+			            href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
+			            class="btn btn-primary btn-sm px-3"
+			          >Registrarse a edicion</a>
+			        </div>
+        <% }	} %>
       </form>
     </main>
   </div>
