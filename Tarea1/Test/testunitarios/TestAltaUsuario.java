@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import excepciones.FormularioIncompletoOrganizador;
 import logica.IControladorUsuarios;
 import logica.Fabrica;
 import logica.ManejadorUsuarios;
@@ -53,15 +54,27 @@ class TestAltaUsuario {
     // ----------- Validación de campos obligatorios -----------
 
     @Test
-    void altaOrganizadorConCamposVacios() {
-        Exception exception = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("", "", "", "", "", "", null); });
-        assertTrue(exception.getMessage().contains("Nick, contrasena, nombre, correo y descripción son campos obligatorios"));
+    void altaOrganizadorConNicknameVacio() {
+        Exception exception = assertThrows(FormularioIncompletoOrganizador.class, () -> { controladorUsuario.altaOrganizador("", "Abcdef1!", "nombre", "correo@gmail.com", "desc", "https://web.com", null); });
+        assertTrue(exception.getMessage().contains("El campo nickname es obligatorio."));
     }
-
+    
     @Test
-    void altaAsistenteConCamposObligatoriosVacios() {
-        Exception exception = assertThrows(Exception.class, () -> { controladorUsuario.altaAsistente("", "", "", "", "", null, null, null); });
-        assertTrue(exception.getMessage().contains("Nick, contraseña, nombre, apellido, correo y fecha de nacimiento son campos obligatorios"));
+    void altaOrganizadorConNombreVacia() {
+        Exception exception = assertThrows(FormularioIncompletoOrganizador.class, () -> { controladorUsuario.altaOrganizador("nick", "Abcdef1!", "", "correo@gmail.com", "desc", "https://web.com", null); });
+        assertTrue(exception.getMessage().contains("El campo nombre es obligatorio."));
+    }
+    
+    @Test
+    void altaOrganizadorConDescripcionVacia() {
+        Exception exception = assertThrows(FormularioIncompletoOrganizador.class, () -> { controladorUsuario.altaOrganizador("nick", "Abcdef1!", "nombre", "correo@gmail.com", "", "https://web.com", null); });
+        assertTrue(exception.getMessage().contains("El campo descripción es obligatorio."));
+    }
+    
+    @Test
+    void altaOrganizadorConCorreoVacio() {
+        Exception exception = assertThrows(FormularioIncompletoOrganizador.class, () -> { controladorUsuario.altaOrganizador("nick", "Abcdef1!", "nombre", "", "desc", "https://web.com", null); });
+        assertTrue(exception.getMessage().contains("El campo correo es obligatorio."));
     }
 
     // ----------- Validación de formatos inválidos -----------
@@ -114,7 +127,7 @@ class TestAltaUsuario {
     void nicknameDuplicadoEntreOrganizadores() throws Exception {
         controladorUsuario.altaOrganizador("nicoF", "Eventos.2025!", "Nicolás", "nicolas.f@gmail.com", "Organizador de congresos", "http://congresosuy.com", null);
         Exception exception = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("nicoF", "Eventos.2025!", "Federico", "federico@gmail.com", "Eventos académicos", "http://eventosfed.com", null); });
-        assertTrue(exception.getMessage().contains("ya existe"));
+        assertTrue(exception.getMessage().contains("El nickname ya está en uso"));
     }
 
     @Test
@@ -128,7 +141,7 @@ class TestAltaUsuario {
     public void nicknameDuplicadoEntreAsistenteYOrganizador() throws Exception {
         controladorUsuario.altaAsistente("sofiaG", "Eventos.2025!", "Sofía", "sofia.g@gmail.com", "Gómez", Utilidades.toDate(LocalDate.of(1990, 1, 1)), null, null);
         Exception exception = assertThrows(Exception.class, () -> { controladorUsuario.altaOrganizador("sofiaG", "Eventos.2025!", "Gonzalo", "gonzalo.g@gmail.com", "Organizador de charlas", "https://charlasuy.com", null); });
-        assertTrue(exception.getMessage().contains("ya existe"));
+        assertTrue(exception.getMessage().contains("El nickname ya está en uso"));
     }
 
     @Test

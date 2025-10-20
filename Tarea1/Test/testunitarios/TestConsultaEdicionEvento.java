@@ -48,7 +48,7 @@ private static Fabrica fabrica;
 		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null);
 		// Alta Edición
 		assertDoesNotThrow(() -> {
-			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null);
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2050, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null);
 	        });
 	
 		// Alta Tipo Registro
@@ -62,8 +62,9 @@ private static Fabrica fabrica;
 	@Test
 	void operacionListarRegistrosAEdicion() {
 		// Alta Registro
-		fabrica.getControladorEvento().altaRegistro("Asistente1", "TR1", "EdicionEvento1", "Evento1", null, Utilidades.toDate(LocalDate.of(2024, 11, 15)));
-		
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaRegistro("Asistente1", "TR1", "EdicionEvento1", "Evento1", null, Utilidades.toDate(LocalDate.of(2024, 11, 15)));
+		});
 		// Test de la función
 		Set<String> esperado = new HashSet<>();
 		esperado.add("TR1-NombreAsistente");
@@ -99,7 +100,7 @@ private static Fabrica fabrica;
 			fail("El tamaño del resultado no es el esperado.");
 		}
 		// Como solo debería haber un elemento, se hace la prueba para ese elemento.
-		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
+		DTEdicionEvento dtEsperado = new DTEdicionEvento("EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2050, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
 		DTEdicionEvento dtResultado = resultado.get("EdicionEvento1");
 		assertEquals(dtEsperado.getNombre(), dtResultado.getNombre());
 		assertEquals(dtEsperado.getSigla(), dtResultado.getSigla());

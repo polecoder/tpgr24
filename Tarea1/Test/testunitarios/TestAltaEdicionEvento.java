@@ -80,7 +80,7 @@ class TestAltaEdicionEvento {
         Exception excepcion = assertThrows(Exception.class, () -> {
             controlador.altaEdicionEvento("ExpoTech1", "ExpoTech2027", "ET27", Utilidades.toDate(LocalDate.of(2025, 9, 10)), Utilidades.toDate(LocalDate.of(2025, 9, 15)), Utilidades.toDate(LocalDate.of(2025, 9, 20)), "Montevideo", "Uruguay", "organizador5", null);
         });
-        assertTrue(excepcion.getMessage().contains("La fecha de alta no puede ser posterior a la fecha de inicio ni a la fecha de fin"));
+        assertTrue(excepcion.getMessage().contains("La fecha de inicio no puede ser posterior a la fecha actual"));
     }
 
     @Test

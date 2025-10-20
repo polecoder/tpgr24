@@ -11,6 +11,7 @@ import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
+import excepciones.FechaFinEsPasada;
 import excepciones.FormularioIncompletoEdicion;
 import excepciones.FormularioIncompletoPatrocinio;
 import excepciones.NoHayCuposDisponibles;
@@ -64,7 +65,7 @@ public interface IControladorEventos {
 	 * @param nombreEvento
 	 */
 	public boolean existeEvento(String nombreEvento);
-	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha);
+	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste;
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);

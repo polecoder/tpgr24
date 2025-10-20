@@ -218,18 +218,23 @@ public class RegistroAEdicionEvento extends JInternalFrame {
 		            JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 				if (validacion) {
-					ICEv.altaRegistro(
-							selectedAsistente, 
-							selectedTipoRegistro,
-							selectedEdicion, 
-							selectedEvento,
-							codigoPatrocinio, 
-							Utilidades.toDate(LocalDate.now())); //? LocalDate.now() Es apropiado?
-					JOptionPane.showMessageDialog(this, 
-							"Registro confirmado con exito!", 
-							"Exito!", 
-							JOptionPane.INFORMATION_MESSAGE);
-					this.doDefaultCloseAction();
+					try {
+						ICEv.altaRegistro(
+								selectedAsistente, 
+								selectedTipoRegistro,
+								selectedEdicion, 
+								selectedEvento,
+								codigoPatrocinio, 
+								Utilidades.toDate(LocalDate.now())); //? LocalDate.now() Es apropiado?
+						
+						JOptionPane.showMessageDialog(this, 
+						"Registro confirmado con exito!", 
+						"Exito!", 
+						JOptionPane.INFORMATION_MESSAGE);
+						this.doDefaultCloseAction();
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}else {
 					int option = JOptionPane.showConfirmDialog(this, 
 							"Los datos ingresados no son correctos. ¿Desea reintentar?", 
