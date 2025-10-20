@@ -14,6 +14,7 @@
 	import javax.swing.JTextField;
 
 import excepciones.AporteInsuficiente;
+import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.FormularioIncompletoPatrocinio;
@@ -353,21 +354,9 @@ import datatypes.ENivelPatrocinio;
 	            	comboInstitucion.setSelectedIndex(-1);
 	            	comboNivel.setSelectedIndex(-1);
 
-	            } catch (FormularioIncompletoPatrocinio exception) {
+	            } catch (FormularioIncompletoPatrocinio | AporteInsuficiente | TipoRegistroNoExiste | EventoNoExiste | EdicionNoExiste | EdicionFinalizada exception) {
 	                JOptionPane.showMessageDialog(AltaPatrocinio.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	            } catch (AporteInsuficiente e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (TipoRegistroNoExiste e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (EventoNoExiste e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (EdicionNoExiste e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+	            }
 	        });
 
 
