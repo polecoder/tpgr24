@@ -64,9 +64,10 @@ public class Patrocinio {
 	}
 	public void setCupos(int cupos) {this.cuposGratuitos = cupos; }
 	
-	public boolean checkAsistente(String nicknameAsistente) {
-		return institucion.checkAsistente(nicknameAsistente);
+	public boolean asistenteAplicaAPatrocinio(String nicknameAsistente) {
+		return institucion.asistentePertence(nicknameAsistente);
 	}
 	public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
 	public TipoRegistro getTipoRegistro() { return tipoRegistro; }
+	public void usarCupo() { this.cuposGratuitos--; }
 }

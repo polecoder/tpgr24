@@ -71,4 +71,15 @@ public class TipoRegistro {
             this.getCuposDisponibles());
     	return dtTipoRegistro;
     }
+    
+    public boolean asiste(String nicknameAsistente) {
+    	boolean asiste = false;
+    	for (Registro registro : this.registros) {
+    		if (nicknameAsistente.equals(registro.getAsistente().getNickname())) {
+    			asiste = true;
+    			break;
+    		}
+    	}
+    	return asiste;
+    }
 }

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -366,33 +367,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 				IControladorEventos ce = Fabrica.getInstancia().getControladorEvento();
 				try {
-					
-					try {
-						boolean ok = ce.validar(nick, idEdicion, idTipo, evento);
-						if (!ok) {
-							request.setAttribute("error", "La validación del registro falló.");
-							request.setAttribute("eventoSel", evento);
-							request.setAttribute("edicionSel", idEdicion);
-							request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
-							request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
-							request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
-							return;
-						}
-					} catch (Exception e) {
-						request.setAttribute("error", "Error validando el registro: " + safeMsg(e, ""));
-						request.setAttribute("eventoSel", evento);
-						request.setAttribute("edicionSel", idEdicion);
-						request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
-						request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
-						request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
-						return;
-					}
-
-
-					java.sql.Date hoy = new java.sql.Date(System.currentTimeMillis());
-					ce.altaRegistro(nick, idTipo, idEdicion, evento, codigo, hoy);
-
-
+					ce.altaRegistro(nick, idTipo, idEdicion, evento, codigo, new Date());
 					response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta-registro&ok=1");
 					return;
 

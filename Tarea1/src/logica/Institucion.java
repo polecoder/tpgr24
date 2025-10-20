@@ -52,7 +52,7 @@ public class Institucion {
 		this.edicionesConPatrocinio.add(edicion);
 	}
 	
-	public boolean checkAsistente(String nicknameAsistente) {
+	public boolean asistentePertence(String nicknameAsistente) {
 		return asistentes.containsKey(nicknameAsistente);
 	}
 	public Set<String> getEdicionesPatrocinadas() {
