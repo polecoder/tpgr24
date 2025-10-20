@@ -23,6 +23,7 @@ import logica.Fabrica;
 import logica.IControladorEventos;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.EEstadoEdicion;
 
 public class ConsultaEdicionEvento extends JInternalFrame {
 
@@ -34,7 +35,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	private JTextField fechaAltaTextField;
 	private JTextField paisTextField;
 	private JTextField ciudadTextField;
-	private JTextField organizadorTextField;
+	private JTextField EstadoTextField;
 
 	public ConsultaEdicionEvento(String nombreEvento, String nombreEdicion, JDesktopPane desktopPane) {
 		super("Consulta de Edición de Evento", true, true, true, true);
@@ -239,22 +240,22 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		ciudadTextField.setColumns(10);
 
 		// Dato: Organizador
-		JLabel lblOrganizador = new JLabel("Organizador:");
-		GridBagConstraints gbc_lblOrganizador = new GridBagConstraints();
-		gbc_lblOrganizador.insets = new Insets(0, 0, 5, 5);
-		gbc_lblOrganizador.gridx = 1;
-		gbc_lblOrganizador.gridy = 8;
-		panel.add(lblOrganizador, gbc_lblOrganizador);
+		JLabel lblEstado = new JLabel("Estado:");
+		GridBagConstraints gbc_lblEstado = new GridBagConstraints();
+		gbc_lblEstado.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEstado.gridx = 1;
+		gbc_lblEstado.gridy = 8;
+		panel.add(lblEstado, gbc_lblEstado);
 
-		organizadorTextField = new JTextField();
-		organizadorTextField.setEditable(false);
-		GridBagConstraints gbc_organizadorTextField = new GridBagConstraints();
-		gbc_organizadorTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_organizadorTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_organizadorTextField.gridx = 3;
-		gbc_organizadorTextField.gridy = 8;
-		panel.add(organizadorTextField, gbc_organizadorTextField);
-		organizadorTextField.setColumns(10);
+		EstadoTextField = new JTextField();
+		EstadoTextField.setEditable(false);
+		GridBagConstraints gbc_EstadoTextField = new GridBagConstraints();
+		gbc_EstadoTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_EstadoTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_EstadoTextField.gridx = 3;
+		gbc_EstadoTextField.gridy = 8;
+		panel.add(EstadoTextField, gbc_EstadoTextField);
+		EstadoTextField.setColumns(10);
 
 		// Panel de Listas
 		JPanel panel_listas = new JPanel();
@@ -343,14 +344,21 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				
 				// Text Fields
-				nombreTextField.setText(dtEd.getNombre());
+				nombreTextField.setText(dtEd.getOrganizadorNickname());
 				siglaTextField.setText(dtEd.getSigla());
 				fechaInicioTextField.setText(sdf.format(dtEd.getFechaInicio()));
 				fechaFinTextField.setText(sdf.format(dtEd.getFechaFin()));
 				fechaAltaTextField.setText(sdf.format(dtEd.getFechaAlta()));
 				paisTextField.setText(dtEd.getPais());
 				ciudadTextField.setText(dtEd.getCiudad());
-				organizadorTextField.setText(dtEd.getOrganizadorNickname());
+				if(EEstadoEdicion.valueOf("Ingresada")==dtEd.getEstado()) {
+					EstadoTextField.setText("Ingresada");
+				}else if(EEstadoEdicion.valueOf("Aceptada")==dtEd.getEstado()) {
+					EstadoTextField.setText("Aceptada");
+				}else if(EEstadoEdicion.valueOf("Rechazada")==dtEd.getEstado()) {
+					EstadoTextField.setText("Rechazada");
+				}
+				
 				
 				// Lists
 				// Tipo registro list
