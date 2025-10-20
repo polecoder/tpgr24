@@ -233,11 +233,6 @@ public class Institucion extends HttpServlet {
 		String descripcion = request.getParameter("descripcion");
 		String sitioWeb = request.getParameter("sitioWeb");
 
-		// Get the uploaded file
-		Part imagenPart = request.getPart("imagen");
-		String fileName = imagenPart.getSubmittedFileName();
-		InputStream fileContent = imagenPart.getInputStream();
-
 		try {
 	        darAltaInstitucion(controladorInstitucion, nombre, descripcion, sitioWeb);
 	        response.sendRedirect(request.getContextPath() + "/home");
