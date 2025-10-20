@@ -81,11 +81,11 @@ public class TestRegistroAEdicion {
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null, null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18", null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion); 
+			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha);
 		});
 		
-		controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha);
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null);
 		// TODO: Chequear que dtRegistroEsperado sea igual dtRegistroGenerado
@@ -101,7 +101,7 @@ public class TestRegistroAEdicion {
 			controladorInstituciones.altaInstitucion("Institucion", "Descripcion1", "https://insti.com");
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion", null);
 			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, fecha, fecha, ciudad, pais, "organizador18", null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 10000f, 1, "CODPAT1", nombreTipoRegistro);
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
