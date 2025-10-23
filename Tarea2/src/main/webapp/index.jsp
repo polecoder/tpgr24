@@ -23,10 +23,10 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<jsp:include page="WEB-INF/templates/head.jsp" />
+<jsp:include page="WEB-INF/views/partials/head.jsp" />
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-  <jsp:include page="./WEB-INF/templates/header.jsp"></jsp:include>
+  <jsp:include page="./WEB-INF/views/partials/header.jsp"></jsp:include>
 
   <!-- Contenido principal -->
   <div class="container flex-grow-1 mt-4">
@@ -165,6 +165,6 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     </div>
   </div>
 
-  <jsp:include page="./WEB-INF/templates/footer.jsp" />
+  <jsp:include page="./WEB-INF/views/partials/footer.jsp" />
 </body>
 </html>

@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
-  <jsp:include page="/WEB-INF/templates/head.jsp" />
+  <jsp:include page="/WEB-INF/views/partials/head.jsp" />
 
   <body class="d-flex flex-column min-vh-100">
 
     <!-- HEADER GLOBAL -->
-    <jsp:include page="/WEB-INF/templates/header.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
     <div class="container flex-grow-1">
       <div class="mx-auto" style="max-width: 768px">
@@ -197,7 +197,7 @@
     </div>
 
     <!-- FOOTER GLOBAL -->
-    <jsp:include page="/WEB-INF/templates/footer.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

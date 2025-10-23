@@ -1,7 +1,6 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
@@ -85,7 +83,7 @@ public class Institucion extends HttpServlet {
 
 		switch (action) {
 		case "altaInstitucion":
-			request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/alta-institucion.jsp").forward(request, response);
 			return true;
 
 		case "altaPatrocinio":
@@ -108,7 +106,7 @@ public class Institucion extends HttpServlet {
 		request.setAttribute("nombreEvento", nombreEvento);
 		request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 		request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
-		request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 	}
 
 	private void handlePublicAction(HttpServletRequest request, HttpServletResponse response, String action,
@@ -130,7 +128,7 @@ public class Institucion extends HttpServlet {
 			request.setAttribute("codigoPatrocinio", codigoPatrocinio);
 			request.setAttribute("dtPatrocinio", dtPatrocinio);
 			request.setAttribute("dtTipoRegistro", dtTipoRegistro);
-			request.getRequestDispatcher("/WEB-INF/instituciones/consultaPatrocinio.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/patrocinios/consulta-patrocinio.jsp").forward(request, response);
 		}
 	}
 
@@ -239,7 +237,7 @@ public class Institucion extends HttpServlet {
 	    } catch (Exception ex) {
 	    	
 	        request.setAttribute("error", ex.getMessage());
-	        request.getRequestDispatcher("/WEB-INF/instituciones/altaInstitucion.jsp").forward(request, response);
+	        request.getRequestDispatcher("/WEB-INF/views/alta-institucion.jsp").forward(request, response);
 	    }
 	}
 
@@ -292,7 +290,7 @@ public class Institucion extends HttpServlet {
 		} catch (NumberFormatException e) {
 		    // Handle invalid number format
 		    request.setAttribute("error", "Formato de número inválido");
-		    request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
+		    request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 		}
 	}
 	private void darAltaPatrocinio(IControladorEventos controladorEventos, IControladorInstitucion controladorInstitucion, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
@@ -316,7 +314,7 @@ public class Institucion extends HttpServlet {
 			request.setAttribute("nombreEvento", eventoSeleccionado);
 			request.setAttribute("nombreEdicion", edicionSeleccionada);
 			request.setAttribute("error", error.getMessage());
-			request.getRequestDispatcher("/WEB-INF/instituciones/altaPatrocinio.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 		}
 	}
 }

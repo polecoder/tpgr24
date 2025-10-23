@@ -16,10 +16,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <jsp:include page="../templates/head.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/head.jsp" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <jsp:include page="../templates/header.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/header.jsp" />
     
 	<div class="container flex-grow-1">
     <div class="mx-auto" style="max-width: 768px">
@@ -88,6 +88,6 @@
     </div>
   </div>
 
-    <jsp:include page="../templates/footer.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 </body>
 </html>

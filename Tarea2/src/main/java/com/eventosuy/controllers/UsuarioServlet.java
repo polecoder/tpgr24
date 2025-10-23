@@ -92,7 +92,7 @@ public class UsuarioServlet extends HttpServlet {
 
 					} else {
 						request.setAttribute("error", "Rol inválido.");
-						request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
+						request.getRequestDispatcher("/WEB-INF/views/usuarios/alta-usuario.jsp")
 						.forward(request, response);
 						return;
 					}
@@ -118,7 +118,7 @@ public class UsuarioServlet extends HttpServlet {
 			            ses.setAttribute("nick", nickname);
 			            ses.setAttribute("rol", ("organizador".equalsIgnoreCase(rol) ? "organizador" : "asistente"));     
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp");
 					dispatcher.forward(request, response);
 					
 					if ("organizador".equalsIgnoreCase(rol)) {
@@ -133,7 +133,7 @@ public class UsuarioServlet extends HttpServlet {
 
 				} catch (Exception ex) {
 					request.setAttribute("error", safeMsg(ex, "No se pudo crear el usuario."));
-					request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/usuarios/alta-usuario.jsp").forward(request, response);
 					return;
 				}
 
@@ -141,7 +141,7 @@ public class UsuarioServlet extends HttpServlet {
 				Set<String> listaNombresInstitucion = Fabrica.getInstancia().getControladorInstitucion().nombresInstituciones();
 				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 				
-				request.getRequestDispatcher("/WEB-INF/alta/alta-usuario.jsp")
+				request.getRequestDispatcher("/WEB-INF/views/usuarios/alta-usuario.jsp")
 				.forward(request, response);
 				return;
 			}
@@ -159,7 +159,7 @@ public class UsuarioServlet extends HttpServlet {
 					// listar todos
 					Collection<DTUsuario> usrs = cu.listarUsuarios(); 
 					request.setAttribute("usuarios", usrs);
-					request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp").forward(request, response);
 					return;
 
 				} else {
@@ -221,7 +221,7 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					
 					
-		            request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
+		            request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
 		                   .forward(request, response);
 		            return; 
 		        }
@@ -229,7 +229,7 @@ public class UsuarioServlet extends HttpServlet {
 			} catch (Exception ex) {
 				response.sendError(500);
 				request.setAttribute("error", safeMsg(ex, "No se pudo realizar la consulta."));
-				request.getRequestDispatcher("/WEB-INF/consulta/consulta-usuario.jsp")
+				request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
 				.include(request, response);
 				return;
 			}
@@ -340,7 +340,7 @@ public class UsuarioServlet extends HttpServlet {
 				DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 				if (usuarioLogeado == null) {
 				    request.setAttribute("error", "Debe estar logueado para registrarse a una edición.");
-				    request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+				    request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 				    return;
 				}
 				String nick = usuarioLogeado.getNickname();
@@ -362,7 +362,7 @@ public class UsuarioServlet extends HttpServlet {
 							request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 						}
 					} catch (Exception ignore) {}
-					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 				IControladorEventos ce = Fabrica.getInstancia().getControladorEvento();
@@ -378,7 +378,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("tipoSel",     request.getParameter("idTipoRegistro"));
 					request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
 					request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
-					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 
@@ -408,7 +408,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("error", safeMsg(e, "No fue posible cargar la información de registro."));
 				}
 
-				request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 				return;
 			}
 
@@ -489,11 +489,12 @@ public class UsuarioServlet extends HttpServlet {
 				request.setAttribute("error", safeMsg(ex, "No se pudo completar la consulta."));
 			}
 
-			request.getRequestDispatcher("/WEB-INF/consulta/consulta-registro.jsp")
+			request.getRequestDispatcher("/WEB-INF/views/registros/consulta-registro.jsp")
 			.forward(request, response);
 			return;
 		}
 
+		// TODO: Esto no debería estar, o debería redirigir a una página de error existente
 		// ==================== ACCIÓN DESCONOCIDA ====================
 		default:
 			response.sendError(404);
