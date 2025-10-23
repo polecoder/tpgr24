@@ -5,12 +5,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <!-- INCLUDE HEAD -->
-<jsp:include page="/WEB-INF/templates/head.jsp" />
+<jsp:include page="/WEB-INF/views/partials/head.jsp" />
 
 <body class="d-flex flex-column min-vh-100">
 
     <!-- INCLUDE HEADER -->
-    <jsp:include page="/WEB-INF/templates/header.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
     <div class="container flex-grow-1 py-4" style="max-width: 900px;">
         <main class="p-4 bg-light border-top border-2 border-primary rounded shadow-sm">
@@ -119,7 +119,7 @@
     </div>
 
     <!-- INCLUDE FOOTER -->
-    <jsp:include page="/WEB-INF/templates/footer.jsp" />
+    <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

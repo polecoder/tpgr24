@@ -12,7 +12,7 @@
 	/>
 </head>
 <body class="d-flex flex-column min-vh-100">
-<jsp:include page="/WEB-INF/templates/header.jsp" />
+<jsp:include page="/WEB-INF/views/partials/header.jsp" />
 <%
     String nombreEvento = (String) request.getParameter("nombre_evento");
     String nombreEdicion = (String) request.getParameter("nombre_edicion");
@@ -96,7 +96,7 @@
 	</div>
 </div>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp" />
+<jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

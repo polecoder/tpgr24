@@ -11,7 +11,7 @@
 	/>
 </head>
 <body class="d-flex flex-column min-vh-100">
-	<jsp:include page="/WEB-INF/templates/header.jsp" />
+	<jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
 	<div class="container mx-auto flex-grow-1">
 		<div class="mx-auto">
@@ -120,7 +120,7 @@
 		</main>
 	</div>
 
-	<jsp:include page="/WEB-INF/templates/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
