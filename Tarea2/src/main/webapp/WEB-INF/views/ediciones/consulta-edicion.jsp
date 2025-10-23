@@ -29,7 +29,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<jsp:include page="/WEB-INF/templates/head.jsp" />
+<jsp:include page="/WEB-INF/views/partials/head.jsp" />
 <style>
 .badge-estado {padding: 0.3rem 0.6rem; border-radius: 0.5rem; font-weight: 600;}
 .badge-ingresada {background-color: #fef9c3; color: #854d0e;}
@@ -42,7 +42,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <jsp:include page="/WEB-INF/templates/header.jsp" />
+  <jsp:include page="/WEB-INF/views/partials/header.jsp" />
   <div class="container flex-grow-1">
    <main class="p-4 bg-light border-0 rounded-4 shadow-sm mt-4" style="max-width: 900px; margin: 0 auto;">
       <form class="d-flex flex-column gap-4">
@@ -257,6 +257,6 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
       </form>
     </main>
   </div>
-  <jsp:include page="/WEB-INF/templates/footer.jsp" />
+  <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 </body>
 </html>
