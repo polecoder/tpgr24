@@ -39,9 +39,43 @@
 		    <artifactId>opencsv</artifactId>
 		    <version>5.9</version>
 		</dependency>
+		<!-- Tarea 3 -->
+	    <dependency>
+	        <groupId>jakarta.xml.ws</groupId>
+	        <artifactId>jakarta.xml.ws-api</artifactId>
+	    		<version>4.0.0</version>
+		</dependency>
+	    <dependency>
+	        <groupId>com.sun.xml.ws</groupId>
+	        <artifactId>jaxws-rt</artifactId>
+	        <version>4.0.0</version>
+	        <scope>runtime</scope>
+		</dependency>
     </dependencies>
 
     <build>
-        <finalName>Tarea2</finalName>
+    		<finalName>Tarea2</finalName>
+    		<plugins>
+		    <plugin>
+			    <groupId>com.sun.xml.ws</groupId>
+			    <artifactId>jaxws-maven-plugin</artifactId>
+			    <version>4.0.0</version>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>wsimport</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			    <configuration> 
+			        <wsdlUrls>
+			            <wsdlUrl>http://localhost:4230/publicador?wsdl</wsdlUrl>
+			        </wsdlUrls>
+			        <keep>true</keep>
+			        <sourceDestDir>src/main/java/</sourceDestDir>
+			        <packageName>com.eventosuy.servidor</packageName>
+			    </configuration>
+			</plugin>
+    		</plugins>
     </build>
 </project>

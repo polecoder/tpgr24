@@ -18,9 +18,9 @@
   </build>
   <dependencies>
     <dependency>
-    <groupId>com.opencsv</groupId>
-    <artifactId>opencsv</artifactId>
-    <version>5.9</version>
+	    <groupId>com.opencsv</groupId>
+	    <artifactId>opencsv</artifactId>
+	    <version>5.9</version>
 	</dependency>
 	<dependency>
         <groupId>commons-beanutils</groupId>
@@ -33,6 +33,18 @@
         <version>5.10.0</version>
         <scope>test</scope>
     </dependency>
+    <!-- Tarea 3 -->
+    <dependency>
+        <groupId>jakarta.xml.ws</groupId>
+        <artifactId>jakarta.xml.ws-api</artifactId>
+    		<version>4.0.0</version>
+	</dependency>
+    <dependency>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-rt</artifactId>
+        <version>4.0.0</version>
+        <scope>runtime</scope>
+	</dependency>
   </dependencies>
 
 </project>
