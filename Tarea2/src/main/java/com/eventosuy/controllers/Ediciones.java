@@ -46,7 +46,7 @@ public class Ediciones extends HttpServlet {
 		switch (accion) {
 		case "ConsultaEdicion":
 			request = CUConsultaEdicion(request, response);
-			request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 			break;
 		case "AltaEdicion":
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
@@ -54,7 +54,7 @@ public class Ediciones extends HttpServlet {
 			} else { 
 				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 				request.setAttribute("imagen_edicion", image);
-				request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response); // Abre el formulario
+				request.getRequestDispatcher("/WEB-INF/views/ediciones/alta-edicion.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
 		case "AltaTipoRegistro":
@@ -164,13 +164,13 @@ public class Ediciones extends HttpServlet {
 			byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_message", ex.getMessage());
-			request.getRequestDispatcher("/WEB-INF/alta-edicion.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/alta-edicion.jsp").forward(request, response);
 			return;
 		}
 		
 		request.setAttribute("nombre_edicion", nombreEdicion);
 		request = CUConsultaEdicion(request, response);
-		request.getRequestDispatcher("/WEB-INF/consulta-edicion.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 	}
 	
 	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -340,7 +340,7 @@ public class UsuarioServlet extends HttpServlet {
 				DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 				if (usuarioLogeado == null) {
 				    request.setAttribute("error", "Debe estar logueado para registrarse a una edición.");
-				    request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+				    request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 				    return;
 				}
 				String nick = usuarioLogeado.getNickname();
@@ -362,7 +362,7 @@ public class UsuarioServlet extends HttpServlet {
 							request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
 						}
 					} catch (Exception ignore) {}
-					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 				IControladorEventos ce = Fabrica.getInstancia().getControladorEvento();
@@ -378,7 +378,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("tipoSel",     request.getParameter("idTipoRegistro"));
 					request.setAttribute("edicion", ce.getDTEdicion(evento, idEdicion));
 					request.setAttribute("tipos",   ce.getNombresTipoRegistro(evento, idEdicion));
-					request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 					return;
 				}
 
@@ -408,7 +408,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("error", safeMsg(e, "No fue posible cargar la información de registro."));
 				}
 
-				request.getRequestDispatcher("/WEB-INF/alta/registro-edicion.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 				return;
 			}
 
