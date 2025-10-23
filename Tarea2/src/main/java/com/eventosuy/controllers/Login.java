@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
 		
 		// muestro la página de login si el usuario todavía no logeo
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-		    req.getRequestDispatcher("/WEB-INF/views/iniciar-sesion.jsp").forward(req, resp);
+		    req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 		    return;
 		}
 
@@ -66,11 +66,11 @@ public class Login extends HttpServlet {
 				resp.sendRedirect(req.getContextPath() + "/home");
 			} else {
 				req.setAttribute("error", "El usuario proporcionado no existe.");
-				req.getRequestDispatcher("/WEB-INF/views/iniciar-sesion.jsp").forward(req, resp);
+				req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 			}
 		} catch (ContrasenaIncorrecta e) {
 			req.setAttribute("error", "La contraseña es incorrecta.");
-			req.getRequestDispatcher("/WEB-INF/views/iniciar-sesion.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 		}
 	}
 

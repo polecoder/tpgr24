@@ -63,12 +63,12 @@ public class Ediciones extends HttpServlet {
 			} else { 
 				byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 				request.setAttribute("imagen_edicion", image);
-				request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
+				request.getRequestDispatcher("/WEB-INF/views/registros/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
 			break;
 		case "ConsultaTipoRegistro":
 			request = CUConsultaTipoRegistro(request, response);
-			request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/registros/consulta-tipo-registro.jsp").forward(request, response);
 			break;
 		default:
 			request.getRequestDispatcher("/WEB-INF/error.jsp");
@@ -211,55 +211,12 @@ public class Ediciones extends HttpServlet {
 			byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_tipo_registro", "Ya existe un tipo de registro con ese nombre.");
-			request.getRequestDispatcher("/WEB-INF/alta-tipo-registro.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/registros/alta-tipo-registro.jsp").forward(request, response);
 			return;
 		}
 		request.setAttribute("nombre_tipo_registro", nombreTipoRegistro);
 		request = CUConsultaTipoRegistro(request, response);
-		request.getRequestDispatcher("/WEB-INF/consulta-tipo-registro.jsp").forward(request, response);
-	}
-	
-	private HttpServletRequest Test(HttpServletRequest request) throws Exception  {
-		String pais, ciudad, sigla, descripcion;
-		Date fecha;
-		float costo;
-		int cuposMax;
-		List<String> categorias;
-		String nombreEventoTest1, nombreEdicionTest1, nombreCategoriaTest1, nombreTipoRegistroTest1;
-		
-		// Variables generales
-		pais = "Uruguay";
-		ciudad = "Montevideo";
-		sigla = "FING";
-		descripcion = "descripcion";
-		fecha = Utilidades.toDate(LocalDate.now());
-		categorias = new ArrayList<String>();
-		costo = 1f;
-		cuposMax = 1;
-		
-		// Variables Test 1
-		nombreEventoTest1 = "nombreEventoTest1";
-		nombreEdicionTest1 = "nombreEdicionTest1";				
-		nombreCategoriaTest1 = "categoriaTest1";
-		nombreTipoRegistroTest1 = "nombreTipoRegistroTest1";
-		
-		// Testea un alta exitoso estandar
-		try {
-			controladorEventos.altaCategoria(nombreCategoriaTest1);
-		} catch (Exception e) {
-			 throw new RuntimeException("Error al registrar la categoría: " + e.getMessage());
-		}
-		categorias.add(nombreCategoriaTest1);
-		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias, null);
-		controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
-		controladorEventos.altaTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, nombreEventoTest1, nombreEdicionTest1);
-		
-		request.setAttribute("accion", "ConsultaEdicion");
-		request.setAttribute("nombre_evento", nombreEventoTest1);
-		request.setAttribute("nombre_edicion", nombreEdicionTest1);
-		request.setAttribute("nombre_tipo_registro", nombreTipoRegistroTest1);
-		
-		return request;
+		request.getRequestDispatcher("/WEB-INF/views/registros/consulta-tipo-registro.jsp").forward(request, response);
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
