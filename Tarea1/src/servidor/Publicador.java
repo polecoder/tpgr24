@@ -1,6 +1,9 @@
 package servidor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,28 +89,33 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public Map<String, DTEvento> listarEventos() {
-	    return controladorEventos.listarEventos();
+	public HashMap<String, DTEvento> listarEventos() {
+		Map<String, DTEvento> res = controladorEventos.listarEventos();
+	    return new HashMap<String, DTEvento>(res);
 	}
 
 	@WebMethod
-	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
-	    return controladorEventos.listarEdicionesEvento(nombreEvento);
+	public HashMap<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
+		Map<String, DTEdicionEvento> res = controladorEventos.listarEdicionesEvento(nombreEvento);
+	    return new HashMap<String, DTEdicionEvento> (res);
 	}
 
 	@WebMethod
-	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
-	    return controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+	public HashSet<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+		Set<DTDetalleRegistro> res = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+	    return new HashSet<DTDetalleRegistro> (res);
 	}
 
 	@WebMethod
-	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
-	    return controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+	public HashSet<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+		Set<String> res = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+	    return new HashSet<String>(res);
 	}
 
 	@WebMethod
-	public Map<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
-	    return controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
+	public HashMap<String, DTTipoRegistro> listarTipoRegistro(String nombreEvento, String nombreEdicion) {
+		Map<String, DTTipoRegistro> res = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
+	    return new HashMap<String, DTTipoRegistro> (res);
 	}
 
 	@WebMethod
@@ -126,13 +134,15 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion... estados) {
-	    return controladorEventos.getEdicionesDeOrganizadorPorEstado(organizadorNickname, estados);
+	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion... estados) {
+		List<String> res = controladorEventos.getEdicionesDeOrganizadorPorEstado(organizadorNickname, estados);
+	    return new ArrayList<String> (res);
 	}
 
 	@WebMethod
-	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion) {
-	    return controladorEventos.listarRegistrosAEdicion(selectedEvento, selectedEdicion);
+	public HashSet<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion) {
+		Set<String> res = controladorEventos.listarRegistrosAEdicion(selectedEvento, selectedEdicion);
+	    return new HashSet<String> (res);
 	}
 
 	@WebMethod
@@ -141,13 +151,15 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste {
-	    return controladorEventos.nombresEdicionesEvento(nombre);
+	public HashSet<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste {
+		Set<String> res = controladorEventos.nombresEdicionesEvento(nombre);
+	    return new HashSet<String> (res);
 	}
 
 	@WebMethod
-	public Set<String> nombresEventos() {
-	    return controladorEventos.nombresEventos();
+	public HashSet<String> nombresEventos() {
+		Set<String> res = controladorEventos.nombresEventos();
+	    return new HashSet<String>(res);
 	}
 	
 	@WebMethod
@@ -192,13 +204,15 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
-	    return controladorUsuarios.listarRegistrosUsuario(nickname);
+	public ArrayList<DTRegistro> listarRegistrosUsuario(String nickname) {
+		List<DTRegistro> res = controladorUsuarios.listarRegistrosUsuario(nickname);
+	    return new ArrayList<DTRegistro>(res);
 	}
 
 	@WebMethod
-	public List<DTUsuario> listarUsuarios() {
-	    return controladorUsuarios.listarUsuarios();
+	public ArrayList<DTUsuario> listarUsuarios() {
+		List<DTUsuario> res = controladorUsuarios.listarUsuarios();
+	    return new ArrayList<DTUsuario> (res);
 	}
 
 	@WebMethod
@@ -213,8 +227,9 @@ public class Publicador {
 	
 	// -------------------	INSTITUCIONES		------------------- //
 	@WebMethod
-	public Set<DTInstitucion> listarInstituciones() {
-	    return controladorInstitucion.listarInstituciones();
+	public HashSet<DTInstitucion> listarInstituciones() {
+		Set<DTInstitucion> res = controladorInstitucion.listarInstituciones();
+	    return new HashSet<DTInstitucion> (res);
 	}
 
 	@WebMethod
@@ -228,7 +243,8 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public Set<String> nombresInstituciones() {
-	    return controladorInstitucion.nombresInstituciones();
+	public HashSet<String> nombresInstituciones() {
+		Set<String> res = controladorInstitucion.nombresInstituciones();
+	    return new HashSet<String> (res);
 	}
 }
