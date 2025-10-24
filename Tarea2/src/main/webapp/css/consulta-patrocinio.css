@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+:root {
+	--azul-claro: #cee2fd;
+}
+
+.header {
+	background-color: var(--azul-claro);
+	border-radius: 1rem 1rem 0 0;
+}
+
+.header .institucion .imagen {
+	height: 128px;
+	width: 128px;
+	border-radius: 50%;
+}
+
+.header .edicion .imagen {
+	object-fit: contain;
+	width: 256px;
+	border-radius: 1rem;
+}
+
+.datos {
+	font-size: 18px;
+	border-radius: 0 0 1rem 1rem;
+}
+
+.datos .campo .titulo {
+	font-size: 24px;
+}
+
+.datos .campo .link {
+	color: #000;
+}
+
+.extras .titulo {
+	font-size: 32px;
+}
+
+.extras .imagen {
+	object-fit: contain;
+	width: 200px;
+	border-radius: 1rem;
+}
+
+.extras .subtitulo {
+	font-size: 24px;
+	color: #000;
+}
