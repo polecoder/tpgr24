@@ -54,9 +54,7 @@
 			      <h1 class="text-uppercase fw-bold fs-2 text-primary mb-1">
 			        <%= nombre %>
 			      </h1>
-			     <!-- <p class="text-muted fst-italic mb-0">
-			        Evento registrado el <%= fechaAlta %>
-			      </p> -->
+			     
 			    </div>
 			  </div>
 			</div>
