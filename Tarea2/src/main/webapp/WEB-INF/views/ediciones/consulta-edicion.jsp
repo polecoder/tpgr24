@@ -52,7 +52,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             <% if (base64Image != null) { %>
             <img
               src="data:image/png;base64,<%=base64Image%>"
-              alt="Imagen evento"
+              alt="Imagen edicion"
               style="width: 128px"
             />
             <% } %>

@@ -14,49 +14,46 @@
 	<jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
 	<div class="container mx-auto flex-grow-1">
-		<div class="mx-auto">
-			<h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">Alta Edición de Evento</h1>
-		</div>
-
-		<main class="p-4 bg-light border-top border-2 border-primary rounded mx-auto" style="max-width: 700px">
+		
+        <% 
+			String nombreEvento = (String) request.getParameter("nombre_evento"); 
+			byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
+	        String base64Image = null;
+	        if (imagenBytes != null && imagenBytes.length > 0) {
+	            base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+	        }
+		%>
+		
+		<main class="p-4 bg-light border-top border-2 border-primary rounded mx-auto mt-5" style="max-width: 900px">
 			
-                <%
-                    String error = (String) request.getAttribute("error_message");
-                    if (error != null) {
-                %>
-                    <div class="alert alert-danger" role="alert"><%= error %></div>
-                <%
-                    }
-                %>
+            <%
+                String error = (String) request.getAttribute("error_message");
+                if (error != null) {
+            %>
+                <div class="alert alert-danger" role="alert"><%= error %></div>
+            <%
+                }
+            %>
+             <h2 class="text-uppercase fw-bold fs-3 text-center mb-3">
+			      Alta Edicion de:
+			    </h2>
+            <div class="border-bottom border-2 border-secondary-subtle pb-3 mb-4">
+			  <div class="d-flex align-items-center justify-content-center gap-3">
+			   
+			   
 			
-			
-			<% 
-				String nombreEvento = (String) request.getParameter("nombre_evento"); 
-				byte[] imagenBytes = (byte[]) request.getAttribute("imagen_edicion");
-		        String base64Image = null;
-		        if (imagenBytes != null && imagenBytes.length > 0) {
-		            base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
-		        }
-			%>
+			    <h2 class="text-uppercase fw-bold fs-5 text-primary mb-0">
+			      <%= nombreEvento %>
+			    </h2>
+			  </div>
+			</div>
 
 			<form action="${pageContext.request.contextPath}/Ediciones?accion=AltaEdicion&nombre_evento=<%=nombreEvento%>" 
 				  method="post" enctype="multipart/form-data" 
 				  class="d-flex flex-column gap-4 mx-auto" style="max-width: 500px">
-
-				<div class="d-flex gap-3 align-items-center">
-					<% if (base64Image != null) { %>
-						<img class="col-4" src="data:image/png;base64,<%=base64Image%>" alt="Imagen evento"
-							style="width: auto; height: auto; max-width: 100px; max-height: 100px;" />
-					<% } %>
-					<h2 class="evento fs-3 fw-bold">
-						<a href="${pageContext.request.contextPath}/Eventos?accion=consulta&nombre=<%=nombreEvento%>">
-							<%= nombreEvento %>
-						</a>
-					</h2>
-				</div>
-
+			
 				<div class="d-flex mb-2">
-					<label for="nombreEdicion" class="form-label text-nowrap"
+					<label for="nombreEdicion" class="form-label fw-semibold"
 						style="width: 155px">Nombre de edición:<span class="text-danger">*</span> 
 					</label> 
 					<input type="text" id="nombreEdicion" name="nombre_edicion" 
@@ -64,15 +61,15 @@
 				</div>
 
 				<div class="d-flex mb-2">
-					<label for="sigla" class="form-label" 
+					<label for="sigla" class="form-label fw-semibold"
 						style="width: 155px">Sigla:<span class="text-danger">*</span>
 					</label> 
 					<input type="text" id="sigla" name="sigla" 
 						   class="form-control form-control-sm" style="max-width: 350px" required/>
 				</div>
 
-				<div class="d-flex mb-2">
-					<label for="pais" class="form-label" 
+				<div class=" d-flex mb-2">
+					<label for="pais" class="form-label fw-semibold" 
 						style="width: 155px">País:<span class="text-danger">*</span>
 					</label> 
 					<input type="text" id="pais" name="pais" 
@@ -80,7 +77,7 @@
 				</div>
 
 				<div class="d-flex mb-2">
-					<label for="ciudad" class="form-label" 
+					<label for="ciudad" class="form-label fw-semibold" 
 						style="width: 155px">Ciudad:<span class="text-danger">*</span>
 					</label> 
 					<input type="text" id="ciudad" name="ciudad" 
@@ -88,7 +85,7 @@
 				</div>
 
 				<div class="d-flex align-items-center mb-2">
-					<label for="fechaInicio" 
+					<label for="fechaInicio" class="form-label fw-semibold"
 						style="height: fit-content; width: 155px">Fecha de inicio:<span class="text-danger">*</span>
 					</label> 
 					<input type="date" id="fechaInicio" name="fecha_inicio" 
@@ -96,7 +93,7 @@
 				</div>
 
 				<div class="d-flex align-items-center mb-2">
-					<label for="fechaFin" 
+					<label for="fechaFin" class="form-label fw-semibold"
 						style="height: fit-content; width: 155px">Fecha de fin:<span class="text-danger">*</span>
 					</label> 
 					<input type="date" id="fechaFin" name="fecha_fin" 
@@ -104,7 +101,7 @@
 				</div>
 
 				<div class="d-flex mb-2">
-					<label for="foto" class="form-label" style="width: 155px">Imagen:</label>
+					<label for="foto" class="form-label fw-semibold " style="width: 155px">Imagen:</label>
 					<input type="file" id="foto" name="foto" 
 						   class="form-control form-control-sm" style="max-width: 350px" accept="image/*" /> 
 					<img id="previewFoto" style="display: none; max-width: 100%; margin-top: 10px" />
@@ -112,7 +109,7 @@
 
 				<div class="d-flex justify-content-center gap-2 mb-2">
 					<button type="submit" id="btnAceptar" 
-							class="btn btn-primary btn-sm px-3" style="max-width: 155px">
+							class="btn btn-primary btn-sm px-3 fs-5" style="max-width: 155px">
 						Crear edición
 					</button>
 				</div>
