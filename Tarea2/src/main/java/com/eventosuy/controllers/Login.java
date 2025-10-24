@@ -3,6 +3,8 @@ package com.eventosuy.controllers;
 import java.io.IOException;
 
 import com.eventosuy.models.TipoUsuario;
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
 
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
@@ -23,6 +25,10 @@ import jakarta.servlet.http.HttpSession;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	// Servicios
+	private final static PublicadorService servicio = new PublicadorService();
+	private final static Publicador puerto = servicio.getPublicadorPort();
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -52,8 +58,7 @@ public class Login extends HttpServlet {
 
 		DTDetalleUsuario datosUsuario;
 		try {
-			Fabrica f = Fabrica.getInstancia();
-			datosUsuario = f.getControladorUsuarios().validarLogin(usuario, contrasena);
+			datosUsuario = puerto.validarLogin(usuario, contrasena);
 			if (datosUsuario != null) {
 				HttpSession session = req.getSession(true);
 				session.setAttribute("usuarioLogeado", datosUsuario);

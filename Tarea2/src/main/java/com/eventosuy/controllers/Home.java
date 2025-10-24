@@ -7,7 +7,6 @@ import java.util.Map;
 import carga.CargaDatos;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEvento;
-import logica.Fabrica;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -70,21 +69,17 @@ public class Home extends HttpServlet {
 	 */
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		Fabrica f = Fabrica.getInstancia();
-		// Test consumir el servicio publicado
+		
 		PublicadorService servicio = new PublicadorService();
 		Publicador puerto = servicio.getPublicadorPort();
-		String helloWorld = puerto.helloWorld();
 		
-		System.out.printf("Home.java :: message is: %s\n", helloWorld);
-		
-		Map<String, DTEvento> eventos = f.getControladorEvento().listarEventos();
+		Map<String, DTEvento> eventos = puerto.listarEventos();
 		req.setAttribute("eventos", eventos);
 		
-		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();
+		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios();
 		req.setAttribute("usuarios", usuarios);
 		
-		List<String> categorias = f.getControladorEvento().getListaCategorias();
+		List<String> categorias = puerto.getListaCategorias();
 		req.setAttribute("categorias", categorias);
 		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Set;
 
 import com.eventosuy.models.TipoUsuario;
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
 
 import datatypes.*;
 import jakarta.servlet.ServletException;
@@ -26,7 +28,10 @@ import logica.Patrocinio;
 @MultipartConfig
 public class Institucion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	// Servicios
+	private final static PublicadorService servicio = new PublicadorService();
+	private final static Publicador puerto = servicio.getPublicadorPort();
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -42,11 +47,6 @@ public class Institucion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Initialize controllers
-		Fabrica fabrica = Fabrica.getInstancia();
-		IControladorEventos controladorEventos = fabrica.getControladorEvento();
-		IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
-
 		// Extract request parameters
 		String action = request.getParameter("action");
 		String nombreEvento = request.getParameter("nombreEvento");
@@ -55,7 +55,7 @@ public class Institucion extends HttpServlet {
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		try {
-			DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+			DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
 			request.setAttribute("imagenEdicion", dtEdicion.getImagen());
 		}catch(Exception error) {
 			error.printStackTrace();
@@ -67,19 +67,19 @@ public class Institucion extends HttpServlet {
 
 		// Handle organizer-specific actions
 		if (tipoUsuario != null && tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
-			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
-					controladorInstitucion)) {
+			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, puerto,
+					puerto)) {
 				return;
 			}
 		}
 
 		// Handle public actions
-		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
+		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, puerto);
 	}
 
 	private boolean handeGetAccionesOrganizador(HttpServletRequest request, HttpServletResponse response, String action,
-			String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
-			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+			String nombreEvento, String nombreEdicion, Publicador controladorEventos,
+			Publicador controladorInstitucion) throws ServletException, IOException {
 
 		switch (action) {
 		case "altaInstitucion":
@@ -97,8 +97,8 @@ public class Institucion extends HttpServlet {
 	}
 
 	private void handleAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
-			String nombreEdicion, IControladorEventos controladorEventos,
-			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+			String nombreEdicion, Publicador controladorEventos,
+			Publicador controladorInstitucion) throws ServletException, IOException {
 
 		Set<String> listaNombresTipoRegistro = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();
 		Set<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones();
@@ -110,7 +110,7 @@ public class Institucion extends HttpServlet {
 	}
 
 	private void handlePublicAction(HttpServletRequest request, HttpServletResponse response, String action,
-			String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos)
+			String nombreEvento, String nombreEdicion, Publicador controladorEventos)
 			throws ServletException, IOException {
 
 		if ("consultaPatrocinio".equals(action)) {
@@ -132,7 +132,7 @@ public class Institucion extends HttpServlet {
 		}
 	}
 
-	private DTDetallePatrocinio obtenerDetallePatrocinio(IControladorEventos controladorEventos, String nombreEvento,
+	private DTDetallePatrocinio obtenerDetallePatrocinio(Publicador controladorEventos, String nombreEvento,
 			String nombreEdicion, String codigoPatrocinio) {
 
 		DTDetallePatrocinio dtPatrocinio = controladorEventos.mostrarDetallePatrocinio(nombreEvento, nombreEdicion,
@@ -145,7 +145,7 @@ public class Institucion extends HttpServlet {
 		return dtPatrocinio;
 	}
 
-	private DTTipoRegistro obtenerTipoRegistro(IControladorEventos controladorEventos, String nombreEvento,
+	private DTTipoRegistro obtenerTipoRegistro(Publicador controladorEventos, String nombreEvento,
 			String nombreEdicion, String tipoRegistro) {
 
 		try {
@@ -168,10 +168,6 @@ public class Institucion extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Initialize controllers
-		Fabrica fabrica = Fabrica.getInstancia();
-		IControladorEventos controladorEventos = fabrica.getControladorEvento();
-		IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
 
 		// Extract request parameters
 		String action = request.getParameter("action");
@@ -181,7 +177,7 @@ public class Institucion extends HttpServlet {
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		try {
-			DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+			DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
 			request.setAttribute("imagenEdicion", dtEdicion.getImagen());			
 		}catch(Exception error) {
 			error.printStackTrace();
@@ -193,19 +189,19 @@ public class Institucion extends HttpServlet {
 
 		// Handle organizer-specific actions
 		if (tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
-			if (handePostAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, controladorEventos,
-					controladorInstitucion)) {
+			if (handePostAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, puerto,
+					puerto)) {
 				return;
 			}
 		}
 
 		// Handle public actions
-		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, controladorEventos);
+		handlePublicAction(request, response, action, nombreEvento, nombreEdicion, puerto);
 	}
 
 	private boolean handePostAccionesOrganizador(HttpServletRequest request, HttpServletResponse response,
-			String action, String nombreEvento, String nombreEdicion, IControladorEventos controladorEventos,
-			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+			String action, String nombreEvento, String nombreEdicion, Publicador controladorEventos,
+			Publicador controladorInstitucion) throws ServletException, IOException {
 
 		switch (action) {
 		case "altaInstitucion":
@@ -224,8 +220,8 @@ public class Institucion extends HttpServlet {
 	}
 
 	private void handlePostAltaInsitucion(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
-			String nombreEdicion, IControladorEventos controladorEventos,
-			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+			String nombreEdicion, Publicador controladorEventos,
+			Publicador controladorInstitucion) throws ServletException, IOException {
 		// Get text fields
 		String nombre = request.getParameter("nombre");
 		String descripcion = request.getParameter("descripcion");
@@ -241,15 +237,15 @@ public class Institucion extends HttpServlet {
 	    }
 	}
 
-	private void darAltaInstitucion(IControladorInstitucion controladorInstitucion, String nombre, String descripcion,
+	private void darAltaInstitucion(Publicador controladorInstitucion, String nombre, String descripcion,
 			String sitioWeb) throws Exception{
 			controladorInstitucion.altaInstitucion(nombre, descripcion, sitioWeb);
 		
 	}
 
 	private void handlePostAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
-			String nombreEdicion, IControladorEventos controladorEventos,
-			IControladorInstitucion controladorInstitucion) throws ServletException, IOException {
+			String nombreEdicion, Publicador controladorEventos,
+			Publicador controladorInstitucion) throws ServletException, IOException {
 		try {
 		    String nombreTipoRegistro = request.getParameter("TipoRegistro");
 		    String nombreInstitucion = request.getParameter("Instituciones");
@@ -293,7 +289,7 @@ public class Institucion extends HttpServlet {
 		    request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 		}
 	}
-	private void darAltaPatrocinio(IControladorEventos controladorEventos, IControladorInstitucion controladorInstitucion, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
+	private void darAltaPatrocinio(Publicador controladorEventos, Publicador controladorInstitucion, String eventoSeleccionado,  String edicionSeleccionada,Date FechaAlta,String institucionSeleccionada, 
 			ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos,String codigoPatrocinio, String tipoRegistroSeleccionado, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			controladorEventos.altaPatrocinio(eventoSeleccionado, 

@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
+
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.EEstadoEdicion;
@@ -35,8 +38,9 @@ public class Eventos extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    Fabrica fab = Fabrica.getInstancia();
-    IControladorEventos IContEv = fab.getControladorEvento();
+    // Servicios
+ 	private final static PublicadorService servicio = new PublicadorService();
+ 	private final static Publicador puerto = servicio.getPublicadorPort();
 
     // --- GET ---
     @Override
@@ -84,7 +88,7 @@ public class Eventos extends HttpServlet {
     // --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	List<String> categorias = fab.getControladorEvento().getListaCategorias();
+    		List<String> categorias = puerto.getListaCategorias();
         request.setAttribute("categorias", categorias);         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
         dispatcher.forward(request, response);
@@ -122,8 +126,8 @@ public class Eventos extends HttpServlet {
         }
 
         // Validar existencia de evento
-        if (IContEv.existeEvento(nombre)) {
-        	List<String> categorias = fab.getControladorEvento().getListaCategorias();
+        if (puerto.existeEvento(nombre)) {
+        	List<String> categorias = puerto.getListaCategorias();
             request.setAttribute("categorias", categorias);    
             request.setAttribute("error", "Ya existe un evento con este nombre");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
@@ -132,7 +136,7 @@ public class Eventos extends HttpServlet {
         }
 
         List<String> CatSel = Arrays.asList(categoriasSeleccionadas);
-        IContEv.altaEvento(nombre, descripcion, fechaAlta, sigla, CatSel, imagen);
+        puerto.altaEvento(nombre, descripcion, fechaAlta, sigla, CatSel, imagen);
 
         // Preparar datos para la vista de consulta
         request.setAttribute("mensaje", "Evento '" + nombre + "' creado correctamente.");
@@ -157,13 +161,13 @@ public class Eventos extends HttpServlet {
             nombre = request.getParameter("nombre");
         }
 
-        DTEvento evento = IContEv.getDTEvento(nombre);
+        DTEvento evento = puerto.getDTEvento(nombre);
 
         request.setAttribute("nombre", evento.getNombre());
         request.setAttribute("descripcion", evento.getDescripcion());
         request.setAttribute("sigla", evento.getSigla());
         
-        Set<String> categoriasSet = IContEv.nombresCategorias(nombre);
+        Set<String> categoriasSet = puerto.nombresCategorias(nombre);
         List<String> categoriasList = new ArrayList<>(categoriasSet);
         request.setAttribute("categorias", categoriasList);
 
@@ -172,7 +176,7 @@ public class Eventos extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
 
-        Map<String, DTEdicionEvento> edicionesMap = IContEv.listarEdicionesEvento(nombre);
+        Map<String, DTEdicionEvento> edicionesMap = puerto.listarEdicionesEvento(nombre);
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
         List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
         	    .filter(element -> EEstadoEdicion.Aceptada == element.getEstado())

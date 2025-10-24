@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
+
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
@@ -36,9 +39,9 @@ public class Ediciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Ediciones () {super();} // Constructor (no lleva parametros)
 	
-	private final static Fabrica fabrica = Fabrica.getInstancia();
-	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
-	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
+	// Servicios
+	private final static PublicadorService servicio = new PublicadorService();
+	private final static Publicador puerto = servicio.getPublicadorPort();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		String accion = request.getParameter("accion"); // Llamo distinto JSP dependiendo del Caso de Uso
@@ -52,7 +55,7 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaEdicion(request, response); // Crea la Edicion y muestra su consulta
 			} else { 
-				byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+				byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/views/ediciones/alta-edicion.jsp").forward(request, response); // Abre el formulario
 			}
@@ -61,7 +64,7 @@ public class Ediciones extends HttpServlet {
 			if ("POST".equalsIgnoreCase(request.getMethod())) {
 				CUAltaTipoRegistro(request, response); // Crea el TipoRegistro y muestra su consulta
 			} else { 
-				byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
+				byte[] image = puerto.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 				request.setAttribute("imagen_edicion", image);
 				request.getRequestDispatcher("/WEB-INF/views/registros/alta-tipo-registro.jsp").forward(request, response); // Abre el formulario
 			}
@@ -82,8 +85,8 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		if (nombreEvento == null) { 
-			for (String evento : controladorEventos.listarEventos().keySet()) {
-				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
+			for (String evento : puerto.listarEventos().keySet()) {
+				if (puerto.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
 					nombreEvento = evento;
 					request.setAttribute("nombre_evento", nombreEvento);
 					break;
@@ -98,10 +101,10 @@ public class Ediciones extends HttpServlet {
 			return request;
 		}
 		
-		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
-		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
-		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
-		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
+		Set<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
+		Set<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
+		Set<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
 			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
@@ -124,9 +127,9 @@ public class Ediciones extends HttpServlet {
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
 		
-		DTEdicionEvento ed =controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento ed =puerto.getDTEdicion(nombreEvento, nombreEdicion);
 		try {
-			DTDetalleUsuario u =controladorUsuarios.mostrarDetalleUsuario(ed.getOrganizadorNickname());
+			DTDetalleUsuario u =puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
 		} catch (UsuarioNoExiste e) {
 			//no va a entrar aca nunca
@@ -159,9 +162,9 @@ public class Ediciones extends HttpServlet {
         }
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
+			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
 		} catch (Exception ex) {
-			byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
+			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_message", ex.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/alta-edicion.jsp").forward(request, response);
@@ -183,12 +186,12 @@ public class Ediciones extends HttpServlet {
 		
 		DTTipoRegistro dtTipoRegistro = null;
 		 try {
-		        dtTipoRegistro = controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		        dtTipoRegistro = puerto.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
 		        request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		    } catch (Exception ex) {
 		        request.setAttribute("error_tipo_registro", "El nombre del tipo de registro ya está en uso");
 		    }
-		byte[] imagenEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion).getImagen();
+		byte[] imagenEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion).getImagen();
 		request.setAttribute("imagenEdicion", imagenEdicion);
 		request.setAttribute("detalle_tipo_registro", dtTipoRegistro);
 		return request;
@@ -206,9 +209,9 @@ public class Ediciones extends HttpServlet {
 		int cuposMax = Integer.parseInt(request.getParameter("cupos_max"));
 		request.setAttribute("error_tipo_registro",null);
 		try {
-			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
+			puerto.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);		
 		} catch (Exception ex) {
-			byte[] image = controladorEventos.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
+			byte[] image = puerto.getDTEdicion(request.getParameter("nombre_evento"), request.getParameter("nombre_edicion")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_tipo_registro", "Ya existe un tipo de registro con ese nombre.");
 			request.getRequestDispatcher("/WEB-INF/views/registros/alta-tipo-registro.jsp").forward(request, response);

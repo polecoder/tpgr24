@@ -20,6 +20,7 @@ import datatypes.DTUsuario;
 import datatypes.EEstadoEdicion;
 import datatypes.ENivelPatrocinio;
 import excepciones.AporteInsuficiente;
+import excepciones.ContrasenaIncorrecta;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
@@ -176,8 +177,18 @@ public class Publicador {
 	public void altaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, EdicionFinalizada {
 	    controladorEventos.altaPatrocinio(eventoSeleccionado, edicionSeleccionada, FechaAlta, institucionSeleccionada, nivelPatrocinio, aporteEconomico, cupos, codigoPatrocinio, tipoRegistroSeleccionado);
 	}
+	@WebMethod
+	public ArrayList<String> getListaCategorias() {
+		List<String> res = controladorEventos.getListaCategorias();
+		return new ArrayList<String> (res);
+	}
 	
 	// -------------------	USUARIOS		------------------- //
+	@WebMethod
+	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta{
+		return controladorUsuarios.validarLogin(usuario, contrasena);
+	}
+	
 	@WebMethod
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste {
 	    return controladorUsuarios.mostrarDetalleUsuario(nicknameUsuario);
@@ -223,6 +234,12 @@ public class Publicador {
 	@WebMethod
 	public void altaOrganizador(String nickname, String contrasena, String nombre, String correo, String descripcion, String link, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoOrganizador {
 	    controladorUsuarios.altaOrganizador(nickname, contrasena, nombre, correo, descripcion, link, imagen);
+	}
+	
+	@WebMethod
+	public ArrayList<DTDetalleUsuario> listarDetalleUsuarios() {
+		List<DTDetalleUsuario> res = controladorUsuarios.listarDetalleUsuarios();
+		return new ArrayList<DTDetalleUsuario> (res);
 	}
 	
 	// -------------------	INSTITUCIONES		------------------- //
