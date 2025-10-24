@@ -44,7 +44,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 <body class="d-flex flex-column min-vh-100">
   <jsp:include page="/WEB-INF/views/partials/header.jsp" />
   <div class="container flex-grow-1">
-   <main class="p-4 bg-light border-0 rounded-4 shadow-sm mt-4" style="max-width: 900px; margin: 0 auto;">
+       <main class="p-4 bg-light border-top border-2 border-primary rounded shadow-sm mt-4">
       <form class="d-flex flex-column gap-4">
           <!-- Título + Imagen en línea -->
           <div class="d-flex align-items-center justify-content-between border-bottom pb-3">

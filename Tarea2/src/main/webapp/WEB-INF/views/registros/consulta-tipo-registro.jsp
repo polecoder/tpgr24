@@ -30,60 +30,50 @@
             %>
 
             <!-- Contenedor principal -->
-            <main class="p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 450px">
+         <main class="p-4 bg-light border-top border-2 border-primary rounded" >
+                <div class="card-body">
                 <form class="d-flex flex-column">
-                    <label class="text-uppercase py-4 fs-4 fs-sm-3 fw-bold">
-                        Tipo de registro: <%= nombreTipoRegistro %>
-                    </label>
+                
+                <div class=" border-bottom p-3 mb-4 text-center">
+				  <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+				    <h1 class="text-uppercase fw-bold fs-3 text-primary mb-0">Registro <%= nombreTipoRegistro %></h1>
+				  </div>
+				  <p class="text-muted fst-italic mt-2 mb-0 fs-5">
+				    <%= nombreEdicion %>
+				  </p>
+				</div>
 
                     <!-- Descripción -->
-                    <div class="mb-3">
-                        <h5 class="fw-bold text-primary">Descripción</h5>
-                        <p class="fst-italic mb-0"><%= descripcion %></p>
+                    <div class="mb-3 text-center">
+                         <p class="mb-0 text-semibold fs-5 fst-italic"><%= descripcion %></p>
                     </div>
-
-                    <!-- Costo -->
-                    <div class="mb-3">
-                        <h5 class="fw-bold text-primary">Costo</h5>
-                        <p class="fst-italic mb-0"><%= costo %></p>
-                    </div>
-
-                    <!-- Cupos -->
-                    <div class="mb-3">
-                        <h5 class="fw-bold text-primary">Cupos</h5>
-                        <p class="fst-italic mb-0"><%= cuposMax %></p>
-                    </div>
-
+					
+					<div class="card shadow-sm p-4">
+					 <h4 class="fw-bold text-primary mb-3 fs-5">Detalles del Tipo de registro:</h4>
+	                    <!-- Costo -->
+	                    <div class="mb-3">
+	                        <h5 class="fw-bold text-secondary mb-1">Costo:</h5>
+	                        <p class="fst-italic mb-0">$<%= costo %></p>
+	                    </div>
+	
+	                    <!-- Cupos -->
+	                    <div class="mb-3">
+	                        <h5 class="fw-bold text-secondary mb-1">Cupos máximos:</h5>
+	                        <p class="fst-italic mb-0"><%= cuposMax %></p>
+	                    </div>
+					 </div>
                    <!-- Sección de Edición -->
-				<div class="border-top pt-4 mt-4 text">
-				    <h4 class="text-primary mb-4">Edición</h4>
-				
-				    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-				        <% if (base64Image != null) { %>
-				            <img src="data:image/png;base64,<%= base64Image %>" 
-				                 alt="Imagen edición"
-				                 class="rounded"
-				                 style="max-width: 90px; max-height: 90px; width: auto; height: auto;" />
-				        <% } %>
-				
-				        <div class="text-start" style="line-height: 1.2">
-				            <p class="fs-5 fw-semibold mb-1"><%= nombreEdicion %></p> 
-				            <a href="${pageContext.request.contextPath}/Eventos?accion=consulta&nombre=<%= nombreEvento %>" 
-				               class="fs-6 text-secondary text-decoration-underline">
-				               <%= nombreEvento %>
-				            </a>
-				        </div>
-				    </div>
-				
-				    <div class="d-flex justify-content-center mt-3">
+				<div class="border-top pt-4 mt-4">		
+				    <div class="text-center mt-4">
 				        <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%= nombreEvento %>&nombre_edicion=<%= nombreEdicion %>"
-				           class="btn btn-primary btn-sm px-3" id="btnEdicion">
+				           class="btn btn-primary btn-sm px-3 fs-5" id="btnEdicion">
 				            Volver a la edición
 				        </a>
 				    </div>
 				</div>
 			</div>
 			</div>
+		</div>
     <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 </body>
 </html>
