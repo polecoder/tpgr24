@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +13,6 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
-import datatypes.DTUsuario;
 import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -28,7 +24,6 @@ import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
-import logica.Utilidades;
 
 @WebServlet("/Ediciones")
 @MultipartConfig
