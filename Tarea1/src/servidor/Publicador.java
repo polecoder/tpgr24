@@ -85,6 +85,11 @@ public class Publicador {
 	}
 
 	@WebMethod
+	public HashSet<String> nombresCategorias(String nombre){
+		Set<String> res = controladorEventos.nombresCategorias(nombre);
+		return new HashSet<String>(res);
+	}
+	@WebMethod
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 	    return controladorEventos.getDTEdicion(eventoSeleccionado, edicionSeleccionada);
 	}
@@ -167,10 +172,19 @@ public class Publicador {
 	public DTDetallePatrocinio mostrarDetallePatrocinio(String nombreEvento, String nombreEdicion, String codigoPatrocinio) {
 	    return controladorEventos.mostrarDetallePatrocinio(nombreEvento, nombreEdicion, codigoPatrocinio);
 	}
+	@WebMethod
+	public boolean existeEvento(String nombreEvento) {
+		return controladorEventos.existeEvento(nombreEvento);
+	}
 
 	@WebMethod
 	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
 	    return controladorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
+	}
+	
+	@WebMethod
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
+	    controladorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
 	}
 
 	@WebMethod
@@ -181,6 +195,11 @@ public class Publicador {
 	public ArrayList<String> getListaCategorias() {
 		List<String> res = controladorEventos.getListaCategorias();
 		return new ArrayList<String> (res);
+	}
+	@WebMethod
+	public HashSet<String> listarPatrocinadores(String nombreEvento, String nombreEdicion){
+		Set<String> res = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+		return new HashSet<String>(res);
 	}
 	
 	// -------------------	USUARIOS		------------------- //

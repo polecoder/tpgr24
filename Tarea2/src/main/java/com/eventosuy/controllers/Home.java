@@ -73,13 +73,13 @@ public class Home extends HttpServlet {
 		PublicadorService servicio = new PublicadorService();
 		Publicador puerto = servicio.getPublicadorPort();
 		
-		Map<String, DTEvento> eventos = puerto.listarEventos();
+		Map<String, DTEvento> eventos = (Map<String, DTEvento>) puerto.listarEventos();
 		req.setAttribute("eventos", eventos);
 		
-		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios();
+		List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) puerto.listarDetalleUsuarios();
 		req.setAttribute("usuarios", usuarios);
 		
-		List<String> categorias = puerto.getListaCategorias();
+		List<String> categorias = (List<String>) puerto.getListaCategorias();
 		req.setAttribute("categorias", categorias);
 		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);

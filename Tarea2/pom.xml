@@ -74,6 +74,13 @@
 			        <keep>true</keep>
 			        <sourceDestDir>src/main/java/</sourceDestDir>
 			        <packageName>com.eventosuy.servidor</packageName>
+			        <vmArgs>
+			            <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+			        </vmArgs>
+			        <args>
+			            <arg>-extension</arg>
+			            <arg>-Xdebug</arg>
+			        </args>
 			    </configuration>
 			</plugin>
     		</plugins>

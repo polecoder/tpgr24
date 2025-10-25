@@ -1,11 +1,15 @@
 
 package com.eventosuy.servidor;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
 import jakarta.jws.WebResult;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.ws.Action;
+import jakarta.xml.ws.FaultAction;
 
 
 /**
@@ -16,8 +20,452 @@ import jakarta.xml.ws.Action;
  */
 @WebService(name = "Publicador", targetNamespace = "http://servidor/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@XmlSeeAlso({
+    ObjectFactory.class
+})
 public interface Publicador {
 
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.ArrayList
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getEdicionesDeOrganizadorPorEstadoRequest", output = "http://servidor/Publicador/getEdicionesDeOrganizadorPorEstadoResponse")
+    public ArrayList getEdicionesDeOrganizadorPorEstado(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        EEstadoEdicionArray arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashMap
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarTipoRegistroRequest", output = "http://servidor/Publicador/listarTipoRegistroResponse")
+    public HashMap listarTipoRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @throws DatosTipoRegistroInvalidos_Exception
+     * @throws NombreTipoRegistroRepetido_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaTipoRegistroRequest", output = "http://servidor/Publicador/altaTipoRegistroResponse", fault = {
+        @FaultAction(className = NombreTipoRegistroRepetido_Exception.class, value = "http://servidor/Publicador/altaTipoRegistro/Fault/NombreTipoRegistroRepetido"),
+        @FaultAction(className = DatosTipoRegistroInvalidos_Exception.class, value = "http://servidor/Publicador/altaTipoRegistro/Fault/DatosTipoRegistroInvalidos")
+    })
+    public void altaTipoRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        float arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        int arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        String arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        String arg5)
+        throws DatosTipoRegistroInvalidos_Exception, NombreTipoRegistroRepetido_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTEvento
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getDTEventoRequest", output = "http://servidor/Publicador/getDTEventoResponse")
+    public DTEvento getDTEvento(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTTipoRegistro
+     * @throws EventoNoExiste_Exception
+     * @throws TipoRegistroNoExiste_Exception
+     * @throws EdicionNoExiste_Exception
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getDTTipoRegistroRequest", output = "http://servidor/Publicador/getDTTipoRegistroResponse", fault = {
+        @FaultAction(className = TipoRegistroNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/TipoRegistroNoExiste"),
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EventoNoExiste"),
+        @FaultAction(className = EdicionNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EdicionNoExiste")
+    })
+    public DTTipoRegistro getDTTipoRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2)
+        throws EdicionNoExiste_Exception, EventoNoExiste_Exception, TipoRegistroNoExiste_Exception
+    ;
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg7
+     * @param arg6
+     * @param arg9
+     * @param arg8
+     * @throws FormularioIncompletoEdicion_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaEdicionEventoRequest", output = "http://servidor/Publicador/altaEdicionEventoResponse", fault = {
+        @FaultAction(className = FormularioIncompletoEdicion_Exception.class, value = "http://servidor/Publicador/altaEdicionEvento/Fault/FormularioIncompletoEdicion")
+    })
+    public void altaEdicionEvento(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        XMLGregorianCalendar arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        XMLGregorianCalendar arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        XMLGregorianCalendar arg5,
+        @WebParam(name = "arg6", partName = "arg6")
+        String arg6,
+        @WebParam(name = "arg7", partName = "arg7")
+        String arg7,
+        @WebParam(name = "arg8", partName = "arg8")
+        String arg8,
+        @WebParam(name = "arg9", partName = "arg9")
+        byte[] arg9)
+        throws FormularioIncompletoEdicion_Exception
+    ;
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTEdicionEvento
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getDTEdicionRequest", output = "http://servidor/Publicador/getDTEdicionResponse")
+    public DTEdicionEvento getDTEdicion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.HashMap
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarEventosRequest", output = "http://servidor/Publicador/listarEventosResponse")
+    public HashMap listarEventos();
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg7
+     * @param arg6
+     * @param arg8
+     * @throws EdicionFinalizada_Exception
+     * @throws AporteInsuficiente_Exception
+     * @throws EventoNoExiste_Exception
+     * @throws FormularioIncompletoPatrocinio_Exception
+     * @throws TipoRegistroNoExiste_Exception
+     * @throws EdicionNoExiste_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaPatrocinioRequest", output = "http://servidor/Publicador/altaPatrocinioResponse", fault = {
+        @FaultAction(className = FormularioIncompletoPatrocinio_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/FormularioIncompletoPatrocinio"),
+        @FaultAction(className = AporteInsuficiente_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/AporteInsuficiente"),
+        @FaultAction(className = TipoRegistroNoExiste_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/TipoRegistroNoExiste"),
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/EventoNoExiste"),
+        @FaultAction(className = EdicionNoExiste_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/EdicionNoExiste"),
+        @FaultAction(className = EdicionFinalizada_Exception.class, value = "http://servidor/Publicador/altaPatrocinio/Fault/EdicionFinalizada")
+    })
+    public void altaPatrocinio(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        XMLGregorianCalendar arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        ENivelPatrocinio arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        float arg5,
+        @WebParam(name = "arg6", partName = "arg6")
+        int arg6,
+        @WebParam(name = "arg7", partName = "arg7")
+        String arg7,
+        @WebParam(name = "arg8", partName = "arg8")
+        String arg8)
+        throws AporteInsuficiente_Exception, EdicionFinalizada_Exception, EdicionNoExiste_Exception, EventoNoExiste_Exception, FormularioIncompletoPatrocinio_Exception, TipoRegistroNoExiste_Exception
+    ;
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @throws YaAsisteAEdicion_Exception
+     * @throws FechaFinEsPasada_Exception
+     * @throws EventoNoExiste_Exception
+     * @throws UsuarioNoExiste_Exception
+     * @throws PatrocinioInvalido_Exception
+     * @throws TipoRegistroNoExiste_Exception
+     * @throws EdicionNoExiste_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaRegistroRequest", output = "http://servidor/Publicador/altaRegistroResponse", fault = {
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/EventoNoExiste"),
+        @FaultAction(className = EdicionNoExiste_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/EdicionNoExiste"),
+        @FaultAction(className = FechaFinEsPasada_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/FechaFinEsPasada"),
+        @FaultAction(className = TipoRegistroNoExiste_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/TipoRegistroNoExiste"),
+        @FaultAction(className = UsuarioNoExiste_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/UsuarioNoExiste"),
+        @FaultAction(className = PatrocinioInvalido_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/PatrocinioInvalido"),
+        @FaultAction(className = YaAsisteAEdicion_Exception.class, value = "http://servidor/Publicador/altaRegistro/Fault/YaAsisteAEdicion")
+    })
+    public void altaRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        String arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        XMLGregorianCalendar arg5)
+        throws EdicionNoExiste_Exception, EventoNoExiste_Exception, FechaFinEsPasada_Exception, PatrocinioInvalido_Exception, TipoRegistroNoExiste_Exception, UsuarioNoExiste_Exception, YaAsisteAEdicion_Exception
+    ;
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @throws FormularioIncompletoInstitucion_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaInstitucionRequest", output = "http://servidor/Publicador/altaInstitucionResponse", fault = {
+        @FaultAction(className = FormularioIncompletoInstitucion_Exception.class, value = "http://servidor/Publicador/altaInstitucion/Fault/FormularioIncompletoInstitucion")
+    })
+    public void altaInstitucion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2)
+        throws FormularioIncompletoInstitucion_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.Institucion
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getInstitucionRequest", output = "http://servidor/Publicador/getInstitucionResponse")
+    public Institucion getInstitucion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/nombresEventosRequest", output = "http://servidor/Publicador/nombresEventosResponse")
+    public HashSet nombresEventos();
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.ArrayList
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getListaCategoriasRequest", output = "http://servidor/Publicador/getListaCategoriasResponse")
+    public ArrayList getListaCategorias();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTDetalleUsuario
+     * @throws ContrasenaIncorrecta_Exception
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/validarLoginRequest", output = "http://servidor/Publicador/validarLoginResponse", fault = {
+        @FaultAction(className = ContrasenaIncorrecta_Exception.class, value = "http://servidor/Publicador/validarLogin/Fault/ContrasenaIncorrecta")
+    })
+    public DTDetalleUsuario validarLogin(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1)
+        throws ContrasenaIncorrecta_Exception
+    ;
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.ArrayList
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarUsuariosRequest", output = "http://servidor/Publicador/listarUsuariosResponse")
+    public ArrayList listarUsuarios();
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.Patrocinio
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getPatrocinioRequest", output = "http://servidor/Publicador/getPatrocinioResponse")
+    public Patrocinio getPatrocinio(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg6
+     * @throws FormatoContrasenaInvalido_Exception
+     * @throws FormularioIncompletoOrganizador_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaOrganizadorRequest", output = "http://servidor/Publicador/altaOrganizadorResponse", fault = {
+        @FaultAction(className = FormatoContrasenaInvalido_Exception.class, value = "http://servidor/Publicador/altaOrganizador/Fault/FormatoContrasenaInvalido"),
+        @FaultAction(className = FormularioIncompletoOrganizador_Exception.class, value = "http://servidor/Publicador/altaOrganizador/Fault/FormularioIncompletoOrganizador")
+    })
+    public void altaOrganizador(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        String arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        String arg5,
+        @WebParam(name = "arg6", partName = "arg6")
+        byte[] arg6)
+        throws FormatoContrasenaInvalido_Exception, FormularioIncompletoOrganizador_Exception
+    ;
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg7
+     * @param arg6
+     * @throws FormatoContrasenaInvalido_Exception
+     * @throws FormularioIncompletoAsistente_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/altaAsistenteRequest", output = "http://servidor/Publicador/altaAsistenteResponse", fault = {
+        @FaultAction(className = FormatoContrasenaInvalido_Exception.class, value = "http://servidor/Publicador/altaAsistente/Fault/FormatoContrasenaInvalido"),
+        @FaultAction(className = FormularioIncompletoAsistente_Exception.class, value = "http://servidor/Publicador/altaAsistente/Fault/FormularioIncompletoAsistente")
+    })
+    public void altaAsistente(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        String arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        XMLGregorianCalendar arg5,
+        @WebParam(name = "arg6", partName = "arg6")
+        String arg6,
+        @WebParam(name = "arg7", partName = "arg7")
+        byte[] arg7)
+        throws FormatoContrasenaInvalido_Exception, FormularioIncompletoAsistente_Exception
+    ;
 
     /**
      * 
@@ -28,5 +476,257 @@ public interface Publicador {
     @WebResult(partName = "return")
     @Action(input = "http://servidor/Publicador/helloWorldRequest", output = "http://servidor/Publicador/helloWorldResponse")
     public String helloWorld();
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarInstitucionesRequest", output = "http://servidor/Publicador/listarInstitucionesResponse")
+    public HashSet listarInstituciones();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarDTRegistrosAEdicionRequest", output = "http://servidor/Publicador/listarDTRegistrosAEdicionResponse")
+    public HashSet listarDTRegistrosAEdicion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTDetallePatrocinio
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/mostrarDetallePatrocinioRequest", output = "http://servidor/Publicador/mostrarDetallePatrocinioResponse")
+    public DTDetallePatrocinio mostrarDetallePatrocinio(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2);
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/nombresInstitucionesRequest", output = "http://servidor/Publicador/nombresInstitucionesResponse")
+    public HashSet nombresInstituciones();
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     * @throws EventoNoExiste_Exception
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/nombresEdicionesEventoRequest", output = "http://servidor/Publicador/nombresEdicionesEventoResponse", fault = {
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/nombresEdicionesEvento/Fault/EventoNoExiste")
+    })
+    public HashSet nombresEdicionesEvento(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0)
+        throws EventoNoExiste_Exception
+    ;
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarPatrocinadoresRequest", output = "http://servidor/Publicador/listarPatrocinadoresResponse")
+    public HashSet listarPatrocinadores(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @throws FormularioIncompletoAsistente_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/modificarDatosAsistenteRequest", output = "http://servidor/Publicador/modificarDatosAsistenteResponse", fault = {
+        @FaultAction(className = FormularioIncompletoAsistente_Exception.class, value = "http://servidor/Publicador/modificarDatosAsistente/Fault/FormularioIncompletoAsistente")
+    })
+    public void modificarDatosAsistente(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        XMLGregorianCalendar arg3)
+        throws FormularioIncompletoAsistente_Exception
+    ;
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getNombresTipoRegistroRequest", output = "http://servidor/Publicador/getNombresTipoRegistroResponse")
+    public HashSet getNombresTipoRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashSet
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarRegistrosAEdicionRequest", output = "http://servidor/Publicador/listarRegistrosAEdicionResponse")
+    public HashSet listarRegistrosAEdicion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.ArrayList
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarDetalleUsuariosRequest", output = "http://servidor/Publicador/listarDetalleUsuariosResponse")
+    public ArrayList listarDetalleUsuarios();
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.ArrayList
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarRegistrosUsuarioRequest", output = "http://servidor/Publicador/listarRegistrosUsuarioResponse")
+    public ArrayList listarRegistrosUsuario(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.HashMap
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarEdicionesEventoRequest", output = "http://servidor/Publicador/listarEdicionesEventoResponse")
+    public HashMap listarEdicionesEvento(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTDetalleUsuario
+     * @throws UsuarioNoExiste_Exception
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/mostrarDetalleUsuarioRequest", output = "http://servidor/Publicador/mostrarDetalleUsuarioResponse", fault = {
+        @FaultAction(className = UsuarioNoExiste_Exception.class, value = "http://servidor/Publicador/mostrarDetalleUsuario/Fault/UsuarioNoExiste")
+    })
+    public DTDetalleUsuario mostrarDetalleUsuario(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0)
+        throws UsuarioNoExiste_Exception
+    ;
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTDetalleRegistro
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/obtenerDetalleRegistroRequest", output = "http://servidor/Publicador/obtenerDetalleRegistroResponse")
+    public DTDetalleRegistro obtenerDetalleRegistro(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        int arg1);
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @throws FormularioIncompletoOrganizador_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/modificarDatosOrganizadorRequest", output = "http://servidor/Publicador/modificarDatosOrganizadorResponse", fault = {
+        @FaultAction(className = FormularioIncompletoOrganizador_Exception.class, value = "http://servidor/Publicador/modificarDatosOrganizador/Fault/FormularioIncompletoOrganizador")
+    })
+    public void modificarDatosOrganizador(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3)
+        throws FormularioIncompletoOrganizador_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getNombreInstitucionAsistenteRequest", output = "http://servidor/Publicador/getNombreInstitucionAsistenteResponse")
+    public String getNombreInstitucionAsistente(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
 
 }

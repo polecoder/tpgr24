@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.DTEdicionEvento;
+import com.eventosuy.servidor.DTEvento;
+import com.eventosuy.servidor.EEstadoEdicion;
 
-import datatypes.DTEdicionEvento;
-import datatypes.DTEvento;
-import datatypes.EEstadoEdicion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -88,7 +88,7 @@ public class Eventos extends HttpServlet {
     // --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    		List<String> categorias = puerto.getListaCategorias();
+    		List<String> categorias = (List<String>) puerto.getListaCategorias();
         request.setAttribute("categorias", categorias);         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
         dispatcher.forward(request, response);
@@ -127,7 +127,7 @@ public class Eventos extends HttpServlet {
 
         // Validar existencia de evento
         if (puerto.existeEvento(nombre)) {
-        	List<String> categorias = puerto.getListaCategorias();
+        	List<String> categorias = (List<String>) puerto.getListaCategorias();
             request.setAttribute("categorias", categorias);    
             request.setAttribute("error", "Ya existe un evento con este nombre");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
@@ -176,7 +176,7 @@ public class Eventos extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
 
-        Map<String, DTEdicionEvento> edicionesMap = puerto.listarEdicionesEvento(nombre);
+        Map<String, DTEdicionEvento> edicionesMap = (Map<String, DTEdicionEvento>) puerto.listarEdicionesEvento(nombre);
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
         List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
         	    .filter(element -> EEstadoEdicion.Aceptada == element.getEstado())

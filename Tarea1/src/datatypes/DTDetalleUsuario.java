@@ -1,13 +1,27 @@
 package datatypes;
 
 import java.util.Arrays;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
+@XmlRootElement
+@XmlType(name = "DTDetalleUsuario")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTDetalleUsuario {
 	private String nickname;
 	private String nombre;
 	private String correo;
 	private byte[] imagen;
 	private ETipoUsuario tipo;
+	
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTDetalleUsuario(String, String, ...) en su lugar.
+	 */
+	public DTDetalleUsuario() {
+	}
 	
 	public DTDetalleUsuario(String nickname, String nombre, String correo, ETipoUsuario tipo, byte[] imagen) {
 		super();

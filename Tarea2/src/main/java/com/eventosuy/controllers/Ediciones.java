@@ -7,11 +7,16 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.eventosuy.servidor.DtEdicionEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
 
@@ -20,6 +25,7 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
 import datatypes.DTUsuario;
+import datatypes.DTEvento;
 import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -85,8 +91,8 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		if (nombreEvento == null) { 
-			for (String evento : puerto.listarEventos().keySet()) {
-				if (puerto.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
+			for (String evento : ((Map<String, DTDetalleRegistro>) puerto.listarEventos()).keySet()) {
+				if (((Map<String, DTDetalleRegistro>) puerto.listarEdicionesEvento(evento)).containsKey(nombreEdicion)) {
 					nombreEvento = evento;
 					request.setAttribute("nombre_evento", nombreEvento);
 					break;
@@ -103,8 +109,8 @@ public class Ediciones extends HttpServlet {
 		
 		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
-		Set<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
-		Set<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		Set<String> setTiposRegistro = (Set<String>) puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
+		Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
 			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
@@ -129,7 +135,7 @@ public class Ediciones extends HttpServlet {
 		
 		DTEdicionEvento ed =puerto.getDTEdicion(nombreEvento, nombreEdicion);
 		try {
-			DTDetalleUsuario u =puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
+			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
 		} catch (UsuarioNoExiste e) {
 			//no va a entrar aca nunca
@@ -162,7 +168,12 @@ public class Ediciones extends HttpServlet {
         }
 		
 		try {
-			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
+			XMLGregorianCalendar xmlGregorianCalendarFechaInicio = dateToXMLGregorianCalendar(fechaInicio);
+			XMLGregorianCalendar xmlGregorianCalendarFechaFin = dateToXMLGregorianCalendar(fechaFin);
+			XMLGregorianCalendar xmlGregorianCalendarFechaAlta = dateToXMLGregorianCalendar(fechaAlta);
+			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla,
+					xmlGregorianCalendarFechaInicio, xmlGregorianCalendarFechaFin, xmlGregorianCalendarFechaAlta, 
+					ciudad, pais, nickOrganizador, imagenBytes);
 		} catch (Exception ex) {
 			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
@@ -174,6 +185,12 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("nombre_edicion", nombreEdicion);
 		request = CUConsultaEdicion(request, response);
 		request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+	}
+	
+	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
+	    GregorianCalendar calendar = new GregorianCalendar();
+	    calendar.setTime(date);
+	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 	}
 	
 	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -3,6 +3,14 @@ package datatypes;
 import java.util.Date;
 import java.util.Set;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+@XmlRootElement
+@XmlType(name = "DTEvento")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTEvento {
 	private String nombre;
 	private String sigla;
@@ -11,6 +19,13 @@ public class DTEvento {
 	private byte[] imagen;
 	private Set<String> categorias;
 
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTEvento(String, String, ...) en su lugar.
+	 */
+	public DTEvento() {
+	}
+	
 	public
 	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, Set<String> categorias, byte[] imagen) {
 		this.setNombre(nombre);
