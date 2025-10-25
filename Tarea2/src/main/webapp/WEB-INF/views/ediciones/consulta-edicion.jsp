@@ -188,6 +188,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                 <th scope="col">Tipo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Costo</th>
+                <th scope="col">¿Asistió?</th>
               </tr>
             </thead>
             <tbody>
@@ -199,6 +200,11 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                        class="link-primary link-underline"><%= registro.getNombreTipo() %></a></td>
                 <td><%=registro.getFecha()%></td>
                 <td><%=registro.getCosto()%></td>
+                <% if (registro.getAsistio()) { %>
+                	<td>Asistió</td>
+                <% } else { %>
+                	<td>No asistió</td>
+                <% } %>
               </tr>
               <% } %>
             </tbody>
@@ -212,27 +218,33 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             DTDetalleRegistro dtDetalleRegistro = (DTDetalleRegistro) request.getAttribute("detalle_registro");
             if (dtDetalleRegistro != null) {
                 String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
-        %>
-        <div class="card shadow-sm p-4">
-          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
-          <table class="table table-sm table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Costo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
-                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
-                <td><%= dtDetalleRegistro.getFecha() %></td>
-                <td><%= dtDetalleRegistro.getCosto() %></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+		        %>
+		        <div class="card shadow-sm p-4">
+		          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
+		          <table class="table table-sm table-bordered">
+		            <thead class="table-light">
+		              <tr>
+		                <th scope="col">Tipo</th>
+		                <th scope="col">Fecha</th>
+		                <th scope="col">Costo</th>
+		                <th scope="col">¿Asistió?</th>
+		              </tr>
+		            </thead>
+		            <tbody>
+		              <tr>
+		                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
+		                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
+		                <td><%= dtDetalleRegistro.getFecha() %></td>
+		                <td><%= dtDetalleRegistro.getCosto() %></td>
+		                <% if (dtDetalleRegistro.getAsistio()) { %>
+		                	<td>Asistió</td>
+		                <% } else { %>
+		                	<td>No asistió</td>
+		                <% } %>
+		              </tr>
+		            </tbody>
+		          </table>
+		        </div>
         <% }} %>
 
         <%-- si el usuario logeado es organizador y organiza la edición --%>
