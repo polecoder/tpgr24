@@ -9,6 +9,7 @@ public class Registro {
 	private float costo;
 	private Asistente asistente;
 	private Patrocinio patrocinio;
+	private boolean asistio;
 	
 	/**
 	 * Observar que patrocinio puede ser null en caso de que el registro se haga de forma normal, sin código de patrocinio
@@ -23,6 +24,7 @@ public class Registro {
 		this.setCosto(costo);
 		this.setPatrocinio(patrocinio);
 		this.setAsistente(asistente);
+		this.setAsistio(false);
 	}
 	
 	public Date getFechaRegistro() {
@@ -53,12 +55,20 @@ public class Registro {
 		this.patrocinio = patrocinio;
 	}
 	
+	public void setAsistio(boolean asistio) {
+		this.asistio = asistio;
+	}
+	
+	public boolean getAsistio() {
+		return this.asistio;
+	}
+	
 	public DTDetalleRegistro mostrarDetalle(String nombreEdicion, String nombreTipoRegistro) {
 		DTDetalleRegistro dtRegistro = null;
 		if (this.getPatrocinio() != null) {
-			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, this.getPatrocinio().getCodigoPatrocinio());
+			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, this.getPatrocinio().getCodigoPatrocinio(), this.asistio);
 		} else {
-			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, null);
+			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, null, this.asistio);
 		}
 		return dtRegistro;
 	}

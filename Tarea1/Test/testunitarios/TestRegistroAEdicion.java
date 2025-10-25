@@ -87,7 +87,7 @@ public class TestRegistroAEdicion {
 		});
 		
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null, false);
 		// TODO: Chequear que dtRegistroEsperado sea igual dtRegistroGenerado
 	}
 	
@@ -107,7 +107,7 @@ public class TestRegistroAEdicion {
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
 		});
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null, false);
 		// TODO: comparar registro esperado con el generado
 	}
 }

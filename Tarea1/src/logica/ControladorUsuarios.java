@@ -231,9 +231,9 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		
 		DTDetalleRegistro dtRegistro = null;
 		if (registro.getPatrocinio() != null) {
-			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), registro.getPatrocinio().getCodigoPatrocinio());
+			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), registro.getPatrocinio().getCodigoPatrocinio(), registro.getAsistio());
 		} else {
-			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null);
+			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null, registro.getAsistio());
 		}
 		
 		return dtRegistro;
