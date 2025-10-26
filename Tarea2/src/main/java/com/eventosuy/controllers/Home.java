@@ -1,6 +1,7 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,8 +70,11 @@ public class Home extends HttpServlet {
 			throws ServletException, IOException {
 		Fabrica f = Fabrica.getInstancia();
 		
-		Map<String, DTEvento> eventos = f.getControladorEvento().listarEventos();
-		req.setAttribute("eventos", eventos);
+		List<DTEvento> eventosEnCurso = new ArrayList<>(f.getControladorEvento().listarEventosEnCurso());
+		req.setAttribute("eventosEnCurso", eventosEnCurso);
+		
+		List<DTEvento> eventosFinalizados = new ArrayList<>(f.getControladorEvento().listarEventosFinalizados());
+		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
 		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();
 		req.setAttribute("usuarios", usuarios);

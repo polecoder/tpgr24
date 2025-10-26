@@ -45,7 +45,7 @@ public class TestManejadorEventos {
 		assertDoesNotThrow(() -> {
 			controladorEventos.altaCategoria("categoria1");
 		});
-		controladorEventos.altaEvento("nombreEvento", "descripcion", fecha, "sigla", categorias, null);
+		controladorEventos.altaEvento("nombreEvento", "descripcion", fecha, "sigla", categorias, null, null);
 		Map<String, DTEvento> eventos = controladorEventos.listarEventos();
 		assertTrue(eventos.containsKey("nombreEvento"));
 	}
