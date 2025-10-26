@@ -225,7 +225,7 @@ public class AltaEvento extends JInternalFrame {
 			// Si pasa todos los checks, se da de Alta finalmente
 			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 			formato.format(fechaAlta);
-			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, null);
+			fabrica.getControladorEvento().altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, null, null);
 			JOptionPane.showMessageDialog(this, "El evento se ha creado exitosamente.", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
 			resetCampos();
 		});

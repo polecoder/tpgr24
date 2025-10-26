@@ -31,7 +31,7 @@ public class TestAltaEvento {
 		});
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
-		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
+		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null);
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class TestAltaEvento {
 		List<String> categorias = new ArrayList<>();
 		categorias.add("Categoria 1");
 		categorias.add("Categoria 2");
-		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null);
+		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null);
 	}
 	
 	@Test

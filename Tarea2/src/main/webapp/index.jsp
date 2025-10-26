@@ -11,7 +11,9 @@ TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado
 
 List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
 List<String> categorias = (List<String>) request.getAttribute("categorias");
-Map<String, DTEvento> eventos = (Map<String, DTEvento>) request.getAttribute("eventos");
+
+List<DTEvento> eventosEnCurso = (List<DTEvento>) request.getAttribute("eventosEnCurso");
+List<DTEvento> eventosFinalizados = (List<DTEvento>) request.getAttribute("eventosFinalizados");
 
 // Nuevo: parámetro de categoría seleccionada
 String categoriaSeleccionada = request.getParameter("categoria");
@@ -115,53 +117,104 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
 
       <!-- Eventos disponibles -->
       <div class="col-12 col-md-8 order-1 order-md-2 justify-content-center">
-        <h1 class="text-center text-uppercase pb-3 fs-2">
-          <%=(categoriaSeleccionada != null) ? "Eventos en " + categoriaSeleccionada : "Eventos disponibles"%>
-        </h1>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
-          <%
-          if (eventos != null) {
-          	boolean hayEventos = false;
-          	for (DTEvento e : eventos.values()) {
-          		Set<String> cats = e.getCategorias();
-          		boolean mostrar = (categoriaSeleccionada == null) || (cats != null && cats.contains(categoriaSeleccionada));
+  <!-- EVENTOS EN CURSO -->
+  <h2 class="text-center text-uppercase pb-3 fs-3 text-success">Eventos en curso</h2>
 
-          		if (mostrar) {
-          	hayEventos = true;
-          %>
-          <div class="col">
-            <div class="card h-100 shadow-sm">
-              <a href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>"> <img
-                src="<%=(e.getImagen() != null && e.getImagen().length > 0)
-		? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
-		: request.getContextPath() + "/images/sin-imagen.svg"%>"
-                alt="<%=e.getNombre()%>"
-                class="card-img-top"
-                style="object-fit: cover; aspect-ratio: 1/1"
-              />
-              </a>
-              <div class="card-body text-center d-flex justify-content-center align-items-center">
-                <a
-                  href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>"
-                  class="card-title fs-6 text-decoration-none text-dark fw-semibold m-0"
-                > <%=e.getNombre()%>
-                </a>
-              </div>
-            </div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
+    <%
+    if (eventosEnCurso != null && !eventosEnCurso.isEmpty()) {
+      boolean hayEventos = false;
+      for (DTEvento e : eventosEnCurso) {
+        Set<String> cats = e.getCategorias();
+        boolean mostrar = (categoriaSeleccionada == null) || (cats != null && cats.contains(categoriaSeleccionada));
+
+        if (mostrar) {
+          hayEventos = true;
+    %>
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <a href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>">
+            <img
+              src="<%=(e.getImagen() != null && e.getImagen().length > 0)
+              ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
+              : request.getContextPath() + "/images/sin-imagen.svg"%>"
+              alt="<%=e.getNombre()%>"
+              class="card-img-top"
+              style="object-fit: cover; aspect-ratio: 1/1"
+            />
+          </a>
+          <div class="card-body text-center d-flex justify-content-center align-items-center">
+            <a
+              href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>"
+              class="card-title fs-6 text-decoration-none text-dark fw-semibold m-0"
+            ><%=e.getNombre()%></a>
           </div>
-          <%
-				}
-			  }
-              if (!hayEventos) {
-		  %>
-          <p class="text-center text-muted">No hay eventos en esta categoría.</p>
-          <%
-			  }
-			}
-		  %>
         </div>
       </div>
+    <%
+        }
+      }
+      if (!hayEventos) {
+    %>
+      <p class="text-center text-muted">No hay eventos en esta categoría.</p>
+    <%
+      }
+    } else {
+    %>
+      <p class="text-center text-muted">No hay eventos en curso.</p>
+    <%
+    }
+    %>
+  </div>
+
+  <!-- EVENTOS FINALIZADOS -->
+  <h2 class="text-center text-uppercase pb-3 fs-3 text-secondary mt-5">Eventos finalizados</h2>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
+    <%
+    if (eventosFinalizados != null && !eventosFinalizados.isEmpty()) {
+      boolean hayFinalizados = false;
+      for (DTEvento e : eventosFinalizados) {
+        Set<String> cats = e.getCategorias();
+        boolean mostrar = (categoriaSeleccionada == null) || (cats != null && cats.contains(categoriaSeleccionada));
+
+        if (mostrar) {
+          hayFinalizados = true;
+    %>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-secondary">
+          <img
+            src="<%=(e.getImagen() != null && e.getImagen().length > 0)
+            ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
+            : request.getContextPath() + "/images/sin-imagen.svg"%>"
+            alt="<%=e.getNombre()%>"
+            class="card-img-top"
+            style="object-fit: cover; aspect-ratio: 1/1; opacity: 0.6;"
+          />
+          <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+            <span class="badge bg-secondary mb-2">Finalizado</span>
+            <span class="fw-semibold text-muted"><%=e.getNombre()%></span>
+          </div>
+        </div>
+      </div>
+    <%
+        }
+      }
+      if (!hayFinalizados) {
+    %>
+      <p class="text-center text-muted">No hay eventos finalizados en esta categoría.</p>
+    <%
+      }
+    } else {
+    %>
+      <p class="text-center text-muted">No hay eventos finalizados.</p>
+    <%
+    }
+    %>
+  </div>
+
+</div>
     </div>
   </div>
 
