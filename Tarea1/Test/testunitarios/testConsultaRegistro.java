@@ -42,7 +42,7 @@ class testConsultaRegistro {
 		   ManejadorEventos manejador = ManejadorEventos.getInstancia(); 
 		   
 		//creo evento
-		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null);
+		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null);
 		manejador.agregarEvento(evento);
 		
 		//creo edicion
@@ -101,7 +101,7 @@ class testConsultaRegistro {
 	    manejadorusuarios.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
-	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null);
+	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null);
 	    manejadoreventos.agregarEvento(evento);
 
 	    Edicion edicion = new Edicion("Expo", "EXP",
@@ -211,7 +211,7 @@ class testConsultaRegistro {
         manejadorusuarios.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
-        Evento evento = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null);
+        Evento evento = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null, null);
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
@@ -271,7 +271,7 @@ class testConsultaRegistro {
         manejadorusuarios.getConjuntoAsistentes().put(asistente.getNickname(), asistente);
 
         // Contexto mínimo
-        Evento evento = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null);
+        Evento evento = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null, null);
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),

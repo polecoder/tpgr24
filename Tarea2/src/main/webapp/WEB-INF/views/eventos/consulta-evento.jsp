@@ -14,6 +14,17 @@
 
     <div class="container flex-grow-1 py-4" >
         <main class="p-4 bg-light border-top border-2 border-primary rounded shadow-sm">
+        
+        <% if (request.getAttribute("flashOK") != null) { %>
+  			<div class="alert alert-success text-center">
+    			<%= request.getAttribute("flashOK") %>
+  			</div>
+		<% } %>
+		<% if (request.getAttribute("flashWARN") != null) { %>
+  			<div class="alert alert-warning text-center">
+    			<%= request.getAttribute("flashWARN") %>
+  			</div>
+		<% } %>
 
             <%
             // ==== DATOS DEL EVENTO ====
@@ -24,6 +35,9 @@
             
             DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
         	TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
+        	
+        	boolean esOrganizador = Boolean.TRUE.equals(request.getAttribute("esOrganizador"));
+        	boolean eventoFinalizado = Boolean.TRUE.equals(request.getAttribute("eventoFinalizado"));
 
             // Obtenemos la imagen como byte[]
             byte[] imagenBytes = (byte[]) request.getAttribute("imagen");
@@ -54,12 +68,31 @@
 			      <h1 class="text-uppercase fw-bold fs-2 text-primary mb-1">
 			        <%= nombre %>
 			      </h1>
+			      
+			      <div class="mt-2">
+  					<% if (eventoFinalizado) { %>
+    					<span class="badge bg-secondary">Finalizado</span>
+ 					<% } else { %>
+    					<span class="badge bg-success">En curso</span>
+  					<% } %>
+				</div>
 			     
 			    </div>
 			  </div>
 			</div>
 			
 			<!-- Detalle evento -->
+			
+			<% if (esOrganizador && !eventoFinalizado) { %>
+  				<form method="post" action="<%= request.getContextPath() %>/Eventos" class="my-3">
+    			<input type="hidden" name="accion" value="finalizar"/>
+    			<input type="hidden" name="nombre" value="<%= nombre %>"/>
+    			<button type="submit" class="btn btn-danger fw-semibold"
+            		onclick="return confirm('¿Seguro que querés finalizar este evento?');">
+      				FINALIZAR EVENTO
+    			</button>
+  			</form>
+			<% } %>
 			 
 		<div class="card shadow-sm p-4 mb-3">
             <h4 class="fw-bold text-primary mb-3 ">Detalles del Evento:</h4>
@@ -99,7 +132,7 @@
             <div class="card shadow-sm p-4">
 		    <div class="d-flex justify-content-between align-items-center mb-3">
 		        <h4 class="text-primary mb-0">Ediciones:</h4>
-		        <% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
+		        <% if (esOrganizador && !eventoFinalizado) { %>
 		            <a href="<%= request.getContextPath() %>/Ediciones?accion=AltaEdicion&nombre_evento=<%= nombre %>"
 		               class="btn btn-primary fw-semibold shadow-sm px-3">
 		                ➕ Dar de alta nueva edición

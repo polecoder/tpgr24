@@ -8,6 +8,7 @@ import excepciones.EdicionNoExiste;
 import excepciones.TipoRegistroNoExiste;
 import datatypes.DTPatrocinio;
 import datatypes.DTTipoRegistro;
+import datatypes.EEstadoEvento;
 
 public class Evento {
 	private String nombre;
@@ -17,9 +18,10 @@ public class Evento {
 	private Map<String, Categoria> categorias;
 	private byte[] imagen; 
 	private final Map<String, Edicion> ediciones;
+	private EEstadoEvento estado = EEstadoEvento.EN_CURSO;
 
 	public
-	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen) {
+	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen, EEstadoEvento estado) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
@@ -27,6 +29,7 @@ public class Evento {
 		this.setImagen(imagen);
 		this.categorias = new HashMap<>();
 		this.ediciones = new HashMap<>(); 
+		this.estado = EEstadoEvento.EN_CURSO;
 	}
 
 	public String getNombre(){
@@ -50,6 +53,14 @@ public class Evento {
 	public byte[] getImagen() {
 		return this.imagen;
 	}
+	
+	public EEstadoEvento getEstado() { 
+		return estado; 
+	}
+	
+	public boolean isFinalizado() { 
+		return estado == EEstadoEvento.FINALIZADO; 
+	}
 
 	public void setNombre(String nombre){
 		this.nombre = nombre;
@@ -66,6 +77,10 @@ public class Evento {
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
+	
+	 public void finalizar() {
+	        this.estado = EEstadoEvento.FINALIZADO;
+	 }
 
 	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
