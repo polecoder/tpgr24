@@ -13,7 +13,6 @@
         ? "data:image/png;base64," + Base64.getEncoder().encodeToString(datosUsuario.getImagen())
             : cp + "/images/menu.svg";
 %>
-<%-- TODO: Actualizar diseño a mobile --%>
 <nav class="navbar d-flex justify-content-between bg-primary p-2 p-sm-3">
   <a
     <%-- TODO: Actualizar link --%>
