@@ -7,6 +7,7 @@
 <html lang="es">
 <head>
 <jsp:include page="WEB-INF/views/partials/head.jsp" />
+<link rel="stylesheet" href="./css/style.css"/>
 </head>
 <%-- TODO: actualizar index mínimo --%>
 <body class="d-flex flex-column min-vh-100 bg-light">
