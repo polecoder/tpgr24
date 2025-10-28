@@ -57,7 +57,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             />
             <% } %>
            <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; word-break: break-word;">
-    			<h1 class="text-uppercase fw-bold mb-1 fs-2 text-center" style="line-height: 1.2;"><%= nombreEdicion %></h1>
+    			<h1 class="text-primary fw-bold mb-1 fs-2 text-center" style="line-height: 1.2;"><%= nombreEdicion %></h1>
  		 </div>
  		 
  		  <div class="d-flex align-items-center gap-3 justify-content-center mb-4">
@@ -77,13 +77,12 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 		            <p class="fw-semibold text-secondary mb-0"><%= dtEdicion.getOrganizadorNickname() %></p>
 		        </div>
 		    </div>
+		   </div>
 			
-
-          </div>
         <!-- Datos de la edición -->
         <div class="card shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold text-primary mb-0">Detalles de la edición</h4>
+            <h4 class="fw-bold text-primary mb-0">Detalles de la edición:</h4>
             <% if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) { %>
               <% if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Ingresada")) { %>
                 <span class="badge-estado badge-ingresada">Ingresada</span>
@@ -139,12 +138,12 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
           </div>
         <% } else { %>
           <p class="text-secondary text-center mb-0">No tiene tipos de registro.</p>
-         </div> 
+         
         <% } %>
-
+	
         <!-- Patrocinadores -->
         <div class="card shadow-sm p-4">
-          <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores de la edición</h5>
+          <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores:</h5>
           <% if (!setPatrocinios.isEmpty()) { %>
             <table class="table table-sm table-bordered">
               <thead class="table-light">
@@ -263,7 +262,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             if (!finalizado) { %>
             <div class="d-flex justify-content-center gap-3">
               <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-                 class="btn btn-primary btn-sm px-3">Registrarse a edición</a>
+                 class="btn btn-primary btn-sm px-3 fs-5">Registrarse a edición</a>
             </div>
         <% }} %>
       </form>
