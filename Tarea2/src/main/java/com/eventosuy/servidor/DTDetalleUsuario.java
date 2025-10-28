@@ -4,6 +4,7 @@ package com.eventosuy.servidor;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlSchemaType;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 
 
@@ -37,6 +38,10 @@ import jakarta.xml.bind.annotation.XmlType;
     "correo",
     "imagen",
     "tipo"
+})
+@XmlSeeAlso({
+    DTDetalleAsistente.class,
+    DTDetalleOrganizador.class
 })
 public class DTDetalleUsuario {
 

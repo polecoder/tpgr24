@@ -2,9 +2,6 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 
-import com.eventosuy.servidor.Publicador;
-import com.eventosuy.servidor.PublicadorService;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

@@ -14,7 +14,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="DTTipoRegistro"&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base="{http://servidor/}record"&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="nombre" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
@@ -22,7 +22,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="cuposMax" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="cuposDisponibles" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *       &lt;/sequence&gt;
- *     &lt;/extension&gt;
+ *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
@@ -37,9 +37,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "cuposMax",
     "cuposDisponibles"
 })
-public class DTTipoRegistro
-    extends Record
-{
+public class DTTipoRegistro {
 
     protected String nombre;
     protected String descripcion;

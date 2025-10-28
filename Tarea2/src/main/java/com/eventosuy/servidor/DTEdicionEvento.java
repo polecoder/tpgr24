@@ -27,7 +27,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="organizadorNickname" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="imagen" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
- *         &lt;element name="estado" type="{http://servidor/}eEstadoEdicion" minOccurs="0"/&gt;
+ *         &lt;element name="estado" type="{http://servidor/}EEstadoEdicion" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;

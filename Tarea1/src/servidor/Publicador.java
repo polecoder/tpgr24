@@ -13,6 +13,7 @@ import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.DTEventoEdicion;
 import datatypes.DTInstitucion;
 import datatypes.DTRegistro;
 import datatypes.DTTipoRegistro;
@@ -140,7 +141,7 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion... estados) {
+	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion estados) {
 		List<String> res = controladorEventos.getEdicionesDeOrganizadorPorEstado(organizadorNickname, estados);
 	    return new ArrayList<String> (res);
 	}
@@ -183,7 +184,7 @@ public class Publicador {
 	}
 	
 	@WebMethod
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, ArrayList<String> categorias, byte[] imagen) {
 	    controladorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
 	}
 
@@ -203,6 +204,11 @@ public class Publicador {
 	}
 	
 	// -------------------	USUARIOS		------------------- //
+	@WebMethod
+	public ArrayList<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador){
+		List<DTEventoEdicion> res = controladorUsuarios.getEventosEdicionesDeOrganizador(nicknameOrganizador);
+		return new ArrayList<DTEventoEdicion>(res);
+	}
 	@WebMethod
 	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta{
 		return controladorUsuarios.validarLogin(usuario, contrasena);

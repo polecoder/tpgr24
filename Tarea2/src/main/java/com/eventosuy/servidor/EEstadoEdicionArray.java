@@ -11,16 +11,16 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para eEstadoEdicionArray complex type.
+ * <p>Clase Java para EEstadoEdicionArray complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="eEstadoEdicionArray"&gt;
+ * &lt;complexType name="EEstadoEdicionArray"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="item" type="{http://servidor/}eEstadoEdicion" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="item" type="{http://servidor/}EEstadoEdicion" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -30,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "eEstadoEdicionArray", propOrder = {
+@XmlType(name = "EEstadoEdicionArray", propOrder = {
     "item"
 })
 public class EEstadoEdicionArray {

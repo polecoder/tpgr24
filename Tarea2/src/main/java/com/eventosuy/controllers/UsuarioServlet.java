@@ -7,19 +7,24 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.DTDetalleAsistente;
+import com.eventosuy.servidor.DTDetalleOrganizador;
+import com.eventosuy.servidor.DTDetalleRegistro;
+import com.eventosuy.servidor.DTDetalleUsuario;
+import com.eventosuy.servidor.EEstadoEdicion;
+import com.eventosuy.servidor.EEstadoEdicionArray;
 
-import datatypes.DTDetalleAsistente;
-import datatypes.DTDetalleOrganizador;
-import datatypes.DTDetalleRegistro;
-import datatypes.DTDetalleUsuario;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
-import datatypes.EEstadoEdicion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -81,6 +86,8 @@ public class UsuarioServlet extends HttpServlet {
 					} else if ("asistente".equalsIgnoreCase(rol)) {
 						String apellido    = trim(request.getParameter("apellido"));
 						LocalDate fechaNac = parseDate(trim(request.getParameter("fechaNac"))); // puede ser null
+						Date dateFechaNac = (fechaNac != null ? java.sql.Date.valueOf(fechaNac) : null);
+						
 						String institucion = trim(request.getParameter("institucion"));
 						puerto.altaAsistente(
 								nickname,         
@@ -88,7 +95,7 @@ public class UsuarioServlet extends HttpServlet {
 								nombre,            
 								email,             
 								apellido,          
-								(fechaNac != null ? java.sql.Date.valueOf(fechaNac) : null), 
+								dateToXMLGregorianCalendar(dateFechaNac), 
 								institucion,
 								imagen
 								);
@@ -141,7 +148,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 			} else {
-				Set<String> listaNombresInstitucion = puerto.nombresInstituciones();
+				Set<String> listaNombresInstitucion = (Set<String>) puerto.nombresInstituciones();
 				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 				
 				request.getRequestDispatcher("/WEB-INF/views/usuarios/alta-usuario.jsp")
@@ -157,7 +164,7 @@ public class UsuarioServlet extends HttpServlet {
 			try {
 				if (isBlank(nick)) {
 					// listar todos
-					Collection<DTUsuario> usrs = puerto.listarUsuarios(); 
+					Collection<DTUsuario> usrs = (Collection<DTUsuario>) puerto.listarUsuarios(); 
 					request.setAttribute("usuarios", usrs);
 					request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp").forward(request, response);
 					return;
@@ -190,8 +197,7 @@ public class UsuarioServlet extends HttpServlet {
 					
 					// ------ ORGANIZADOR ------
 					if (u instanceof DTDetalleOrganizador) {
-					    java.util.List<String> aceptadas =
-					        puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Aceptada);
+					    java.util.List<String> aceptadas = (List<String>) puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.ACEPTADA);
 					    if (aceptadas == null) aceptadas = java.util.Collections.emptyList();
 					    request.setAttribute("edicionesAceptadas", aceptadas);
 					    
@@ -199,9 +205,9 @@ public class UsuarioServlet extends HttpServlet {
 					    List<String> rechazadas = new ArrayList<>();
 					    if (esPropio) {
 					        ingresadas =
-					            puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Ingresada);
+					            (List<String>) puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.INGRESADA);
 					        rechazadas =
-					            puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Rechazada);
+					            (List<String>) puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.RECHAZADA);
 					        if (ingresadas == null) ingresadas = java.util.Collections.emptyList();
 					        if (rechazadas == null) rechazadas = java.util.Collections.emptyList();
 
@@ -214,7 +220,7 @@ public class UsuarioServlet extends HttpServlet {
 					if (u instanceof DTDetalleAsistente) {
 					    java.util.List<DTRegistro> regs = java.util.Collections.emptyList();
 					    if (esPropio) {
-					        regs = puerto.listarRegistrosUsuario(u.getNickname());
+					        regs = (List<DTRegistro>) puerto.listarRegistrosUsuario(u.getNickname());
 					        if (regs == null) regs = java.util.Collections.emptyList();
 					    }
 					    request.setAttribute("registros", regs);
@@ -269,7 +275,7 @@ public class UsuarioServlet extends HttpServlet {
 								nickSesion,
 								nombre,          // nuevoNombre
 								apellido,        // nuevoApellido
-								fecha            // nuevaFechaNacimiento
+								dateToXMLGregorianCalendar(fecha)            // nuevaFechaNacimiento
 								);
 
 					} else if (det instanceof DTDetalleOrganizador) {
@@ -363,7 +369,7 @@ public class UsuarioServlet extends HttpServlet {
 					return;
 				}
 				try {
-					puerto.altaRegistro(nick, idTipo, idEdicion, evento, codigo, new Date());
+					puerto.altaRegistro(nick, idTipo, idEdicion, evento, codigo, dateToXMLGregorianCalendar(new Date()));
 					response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta-registro&ok=1");
 					return;
 
@@ -425,7 +431,7 @@ public class UsuarioServlet extends HttpServlet {
 						//  detalle de registro de un usuario en esa edición
 
 						// Validar que la edición pertenezca al evento
-						Set<String> edicionesDelEvento = puerto.nombresEdicionesEvento(evento);
+						Set<String> edicionesDelEvento = (Set<String>) puerto.nombresEdicionesEvento(evento);
 						if (edicionesDelEvento == null || !edicionesDelEvento.contains(edicion)) {
 							request.setAttribute("error", "La edición seleccionada no pertenece al evento indicado.");
 							request.setAttribute("eventoSel",  evento);
@@ -433,7 +439,7 @@ public class UsuarioServlet extends HttpServlet {
 							request.setAttribute("registrados", puerto.listarRegistrosAEdicion(evento, edicion));
 						} else {
 							// Buscar el registro del usuario por nombre de edición
-							List<DTRegistro> regsUsr = puerto.listarRegistrosUsuario(usuarioX);
+							List<DTRegistro> regsUsr = (List<DTRegistro>) puerto.listarRegistrosUsuario(usuarioX);
 							Integer matchIdx = null;
 							for (int i = 0; i < regsUsr.size(); i++) {
 								DTRegistro r = regsUsr.get(i);
@@ -474,7 +480,7 @@ public class UsuarioServlet extends HttpServlet {
 						request.setAttribute("idxSel", idx);
 					}
 					// Siempre muestro mi lista de registros
-					List<DTRegistro> regs = puerto.listarRegistrosUsuario(datosUsuario.getNickname());
+					List<DTRegistro> regs = (List<DTRegistro>) puerto.listarRegistrosUsuario(datosUsuario.getNickname());
 					request.setAttribute("registros", regs);
 				}
 
@@ -519,5 +525,11 @@ public class UsuarioServlet extends HttpServlet {
 	private static String getNickFromSession(HttpServletRequest req) {
 		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) req.getSession().getAttribute("usuarioLogeado"); // lo setea tu en action=alta
 		return (dtUsuario == null) ? null : dtUsuario.getNickname();
+	}
+	
+	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
+	    GregorianCalendar calendar = new GregorianCalendar();
+	    calendar.setTime(date);
+	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 	}
 }

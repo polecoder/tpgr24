@@ -1,14 +1,16 @@
 package datatypes;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlRootElement
 @XmlType(name = "EEstadoEdicion")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlEnum
 public enum EEstadoEdicion {
-	Ingresada,
-	Aceptada,
+	@XmlEnumValue("Ingresada")
+	Ingresada, 
+	@XmlEnumValue("Aceptada")
+	Aceptada, 
+	@XmlEnumValue("Rechazada")
 	Rechazada
 }

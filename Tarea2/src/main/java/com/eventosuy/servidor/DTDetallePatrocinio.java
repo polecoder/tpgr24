@@ -16,17 +16,17 @@ import jakarta.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="DTDetallePatrocinio"&gt;
  *   &lt;complexContent&gt;
- *     &lt;extension base="{http://servidor/}record"&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="nombreInstitucion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="codigo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="aporte" type="{http://www.w3.org/2001/XMLSchema}float"/&gt;
- *         &lt;element name="nivel" type="{http://servidor/}eNivelPatrocinio" minOccurs="0"/&gt;
+ *         &lt;element name="nivel" type="{http://servidor/}ENivelPatrocinio" minOccurs="0"/&gt;
  *         &lt;element name="cuposGratuitos" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="tipoRegistro" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
- *     &lt;/extension&gt;
+ *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
@@ -43,9 +43,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "cuposGratuitos",
     "tipoRegistro"
 })
-public class DTDetallePatrocinio
-    extends Record
-{
+public class DTDetallePatrocinio {
 
     protected String nombreInstitucion;
     protected String codigo;

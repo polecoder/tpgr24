@@ -42,10 +42,15 @@ public class ObjectFactory {
     private final static QName _TipoRegistroNoExiste_QNAME = new QName("http://servidor/", "TipoRegistroNoExiste");
     private final static QName _UsuarioNoExiste_QNAME = new QName("http://servidor/", "UsuarioNoExiste");
     private final static QName _YaAsisteAEdicion_QNAME = new QName("http://servidor/", "YaAsisteAEdicion");
+    private final static QName _DtDetalleAsistente_QNAME = new QName("http://servidor/", "dtDetalleAsistente");
+    private final static QName _DtDetalleOrganizador_QNAME = new QName("http://servidor/", "dtDetalleOrganizador");
+    private final static QName _DtDetallePatrocinio_QNAME = new QName("http://servidor/", "dtDetallePatrocinio");
     private final static QName _DtDetalleRegistro_QNAME = new QName("http://servidor/", "dtDetalleRegistro");
     private final static QName _DtDetalleUsuario_QNAME = new QName("http://servidor/", "dtDetalleUsuario");
     private final static QName _DtEdicionEvento_QNAME = new QName("http://servidor/", "dtEdicionEvento");
     private final static QName _DtEvento_QNAME = new QName("http://servidor/", "dtEvento");
+    private final static QName _DtTipoRegistro_QNAME = new QName("http://servidor/", "dtTipoRegistro");
+    private final static QName _Patrocinio_QNAME = new QName("http://servidor/", "patrocinio");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.eventosuy.servidor
@@ -199,6 +204,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTDetalleAsistente }
+     * 
+     */
+    public DTDetalleAsistente createDTDetalleAsistente() {
+        return new DTDetalleAsistente();
+    }
+
+    /**
+     * Create an instance of {@link DTDetalleOrganizador }
+     * 
+     */
+    public DTDetalleOrganizador createDTDetalleOrganizador() {
+        return new DTDetalleOrganizador();
+    }
+
+    /**
+     * Create an instance of {@link DTDetallePatrocinio }
+     * 
+     */
+    public DTDetallePatrocinio createDTDetallePatrocinio() {
+        return new DTDetallePatrocinio();
+    }
+
+    /**
      * Create an instance of {@link DTDetalleRegistro }
      * 
      */
@@ -231,6 +260,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTTipoRegistro }
+     * 
+     */
+    public DTTipoRegistro createDTTipoRegistro() {
+        return new DTTipoRegistro();
+    }
+
+    /**
+     * Create an instance of {@link Patrocinio }
+     * 
+     */
+    public Patrocinio createPatrocinio() {
+        return new Patrocinio();
+    }
+
+    /**
      * Create an instance of {@link HashMap }
      * 
      */
@@ -244,14 +289,6 @@ public class ObjectFactory {
      */
     public HashSet createHashSet() {
         return new HashSet();
-    }
-
-    /**
-     * Create an instance of {@link DTTipoRegistro }
-     * 
-     */
-    public DTTipoRegistro createDTTipoRegistro() {
-        return new DTTipoRegistro();
     }
 
     /**
@@ -271,35 +308,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DTDetallePatrocinio }
-     * 
-     */
-    public DTDetallePatrocinio createDTDetallePatrocinio() {
-        return new DTDetallePatrocinio();
-    }
-
-    /**
-     * Create an instance of {@link Patrocinio }
-     * 
-     */
-    public Patrocinio createPatrocinio() {
-        return new Patrocinio();
-    }
-
-    /**
      * Create an instance of {@link TipoRegistro }
      * 
      */
     public TipoRegistro createTipoRegistro() {
         return new TipoRegistro();
-    }
-
-    /**
-     * Create an instance of {@link EEstadoEdicionArray }
-     * 
-     */
-    public EEstadoEdicionArray createEEstadoEdicionArray() {
-        return new EEstadoEdicionArray();
     }
 
     /**
@@ -537,6 +550,45 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTDetalleAsistente }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTDetalleAsistente }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtDetalleAsistente")
+    public JAXBElement<DTDetalleAsistente> createDtDetalleAsistente(DTDetalleAsistente value) {
+        return new JAXBElement<DTDetalleAsistente>(_DtDetalleAsistente_QNAME, DTDetalleAsistente.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTDetalleOrganizador }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTDetalleOrganizador }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtDetalleOrganizador")
+    public JAXBElement<DTDetalleOrganizador> createDtDetalleOrganizador(DTDetalleOrganizador value) {
+        return new JAXBElement<DTDetalleOrganizador>(_DtDetalleOrganizador_QNAME, DTDetalleOrganizador.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTDetallePatrocinio }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTDetallePatrocinio }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtDetallePatrocinio")
+    public JAXBElement<DTDetallePatrocinio> createDtDetallePatrocinio(DTDetallePatrocinio value) {
+        return new JAXBElement<DTDetallePatrocinio>(_DtDetallePatrocinio_QNAME, DTDetallePatrocinio.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DTDetalleRegistro }{@code >}
      * 
      * @param value
@@ -586,6 +638,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "dtEvento")
     public JAXBElement<DTEvento> createDtEvento(DTEvento value) {
         return new JAXBElement<DTEvento>(_DtEvento_QNAME, DTEvento.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTTipoRegistro }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTTipoRegistro }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtTipoRegistro")
+    public JAXBElement<DTTipoRegistro> createDtTipoRegistro(DTTipoRegistro value) {
+        return new JAXBElement<DTTipoRegistro>(_DtTipoRegistro_QNAME, DTTipoRegistro.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Patrocinio }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Patrocinio }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "patrocinio")
+    public JAXBElement<Patrocinio> createPatrocinio(Patrocinio value) {
+        return new JAXBElement<Patrocinio>(_Patrocinio_QNAME, Patrocinio.class, null, value);
     }
 
 }

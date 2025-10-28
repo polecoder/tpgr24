@@ -4,10 +4,12 @@ import java.util.Arrays;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement
 @XmlType(name = "DTDetalleUsuario")
+@XmlSeeAlso({DTDetalleAsistente.class, DTDetalleOrganizador.class}) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DTDetalleUsuario {
 	private String nickname;

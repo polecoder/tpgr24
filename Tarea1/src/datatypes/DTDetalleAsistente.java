@@ -2,10 +2,25 @@ package datatypes;
 
 import java.util.Date;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+@XmlRootElement
+@XmlType(name = "DTDetalleAsistente")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTDetalleAsistente extends DTDetalleUsuario {
 	private String apellido;
 	private Date nacimiento;
 	private String institucion;
+	
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTDetalleAsistente(String, String, ...) en su lugar.
+	 */
+	public DTDetalleAsistente() {
+	}
 	
 	/*public DTDetalleAsistente(String nickname, String nombre, String correo, String apellido, Date nacimiento) {
 		super(nickname, nombre, correo);

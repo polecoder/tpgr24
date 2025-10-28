@@ -2,13 +2,23 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.eventosuy.models.TipoUsuario;
+import com.eventosuy.servidor.DTDetallePatrocinio;
+import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.DTTipoRegistro;
+import com.eventosuy.servidor.ENivelPatrocinio;
+import com.eventosuy.servidor.Patrocinio;
 
-import datatypes.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,10 +26,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorInstitucion;
-import logica.Patrocinio;
 
 /**
  * Servlet implementation class Home
@@ -99,9 +105,9 @@ public class Institucion extends HttpServlet {
 	private void handleAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
 			String nombreEdicion, Publicador controladorEventos,
 			Publicador controladorInstitucion) throws ServletException, IOException {
-
-		Set<String> listaNombresTipoRegistro = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion).keySet();
-		Set<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones();
+		@SuppressWarnings("unchecked")
+		Set<String> listaNombresTipoRegistro = ((Map<String, DTTipoRegistro>) controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion)).keySet();
+		Set<String> listaNombresInstitucion = (Set<String>) controladorInstitucion.nombresInstituciones();
 
 		request.setAttribute("nombreEvento", nombreEvento);
 		request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
@@ -122,7 +128,7 @@ public class Institucion extends HttpServlet {
 			DTDetallePatrocinio dtPatrocinio = obtenerDetallePatrocinio(controladorEventos, nombreEvento, nombreEdicion,
 					codigoPatrocinio);
 			DTTipoRegistro dtTipoRegistro = obtenerTipoRegistro(controladorEventos, nombreEvento, nombreEdicion,
-					dtPatrocinio.tipoRegistro());
+					dtPatrocinio.getTipoRegistro());
 			
 			request.setAttribute("nombreEvento", nombreEvento);
 			request.setAttribute("codigoPatrocinio", codigoPatrocinio);
@@ -139,8 +145,15 @@ public class Institucion extends HttpServlet {
 				codigoPatrocinio);
 
 		if (dtPatrocinio == null) {
-			return new DTDetallePatrocinio("Institucion failed: Call support", "codigo failed: Call support",
-					new Date(), 0, null, 0, "Tipo de Registro failed: Call support");
+			DTDetallePatrocinio dTDetallePatrocinioDefault = new DTDetallePatrocinio();
+			dTDetallePatrocinioDefault.setNombreInstitucion("Institucion failed: Call support"); 
+			dTDetallePatrocinioDefault.setCodigo("codigo failed: Call support");
+			dTDetallePatrocinioDefault.setFechaAlta(null); 
+			dTDetallePatrocinioDefault.setAporte(0); 
+			dTDetallePatrocinioDefault.setNivel(null); 
+			dTDetallePatrocinioDefault.setCuposGratuitos(0); 
+			dTDetallePatrocinioDefault.setTipoRegistro("Tipo de Registro failed: Call support");
+			return dTDetallePatrocinioDefault;
 		}
 		return dtPatrocinio;
 	}
@@ -158,8 +171,13 @@ public class Institucion extends HttpServlet {
 		} catch (Exception e) {
 			// Fall through to return default
 		}
-
-		return new DTTipoRegistro("Tipo de Registro failed: Call support", "Descripcion failed: Call support", 0, 0, 0);
+		DTTipoRegistro dTTipoRegistroDefault = new DTTipoRegistro();
+		dTTipoRegistroDefault.setNombre("Tipo de Registro failed: Call support"); 
+		dTTipoRegistroDefault.setDescripcion("Descripcion failed: Call support"); 
+		dTTipoRegistroDefault.setCosto(0); 
+		dTTipoRegistroDefault.setCuposMax(0); 
+		dTTipoRegistroDefault.setCuposDisponibles(0);
+		return dTTipoRegistroDefault;
 	}
 
 	/**
@@ -294,7 +312,7 @@ public class Institucion extends HttpServlet {
 		try {
 			controladorEventos.altaPatrocinio(eventoSeleccionado, 
 					edicionSeleccionada,
-					FechaAlta,
+					dateToXMLGregorianCalendar(FechaAlta),
 					institucionSeleccionada, 
 					nivelPatrocinio,
 					aporteEconomico,
@@ -303,8 +321,8 @@ public class Institucion extends HttpServlet {
 					tipoRegistroSeleccionado);
 			response.sendRedirect(request.getContextPath() + "/home"); // hago redirect a home solo si el alta fue éxitoso
 		} catch (Exception error) {
-			Set<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones();
-			Set<String> listaNombresTipoRegistro = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+			Set<String> listaNombresInstitucion = (Set<String>) controladorInstitucion.nombresInstituciones();
+			Set<String> listaNombresTipoRegistro = (Set<String>) controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 			request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 			request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 			request.setAttribute("nombreEvento", eventoSeleccionado);
@@ -312,5 +330,10 @@ public class Institucion extends HttpServlet {
 			request.setAttribute("error", error.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 		}
+	}
+	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
+	    GregorianCalendar calendar = new GregorianCalendar();
+	    calendar.setTime(date);
+	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 	}
 }
