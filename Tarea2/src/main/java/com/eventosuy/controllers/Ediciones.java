@@ -13,19 +13,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import com.eventosuy.servidor.DtEdicionEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.UsuarioNoExiste_Exception;
+import com.eventosuy.servidor.DTEdicionEvento;
+import com.eventosuy.servidor.DTDetalleUsuario;
+import com.eventosuy.servidor.DTDetalleRegistro;
+import com.eventosuy.servidor.DTTipoRegistro;
+import com.eventosuy.servidor.DTEvento;
 
-import datatypes.DTDetalleRegistro;
-import datatypes.DTDetalleUsuario;
-import datatypes.DTEdicionEvento;
-import datatypes.DTTipoRegistro;
 import datatypes.DTUsuario;
-import datatypes.DTEvento;
 import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -84,7 +86,7 @@ public class Ediciones extends HttpServlet {
 		}
 	}
 	
-	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatatypeConfigurationException {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }
 		
@@ -108,7 +110,7 @@ public class Ediciones extends HttpServlet {
 		}
 		
 		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
-		Set<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
+		Set<String> setPatrocinios = (Set<String>) puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
 		Set<String> setTiposRegistro = (Set<String>) puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
 		Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
@@ -120,7 +122,11 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		request.setAttribute("finalizada", false);
-		if (dtEdicion.getFechaFin().before(new Date())) { 
+		
+		GregorianCalendar hoy = new GregorianCalendar();
+		XMLGregorianCalendar xmlHoy = DatatypeFactory.newInstance().newXMLGregorianCalendar(hoy);
+		
+		if (dtEdicion.getFechaFin().compare(xmlHoy) == DatatypeConstants.LESSER) { 
 			request.setAttribute("finalizada", true);
 		}
 		
@@ -137,14 +143,14 @@ public class Ediciones extends HttpServlet {
 		try {
 			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
-		} catch (UsuarioNoExiste e) {
+		} catch (UsuarioNoExiste_Exception e) {
 			//no va a entrar aca nunca
 			e.printStackTrace();
 		}
 		return request;
 	}
 	
-	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+	private void CUAltaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException, DatatypeConfigurationException {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		
