@@ -6,10 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
@@ -136,7 +140,15 @@ public class Eventos extends HttpServlet {
         }
 
         List<String> CatSel = Arrays.asList(categoriasSeleccionadas);
-        puerto.altaEvento(nombre, descripcion, fechaAlta, sigla, CatSel, imagen);
+        XMLGregorianCalendar xmlGregorianCalendarFechaAlta;
+		try {
+			xmlGregorianCalendarFechaAlta = dateToXMLGregorianCalendar(fechaAlta);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			xmlGregorianCalendarFechaAlta = null;
+		}
+        puerto.altaEvento(nombre, descripcion, xmlGregorianCalendarFechaAlta, sigla, (com.eventosuy.servidor.ArrayList) CatSel, imagen);
 
         // Preparar datos para la vista de consulta
         request.setAttribute("mensaje", "Evento '" + nombre + "' creado correctamente.");
@@ -151,6 +163,11 @@ public class Eventos extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/consulta-evento.jsp");
         dispatcher.forward(request, response);
     }
+    private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
+	    GregorianCalendar calendar = new GregorianCalendar();
+	    calendar.setTime(date);
+	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+	}
 
     // --- Consulta de evento ---
     private void Consulta(HttpServletRequest request, HttpServletResponse response)
@@ -167,7 +184,7 @@ public class Eventos extends HttpServlet {
         request.setAttribute("descripcion", evento.getDescripcion());
         request.setAttribute("sigla", evento.getSigla());
         
-        Set<String> categoriasSet = puerto.nombresCategorias(nombre);
+        Set<String> categoriasSet = (Set<String>) puerto.nombresCategorias(nombre);
         List<String> categoriasList = new ArrayList<>(categoriasSet);
         request.setAttribute("categorias", categoriasList);
 
@@ -179,7 +196,7 @@ public class Eventos extends HttpServlet {
         Map<String, DTEdicionEvento> edicionesMap = (Map<String, DTEdicionEvento>) puerto.listarEdicionesEvento(nombre);
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
         List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
-        	    .filter(element -> EEstadoEdicion.Aceptada == element.getEstado())
+        	    .filter(element -> EEstadoEdicion.ACEPTADA == element.getEstado())
         	    .collect(Collectors.toList());
         
         
