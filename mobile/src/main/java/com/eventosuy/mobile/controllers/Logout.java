@@ -34,7 +34,8 @@ public class Logout extends HttpServlet {
 			throws ServletException, IOException {
 		// cierra la sesión http
 		req.getSession().invalidate();
-		resp.sendRedirect(req.getContextPath() + "/home");
+		// TODO: Actualizar redirect
+		resp.sendRedirect(req.getContextPath() + "/login");
 	}
 
 	/**

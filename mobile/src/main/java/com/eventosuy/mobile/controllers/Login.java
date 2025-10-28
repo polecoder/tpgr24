@@ -1,9 +1,11 @@
 package com.eventosuy.mobile.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.eventosuy.mobile.models.TipoUsuario;
 
+import carga.CargaDatos;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
@@ -22,7 +24,35 @@ import logica.Fabrica;
 @WebServlet ("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	/**
+     * Carga todos los datos de prueba ubicados en la carpeta data/
+     */
+    private void cargarDatos() {
+    	List<String> rutasArchivos = List.of(
+    			getServletContext().getRealPath("data/2025Categorias.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios.csv"),
+    			getServletContext().getRealPath("data/2025Instituciones.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios-Organizadores.csv"),
+    			getServletContext().getRealPath("data/2025Usuarios-Asistentes.csv"),
+    			getServletContext().getRealPath("data/2025Eventos.csv"),
+    			getServletContext().getRealPath("data/2025EdicionesEventos.csv"),
+    			getServletContext().getRealPath("data/2025TipoRegistro.csv"),
+    			getServletContext().getRealPath("data/2025Patrocinios.csv"),
+    			getServletContext().getRealPath("data/2025Registros.csv")
+    	);
+    	String[] rutas = rutasArchivos.toArray(new String[0]);
+    	
+    	CargaDatos cargaDatos = CargaDatos.getInstancia();
+    	cargaDatos.cargarArchivos(rutas);
+    }
 
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        cargarDatos();
+    }
+    
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -56,15 +86,16 @@ public class Login extends HttpServlet {
 			datosUsuario = f.getControladorUsuarios().validarLogin(usuario, contrasena);
 			if (datosUsuario != null) {
 				HttpSession session = req.getSession(true);
-				session.setAttribute("usuarioLogeado", datosUsuario);
 				// validación de tipo de usuario
 				if (datosUsuario instanceof DTDetalleAsistente) {
+					session.setAttribute("usuarioLogeado", datosUsuario);
 					session.setAttribute("tipoUsuarioLogeado", TipoUsuario.ASISTENTE);
+					// TODO: Actualizar redirect
+					resp.sendRedirect(req.getContextPath() + "/login");
 				} else if (datosUsuario instanceof DTDetalleOrganizador) {
-					req.setAttribute("error", "El usuario proporcionado corresponde a un organizador. Solo puede ingresar como asistente desde celular.");
+					req.setAttribute("error", "El usuario proporcionado corresponde a un organizador. Solo puede ingresar como asistente desde un celular.");
 					req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 				}
-				resp.sendRedirect(req.getContextPath() + "/home");
 			} else {
 				req.setAttribute("error", "El usuario proporcionado no existe.");
 				req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
