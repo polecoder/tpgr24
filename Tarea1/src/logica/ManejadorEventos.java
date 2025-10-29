@@ -442,5 +442,20 @@ return out;
     	}
     	return setRegistros;
 	}
+	
+	public Edicion edicionDeRegistro(Registro registro) {
+	    TipoRegistro tiporeg = encontrarTipoDe(registro);
+	    if (tiporeg == null) return null;
+	    return encontrarEdicionQueContiene(tiporeg);
+	}
+
+	public Date fechaInicioDeRegistro(Registro registro) {
+	    Edicion edicion = edicionDeRegistro(registro);
+	    if (edicion != null) {
+	        return edicion.getFechaInicio();
+	    } else {
+	        return null;
+	    }
+	}
 }
 

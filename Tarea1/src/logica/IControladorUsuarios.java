@@ -83,4 +83,5 @@ public interface IControladorUsuarios {
 	 * @throws ContrasenaIncorrecta 
 	 */
 	DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta;
+	public void marcarAsistencia(String nickname, int indice) throws excepciones.UsuarioNoExiste,excepciones.RegistroNoExiste,excepciones.YaAsisteAEdicion;
 }
