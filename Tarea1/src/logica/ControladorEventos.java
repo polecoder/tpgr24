@@ -436,6 +436,8 @@ public Set<DTEvento> listarEventosEnCurso() {
 public Set<DTEvento> listarEventosFinalizados() {
     return listarEventosPorEstado(EEstadoEvento.FINALIZADO);
 }
+
+
 	
 }
 
