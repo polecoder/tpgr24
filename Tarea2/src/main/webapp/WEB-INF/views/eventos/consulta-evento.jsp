@@ -45,40 +45,37 @@
             if (imagenBytes != null && imagenBytes.length > 0) {
                 base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
             }
-
             // ==== OTRAS LISTAS ====
             List<String> categorias = (List<String>) request.getAttribute("categorias");
             List<DTEdicionEvento> ediciones = (List<DTEdicionEvento>) request.getAttribute("ediciones");
             %>
 
-           <div class="border-bottom border-2 border-secondary-subtle pb-3 mb-4">
-			  <div class="d-flex align-items-center position-relative" style="min-height: 100px;">
-			    
-			    <% if (base64Image != null) { %>
-			      <img
-			        src="data:image/png;base64,<%=base64Image%>"
-			        alt="Imagen evento"
-			        class="rounded shadow-sm"
-			        style="width: 150px; height: 150px; object-fit: cover; object-position: center;"
-			      />
+           	<div class="border-bottom border-2 border-secondary-subtle pb-3 mb-4 d-flex flex-row">
+			    <!-- Imagen del evento -->
+				<% if (base64Image != null) { %>
+			    	<div class="col-3 text-start">
+				    	<img
+				        src="data:image/png;base64,<%=base64Image%>"
+				        alt="Imagen evento"
+				        class="rounded shadow-sm"
+				        style="width: 150px; height: 150px; object-fit: cover; object-position: center;"
+			      		/>
+			      	</div>
 			    <% } %>
 			    
-			   
-			    <div class="position-absolute top-50 start-50 translate-middle text-center">
-			      <h1 class="text-uppercase fw-bold fs-2 text-primary mb-1">
-			        <%= nombre %>
-			      </h1>
-			      
-			      <div class="mt-2">
-  					<% if (eventoFinalizado) { %>
-    					<span class="badge bg-secondary">Finalizado</span>
- 					<% } else { %>
-    					<span class="badge bg-success">En curso</span>
-  					<% } %>
+			   	<!-- Titulo y estado del evento -->
+			   	<div class="col-6">
+				    <div class="d-flex align-items-center flex-column" style="object-position: center">
+				    	<h1 class="text-uppercase fw-bold fs-2 text-primary mb-1"><%= nombre %></h1>
+				    	<div class="mt-2">
+	  						<% if (eventoFinalizado) { %>
+	    						<span class="badge bg-secondary">Finalizado</span>
+	 						<% } else { %>
+	    						<span class="badge bg-success">En curso</span>
+	  						<% } %>
+						</div>
+				    </div>
 				</div>
-			     
-			    </div>
-			  </div>
 			</div>
 			
 			<!-- Detalle evento -->
@@ -130,15 +127,15 @@
 		 
             <!-- Ediciones -->
             <div class="card shadow-sm p-4">
-		    <div class="d-flex justify-content-between align-items-center mb-3">
-		        <h4 class="text-primary mb-0">Ediciones:</h4>
-		        <% if (esOrganizador && !eventoFinalizado) { %>
-		            <a href="<%= request.getContextPath() %>/Ediciones?accion=AltaEdicion&nombre_evento=<%= nombre %>"
-		               class="btn btn-primary fw-semibold shadow-sm px-3">
-		                ➕ Dar de alta nueva edición
-		            </a>
-		        <% } %>
-		    </div>
+			    <div class="d-flex justify-content-between align-items-center mb-3">
+			        <h4 class="text-primary mb-0">Ediciones:</h4>
+			        <% if (esOrganizador && !eventoFinalizado) { %>
+			            <a href="<%= request.getContextPath() %>/Ediciones?accion=AltaEdicion&nombre_evento=<%= nombre %>"
+			               class="btn btn-primary fw-semibold shadow-sm px-3">
+			                ➕ Dar de alta nueva edición
+			            </a>
+			        <% } %>
+			    </div>
                 <% if (ediciones != null && !ediciones.isEmpty()) { %>
 				    <div class="d-flex flex-wrap gap-3 justify-content-center">
 				        <% for (DTEdicionEvento ed : ediciones) {
@@ -164,7 +161,7 @@
 				<% } else { %>
 				    <p class="text-muted fst-italic">No hay ediciones disponibles.</p>
 				<% } %>
-
+			</div>
         </main>
     </div>
 

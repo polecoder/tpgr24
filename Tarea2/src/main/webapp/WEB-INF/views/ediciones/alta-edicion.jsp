@@ -100,6 +100,15 @@
 						   class="form-control" style="max-width: 350px" required />
 				</div>
 
+				<!-- Video -->
+                <div class="d-flex justify-content-center gap-3 align-items-center">
+                    <label for="fechaFin" class="form-label fw-semibold"
+						style="height: fit-content; width: 155px">URL de video:
+					</label> 
+                    <input type="text" id="URL" name="URL" 
+						   class="form-control" style="max-width: 350px"/>
+                </div>
+
 				<div class="d-flex mb-2">
 					<label for="foto" class="form-label fw-semibold " style="width: 155px">Imagen:</label>
 					<input type="file" id="foto" name="foto" 
