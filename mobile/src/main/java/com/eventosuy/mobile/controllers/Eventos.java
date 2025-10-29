@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import logica.Fabrica;
 import logica.IControladorEventos;
 
-@WebServlet("mobile/Eventos")
+@WebServlet("/Eventos")
 
 public class Eventos extends HttpServlet {
 
