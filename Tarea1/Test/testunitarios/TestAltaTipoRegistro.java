@@ -99,7 +99,7 @@ public class TestAltaTipoRegistro {
 		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias, null, null);
 		
 		assertDoesNotThrow(() -> {
-			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null);
+			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null, null);
 		});
 		
 		try { 
@@ -138,7 +138,7 @@ public class TestAltaTipoRegistro {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRA Edicion pero MISMO evento
 		
 		assertDoesNotThrow(() -> {
-			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais, "organizador14", null);
+			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest3, sigla, fecha, fecha, fecha, ciudad, pais, "organizador14", null, null);
 		});
 		
 		try { 
@@ -170,7 +170,7 @@ public class TestAltaTipoRegistro {
 		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias, null, null);
 		
 		assertDoesNotThrow(() -> {
-			controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais, "organizador15", null);
+			controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais, "organizador15", null, null);
 		});
 		
 		try { 

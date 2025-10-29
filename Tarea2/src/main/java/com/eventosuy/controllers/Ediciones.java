@@ -86,7 +86,6 @@ public class Ediciones extends HttpServlet {
 			}
 		}
 		
-		
 		if (nombreEvento == null) {
 			request.setAttribute("error_message", "La edicion no es de ningun evento");
 			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
@@ -95,6 +94,7 @@ public class Ediciones extends HttpServlet {
 		
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+		String videoURL = dtEdicion.getVideoURL();
 		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
 		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
@@ -106,6 +106,7 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		request.setAttribute("finalizada", false);
+		request.setAttribute("videoURL", videoURL);
 		if (dtEdicion.getFechaFin().before(new Date())) { 
 			request.setAttribute("finalizada", true);
 		}
@@ -136,6 +137,7 @@ public class Ediciones extends HttpServlet {
 		
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		String sigla = request.getParameter("sigla");
+		String URL = request.getParameter("URL");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
 		Date fechaFin = formatter.parse(request.getParameter("fecha_fin"));
@@ -154,7 +156,7 @@ public class Ediciones extends HttpServlet {
         }
 		
 		try {
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, nickOrganizador, imagenBytes, URL);
 		} catch (Exception ex) {
 			byte[] image = controladorEventos.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
