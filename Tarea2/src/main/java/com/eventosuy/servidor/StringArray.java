@@ -6,21 +6,20 @@ import java.util.List;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para EEstadoEdicionArray complex type.
+ * <p>Clase Java para stringArray complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="EEstadoEdicionArray"&gt;
+ * &lt;complexType name="stringArray"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="item" type="{http://servidor/}EEstadoEdicion" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="item" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -30,14 +29,13 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EEstadoEdicionArray", propOrder = {
+@XmlType(name = "stringArray", namespace = "http://jaxb.dev.java.net/array", propOrder = {
     "item"
 })
-public class EEstadoEdicionArray {
+public class StringArray {
 
     @XmlElement(nillable = true)
-    @XmlSchemaType(name = "string")
-    protected List<EEstadoEdicion> item;
+    protected List<String> item;
 
     /**
      * Gets the value of the item property.
@@ -57,13 +55,13 @@ public class EEstadoEdicionArray {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link EEstadoEdicion }
+     * {@link String }
      * 
      * 
      */
-    public List<EEstadoEdicion> getItem() {
+    public List<String> getItem() {
         if (item == null) {
-            item = new ArrayList<EEstadoEdicion>();
+            item = new ArrayList<String>();
         }
         return this.item;
     }

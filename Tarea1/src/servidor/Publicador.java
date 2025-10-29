@@ -43,15 +43,18 @@ import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
 import jakarta.jws.soap.SOAPBinding.ParameterStyle;
 import jakarta.jws.soap.SOAPBinding.Style;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.ws.Endpoint;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
 import logica.Institucion;
 import logica.Patrocinio;
+import webwrappers.DTEventoEntry;
 import logica.Fabrica;
 
 @WebService 
+@XmlSeeAlso({DTEventoEntry.class})
 @SOAPBinding (style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
 public class Publicador {
 	private Endpoint endpoint = null;
@@ -86,9 +89,9 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashSet<String> nombresCategorias(String nombre){
+	public String[] nombresCategorias(String nombre){
 		Set<String> res = controladorEventos.nombresCategorias(nombre);
-		return new HashSet<String>(res);
+		return (String[]) res.toArray();
 	}
 	@WebMethod
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
@@ -96,9 +99,13 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashMap<String, DTEvento> listarEventos() {
+	public DTEventoEntry[] listarEventos() {
 		Map<String, DTEvento> res = controladorEventos.listarEventos();
-	    return new HashMap<String, DTEvento>(res);
+		ArrayList<DTEventoEntry> list = new ArrayList<>();
+		for (Map.Entry<String, DTEvento> entry : res.entrySet()) {
+			list.add(new DTEventoEntry(entry.getKey(), entry.getValue()));
+		}
+		return (DTEventoEntry[]) list.toArray();
 	}
 
 	@WebMethod
@@ -262,9 +269,9 @@ public class Publicador {
 	}
 	
 	@WebMethod
-	public ArrayList<DTDetalleUsuario> listarDetalleUsuarios() {
+	public DTDetalleUsuario[] listarDetalleUsuarios() {
 		List<DTDetalleUsuario> res = controladorUsuarios.listarDetalleUsuarios();
-		return new ArrayList<DTDetalleUsuario> (res);
+		return (DTDetalleUsuario[]) res.toArray();
 	}
 	
 	// -------------------	INSTITUCIONES		------------------- //

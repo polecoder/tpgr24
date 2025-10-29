@@ -49,6 +49,7 @@ public class ObjectFactory {
     private final static QName _DtDetalleUsuario_QNAME = new QName("http://servidor/", "dtDetalleUsuario");
     private final static QName _DtEdicionEvento_QNAME = new QName("http://servidor/", "dtEdicionEvento");
     private final static QName _DtEvento_QNAME = new QName("http://servidor/", "dtEvento");
+    private final static QName _DtEventoEntry_QNAME = new QName("http://servidor/", "dtEventoEntry");
     private final static QName _DtTipoRegistro_QNAME = new QName("http://servidor/", "dtTipoRegistro");
     private final static QName _Patrocinio_QNAME = new QName("http://servidor/", "patrocinio");
 
@@ -260,6 +261,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTEventoEntry }
+     * 
+     */
+    public DTEventoEntry createDTEventoEntry() {
+        return new DTEventoEntry();
+    }
+
+    /**
      * Create an instance of {@link DTTipoRegistro }
      * 
      */
@@ -313,6 +322,30 @@ public class ObjectFactory {
      */
     public TipoRegistro createTipoRegistro() {
         return new TipoRegistro();
+    }
+
+    /**
+     * Create an instance of {@link DTDetalleUsuarioArray }
+     * 
+     */
+    public DTDetalleUsuarioArray createDTDetalleUsuarioArray() {
+        return new DTDetalleUsuarioArray();
+    }
+
+    /**
+     * Create an instance of {@link DTEventoEntryArray }
+     * 
+     */
+    public DTEventoEntryArray createDTEventoEntryArray() {
+        return new DTEventoEntryArray();
+    }
+
+    /**
+     * Create an instance of {@link StringArray }
+     * 
+     */
+    public StringArray createStringArray() {
+        return new StringArray();
     }
 
     /**
@@ -638,6 +671,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "dtEvento")
     public JAXBElement<DTEvento> createDtEvento(DTEvento value) {
         return new JAXBElement<DTEvento>(_DtEvento_QNAME, DTEvento.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTEventoEntry }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTEventoEntry }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtEventoEntry")
+    public JAXBElement<DTEventoEntry> createDtEventoEntry(DTEventoEntry value) {
+        return new JAXBElement<DTEventoEntry>(_DtEventoEntry_QNAME, DTEventoEntry.class, null, value);
     }
 
     /**

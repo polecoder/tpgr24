@@ -1,18 +1,23 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import carga.CargaDatos;
-import datatypes.DTDetalleUsuario;
-import datatypes.DTEvento;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import com.eventosuy.servidor.DTEventoEntry;
+import com.eventosuy.servidor.DTEventoEntryArray;
+import com.eventosuy.servidor.DTDetalleUsuarioArray;
+import com.eventosuy.servidor.DTDetalleUsuario;
+import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
 
@@ -73,10 +78,16 @@ public class Home extends HttpServlet {
 		PublicadorService servicio = new PublicadorService();
 		Publicador puerto = servicio.getPublicadorPort();
 		
-		Map<String, DTEvento> eventos = (Map<String, DTEvento>) puerto.listarEventos();
+		DTEventoEntryArray dtEventoEntryArrayList = puerto.listarEventos();
+		Map<String, DTEvento> eventos = new HashMap<String, DTEvento>();
+		for(DTEventoEntry dtEventoEntry: dtEventoEntryArrayList.getItem()) {
+			eventos.put(dtEventoEntry.getKey(), dtEventoEntry.getValue());
+		}
 		req.setAttribute("eventos", eventos);
 		
-		List<DTDetalleUsuario> usuarios = (List<DTDetalleUsuario>) puerto.listarDetalleUsuarios();
+		
+		DTDetalleUsuarioArray dtDetalleUsuarioList = puerto.listarDetalleUsuarios();
+		List<DTDetalleUsuario> usuarios = dtDetalleUsuarioList.getItem();
 		req.setAttribute("usuarios", usuarios);
 		
 		List<String> categorias = (List<String>) puerto.getListaCategorias();

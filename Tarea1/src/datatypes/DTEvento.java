@@ -52,23 +52,23 @@ public class DTEvento {
 		return this.imagen;
 	}
 
-	void setFechaAlta(Date fechaAlta){ 
+	public void setFechaAlta(Date fechaAlta){ 
 		this.fechaAlta = fechaAlta;
 	}
-	void setNombre(String nombre){
+	public void setNombre(String nombre){
 		this.nombre = nombre;
 	}
-	void setDescripcion(String descripcion){
+	public void setDescripcion(String descripcion){
 		this.descripcion = descripcion;
 	}
-	void setSigla(String sigla){
+	public void setSigla(String sigla){
 		this.sigla = sigla;
 	}
-	void setImagen(byte[] imagen) {
+	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
 	
-	private void setCategorias(Set<String> categorias) {
+	public void setCategorias(Set<String> categorias) {
 		this.categorias=categorias;
 		
 	}
