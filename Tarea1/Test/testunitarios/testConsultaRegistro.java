@@ -47,7 +47,7 @@ class testConsultaRegistro {
 		
 		//creo edicion
 		
-		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null);
+		Edicion ed1 = new Edicion("Expo", "EXP", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null, null);
 		evento.agregarEdicion(ed1);
 		
 		//creo Tiporegistro
@@ -107,7 +107,7 @@ class testConsultaRegistro {
 	    Edicion edicion = new Edicion("Expo", "EXP",
 	            Utilidades.toDate(LocalDate.of(2023, 9, 1)),
 	            Utilidades.toDate(LocalDate.of(2023, 12, 1)),
-	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null);
+	            Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador1", evento.getNombre(), null, null);
 	    evento.agregarEdicion(edicion);
 
 	    // --- Tipos de registro ---
@@ -215,7 +215,7 @@ class testConsultaRegistro {
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
-                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador2", evento.getNombre(), null);
+                Utilidades.toDate(LocalDate.now()), "Montevideo", "Uruguay", "organizador2", evento.getNombre(), null, null);
         evento.agregarEdicion(edicion);
 
         // Tipos
@@ -275,7 +275,7 @@ class testConsultaRegistro {
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),
-                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay", "organizador3", evento.getNombre(), null);
+                Utilidades.toDate(LocalDate.now()), "Salto", "Uruguay", "organizador3", evento.getNombre(), null, null);
         evento.agregarEdicion(edicion);
 
         TipoRegistro gen = new TipoRegistro("General", "Acceso general", 800, 500, 500);

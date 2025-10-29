@@ -10,6 +10,7 @@
 DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
 String nombreEdicion = request.getParameter("nombre_edicion");
 String nombreEvento = request.getParameter("nombre_evento");
+String videoURL = (String) request.getAttribute("videoURL");
 if (nombreEvento == null) {
 	nombreEvento = (String) request.getAttribute("nombre_evento");
 }
@@ -265,6 +266,14 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                  class="btn btn-primary btn-sm px-3 fs-5">Registrarse a edición</a>
             </div>
         <% }} %>
+        
+        <!-- Video -->
+        <% if (videoURL != null) { %>
+        	<div class="card shadow-sm p-4 text-center d-flex justify-content-center align-items-center">
+        		<h5 class="fw-bold text-primary mb-3 text-center">Video promocional:</h5>
+			    <iframe src=<%= videoURL %> style="height:400px;width:700px;" title="video_edicion" allowfullscreen></iframe>
+			</div>
+        <% } %>
       </form>
     </main>
   </div>

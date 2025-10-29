@@ -69,6 +69,4 @@ public class DTEvento {
 	public Set<String> getCategorias(){
 		return this.categorias;
 	}
-	
-
 }

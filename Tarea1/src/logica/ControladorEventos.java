@@ -85,8 +85,9 @@ public class ControladorEventos implements IControladorEventos {
 	        String oNick = ed.getOrganizadorNickname();
 	        byte[] imagen = ed.getImagen();
 	        EEstadoEdicion estado = ed.getEstado();
+	        String videoURL = ed.getVideoURL();
 
-	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen, estado));
+	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen, estado, videoURL));
 	    }
 	    
 	    return mLista;
@@ -256,7 +257,7 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[]img) throws FormularioIncompletoEdicion, EventoFinalizado {
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL) throws FormularioIncompletoEdicion, EventoFinalizado {
 		
 		if (manejadorEventos.getEvento(nombreEvento).isFinalizado()) throw new EventoFinalizado("No se pueden crear ediciones para un evento finalizado");
 
@@ -290,7 +291,13 @@ public class ControladorEventos implements IControladorEventos {
 			throw new FormularioIncompletoEdicion("El país solo puede contener letras y espacios");
 		}
 
-		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img);
+		String videoURL = null;
+		if (URL != null) {
+			videoURL = URL.replace("watch?v=", "embed/")
+						  .replace("&", "?");
+		}
+		
+		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img, videoURL);
 		this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 	}
 
