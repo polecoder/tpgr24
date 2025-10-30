@@ -517,7 +517,7 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto());
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto(),edicion);
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class Evento {
 		this.ediciones = new HashMap<>(); 
 		this.estado = EEstadoEvento.EN_CURSO;
 	}
+
 
 	public String getNombre(){
 		return this.nombre;
