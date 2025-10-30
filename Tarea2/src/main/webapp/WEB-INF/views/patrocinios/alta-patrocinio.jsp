@@ -15,8 +15,8 @@ if (imagenBytes != null && imagenBytes.length > 0) {
 	base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
 }
 
-Set<String> listaNombresTipoRegistro = (Set<String>) request.getAttribute("listaNombresRegistro");
-Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion");
+List<String> listaNombresTipoRegistro = (List<String>) request.getAttribute("listaNombresRegistro");
+List<String> listaNombresInstitucion = (List<String>) request.getAttribute("listaNombresInstitucion");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -157,10 +157,10 @@ Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaN
                 value=""
                 selected
               >-- Seleccionar Nivel del Patrocinio --</option>
-              <option value="Platino">Platino</option>
-              <option value="Oro">Oro</option>
-              <option value="Plata">Plata</option>
-              <option value="Bronce">Bronce</option>
+              <option value="PLATINO">PLATINO</option>
+              <option value="ORO">ORO</option>
+              <option value="PLATA">PLATA</option>
+              <option value="BRONCE">BRONCE</option>
             </select>
           </div>
 
