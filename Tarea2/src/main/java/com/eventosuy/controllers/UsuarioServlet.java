@@ -22,6 +22,7 @@ import com.eventosuy.servidor.DTDetalleRegistro;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.EEstadoEdicion;
 import com.eventosuy.servidor.EEstadoEdicionArray;
+import com.eventosuy.utils.Utilidades;
 
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
@@ -95,7 +96,7 @@ public class UsuarioServlet extends HttpServlet {
 								nombre,            
 								email,             
 								apellido,          
-								dateToXMLGregorianCalendar(dateFechaNac), 
+								Utilidades.dateToXMLGregorianCalendar(dateFechaNac), 
 								institucion,
 								imagen
 								);
@@ -275,7 +276,7 @@ public class UsuarioServlet extends HttpServlet {
 								nickSesion,
 								nombre,          // nuevoNombre
 								apellido,        // nuevoApellido
-								dateToXMLGregorianCalendar(fecha)            // nuevaFechaNacimiento
+								Utilidades.dateToXMLGregorianCalendar(fecha)            // nuevaFechaNacimiento
 								);
 
 					} else if (det instanceof DTDetalleOrganizador) {
@@ -369,7 +370,7 @@ public class UsuarioServlet extends HttpServlet {
 					return;
 				}
 				try {
-					puerto.altaRegistro(nick, idTipo, idEdicion, evento, codigo, dateToXMLGregorianCalendar(new Date()));
+					puerto.altaRegistro(nick, idTipo, idEdicion, evento, codigo, Utilidades.dateToXMLGregorianCalendar(new Date()));
 					response.sendRedirect(request.getContextPath() + "/usuario?accion=consulta-registro&ok=1");
 					return;
 
@@ -527,9 +528,4 @@ public class UsuarioServlet extends HttpServlet {
 		return (dtUsuario == null) ? null : dtUsuario.getNickname();
 	}
 	
-	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
-	    GregorianCalendar calendar = new GregorianCalendar();
-	    calendar.setTime(date);
-	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-	}
 }

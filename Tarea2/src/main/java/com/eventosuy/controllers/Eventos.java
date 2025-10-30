@@ -17,6 +17,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.utils.Utilidades;
 import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.EEstadoEdicion;
@@ -106,7 +107,7 @@ public class Eventos extends HttpServlet {
     		return;
     	}
     	try {
-    		IContEv.finalizarEvento(nombre);
+    		puerto.finalizarEvento(nombre);
     		request.setAttribute("flashOK", "Evento finalizado correctamente");
     		request.setAttribute("nombre", nombre);
     		Consulta(request, response);
@@ -175,7 +176,7 @@ public class Eventos extends HttpServlet {
         List<String> CatSel = Arrays.asList(categoriasSeleccionadas);
         XMLGregorianCalendar xmlGregorianCalendarFechaAlta;
 		try {
-			xmlGregorianCalendarFechaAlta = dateToXMLGregorianCalendar(fechaAlta);
+			xmlGregorianCalendarFechaAlta = Utilidades.dateToXMLGregorianCalendar(fechaAlta);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,11 +197,6 @@ public class Eventos extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/consulta-evento.jsp");
         dispatcher.forward(request, response);
     }
-    private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
-	    GregorianCalendar calendar = new GregorianCalendar();
-	    calendar.setTime(date);
-	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-	}
 
     // --- Consulta de evento ---
     private void Consulta(HttpServletRequest request, HttpServletResponse response)

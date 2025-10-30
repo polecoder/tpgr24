@@ -37,6 +37,8 @@ import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
 
+import com.eventosuy.utils.Utilidades;
+
 @WebServlet("/Ediciones")
 @MultipartConfig
 public class Ediciones extends HttpServlet {
@@ -172,9 +174,9 @@ public class Ediciones extends HttpServlet {
         }
 		
 		try {
-			XMLGregorianCalendar xmlGregorianCalendarFechaInicio = dateToXMLGregorianCalendar(fechaInicio);
-			XMLGregorianCalendar xmlGregorianCalendarFechaFin = dateToXMLGregorianCalendar(fechaFin);
-			XMLGregorianCalendar xmlGregorianCalendarFechaAlta = dateToXMLGregorianCalendar(fechaAlta);
+			XMLGregorianCalendar xmlGregorianCalendarFechaInicio = Utilidades.dateToXMLGregorianCalendar(fechaInicio);
+			XMLGregorianCalendar xmlGregorianCalendarFechaFin = Utilidades.dateToXMLGregorianCalendar(fechaFin);
+			XMLGregorianCalendar xmlGregorianCalendarFechaAlta = Utilidades.dateToXMLGregorianCalendar(fechaAlta);
 			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla,
 					xmlGregorianCalendarFechaInicio, xmlGregorianCalendarFechaFin, xmlGregorianCalendarFechaAlta, 
 					ciudad, pais, nickOrganizador, imagenBytes, URL);
@@ -189,12 +191,6 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("nombre_edicion", nombreEdicion);
 		request = CUConsultaEdicion(request, response);
 		request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-	}
-	
-	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
-	    GregorianCalendar calendar = new GregorianCalendar();
-	    calendar.setTime(date);
-	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 	}
 	
 	private HttpServletRequest CUConsultaTipoRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

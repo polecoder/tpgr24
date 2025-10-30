@@ -15,6 +15,7 @@ import com.eventosuy.servidor.DTDetallePatrocinio;
 import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.utils.Utilidades;
 import com.eventosuy.servidor.DTTipoRegistro;
 import com.eventosuy.servidor.ENivelPatrocinio;
 import com.eventosuy.servidor.Patrocinio;
@@ -315,7 +316,7 @@ public class Institucion extends HttpServlet {
 		try {
 			controladorEventos.altaPatrocinio(eventoSeleccionado, 
 					edicionSeleccionada,
-					dateToXMLGregorianCalendar(FechaAlta),
+					Utilidades.dateToXMLGregorianCalendar(FechaAlta),
 					institucionSeleccionada, 
 					nivelPatrocinio,
 					aporteEconomico,
@@ -333,10 +334,5 @@ public class Institucion extends HttpServlet {
 			request.setAttribute("error", error.getMessage());
 			request.getRequestDispatcher("/WEB-INF/views/patrocinios/alta-patrocinio.jsp").forward(request, response);
 		}
-	}
-	private XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) throws Exception {
-	    GregorianCalendar calendar = new GregorianCalendar();
-	    calendar.setTime(date);
-	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
 	}
 }
