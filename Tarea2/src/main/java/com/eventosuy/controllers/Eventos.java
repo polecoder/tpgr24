@@ -165,7 +165,7 @@ public class Eventos extends HttpServlet {
         }
 
         List<String> CatSel = Arrays.asList(categoriasSeleccionadas);
-        IContEv.altaEvento(nombre, descripcion, fechaAlta, sigla, CatSel, imagen, EEstadoEvento.EN_CURSO);
+        IContEv.altaEvento(nombre, descripcion, fechaAlta, sigla, CatSel, imagen, EEstadoEvento.EN_CURSO, 0);
 
         // Preparar datos para la vista de consulta
         request.setAttribute("mensaje", "Evento '" + nombre + "' creado correctamente.");
@@ -190,7 +190,7 @@ public class Eventos extends HttpServlet {
             nombre = request.getParameter("nombre");
         }
 
-        DTEvento evento = IContEv.getDTEvento(nombre);
+        DTEvento evento = IContEv.consultarEvento(nombre);
 
         request.setAttribute("nombre", evento.getNombre());
         request.setAttribute("descripcion", evento.getDescripcion());

@@ -25,6 +25,7 @@ import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.DTEventoVisitas;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEdicion;
 import datatypes.EEstadoEvento;
@@ -38,6 +39,7 @@ public interface IControladorEventos {
 	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	public Set<String> nombresEventos();
 	public DTEvento getDTEvento(String nombre);
+	public DTEvento consultarEvento(String nombre);
 	public Set<String> nombresCategorias(String nombre);
 	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
@@ -62,7 +64,7 @@ public interface IControladorEventos {
 	 * @param categorias
 	 * @param imagen
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado);
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado, int visitas);
 	/**
 	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre == nombreEvento
 	 * Retorna false en cualquier otro caso.
@@ -76,6 +78,7 @@ public interface IControladorEventos {
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, EdicionFinalizada;
 	public String[] getNombresEdiciones(String nombreEvento);
+	
 	/**
 	 * Devuelve una lista que contienen el nombre de todas las categorías
 	 * 
@@ -103,4 +106,6 @@ public interface IControladorEventos {
 	Set<DTEvento> listarEventosPorEstado(EEstadoEvento estado);
     Set<DTEvento> listarEventosEnCurso();       
     Set<DTEvento> listarEventosFinalizados(); 
+    
+    List<DTEventoVisitas> obtenerEventosMasVisitados(int limite);
 }
