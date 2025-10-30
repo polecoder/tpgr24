@@ -30,7 +30,7 @@ class TestConsultaEvento {
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
-        controlador.altaEvento("ExpoTec", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias, null, null);
+        controlador.altaEvento("ExpoTec", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), "EXP", categorias, null, null, 0);
         controlador.altaEdicionEvento("ExpoTec", "ExpoTech2023", "ET2023", Utilidades.toDate(LocalDate.of(2023, 9, 1)), Utilidades.toDate(LocalDate.of(2023, 12, 1)), Utilidades.toDate(LocalDate.of(2023, 8, 3)), "Montevideo", "Uruguay", "organizador16", null, null);
 
         Set<String> nombres = controlador.nombresEventos();
@@ -60,7 +60,7 @@ class TestConsultaEvento {
 
         List<String> categorias = Arrays.asList("Robótica", "IA");
 
-        controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias, null, null);
+        controlador.altaEvento("SoloCategorias", "Evento sin ediciones", Utilidades.toDate(LocalDate.of(2024, 2, 1)), "SC", categorias, null, null, 0);
 	    // Validación: detalle de edición
 
         DTEvento dtevento = controlador.getDTEvento("SoloCategorias");
@@ -78,7 +78,7 @@ class TestConsultaEvento {
         		Utilidades.toDate(LocalDate.of(2022, 4, 1)), 
         		"DF", 
         		Arrays.asList()
-        		, null, null);
+        		, null, null, 0);
 
         controlador.altaEdicionEvento("DataFest", "DataFest2022", "DF22", Utilidades.toDate(LocalDate.of(2022, 6, 1)), Utilidades.toDate(LocalDate.of(2022, 6, 3)), Utilidades.toDate(LocalDate.of(2022, 5, 1)),
                 "Salto", "Uruguay", "organizador17", null, null);

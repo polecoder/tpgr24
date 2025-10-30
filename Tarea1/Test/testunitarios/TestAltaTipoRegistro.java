@@ -96,7 +96,7 @@ public class TestAltaTipoRegistro {
 			controladorEventos.altaCategoria(nombreCategoriaTest1);
 		});
 		categorias.add(nombreCategoriaTest1);
-		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias, null, null);
+		controladorEventos.altaEvento(nombreEventoTest1, descripcion, fecha, sigla, categorias, null, null, 0);
 		
 		assertDoesNotThrow(() -> {
 			controladorEventos.altaEdicionEvento(nombreEventoTest1, nombreEdicionTest1, sigla, fecha, fecha, fecha, ciudad, pais, "", null, null);
@@ -167,7 +167,7 @@ public class TestAltaTipoRegistro {
 	@Order(4)
 	void testAltaTipoRegistroNombreRepetidoOtroEvento() {
 		// Testea agregar un TipoRegistro con nombre repetido en OTRO Evento
-		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias, null, null);
+		controladorEventos.altaEvento(nombreEventoTest4, descripcion, fecha, sigla, categorias, null, null, 0);
 		
 		assertDoesNotThrow(() -> {
 			controladorEventos.altaEdicionEvento(nombreEventoTest4, nombreEdicionTest4, sigla, fecha, fecha, fecha, ciudad, pais, "organizador15", null, null);

@@ -19,9 +19,10 @@ public class Evento {
 	private byte[] imagen; 
 	private final Map<String, Edicion> ediciones;
 	private EEstadoEvento estado = EEstadoEvento.EN_CURSO;
+	private int visitas;
 
 	public
-	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen, EEstadoEvento estado) {
+	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen, EEstadoEvento estado, int visitas) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
@@ -30,7 +31,16 @@ public class Evento {
 		this.categorias = new HashMap<>();
 		this.ediciones = new HashMap<>(); 
 		this.estado = EEstadoEvento.EN_CURSO;
+		this.setVisitas(visitas);
 	}
+	
+	public void registrarVisita() {      
+        visitas++;
+    }
+	
+	 public int getVisitas() {
+	        return visitas;
+	    }
 
 	public String getNombre(){
 		return this.nombre;
@@ -61,6 +71,10 @@ public class Evento {
 	public boolean isFinalizado() { 
 		return estado == EEstadoEvento.FINALIZADO; 
 	}
+	
+	 public void setVisitas(int visitas) {
+	        this.visitas=visitas;
+	    }
 
 	public void setNombre(String nombre){
 		this.nombre = nombre;

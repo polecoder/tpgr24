@@ -55,12 +55,14 @@ public class FramePrincipal extends JFrame {
         JMenuItem item_ConsultaEvento = new JMenuItem("Consulta Evento");
         JMenuItem item_ConsultaEdicionEvento = new JMenuItem("Consulta Edicion de Evento");
         JMenuItem item_AceptarRechazar= new JMenuItem("Autorizar Ediciones");
+        JMenuItem item_EventosMasVisitados = new JMenuItem("Eventos más visitados");
         
         menuEvento.add(item_AltaEvento);
         menuEvento.add(item_AltaEdicion);
         menuEvento.add(item_ConsultaEvento);
         menuEvento.add(item_ConsultaEdicionEvento);
         menuEvento.add(item_AceptarRechazar);
+        menuEvento.add(item_EventosMasVisitados);
 		
         JMenu menuRegistro = new JMenu("Registro");
         menuBar.add(menuRegistro);
@@ -74,6 +76,17 @@ public class FramePrincipal extends JFrame {
         menuRegistro.add(item_ConsultaTipoRegistro);
         menuRegistro.add(itemA);
         menuRegistro.add(item_RegistroAEdicionEvento);
+        
+        item_EventosMasVisitados.addActionListener(e ->{
+        	EventosMasVisitados  ventanaEventosMasVisitados = new EventosMasVisitados(null, panel);
+        	panel.add(ventanaEventosMasVisitados);
+        	ventanaEventosMasVisitados.setVisible(true);
+        	try {
+        		ventanaEventosMasVisitados.setSelected(true);
+        	}catch (PropertyVetoException exception) {
+        		exception.printStackTrace();
+        	}
+        });
         
 		item_ConsultaTipoRegistro.addActionListener(e -> {
 		    ConsultaTipoRegistro ventanaConsultaTipoRegistro= new ConsultaTipoRegistro(null, null, null);
