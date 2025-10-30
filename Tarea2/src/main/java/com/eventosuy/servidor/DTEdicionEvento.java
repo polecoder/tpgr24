@@ -28,6 +28,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="organizadorNickname" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="imagen" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *         &lt;element name="estado" type="{http://servidor/}EEstadoEdicion" minOccurs="0"/&gt;
+ *         &lt;element name="videoURL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -47,7 +48,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "fechaAlta",
     "organizadorNickname",
     "imagen",
-    "estado"
+    "estado",
+    "videoURL"
 })
 public class DTEdicionEvento {
 
@@ -65,6 +67,7 @@ public class DTEdicionEvento {
     protected byte[] imagen;
     @XmlSchemaType(name = "string")
     protected EEstadoEdicion estado;
+    protected String videoURL;
 
     /**
      * Obtiene el valor de la propiedad nombre.
@@ -302,6 +305,30 @@ public class DTEdicionEvento {
      */
     public void setEstado(EEstadoEdicion value) {
         this.estado = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad videoURL.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    /**
+     * Define el valor de la propiedad videoURL.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setVideoURL(String value) {
+        this.videoURL = value;
     }
 
 }

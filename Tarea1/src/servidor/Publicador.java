@@ -107,6 +107,18 @@ public class Publicador {
 		}
 		return (DTEventoEntry[]) list.toArray();
 	}
+	
+	@WebMethod
+	public DTEvento[] listarEventosEnCurso() {
+		Set<DTEvento> res = controladorEventos.listarEventosEnCurso();
+		return res.toArray(new DTEvento[0]);
+	}
+	
+	@WebMethod
+	public DTEvento[] listarEventosFinalizados() {
+		Set<DTEvento> res = controladorEventos.listarEventosFinalizados();
+		return res.toArray(new DTEvento[0]);
+	}
 
 	@WebMethod
 	public HashMap<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
@@ -142,10 +154,10 @@ public class Publicador {
 	    return controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
 	}
 
-	@WebMethod
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] img) throws FormularioIncompletoEdicion {
-	    controladorEventos.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, img);
-	}
+//	@WebMethod
+//	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] img) throws FormularioIncompletoEdicion {
+//	    controladorEventos.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, img);
+//	}
 
 	@WebMethod
 	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion estados) {
@@ -190,19 +202,15 @@ public class Publicador {
 	    return controladorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
 	}
 	
-	@WebMethod
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, ArrayList<String> categorias, byte[] imagen) {
-	    controladorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
-	}
 
 	@WebMethod
 	public void altaPatrocinio(String eventoSeleccionado, String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, EdicionFinalizada {
 	    controladorEventos.altaPatrocinio(eventoSeleccionado, edicionSeleccionada, FechaAlta, institucionSeleccionada, nivelPatrocinio, aporteEconomico, cupos, codigoPatrocinio, tipoRegistroSeleccionado);
 	}
 	@WebMethod
-	public ArrayList<String> getListaCategorias() {
+	public String[] getListaCategorias() {
 		List<String> res = controladorEventos.getListaCategorias();
-		return new ArrayList<String> (res);
+		return res.toArray(new String[0]);
 	}
 	@WebMethod
 	public HashSet<String> listarPatrocinadores(String nombreEvento, String nombreEdicion){
@@ -271,7 +279,7 @@ public class Publicador {
 	@WebMethod
 	public DTDetalleUsuario[] listarDetalleUsuarios() {
 		List<DTDetalleUsuario> res = controladorUsuarios.listarDetalleUsuarios();
-		return (DTDetalleUsuario[]) res.toArray();
+		return res.toArray(new DTDetalleUsuario[0]);
 	}
 	
 	// -------------------	INSTITUCIONES		------------------- //

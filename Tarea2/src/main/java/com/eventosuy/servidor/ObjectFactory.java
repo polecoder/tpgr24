@@ -33,7 +33,6 @@ public class ObjectFactory {
     private final static QName _FechaFinEsPasada_QNAME = new QName("http://servidor/", "FechaFinEsPasada");
     private final static QName _FormatoContrasenaInvalido_QNAME = new QName("http://servidor/", "FormatoContrasenaInvalido");
     private final static QName _FormularioIncompletoAsistente_QNAME = new QName("http://servidor/", "FormularioIncompletoAsistente");
-    private final static QName _FormularioIncompletoEdicion_QNAME = new QName("http://servidor/", "FormularioIncompletoEdicion");
     private final static QName _FormularioIncompletoInstitucion_QNAME = new QName("http://servidor/", "FormularioIncompletoInstitucion");
     private final static QName _FormularioIncompletoOrganizador_QNAME = new QName("http://servidor/", "FormularioIncompletoOrganizador");
     private final static QName _FormularioIncompletoPatrocinio_QNAME = new QName("http://servidor/", "FormularioIncompletoPatrocinio");
@@ -130,14 +129,6 @@ public class ObjectFactory {
      */
     public FormularioIncompletoAsistente createFormularioIncompletoAsistente() {
         return new FormularioIncompletoAsistente();
-    }
-
-    /**
-     * Create an instance of {@link FormularioIncompletoEdicion }
-     * 
-     */
-    public FormularioIncompletoEdicion createFormularioIncompletoEdicion() {
-        return new FormularioIncompletoEdicion();
     }
 
     /**
@@ -325,6 +316,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTEventoArray }
+     * 
+     */
+    public DTEventoArray createDTEventoArray() {
+        return new DTEventoArray();
+    }
+
+    /**
      * Create an instance of {@link DTDetalleUsuarioArray }
      * 
      */
@@ -463,19 +462,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "FormularioIncompletoAsistente")
     public JAXBElement<FormularioIncompletoAsistente> createFormularioIncompletoAsistente(FormularioIncompletoAsistente value) {
         return new JAXBElement<FormularioIncompletoAsistente>(_FormularioIncompletoAsistente_QNAME, FormularioIncompletoAsistente.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FormularioIncompletoEdicion }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link FormularioIncompletoEdicion }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://servidor/", name = "FormularioIncompletoEdicion")
-    public JAXBElement<FormularioIncompletoEdicion> createFormularioIncompletoEdicion(FormularioIncompletoEdicion value) {
-        return new JAXBElement<FormularioIncompletoEdicion>(_FormularioIncompletoEdicion_QNAME, FormularioIncompletoEdicion.class, null, value);
     }
 
     /**

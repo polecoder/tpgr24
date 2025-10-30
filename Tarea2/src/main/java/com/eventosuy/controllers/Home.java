@@ -18,6 +18,7 @@ import com.eventosuy.servidor.DTEventoEntryArray;
 import com.eventosuy.servidor.DTDetalleUsuarioArray;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTEvento;
+import com.eventosuy.servidor.DTEventoArray;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
 
@@ -77,17 +78,16 @@ public class Home extends HttpServlet {
 		PublicadorService servicio = new PublicadorService();
 		Publicador puerto = servicio.getPublicadorPort();
 
-		List<DTEvento> eventosEnCurso = new ArrayList<>(puerto.listarEventosEnCurso());
+		List<DTEvento> eventosEnCurso = puerto.listarEventosEnCurso().getItem();
 		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
-		List<DTEvento> eventosFinalizados = new ArrayList<>(puerto.listarEventosFinalizados());
+		List<DTEvento> eventosFinalizados = puerto.listarEventosFinalizados().getItem();
 		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
-		DTDetalleUsuarioArray dtDetalleUsuarioList = puerto.listarDetalleUsuarios();
-		List<DTDetalleUsuario> usuarios = dtDetalleUsuarioList.getItem();
+		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios().getItem();
 		req.setAttribute("usuarios", usuarios);
 		
-		List<String> categorias = (List<String>) puerto.getListaCategorias();
+		List<String> categorias = puerto.getListaCategorias().getItem();
 		req.setAttribute("categorias", categorias);
 		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);

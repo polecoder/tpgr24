@@ -24,6 +24,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="fecha" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="costo" type="{http://www.w3.org/2001/XMLSchema}float"/&gt;
  *         &lt;element name="codigoPatrocinio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="asistio" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -39,7 +40,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "nombreTipo",
     "fecha",
     "costo",
-    "codigoPatrocinio"
+    "codigoPatrocinio",
+    "asistio"
 })
 public class DTDetalleRegistro {
 
@@ -50,6 +52,7 @@ public class DTDetalleRegistro {
     protected XMLGregorianCalendar fecha;
     protected float costo;
     protected String codigoPatrocinio;
+    protected boolean asistio;
 
     /**
      * Obtiene el valor de la propiedad nombreEdicion.
@@ -185,6 +188,22 @@ public class DTDetalleRegistro {
      */
     public void setCodigoPatrocinio(String value) {
         this.codigoPatrocinio = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad asistio.
+     * 
+     */
+    public boolean isAsistio() {
+        return asistio;
+    }
+
+    /**
+     * Define el valor de la propiedad asistio.
+     * 
+     */
+    public void setAsistio(boolean value) {
+        this.asistio = value;
     }
 
 }

@@ -27,6 +27,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="imagen" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *         &lt;element name="categorias" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="estado" type="{http://servidor/}eEstadoEvento" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -42,7 +43,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "descripcion",
     "fechaAlta",
     "imagen",
-    "categorias"
+    "categorias",
+    "estado"
 })
 public class DTEvento {
 
@@ -54,6 +56,8 @@ public class DTEvento {
     protected byte[] imagen;
     @XmlElement(nillable = true)
     protected List<String> categorias;
+    @XmlSchemaType(name = "string")
+    protected EEstadoEvento estado;
 
     /**
      * Obtiene el valor de la propiedad nombre.
@@ -200,6 +204,30 @@ public class DTEvento {
             categorias = new ArrayList<String>();
         }
         return this.categorias;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad estado.
+     * 
+     * @return
+     *     possible object is
+     *     {@link EEstadoEvento }
+     *     
+     */
+    public EEstadoEvento getEstado() {
+        return estado;
+    }
+
+    /**
+     * Define el valor de la propiedad estado.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EEstadoEvento }
+     *     
+     */
+    public void setEstado(EEstadoEvento value) {
+        this.estado = value;
     }
 
 }
