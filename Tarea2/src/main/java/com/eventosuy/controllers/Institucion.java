@@ -122,6 +122,8 @@ public class Institucion extends HttpServlet {
 		if ("consultaPatrocinio".equals(action)) {
 			String patrocinador = request.getParameter("nombre_patrocinador");
 			Patrocinio patrocinio = controladorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
+			DTEvento evento = controladorEventos.getDTEvento(nombreEvento);
+			DTEdicionEvento edicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
 			
 			String codigoPatrocinio = patrocinio.getCodigoPatrocinio();
 
@@ -130,7 +132,8 @@ public class Institucion extends HttpServlet {
 			DTTipoRegistro dtTipoRegistro = obtenerTipoRegistro(controladorEventos, nombreEvento, nombreEdicion,
 					dtPatrocinio.getTipoRegistro());
 			
-			request.setAttribute("nombreEvento", nombreEvento);
+			request.setAttribute("datosEvento", evento);
+			request.setAttribute("datosEdicion", edicion);
 			request.setAttribute("codigoPatrocinio", codigoPatrocinio);
 			request.setAttribute("dtPatrocinio", dtPatrocinio);
 			request.setAttribute("dtTipoRegistro", dtTipoRegistro);

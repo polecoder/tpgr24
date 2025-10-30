@@ -19,6 +19,7 @@ public class DTEdicionEvento {
 	private String organizadorNickname;
 	private byte[] imagen;
 	private EEstadoEdicion estado;
+	private String videoURL;
 
 	/**
 	 * Constructor sin argumentos requerido por JAXB.
@@ -29,7 +30,7 @@ public class DTEdicionEvento {
 	
 	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 
 			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] imagen,
-			 EEstadoEdicion estado) {
+			 EEstadoEdicion estado, String videoURL) {
 	    this.setNombre(nombre);
 	    this.setSigla(sigla);
 	    this.setFechaInicio(fechaInicio);
@@ -40,6 +41,7 @@ public class DTEdicionEvento {
 	    this.setOrganizadorNickname(organizadorNickname);
 	    this.setImagen(imagen); 
 	    this.setEstado(estado);
+	    this.setVideoURL(videoURL);
 	}
 
 	// === Getters y Setters ===
@@ -125,5 +127,12 @@ public class DTEdicionEvento {
 			   this.organizadorNickname == edicion.getOrganizadorNickname() &&
 			   this.pais == edicion.getPais() &&
 			   this.sigla == edicion.getSigla();
+	}
+	
+	public void setVideoURL(String videoURL) {
+		this.videoURL = videoURL;
+	}
+	public String getVideoURL() {
+		return this.videoURL;
 	}
 }

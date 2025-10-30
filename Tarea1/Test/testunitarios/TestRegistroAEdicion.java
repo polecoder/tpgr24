@@ -80,14 +80,14 @@ public class TestRegistroAEdicion {
 		assertDoesNotThrow(() -> {
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, null, null);
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null, null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion); 
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, null, fecha);
 		});
 		
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, costo, null, false);
 		// TODO: Chequear que dtRegistroEsperado sea igual dtRegistroGenerado
 	}
 	
@@ -100,14 +100,14 @@ public class TestRegistroAEdicion {
 			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
 			controladorInstituciones.altaInstitucion("Institucion", "Descripcion1", "https://insti.com");
 			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion", null);
-			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null);
-			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null, null);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null, null);
 			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
 			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 10000f, 1, "CODPAT1", nombreTipoRegistro);
 			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
 		});
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
-		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null);
+		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null, false);
 		// TODO: comparar registro esperado con el generado
 	}
 }

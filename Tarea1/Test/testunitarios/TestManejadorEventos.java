@@ -45,7 +45,7 @@ public class TestManejadorEventos {
 		assertDoesNotThrow(() -> {
 			controladorEventos.altaCategoria("categoria1");
 		});
-		controladorEventos.altaEvento("nombreEvento", "descripcion", fecha, "sigla", categorias, null);
+		controladorEventos.altaEvento("nombreEvento", "descripcion", fecha, "sigla", categorias, null, null);
 		Map<String, DTEvento> eventos = controladorEventos.listarEventos();
 		assertTrue(eventos.containsKey("nombreEvento"));
 	}
@@ -55,7 +55,7 @@ public class TestManejadorEventos {
 	void testListarTipoRegistro() {
 		assertDoesNotThrow(() -> {
 			controladorUsuarios.altaOrganizador("nickOrganizadorListarTipoRegistro", "Eventos.2025!", "nombreOrganizador", "correo@gmail.com", "descripcion", "https://link.com", null);
-			controladorEventos.altaEdicionEvento("nombreEvento", "nombreEdicionListarTipoRegistro", "sigla", fecha, fecha, fecha, "ciudad", "pais", "nickOrganizadorListarTipoRegistro", null);
+			controladorEventos.altaEdicionEvento("nombreEvento", "nombreEdicionListarTipoRegistro", "sigla", fecha, fecha, fecha, "ciudad", "pais", "nickOrganizadorListarTipoRegistro", null, null);
 			controladorEventos.altaTipoRegistro("nombreTipoRegistro", "descripcion", 1f, 10, "nombreEvento", "nombreEdicionListarTipoRegistro");
 		});
 		

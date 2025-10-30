@@ -10,6 +10,7 @@
 DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
 String nombreEdicion = request.getParameter("nombre_edicion");
 String nombreEvento = request.getParameter("nombre_evento");
+String videoURL = (String) request.getAttribute("videoURL");
 if (nombreEvento == null) {
 	nombreEvento = (String) request.getAttribute("nombre_evento");
 }
@@ -44,7 +45,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 <body class="d-flex flex-column min-vh-100">
   <jsp:include page="/WEB-INF/views/partials/header.jsp" />
   <div class="container flex-grow-1">
-   <main class="p-4 bg-light border-0 rounded-4 shadow-sm mt-4" style="max-width: 900px; margin: 0 auto;">
+       <main class="p-4 bg-light border-top border-2 border-primary rounded shadow-sm mt-4">
       <form class="d-flex flex-column gap-4">
           <!-- Título + Imagen en línea -->
           <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
@@ -52,12 +53,12 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             <% if (base64Image != null) { %>
             <img
               src="data:image/png;base64,<%=base64Image%>"
-              alt="Imagen evento"
+              alt="Imagen edicion"
               style="width: 128px"
             />
             <% } %>
            <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; word-break: break-word;">
-    			<h1 class="text-uppercase fw-bold mb-1 fs-2 text-center" style="line-height: 1.2;"><%= nombreEdicion %></h1>
+    			<h1 class="text-primary fw-bold mb-1 fs-2 text-center" style="line-height: 1.2;"><%= nombreEdicion %></h1>
  		 </div>
  		 
  		  <div class="d-flex align-items-center gap-3 justify-content-center mb-4">
@@ -77,13 +78,12 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 		            <p class="fw-semibold text-secondary mb-0"><%= dtEdicion.getOrganizadorNickname() %></p>
 		        </div>
 		    </div>
+		   </div>
 			
-
-          </div>
         <!-- Datos de la edición -->
         <div class="card shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold text-primary mb-0">Detalles de la edición</h4>
+            <h4 class="fw-bold text-primary mb-0">Detalles de la edición:</h4>
             <% if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) { %>
               <% if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Ingresada")) { %>
                 <span class="badge-estado badge-ingresada">Ingresada</span>
@@ -139,12 +139,12 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
           </div>
         <% } else { %>
           <p class="text-secondary text-center mb-0">No tiene tipos de registro.</p>
-         </div> 
+         
         <% } %>
-
+	
         <!-- Patrocinadores -->
         <div class="card shadow-sm p-4">
-          <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores de la edición</h5>
+          <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores:</h5>
           <% if (!setPatrocinios.isEmpty()) { %>
             <table class="table table-sm table-bordered">
               <thead class="table-light">
@@ -188,6 +188,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                 <th scope="col">Tipo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Costo</th>
+                <th scope="col">¿Asistió?</th>
               </tr>
             </thead>
             <tbody>
@@ -199,6 +200,11 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                        class="link-primary link-underline"><%= registro.getNombreTipo() %></a></td>
                 <td><%=registro.getFecha()%></td>
                 <td><%=registro.getCosto()%></td>
+                <% if (registro.getAsistio()) { %>
+                	<td>Asistió</td>
+                <% } else { %>
+                	<td>No asistió</td>
+                <% } %>
               </tr>
               <% } %>
             </tbody>
@@ -212,27 +218,33 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             DTDetalleRegistro dtDetalleRegistro = (DTDetalleRegistro) request.getAttribute("detalle_registro");
             if (dtDetalleRegistro != null) {
                 String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
-        %>
-        <div class="card shadow-sm p-4">
-          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
-          <table class="table table-sm table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Costo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
-                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
-                <td><%= dtDetalleRegistro.getFecha() %></td>
-                <td><%= dtDetalleRegistro.getCosto() %></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+		        %>
+		        <div class="card shadow-sm p-4">
+		          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
+		          <table class="table table-sm table-bordered">
+		            <thead class="table-light">
+		              <tr>
+		                <th scope="col">Tipo</th>
+		                <th scope="col">Fecha</th>
+		                <th scope="col">Costo</th>
+		                <th scope="col">¿Asistió?</th>
+		              </tr>
+		            </thead>
+		            <tbody>
+		              <tr>
+		                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
+		                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
+		                <td><%= dtDetalleRegistro.getFecha() %></td>
+		                <td><%= dtDetalleRegistro.getCosto() %></td>
+		                <% if (dtDetalleRegistro.getAsistio()) { %>
+		                	<td>Asistió</td>
+		                <% } else { %>
+		                	<td>No asistió</td>
+		                <% } %>
+		              </tr>
+		            </tbody>
+		          </table>
+		        </div>
         <% }} %>
 
         <%-- si el usuario logeado es organizador y organiza la edición --%>
@@ -251,9 +263,17 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             if (!finalizado) { %>
             <div class="d-flex justify-content-center gap-3">
               <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-                 class="btn btn-primary btn-sm px-3">Registrarse a edición</a>
+                 class="btn btn-primary btn-sm px-3 fs-5">Registrarse a edición</a>
             </div>
         <% }} %>
+        
+        <!-- Video -->
+        <% if (videoURL != null) { %>
+        	<div class="card shadow-sm p-4 text-center d-flex justify-content-center align-items-center">
+        		<h5 class="fw-bold text-primary mb-3 text-center">Video promocional:</h5>
+			    <iframe src=<%= videoURL %> style="height:400px;width:700px;" title="video_edicion" allowfullscreen></iframe>
+			</div>
+        <% } %>
       </form>
     </main>
   </div>

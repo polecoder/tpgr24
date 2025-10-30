@@ -1,93 +1,124 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ page import="datatypes.*" %>
-<% 
-	String nombreEdicion = (String) request.getAttribute("nombreEdicion");
-	String nombreEvento = (String) request.getAttribute("nombreEvento");
-	String rutaImagenEdicion = (String) request.getAttribute("rutaImagenEdicion");
-	
-	String codigoPatrocinio = (String) request.getAttribute("codigoPatrocinio"); 
-	
-	String rutaImagenInstitucion = (String) request.getAttribute("rutaImagenInstitucion");
-	
-	DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("dtTipoRegistro");
-	
-	DTDetallePatrocinio dtPatrocinio = (DTDetallePatrocinio) request.getAttribute("dtPatrocinio");
+<%@ page
+  contentType="text/html"
+  pageEncoding="UTF-8"
+%>
+<%@ page import="datatypes.*, java.text.SimpleDateFormat, java.util.Base64, java.util.Locale"%>
+<%
+String cp = request.getContextPath();
+DTEvento datosEvento = (DTEvento) request.getAttribute("datosEvento");
+String srcImagenEvento = datosEvento.getImagen() != null
+		? "data:image/png;base64," + Base64.getEncoder().encodeToString(datosEvento.getImagen())
+		: cp + "/images/sin-imagen.svg";
+DTEdicionEvento datosEdicion = (DTEdicionEvento) request.getAttribute("datosEdicion");
+String srcImagenEdicion = datosEdicion.getImagen() != null
+		? "data:image/png;base64," + Base64.getEncoder().encodeToString(datosEdicion.getImagen())
+		: cp + "/images/sin-imagen.svg";
+String codigoPatrocinio = (String) request.getAttribute("codigoPatrocinio");
+DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("dtTipoRegistro");
+DTDetallePatrocinio dtPatrocinio = (DTDetallePatrocinio) request.getAttribute("dtPatrocinio");
+// formatear fecha con mayúsculas
+SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy");
+String fechaAlta = sdf.format(dtPatrocinio.fechaAlta()).substring(0, 1).toUpperCase()
+		+ sdf.format(dtPatrocinio.fechaAlta()).substring(1);
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <jsp:include page="/WEB-INF/views/partials/head.jsp" />
+<jsp:include page="/WEB-INF/views/partials/head.jsp" />
+<link
+  rel="stylesheet"
+  href="<%=cp%>/css/consulta-patrocinio.css"
+/>
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <jsp:include page="/WEB-INF/views/partials/header.jsp" />
-    
-	<div class="container flex-grow-1">
-    <div class="mx-auto" style="max-width: 768px">
-      <h1 class="text-center text-uppercase py-4 fs-2 fs-sm-3">
-        Consulta de Patrocinio
-        <span class="text-primary d-block"><%= codigoPatrocinio %></span>
-      </h1>
+  <jsp:include page="/WEB-INF/views/partials/header.jsp" />
+
+  <div class="container flex-grow-1">
+    <div class="header d-flex gap-3 mt-5 p-3 justify-content-center border border-1 border-primary">
+      <div class="institucion d-flex gap-1 align-items-center">
+        <h1
+          class="py-4 fs-2 fs-sm-3"
+          style="max-width: 500px"
+        >
+          Edición patrocinada por: <span class="text-primary text-uppercase d-block fs-1 fw-bold"><%=dtPatrocinio.nombreInstitucion()%></span>
+        </h1>
+        <%-- TODO: Falta implementar las imagenes de Institución --%>
+        <img
+          src="<%=cp%>/images/anonimo.svg"
+          class="imagen p-2"
+        />
+      </div>
     </div>
-
-    <div class="d-flex justify-content-between gap-5 mx-auto" style="max-width: 1024px">
-      <!-- TODO: Actualizar los links -->
-
-      <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="height: fit-content">
-        <form class="d-flex flex-column gap-4">
-          <div class="d-flex justify-content-center gap-3">
-            <label for="fecha" class="form-label text-end" style="width: 100px">Fecha:</label>
-            <input type="text" id="fecha" name="fecha" class="form-control form-control-sm px-2" style="width: 250px"
-              value=<%=dtPatrocinio.fechaAlta() %> readonly />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="aporte" class="form-label text-end" style="width: 100px">Aporte:</label>
-            <input type="text" id="aporte" name="aporte" class="form-control form-control-sm px-2" style="width: 250px"
-              value=<%= dtPatrocinio.aporte()%> readonly />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="nivel" class="form-label text-end" style="width: 100px">Nivel:</label>
-            <input type="text" id="nivel" name="nivel" class="form-control form-control-sm px-2" style="width: 250px"
-              value=<%= dtPatrocinio.nivel() %> readonly />
-          </div>
-
-          <div class="d-flex justify-content-center gap-3">
-            <label for="cuposGratuitos" class="form-label text-end" style="width: 100px">Cupos:</label>
-            <input type="text" id="cuposGratuitos" name="cuposGratuitos" class="form-control form-control-sm px-2"
-              style="width: 250px" value=<%= dtPatrocinio.cuposGratuitos() %> readonly />
-          </div>
-        </form>
-      </main>
-      <aside class="border-primary border rounded" style="max-width: 275px; height: fit-content">
-        <div>
-          <h3 class="text-white bg-primary p-2 m-0 fs-4">Edición</h3>
-          <div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-            <img src=<%= rutaImagenEdicion %> alt="Imagen evento" style="width: 64px; height: 64px" />
-            <!-- TODO: Lleva a CU::ConsultaEdición -->
-            <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>" class="text-primary"><%= nombreEdicion %></a>
-          </div>
+    <main
+      class="datos p-5 d-flex justify-content-between border border-1 border-primary mt-2"
+      style="height: fit-content"
+    >
+      <section>
+        <div class="campo">
+          <h3 class="titulo text-primary">Patrocinando desde:</h3>
+          <p><%=fechaAlta%></p>
         </div>
-        <div>
-          <h3 class="text-white bg-primary p-2 m-0 fs-4">Institución</h3>
-          <div class="d-flex align-items-center gap-2 py-2 px-3 justify-content-center">
-            <img src=<%= rutaImagenInstitucion%> alt="Imagen institucion" style="width: 64px" />
-            <!-- TODO: Lleva a CU::ConsultaInstitución -->
-            <p class="text-black p-2 m-0 fs-5"><%= dtPatrocinio.nombreInstitucion() %></p>
-          </div>
+        <div class="campo">
+          <h3 class="titulo text-primary">Ha aportado:</h3>
+          <p>
+            $<%=dtPatrocinio.aporte()%></p>
         </div>
-        <div>
-          <h3 class="text-white bg-primary p-2 m-0 fs-4">Tipo de Registro</h3>
-          <div class="d-flex align-items-center gap-2 py-2 px-4 justify-content-between">
-            <!-- TODO: Lleva a CU::ConsultaTipoRegistro -->
-            <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=dtPatrocinio.tipoRegistro()%>" class="text-primary"><%= dtPatrocinio.tipoRegistro() %></a>
-            <p class="m-0"><%= dtTipoRegistro.costo() %></p>
-          </div>
+        <div class="campo">
+          <h3 class="titulo text-primary">Nivel de patrocinio:</h3>
+          <p><%=dtPatrocinio.nivel()%></p>
+        </div>
+        <div class="campo">
+          <h3 class="titulo text-primary">Tipo de registro:</h3>
+          <a
+            href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=datosEvento.getNombre()%>&nombre_edicion=<%=datosEdicion.getNombre()%>&nombre_tipo_registro=<%=dtTipoRegistro.nombre()%>"
+            class="link d-flex gap-3 align-items-center mb-3"
+          > <span><%=dtTipoRegistro.nombre()%></span> <img
+            src="<%=cp%>/images/link.svg"
+            width="18"
+            height="18"
+          />
+          </a>
+        </div>
+        <div class="campo">
+          <h3 class="titulo text-primary">Total de cupos gratuitos:</h3>
+          <p><%=dtPatrocinio.cuposGratuitos()%></p>
+        </div>
+      </section>
+      <aside class="extras d-flex gap-5">
+        <div class="d-flex flex-column justify-content-between text-center">
+          <h2 class="titulo text-primary pt-0 p-3">Evento asociado</h2>
+          <img
+            class="imagen mx-auto"
+            src=<%=srcImagenEvento%>
+          /> <a
+            href="<%=cp%>/Eventos?accion=consulta&nombre=<%=datosEvento.getNombre()%>"
+            class="subtitulo py-3 d-flex gap-3 align-items-center"
+          > <span><%=datosEvento.getNombre()%></span> <img
+            src="<%=cp%>/images/link.svg"
+            width="24"
+            height="24"
+          />
+          </a>
+        </div>
+        <div class="d-flex flex-column justify-content-between text-center">
+          <h2 class="titulo text-primary pt-0 p-3">Edición asociada</h2>
+          <img
+            class="imagen mx-auto"
+            src=<%=srcImagenEdicion%>
+          /> <a
+            href="<%=cp%>/Ediciones?accion=ConsultaEdicion&nombre_evento=<%=datosEvento.getNombre()%>&nombre_edicion=<%=datosEdicion.getNombre()%>"
+            class="subtitulo py-3 d-flex gap-3 align-items-center"
+          > <span><%=datosEdicion.getNombre()%></span> <img
+            src="<%=cp%>/images/link.svg"
+            width="24"
+            height="24"
+          />
+          </a>
         </div>
       </aside>
-    </div>
+    </main>
   </div>
 
-    <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
+  <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 </body>
 </html>

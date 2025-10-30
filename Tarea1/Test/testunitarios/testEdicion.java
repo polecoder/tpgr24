@@ -31,7 +31,7 @@ class testEdicion {
              Utilidades.toDate(LocalDate.of(2025, 9, 1)),
              Utilidades.toDate(LocalDate.of(2025, 9, 3)),
              Utilidades.toDate(LocalDate.now()),
-             "Montevideo", "Uruguay", "Edicion", "Edicion", null);
+             "Montevideo", "Uruguay", "Edicion", "Edicion", null, null);
 	} 
 	@Test
 	void test1() throws Exception{

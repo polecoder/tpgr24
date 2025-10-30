@@ -20,6 +20,7 @@ import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEdicion;
+import datatypes.EEstadoEvento;
 import datatypes.ENivelPatrocinio;
 
 public class ManejadorEventos {
@@ -85,9 +86,10 @@ public class ManejadorEventos {
 			String descripcion = e.getDescripcion();
 			String sigla = e.getSigla();
 			Date fAlta = e.getFechaAlta();
-			byte[] imagen = e.getImagen(); // ← nuevo
+			byte[] imagen = e.getImagen();
+			EEstadoEvento estado = e.getEstado();
 			Map<String, Categoria> categorias=e.getCategoria();
-			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, categorias.keySet(), imagen); 
+			DTEvento dtEv = new DTEvento(nombre, descripcion, sigla, fAlta, categorias.keySet(), imagen, estado); 
 			hMLista.put(nombre, dtEv);  
 		}
 		return hMLista;
@@ -136,7 +138,8 @@ public class ManejadorEventos {
 			evento.getSigla(),
 			evento.getFechaAlta(),
 			evento.getCategoria().keySet(),
-			imagen 
+			imagen,
+			evento.getEstado()
 		);
 		
 		return dtEvento;
@@ -147,7 +150,7 @@ public class ManejadorEventos {
 		if (evento == null) { return null; }
 		Edicion edicion = evento.getEdiciones().get(edicionSeleccionada);
 		if (edicion == null) { return null; }
-		DTEdicionEvento dtEdicion= new DTEdicionEvento(edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), edicion.getOrganizadorNickname(), edicion.getImagen(), edicion.getEstado());
+		DTEdicionEvento dtEdicion= new DTEdicionEvento(edicion.getNombre(), edicion.getSigla(), edicion.getFechaInicio(), edicion.getFechaFin(), edicion.getFechaAlta(), edicion.getCiudad(), edicion.getPais(), edicion.getOrganizadorNickname(), edicion.getImagen(), edicion.getEstado(), edicion.getVideoURL());
 		return dtEdicion;
 	}
 	
@@ -284,9 +287,9 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado) {
 		if (!existeEvento(nombre)) {
-			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen);
+			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen, estado);
 			this.eventos.put(nombre, evento);
 
 			for (String nombreCategoria : categorias) {
@@ -294,8 +297,8 @@ public class ManejadorEventos {
 			}
 		}
 	}
-	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen) {  
-	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento, imagen );
+	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen, String videoURL) {  
+	    Edicion edicion = new Edicion( nombre,  sigla, fechaInicio,  fechaFin, fechaAlt, ciudad, pais, organizadorNickname, nombreEvento, imagen, videoURL);
 	    this.eventos.get(nombreEvento).agregarEdicion(edicion);
 	    return edicion;
 	}

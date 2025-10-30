@@ -15,6 +15,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
+import excepciones.EventoFinalizado;
 import excepciones.FormularioIncompletoEdicion;
 import logica.Fabrica;
 import logica.IControladorEventos;
@@ -244,7 +245,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 		    }
 		    
 		    try {
-		        iContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador, null);
+		        iContEvento.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizador, null, null);
 
 		        JOptionPane.showMessageDialog(this, "Edición creada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
@@ -264,7 +265,10 @@ public class AltaEdicionEvento extends JInternalFrame {
 
 		    } catch (FormularioIncompletoEdicion exception) {
 		        JOptionPane.showMessageDialog(this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		    }
+		    } catch (EventoFinalizado e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    });
 	}
 } 

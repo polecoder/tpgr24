@@ -27,6 +27,7 @@ public class Edicion {
     private String organizadorNickname;
     private String nombreEvento;
     private byte[] imagen; 
+    private String videoURL;
 
     public Edicion(
             String nombre,
@@ -38,7 +39,8 @@ public class Edicion {
             String pais,
             String organizadorNickname,
             String nombreEvento,
-            byte[] imagen) {
+            byte[] imagen,
+            String videoURL) {
 
         this.setNombre(nombre);
         this.setSigla(sigla);
@@ -53,6 +55,7 @@ public class Edicion {
         this.setOrganizadorNickname(organizadorNickname);
         this.setNombreEvento(nombreEvento);
         this.setImagen(imagen);
+        this.setVideoURL(videoURL);
     }
 
     // ==== Getters y Setters ====
@@ -140,7 +143,8 @@ public class Edicion {
                 this.pais,
                 this.organizadorNickname,
                 this.imagen,
-                this.estado
+                this.estado,
+                this.videoURL
         );
     }
 
@@ -223,6 +227,13 @@ public class Edicion {
     		}
     	}
     	return asiste;
+    }
+    
+    public void setVideoURL(String videoURL) {
+    	this.videoURL = videoURL;
+    }
+    public String getVideoURL() {
+    	return this.videoURL;
     }
 }
 

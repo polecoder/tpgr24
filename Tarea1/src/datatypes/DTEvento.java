@@ -18,6 +18,7 @@ public class DTEvento {
 	private Date fechaAlta;
 	private byte[] imagen;
 	private Set<String> categorias;
+	private EEstadoEvento estado;
 
 	/**
 	 * Constructor sin argumentos requerido por JAXB.
@@ -27,13 +28,14 @@ public class DTEvento {
 	}
 	
 	public
-	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, Set<String> categorias, byte[] imagen) {
+	DTEvento(String nombre, String descripcion , String sigla, Date fechaAlta, Set<String> categorias, byte[] imagen, EEstadoEvento estado) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
 		this.setFechaAlta(fechaAlta);
 		this.setImagen(imagen);
 		this.setCategorias(categorias);
+		this.setEstado(estado);
 	}
 
 	public String getNombre(){
@@ -51,6 +53,10 @@ public class DTEvento {
 	public byte[] getImagen() {
 		return this.imagen;
 	}
+	
+	public EEstadoEvento getEstado() {
+		return estado;
+	}
 
 	public void setFechaAlta(Date fechaAlta){ 
 		this.fechaAlta = fechaAlta;
@@ -67,6 +73,9 @@ public class DTEvento {
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
+	void setEstado(EEstadoEvento estado) {
+		this.estado=estado;
+	}
 	
 	public void setCategorias(Set<String> categorias) {
 		this.categorias=categorias;
@@ -75,5 +84,4 @@ public class DTEvento {
 	public Set<String> getCategorias(){
 		return this.categorias;
 	}
-
 }

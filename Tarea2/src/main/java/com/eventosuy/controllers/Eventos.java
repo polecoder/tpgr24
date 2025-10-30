@@ -20,6 +20,7 @@ import com.eventosuy.servidor.PublicadorService;
 import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.EEstadoEdicion;
+import datatypes.EEstadoEvento;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -84,12 +85,44 @@ public class Eventos extends HttpServlet {
             case "consulta":
                 Consulta(request, response);
                 break;
+            case "finalizar" :
+            	Finalizar(request, response);
+             	break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + accion);
         }
+      
+    }
+    
+    private void Finalizar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    	String nombre = request.getParameter("nombre");
+    	
+    	//solo organizador
+    	com.eventosuy.models.TipoUsuario tipo = (com.eventosuy.models.TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
+    	String nick = (String) request.getSession().getAttribute("usuarioNickname");
+    	
+    	if (tipo == null || tipo!= com.eventosuy.models.TipoUsuario.ORGANIZADOR || nick == null) {
+    		response.sendError(HttpServletResponse.SC_FORBIDDEN);
+    		return;
+    	}
+    	try {
+    		IContEv.finalizarEvento(nombre);
+    		request.setAttribute("flashOK", "Evento finalizado correctamente");
+    		request.setAttribute("nombre", nombre);
+    		Consulta(request, response);
+    	}catch(excepciones.EventoFinalizado e) {
+    		request.setAttribute("flashWARN", "El evento ya esta finalizado");
+    		request.setAttribute("nombre", nombre);
+    		Consulta(request, response);
+    	} catch(excepciones.EventoNoExiste e) {
+    		response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+    	} catch(Exception e) {
+    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo finalizar el evento.");
+    	} 
     }
 
-    // --- Formulario de alta ---
+
+	// --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     		List<String> categorias = (List<String>) puerto.getListaCategorias();
@@ -148,7 +181,7 @@ public class Eventos extends HttpServlet {
 			e.printStackTrace();
 			xmlGregorianCalendarFechaAlta = null;
 		}
-        puerto.altaEvento(nombre, descripcion, xmlGregorianCalendarFechaAlta, sigla, (com.eventosuy.servidor.ArrayList) CatSel, imagen);
+        puerto.altaEvento(nombre, descripcion, xmlGregorianCalendarFechaAlta, sigla, (com.eventosuy.servidor.ArrayList) CatSel, imagen, EEstadoEvento.EN_CURSO);
 
         // Preparar datos para la vista de consulta
         request.setAttribute("mensaje", "Evento '" + nombre + "' creado correctamente.");
@@ -192,6 +225,14 @@ public class Eventos extends HttpServlet {
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
+        // estado del evento
+        boolean finalizado = (evento.getEstado() == EEstadoEvento.FINALIZADO);
+        request.setAttribute("eventoFinalizado", finalizado);
+        
+        //boton finalizar para organizadores
+        com.eventosuy.models.TipoUsuario tipo = (com.eventosuy.models.TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
+            boolean esOrganizador = (tipo != null && tipo == com.eventosuy.models.TipoUsuario.ORGANIZADOR);
+            request.setAttribute("esOrganizador", esOrganizador);
 
         Map<String, DTEdicionEvento> edicionesMap = (Map<String, DTEdicionEvento>) puerto.listarEdicionesEvento(nombre);
         List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());

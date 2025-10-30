@@ -57,6 +57,7 @@ public class Login extends HttpServlet {
 			if (datosUsuario != null) {
 				HttpSession session = req.getSession(true);
 				session.setAttribute("usuarioLogeado", datosUsuario);
+				session.setAttribute("usuarioNickname", datosUsuario.getNickname());
 				// validación de tipo de usuario
 				if (datosUsuario instanceof DTDetalleAsistente) {
 					session.setAttribute("tipoUsuarioLogeado", TipoUsuario.ASISTENTE);

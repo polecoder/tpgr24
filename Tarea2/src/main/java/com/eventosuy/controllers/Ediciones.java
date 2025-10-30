@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +36,6 @@ import jakarta.servlet.http.Part;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorUsuarios;
-import logica.Utilidades;
 
 @WebServlet("/Ediciones")
 @MultipartConfig
@@ -102,7 +98,6 @@ public class Ediciones extends HttpServlet {
 			}
 		}
 		
-		
 		if (nombreEvento == null) {
 			request.setAttribute("error_message", "La edicion no es de ningun evento");
 			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
@@ -111,6 +106,7 @@ public class Ediciones extends HttpServlet {
 		
 		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
 		Set<String> setPatrocinios = (Set<String>) puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
+		String videoURL = dtEdicion.getVideoURL();
 		Set<String> setTiposRegistro = (Set<String>) puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
 		Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
@@ -122,6 +118,7 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		request.setAttribute("finalizada", false);
+		request.setAttribute("videoURL", videoURL);
 		
 		GregorianCalendar hoy = new GregorianCalendar();
 		XMLGregorianCalendar xmlHoy = DatatypeFactory.newInstance().newXMLGregorianCalendar(hoy);
@@ -156,6 +153,7 @@ public class Ediciones extends HttpServlet {
 		
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		String sigla = request.getParameter("sigla");
+		String URL = request.getParameter("URL");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
 		Date fechaFin = formatter.parse(request.getParameter("fecha_fin"));
@@ -179,7 +177,7 @@ public class Ediciones extends HttpServlet {
 			XMLGregorianCalendar xmlGregorianCalendarFechaAlta = dateToXMLGregorianCalendar(fechaAlta);
 			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla,
 					xmlGregorianCalendarFechaInicio, xmlGregorianCalendarFechaFin, xmlGregorianCalendarFechaAlta, 
-					ciudad, pais, nickOrganizador, imagenBytes);
+					ciudad, pais, nickOrganizador, imagenBytes, URL);
 		} catch (Exception ex) {
 			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);

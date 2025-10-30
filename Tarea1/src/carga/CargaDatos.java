@@ -10,6 +10,7 @@ import logica.Patrocinio;
 import logica.TipoRegistro;
 import logica.Utilidades;
 import datatypes.EEstadoEdicion;
+import datatypes.EEstadoEvento;
 import datatypes.ENivelPatrocinio;
 
 import java.io.FileNotFoundException;
@@ -24,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-
+ 
 import carga.csv.CSVAsistente;
 import carga.csv.CSVCategoria;
 import carga.csv.CSVEdicion;
@@ -338,7 +339,7 @@ public class CargaDatos {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(evento.getImagen());
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen);
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO);
 			}
 		}
 	}
@@ -375,7 +376,7 @@ public class CargaDatos {
 				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosEdicion.getImagen());
-				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, bytesImagen);
+				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, bytesImagen, null);
 				if (datosEdicion.getEstado().equals("Aceptada")) {
 					edicion.setEstado(EEstadoEdicion.Aceptada);
 				} else if (datosEdicion.getEstado().equals("Rechazada")) {

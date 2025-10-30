@@ -74,17 +74,14 @@ public class Home extends HttpServlet {
 	 */
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		PublicadorService servicio = new PublicadorService();
 		Publicador puerto = servicio.getPublicadorPort();
+
+		List<DTEvento> eventosEnCurso = new ArrayList<>(puerto.listarEventosEnCurso());
+		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
-		DTEventoEntryArray dtEventoEntryArrayList = puerto.listarEventos();
-		Map<String, DTEvento> eventos = new HashMap<String, DTEvento>();
-		for(DTEventoEntry dtEventoEntry: dtEventoEntryArrayList.getItem()) {
-			eventos.put(dtEventoEntry.getKey(), dtEventoEntry.getValue());
-		}
-		req.setAttribute("eventos", eventos);
-		
+		List<DTEvento> eventosFinalizados = new ArrayList<>(puerto.listarEventosFinalizados());
+		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
 		DTDetalleUsuarioArray dtDetalleUsuarioList = puerto.listarDetalleUsuarios();
 		List<DTDetalleUsuario> usuarios = dtDetalleUsuarioList.getItem();

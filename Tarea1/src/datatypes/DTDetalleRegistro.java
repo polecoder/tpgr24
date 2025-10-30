@@ -1,6 +1,7 @@
 package datatypes;
 
 import java.util.Date;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -16,6 +17,7 @@ public class DTDetalleRegistro {
 	private Date fecha;
 	private float costo;
 	private String codigoPatrocinio;
+	private boolean asistio;
 	
 	/**
 	 * Constructor sin argumentos requerido por JAXB.
@@ -24,13 +26,14 @@ public class DTDetalleRegistro {
 	public DTDetalleRegistro() {
 	}
 	
-	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo, String codigoPatrocinio) {
+	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo, String codigoPatrocinio, boolean asistio) {
 		this.setNombreEdicion(nombreEdicion);
 		this.setNicknameAsistente(nicknameAsistente);
 		this.setNombreTipo(nombreTipo);
 		this.setFecha(fecha);
 		this.setCosto(costo);
 		this.setCodigoPatrocinio(codigoPatrocinio);
+		this.setAsistio(asistio);
 	}
 	
 	public String getNombreEdicion() {
@@ -73,6 +76,13 @@ public class DTDetalleRegistro {
 	}
 	public void setCodigoPatrocinio(String codigoPatrocinio) {
 		this.codigoPatrocinio = codigoPatrocinio;
+	}
+	
+	public boolean getAsistio() {
+		return this.asistio;
+	}
+	public void setAsistio(boolean asistio) {
+		this.asistio = asistio;
 	}
 	
 	public boolean equalsRegistro(DTDetalleRegistro evento) {

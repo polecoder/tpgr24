@@ -1,11 +1,13 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import excepciones.AporteInsuficiente;
@@ -13,6 +15,7 @@ import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EventoFinalizado;
 import excepciones.EventoNoExiste;
 import excepciones.FechaFinEsPasada;
 import excepciones.FormularioIncompletoEdicion;
@@ -29,6 +32,7 @@ import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEdicion;
+import datatypes.EEstadoEvento;
 import datatypes.ENivelPatrocinio;
 
 public class ControladorEventos implements IControladorEventos {
@@ -81,8 +85,9 @@ public class ControladorEventos implements IControladorEventos {
 	        String oNick = ed.getOrganizadorNickname();
 	        byte[] imagen = ed.getImagen();
 	        EEstadoEdicion estado = ed.getEstado();
+	        String videoURL = ed.getVideoURL();
 
-	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen, estado));
+	        mLista.put(nombre, new DTEdicionEvento(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, oNick, imagen, estado, videoURL));
 	    }
 	    
 	    return mLista;
@@ -128,8 +133,8 @@ public class ControladorEventos implements IControladorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen) {
-    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen);
+    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado) {
+    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen, estado);
     }
 
 
@@ -252,7 +257,9 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[]img) throws FormularioIncompletoEdicion {
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL) throws FormularioIncompletoEdicion, EventoFinalizado {
+		
+		if (manejadorEventos.getEvento(nombreEvento).isFinalizado()) throw new EventoFinalizado("No se pueden crear ediciones para un evento finalizado");
 
 		if (nombre == null || nombre.isEmpty() ||sigla == null || sigla.isEmpty() ||ciudad == null || ciudad.isEmpty() ||pais == null || pais.isEmpty()) {
 			throw new FormularioIncompletoEdicion("Todos los campos deben estar completos");
@@ -284,7 +291,13 @@ public class ControladorEventos implements IControladorEventos {
 			throw new FormularioIncompletoEdicion("El país solo puede contener letras y espacios");
 		}
 
-		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img);
+		String videoURL = null;
+		if (URL != null) {
+			videoURL = URL.replace("watch?v=", "embed/")
+						  .replace("&", "?");
+		}
+		
+		Edicion edicion = manejadorEventos.altaEdicion(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img, videoURL);
 		this.manejadorUsuarios.agregarEdicionAOrganizador(edicion, organizadorNickname);
 	}
 
@@ -397,5 +410,32 @@ public class ControladorEventos implements IControladorEventos {
 	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador) {
 		return manejadorEventos.getPatrocinio(nombreEvento, nombreEdicion, patrocinador);
 	}
+	
+public void finalizarEvento (String nombreEvento) throws EventoNoExiste, EventoFinalizado{
+		Evento ev = manejadorEventos.getEvento(nombreEvento);
+		if (ev.isFinalizado()) {
+			throw new EventoFinalizado("El evento ya finalizo");
+		}
+		ev.finalizar(); 
+	}
+public Set<DTEvento> listarEventosPorEstado(EEstadoEvento estado){
+	Set<DTEvento> resultado = new HashSet<>();
+	Collection<Evento> todoslosEventos = manejadorEventos.getEventos().values();
+	for (Evento ev : todoslosEventos) {
+		if(ev.getEstado() == estado) {
+			DTEvento dtEv = this.getDTEvento(ev.getNombre());
+			resultado.add(dtEv);
+		}
+	}
+	return resultado;
+}
+public Set<DTEvento> listarEventosEnCurso() {
+    return listarEventosPorEstado(EEstadoEvento.EN_CURSO);
+}
+
+public Set<DTEvento> listarEventosFinalizados() {
+    return listarEventosPorEstado(EEstadoEvento.FINALIZADO);
+}
+	
 }
 
