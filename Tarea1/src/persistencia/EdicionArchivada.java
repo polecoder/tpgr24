@@ -1,6 +1,8 @@
 package persistencia;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.*;
@@ -29,7 +31,12 @@ public class EdicionArchivada {
 	private Date fechaArchivo;
 	@Column(name = "nombre_evento", nullable = false)
 	private String nombreEvento;
-	
+	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+	@JoinColumn(name="id_organizador")
+	private OrganizadorArchivado organizador;
+	// IMPORTANTE: el valor de mappedBy tiene que tener el mismo nombre que el que le corresponde en RegistroArchivado.java
+	@OneToMany(mappedBy = "edicion", cascade = CascadeType.PERSIST)
+	private List<RegistroArchivado> registros = new ArrayList<>();
 	
 	// no eliminar
     @Override
