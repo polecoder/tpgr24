@@ -2,7 +2,7 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@ page import="datatypes.*, java.text.SimpleDateFormat, java.util.Base64, java.util.Locale"%>
+<%@ page import="com.eventosuy.servidor.*, java.text.SimpleDateFormat, java.util.Base64, java.util.Locale, java.util.Date"%>
 <%
 String cp = request.getContextPath();
 DTEvento datosEvento = (DTEvento) request.getAttribute("datosEvento");
@@ -18,8 +18,9 @@ DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("dtTipoReg
 DTDetallePatrocinio dtPatrocinio = (DTDetallePatrocinio) request.getAttribute("dtPatrocinio");
 // formatear fecha con mayúsculas
 SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy");
-String fechaAlta = sdf.format(dtPatrocinio.fechaAlta()).substring(0, 1).toUpperCase()
-		+ sdf.format(dtPatrocinio.fechaAlta()).substring(1);
+Date dateFechaAlta = dtPatrocinio.getFechaAlta().toGregorianCalendar().getTime();
+String fechaAlta = sdf.format(dateFechaAlta).substring(0, 1).toUpperCase()
+		+ sdf.format(dateFechaAlta).substring(1);
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -40,7 +41,7 @@ String fechaAlta = sdf.format(dtPatrocinio.fechaAlta()).substring(0, 1).toUpperC
           class="py-4 fs-2 fs-sm-3"
           style="max-width: 500px"
         >
-          Edición patrocinada por: <span class="text-primary text-uppercase d-block fs-1 fw-bold"><%=dtPatrocinio.nombreInstitucion()%></span>
+          Edición patrocinada por: <span class="text-primary text-uppercase d-block fs-1 fw-bold"><%=dtPatrocinio.getNombreInstitucion()%></span>
         </h1>
         <%-- TODO: Falta implementar las imagenes de Institución --%>
         <img
@@ -61,18 +62,18 @@ String fechaAlta = sdf.format(dtPatrocinio.fechaAlta()).substring(0, 1).toUpperC
         <div class="campo">
           <h3 class="titulo text-primary">Ha aportado:</h3>
           <p>
-            $<%=dtPatrocinio.aporte()%></p>
+            $<%=dtPatrocinio.getAporte()%></p>
         </div>
         <div class="campo">
           <h3 class="titulo text-primary">Nivel de patrocinio:</h3>
-          <p><%=dtPatrocinio.nivel()%></p>
+          <p><%=dtPatrocinio.getNivel()%></p>
         </div>
         <div class="campo">
-          <h3 class="titulo text-primary">Tipo de registro:</h3>
+          <h3 class="titulo text-primary">Tipo de registro:</h3> 
           <a
-            href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=datosEvento.getNombre()%>&nombre_edicion=<%=datosEdicion.getNombre()%>&nombre_tipo_registro=<%=dtTipoRegistro.nombre()%>"
+            href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=datosEvento.getNombre()%>&nombre_edicion=<%=datosEdicion.getNombre()%>&nombre_tipo_registro=<%=dtTipoRegistro.getNombre()%>"
             class="link d-flex gap-3 align-items-center mb-3"
-          > <span><%=dtTipoRegistro.nombre()%></span> <img
+          > <span><%=dtTipoRegistro.getNombre()%></span> <img
             src="<%=cp%>/images/link.svg"
             width="18"
             height="18"
@@ -81,7 +82,7 @@ String fechaAlta = sdf.format(dtPatrocinio.fechaAlta()).substring(0, 1).toUpperC
         </div>
         <div class="campo">
           <h3 class="titulo text-primary">Total de cupos gratuitos:</h3>
-          <p><%=dtPatrocinio.cuposGratuitos()%></p>
+          <p><%=dtPatrocinio.getCuposGratuitos()%></p>
         </div>
       </section>
       <aside class="extras d-flex gap-5">

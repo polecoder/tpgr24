@@ -143,6 +143,13 @@ public class Publicador {
 		Map<String, DTTipoRegistro> res = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
 	    return new HashMap<String, DTTipoRegistro> (res);
 	}
+	
+	@WebMethod
+	public String[] listarTipoRegistroKeys(String nombreEvento, String nombreEdicion) {
+		Map<String, DTTipoRegistro> res = controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion);
+		Set<String> resKeys = res.keySet();
+		return resKeys.toArray(new String[0]);
+	}
 
 	@WebMethod
 	public void altaTipoRegistro(String nombre, String descripcion, float costo, int cuposMax, String nombreEvento, String nombreEdicion) throws NombreTipoRegistroRepetido, DatosTipoRegistroInvalidos {
@@ -300,8 +307,8 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashSet<String> nombresInstituciones() {
+	public String[] nombresInstituciones() {
 		Set<String> res = controladorInstitucion.nombresInstituciones();
-	    return new HashSet<String> (res);
+	    return res.toArray(new String[0]);
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.eventosuy.models.TipoUsuario;
 import com.eventosuy.servidor.DTDetallePatrocinio;
 import com.eventosuy.servidor.DTEdicionEvento;
+import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
 import com.eventosuy.utils.Utilidades;
@@ -71,7 +73,10 @@ public class Institucion extends HttpServlet {
 		// Get user type from session
 		HttpSession session = request.getSession();
 		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
-
+		
+		// Testing remover luego
+		tipoUsuario = TipoUsuario.ORGANIZADOR;
+		session.setAttribute("tipoUsuarioLogeado", tipoUsuario);
 		// Handle organizer-specific actions
 		if (tipoUsuario != null && tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
 			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, puerto,
@@ -106,9 +111,9 @@ public class Institucion extends HttpServlet {
 	private void handleAltaPatrocinio(HttpServletRequest request, HttpServletResponse response, String nombreEvento,
 			String nombreEdicion, Publicador controladorEventos,
 			Publicador controladorInstitucion) throws ServletException, IOException {
-		@SuppressWarnings("unchecked")
-		Set<String> listaNombresTipoRegistro = ((Map<String, DTTipoRegistro>) controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion)).keySet();
-		Set<String> listaNombresInstitucion = (Set<String>) controladorInstitucion.nombresInstituciones();
+		List<String> listaNombresTipoRegistro = controladorEventos.listarTipoRegistroKeys(nombreEvento, nombreEdicion).getItem();
+//		Set<String> listaNombresTipoRegistro = ((Map<String, DTTipoRegistro>) controladorEventos.listarTipoRegistro(nombreEvento, nombreEdicion)).keySet();
+		List<String> listaNombresInstitucion = controladorInstitucion.nombresInstituciones().getItem();
 
 		request.setAttribute("nombreEvento", nombreEvento);
 		request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
