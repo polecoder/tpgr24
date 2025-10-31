@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, datatypes.*"%>
 
-<% List<DTEvento> edicionesR = (List<DTEvento>) request.getAttribute("edicionesR"); %>
+<% List<DTEdicionEvento> edicionesR = (List<DTEdicionEvento>) request.getAttribute("Ediciones"); %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -63,11 +63,11 @@
 
 <div class="eventos-container">
 	<div class="card shadow-sm mb-4 ">
-    <h2 class="text-center text-primary fw-bold">Elija un evento para consultar sus ediciones:</h2>
+    <h2 class="text-center text-primary fw-bold">Ediciones a las que esta registrado:</h2>
 	</div>
     <% if (edicionesR != null && !edicionesR.isEmpty()) { %>
         <div class="eventos-grid">
-            <% for (DTEvento e : edicionesR) { 
+            <% for (DTEdicionEvento e : edicionesR) { 
                 byte[] imgBytes = e.getImagen();
                 String base64Img = null;
                 if (imgBytes != null && imgBytes.length > 0) {
@@ -78,15 +78,15 @@
                     <img src="<%= (base64Img != null) ? "data:image/jpeg;base64," + base64Img : request.getContextPath() + "/images/sin-imagen.svg" %>"
                          alt="Imagen de <%= e.getNombre() %>">
                     <div class="text-center p-2">
-                        <a href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>">
-                            <%= e.getNombre() %>
+                        <a href="Registros?accion=Consulta&edicion=<%=e.getNombre()%>">
+                           <%=e.getNombre()%>
                         </a>
                     </div>
                 </div>
             <% } %>
         </div>
     <% } else { %>
-        <p class="text-center text-muted">No hay eventos en curso.</p>
+        <p class="text-center text-muted">No estas registrado a ninguna edición.</p>
     <% } %>
 </div>
 

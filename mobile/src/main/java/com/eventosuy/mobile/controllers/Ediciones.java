@@ -43,8 +43,22 @@ public class Ediciones extends HttpServlet {
              case "consulta":
 				request = CUConsultaEdicion(request, response);
 				request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-         }
+				break;
+             case "presentacion":
+                 DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+            	 if (usuarioLogeado == null) {
+                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no ha iniciado sesión.");
+                     return;
+                 }
+            	 List<DTEdicionEvento> eds = controladorUsuarios.listarEdicionesConRegistrosUsuario(usuarioLogeado.getNickname());
+				 request.setAttribute("Ediciones", eds);
+				 request.getRequestDispatcher("/WEB-INF/views/ediciones/presentacion-ediciones-con-registro.jsp").forward(request, response);
+				 break;
+             default:
+                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida.");
+                 break;
 		}
+	}
 	
 	
 

@@ -13,6 +13,7 @@ import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
+import datatypes.DTEdicionEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
@@ -83,4 +84,6 @@ public interface IControladorUsuarios {
 	 * @throws ContrasenaIncorrecta 
 	 */
 	DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta;
+	List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick);
+	DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario);
 }

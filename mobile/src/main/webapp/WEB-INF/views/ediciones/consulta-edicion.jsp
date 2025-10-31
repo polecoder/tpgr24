@@ -170,10 +170,10 @@
                       <% for (String patrocinador : setPatrocinios) { %>
                         <tr>
                           <td>
-                            <a href="${pageContext.request.contextPath}/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
-                              class="link-primary link-underline">
+                          <div
+                            class="link-primary link-underline">
                               <%=patrocinador%>
-                            </a>
+                            </div>
                           </td>
                         </tr>
                         <% } %>
@@ -222,15 +222,9 @@
                           </tbody>
                         </table>
                       </div>
-                      <% } %>
+                      <% } }%>
 
-                       <% boolean finalizado = (boolean) request.getAttribute("finalizada");%>
-                        <% if (!finalizado) { %>
-                          <div class="d-flex justify-content-center gap-3">
-                            <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-                              class="btn btn-primary btn-sm px-3">Registrarse a edición</a>
-                          </div>
-                          <% } }%>
+                      
         </form>
       </main>
     </div>

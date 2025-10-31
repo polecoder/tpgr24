@@ -49,7 +49,7 @@
           %>
               <%-- Lista de mis registros (links por índice) --%>
               <div class="mb-4">
-                <p class="fw-bold mb-2">Mis ediciones registradas:</p>
+                <p class="fw-bold mb-2">Registro a <%= edicionSel %></p>
                 <ul class="list-group">
                   <%
                     List<?> regs = (List<?>) regsAsisAttr; // List<DTRegistro> con nombreEdicion() y nombreTipo()

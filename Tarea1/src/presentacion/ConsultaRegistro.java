@@ -193,7 +193,7 @@ public class ConsultaRegistro extends JInternalFrame {
             return;
         }
         for (DTRegistro r : regs) {
-        	comboRegistros.addItem(r.nombreEdicion());
+        	comboRegistros.addItem(r.nombreEdicion()); 
         }
         comboRegistros.setEnabled(true);
         // Seleccionar si se pasa por parámetro

@@ -16,9 +16,12 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
+import datatypes.DTEdicionEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTUsuario;
+import datatypes.EEstadoEdicion;
 import datatypes.DTRegistro;
+
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
@@ -373,5 +376,44 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} catch (UsuarioNoExiste e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick) {
+		List<DTEdicionEvento> DTEdiciones = new ArrayList<>();
+		List<Edicion> ediciones =manejadorUsuarios.listarEdicionesConRegistros(nick);
+		if (ediciones!=null) {
+			for (Edicion edi : ediciones) {
+				DTEdiciones.add(new DTEdicionEvento(edi.getNombre(), edi.getSigla(), edi.getFechaInicio(), edi.getFechaFin(), 
+						edi.getFechaAlta(), edi.getCiudad(), edi.getPais(),edi.getOrganizadorNickname(),edi.getImagen(),edi.getEstado(), edi.getVideoURL()));
+			}
+		}
+	return DTEdiciones;
+	}
+
+	@Override
+	public DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario) {
+		Asistente asistente = manejadorUsuarios.getAsistente(Usuario);
+		if (asistente == null)
+			return null;
+		List<Registro> regs = asistente.getRegistros();
+		
+		for(Registro reg : regs) {
+			
+			if (reg.getEdicion().getNombre().equals(edicion)) {
+				ManejadorEventos manejadoreventos = ManejadorEventos.getInstancia();
+				String nombreTipo = manejadoreventos.nombreTipoDeRegistro(reg);
+				String codigoPatrocinio = null;
+				if (reg.getPatrocinio() != null) {
+					codigoPatrocinio = reg.getPatrocinio().getCodigoPatrocinio();
+				}
+			
+				return new DTDetalleRegistro(edicion, Usuario, nombreTipo, reg.getFechaRegistro(), reg.getCosto(), codigoPatrocinio, reg.getAsistio());
+				
+			}
+		}
+		
+		return null;
+		
 	}
 }

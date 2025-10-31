@@ -155,7 +155,7 @@
 								     : request.getContextPath() + "/images/sin-imagen.svg" %>"
 								     alt="Imagen de <%=ed.getNombre()%>" class="card-img-top evento-img">
 								<div class="card-body text-center p-2">
-									<a href="Ediciones?accion=ConsultaEdicion&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%=nombre%>"
+									<a href="Ediciones?accion=consulta&nombre_edicion=<%=ed.getNombre()%>&nombre_evento=<%=nombre%>"
 									   class="text-decoration-none text-primary fw-semibold "
 									   style="word-break: break-word; overflow-wrap: break-word;">
 									   <%=ed.getNombre()%>
