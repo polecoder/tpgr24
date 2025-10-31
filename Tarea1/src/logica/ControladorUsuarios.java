@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
+import excepciones.EdicionNoExiste;
 import excepciones.FormatoContrasenaInvalido;
 import excepciones.FormularioIncompletoAsistente;
 import excepciones.FormularioIncompletoOrganizador;
+import excepciones.RegistroNoExiste;
 import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
@@ -376,6 +378,37 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} catch (UsuarioNoExiste e) {
 			return null;
 		}
+	}
+	
+	public void marcarAsistencia(String nickname, int indice)
+	        throws excepciones.UsuarioNoExiste,
+	               excepciones.RegistroNoExiste,
+	               excepciones.YaAsisteAEdicion {
+	    Asistente asistente = manejadorUsuarios.getAsistente(nickname);
+	    if (asistente == null) {
+	        throw new excepciones.UsuarioNoExiste("No existe el asistente: " + nickname);
+	    }
+
+	    List<Registro> regs = asistente.getRegistros();
+	    if (indice < 0 || indice >= regs.size()) {
+	        throw new excepciones.RegistroNoExiste("Índice de registro inválido");
+	    }
+
+	    Registro registro = regs.get(indice);
+	    if (registro.getAsistio()) { 
+	        throw new excepciones.YaAsisteAEdicion("La asistencia ya estaba marcada");
+	    }
+	    
+	    ManejadorEventos me = ManejadorEventos.getInstancia();
+	    Date fechaInicio = me.fechaInicioDeRegistro(registro);
+	    if (fechaInicio == null) {
+	        throw new RegistroNoExiste("No se pudo determinar la edición del registro");
+	    }
+	    if (fechaInicio.after(new Date())) {
+	        throw new IllegalStateException("No se puede marcar asistencia antes del inicio de la edición");
+	    }
+
+	    registro.setAsistio(true);
 	}
 
 	@Override
