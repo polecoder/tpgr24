@@ -51,9 +51,33 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
 				<configuration>
-					<release>21</release>
+					<!-- TODO: Versión vieja, hsqldb no funciona en versiones posteriores a 17 -->
+					<release>17</release>
 				</configuration>
 			</plugin>
+			<plugin>
+				<!-- TODO: Modificar la configuración para el build -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>persistencia.TestPersistencia</mainClass> 
+                        </manifest>
+                    </archive>
+					<finalName>ArchivoDB</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

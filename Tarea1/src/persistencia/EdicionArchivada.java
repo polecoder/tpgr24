@@ -21,12 +21,16 @@ public class EdicionArchivada {
 	private String ciudad;
 	@Column(nullable = false)
 	private String pais;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_inicio", nullable = false)
 	private Date fechaInicio;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_fin", nullable = false)
 	private Date fechaFin;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_creacion", nullable = false)
 	private Date fechaCreacion;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_archivo", nullable = false)
 	private Date fechaArchivo;
 	@Column(name = "nombre_evento", nullable = false)
@@ -52,4 +56,80 @@ public class EdicionArchivada {
     public int hashCode() {
         return Objects.hash(id);
     }
+    
+    // getters
+    public Long getId() {
+		return id;
+	}
+ 	public String getNombre() {
+ 		return nombre;
+ 	}
+ 	public String getSigla() {
+ 		return sigla;
+ 	}
+ 	public String getCiudad() {
+ 		return ciudad;
+ 	}
+ 	public String getPais() {
+ 		return pais;
+ 	}
+ 	public Date getFechaInicio() {
+ 		return fechaInicio;
+ 	}
+ 	public Date getFechaFin() {
+ 		return fechaFin;
+ 	}
+ 	public Date getFechaCreacion() {
+ 		return fechaCreacion;
+ 	}
+ 	public Date getFechaArchivo() {
+ 		return fechaArchivo;
+ 	}
+ 	public String getNombreEvento() {
+ 		return nombreEvento;
+ 	}
+ 	public OrganizadorArchivado getOrganizador() {
+ 		return organizador;
+ 	}
+ 	public List<RegistroArchivado> getRegistros() {
+ 		return registros;
+ 	}
+
+ 	// setters
+ 	public void setId(Long id) {
+		this.id = id;
+	}
+ 	public void setNombre(String nombre) {
+ 		this.nombre = nombre;
+ 	}
+ 	public void setSigla(String sigla) {
+ 		this.sigla = sigla;
+ 	}
+ 	public void setCiudad(String ciudad) {
+ 		this.ciudad = ciudad;
+ 	}
+ 	public void setPais(String pais) {
+ 		this.pais = pais;
+ 	}
+ 	public void setFechaInicio(Date fechaInicio) {
+ 		this.fechaInicio = fechaInicio;
+ 	}
+ 	public void setFechaFin(Date fechaFin) {
+ 		this.fechaFin = fechaFin;
+ 	}
+ 	public void setFechaCreacion(Date fechaCreacion) {
+ 		this.fechaCreacion = fechaCreacion;
+ 	}
+ 	public void setFechaArchivo(Date fechaArchivo) {
+ 		this.fechaArchivo = fechaArchivo;
+ 	}
+ 	public void setNombreEvento(String nombreEvento) {
+ 		this.nombreEvento = nombreEvento;
+ 	}
+ 	public void setOrganizador(OrganizadorArchivado organizador) {
+ 		this.organizador = organizador;
+ 	}
+ 	public void setRegistros(List<RegistroArchivado> registros) {
+ 		this.registros = registros;
+ 	}
 }
