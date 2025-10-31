@@ -13,19 +13,19 @@ public class TestPersistencia {
         try {
             em.getTransaction().begin();
 
-            // usuario + organizador
-            UsuarioArchivado u = new UsuarioArchivado();
-            u.setNickname("org1");
-            u.setEmail("org1@example.com");
-            u.setNombre("Org Uno");
-            u.setTipoUsuario(persistencia.TipoUsuario.TipoUsuario.ORGANIZADOR);
+            // --- Organizador + Usuario (persistidos por cascade al persistir la Edicion) ---
+            UsuarioArchivado uOrg = new UsuarioArchivado();
+            uOrg.setNickname("org1");
+            uOrg.setEmail("org1@example.com");
+            uOrg.setNombre("Org Uno");
+            uOrg.setTipoUsuario(persistencia.TipoUsuario.TipoUsuario.ORGANIZADOR);
 
             OrganizadorArchivado org = new OrganizadorArchivado();
-            org.setUsuario(u);
+            org.setUsuario(uOrg);
             org.setDescripcion("Organizador de prueba");
             org.setSitioWeb("https://example.org");
 
-            // edicion
+            // --- Edicion ---
             EdicionArchivada ed = new EdicionArchivada();
             ed.setNombre("Edicion X");
             ed.setSigla("EX");
@@ -38,13 +38,45 @@ public class TestPersistencia {
             ed.setNombreEvento("Evento X");
             ed.setOrganizador(org);
 
-            em.persist(ed); // con cascade persist en relaciones debería persistir todo
-            em.getTransaction().commit();
+            em.persist(ed);
+            em.flush();
 
-            System.out.println("OK: Edicion persistida con id = " + ed.getId());
+            // --- Usuario asistente + AsistenteArchivado ---
+            UsuarioArchivado uAsis = new UsuarioArchivado();
+            uAsis.setNickname("asis1");
+            uAsis.setEmail("asis1@example.com");
+            uAsis.setNombre("Asistente Uno");
+            uAsis.setTipoUsuario(persistencia.TipoUsuario.TipoUsuario.ASISTENTE);
+
+            em.persist(uAsis);
+            em.flush();
+
+            AsistenteArchivado asis = new AsistenteArchivado();
+            asis.setUsuario(uAsis);
+            asis.setApellido("Perez");
+            asis.setFechaNacimiento(new Date());
+            asis.setNombreInstitucion("Universidad Ejemplo");
+
+            em.persist(asis);
+            em.flush();
+
+            // --- RegistroArchivado ---
+            RegistroArchivado reg = new RegistroArchivado();
+            reg.setAsistente(asis);
+            reg.setEdicion(ed);
+            reg.setNombreTipoRegistro("Estándar");
+            reg.setUsoPatrocinio(false);
+            reg.setCodigoPatrocinio(null);
+            reg.setFechaRegistro(new Date());
+            reg.setCosto(0.0f);
+
+            em.persist(reg);
+            em.flush();
+
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
         } finally {
             em.close();
             emf.close();
