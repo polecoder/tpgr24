@@ -169,6 +169,8 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
   </div>
 
   <!-- EVENTOS FINALIZADOS -->
+<% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
+  <!-- EVENTOS FINALIZADOS (solo organizador) -->
   <h2 class="text-center text-uppercase pb-3 fs-3 text-secondary mt-5">Eventos finalizados</h2>
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
@@ -186,8 +188,8 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
         <div class="card h-100 shadow-sm border-secondary">
           <img
             src="<%=(e.getImagen() != null && e.getImagen().length > 0)
-            ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
-            : request.getContextPath() + "/images/sin-imagen.svg"%>"
+              ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
+              : request.getContextPath() + "/images/sin-imagen.svg"%>"
             alt="<%=e.getNombre()%>"
             class="card-img-top"
             style="object-fit: cover; aspect-ratio: 1/1; opacity: 0.6;"
@@ -213,7 +215,7 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     }
     %>
   </div>
-
+<% } %>
 </div>
     </div>
   </div>
