@@ -43,6 +43,8 @@
 	                <% if (codigoPatrocinio != null) { %>
 	                	<p><strong>Patrocinio:</strong> <%=codigoPatrocinio%></p>
 	                <% } %>
+	                
+	                
               <% }else{%>
               	 <p><strong>No estas registrado a esta edicion</strong> </p>
             <% } %>

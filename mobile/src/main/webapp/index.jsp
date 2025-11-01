@@ -54,7 +54,6 @@
         <div class="opciones">
             <a class="boton" href="<%=request.getContextPath()%>/Eventos?accion=presentacion">Consultar Edición</a>
             <a class="boton" href="<%=request.getContextPath()%>/Ediciones?accion=presentacion">Consultar Registro</a>
-            <a class="boton" href="#">Confirmar Asistencia</a>
         </div>
     </main>
   <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
