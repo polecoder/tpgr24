@@ -144,6 +144,13 @@ public class ManejadorEventos {
 		
 		return dtEvento;
 	}
+	
+	public DTEvento consultarEvento(String nombre) {
+	    Evento e = eventos.get(nombre);
+	    if (e == null) return null;
+	    e.registrarVisita();  
+	    return getDTEvento(nombre); 
+	}
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Evento evento = eventos.get(eventoSeleccionado);
@@ -287,9 +294,9 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado, int visitas) {
 		if (!existeEvento(nombre)) {
-			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen, estado);
+			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen, estado, visitas);
 			this.eventos.put(nombre, evento);
 
 			for (String nombreCategoria : categorias) {

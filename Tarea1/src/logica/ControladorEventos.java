@@ -30,6 +30,7 @@ import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.DTEventoVisitas;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEdicion;
 import datatypes.EEstadoEvento;
@@ -133,9 +134,9 @@ public class ControladorEventos implements IControladorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado) {
-    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen, estado);
-    }
+    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado, int visitas) {
+    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen, estado, visitas);
+    } 
 
 
 	/**
@@ -437,7 +438,52 @@ public Set<DTEvento> listarEventosFinalizados() {
     return listarEventosPorEstado(EEstadoEvento.FINALIZADO);
 }
 
+public List<DTEventoVisitas> obtenerEventosMasVisitados(int limite) {
+	limite = 5;
+	
+	List<DTEventoVisitas> resultado = new ArrayList<>();
 
+    Map<String, Evento> mapaEventos = manejadorEventos.getEventos();
+    List<Evento> listaEventos = new ArrayList<>();
+
+    for (String nombre : mapaEventos.keySet()) {
+        listaEventos.add(mapaEventos.get(nombre));
+    }
+
+    // ordenar
+    for (int i = 0; i < listaEventos.size() - 1; i++) {
+        for (int j = 0; j < listaEventos.size() - i - 1; j++) {
+            Evento e1 = listaEventos.get(j);
+            Evento e2 = listaEventos.get(j + 1);
+
+            if (e1.getVisitas() < e2.getVisitas()) {
+                listaEventos.set(j, e2);
+                listaEventos.set(j + 1, e1);
+            } else if (e1.getVisitas() == e2.getVisitas()) {
+                // si empatan en visitas, ordeno por nombre alfabéticamente
+                if (e1.getNombre().compareToIgnoreCase(e2.getNombre()) > 0) {
+                    listaEventos.set(j, e2);
+                    listaEventos.set(j + 1, e1);
+                }
+            }
+        }
+    }
+
+    // tomo los primeros 5, lo podemos cambiar por otro numero
+    int contador = 0;
+    for (Evento e : listaEventos) {
+        if (contador >= limite) {
+            break;
+        }
+        resultado.add(new DTEventoVisitas(e.getNombre(), e.getVisitas()));
+        contador++;
+    }
+
+    return resultado;
+}
+public DTEvento consultarEvento(String nombre) {
+	return manejadorEventos.consultarEvento(nombre);
+}
 	
 }
 
