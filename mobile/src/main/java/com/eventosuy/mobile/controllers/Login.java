@@ -91,7 +91,7 @@ public class Login extends HttpServlet {
 					session.setAttribute("usuarioLogeado", datosUsuario);
 					session.setAttribute("tipoUsuarioLogeado", TipoUsuario.ASISTENTE);
 					// TODO: Actualizar redirect
-					resp.sendRedirect(req.getContextPath() + "/login");
+					req.getRequestDispatcher("/index.jsp").forward(req, resp);
 				} else if (datosUsuario instanceof DTDetalleOrganizador) {
 					req.setAttribute("error", "El usuario proporcionado corresponde a un organizador. Solo puede ingresar como asistente desde un celular.");
 					req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);

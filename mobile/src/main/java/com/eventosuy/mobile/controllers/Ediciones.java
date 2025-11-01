@@ -3,12 +3,14 @@ package com.eventosuy.mobile.controllers;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
+import datatypes.DTRegistro;
 import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -30,11 +32,36 @@ public class Ediciones extends HttpServlet {
 	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
-			request = CUConsultaEdicion(request, response);
-			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {	
+		 String accion = request.getParameter("accion");
+         if (accion == null) {
+             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada.");
+             return;
+         }
+
+         switch (accion) {
+             case "consulta":
+				request = CUConsultaEdicion(request, response);
+				request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+				break;
+             case "presentacion":
+                 DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+            	 if (usuarioLogeado == null) {
+                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no ha iniciado sesión.");
+                     return;
+                 }
+            	 List<DTEdicionEvento> eds = controladorUsuarios.listarEdicionesConRegistrosUsuario(usuarioLogeado.getNickname());
+				 request.setAttribute("Ediciones", eds);
+				 request.getRequestDispatcher("/WEB-INF/views/ediciones/presentacion-ediciones-con-registro.jsp").forward(request, response);
+				 break;
+             default:
+                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida.");
+                 break;
 		}
+	}
 	
+	
+
 	private HttpServletRequest CUConsultaEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		if (nombreEdicion == null) { nombreEdicion = (String) request.getAttribute("nombre_edicion"); }

@@ -1,13 +1,16 @@
 package logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
+import datatypes.DTEdicionEvento;
 import excepciones.UsuarioNoExiste;
 
 public class ManejadorUsuarios {
@@ -199,5 +202,15 @@ public class ManejadorUsuarios {
 		if (organizador != null) {
 			organizador.agregarEdicion(edicion);
 		}
+	}
+
+	public List<Edicion> listarEdicionesConRegistros(String nick) {
+		Asistente asis= this.getAsistente(nick);
+		List<Registro> regs =asis.getRegistros();
+		List<Edicion> eds =new ArrayList<>();
+		for (Registro reg : regs) {
+			eds.add(reg.getEdicion());
+		}
+		return eds;
 	}
 }

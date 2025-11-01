@@ -1,5 +1,6 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,7 @@ public class Evento {
 	 public int getVisitas() {
 	        return visitas;
 	    }
+
 
 	public String getNombre(){
 		return this.nombre;

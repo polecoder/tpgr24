@@ -327,8 +327,8 @@ public class ManejadorEventos {
 			throw tr;
 		}
 	}
-	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo) {
-		Registro registro = new Registro(fecha, costo, asistente, patrocinio);
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed);
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
@@ -448,6 +448,21 @@ return out;
     		}
     	}
     	return setRegistros;
+	}
+	
+	public Edicion edicionDeRegistro(Registro registro) {
+	    TipoRegistro tiporeg = encontrarTipoDe(registro);
+	    if (tiporeg == null) return null;
+	    return encontrarEdicionQueContiene(tiporeg);
+	}
+
+	public Date fechaInicioDeRegistro(Registro registro) {
+	    Edicion edicion = edicionDeRegistro(registro);
+	    if (edicion != null) {
+	        return edicion.getFechaInicio();
+	    } else {
+	        return null;
+	    }
 	}
 }
 

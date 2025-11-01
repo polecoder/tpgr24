@@ -337,7 +337,7 @@ public class ControladorEventos implements IControladorEventos {
 					costo = 0f;
 				}
 			}
-			this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, new Date(), costo);
+			this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, new Date(), costo,edicion);
 		}
 	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
     	return manejadorEventos.listarRegistrosAEdicion(nombreEvento, nombreEdicion);

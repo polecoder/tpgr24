@@ -57,14 +57,14 @@ public class TestsManejadorUsuario {
 		
 		assertDoesNotThrow(() -> {
 			controladorInstitucion.altaInstitucion("nombreInstitucion", "descripcion", "https://institucion.com");
-			controladorUsuarios.altaAsistente("nickAsistente", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion", null);
+			controladorUsuarios.altaAsistente("nickAsistente1", "Eventos.2025!", "nombreAsistente", "asistente@gmail.com", "apellido", fecha, "nombreInstitucion", null);
 		});
 		
 		Map<String, DTAsistente> asistentes = controladorUsuarios.listarAsistentes();
-		if (!asistentes.containsKey("nickAsistente")) { fail("No se lista correctamente"); }
+		if (!asistentes.containsKey("nickAsistente1")) { fail("No se lista correctamente"); }
 		
 		Institucion institucion = controladorInstitucion.getInstitucion("nombreInstitucion");
-		assertTrue(institucion.getAsistentes().containsKey("nickAsistente"), "Falla en link Institucion->Asistente");
+		assertTrue(institucion.getAsistentes().containsKey("nickAsistente1"), "Falla en link Institucion->Asistente");
 	}
 	
 	@Test
@@ -83,9 +83,9 @@ public class TestsManejadorUsuario {
 	void detalleOrganizador() {
 		
 		assertDoesNotThrow(() -> {
-			controladorUsuarios.altaOrganizador("nickOrganizador", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
-			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador");
-			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
+			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
+			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador1");
+			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador1", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			// TODO: Comparar detalle con esperado
 		});
 	}
