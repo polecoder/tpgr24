@@ -52,8 +52,8 @@
     <main>
        <h1 class="text-primary fw-bold mb-1 fs-2 text-center mb-5" style="line-height: 1.2;">Bienvenido!</h1>
         <div class="opciones">
-            <a class="boton" href="<%=request.getContextPath()%>/Eventos?accion=presentacion">Consultar Edición</a>
-            <a class="boton" href="<%=request.getContextPath()%>/Ediciones?accion=presentacion">Consultar Registro</a>
+            <a class="boton" href="<%=request.getContextPath()%>/Eventos?accion=presentacion">Ediciones</a>
+            <a class="boton" href="<%=request.getContextPath()%>/Ediciones?accion=presentacion">Mis Registros</a>
         </div>
     </main>
   <jsp:include page="/WEB-INF/views/partials/footer.jsp" />

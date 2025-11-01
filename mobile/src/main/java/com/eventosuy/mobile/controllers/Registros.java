@@ -6,18 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logica.Fabrica;
-import logica.IControladorEventos;
 import logica.IControladorUsuarios;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
-import datatypes.DTEdicionEvento;
 
 /**
  * Servlet implementation class Registros
@@ -36,7 +29,6 @@ public class Registros extends HttpServlet {
     }
 
     private final static Fabrica fabrica = Fabrica.getInstancia();
-	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 	    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
@@ -45,23 +37,41 @@ public class Registros extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada.");
 			return;
 		}
+		String edicion=(String) request.getParameter("edicion");
+		DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+
+		if (usuarioLogeado == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no ha iniciado sesión.");
+            return;
+        }
+		
+		
 		switch (accion) {
 		case "Consulta":
-			String edicion=(String) request.getParameter("edicion");
-			DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
-			if (usuarioLogeado == null) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no ha iniciado sesión.");
-                return;
-            }
 			DTDetalleRegistro dtr = controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, usuarioLogeado.getNickname());
+			
+			
 			request.setAttribute("detalle", dtr);
 			request.getRequestDispatcher("/WEB-INF/views/registros/consulta-registro.jsp").forward(request, response);
 			
 			break;
-		case "Confirmar Asistencia":
+		case "Confirmar Asistencia": {
 			
-			break;
-		
+			
+		    try {
+		        controladorUsuarios.confirmarAsistencia(usuarioLogeado.getNickname(), edicion);
+		        DTDetalleRegistro dtr1 = controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, usuarioLogeado.getNickname());
+		        // Vuelve a consultar el detalle actualizado
+		        request.setAttribute("detalle", dtr1);
+		        request.setAttribute("mensaje", "Asistencia confirmada correctamente.");
+
+		        request.getRequestDispatcher("/WEB-INF/views/registros/consulta-registro.jsp").forward(request, response);
+		    } catch (Exception e) {
+		        request.setAttribute("error", "Error al confirmar asistencia: " + e.getMessage());
+		        request.getRequestDispatcher("/WEB-INF/views/registros/consulta-registro.jsp").forward(request, response);
+		    }
+		    break;
+		}
 		default:
 			request.getRequestDispatcher("/WEB-INF/error.jsp");
 			

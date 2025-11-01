@@ -44,7 +44,18 @@
 	                	<p><strong>Patrocinio:</strong> <%=codigoPatrocinio%></p>
 	                <% } %>
 	                
-	                
+	                <% if (!detalleAttr.getAsistio()) { %>
+				        <form method="post" 
+						      action="<%= request.getContextPath() %>/Registros"
+						      onsubmit="return confirm('¿Confirmás tu asistencia a esta edición?');">
+						  <input type="hidden" name="accion" value="Confirmar Asistencia" />
+						  <input type="hidden" name="edicion" value="<%= detalleAttr.getNombreEdicion() %>" />
+						  <button class="btn btn-primary w-100 mt-3">Confirmar asistencia</button>
+						</form>
+							     
+			      <% } else { %>
+			        <div class="alert alert-info">Ya marcaste asistencia para este registro.</div>
+			      <% } %>
               <% }else{%>
               	 <p><strong>No estas registrado a esta edicion</strong> </p>
             <% } %>

@@ -380,37 +380,24 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		}
 	}
 	
-	public void marcarAsistencia(String nickname, int indice)
-	        throws excepciones.UsuarioNoExiste,
-	               excepciones.RegistroNoExiste,
-	               excepciones.YaAsisteAEdicion {
-	    Asistente asistente = manejadorUsuarios.getAsistente(nickname);
-	    if (asistente == null) {
-	        throw new excepciones.UsuarioNoExiste("No existe el asistente: " + nickname);
-	    }
+	
+	
+	public void confirmarAsistencia(String nickname, String nombreEdicion) throws Exception {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);
+	    if (a == null) throw new Exception("Asistente no encontrado.");
 
-	    List<Registro> regs = asistente.getRegistros();
-	    if (indice < 0 || indice >= regs.size()) {
-	        throw new excepciones.RegistroNoExiste("Índice de registro inválido");
+	    boolean confirmado = false;
+	    for (Registro r : a.getRegistros()) {
+	        if (r.getEdicion().getNombre().equals(nombreEdicion)) {
+	            r.setAsistio(true);
+	            confirmado = true;
+	            break;
+	        }
 	    }
-
-	    Registro registro = regs.get(indice);
-	    if (registro.getAsistio()) { 
-	        throw new excepciones.YaAsisteAEdicion("La asistencia ya estaba marcada");
-	    }
-	    
-	    ManejadorEventos me = ManejadorEventos.getInstancia();
-	    Date fechaInicio = me.fechaInicioDeRegistro(registro);
-	    if (fechaInicio == null) {
-	        throw new RegistroNoExiste("No se pudo determinar la edición del registro");
-	    }
-	    if (fechaInicio.after(new Date())) {
-	        throw new IllegalStateException("No se puede marcar asistencia antes del inicio de la edición");
-	    }
-
-	    registro.setAsistio(true);
+	    if (!confirmado) throw new Exception("Registro no encontrado para esa edición.");
 	}
 
+	
 	@Override
 	public List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick) {
 		List<DTEdicionEvento> DTEdiciones = new ArrayList<>();
