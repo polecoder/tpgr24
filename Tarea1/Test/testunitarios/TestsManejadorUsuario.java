@@ -83,7 +83,7 @@ public class TestsManejadorUsuario {
 	void detalleOrganizador() {
 		
 		assertDoesNotThrow(() -> {
-			controladorUsuarios.altaOrganizador("nickOrganizador1", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
+			controladorUsuarios.altaOrganizador("nickOrganizador2", "Eventos.2025!", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			DTDetalleUsuario detalle = controladorUsuarios.mostrarDetalleUsuario("nickOrganizador1");
 			DTDetalleOrganizador esperado = new DTDetalleOrganizador("nickOrganizador1", "nombreOrganizador", "organizador@gmail.com", "descripcion", "https://test.com", null);
 			// TODO: Comparar detalle con esperado
