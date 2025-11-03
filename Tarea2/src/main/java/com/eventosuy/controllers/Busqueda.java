@@ -2,11 +2,15 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import com.eventosuy.models.TipoUsuario;
+
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.EEstadoEdicion;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import jakarta.servlet.ServletException;
@@ -52,11 +56,28 @@ public class Busqueda extends HttpServlet {
 		List<DTEvento> eventosBusqueda = new ArrayList<>();
 		String query = request.getParameter("query");
 		for (DTEvento evento : eventosEnCurso) {
-			if (coincideBusqueda(evento, query, controladorEventos)) {
+			if (coincideBusqueda(evento, query, controladorEventos, request)) {
 				eventosBusqueda.add(evento);
 			}
 		}
+		
+		// Ordeno el resultado segun la busqueda
+		String orden = request.getParameter("orden");
+		if (orden == null) { orden = (String) request.getAttribute("orden"); }
+		if (orden == null) {
+			orden = "default";
+			request.setAttribute("orden", orden);
+		}
+		if ("alfabetico_ascendente".equals(orden)) {
+			eventosBusqueda.sort(Comparator.comparing(DTEvento::getNombre));
+		} else if ("alfabetico_descendiente".equals(orden)){
+			eventosBusqueda.sort(Comparator.comparing(DTEvento::getNombre).reversed());
+		} else { // default: fecha de alta
+			eventosBusqueda.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed());
+		}
+		
 		request.setAttribute("eventosBusqueda", eventosBusqueda);
+		request.setAttribute("query", query);
 		request.getRequestDispatcher("/WEB-INF/views/busqueda.jsp").forward(request, resp);
 		
 		/* TODO: preguntar si se listan
@@ -65,16 +86,21 @@ public class Busqueda extends HttpServlet {
 		*/
 	}
 	
-	private boolean coincideBusqueda(DTEvento evento, String query, IControladorEventos controladorEventos) {
+	private boolean coincideBusqueda(DTEvento evento, String query, IControladorEventos controladorEventos, HttpServletRequest request) {
 		boolean coincide = false;
 		if (evento.getNombre().contains(query) || evento.getDescripcion().contains(query)) {
 			coincide = true;
 		} else {
 			Map<String, DTEdicionEvento> listaEdiciones = controladorEventos.listarEdicionesEvento(evento.getNombre());
 			for (DTEdicionEvento edicion : listaEdiciones.values()) {
-				if (edicion.getNombre().contains(query)) { // TODO: revisar estado de edicion por usuario, revisar case sensitive
-					coincide = true;
-					break;
+				EEstadoEdicion estado = edicion.getEstado();
+				String nicknameOrganizador = edicion.getOrganizadorNickname();
+				String nicknameSession = (String) request.getSession().getAttribute("usuarioNickname");
+				if (estado.equals(EEstadoEdicion.Aceptada) | nicknameOrganizador.equals(nicknameSession)) {
+					if (edicion.getNombre().toLowerCase().contains(query.toLowerCase())) {
+						coincide = true;
+						break;
+					}
 				}
 			}
 		}
