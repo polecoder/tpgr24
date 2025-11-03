@@ -102,5 +102,14 @@ public interface IControladorEventos {
 	        throws EventoNoExiste, EventoFinalizado;
 	Set<DTEvento> listarEventosPorEstado(EEstadoEvento estado);
     Set<DTEvento> listarEventosEnCurso();       
-    Set<DTEvento> listarEventosFinalizados(); 
+    Set<DTEvento> listarEventosFinalizados();
+    /**
+     * Archiva la edición correspondiente a la pasada por parametro en la DB de Archivo.
+     * 
+     * @param nombreEvento
+     * @param nombreEdicion
+     * @throws EdicionFinalizada si la edición elegida ya finalizó
+     * @throws EdicionNoExiste si la edición elegida no existe en el sistema
+     */
+    public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste;
 }
