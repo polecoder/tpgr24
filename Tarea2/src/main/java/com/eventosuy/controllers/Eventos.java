@@ -190,7 +190,7 @@ public class Eventos extends HttpServlet {
             nombre = request.getParameter("nombre");
         }
 
-        DTEvento evento = IContEv.consultarEvento(nombre);
+        DTEvento evento = IContEv.getDTEvento(nombre);
 
         request.setAttribute("nombre", evento.getNombre());
         request.setAttribute("descripcion", evento.getDescripcion());
