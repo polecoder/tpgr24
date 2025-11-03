@@ -5,6 +5,10 @@
 	<groupId>tpgr24Tarea1</groupId>
 	<artifactId>tpgr24Tarea1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
 	<dependencies>
 		<!-- carga de datos usando archivos .csv -->
 		<dependency>

@@ -65,12 +65,15 @@ public class AsistenteArchivado {
  		return nombreInstitucion;
  	}
 
- 	// Setters
+ 	// setters
  	public void setUsuario(UsuarioArchivado usuario) {
  		this.usuario = usuario;
  	}
  	public void setRegistros(List<RegistroArchivado> registros) {
  		this.registros = registros;
+ 	}
+ 	public void agregarRegistro(RegistroArchivado registro) {
+ 		this.registros.add(registro);
  	}
  	public void setApellido(String apellido) {
  		this.apellido = apellido;

@@ -338,7 +338,7 @@ public class ManejadorEventos {
 			}
 			return false;
 		}
-/**
+	/**
 	 * Crea una categoría de nombre "nombreCategoria" y la agrega a la colección de categorías.
 	 * 
 	 * @param nombreCategoria
