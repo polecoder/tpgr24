@@ -18,13 +18,13 @@ import logica.ManejadorEventos;
 import logica.ManejadorUsuarios;
 import persistencia.TipoUsuario.TipoUsuario;
 
-public class ControladorPersistencia implements IControladorPersistencia {
-	private static ControladorPersistencia instancia;
+public class ManejadorPersistencia {
+	private static ManejadorPersistencia instancia;
 	private ManejadorEventos manejadorEventos;
 	private ManejadorUsuarios manejadorUsuarios;
 	private EntityManagerFactory fabricaManejadorEntidades = Persistence.createEntityManagerFactory("ArchivoDB");
 
-	private ControladorPersistencia() {
+	private ManejadorPersistencia() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 		
@@ -51,9 +51,9 @@ public class ControladorPersistencia implements IControladorPersistencia {
         }
 	}
 
-	public static ControladorPersistencia getInstance() {
+	public static ManejadorPersistencia getInstance() {
 		if (instancia == null) {
-			instancia = new ControladorPersistencia();
+			instancia = new ManejadorPersistencia();
 		}
 		return instancia;
 	}
@@ -65,7 +65,12 @@ public class ControladorPersistencia implements IControladorPersistencia {
 		instancia = null;
 	}
 
-	@Override
+	/**
+	 * PRE-CONDICIÓN: El asistente existe en el sistema.<p>
+	 * Guarda el asistente con nickname `nicknameAsistente` en el archivo.
+	 * 
+	 * @param nicknameAsistente el nickname del asistente para guardar en el archivo
+	 */
 	public void guardarAsistenteEnArchivo(String nicknameAsistente) {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
@@ -104,7 +109,12 @@ public class ControladorPersistencia implements IControladorPersistencia {
 		}
 	}
 
-	@Override
+	/**
+	 * PRE-CONDICIÓN: El organizador existe en el sistema.<p>
+	 * Guarda el organizador con nickname `nicknameOrganizador` en el archivo.
+	 * 
+	 * @param nicknameOrganizador el nickname del organizador para guardar en el archivo
+	 */
 	public void guardarOrganizadorEnArchivo(String nicknameOrganizador) {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
@@ -141,7 +151,12 @@ public class ControladorPersistencia implements IControladorPersistencia {
 		}
 	}
 
-	@Override
+	/**
+	 * PRE-CONDICIÓN: El asistente asociado al registro ya está en el archivo. De la misma forma la edición asociada al registro ya está en el archivo<p>
+	 * Guarda el registro con los datos pasados por el parámetro `registro` en el archivo
+	 * 
+	 * @param registro los datos del registro para guardar en el archivo
+	 */
 	public void guardarRegistroEnArchivo(DTDetalleRegistro registro) {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
@@ -183,7 +198,15 @@ public class ControladorPersistencia implements IControladorPersistencia {
 		}
 	}
 
-	@Override
+	/**
+	 * Archiva una edición y todos sus datos relacionados en el archivo.
+	 * Esto incluye:<p>
+	 * 1. Registros asociados<p>
+	 * 2. Asistentes asociados a los registros asociados<p>
+	 * 3. Organizadores asociados<p>
+	 * 
+	 * @param registro los datos del registro para guardar en el archivo
+	 */
 	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
