@@ -35,81 +35,62 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     <div class="row g-5">
       <!-- Panel lateral -->
       <div class="col-12 col-md-4">
-        <%
-        if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) {
-        %>
-        <div class="mb-4">
-          <h5 class="text-white bg-primary p-2 rounded">Altas</h5>
-          <ul class="list-unstyled ps-2">
-            <li><a
-              href="<%=request.getContextPath()%>/Eventos?accion=alta"
-              class="text-primary fw-semibold"
-            > Alta Evento </a></li>
-            <li><a
-              href="${pageContext.request.contextPath}/Institucion?action=altaInstitucion"
-              class="text-primary fw-semibold"
-            > Alta Institución </a></li>
-          </ul>
-        </div>
-        <%
-        }
-        %>
-
-        <nav class="border border-primary rounded p-3 bg-white shadow-sm">
-          <!-- Usuarios -->
-          <div class="mb-4">
-            <h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
-            <%
-            if (usuarios != null) {
-            	for (DTDetalleUsuario u : usuarios) {
-            %>
-            <div class="d-flex align-items-center mb-2">
-              <img
-                src="<%=(u.getImagen() != null && u.getImagen().length > 0)
-		? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(u.getImagen())
-		: request.getContextPath() + "/images/anonimo.svg"%>"
-                alt="<%=u.getNombre()%>"
-                class="rounded-circle me-2"
-                style="width: 48px; height: 48px"
-              /> <a
-                href="usuario?accion=consulta&nick=<%=u.getNickname()%>"
-                class="text-primary fw-semibold"
-              > <%=u.getNombre()%>
-              </a>
-            </div>
-            <%
-            }
-            }
-            %>
+      	<!-- Opciones de Organizador -->
+        <% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
+	        <div class="mb-4">
+	          <h5 class="text-white bg-primary p-2 rounded">Altas</h5>
+	          <ul class="list-unstyled ps-2">
+	            <li><a
+	              href="<%=request.getContextPath()%>/Eventos?accion=alta"
+	              class="text-primary fw-semibold"
+	            > Alta Evento </a></li>
+	            <li><a
+	              href="${pageContext.request.contextPath}/Institucion?action=altaInstitucion"
+	              class="text-primary fw-semibold"
+	            > Alta Institución </a></li>
+	          </ul>
+	        </div>
+        <% } %>
+		
+      <!-- Lista de Usuarios y Categorias -->
+      <nav class="border border-primary rounded p-3 bg-white shadow-sm">
+      	<!-- Usuarios -->
+      	<div class="mb-4">
+        	<h5 class="text-white bg-primary p-2 rounded">Usuarios</h5>
+            <% if (usuarios != null) {
+               	for (DTDetalleUsuario u : usuarios) { %>
+		            <div class="d-flex align-items-center mb-2">
+		              <img
+		                src="<%=(u.getImagen() != null && u.getImagen().length > 0) ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(u.getImagen()) : request.getContextPath() + "/images/anonimo.svg"%>"
+		                alt="<%=u.getNombre()%>"
+		                class="rounded-circle me-2"
+		                style="width: 48px; height: 48px"
+		              /> 
+		              <a href="usuario?accion=consulta&nick=<%=u.getNickname()%>" class="text-primary fw-semibold"> 
+		              	<%=u.getNombre()%>
+		              </a>
+		            </div>
+            <% }} %>
           </div>
 
           <!-- Categorías -->
           <div>
             <h5 class="text-white bg-primary p-2 rounded">Categorías</h5>
             <ul class="list-unstyled ps-2">
-              <li><a
-                href="?categoria=Todas"
-                class="text-primary small d-block mb-2 fw-semibold <%=(categoriaSeleccionada == null) ? "text-decoration-underline" : ""%>"
-              > Todas </a></li>
-              <%
-              if (categorias != null) {
-              	for (String nombreCategoria : categorias) {
-              		if (nombreCategoria.equalsIgnoreCase("Todas")) continue; // Evita duplicar “Todas”
-              		boolean seleccionada = nombreCategoria.equals(categoriaSeleccionada);
-              %>
-              <li><a
-                href="?categoria=<%=nombreCategoria%>"
-                class="text-primary small d-block mb-2 <%=seleccionada ? "fw-bold text-decoration-underline" : ""%>"
-              > <%=nombreCategoria%>
+            	<li><a href="?categoria=Todas" class="text-primary small d-block mb-2 fw-semibold <%=(categoriaSeleccionada == null) ? "text-decoration-underline" : ""%>"> 
+            		Todas 
+            	</a></li>
+              <% if (categorias != null) {
+              		for (String nombreCategoria : categorias) {
+              			if (nombreCategoria.equalsIgnoreCase("Todas")) { continue; } // Evita duplicar “Todas”
+              			boolean seleccionada = nombreCategoria.equals(categoriaSeleccionada); %>
+              <li><a href="?categoria=<%=nombreCategoria%>" class="text-primary small d-block mb-2 <%=seleccionada ? "fw-bold text-decoration-underline" : ""%>"> 
+              	<%=nombreCategoria%>
               </a></li>
-              <%
-                }
-              } else {
-              %>
-              <li>Sin categorías</li>
-              <%
-              }
-              %>
+              <% 	}
+              	 } else { %>
+              		<li>Sin categorías</li>
+              <% } %>
             </ul>
           </div>
         </nav>
@@ -121,6 +102,14 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
   <!-- EVENTOS EN CURSO -->
   <h2 class="text-center text-uppercase pb-3 fs-3 text-success">Eventos en curso</h2>
 
+	<!-- Barra de busqueda -->
+	<div class="d-flex justify-content-center align-center mb-2">
+		<form class="d-flex" role="search" action="Busqueda" method="get">
+			<input class="form-control" type="search" id="query" name="query" style="width:500px; height:40px" placeholder="Busca eventos o ediciones...">
+			<button type="submit" class="btn btn-primary btn-sm px-3 fs-5 ms-2" style="height:40px">Buscar</button>
+		</form>	
+	</div>
+	
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
     <%
     if (eventosEnCurso != null && !eventosEnCurso.isEmpty()) {
@@ -132,26 +121,28 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
         if (mostrar) {
           hayEventos = true;
     %>
-      <div class="col">
-        <div class="card h-100 shadow-sm">
-          <a href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>">
-            <img
-              src="<%=(e.getImagen() != null && e.getImagen().length > 0)
-              ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen())
-              : request.getContextPath() + "/images/sin-imagen.svg"%>"
-              alt="<%=e.getNombre()%>"
-              class="card-img-top"
-              style="object-fit: cover; aspect-ratio: 1/1"
-            />
-          </a>
-          <div class="card-body text-center d-flex justify-content-center align-items-center">
-            <a
-              href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>"
-              class="card-title fs-6 text-decoration-none text-dark fw-semibold m-0"
-            ><%=e.getNombre()%></a>
-          </div>
-        </div>
-      </div>
+    	  <!-- Tarjeta evento -->
+	      <div class="col">
+	        <div class="card h-100 shadow-sm">
+	        	<!-- Imagen -->
+	        	<a href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>">
+		            <img
+		              src="<%=(e.getImagen() != null && e.getImagen().length > 0) ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(e.getImagen()) : request.getContextPath() + "/images/sin-imagen.svg"%>"
+		              alt="<%=e.getNombre()%>"
+		              class="card-img-top"
+		              style="object-fit: cover; aspect-ratio: 1/1"
+		            />
+		        </a>
+		        <!-- Titulo -->
+		        <div class="card-body text-center d-flex justify-content-center align-items-center">
+		          <a
+		            href="Eventos?accion=consulta&nombre=<%=e.getNombre()%>"
+		            class="card-title fs-6 text-decoration-none text-dark fw-semibold m-0" >
+		            <%=e.getNombre()%>
+		          </a>
+		        </div>
+	        </div>
+	      </div>
     <%
         }
       }
@@ -168,9 +159,8 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     %>
   </div>
 
-  <!-- EVENTOS FINALIZADOS -->
-<% if (datosUsuario != null && tipoUsuario == TipoUsuario.ORGANIZADOR) { %>
-  <!-- EVENTOS FINALIZADOS (solo organizador) -->
+<!-- TODO: revisar en monitoreo
+    EVENTOS FINALIZADOS
   <h2 class="text-center text-uppercase pb-3 fs-3 text-secondary mt-5">Eventos finalizados</h2>
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
@@ -215,7 +205,7 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     }
     %>
   </div>
-<% } %>
+	-->
 </div>
     </div>
   </div>
