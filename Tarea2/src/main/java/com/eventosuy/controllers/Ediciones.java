@@ -7,9 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
@@ -22,10 +21,6 @@ import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTDetalleRegistro;
 import com.eventosuy.servidor.DTTipoRegistro;
-import com.eventosuy.servidor.DTEvento;
-
-import datatypes.DTUsuario;
-import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,10 +28,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorUsuarios;
-
 import com.eventosuy.utils.Utilidades;
 
 @WebServlet("/Ediciones")
@@ -107,10 +98,10 @@ public class Ediciones extends HttpServlet {
 		}
 		
 		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
-		Set<String> setPatrocinios = (Set<String>) puerto.listarPatrocinadores(nombreEvento, nombreEdicion);
+		List<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion).getItem();
 		String videoURL = dtEdicion.getVideoURL();
-		Set<String> setTiposRegistro = (Set<String>) puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion);
-		Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		List<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion).getItem();
+		List<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).getItem();
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
 			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);

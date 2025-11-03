@@ -50,30 +50,4 @@ public class Utilidades {
 	public static Date XMLGregorianCalendarToDate(XMLGregorianCalendar xmlGeorgianCalendarFecha) {
 		return xmlGeorgianCalendarFecha.toGregorianCalendar().getTime();
 	}
-	
-	/**
-	 * Dado un Set<String> retorna un String[] con los mismos elementos
-	 * ACLARACIÓN: Esta función está pensada para la parte web
-	 * @param set
-	 * @return
-	 */
-	public static String[] SetToArray_String(Set<String> set) {
-		String[] array= new String[set.size()];
-		int i = 0;
-		for (String item : set) {
-			array[i] = item;
-			i++;
-		}
-		return array;
-	}
-	
-	public static DTDetalleRegistro[] SetToArray_DTDetalleRegistro(Set<DTDetalleRegistro> set) {
-		DTDetalleRegistro[] array= new DTDetalleRegistro[set.size()];
-		int i = 0;
-		for (DTDetalleRegistro item : set) {
-			array[i] = item;
-			i++;
-		}
-		return array;
-	}
 }
