@@ -29,10 +29,12 @@ public class ObjectFactory {
     private final static QName _DatosTipoRegistroInvalidos_QNAME = new QName("http://servidor/", "DatosTipoRegistroInvalidos");
     private final static QName _EdicionFinalizada_QNAME = new QName("http://servidor/", "EdicionFinalizada");
     private final static QName _EdicionNoExiste_QNAME = new QName("http://servidor/", "EdicionNoExiste");
+    private final static QName _EventoFinalizado_QNAME = new QName("http://servidor/", "EventoFinalizado");
     private final static QName _EventoNoExiste_QNAME = new QName("http://servidor/", "EventoNoExiste");
     private final static QName _FechaFinEsPasada_QNAME = new QName("http://servidor/", "FechaFinEsPasada");
     private final static QName _FormatoContrasenaInvalido_QNAME = new QName("http://servidor/", "FormatoContrasenaInvalido");
     private final static QName _FormularioIncompletoAsistente_QNAME = new QName("http://servidor/", "FormularioIncompletoAsistente");
+    private final static QName _FormularioIncompletoEdicion_QNAME = new QName("http://servidor/", "FormularioIncompletoEdicion");
     private final static QName _FormularioIncompletoInstitucion_QNAME = new QName("http://servidor/", "FormularioIncompletoInstitucion");
     private final static QName _FormularioIncompletoOrganizador_QNAME = new QName("http://servidor/", "FormularioIncompletoOrganizador");
     private final static QName _FormularioIncompletoPatrocinio_QNAME = new QName("http://servidor/", "FormularioIncompletoPatrocinio");
@@ -100,6 +102,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EventoFinalizado }
+     * 
+     */
+    public EventoFinalizado createEventoFinalizado() {
+        return new EventoFinalizado();
+    }
+
+    /**
      * Create an instance of {@link EventoNoExiste }
      * 
      */
@@ -129,6 +139,14 @@ public class ObjectFactory {
      */
     public FormularioIncompletoAsistente createFormularioIncompletoAsistente() {
         return new FormularioIncompletoAsistente();
+    }
+
+    /**
+     * Create an instance of {@link FormularioIncompletoEdicion }
+     * 
+     */
+    public FormularioIncompletoEdicion createFormularioIncompletoEdicion() {
+        return new FormularioIncompletoEdicion();
     }
 
     /**
@@ -284,19 +302,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HashSet }
-     * 
-     */
-    public HashSet createHashSet() {
-        return new HashSet();
-    }
-
-    /**
      * Create an instance of {@link ArrayList }
      * 
      */
     public ArrayList createArrayList() {
         return new ArrayList();
+    }
+
+    /**
+     * Create an instance of {@link HashSet }
+     * 
+     */
+    public HashSet createHashSet() {
+        return new HashSet();
     }
 
     /**
@@ -321,6 +339,14 @@ public class ObjectFactory {
      */
     public DTEventoArray createDTEventoArray() {
         return new DTEventoArray();
+    }
+
+    /**
+     * Create an instance of {@link DTDetalleRegistroArray }
+     * 
+     */
+    public DTDetalleRegistroArray createDTDetalleRegistroArray() {
+        return new DTDetalleRegistroArray();
     }
 
     /**
@@ -413,6 +439,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EventoFinalizado }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link EventoFinalizado }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "EventoFinalizado")
+    public JAXBElement<EventoFinalizado> createEventoFinalizado(EventoFinalizado value) {
+        return new JAXBElement<EventoFinalizado>(_EventoFinalizado_QNAME, EventoFinalizado.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link EventoNoExiste }{@code >}
      * 
      * @param value
@@ -462,6 +501,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "FormularioIncompletoAsistente")
     public JAXBElement<FormularioIncompletoAsistente> createFormularioIncompletoAsistente(FormularioIncompletoAsistente value) {
         return new JAXBElement<FormularioIncompletoAsistente>(_FormularioIncompletoAsistente_QNAME, FormularioIncompletoAsistente.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FormularioIncompletoEdicion }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FormularioIncompletoEdicion }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "FormularioIncompletoEdicion")
+    public JAXBElement<FormularioIncompletoEdicion> createFormularioIncompletoEdicion(FormularioIncompletoEdicion value) {
+        return new JAXBElement<FormularioIncompletoEdicion>(_FormularioIncompletoEdicion_QNAME, FormularioIncompletoEdicion.class, null, value);
     }
 
     /**

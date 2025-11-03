@@ -2,10 +2,12 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@ page import="datatypes.*"%>
+<%@ page import="com.eventosuy.servidor.*"%>
 <%@ page import="com.eventosuy.models.TipoUsuario"%>
+<%@ page import="com.eventosuy.utils.Utilidades"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.List"%>
 <%
 DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
 String nombreEdicion = request.getParameter("nombre_edicion");
@@ -22,8 +24,8 @@ if (imagenBytes != null && imagenBytes.length > 0) {
 }
 TipoUsuario tipoUsuarioLogeado = (TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
 DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion");
-Set<String> setPatrocinios = (Set<String>) request.getAttribute("lista_patrocinios");
-Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_registro");
+List<String> setPatrocinios = (List<String>) request.getAttribute("lista_patrocinios");
+List<String> setTiposRegistro = (List<String>) request.getAttribute("lista_tipos_registro");
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 %>
@@ -101,7 +103,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de alta:</strong>
-              <p class="mb-0"><%= formatter.format(dtEdicion.getFechaAlta()) %></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaAlta())) %></p>
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">País:</strong>
@@ -113,11 +115,11 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de inicio:</strong>
-              <p class="mb-0"><%= formatter.format(dtEdicion.getFechaInicio()) %></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaInicio())) %></p>
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de fin:</strong>
-              <p class="mb-0"><%= formatter.format(dtEdicion.getFechaFin()) %></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaFin())) %></p>
             </div>
           </div>
         </div>
@@ -200,7 +202,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
                        class="link-primary link-underline"><%= registro.getNombreTipo() %></a></td>
                 <td><%=registro.getFecha()%></td>
                 <td><%=registro.getCosto()%></td>
-                <% if (registro.getAsistio()) { %>
+                <% if (registro.isAsistio()) { %>
                 	<td>Asistió</td>
                 <% } else { %>
                 	<td>No asistió</td>
@@ -236,7 +238,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
 		                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
 		                <td><%= dtDetalleRegistro.getFecha() %></td>
 		                <td><%= dtDetalleRegistro.getCosto() %></td>
-		                <% if (dtDetalleRegistro.getAsistio()) { %>
+		                <% if (dtDetalleRegistro.isAsistio()) { %>
 		                	<td>Asistió</td>
 		                <% } else { %>
 		                	<td>No asistió</td>

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
@@ -25,6 +27,7 @@ import excepciones.ContrasenaIncorrecta;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EventoFinalizado;
 import excepciones.EventoNoExiste;
 import excepciones.FechaFinEsPasada;
 import excepciones.FormatoContrasenaInvalido;
@@ -50,6 +53,7 @@ import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
 import logica.Institucion;
 import logica.Patrocinio;
+import logica.Utilidades;
 import webwrappers.DTEventoEntry;
 import logica.Fabrica;
 
@@ -127,15 +131,13 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashSet<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
-		Set<DTDetalleRegistro> res = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
-	    return new HashSet<DTDetalleRegistro> (res);
+	public DTDetalleRegistro[] listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
+	    return controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).toArray(new DTDetalleRegistro[0]);
 	}
 
 	@WebMethod
-	public HashSet<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
-		Set<String> res = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
-	    return new HashSet<String>(res);
+	public String[] getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+	    return controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada).toArray(new String[0]);
 	}
 
 	@WebMethod
@@ -161,10 +163,10 @@ public class Publicador {
 	    return controladorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombre);
 	}
 
-//	@WebMethod
-//	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] img) throws FormularioIncompletoEdicion {
-//	    controladorEventos.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname, img);
-//	}
+	@WebMethod
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL) throws FormularioIncompletoEdicion, EventoFinalizado {
+		controladorEventos.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img, URL);
+	}
 
 	@WebMethod
 	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion estados) {
@@ -220,9 +222,8 @@ public class Publicador {
 		return res.toArray(new String[0]);
 	}
 	@WebMethod
-	public HashSet<String> listarPatrocinadores(String nombreEvento, String nombreEdicion){
-		Set<String> res = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
-		return new HashSet<String>(res);
+	public String[] listarPatrocinadores(String nombreEvento, String nombreEdicion){
+		return controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion).toArray(new String[0]);
 	}
 	
 	// -------------------	USUARIOS		------------------- //
