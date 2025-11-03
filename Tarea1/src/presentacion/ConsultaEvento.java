@@ -83,7 +83,7 @@ public class ConsultaEvento extends JInternalFrame {
 		    
 		    if (eventoSeleccionado != null &&eventoSeleccionado!="--Seleccionar un Evento--") {
 		    	
-		    DTEvento detalleEvento = iContEvento.consultarEvento(eventoSeleccionado);
+		    DTEvento detalleEvento = iContEvento.getDTEvento(eventoSeleccionado);
 
 		    panelDetalles.removeAll(); 
 		    

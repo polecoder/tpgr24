@@ -481,8 +481,12 @@ public List<DTEventoVisitas> obtenerEventosMasVisitados(int limite) {
 
     return resultado;
 }
-public DTEvento consultarEvento(String nombre) {
+/*public DTEvento consultarEvento(String nombre) {
 	return manejadorEventos.consultarEvento(nombre);
+}*/
+
+public int registrarVisitaEvento(String nombre) {
+	return manejadorEventos.registrarVisitaEvento(nombre);
 }
 	
 }

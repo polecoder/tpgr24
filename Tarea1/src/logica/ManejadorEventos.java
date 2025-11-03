@@ -145,11 +145,21 @@ public class ManejadorEventos {
 		return dtEvento;
 	}
 	
-	public DTEvento consultarEvento(String nombre) {
+	/*public DTEvento consultarEvento(String nombre) {
 	    Evento e = eventos.get(nombre);
 	    if (e == null) return null;
 	    e.registrarVisita();  
 	    return getDTEvento(nombre); 
+	}*/
+	
+	//para probar q funciona mientras no esten conectados, desp hacerlo un void de nuevo
+	public int registrarVisitaEvento(String nombre) {
+	    Evento e = eventos.get(nombre);
+	    if (e != null) {
+	        e.registrarVisita();
+	        return e.getVisitas();//sacar
+	    }
+	    return e.getVisitas();//sacar
 	}
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {

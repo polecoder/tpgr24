@@ -39,7 +39,8 @@ public interface IControladorEventos {
 	public Map<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento);
 	public Set<String> nombresEventos();
 	public DTEvento getDTEvento(String nombre);
-	public DTEvento consultarEvento(String nombre);
+	/*public DTEvento consultarEvento(String nombre);*/
+	int registrarVisitaEvento(String nombre); 
 	public Set<String> nombresCategorias(String nombre);
 	public Set<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste;
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada);
