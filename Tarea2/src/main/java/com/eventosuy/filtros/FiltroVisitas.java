@@ -1,15 +1,23 @@
 package com.eventosuy.filtros;
 
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 import logica.Fabrica;
 import logica.IControladorEventos;
 
-@WebFilter(urlPatterns = {"/Eventos"})
 public class FiltroVisitas implements Filter {
+	
+	@Override
+    public void init(FilterConfig filterConfig) throws ServletException {		
+	}
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -31,4 +39,9 @@ public class FiltroVisitas implements Filter {
         
         chain.doFilter(request, response);
     }
+    
+    @Override
+    public void destroy() {
+    }
+
 }
