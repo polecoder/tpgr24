@@ -5,6 +5,11 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
+
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import datatypes.DTDetalleRegistro;
 
 public class Utilidades {
 	public static Date toDate(LocalDate fecha) {
@@ -34,5 +39,41 @@ public class Utilidades {
 		    }
 		}
 		return bytesImagen;
+	}
+	
+	/**
+	 * Dada una fecha del tipo XMLGeorgianCalendar devuelve su correspondiente en el tipo Date.
+	 * ACLARACIÓN: Esta función está pensada para la parte web
+	 * @param xmlGeorgianCalendarFecha
+	 * @return
+	 */
+	public static Date XMLGregorianCalendarToDate(XMLGregorianCalendar xmlGeorgianCalendarFecha) {
+		return xmlGeorgianCalendarFecha.toGregorianCalendar().getTime();
+	}
+	
+	/**
+	 * Dado un Set<String> retorna un String[] con los mismos elementos
+	 * ACLARACIÓN: Esta función está pensada para la parte web
+	 * @param set
+	 * @return
+	 */
+	public static String[] SetToArray_String(Set<String> set) {
+		String[] array= new String[set.size()];
+		int i = 0;
+		for (String item : set) {
+			array[i] = item;
+			i++;
+		}
+		return array;
+	}
+	
+	public static DTDetalleRegistro[] SetToArray_DTDetalleRegistro(Set<DTDetalleRegistro> set) {
+		DTDetalleRegistro[] array= new DTDetalleRegistro[set.size()];
+		int i = 0;
+		for (DTDetalleRegistro item : set) {
+			array[i] = item;
+			i++;
+		}
+		return array;
 	}
 }

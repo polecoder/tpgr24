@@ -1,10 +1,14 @@
-package com.eventosuy.utils;
+	package com.eventosuy.utils;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.eventosuy.servidor.HashSet;
 
 public class Utilidades {
 	/**
@@ -18,5 +22,9 @@ public class Utilidades {
 	    GregorianCalendar calendar = new GregorianCalendar();
 	    calendar.setTime(date);
 	    return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
+	}
+	
+	public static Date XMLGregorianCalendarToDate(XMLGregorianCalendar xmlGeorgianCalendarFecha) {
+		return xmlGeorgianCalendarFecha.toGregorianCalendar().getTime();
 	}
 }
