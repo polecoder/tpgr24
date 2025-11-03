@@ -1,7 +1,13 @@
 package persistencia;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import datatypes.DTDetalleAsistente;
@@ -18,15 +24,38 @@ import logica.ManejadorEventos;
 import logica.ManejadorUsuarios;
 import persistencia.TipoUsuario.TipoUsuario;
 
+// TODO: Revisar el funcionamiento al pasar a Web Services
 public class ManejadorPersistencia {
 	private static ManejadorPersistencia instancia;
 	private ManejadorEventos manejadorEventos;
 	private ManejadorUsuarios manejadorUsuarios;
-	private EntityManagerFactory fabricaManejadorEntidades = Persistence.createEntityManagerFactory("ArchivoDB");
+	private EntityManagerFactory fabricaManejadorEntidades;
 
 	private ManejadorPersistencia() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
+		
+		// configurar correctamente la URL de la EntityManagerFactory
+		String basePath = System.getProperty("catalina.base");
+		if (basePath == null || basePath.isEmpty()) basePath = System.getProperty("user.dir");
+		try {
+			// TODO: Super hardcodeado -> Mucho ojo con esto en Facultad
+			Path carpetaData = Paths.get(basePath, "Tarea1/data");
+			Files.createDirectories(carpetaData);
+			
+			// para configurar el persistence.xml
+			String jdbcUrl = "jdbc:hsqldb:file:" + carpetaData.resolve("ArchivoDB").toAbsolutePath().toString() + ";shutdown=true";
+			Map<String, String> propiedades = new HashMap<>();
+			propiedades.put("jakarta.persistence.jdbc.url", jdbcUrl);
+			propiedades.put("jakarta.persistence.jdbc.user", "SA");
+            propiedades.put("jakarta.persistence.jdbc.password", "");
+            propiedades.put("jakarta.persistence.jdbc.driver", "org.hsqldb.jdbcDriver");
+			
+			// creamos el EntityManagerFactory con la url correcta
+			this.fabricaManejadorEntidades = Persistence.createEntityManagerFactory("ArchivoDB", propiedades);
+		} catch (IOException e) {
+			throw new RuntimeException();
+		}
 		
 		// cerrar el EntityManagerFactory al cerrar la aplicación
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -215,7 +244,10 @@ public class ManejadorPersistencia {
 			
 			// obtengo los datos de la edición
 			DTEdicionEvento datosEdicion = this.manejadorEventos.getDTEdicion(nombreEdicion, nombreEdicion);
-			if (datosEdicion == null) return; // no hago nada si la edición no existe en el sistema
+			if (datosEdicion == null) {
+				transaccion.rollback();
+				return; // no hago nada si la edición no existe en el sistema
+			}
 			
 			// archivo el organizador asociado a la edición y obtenemos el objeto en la DB
 			this.guardarOrganizadorEnArchivo(datosEdicion.getOrganizadorNickname());
