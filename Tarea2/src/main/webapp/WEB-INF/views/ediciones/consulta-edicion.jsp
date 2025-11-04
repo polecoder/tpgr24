@@ -188,75 +188,73 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
           </div>
         </div>
 
-
-        <div class="card shadow-sm p-4">
-          <h5 class="fw-bold text-primary mb-3 text-center">Tipos de registro:</h5>
-          <%
-          if (!setTiposRegistro.isEmpty()) {
-          %>
-          <div class="d-flex flex-wrap justify-content-center gap-3">
+        <%-- no muestro sección de tipos de registro si la edición está en el archivo --%>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+          <div class="card shadow-sm p-4">
+            <h5 class="fw-bold text-primary mb-3 text-center">Tipos de registro:</h5>
             <%
-            for (String tipoRegistro : setTiposRegistro) {
+            if (setTiposRegistro != null && !setTiposRegistro.isEmpty()) {
             %>
-            <a
-              href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>"
-              class="card text-center shadow-sm border-primary text-decoration-none"
-              style="width: 10rem;"
-            >
-              <div class="card-body">
-                <h6 class="card-title text-primary fw-semibold"><%=tipoRegistro%></h6>
+              <div class="d-flex flex-wrap justify-content-center gap-3">
+                <%
+                for (String tipoRegistro : setTiposRegistro) {
+                %>
+                <a
+                  href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>"
+                  class="card text-center shadow-sm border-primary text-decoration-none"
+                  style="width: 10rem;"
+                >
+                  <div class="card-body">
+                    <h6 class="card-title text-primary fw-semibold"><%=tipoRegistro%></h6>
+                  </div>
+                </a>
+                <%
+                }
+                %>
               </div>
-            </a>
+            <% } %>
+          </div>
+        <% } %>
+        
+        <!-- Patrocinadores -->
+        <%-- no muestro sección de patrocinadores si la edición está archivada --%>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+          <div class="card shadow-sm p-4">
+            <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores:</h5>
+            <%
+            if (setPatrocinios != null && !setPatrocinios.isEmpty()) {
+            %>
+            <table class="table table-sm table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">Nombre del patrocinador</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                for (String patrocinador : setPatrocinios) {
+                %>
+                <tr>
+                  <td><a
+                    href="<%= cp %>/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
+                    class="link-primary link-underline"
+                  > <%=patrocinador%>
+                  </a></td>
+                </tr>
+                <%
+                }
+                %>
+              </tbody>
+            </table>
+            <%
+            } else {
+            %>
+            <p class="text-secondary text-center mb-0">No tiene patrocinadores.</p>
             <%
             }
             %>
           </div>
-        </div>
-        <%
-        } else {
-        %>
-        <p class="text-secondary text-center mb-0">No tiene tipos de registro.</p>
-
-        <%
-        }
-        %>
-
-        <!-- Patrocinadores -->
-        <div class="card shadow-sm p-4">
-          <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores:</h5>
-          <%
-          if (!setPatrocinios.isEmpty()) {
-          %>
-          <table class="table table-sm table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Nombre del patrocinador</th>
-              </tr>
-            </thead>
-            <tbody>
-              <%
-              for (String patrocinador : setPatrocinios) {
-              %>
-              <tr>
-                <td><a
-                  href="<%= cp %>/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
-                  class="link-primary link-underline"
-                > <%=patrocinador%>
-                </a></td>
-              </tr>
-              <%
-              }
-              %>
-            </tbody>
-          </table>
-          <%
-          } else {
-          %>
-          <p class="text-secondary text-center mb-0">No tiene patrocinadores.</p>
-          <%
-          }
-          %>
-        </div>
+        <% } %>
 
         <%-- registros de la edición (organizador de la edición) --%>
         <%

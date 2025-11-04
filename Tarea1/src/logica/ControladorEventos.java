@@ -27,7 +27,9 @@ import excepciones.PatrocinioInvalido;
 import excepciones.TipoRegistroNoExiste;
 import excepciones.UsuarioNoExiste;
 import excepciones.YaAsisteAEdicion;
+import persistencia.EdicionArchivada;
 import persistencia.ManejadorPersistencia;
+import persistencia.RegistroArchivado;
 import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
@@ -251,6 +253,10 @@ public class ControladorEventos implements IControladorEventos {
 
 	@Override
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
+		// chequeo primero que la edición no esté archivada
+		EdicionArchivada edicionArchivada = manejadorPersistencia.getEdicionEnArchivo(edicionSeleccionada);
+		if (edicionArchivada != null) return edicionArchivada.getDatosEdicion();
+		
 		return manejadorEventos.getDTEdicion(eventoSeleccionado, edicionSeleccionada);
 	}
 
@@ -406,6 +412,8 @@ public class ControladorEventos implements IControladorEventos {
 
 	@Override
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
+		if (manejadorPersistencia.getEdicionEnArchivo(edicionSeleccionada) != null) return null;
+		
 		return manejadorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
 	}
 
@@ -418,7 +426,6 @@ public class ControladorEventos implements IControladorEventos {
 	@Override
 	public void setEstadoEdicion(String eventoSeleccionado, String edicionSeleccionada, boolean bool) {
 		manejadorEventos.setEstadoEdicion(eventoSeleccionado, edicionSeleccionada, bool);
-
 	}
 
 	@Override
@@ -438,11 +445,24 @@ public class ControladorEventos implements IControladorEventos {
 
 	@Override
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
-		return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		EdicionArchivada edicionArchivada = manejadorPersistencia.getEdicionEnArchivo(nombreEdicion);
+		// si la edición NO está archivada, la busco en el sistema y la devuelvo
+		if (edicionArchivada == null) return manejadorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		
+		// la edición está archivada
+		Set<DTDetalleRegistro> resultado = new HashSet<>();
+		for (RegistroArchivado registro: edicionArchivada.getRegistros()) {
+			DTDetalleRegistro detalle = registro.getDatosRegistro();
+			resultado.add(detalle);
+		}
+		
+		return resultado;
 	}
 
 	@Override
 	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion) {
+		if (manejadorPersistencia.getEdicionEnArchivo(nombreEdicion) != null) return null;
+		
 		return manejadorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
 	}
 
@@ -482,9 +502,11 @@ public class ControladorEventos implements IControladorEventos {
 	@Override
 	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+		// si la edición ya está archivada
+		if (manejadorPersistencia.getEdicionEnArchivo(nombreEdicion) != null) throw new EdicionYaArchivada("La edición seleccionada ya está archivada.");
 		// si la edición no existe
 		if (edicion == null) throw new EdicionNoExiste("La edición seleccionada no existe en el sistema");
-		// comparación de fechas
+		// si la edición ya finalizó
 		if (edicion.getFechaFin().before(new Date())) throw new EdicionFinalizada("La edición seleccionada ya finalizó");
 		
 		// archivo la edición desde el manejador

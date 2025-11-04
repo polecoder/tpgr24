@@ -74,6 +74,14 @@ public interface IControladorEventos {
 	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion;
 	public Set<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion);
 	public Set<String> listarPatrociniosDeEdicion(String selectedEvento, String selectedEdicion);
+	/**
+	 * Retorna el nombre de los tipos de registro para la edición pasada por parámetro.<p>
+	 * Si la edición está archivada, retorna null.
+	 * 
+	 * @param eventoSeleccionado
+	 * @param edicionSeleccionada
+	 * @return un set con todos los nombres de los tipos de registro o null si la edición está archivada
+	 */
 	public Set<String> getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada);
 	public void altaPatrocinio(String eventoSeleccionado,  String edicionSeleccionada, Date FechaAlta, String institucionSeleccionada, ENivelPatrocinio nivelPatrocinio, float aporteEconomico, int cupos, String codigoPatrocinio, String tipoRegistroSeleccionado) throws FormularioIncompletoPatrocinio, AporteInsuficiente, TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste, EdicionFinalizada;
 	public String[] getNombresEdiciones(String nombreEvento);
@@ -96,7 +104,22 @@ public interface IControladorEventos {
 	 * @return
 	 */
 	public DTDetallePatrocinio mostrarDetallePatrocinio(String nombreEvento, String nombreEdicion, String codigoPatrocinio);
+	/**
+	 * Devuelve todos los registros asociados a la edición pasada por parámetro, incluso si la edición está archivada.
+	 * 
+	 * @param nombreEvento
+	 * @param nombreEdicion
+	 * @return
+	 */
 	public Set<DTDetalleRegistro> listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion);
+	/**
+	 * Devuelve el nombre de todas las instituciones que patrocinan a la edición pasada por parámetro.<p>
+	 * Si la edición buscada está archivada, retorna null.
+	 * 
+	 * @param nombreEvento
+	 * @param nombreEdicion
+	 * @return un set con los patrocinadores o null si la edición asociada está archivada
+	 */
 	public Set<String> listarPatrocinadores(String nombreEvento, String nombreEdicion);
 	public Patrocinio getPatrocinio(String nombreEvento, String nombreEdicion, String patrocinador);
 	void finalizarEvento(String nombreEvento)

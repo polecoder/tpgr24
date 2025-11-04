@@ -98,7 +98,8 @@ public class Ediciones extends HttpServlet {
 			return request;
 		}
 		
-		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
+		// todo esto contempla consultas a ediciones archivadas
+		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // asumo tiene la imagen
 		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
 		String videoURL = dtEdicion.getVideoURL();
 		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
