@@ -45,7 +45,6 @@ public class ControladorEventos implements IControladorEventos {
 
 	private ControladorEventos() {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
-		ControladorInstitucion.getInstance(); // TODO: Eliminar?
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
 		this.manejadorPersistencia = ManejadorPersistencia.getInstance();
 	}
@@ -490,6 +489,33 @@ public class ControladorEventos implements IControladorEventos {
 		
 		// archivo la edición desde el manejador
 		this.manejadorPersistencia.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);
+		// elimino la edición del sistema si todo sale bien
+		this.eliminarEdicion(nombreEvento, nombreEdicion);
+		
+	}
+	
+	@Override
+	public void eliminarEdicion(String nombreEvento, String nombreEdicion) throws EdicionNoExiste {
+		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
+		// si la edición no existe
+		if (edicion == null) throw new EdicionNoExiste("La edición seleccionada no existe en el sistema");
+		
+		DTEdicionEvento datosEdicion = this.manejadorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		
+		// eliminar links de organizador
+		Organizador organizador = this.manejadorUsuarios.getOrganizador(datosEdicion.getOrganizadorNickname()); // el organizador tiene que existir en el sistema
+		organizador.eliminarEdicion(edicion);
+		
+		// eliminar links de evento
+		Evento evento = this.manejadorEventos.getEvento(nombreEvento); // el evento tiene que existir en el sistema
+		evento.eliminarEdicion(nombreEdicion);
+		
+		// elimino los links con todas las instituciones
+		Map<String, Patrocinio> patrocinios = edicion.getPatrocinios();
+		for (Patrocinio patrocinio: patrocinios.values()) {
+			Institucion institucion = patrocinio.getInstitucion();
+			institucion.eliminarEdicionPatrocinada(nombreEdicion);
+		}
 		
 	}
 }
