@@ -15,6 +15,7 @@ import datatypes.DTEdicionEvento;
 import datatypes.DTTipoRegistro;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EdicionYaArchivada;
 import excepciones.UsuarioNoExiste;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -275,6 +276,10 @@ public class Ediciones extends HttpServlet {
 			return;
 		} catch (EdicionNoExiste exception) {
 			request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+			return;
+		} catch (EdicionYaArchivada exception) {
+			request.setAttribute("error", "La edición seleccionada ya está archivada.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 			return;
 		}

@@ -15,6 +15,7 @@ import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EdicionYaArchivada;
 import excepciones.EventoFinalizado;
 import excepciones.EventoNoExiste;
 import excepciones.FechaFinEsPasada;
@@ -480,7 +481,7 @@ public class ControladorEventos implements IControladorEventos {
 	}
 	
 	@Override
-	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste {
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		// si la edición no existe
 		if (edicion == null) throw new EdicionNoExiste("La edición seleccionada no existe en el sistema");

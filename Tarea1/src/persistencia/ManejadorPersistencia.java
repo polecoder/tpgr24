@@ -15,6 +15,7 @@ import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
+import excepciones.EdicionYaArchivada;
 import excepciones.UsuarioNoExiste;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -227,6 +228,24 @@ public class ManejadorPersistencia {
 	}
 
 	/**
+	 * Devuelve true si existe en el archivo una edición con nombre = `nombreEdicion`.<p>
+	 * Devuelve false en caso contrario.
+	 * 
+	 * @param manejadorEntidades
+	 * @param nombreEdicion
+	 * @return true o false según si existe o no la edición en el archivo
+	 */
+	private boolean existeEdicionEnArchivo(EntityManager manejadorEntidades, String nombreEdicion) {
+		TypedQuery<EdicionArchivada> queryEdicion = manejadorEntidades.createQuery("SELECT e FROM EdicionArchivada e WHERE e.nombre = :nombre", EdicionArchivada.class);
+		queryEdicion.setParameter("nombre", nombreEdicion);
+		List<EdicionArchivada> listaEdiciones = queryEdicion.getResultList();
+		
+		if (listaEdiciones.isEmpty()) return false;
+		
+		return true;
+	}
+	
+	/**
 	 * Archiva una edición y todos sus datos relacionados en el archivo. Esto
 	 * incluye:
 	 * <p>
@@ -238,8 +257,9 @@ public class ManejadorPersistencia {
 	 * <p>
 	 * 
 	 * @param registro los datos del registro para guardar en el archivo
+	 * @throws EdicionYaArchivada si la edición seleccionada ya existe en el Archivo
 	 */
-	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) {
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionYaArchivada {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
 		try {
@@ -252,6 +272,12 @@ public class ManejadorPersistencia {
 				return; // no hago nada si la edición no existe en el sistema
 			}
 
+			// chequeo si la edición ya está archivada
+			if (existeEdicionEnArchivo(manejadorEntidades, nombreEdicion)) {
+				transaccion.rollback();
+				throw new EdicionYaArchivada("La edición seleccionada ya está archivada.");
+			}
+			
 			// archivo el organizador asociado a la edición y obtenemos el objeto en la DB
 			this.guardarOrganizadorEnArchivo(manejadorEntidades, datosEdicion.getOrganizadorNickname());
 
@@ -299,8 +325,11 @@ public class ManejadorPersistencia {
 			edicion.setRegistros(registrosArchivados);
 
 			transaccion.commit();
+		} catch (EdicionYaArchivada exception) {
+			if (manejadorEntidades.getTransaction().isActive())
+				manejadorEntidades.getTransaction().rollback();
+			throw exception;
 		} catch (Exception exception) {
-			exception.printStackTrace();
 			if (manejadorEntidades.getTransaction().isActive())
 				manejadorEntidades.getTransaction().rollback();
 		} finally {

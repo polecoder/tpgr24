@@ -10,6 +10,7 @@ import excepciones.AsistenteYaRegistrado;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EdicionYaArchivada;
 import excepciones.EventoFinalizado;
 import excepciones.EventoNoExiste;
 import excepciones.FechaFinEsPasada;
@@ -111,5 +112,5 @@ public interface IControladorEventos {
      * @throws EdicionFinalizada si la edición elegida ya finalizó
      * @throws EdicionNoExiste si la edición elegida no existe en el sistema
      */
-    public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste;
+    public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada;
 }
