@@ -294,14 +294,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HashMap }
-     * 
-     */
-    public HashMap createHashMap() {
-        return new HashMap();
-    }
-
-    /**
      * Create an instance of {@link ArrayList }
      * 
      */
@@ -318,6 +310,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HashMap }
+     * 
+     */
+    public HashMap createHashMap() {
+        return new HashMap();
+    }
+
+    /**
      * Create an instance of {@link Institucion }
      * 
      */
@@ -331,6 +331,14 @@ public class ObjectFactory {
      */
     public TipoRegistro createTipoRegistro() {
         return new TipoRegistro();
+    }
+
+    /**
+     * Create an instance of {@link DTEdicionEventoArray }
+     * 
+     */
+    public DTEdicionEventoArray createDTEdicionEventoArray() {
+        return new DTEdicionEventoArray();
     }
 
     /**

@@ -17,11 +17,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.StringArray;
 import com.eventosuy.utils.Utilidades;
 import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.EEstadoEdicion;
-import datatypes.EEstadoEvento;
+import com.eventosuy.servidor.EEstadoEvento;
+import com.eventosuy.servidor.EventoFinalizado_Exception;
+import com.eventosuy.servidor.EventoNoExiste_Exception;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -31,8 +34,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import logica.Fabrica;
-import logica.IControladorEventos;
 
 @WebServlet("/Eventos")
 @MultipartConfig(
@@ -111,11 +112,11 @@ public class Eventos extends HttpServlet {
     		request.setAttribute("flashOK", "Evento finalizado correctamente");
     		request.setAttribute("nombre", nombre);
     		Consulta(request, response);
-    	}catch(excepciones.EventoFinalizado e) {
+    	}catch(EventoFinalizado_Exception e) {
     		request.setAttribute("flashWARN", "El evento ya esta finalizado");
     		request.setAttribute("nombre", nombre);
     		Consulta(request, response);
-    	} catch(excepciones.EventoNoExiste e) {
+    	} catch(EventoNoExiste_Exception e) {
     		response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
     	} catch(Exception e) {
     		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo finalizar el evento.");
@@ -126,7 +127,7 @@ public class Eventos extends HttpServlet {
 	// --- Formulario de alta ---
     private void Alta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    		List<String> categorias = (List<String>) puerto.getListaCategorias();
+    		List<String> categorias = (List<String>) puerto.getListaCategorias().getItem();
         request.setAttribute("categorias", categorias);         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
         dispatcher.forward(request, response);
@@ -165,24 +166,26 @@ public class Eventos extends HttpServlet {
 
         // Validar existencia de evento
         if (puerto.existeEvento(nombre)) {
-        	List<String> categorias = (List<String>) puerto.getListaCategorias();
+        	List<String> categorias = (List<String>) puerto.getListaCategorias().getItem();
             request.setAttribute("categorias", categorias);    
             request.setAttribute("error", "Ya existe un evento con este nombre");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/alta-evento.jsp");
             dispatcher.forward(request, response);
             return;
         }
-
+        com.eventosuy.servidor.StringArray categorias = new com.eventosuy.servidor.StringArray();
+       
+        for (String cat : categoriasSeleccionadas) {
+            categorias.getItem().add(cat);
+        }
+        byte[] imagenAlta=imagen;
+        if (imagen == null) {
+            imagenAlta = new byte[0]; // evita null, envía un array vacío
+        }
+       
+        puerto.altaEvento(nombre, descripcion, sigla,categorias, imagenAlta, EEstadoEvento.EN_CURSO);
+        
         List<String> CatSel = Arrays.asList(categoriasSeleccionadas);
-        XMLGregorianCalendar xmlGregorianCalendarFechaAlta;
-		try {
-			xmlGregorianCalendarFechaAlta = Utilidades.dateToXMLGregorianCalendar(fechaAlta);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			xmlGregorianCalendarFechaAlta = null;
-		}
-        puerto.altaEvento(nombre, descripcion, xmlGregorianCalendarFechaAlta, sigla, (com.eventosuy.servidor.ArrayList) CatSel, imagen, EEstadoEvento.EN_CURSO);
 
         // Preparar datos para la vista de consulta
         request.setAttribute("mensaje", "Evento '" + nombre + "' creado correctamente.");
@@ -213,14 +216,14 @@ public class Eventos extends HttpServlet {
         request.setAttribute("descripcion", evento.getDescripcion());
         request.setAttribute("sigla", evento.getSigla());
         
-        Set<String> categoriasSet = (Set<String>) puerto.nombresCategorias(nombre);
-        List<String> categoriasList = new ArrayList<>(categoriasSet);
+        List<String> categoriasList = puerto.nombresCategorias(nombre).getItem();
         request.setAttribute("categorias", categoriasList);
 
         request.setAttribute("imagen", evento.getImagen());
+        
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
+        request.setAttribute("fechaAlta", formato.format(Utilidades.XMLGregorianCalendarToDate(evento.getFechaAlta())));
         // estado del evento
         boolean finalizado = (evento.getEstado() == EEstadoEvento.FINALIZADO);
         request.setAttribute("eventoFinalizado", finalizado);
@@ -230,8 +233,7 @@ public class Eventos extends HttpServlet {
             boolean esOrganizador = (tipo != null && tipo == com.eventosuy.models.TipoUsuario.ORGANIZADOR);
             request.setAttribute("esOrganizador", esOrganizador);
 
-        Map<String, DTEdicionEvento> edicionesMap = (Map<String, DTEdicionEvento>) puerto.listarEdicionesEvento(nombre);
-        List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
+        List<DTEdicionEvento> edicionesList = puerto.listarEdicionesEvento(nombre).getItem();
         List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
         	    .filter(element -> EEstadoEdicion.ACEPTADA == element.getEstado())
         	    .collect(Collectors.toList());
