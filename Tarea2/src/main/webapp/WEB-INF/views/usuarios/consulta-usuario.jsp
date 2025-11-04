@@ -1,7 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="datatypes.DTDetalleAsistente" %>
-<%@ page import="datatypes.DTRegistro" %>
+<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
+<%@ page import="javax.xml.datatype.XMLGregorianCalendar" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleAsistente" %>
+<%@ page import="com.eventosuy.utils.Utilidades" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.eventosuy.servidor.DTRegistro" %>
 <!DOCTYPE html>
 <html lang="es">
 <jsp:include page="/WEB-INF/views/partials/head.jsp" />
@@ -95,8 +99,8 @@
     </div>
 
     <%
-      boolean esAsistente  = (usuarioAttr instanceof datatypes.DTDetalleAsistente);
-      boolean esOrganizador= (usuarioAttr instanceof datatypes.DTDetalleOrganizador);
+      boolean esAsistente  = (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleAsistente);
+      boolean esOrganizador= (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador);
     %>
 
     <% if (esAsistente) { %>
@@ -108,22 +112,33 @@
           <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
         </div>
       </div>
-
-      <% if (((datatypes.DTDetalleAsistente)usuarioAttr).getInstitucion()!=null){ %>
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Institución:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
-        </div>
+		<%
+			String institucionNombre = (String) request.getAttribute("institucionNombre");
+		%>
+      <% if (institucionNombre != null && !institucionNombre.isBlank()) { %>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Institución:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="<%= institucionNombre %>" />
       </div>
-      <% } %>
+    </div>
+    <% } %>
+    
+    <%
+     String nacimientoStr = "";
+     com.eventosuy.servidor.DTDetalleAsistente asis = (com.eventosuy.servidor.DTDetalleAsistente) usuarioAttr;
+      javax.xml.datatype.XMLGregorianCalendar xgc = asis.getNacimiento();  
+      if (xgc != null) {
+          Date d = Utilidades.XMLGregorianCalendarToDate(xgc); 
+          nacimientoStr = new SimpleDateFormat("dd-MM-yyyy").format(d);
+  }
+%>
 
       <% SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); %>
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly 
-                 value="<%= formatter.format(((datatypes.DTDetalleAsistente)usuarioAttr).getNacimiento()) %>" />
+          <input type="text" class="form-control form-control-sm" readonly value="<%= nacimientoStr %>" />
         </div>
       </div>
 
@@ -133,12 +148,12 @@
         <div class="col-sm-8 d-flex flex-column gap-2">
           <% for (int i=0; i < regs.size(); i++) {
                DTRegistro registro = regs.get(i); %>
-          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
+          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
           <% } %>
         </div>
       </div>
       <% } %>
-
+ 
     </div>
     <% } %>
 
@@ -213,7 +228,7 @@
 <% } else { %>
 <div class="alert alert-warning mt-4">No hay información para mostrar.</div>
 <% } %>
-
+ 
 </div>
 
 <jsp:include page="/WEB-INF/views/partials/footer.jsp" />

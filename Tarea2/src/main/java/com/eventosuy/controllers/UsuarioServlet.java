@@ -7,11 +7,11 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
+//import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.datatype.DatatypeFactory;
+//import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
@@ -21,7 +21,7 @@ import com.eventosuy.servidor.DTDetalleOrganizador;
 import com.eventosuy.servidor.DTDetalleRegistro;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.EEstadoEdicion;
-import com.eventosuy.servidor.EEstadoEdicionArray;
+//import com.eventosuy.servidor.EEstadoEdicionArray;
 import com.eventosuy.utils.Utilidades;
 
 import datatypes.DTRegistro;
@@ -30,14 +30,14 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServlet; 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorUsuarios;
+//import logica.Fabrica;
+//import logica.IControladorEventos;
+//import logica.IControladorUsuarios;
 
 @MultipartConfig 
 @WebServlet("/usuario")                     
@@ -68,6 +68,7 @@ public class UsuarioServlet extends HttpServlet {
 				String email     = trim(request.getParameter("email"));
 				String password  = trim(request.getParameter("password"));
 				byte[] imagen = readPartBytes(request.getPart("imagen")); 
+				if (imagen == null) imagen = new byte[0]; //para q no me de error arg vacio
 				
 				try {
 					if ("organizador".equalsIgnoreCase(rol)) {
@@ -86,17 +87,23 @@ public class UsuarioServlet extends HttpServlet {
 
 					} else if ("asistente".equalsIgnoreCase(rol)) {
 						String apellido    = trim(request.getParameter("apellido"));
-						LocalDate fechaNac = parseDate(trim(request.getParameter("fechaNac"))); // puede ser null
+						LocalDate fechaNac = parseDate(trim(request.getParameter("fechaNac"))); 
 						Date dateFechaNac = (fechaNac != null ? java.sql.Date.valueOf(fechaNac) : null);
+						XMLGregorianCalendar xcal = Utilidades.dateToXMLGregorianCalendar(dateFechaNac);
 						
 						String institucion = trim(request.getParameter("institucion"));
+						
+						if (institucion == null || institucion.isBlank() || "-".equals(institucion)) {
+						    institucion = "-";
+						}
+						
 						puerto.altaAsistente(
 								nickname,         
 								password,          
 								nombre,            
 								email,             
 								apellido,          
-								Utilidades.dateToXMLGregorianCalendar(dateFechaNac), 
+								xcal, 
 								institucion,
 								imagen
 								);
@@ -110,6 +117,13 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					 DTDetalleUsuario u = puerto.mostrarDetalleUsuario(nickname);
 			            request.setAttribute("usuario", u);
+			            
+			            if (u instanceof com.eventosuy.servidor.DTDetalleAsistente) {
+			                String inst = puerto.getNombreInstitucionAsistente(u.getNickname());
+			                if (inst != null && !inst.isBlank() && !"-".equals(inst)) {
+			                    request.setAttribute("institucionNombre", inst);
+			                }
+			            }  
 					
 			            if (imagen != null && imagen.length > 0) {
 			                String contentType = null;
@@ -149,7 +163,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 			} else {
-				Set<String> listaNombresInstitucion = (Set<String>) puerto.nombresInstituciones();
+				List<String> listaNombresInstitucion = puerto.nombresInstituciones().getItem();
 				request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 				
 				request.getRequestDispatcher("/WEB-INF/views/usuarios/alta-usuario.jsp")
@@ -219,10 +233,25 @@ public class UsuarioServlet extends HttpServlet {
 
 					// ------ ASISTENTE ------
 					if (u instanceof DTDetalleAsistente) {
-					    java.util.List<DTRegistro> regs = java.util.Collections.emptyList();
+						String inst = puerto.getNombreInstitucionAsistente(u.getNickname());
+						if (inst != null && !inst.isBlank() && !"-".equals(inst)) {
+					        request.setAttribute("institucionNombre", inst);
+					    }
+					    java.util.List<com.eventosuy.servidor.DTRegistro> regs = java.util.Collections.emptyList();
 					    if (esPropio) {
-					        regs = (List<DTRegistro>) puerto.listarRegistrosUsuario(u.getNickname());
-					        if (regs == null) regs = java.util.Collections.emptyList();
+					    	com.eventosuy.servidor.DTRegistroArray registros = puerto.listarRegistrosUsuario(u.getNickname());
+					    	if (registros != null) {
+					            java.util.List<com.eventosuy.servidor.DTRegistro> items = registros.getItem(); 
+					            if (items != null) {
+					                regs = items;
+					            } else {
+					                regs = java.util.Collections.emptyList();
+					            }
+					        } else {
+					            regs = java.util.Collections.emptyList();
+					        }
+					    } else {
+					        regs = java.util.Collections.emptyList();
 					    }
 					    request.setAttribute("registros", regs);
 					}
@@ -242,7 +271,7 @@ public class UsuarioServlet extends HttpServlet {
 			}
 		}
 
-		// ==================== MODIFICAR DATOS ====================
+		/*// ==================== MODIFICAR DATOS ====================
 		case "modificar":
 			if (isPost(request)) {
 				String nickSesion = getNickFromSession(request);
@@ -336,7 +365,7 @@ public class UsuarioServlet extends HttpServlet {
 				request.getRequestDispatcher("/pages/modificar-datos-usuario.jsp")
 				.forward(request, response);
 				return;
-			}
+			}*/
 
 			// ==================== REGISTRO A EDICIÓN ====================
 		case "registro-edicion":
@@ -444,7 +473,7 @@ public class UsuarioServlet extends HttpServlet {
 							Integer matchIdx = null;
 							for (int i = 0; i < regsUsr.size(); i++) {
 								DTRegistro r = regsUsr.get(i);
-								if (edicion.equals(r.nombreEdicion())) {
+								if (edicion.equals(r.getNombreEdicion())) {
 									matchIdx = i;
 									break;
 								}

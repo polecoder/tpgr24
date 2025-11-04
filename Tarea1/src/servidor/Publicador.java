@@ -58,7 +58,7 @@ import webwrappers.DTEventoEntry;
 import logica.Fabrica;
 
 @WebService 
-@XmlSeeAlso({DTEventoEntry.class})
+@XmlSeeAlso({DTEventoEntry.class, datatypes.DTRegistro.class})
 @SOAPBinding (style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
 public class Publicador {
 	private Endpoint endpoint = null;
@@ -263,9 +263,9 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public ArrayList<DTRegistro> listarRegistrosUsuario(String nickname) {
+	public datatypes.DTRegistro[] listarRegistrosUsuario(String nickname) {
 		List<DTRegistro> res = controladorUsuarios.listarRegistrosUsuario(nickname);
-	    return new ArrayList<DTRegistro>(res);
+		return res.toArray(new datatypes.DTRegistro[0]);
 	}
 
 	@WebMethod
@@ -276,6 +276,9 @@ public class Publicador {
 
 	@WebMethod
 	public void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoAsistente {
+		if (nombreinstitucion != null && (nombreinstitucion.isBlank() || "-".equals(nombreinstitucion))) {
+	        nombreinstitucion = null;
+	    }
 	    controladorUsuarios.altaAsistente(nickname, contrasena, nombre, correo, apellido, fechaNacimiento, nombreinstitucion, imagen);
 	}
 

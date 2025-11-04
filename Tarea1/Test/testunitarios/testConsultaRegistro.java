@@ -137,11 +137,11 @@ class testConsultaRegistro {
 	    assertEquals(2, regs.size(), "Debe listar 2 registros");
 
 	    java.util.Set<String> tipos = regs.stream()
-	            .map(datatypes.DTRegistro::nombreTipo)
+	            .map(datatypes.DTRegistro::getNombreTipo)
 	            .collect(java.util.stream.Collectors.toSet());
 	    
 	    Set<String> tipos1 = regs.stream()
-	            .map(DTRegistro::nombreTipo)
+	            .map(DTRegistro::getNombreTipo)
 	            .filter(java.util.Objects::nonNull)
 	            .map(s -> s.trim().toLowerCase())
 	            .collect(java.util.stream.Collectors.toSet());
@@ -247,7 +247,7 @@ class testConsultaRegistro {
         List<DTRegistro> regs = controladorusuarios.listarRegistrosUsuario(NICK);
         assertNotNull(regs);
         assertEquals(3, regs.size());
-        Set<String> tipos = regs.stream().map(DTRegistro::nombreTipo).collect(Collectors.toSet());
+        Set<String> tipos = regs.stream().map(DTRegistro::getNombreTipo).collect(Collectors.toSet());
         assertEquals(Set.of("General", "VIP"), tipos);
 
         // C) detalle del último índice válido
