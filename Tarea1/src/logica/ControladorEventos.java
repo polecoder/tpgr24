@@ -485,7 +485,7 @@ public class ControladorEventos implements IControladorEventos {
 		// si la edición no existe
 		if (edicion == null) throw new EdicionNoExiste("La edición seleccionada no existe en el sistema");
 		// comparación de fechas
-		if (edicion.getFechaFin().after(new Date())) throw new EdicionFinalizada("La edición seleccionada ya finalizó");
+		if (edicion.getFechaFin().before(new Date())) throw new EdicionFinalizada("La edición seleccionada ya finalizó");
 		
 		// archivo la edición desde el manejador
 		this.manejadorPersistencia.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);

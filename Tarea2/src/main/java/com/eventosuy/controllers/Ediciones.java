@@ -272,12 +272,10 @@ public class Ediciones extends HttpServlet {
 		} catch (EdicionFinalizada exception) {
 			request.setAttribute("error", "La edición seleccionada ya finalizó.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-			exception.printStackTrace();
 			return;
 		} catch (EdicionNoExiste exception) {
 			request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-			exception.printStackTrace();
 			return;
 		}
 		

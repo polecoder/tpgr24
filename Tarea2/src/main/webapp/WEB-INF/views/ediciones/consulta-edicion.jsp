@@ -7,6 +7,7 @@
 <%@ page import="java.util.Set"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%
+String cp = request.getContextPath();
 DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
 String nombreEdicion = request.getParameter("nombre_edicion");
 String nombreEvento = request.getParameter("nombre_evento");
@@ -27,19 +28,12 @@ Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_r
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 byte[] imagenOrganizador = (byte[]) request.getAttribute("imagenOrg");
 // archivo
-String error = request.getParameter("error");
-String mensajeArchivado = request.getParameter("archivado");
+String error = (String) request.getAttribute("error");
+String mensajeArchivado = (String) request.getAttribute("archivado");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
-  integrity="sha512-L4+9xk8vQv2k9w9qQZ0fS7Zf6z5r1xg5q6iI8Yk2h3B1W6V7s3g9Yw2kM9h4Eo4Gf4X1Y2Z3k6l2s4V7Q9Z1A=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
 <jsp:include page="/WEB-INF/views/partials/head.jsp" />
 <style>
 .badge-estado {
@@ -79,6 +73,12 @@ String mensajeArchivado = request.getParameter("archivado");
 	text-decoration: none;
 }
 </style>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <jsp:include page="/WEB-INF/views/partials/header.jsp" />
@@ -199,7 +199,7 @@ String mensajeArchivado = request.getParameter("archivado");
             for (String tipoRegistro : setTiposRegistro) {
             %>
             <a
-              href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>"
+              href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>"
               class="card text-center shadow-sm border-primary text-decoration-none"
               style="width: 10rem;"
             >
@@ -239,7 +239,7 @@ String mensajeArchivado = request.getParameter("archivado");
               %>
               <tr>
                 <td><a
-                  href="${pageContext.request.contextPath}/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
+                  href="<%= cp %>/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
                   class="link-primary link-underline"
                 > <%=patrocinador%>
                 </a></td>
@@ -286,11 +286,11 @@ String mensajeArchivado = request.getParameter("archivado");
               %>
               <tr>
                 <td><a
-                  href="${pageContext.request.contextPath}/usuario?accion=consulta&nick=<%=registro.getNicknameAsistente()%>"
+                  href="<%= cp %>/usuario?accion=consulta&nick=<%=registro.getNicknameAsistente()%>"
                   class="link-primary link-underline"
                 ><%=registro.getNicknameAsistente()%></a></td>
                 <td><a
-                  href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=registro.getNombreTipo()%>"
+                  href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=registro.getNombreTipo()%>"
                   class="link-primary link-underline"
                 ><%=registro.getNombreTipo()%></a></td>
                 <td><%=registro.getFecha()%></td>
@@ -340,7 +340,7 @@ String mensajeArchivado = request.getParameter("archivado");
             <tbody>
               <tr>
                 <td><a
-                  href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
+                  href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
                   class="link-primary link-underline"
                 ><%=dtDetalleRegistro.getNombreTipo()%></a></td>
                 <td><%=dtDetalleRegistro.getFecha()%></td>
@@ -372,13 +372,13 @@ String mensajeArchivado = request.getParameter("archivado");
         %>
         <div class="d-flex justify-content-center gap-3">
           <a
-            href="${pageContext.request.contextPath}/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>"
+            href="<%= cp %>/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>"
             class="btn btn-primary btn-sm px-3"
           >Alta patrocinio</a> <a
-            href="${pageContext.request.contextPath}/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
+            href="<%= cp %>/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
             class="btn btn-primary btn-sm px-3"
           >Alta tipo registro</a> <a
-            href="${pageContext.request.contextPath}/Ediciones?accion=ArchivarEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
+            href="<%= cp %>/Ediciones?accion=ArchivarEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
             class="btn btn-primary btn-sm px-3"
           >Archivar Edición</a>
         </div>
@@ -390,7 +390,7 @@ String mensajeArchivado = request.getParameter("archivado");
         %>
         <div class="d-flex justify-content-center gap-3">
           <a
-            href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
+            href="<%= cp %>/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
             class="btn btn-primary btn-sm px-3 fs-5"
           >Registrarse a edición</a>
         </div>
@@ -422,12 +422,10 @@ String mensajeArchivado = request.getParameter("archivado");
   <%-- Configuración de Toastr para mensajes en pantalla (usado para ArchivarEdicion) --%>
   <script
     src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynSi3RvD/0iI8="
     crossorigin="anonymous"
   ></script>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
-    integrity="sha512-5t8p3cJtQm2b1gKXJm8Q9p3s6m1h2n2pOqF3y2t0uM9k2n3mV4p5q6r7s8t9u1v2w3x4y5z6a7b8c9d0e1f2g=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
     type="text/javascript"
@@ -437,8 +435,8 @@ String mensajeArchivado = request.getParameter("archivado");
     toastr.options = {
         "closeButton": true,
         "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "4000"
+        "positionClass": "toast-bottom-right",
+        "timeOut": "5000"
     };
 
     // chequeamos si tenemos mensaje para mostrar.
@@ -448,8 +446,10 @@ String mensajeArchivado = request.getParameter("archivado");
         mensaje = mensaje.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", ""); // para convertir a String a string de .js
     %>
         (function() {
-            let mensaje = <%= mensaje %>;
-            let tipoMensaje = <%= mensaje %>;
+            let mensaje = "<%= mensaje %>";
+            let tipoMensaje = "<%= tipoMensaje %>";
+            console.log(mensaje);
+            console.log(tipoMensaje);
     		if (tipoMensaje === "success") {
     			toastr.success(mensaje);
     		} else if (tipoMensaje === "error") {
@@ -457,6 +457,6 @@ String mensajeArchivado = request.getParameter("archivado");
     		}
 	    })();
     <% } %>
-    </script>
+  </script>
 </body>
 </html>
