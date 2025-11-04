@@ -228,21 +228,21 @@ public class ManejadorPersistencia {
 	}
 
 	/**
-	 * Devuelve true si existe en el archivo una edición con nombre = `nombreEdicion`.<p>
-	 * Devuelve false en caso contrario.
+	 * Busca en el archivo una edición con nombre = `nombreEdicion`. Si existe la devuelve<p>
+	 * Devuelve null en caso contrario.
 	 * 
 	 * @param manejadorEntidades
 	 * @param nombreEdicion
 	 * @return true o false según si existe o no la edición en el archivo
 	 */
-	private boolean existeEdicionEnArchivo(EntityManager manejadorEntidades, String nombreEdicion) {
+	public EdicionArchivada getEdicionEnArchivo(EntityManager manejadorEntidades, String nombreEdicion) {
 		TypedQuery<EdicionArchivada> queryEdicion = manejadorEntidades.createQuery("SELECT e FROM EdicionArchivada e WHERE e.nombre = :nombre", EdicionArchivada.class);
 		queryEdicion.setParameter("nombre", nombreEdicion);
 		List<EdicionArchivada> listaEdiciones = queryEdicion.getResultList();
 		
-		if (listaEdiciones.isEmpty()) return false;
+		if (listaEdiciones.isEmpty()) return listaEdiciones.get(0);
 		
-		return true;
+		return null;
 	}
 	
 	/**
@@ -273,7 +273,7 @@ public class ManejadorPersistencia {
 			}
 
 			// chequeo si la edición ya está archivada
-			if (existeEdicionEnArchivo(manejadorEntidades, nombreEdicion)) {
+			if (getEdicionEnArchivo(manejadorEntidades, nombreEdicion) == null) {
 				transaccion.rollback();
 				throw new EdicionYaArchivada("La edición seleccionada ya está archivada.");
 			}

@@ -369,7 +369,7 @@ public class CargaDatos {
 	}
 
 	public void cargarEdiciones() {
-		if (this.eventos != null && this.ediciones!= null) {
+		if (this.eventos != null && this.ediciones != null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.ediciones.keySet()) {
 				CSVEdicion datosEdicion = ediciones.get(ref);

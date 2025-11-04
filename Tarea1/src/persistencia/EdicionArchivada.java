@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import datatypes.DTEdicionEvento;
+import datatypes.EEstadoEdicion;
 import jakarta.persistence.*;
 
 @Entity
@@ -131,5 +133,20 @@ public class EdicionArchivada {
  	}
  	public void setRegistros(List<RegistroArchivado> registros) {
  		this.registros = registros;
+ 	}
+ 	
+ 	// métodos
+ 	
+ 	/**
+ 	 * Crea un `DTEdicionEvento` con los datos asociados a la edición.<p>
+ 	 * El `DTEdicionEvento` se crea con la edición en `Archivada`.
+ 	 * 
+ 	 * @return los datos de la edición
+ 	 */
+ 	public DTEdicionEvento getDatosEdicion() {
+ 		OrganizadorArchivado organizador = this.organizador;
+ 		UsuarioArchivado usuario = organizador.getUsuario();
+ 		String nicknameOrganizador = usuario.getNickname();
+ 		return new DTEdicionEvento(this.getNombre(), this.getSigla(), this.getFechaInicio(), this.getFechaFin(), this.getFechaCreacion(), this.getCiudad(), this.getPais(), nicknameOrganizador, null, EEstadoEdicion.Archivada, null);
  	}
 }

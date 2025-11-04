@@ -3,6 +3,7 @@ package persistencia;
 import java.util.Date;
 import java.util.Objects;
 
+import datatypes.DTDetalleRegistro;
 import jakarta.persistence.*;
 
 @Entity
@@ -98,5 +99,19 @@ public class RegistroArchivado {
 
 	public void setCosto(float costo) {
 		this.costo = costo;
+	}
+	
+	// métodos
+	
+	/**
+	 * Crea un `DTDetalleRegistro` con los datos asociados al registro.<p>
+	 * 
+	 * @return los datos del registro
+	 */
+	public DTDetalleRegistro getDatosRegistro() {
+		String nombreEdicion = this.getEdicion().getNombre();
+		String nombreAsistente = this.getAsistente().getUsuario().getNombre();
+		boolean asistio = false; // valor por defecto, se pierde la asistencia al archivar (por letra)
+		return new DTDetalleRegistro(nombreEdicion, nombreAsistente, this.getNombreTipoRegistro(), this.getFechaRegistro(), this.getCosto(), this.getCodigoPatrocinio(), asistio);
 	}
 }
