@@ -2,14 +2,8 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.models.TipoUsuario;
 import com.eventosuy.servidor.DTDetallePatrocinio;
