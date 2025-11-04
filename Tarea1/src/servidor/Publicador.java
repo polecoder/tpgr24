@@ -21,6 +21,7 @@ import datatypes.DTRegistro;
 import datatypes.DTTipoRegistro;
 import datatypes.DTUsuario;
 import datatypes.EEstadoEdicion;
+import datatypes.EEstadoEvento;
 import datatypes.ENivelPatrocinio;
 import excepciones.AporteInsuficiente;
 import excepciones.ContrasenaIncorrecta;
@@ -95,7 +96,7 @@ public class Publicador {
 	@WebMethod
 	public String[] nombresCategorias(String nombre){
 		Set<String> res = controladorEventos.nombresCategorias(nombre);
-		return (String[]) res.toArray();
+		return (String[]) res.toArray(new String[0]);
 	}
 	@WebMethod
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
@@ -125,10 +126,15 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashMap<String, DTEdicionEvento> listarEdicionesEvento(String nombreEvento) {
+	public DTEdicionEvento[] listarEdicionesEvento(String nombreEvento) {
 		Map<String, DTEdicionEvento> res = controladorEventos.listarEdicionesEvento(nombreEvento);
-	    return new HashMap<String, DTEdicionEvento> (res);
+		ArrayList<DTEdicionEvento> list = new ArrayList<>();
+		for (Map.Entry<String, DTEdicionEvento> evento : res.entrySet()) {
+			list.add(evento.getValue());
+		}
+		return (DTEdicionEvento[]) list.toArray(new DTEdicionEvento[0]);
 	}
+
 
 	@WebMethod
 	public DTDetalleRegistro[] listarDTRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
@@ -311,5 +317,17 @@ public class Publicador {
 	public String[] nombresInstituciones() {
 		Set<String> res = controladorInstitucion.nombresInstituciones();
 	    return res.toArray(new String[0]);
+	}
+	@WebMethod
+	public void finalizarEvento(String nombre) throws EventoNoExiste, EventoFinalizado {
+			controladorEventos.finalizarEvento(nombre);
+	}
+	
+	public void altaEvento(String nombre, String descripcion, String sigla, String[] catSel, byte[] imagen, EEstadoEvento enCurso) { 
+		java.util.List<String> categorias = new java.util.ArrayList<>();
+		if (catSel != null) {
+			categorias = java.util.Arrays.asList(catSel);
+		}
+		controladorEventos.altaEvento(nombre, descripcion, new Date(), sigla, categorias, imagen, enCurso);
 	}
 }

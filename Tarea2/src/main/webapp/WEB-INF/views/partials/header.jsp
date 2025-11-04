@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="datatypes.*, com.eventosuy.models.*" %>
+<%@page import="com.eventosuy.servidor.*, com.eventosuy.models.*" %>
 <%
 	DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
 	TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
