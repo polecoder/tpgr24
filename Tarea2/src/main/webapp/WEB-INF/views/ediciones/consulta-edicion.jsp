@@ -380,7 +380,8 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
           >Alta tipo registro</a> <a
             href="<%= cp %>/Ediciones?accion=ArchivarEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
             class="btn btn-primary btn-sm px-3"
-          >Archivar Edición</a>
+            onclick="return confirm('¿Seguro que querés archivar esta edición?');"
+          >Archivar edición</a>
         </div>
         <%-- si el usuario es asistente --%>
         <%
