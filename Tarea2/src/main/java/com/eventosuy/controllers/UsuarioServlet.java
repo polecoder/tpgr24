@@ -392,7 +392,7 @@ public class UsuarioServlet extends HttpServlet {
 						if (!isBlank(evento))  request.setAttribute("ediciones", puerto.nombresEdicionesEvento(evento));
 						if (!isBlank(idEdicion) && !isBlank(evento)) {
 							request.setAttribute("edicion", puerto.getDTEdicion(evento, idEdicion));
-							request.setAttribute("tipos",   puerto.getNombresTipoRegistro(evento, idEdicion));
+							request.setAttribute("tipos",   puerto.listarTipoRegistro(evento, idEdicion));
 						}
 					} catch (Exception ignore) {}
 					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
@@ -409,7 +409,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("edicionSel",  request.getParameter("idEdicion"));
 					request.setAttribute("tipoSel",     request.getParameter("idTipoRegistro"));
 					request.setAttribute("edicion", puerto.getDTEdicion(evento, idEdicion));
-					request.setAttribute("tipos",   puerto.getNombresTipoRegistro(evento, idEdicion));
+					request.setAttribute("tipos",   puerto.listarTipoRegistro(evento, idEdicion));
 					request.getRequestDispatcher("/WEB-INF/views/ediciones/registro-edicion.jsp").forward(request, response);
 					return;
 				}
@@ -426,7 +426,7 @@ public class UsuarioServlet extends HttpServlet {
 						request.setAttribute("eventoSel",  evento);
 						request.setAttribute("edicionSel", edicion);
 						request.setAttribute("edicion",    puerto.getDTEdicion(evento, edicion));          
-						request.setAttribute("tipos",      puerto.getNombresTipoRegistro(evento, edicion)); 
+						request.setAttribute("tipos",      puerto.listarTipoRegistro(evento, edicion)); 
 					} else if (!isBlank(evento)) {
 						//listo ediciones del evento
 						request.setAttribute("eventoSel", evento);
