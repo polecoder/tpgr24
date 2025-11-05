@@ -2,6 +2,7 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -289,7 +290,7 @@ public class Ediciones extends HttpServlet {
 		
 		// el archivo fue éxitoso
 		request.setAttribute("archivado", "La edición se archivó correctamente.");
-		response.sendRedirect(request.getContextPath() + "/Ediciones?accion=ConsultaEdicion&nombre_evento=" + nombreEvento + "&nombre_edicion=" + nombreEdicion);
+		response.sendRedirect(request.getContextPath() + "/Ediciones?accion=ConsultaEdicion&nombre_evento=" + URLEncoder.encode(nombreEvento, "UTF-8") + "&nombre_edicion=" + URLEncoder.encode(nombreEdicion, "UTF-8"));
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

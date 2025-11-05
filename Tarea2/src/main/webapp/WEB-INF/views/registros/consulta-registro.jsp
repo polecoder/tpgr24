@@ -68,6 +68,9 @@
                           nomEd   = String.valueOf(mEd.invoke(r));
                           nomTipo = String.valueOf(mTr.invoke(r));
                         } catch (Exception ignore) {}
+                        
+                        // si la edición no existe, no muestro el registro (probablemente porque esté archivada)
+                        if (!nomEd.equals("(sin edición)")) {
                   %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                           <span>
@@ -80,6 +83,7 @@
                              href="<%= ctx %>/usuario?accion=consulta-registro&idx=<%= i %>">Ver detalle</a>
                         </li>
                   <%
+                        }
                       }
                     }
                   %>

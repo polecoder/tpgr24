@@ -132,9 +132,14 @@
         <label class="col-sm-4 col-form-label text-end">Registros:</label>
         <div class="col-sm-8 d-flex flex-column gap-2">
           <% for (int i=0; i < regs.size(); i++) {
-               DTRegistro registro = regs.get(i); %>
-          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
-          <% } %>
+               DTRegistro registro = regs.get(i); 
+               // si la edición tiene un nombre inválido (probablemente por estar archivada, no muestro el registro)
+               if (registro.nombreEdicion() != "(sin edición)") { %>
+                 <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
+          <%
+               }
+             } 
+          %>
         </div>
       </div>
       <% } %>
