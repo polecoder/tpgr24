@@ -435,12 +435,12 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	}
 	
 	@Override
-	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste{
 		manejadorUsuarios.seguir(nicknameSeguidor, nicknameSeguido);
 	}
 	
 	@Override
-	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste{
 		manejadorUsuarios.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);
 	}
 }

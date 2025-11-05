@@ -97,7 +97,7 @@ public interface IControladorUsuarios {
 	 * @param nicknameSeguido nickname del usuario que será seguido
 	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
 	 */
-	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws Exception;
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste;
 	/**
 	 * Libera una relación de seguimiento entre dos usuarios.
 	 * El seguidor dejara a seguir al usuario seguido.
@@ -106,5 +106,5 @@ public interface IControladorUsuarios {
 	 * @param nicknameSeguido nickname del usuario que ya no será seguido
 	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
 	 */
-	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws Exception;
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste;
 }
