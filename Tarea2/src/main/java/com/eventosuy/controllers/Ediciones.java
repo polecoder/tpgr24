@@ -289,7 +289,7 @@ public class Ediciones extends HttpServlet {
 		
 		// el archivo fue éxitoso
 		request.setAttribute("archivado", "La edición se archivó correctamente.");
-		request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/Ediciones?accion=ConsultaEdicion&nombre_evento=" + nombreEvento + "&nombre_edicion=" + nombreEdicion);
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
