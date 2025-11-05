@@ -449,7 +449,7 @@ public class UsuarioServlet extends HttpServlet {
 							Integer matchIdx = null;
 							for (int i = 0; i < regsUsr.size(); i++) {
 								DTRegistro r = regsUsr.get(i);
-								if (edicion.equals(r.nombreEdicion())) {
+								if (edicion.equals(r.nombreEdicion()))  {
 									matchIdx = i;
 									break;
 								}

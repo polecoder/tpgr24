@@ -343,7 +343,7 @@ public class CargaDatos {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(evento.getImagen());
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO);
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO, 0);
 			}
 		}
 	}
@@ -541,7 +541,7 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto());
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto(),edicion);
 				}
 			}
 		}

@@ -42,7 +42,7 @@ class testConsultaRegistro {
 		   ManejadorEventos manejador = ManejadorEventos.getInstancia(); 
 		   
 		//creo evento
-		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null);
+		Evento evento = new Evento("ExpoTech", "Feria de tecnología", "EXP", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null, 0);
 		manejador.agregarEvento(evento);
 		
 		//creo edicion
@@ -62,7 +62,7 @@ class testConsultaRegistro {
 		Asistente ana = new Asistente("ana", "Eventos.2025!", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()), null);
 		
 		//creo Registro
-		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null);
+		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null,ed1);
 		ana.getRegistros().add(reg1);
 		
 		DTEvento dtEv = controlador.getDTEvento("ExpoTech"); // ¡Evento, no "Expo"!
@@ -101,7 +101,7 @@ class testConsultaRegistro {
 	    manejadorusuarios.getConjuntoAsistentes().put(ana.getNickname(), ana);
 
 	    // --- Evento + Edición ---
-	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null);
+	    Evento evento = new Evento("ExpoTech", "EXP", "Feria de tecnología", Utilidades.toDate(LocalDate.of(2023, 5, 10)), null, null, 0);
 	    manejadoreventos.agregarEvento(evento);
 
 	    Edicion edicion = new Edicion("Expo", "EXP",
@@ -119,8 +119,8 @@ class testConsultaRegistro {
 	    // --- Patrocinio + Registros del usuario ---
 	    
 	    Patrocinio pat = new Patrocinio("Patro", Utilidades.toDate(LocalDate.now()), 0, null, 0, null, null);
-	    Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat);
-	    Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat);
+	    Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat,edicion);
+	    Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat,edicion);
 	    
 	    gen.addRegistro(registro1);
 	    vip.addRegistro(registro2);
@@ -211,7 +211,7 @@ class testConsultaRegistro {
         manejadorusuarios.getConjuntoAsistentes().put(carlos.getNickname(), carlos);
 
         // Evento + edición
-        Evento evento = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null, null);
+        Evento evento = new Evento("DevConf", "DC", "Conferencia Dev", Utilidades.toDate(LocalDate.now()), null, null, 0);
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DevConf 2026", "DC26",
                 Utilidades.toDate(LocalDate.of(2026, 4, 10)), Utilidades.toDate(LocalDate.of(2026, 4, 12)),
@@ -227,9 +227,9 @@ class testConsultaRegistro {
         
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
         Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null, null);
-        Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat);
-        Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat);
-        Registro registro3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat);
+        Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat,edicion);
+        Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat,edicion);
+        Registro registro3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat,edicion);
         gen.addRegistro(registro1);
         vip.addRegistro(registro2);
         gen.addRegistro(registro3);
@@ -271,7 +271,7 @@ class testConsultaRegistro {
         manejadorusuarios.getConjuntoAsistentes().put(asistente.getNickname(), asistente);
 
         // Contexto mínimo
-        Evento evento = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null, null);
+        Evento evento = new Evento("DataDay", "DD", "Data Day", Utilidades.toDate(LocalDate.now()), null, null, 0);
         manejadoreventos.agregarEvento(evento);
         Edicion edicion = new Edicion("DataDay 2025", "DD25",
                 Utilidades.toDate(LocalDate.of(2025, 6, 1)), Utilidades.toDate(LocalDate.of(2025, 6, 2)),
@@ -285,7 +285,7 @@ class testConsultaRegistro {
          Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null, null); 
 
         // Un solo registro
-        Registro registro = new Registro(Utilidades.toDate(LocalDate.now()), 800f, asistente, pat);
+        Registro registro = new Registro(Utilidades.toDate(LocalDate.now()), 800f, asistente, pat,edicion);
         asistente.getRegistros().add(registro);
         // Índices inválidos
         assertNull(controladorusuarios.obtenerDetalleRegistro(NICK, -1));

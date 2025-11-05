@@ -140,6 +140,23 @@ public class ManejadorEventos {
 
 		return dtEvento;
 	}
+	
+	/*public DTEvento consultarEvento(String nombre) {
+	    Evento e = eventos.get(nombre);
+	    if (e == null) return null;
+	    e.registrarVisita();  
+	    return getDTEvento(nombre); 
+	}*/
+	
+	//para probar q funciona mientras no esten conectados, desp hacerlo un void de nuevo
+	public int registrarVisitaEvento(String nombre) {
+	    Evento e = eventos.get(nombre);
+	    if (e != null) {
+	        e.registrarVisita();
+	        return e.getVisitas();//sacar
+	    }
+	    return e.getVisitas();//sacar
+	}
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
 		Evento evento = eventos.get(eventoSeleccionado);
@@ -305,10 +322,9 @@ public class ManejadorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias,
-			byte[] imagen, EEstadoEvento estado) {
+	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado, int visitas) {
 		if (!existeEvento(nombre)) {
-			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen, estado);
+			Evento evento = new Evento(nombre, descripcion, sigla, fechaAlta, imagen, estado, visitas);
 			this.eventos.put(nombre, evento);
 
 			for (String nombreCategoria : categorias) {
@@ -347,10 +363,8 @@ public class ManejadorEventos {
 			throw tr;
 		}
 	}
-
-	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha,
-			float costo) {
-		Registro registro = new Registro(fecha, costo, asistente, patrocinio);
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed);
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
@@ -475,3 +489,4 @@ public class ManejadorEventos {
 		return setRegistros;
 	}
 }
+

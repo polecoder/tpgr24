@@ -35,6 +35,7 @@ import datatypes.DTDetallePatrocinio;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
+import datatypes.DTEventoVisitas;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEdicion;
 import datatypes.EEstadoEvento;
@@ -134,10 +135,9 @@ public class ControladorEventos implements IControladorEventos {
 	 * @param sigla
 	 * @param categorias
 	 */
-	public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias,
-			byte[] imagen, EEstadoEvento estado) {
-		this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen, estado);
-	}
+    public void altaEvento(String nombre, String descripcion, Date fechaAlta, String sigla, List<String> categorias, byte[] imagen, EEstadoEvento estado, int visitas) {
+    	this.manejadorEventos.altaEvento(nombre, descripcion, fechaAlta, sigla, categorias, imagen, estado, visitas);
+    } 
 
 	/**
 	 * Retorna true en caso de que exista un evento e en el sistema tal que e.nombre
@@ -341,48 +341,34 @@ public class ControladorEventos implements IControladorEventos {
 		return this.manejadorEventos.getCategorias();
 	}
 
-	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion,
-			String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste,
-			FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion {
-		Evento evento = manejadorEventos.getEvento(nombreEvento);
-		if (evento == null) {
-			throw new EventoNoExiste("El evento no existe");
-		}
-
-		Edicion edicion = evento.getEdicion(nombreEdicion);
-		if (edicion == null) {
-			throw new EdicionNoExiste("La edición no existe");
-		}
-
-		if (edicion.yaAsiste(nicknameAsistente)) {
-			throw new YaAsisteAEdicion("Ya está registrado a esta edición.");
-		}
-		if (edicion.getFechaFin().before(new Date())) {
-			throw new FechaFinEsPasada("La edición ya terminó, no puedes registrarte.");
-		}
-
-		Asistente asistente = manejadorUsuarios.getAsistente(nicknameAsistente);
-		if (asistente == null) {
-			throw new UsuarioNoExiste("El asistente no existe");
-		}
-
-		TipoRegistro tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro); // Si no existe hace el throw
-
-		float costo = tipoRegistro.getCosto();
-
-		Patrocinio patrocinio = null;
-		if (codigoPatrocinio != null && !codigoPatrocinio.isBlank()) {
-			boolean patrocinioValido = edicion.patrocinioValido(codigoPatrocinio, nicknameAsistente,
-					nombreTipoRegistro);
-			if (patrocinioValido) {
-				patrocinio = edicion.getPatrocinio(codigoPatrocinio);
-				patrocinio.usarCupo();
-				costo = 0f;
+		public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion{
+			Evento evento = manejadorEventos.getEvento(nombreEvento);
+			if (evento == null) { throw new EventoNoExiste("El evento no existe"); }
+			
+			Edicion edicion = evento.getEdicion(nombreEdicion);
+			if (edicion == null) { throw new EdicionNoExiste("La edición no existe"); }
+			
+			if (edicion.yaAsiste(nicknameAsistente)) { throw new YaAsisteAEdicion("Ya está registrado a esta edición."); }
+			if (edicion.getFechaFin().before(new Date())) { throw new FechaFinEsPasada("La edición ya terminó, no puedes registrarte."); }
+			
+			Asistente asistente = manejadorUsuarios.getAsistente(nicknameAsistente);
+			if (asistente == null) { throw new UsuarioNoExiste("El asistente no existe"); }
+			
+			TipoRegistro tipoRegistro = edicion.getTipoRegistro(nombreTipoRegistro); // Si no existe hace el throw
+			
+			float costo = tipoRegistro.getCosto();
+			
+			Patrocinio patrocinio = null;
+			if (codigoPatrocinio != null && !codigoPatrocinio.isBlank()) {
+				boolean patrocinioValido = edicion.patrocinioValido(codigoPatrocinio, nicknameAsistente, nombreTipoRegistro);
+				if (patrocinioValido) {
+					patrocinio = edicion.getPatrocinio(codigoPatrocinio);
+					patrocinio.usarCupo();
+					costo = 0f;
+				}
 			}
+			this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, new Date(), costo,edicion);
 		}
-		this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, new Date(), costo);
-	}
-
 	public Set<String> listarRegistrosAEdicion(String nombreEvento, String nombreEdicion) {
 		return manejadorEventos.listarRegistrosAEdicion(nombreEvento, nombreEdicion);
 	}
@@ -497,9 +483,60 @@ public class ControladorEventos implements IControladorEventos {
 		return listarEventosPorEstado(EEstadoEvento.EN_CURSO);
 	}
 
-	public Set<DTEvento> listarEventosFinalizados() {
-		return listarEventosPorEstado(EEstadoEvento.FINALIZADO);
-	}
+public Set<DTEvento> listarEventosFinalizados() {
+    return listarEventosPorEstado(EEstadoEvento.FINALIZADO);
+}
+
+public List<DTEventoVisitas> obtenerEventosMasVisitados(int limite) {
+	limite = 5;
+	
+	List<DTEventoVisitas> resultado = new ArrayList<>();
+
+    Map<String, Evento> mapaEventos = manejadorEventos.getEventos();
+    List<Evento> listaEventos = new ArrayList<>();
+
+    for (String nombre : mapaEventos.keySet()) {
+        listaEventos.add(mapaEventos.get(nombre));
+    }
+
+    // ordenar
+    for (int i = 0; i < listaEventos.size() - 1; i++) {
+        for (int j = 0; j < listaEventos.size() - i - 1; j++) {
+            Evento e1 = listaEventos.get(j);
+            Evento e2 = listaEventos.get(j + 1);
+
+            if (e1.getVisitas() < e2.getVisitas()) {
+                listaEventos.set(j, e2);
+                listaEventos.set(j + 1, e1);
+            } else if (e1.getVisitas() == e2.getVisitas()) {
+                // si empatan en visitas, ordeno por nombre alfabéticamente
+                if (e1.getNombre().compareToIgnoreCase(e2.getNombre()) > 0) {
+                    listaEventos.set(j, e2);
+                    listaEventos.set(j + 1, e1);
+                }
+            }
+        }
+    }
+
+    // tomo los primeros 5, lo podemos cambiar por otro numero
+    int contador = 0;
+    for (Evento e : listaEventos) {
+        if (contador >= limite) {
+            break;
+        }
+        resultado.add(new DTEventoVisitas(e.getNombre(), e.getVisitas()));
+        contador++;
+    }
+
+    return resultado;
+}
+/*public DTEvento consultarEvento(String nombre) {
+	return manejadorEventos.consultarEvento(nombre);
+}*/
+
+public int registrarVisitaEvento(String nombre) {
+	return manejadorEventos.registrarVisitaEvento(nombre);
+}
 	
 	@Override
 	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada {

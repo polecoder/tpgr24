@@ -2,8 +2,9 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 
 import carga.CargaDatos;
 import datatypes.DTDetalleUsuario;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet implementation class Home
@@ -71,9 +73,11 @@ public class Home extends HttpServlet {
 		Fabrica f = Fabrica.getInstancia();
 		
 		List<DTEvento> eventosEnCurso = new ArrayList<>(f.getControladorEvento().listarEventosEnCurso());
+		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
 		List<DTEvento> eventosFinalizados = new ArrayList<>(f.getControladorEvento().listarEventosFinalizados());
+		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
 		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();

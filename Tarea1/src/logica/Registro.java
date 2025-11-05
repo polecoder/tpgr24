@@ -9,6 +9,7 @@ public class Registro {
 	private float costo;
 	private Asistente asistente;
 	private Patrocinio patrocinio;
+	private Edicion edicion;
 	private boolean asistio;
 	
 	/**
@@ -18,12 +19,14 @@ public class Registro {
 	 * @param costo
 	 * @param asistente
 	 * @param patrocinio
+	 * @param edicion
 	 */
-	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio) {
+	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
 		this.setPatrocinio(patrocinio);
 		this.setAsistente(asistente);
+		this.setEdicion(edicion);
 		this.setAsistio(false);
 	}
 	
@@ -75,5 +78,14 @@ public class Registro {
 	
 	public boolean validar(String nicknameAsistente) {
 		return nicknameAsistente == asistente.getNickname();
+	}
+
+		
+	public Edicion getEdicion() {
+		return edicion;
+	}
+	
+	public void setEdicion(Edicion edicion) {
+		this.edicion = edicion;
 	}
 }

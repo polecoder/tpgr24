@@ -84,7 +84,7 @@ class TestConsultaUsuario {
     		fabrica.getControladorEvento().altaCategoria("Categoria1");
     		List<String> categorias = new ArrayList<>();
     		categorias.add("Categoria1");
-    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null);
+    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null, 0);
     		fabrica.getControladorEvento().altaEdicionEvento("Nombre1", "Edicion1", "SIG1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "lauraorganiza", null, null);
     	});
     	
@@ -107,7 +107,7 @@ class TestConsultaUsuario {
     		fabrica.getControladorEvento().altaCategoria("Categoria1");
     		List<String> categorias = new ArrayList<>();
     		categorias.add("Categoria1");
-    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null);
+    		fabrica.getControladorEvento().altaEvento("Nombre1", "Descripcion1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), "SIG1", categorias, null, null, 0);
     		fabrica.getControladorEvento().altaEdicionEvento("Nombre1", "Edicion1", "SIG1", Utilidades.toDate(LocalDate.of(2025, 8, 31)), Utilidades.toDate(LocalDate.of(2025, 9, 30)), Utilidades.toDate(LocalDate.of(2025, 8, 31)), "Montevideo", "Uruguay", "lauraorganiza", null, null);
     	});
     	

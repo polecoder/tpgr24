@@ -1,11 +1,8 @@
 package com.eventosuy.mobile.controllers;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,29 +33,29 @@ public class Eventos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            Consulta(request, response);
-    }
+    	 String accion = request.getParameter("accion");
+         if (accion == null) {
+             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada.");
+             return;
+         }
 
-    // --- POST ---
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+         switch (accion) {
+             case "consulta":
+                 Consulta(request, response);
+                 break;
+             case "presentacion":
+            	 List<DTEvento> eventosEnCurso = new ArrayList<>(IContEv.listarEventosEnCurso());
+         		 request.setAttribute("eventosEnCurso", eventosEnCurso);
+             
+             	 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/presentacion-eventos.jsp");
+                  dispatcher.forward(request, response);
+                 break;
+             default:
+                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + accion);
+         }
+     }
 
-        // Leer acción desde getParameter() ya que MultipartConfig permite mezclarlo
-        String accion = request.getParameter("accion");
-        if (accion == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada.");
-            return;
-        }
-
-        switch (accion) {
-            case "consulta":
-                Consulta(request, response);
-                break;
-            default:
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + accion);
-        }
-    }
+      
 
     // --- Consulta de evento ---
     private void Consulta(HttpServletRequest request, HttpServletResponse response)

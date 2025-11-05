@@ -70,7 +70,7 @@
               
               <div class="card shadow-sm p-4">
                 <h4 class="fw-bold text-primary mb-3">Organizador:</h4>
-                <div class="d-flex align-items-center gap-3 justify-content-center mb-4">
+                <div class="d-flex align-items-center gap-3 justify-content-center mb-5">
                   <div class="text-center">
                     <% if (imagenOrganizador !=null) { %>
                       <% byte[] imagenOrgBytes=imagenOrganizador; %>
@@ -140,7 +140,7 @@
                 <% if (!setTiposRegistro.isEmpty()) { %>
                   <div class="d-flex flex-wrap justify-content-center gap-3">
                     <% for (String tipoRegistro : setTiposRegistro) { %>
-                      <a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=tipoRegistro%>"
+                      <div
                         class="card text-center shadow-sm border-primary text-decoration-none"
                         style="width: 10rem;">
                         <div class="card-body">
@@ -148,7 +148,7 @@
                             <%=tipoRegistro%>
                           </h6>
                         </div>
-                      </a>
+                      </div>
                       <% } %>
                   </div>
               </div>
@@ -170,10 +170,10 @@
                       <% for (String patrocinador : setPatrocinios) { %>
                         <tr>
                           <td>
-                            <a href="${pageContext.request.contextPath}/Institucion?action=consultaPatrocinio&nombreEvento=<%=nombreEvento%>&nombreEdicion=<%=nombreEdicion%>&nombre_patrocinador=<%=patrocinador%>"
-                              class="link-primary link-underline">
+                          <div
+                            class="link-primary link-underline">
                               <%=patrocinador%>
-                            </a>
+                            </div>
                           </td>
                         </tr>
                         <% } %>
@@ -222,15 +222,9 @@
                           </tbody>
                         </table>
                       </div>
-                      <% } %>
+                      <% } }%>
 
-                       <% boolean finalizado = (boolean) request.getAttribute("finalizada");%>
-                        <% if (!finalizado) { %>
-                          <div class="d-flex justify-content-center gap-3">
-                            <a href="${pageContext.request.contextPath}/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-                              class="btn btn-primary btn-sm px-3">Registrarse a edición</a>
-                          </div>
-                          <% } }%>
+                      
         </form>
       </main>
     </div>

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import datatypes.DTDetalleUsuario;
+import datatypes.ETipoUsuario;
+
 public class Asistente extends Usuario {
 	
 	
@@ -11,7 +14,6 @@ public class Asistente extends Usuario {
 	private Date nacimiento;
 	private List<Registro> registros;
 	private Institucion institucion;
-	private byte[] imagen;
 	
 	public Asistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, Institucion institucion) {
 		super(nickname, contrasena, nombre, correo);
@@ -19,7 +21,6 @@ public class Asistente extends Usuario {
 		this.setNacimiento(fechaNacimiento);
 		this.registros = new ArrayList<>();
 		this.setInstitucion(institucion);
-		this.setImagen(imagen);
 	}
 	
 	// Getters
@@ -27,15 +28,21 @@ public class Asistente extends Usuario {
 	public Date getNacimiento() {return nacimiento; }
 	public List<Registro> getRegistros() {return registros; }
 	public Institucion getInstitucion() {return institucion; }
-	public byte[] getImagen() { return imagen; }
 	// Setters
 	public void setApellido(String apellido) {this.apellido = apellido; }
 	public void setNacimiento(Date nacimiento) {this.nacimiento = nacimiento; }
 	public void setInstitucion(Institucion institucion) {this.institucion=institucion; }
-	public void setImagen(byte[] imagen) { this.imagen = imagen; }
 	// Metodos
 	public void addRegistro(Registro registro) {
 		this.registros.add(registro);
+	}
+	public DTDetalleUsuario toDataType() {
+		return new DTDetalleUsuario(
+				this.nickname,
+				this.nombre,
+				this.correo,
+				ETipoUsuario.Asistente,
+				this.imagen);
 	}
 }
 
