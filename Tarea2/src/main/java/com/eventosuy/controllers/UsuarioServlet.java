@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 //import java.util.GregorianCalendar;
 import java.util.List;
@@ -44,6 +45,7 @@ import jakarta.servlet.http.Part;
 //@MultipartConfig(maxFileSize = 5 * 1024 * 1024) // imagen opcional 
 public class UsuarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	// Servicios
 	private final static PublicadorService servicio = new PublicadorService();
 	private final static Publicador puerto = servicio.getPublicadorPort();
@@ -160,8 +162,16 @@ public class UsuarioServlet extends HttpServlet {
 					// ver detalle de uno
 
 					DTDetalleUsuario u;
-					try {
-						u = puerto.mostrarDetalleUsuario(nick); 
+					 try {
+			                // --- Llamada al WS ---
+			                Object detalle = puerto.mostrarDetalleUsuario(nick);
+
+			                // --- Unwrap si vino envuelto en JAXBElement ---
+			                if (detalle instanceof jakarta.xml.bind.JAXBElement<?>) {
+			                    detalle = ((jakarta.xml.bind.JAXBElement<?>) detalle).getValue();
+			                }
+
+			                u = (DTDetalleUsuario) detalle;
 					} catch (Exception e) {
 						// si no exiiste el usuario
 						response.sendError(404);
@@ -182,74 +192,46 @@ public class UsuarioServlet extends HttpServlet {
 					
 					boolean esPropio = usuarioLogeado != null && usuarioLogeado.getNickname().equals(u.getNickname());
 					
-					if (u instanceof DTDetalleOrganizador) {
-
-					    java.util.List<String> aceptadas = java.util.Collections.emptyList();
-					    {
-					        Object edicionesPorEstado = puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.ACEPTADA);
-					        if (edicionesPorEstado instanceof java.util.List) {
-					            aceptadas = (java.util.List<String>) edicionesPorEstado;
-					        } else if (edicionesPorEstado != null) {
-					            try {
-					                java.lang.reflect.Method m = edicionesPorEstado.getClass().getMethod("getItem");
-					                Object v = m.invoke(edicionesPorEstado);
-					                if (v instanceof java.util.List) {
-					                    aceptadas = (java.util.List<String>) v;
-					                }
-					            } catch (Exception ignore) { /* queda vacío */ }
-					        }
-					    }
-					    if (aceptadas == null) {
-					        aceptadas = java.util.Collections.emptyList();
-					    }
+					// ------ ORGANIZADOR ------
+					if (u instanceof com.eventosuy.servidor.DTDetalleOrganizador) {
+					    // ACEPTADAS
+					    com.eventosuy.servidor.StringArray respAceptadas = puerto.getEdicionesDeOrganizadorPorEstado(
+					            u.getNickname(), EEstadoEdicion.ACEPTADA);
+					    
+					    List<String> aceptadas = (respAceptadas != null && respAceptadas.getItem() != null) 
+					        ? respAceptadas.getItem() 
+					        : Collections.emptyList();
+					    
+					    log("=== DEBUG ACEPTADAS ===");
+					    log("aceptadas size: " + aceptadas.size());
+					    log("aceptadas: " + aceptadas);
+					    
 					    request.setAttribute("edicionesAceptadas", aceptadas);
 
-					    java.util.List<String> ingresadas = java.util.Collections.emptyList();
-					    java.util.List<String> rechazadas  = java.util.Collections.emptyList();
+					    List<String> ingresadas = Collections.emptyList();
+					    List<String> rechazadas = Collections.emptyList();
 
 					    if (esPropio) {
-					        // INGRESADAS
-					        {
-					            Object res = puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.INGRESADA);
-					            if (res instanceof java.util.List) {
-					                ingresadas = (java.util.List<String>) res;
-					            } else if (res != null) {
-					                try {
-					                    java.lang.reflect.Method m = res.getClass().getMethod("getItem");
-					                    Object v = m.invoke(res);
-					                    if (v instanceof java.util.List) {
-					                        ingresadas = (java.util.List<String>) v;
-					                    }
-					                } catch (Exception ignore) {  }
-					            }
-					            if (ingresadas == null) {
-					                ingresadas = java.util.Collections.emptyList();
-					            }
-					        }
+					        com.eventosuy.servidor.StringArray respIng = puerto.getEdicionesDeOrganizadorPorEstado(
+					                u.getNickname(), EEstadoEdicion.INGRESADA);
+					        com.eventosuy.servidor.StringArray respRec = puerto.getEdicionesDeOrganizadorPorEstado(
+					                u.getNickname(), EEstadoEdicion.RECHAZADA);
 
-					        // RECHAZADAS
-					        {
-					            Object res = puerto.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.RECHAZADA);
-					            if (res instanceof java.util.List) {
-					                rechazadas = (java.util.List<String>) res;
-					            } else if (res != null) {
-					                try {
-					                    java.lang.reflect.Method m = res.getClass().getMethod("getItem");
-					                    Object v = m.invoke(res);
-					                    if (v instanceof java.util.List) {
-					                        rechazadas = (java.util.List<String>) v;
-					                    }
-					                } catch (Exception ignore) { /* queda vacío */ }
-					            }
-					            if (rechazadas == null) {
-					                rechazadas = java.util.Collections.emptyList();
-					            }
-					        }
+					        ingresadas = (respIng != null && respIng.getItem() != null) 
+					            ? respIng.getItem() 
+					            : Collections.emptyList();
+					        rechazadas = (respRec != null && respRec.getItem() != null) 
+					            ? respRec.getItem() 
+					            : Collections.emptyList();
+					        
+					        log("ingresadas size: " + ingresadas.size());
+					        log("rechazadas size: " + rechazadas.size());
 					    }
 
 					    request.setAttribute("misEdicionesIngresadas", ingresadas);
-					    request.setAttribute("misEdicionesRechazadas",  rechazadas);
+					    request.setAttribute("misEdicionesRechazadas", rechazadas);
 					}
+
 					// ------ ASISTENTE ------
 					if (u instanceof DTDetalleAsistente) {
 						String inst = puerto.getNombreInstitucionAsistente(u.getNickname());
@@ -278,11 +260,10 @@ public class UsuarioServlet extends HttpServlet {
 					
 		            request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
 		                   .forward(request, response);
-		            return; 
 		        }
 
 			} catch (Exception ex) {
-				response.sendError(500);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				request.setAttribute("error", safeMsg(ex, "No se pudo realizar la consulta."));
 				request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
 				.include(request, response);
@@ -549,6 +530,7 @@ public class UsuarioServlet extends HttpServlet {
 			request.getRequestDispatcher("/pages/error/404.jsp").include(request, response);
 		}
 	}
+
 
 
 	@Override protected void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { processRequest(req, resp); }

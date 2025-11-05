@@ -194,11 +194,28 @@
         Object edsAcepObj = request.getAttribute("edicionesAceptadas");
         Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
         Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
-        java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
-        java.util.Collection<?> misEdsIngCol = (misEdsIngObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsIngObj : java.util.Collections.emptyList();
-        java.util.Collection<?> misEdsRecCol = (misEdsRecObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsRecObj : java.util.Collections.emptyList();
+        
+        java.util.List<?> edsAcepCol, misEdsIngCol, misEdsRecCol;
+
+        java.util.function.Function<Object, java.util.List<?>> toList = (obj) -> {
+            if (obj == null) return java.util.Collections.emptyList();
+            if (obj instanceof java.util.Collection<?> c) return new java.util.ArrayList<>(c);
+            if (obj.getClass().isArray()) return java.util.Arrays.asList((Object[]) obj);
+            return java.util.Collections.singletonList(obj); // último recurso: 1 elemento
+        };
+
+        edsAcepCol   = toList.apply(edsAcepObj);
+        misEdsIngCol = toList.apply(misEdsIngObj);
+        misEdsRecCol = toList.apply(misEdsRecObj);
+
         boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
-      %>
+        %>
+        
+        <%-- DEBUG temporal
+<div class="text-muted" style="font-size:12px">
+  aceptadas=<%= edsAcepCol %>
+</div>
+--%>
 
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
@@ -207,18 +224,34 @@
           <div class="form-text">No hay ediciones para mostrar.</div>
           <% } else { %>
           <select class="form-select form-select-sm"
-                  onchange="if(this.value){location.href='<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion='+encodeURIComponent(this.value);}">
-            <option value="">-- seleccionar --</option>
-            <% for (Object s : edsAcepCol) { %>
-            <option value="<%=s%>"><%=s%> (ACEPTADA)</option>
-            <% } %>
-            <% for (Object s : misEdsIngCol) { %>
-            <option value="<%=s%>"><%=s%> (INGRESADA)</option>
-            <% } %>
-            <% for (Object s : misEdsRecCol) { %>
-            <option value="<%=s%>"><%=s%> (RECHAZADA)</option>
-            <% } %>
-          </select>
+        onchange="if(this.value){ window.location.href=this.value; }">
+  <option value="">-- seleccionar --</option>
+
+  <% for (Object s : edsAcepCol) {
+       String nombre = String.valueOf(s);
+       // Solo nombre_edicion, sin nombre_evento
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (ACEPTADA)</option>
+  <% } %>
+
+  <% for (Object s : misEdsIngCol) {
+       String nombre = String.valueOf(s);
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (INGRESADA)</option>
+  <% } %>
+
+  <% for (Object s : misEdsRecCol) {
+       String nombre = String.valueOf(s);
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (RECHAZADA)</option>
+  <% } %>
+</select>
           <% } %>
         </div>
       </div>

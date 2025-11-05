@@ -110,7 +110,7 @@ public class Publicador {
 		for (Map.Entry<String, DTEvento> entry : res.entrySet()) {
 			list.add(new DTEventoEntry(entry.getKey(), entry.getValue()));
 		}
-		return (DTEventoEntry[]) list.toArray();
+		return list.toArray(new DTEventoEntry[0]);
 	}
 	
 	@WebMethod
@@ -175,9 +175,9 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public ArrayList<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion estados) {
-		List<String> res = controladorEventos.getEdicionesDeOrganizadorPorEstado(organizadorNickname, estados);
-	    return new ArrayList<String> (res);
+	public String[] getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion estados) {
+	    List<String> res = controladorEventos.getEdicionesDeOrganizadorPorEstado(organizadorNickname, estados);
+	    return res.toArray(new String[0]);
 	}
 
 	@WebMethod
