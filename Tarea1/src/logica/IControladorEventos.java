@@ -138,7 +138,6 @@ public interface IControladorEventos {
 	        throws EventoNoExiste, EventoFinalizado;
 	Set<DTEvento> listarEventosPorEstado(EEstadoEvento estado);
     Set<DTEvento> listarEventosEnCurso();       
-    Set<DTEvento> listarEventosFinalizados(); 
     
     List<DTEventoVisitas> obtenerEventosMasVisitados(int limite);
     Set<DTEvento> listarEventosFinalizados();
