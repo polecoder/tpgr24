@@ -419,7 +419,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
 
         <!-- Video -->
         <%
-        if (videoURL != null) {
+        if (videoURL != null && !videoURL.isEmpty()) {
         %>
         <div class="card shadow-sm p-4 text-center d-flex justify-content-center align-items-center">
           <h5 class="fw-bold text-primary mb-3 text-center">Video promocional:</h5>
