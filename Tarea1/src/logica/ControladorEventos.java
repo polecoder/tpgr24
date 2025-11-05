@@ -277,8 +277,11 @@ public class ControladorEventos implements IControladorEventos {
 
 	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,
 			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL)
-			throws FormularioIncompletoEdicion, EventoFinalizado {
-
+			throws FormularioIncompletoEdicion, EventoFinalizado, EdicionYaArchivada {
+		// devuelvo error si ya existe una edición con este nombre en el archivo
+		if (manejadorPersistencia.getEdicionEnArchivo(nombre) != null) throw new EdicionYaArchivada("Ya existe una edición con este nombre en el archivo.");
+		
+		
 		if (manejadorEventos.getEvento(nombreEvento).isFinalizado())
 			throw new EventoFinalizado("No se pueden crear ediciones para un evento finalizado");
 
