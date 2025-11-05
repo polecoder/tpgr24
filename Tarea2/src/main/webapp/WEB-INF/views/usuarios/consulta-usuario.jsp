@@ -156,20 +156,37 @@
  
     </div>
     <% } %>
+    
+    <%
+  		com.eventosuy.servidor.DTDetalleOrganizador org = null;
+  			String descOrg = "";
+  			String linkOrg = "";
+
+  if (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador) {
+    org = (com.eventosuy.servidor.DTDetalleOrganizador) usuarioAttr;
+
+    if (org.getDescripcion() != null) {
+      descOrg = org.getDescripcion();
+    }
+    if (org.getLink() != null) {
+      linkOrg = org.getLink();
+    }
+  }
+%>
 
     <% if (esOrganizador) { %>
     <div id="organizadorFields">
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Descripción:</label>
         <div class="col-sm-8">
-          <textarea class="form-control form-control-sm" rows="2" readonly>${usuario.descripcion}</textarea>
+          <textarea class="form-control form-control-sm" rows="2" readonly><%= descOrg %></textarea>
         </div>
       </div>
 
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Link:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="${usuario.link}" />
+          <input type="text" class="form-control form-control-sm" readonly value="<%= linkOrg %>" />
         </div>
       </div>
 
