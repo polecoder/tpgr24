@@ -15,14 +15,14 @@ String videoURL = (String) request.getAttribute("videoURL");
 if (nombreEvento == null) {
 	nombreEvento = (String) request.getAttribute("nombre_evento");
 }
-// imagen
-byte[] imagenBytes = (byte[]) ((DTEdicionEvento) request.getAttribute("detalle_edicion")).getImagen();
-String base64Image = null;
-if (imagenBytes != null && imagenBytes.length > 0) {
-	base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
-}
 TipoUsuario tipoUsuarioLogeado = (TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
 DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion");
+//imagen
+byte[] imagenBytes = dtEdicion.getImagen();
+String base64Image = null;
+if (imagenBytes != null && imagenBytes.length > 0) {
+  base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+}
 Set<String> setPatrocinios = (Set<String>) request.getAttribute("lista_patrocinios");
 Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_registro");
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

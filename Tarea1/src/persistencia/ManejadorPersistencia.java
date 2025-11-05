@@ -54,9 +54,6 @@ public class ManejadorPersistencia {
 			propiedades.put("jakarta.persistence.jdbc.user", "SA");
 			propiedades.put("jakarta.persistence.jdbc.password", "");
 			propiedades.put("jakarta.persistence.jdbc.driver", "org.hsqldb.jdbcDriver");
-			// TODO: Eliminar las siguientes dos propiedades, sirven para logging
-			propiedades.put("eclipselink.logging.level", "FINE");
-			propiedades.put("eclipselink.logging.parameters", "true");
 
 			// creamos el EntityManagerFactory con la url correcta
 			this.fabricaManejadorEntidades = Persistence.createEntityManagerFactory("ArchivoDB", propiedades);
@@ -141,7 +138,7 @@ public class ManejadorPersistencia {
 			
 			// si el usuario existe en el archivo, no hacemos nada
 			DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
-			if (getUsuarioEnArchivo(manejadorEntidades, asistente.getNickname()) != null) return; 
+			if (getUsuarioEnArchivo(manejadorEntidades, nicknameAsistente) != null) return; 
 				
 			UsuarioArchivado datosUsuario = new UsuarioArchivado();
 			datosUsuario.setNickname(asistente.getNickname());
@@ -185,7 +182,7 @@ public class ManejadorPersistencia {
 
 			DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
 			// si el usuario existe en el archivo, no hacemos nada
-			if (getUsuarioEnArchivo(manejadorEntidades, organizador.getNickname()) != null) return; 
+			if (getUsuarioEnArchivo(manejadorEntidades, nicknameOrganizador) != null) return; 
 			
 			UsuarioArchivado datosUsuario = new UsuarioArchivado();
 			datosUsuario.setNickname(organizador.getNickname());
@@ -336,7 +333,7 @@ public class ManejadorPersistencia {
 	 * @param fechaArchivo
 	 * @throws EdicionYaArchivada si la edición seleccionada ya existe en el Archivo
 	 */
-	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo){
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) {
 		EntityManager manejadorEntidades = this.fabricaManejadorEntidades.createEntityManager();
 		EntityTransaction transaccion = manejadorEntidades.getTransaction();
 		try {
@@ -352,11 +349,11 @@ public class ManejadorPersistencia {
 			// archivo el organizador asociado a la edición y obtenemos el objeto en la DB
 			this.guardarOrganizadorEnArchivo(manejadorEntidades, datosEdicion.getOrganizadorNickname());
 
-			// devuelvo error si el organizador no existe en el archivo
+			// devuelvo error si el organizador no existe en el archivo, pues ya se debería haber persistido
 			UsuarioArchivado usuario = this.getUsuarioEnArchivo(manejadorEntidades, datosEdicion.getOrganizadorNickname());
 			if (usuario == null) throw new IllegalStateException("Organizador no persistido: " + datosEdicion.getOrganizadorNickname());
 			
-			// obtengo el organizador
+			// obtengo el organizador 
 			OrganizadorArchivado organizador = manejadorEntidades.find(OrganizadorArchivado.class, usuario.getId());
 
 			// creamos la edición
@@ -389,7 +386,8 @@ public class ManejadorPersistencia {
 			// linkear todos los registros con la edición (no es necesario persistir en la
 			// DB)
 			TypedQuery<RegistroArchivado> queryRegistros = manejadorEntidades
-					.createQuery("SELECT r FROM RegistroArchivado r", RegistroArchivado.class);
+					.createQuery("SELECT r FROM RegistroArchivado r WHERE r.id.idEdicion = :idEdicion", RegistroArchivado.class);
+			queryRegistros.setParameter("idEdicion", edicion.getId());
 			List<RegistroArchivado> registrosArchivados = queryRegistros.getResultList();
 			edicion.setRegistros(registrosArchivados);
 
@@ -397,6 +395,7 @@ public class ManejadorPersistencia {
 		} catch (Exception exception) {
 			if (manejadorEntidades.getTransaction().isActive())
 				manejadorEntidades.getTransaction().rollback();
+			exception.printStackTrace();
 		} finally {
 			manejadorEntidades.close();
 		}
