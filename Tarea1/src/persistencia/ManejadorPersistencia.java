@@ -104,9 +104,28 @@ public class ManejadorPersistencia {
 	}
 
 	/**
+	 * Devuelve el usuario de nickname `nicknameUsuario` en el archivo. Si no existe devuelve null
+	 * 
+	 * @param manejadorEntidades
+	 * @param nicknameUsuario
+	 * @return el usuario buscado
+	 */
+	private UsuarioArchivado getUsuarioEnArchivo(EntityManager manejadorEntidades, String nicknameUsuario) {
+		TypedQuery<UsuarioArchivado> queryUsuario = manejadorEntidades
+				.createQuery("SELECT u FROM UsuarioArchivado u WHERE u.nickname = :nickname", UsuarioArchivado.class);
+		queryUsuario.setParameter("nickname", nicknameUsuario);
+		List<UsuarioArchivado> listaUsuarios = queryUsuario.getResultList();
+		if (listaUsuarios.isEmpty()) return null;
+
+		UsuarioArchivado usuario = listaUsuarios.get(0);
+		return usuario;
+	}
+	
+	/**
 	 * PRE-CONDICIÓN: El asistente existe en el sistema.
 	 * <p>
-	 * Guarda el asistente con nickname `nicknameAsistente` en el archivo.
+	 * Guarda el asistente con nickname `nicknameAsistente` en el archivo.<p>
+	 * Si el usuario ya existe en el sistema, entonces no hace nada.
 	 * 
 	 * @param manejadorEntidades para registrar los movimientos
 	 * @param nicknameAsistente  el nickname del asistente para guardar en el
@@ -115,11 +134,15 @@ public class ManejadorPersistencia {
 	private void guardarAsistenteEnArchivo(EntityManager manejadorEntidades, String nicknameAsistente) {
 		DTDetalleUsuario usuario;
 		try {
+			
 			usuario = this.manejadorUsuarios.mostrarDetalleUsuario(nicknameAsistente);
 			if (usuario instanceof DTDetalleOrganizador)
 				return; // si el usuario pasado es un organizador retorna sin hacer nada
-
+			
+			// si el usuario existe en el archivo, no hacemos nada
 			DTDetalleAsistente asistente = (DTDetalleAsistente) usuario;
+			if (getUsuarioEnArchivo(manejadorEntidades, asistente.getNickname()) != null) return; 
+				
 			UsuarioArchivado datosUsuario = new UsuarioArchivado();
 			datosUsuario.setNickname(asistente.getNickname());
 			datosUsuario.setEmail(asistente.getCorreo());
@@ -134,7 +157,6 @@ public class ManejadorPersistencia {
 			datosAsistente.setApellido(asistente.getApellido());
 			datosAsistente.setFechaNacimiento(asistente.getNacimiento());
 			datosAsistente.setNombreInstitucion(asistente.getInstitucion());
-			// TODO: Ver si es necesario guardar los registros asociados al usuario en este momento (probablemente no)
 
 			manejadorEntidades.persist(datosAsistente);
 			manejadorEntidades.flush();
@@ -147,6 +169,7 @@ public class ManejadorPersistencia {
 	 * PRE-CONDICIÓN: El organizador existe en el sistema.
 	 * <p>
 	 * Guarda el organizador con nickname `nicknameOrganizador` en el archivo.
+	 * Si el usuario ya existe en el sistema, entonces no hace nada.
 	 * 
 	 * @param manejadorEntidades  para registrar los movimientos
 	 * @param nicknameOrganizador el nickname del organizador para guardar en el
@@ -161,6 +184,9 @@ public class ManejadorPersistencia {
 			}
 
 			DTDetalleOrganizador organizador = (DTDetalleOrganizador) usuario;
+			// si el usuario existe en el archivo, no hacemos nada
+			if (getUsuarioEnArchivo(manejadorEntidades, organizador.getNickname()) != null) return; 
+			
 			UsuarioArchivado datosUsuario = new UsuarioArchivado();
 			datosUsuario.setNickname(organizador.getNickname());
 			datosUsuario.setEmail(organizador.getCorreo());
@@ -178,7 +204,7 @@ public class ManejadorPersistencia {
 			manejadorEntidades.persist(datosOrganizador);
 			manejadorEntidades.flush();
 		} catch (UsuarioNoExiste e) {
-			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -199,15 +225,11 @@ public class ManejadorPersistencia {
 		queryEdicion.setParameter("nombre", registro.getNombreEdicion());
 		EdicionArchivada edicion = queryEdicion.getSingleResult();
 
+		// retorno error si el asistente no existe en el archivo
+		UsuarioArchivado usuario = getUsuarioEnArchivo(manejadorEntidades, registro.getNicknameAsistente());
+		if (usuario == null) throw new IllegalStateException("Asistente no persistido: " + registro.getNicknameAsistente());
+		
 		// obtenemos el asistente
-		TypedQuery<UsuarioArchivado> queryUsuario = manejadorEntidades
-				.createQuery("SELECT u FROM UsuarioArchivado u WHERE u.nickname = :nickname", UsuarioArchivado.class);
-		queryUsuario.setParameter("nickname", registro.getNicknameAsistente());
-		List<UsuarioArchivado> listaUsuarios = queryUsuario.getResultList();
-		if (listaUsuarios.isEmpty()) {
-			throw new IllegalStateException("Asistente no persistido: " + registro.getNicknameAsistente());
-		}
-		UsuarioArchivado usuario = listaUsuarios.get(0);
 		AsistenteArchivado asistente = manejadorEntidades.find(AsistenteArchivado.class, usuario.getId());
 
 		// creamos el registro
@@ -271,16 +293,11 @@ public class ManejadorPersistencia {
 	 * @return
 	 */
 	private List<EdicionArchivada> getEdicionesArchivadasDeOrganizador(EntityManager manejadorEntidades, String nicknameOrganizador) {
-		TypedQuery<UsuarioArchivado> queryUsuario = manejadorEntidades.createQuery(
-				"SELECT u FROM UsuarioArchivado u WHERE u.nickname = :nickname", UsuarioArchivado.class);
-		queryUsuario.setParameter("nickname", nicknameOrganizador);
-		List<UsuarioArchivado> listaUsuarios = queryUsuario.getResultList();
+		// retorno null si el asistente no existe en el archivo
+		UsuarioArchivado usuario = getUsuarioEnArchivo(manejadorEntidades, nicknameOrganizador);
+		if (usuario == null) return null;
 		
-		if (listaUsuarios.isEmpty()) return null;
-		
-		UsuarioArchivado usuario = listaUsuarios.get(0);
 		OrganizadorArchivado organizador = manejadorEntidades.find(OrganizadorArchivado.class, usuario.getId());
-		
 		return organizador.getEdiciones();
 	}
 	
@@ -335,14 +352,11 @@ public class ManejadorPersistencia {
 			// archivo el organizador asociado a la edición y obtenemos el objeto en la DB
 			this.guardarOrganizadorEnArchivo(manejadorEntidades, datosEdicion.getOrganizadorNickname());
 
-			TypedQuery<UsuarioArchivado> queryUsuario = manejadorEntidades.createQuery(
-					"SELECT u FROM UsuarioArchivado u WHERE u.nickname = :nickname", UsuarioArchivado.class);
-			queryUsuario.setParameter("nickname", datosEdicion.getOrganizadorNickname());
-			List<UsuarioArchivado> listaUsuarios = queryUsuario.getResultList();
-			if (listaUsuarios.isEmpty()) {
-				throw new IllegalStateException("Organizador no persistido: " + datosEdicion.getOrganizadorNickname());
-			}
-			UsuarioArchivado usuario = listaUsuarios.get(0);
+			// devuelvo error si el organizador no existe en el archivo
+			UsuarioArchivado usuario = this.getUsuarioEnArchivo(manejadorEntidades, datosEdicion.getOrganizadorNickname());
+			if (usuario == null) throw new IllegalStateException("Organizador no persistido: " + datosEdicion.getOrganizadorNickname());
+			
+			// obtengo el organizador
 			OrganizadorArchivado organizador = manejadorEntidades.find(OrganizadorArchivado.class, usuario.getId());
 
 			// creamos la edición
