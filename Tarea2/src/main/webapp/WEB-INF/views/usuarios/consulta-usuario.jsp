@@ -159,13 +159,15 @@
       </div>
 
       <%
+        // TODO: Este código está horrible
         Object edsAcepObj = request.getAttribute("edicionesAceptadas");
         Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
         Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
+        List<String> edicionesArchivadas = (List<String>) request.getAttribute("misEdicionesArchivadas");
         java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
         java.util.Collection<?> misEdsIngCol = (misEdsIngObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsIngObj : java.util.Collections.emptyList();
         java.util.Collection<?> misEdsRecCol = (misEdsRecObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsRecObj : java.util.Collections.emptyList();
-        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
+        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty() && edicionesArchivadas.isEmpty();
       %>
 
       <div class="mb-3 row">
@@ -185,6 +187,9 @@
             <% } %>
             <% for (Object s : misEdsRecCol) { %>
             <option value="<%=s%>"><%=s%> (RECHAZADA)</option>
+            <% } %>
+            <% for (String nombreEdicion : edicionesArchivadas) { %>
+            <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
             <% } %>
           </select>
           <% } %>

@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,9 +66,7 @@ public class ControladorEventos implements IControladorEventos {
 	}
 
 	public List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname, EEstadoEdicion... estados) {
-		java.util.Set<EEstadoEdicion> filtro = new java.util.HashSet<>(java.util.Arrays.asList(estados));
-
-		// Usar la instancia del manejador
+		Set<EEstadoEdicion> filtro = new HashSet<>(Arrays.asList(estados));
 		return ManejadorEventos.getInstancia().filtrarEdicionesPorOrganizadorYEstado(organizadorNickname, filtro);
 	}
 
@@ -513,7 +512,6 @@ public class ControladorEventos implements IControladorEventos {
 		this.manejadorPersistencia.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);
 		// elimino la edición del sistema si todo sale bien
 		this.eliminarEdicion(nombreEvento, nombreEdicion);
-		
 	}
 	
 	@Override
@@ -538,6 +536,21 @@ public class ControladorEventos implements IControladorEventos {
 			Institucion institucion = patrocinio.getInstitucion();
 			institucion.eliminarEdicionPatrocinada(nombreEdicion);
 		}
+	}
+	
+	@Override
+	public List<String> listarEdicionesArchivadasDeOrganizador(String nicknameOrganizador) {
+		// obtengo las ediciones
+		List<EdicionArchivada> ediciones = manejadorPersistencia.getEdicionesArchivadasDeOrganizador(nicknameOrganizador);
+		if (ediciones == null) return null;
 		
+		// preparo el resultado
+		List<String> resultado = new ArrayList<>();
+		for (EdicionArchivada edicion: ediciones) {
+			DTEdicionEvento detalleEdicion = edicion.getDatosEdicion();
+			String nombreEdicion = detalleEdicion.getNombre();
+			resultado.add(nombreEdicion);
+		}
+		return resultado;
 	}
 }

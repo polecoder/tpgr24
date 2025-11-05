@@ -48,6 +48,14 @@ public interface IControladorEventos {
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombre) throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste;
 	public void altaCategoria(String nombre) throws Exception;
 	public boolean existeCategoria(String nombre);
+	/**
+	 * TODO: Tendría que estar en ControladorUsuarios<p>
+	 * Devuelve todas las ediciones con estados iguales a los pasados por parámetro. Acepta más de un estado.<p>
+	 * 
+	 * @param organizadorNickname
+	 * @param estados
+	 * @return
+	 */
 	List<String> getEdicionesDeOrganizadorPorEstado(String organizadorNickname,
             EEstadoEdicion... estados);
 
@@ -145,4 +153,12 @@ public interface IControladorEventos {
      * @throws EdicionNoExiste si la edición elegida no existe en el sistema
      */
     public void eliminarEdicion(String nombreEvento, String nombreEdicion) throws EdicionNoExiste;
+    /**
+     * Devuelve el nombre de todas las ediciones organizadas por el organizador pasado por parámetro.<p>
+     * Si el usuario no existe o si no tiene ediciones archivadas devuelve null.
+     * 
+     * @param nicknameOrganizador
+     * @return una lista con el nombre de todas las ediciones archivadas del usuario
+     */
+    public List<String> listarEdicionesArchivadasDeOrganizador(String nicknameOrganizador);
 }

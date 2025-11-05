@@ -263,6 +263,46 @@ public class ManejadorPersistencia {
 	}
 	
 	/**
+	 * Devuelve todas las ediciones archivadas que tiene un organizador.<p>
+	 * Si el usuario no existe en la DB devuelve null.
+	 * En caso de que no tenga ninguna devuelve null.
+	 * 
+	 * @param nicknameOrganizador
+	 * @return
+	 */
+	private List<EdicionArchivada> getEdicionesArchivadasDeOrganizador(EntityManager manejadorEntidades, String nicknameOrganizador) {
+		TypedQuery<UsuarioArchivado> queryUsuario = manejadorEntidades.createQuery(
+				"SELECT u FROM UsuarioArchivado u WHERE u.nickname = :nickname", UsuarioArchivado.class);
+		queryUsuario.setParameter("nickname", nicknameOrganizador);
+		List<UsuarioArchivado> listaUsuarios = queryUsuario.getResultList();
+		
+		if (listaUsuarios.isEmpty()) return null;
+		
+		UsuarioArchivado usuario = listaUsuarios.get(0);
+		OrganizadorArchivado organizador = manejadorEntidades.find(OrganizadorArchivado.class, usuario.getId());
+		
+		return organizador.getEdiciones();
+	}
+	
+	/**
+	 * Wrapper público para `getEdicionesArchivadasDeOrganizador`. Extiende la funcionalidad del otro método para ámbitos fuera de esta clase.<p>
+	 * Devuelve todas las ediciones archivadas que tiene un organizador.<p>
+	 * Si el usuario no existe en la DB devuelve null.
+	 * En caso de que no tenga ninguna devuelve null.
+	 * 
+	 * @param nicknameOrganizador
+	 * @return
+	 */
+	public List<EdicionArchivada> getEdicionesArchivadasDeOrganizador(String nicknameOrganizador) {
+		EntityManager manejadorEntidades = fabricaManejadorEntidades.createEntityManager();
+		try {
+			return getEdicionesArchivadasDeOrganizador(manejadorEntidades, nicknameOrganizador);
+		} finally {
+			manejadorEntidades.close();
+		}
+	}
+	
+	/**
 	 * PRE-CONDICIÓN: La edición pasada por parámetro existe en el sistema y no está archivada.<p>
 	 * Archiva una edición y todos sus datos relacionados en el archivo. Esto
 	 * incluye:
@@ -274,7 +314,9 @@ public class ManejadorPersistencia {
 	 * 3. Organizadores asociados
 	 * <p>
 	 * 
-	 * @param registro los datos del registro para guardar en el archivo
+	 * @param nombreEvento
+	 * @param nombreEdicion
+	 * @param fechaArchivo
 	 * @throws EdicionYaArchivada si la edición seleccionada ya existe en el Archivo
 	 */
 	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo){
@@ -317,6 +359,7 @@ public class ManejadorPersistencia {
 
 			// linkeamos la edición con el organizador
 			edicion.setOrganizador(organizador);
+			organizador.agregarEdicion(edicion);
 
 			manejadorEntidades.persist(edicion);
 			manejadorEntidades.flush();

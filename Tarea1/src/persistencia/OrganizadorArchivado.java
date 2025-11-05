@@ -1,5 +1,7 @@
 package persistencia;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.*;
@@ -23,6 +25,9 @@ public class OrganizadorArchivado {
 	private String descripcion;
 	@Column(name="sitio_web")
 	private String sitioWeb;
+	// IMPORTANTE: el valor de mappedBy tiene que tener el mismo nombre que el que le corresponde en EdicionArchivada.java
+	@OneToMany(mappedBy = "organizador", cascade = CascadeType.PERSIST)
+	private List<EdicionArchivada> ediciones = new ArrayList<>();
 	
 	// no eliminar
     @Override
@@ -49,6 +54,9 @@ public class OrganizadorArchivado {
  	public String getSitioWeb() {
  		return sitioWeb;
  	}
+ 	public List<EdicionArchivada> getEdiciones() {
+ 		return ediciones;
+ 	}
 
  	// setters
  	public void setUsuario(UsuarioArchivado usuario) {
@@ -59,5 +67,8 @@ public class OrganizadorArchivado {
  	}
  	public void setSitioWeb(String sitioWeb) {
  		this.sitioWeb = sitioWeb;
+ 	}
+ 	public void agregarEdicion(EdicionArchivada edicion) {
+ 		ediciones.add(edicion);
  	}
 }

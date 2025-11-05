@@ -82,6 +82,7 @@ public class Ediciones extends HttpServlet {
 		
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		
 		if (nombreEvento == null) { 
 			for (String evento : controladorEventos.listarEventos().keySet()) {
 				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
@@ -92,11 +93,12 @@ public class Ediciones extends HttpServlet {
 			}
 		}
 		
-		if (nombreEvento == null) {
-			request.setAttribute("error_message", "La edicion no es de ningun evento");
-			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-			return request;
-		}
+		// TODO: Revisar si esto rompe algo (necesario para ediciones archivadas)
+//		if (nombreEvento == null) {
+//			request.setAttribute("error_message", "La edicion no es de ningun evento");
+//			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+//			return request;
+//		}
 		
 		// todo esto contempla consultas a ediciones archivadas
 		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // asumo tiene la imagen
