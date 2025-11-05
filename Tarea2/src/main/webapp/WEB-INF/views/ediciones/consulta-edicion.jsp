@@ -57,6 +57,11 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
 	color: #991b1b;
 }
 
+.badge-archivada {
+ 	background-color: #004d00;
+    color: white;
+}
+
 .tipo-registro {
 	display: inline-block;
 	background-color: #e0f2fe;
@@ -154,7 +159,11 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
             %>
             <span class="badge-estado badge-rechazada">Rechazada</span>
             <%
-            }
+            } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Archivada")) {
+            %>
+            <span class="badge-estado badge-archivada">Archivada</span>
+            <% 
+            } 
             %>
             <%
             }
@@ -287,10 +296,17 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
                   href="<%= cp %>/usuario?accion=consulta&nick=<%=registro.getNicknameAsistente()%>"
                   class="link-primary link-underline"
                 ><%=registro.getNicknameAsistente()%></a></td>
-                <td><a
+                <td>
+                  <%-- si la edición está archivada, no mmuestro link para Consulta Tipo Registro --%>
+                  <% if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Archivada")) { %>
+                    <%=registro.getNombreTipo()%>
+                  <% } else { %>
+                    <a
                   href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=registro.getNombreTipo()%>"
                   class="link-primary link-underline"
-                ><%=registro.getNombreTipo()%></a></td>
+                ><%=registro.getNombreTipo()%></a>
+                  <% } %>
+                </td>
                 <td><%=registro.getFecha()%></td>
                 <td><%=registro.getCosto()%></td>
                 <%
@@ -363,40 +379,43 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         }
         %>
 
-        <%-- si el usuario logeado es organizador y organiza la edición --%>
-        <%
-        if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR
-        		&& datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
-        %>
-        <div class="d-flex justify-content-center gap-3">
-          <a
-            href="<%= cp %>/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>"
-            class="btn btn-primary btn-sm px-3"
-          >Alta patrocinio</a> <a
-            href="<%= cp %>/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
-            class="btn btn-primary btn-sm px-3"
-          >Alta tipo registro</a> <a
-            href="<%= cp %>/Ediciones?accion=ArchivarEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
-            class="btn btn-primary btn-sm px-3"
-            onclick="return confirm('¿Seguro que querés archivar esta edición?');"
-          >Archivar edición</a>
-        </div>
-        <%-- si el usuario es asistente --%>
-        <%
-        } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) {
-        boolean finalizado = (boolean) request.getAttribute("finalizada");
-        if (!finalizado) {
-        %>
-        <div class="d-flex justify-content-center gap-3">
-          <a
-            href="<%= cp %>/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
-            class="btn btn-primary btn-sm px-3 fs-5"
-          >Registrarse a edición</a>
-        </div>
-        <%
-        }
-        }
-        %>
+        <%-- si la edición no está archivada, muestro botones para interactuar con la edición --%>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+          <%-- si el usuario logeado es organizador y organiza la edición --%>
+          <%
+          if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR
+              && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
+          %>
+          <div class="d-flex justify-content-center gap-3">
+            <a
+              href="<%= cp %>/Institucion?action=altaPatrocinio&nombreEdicion=<%=nombreEdicion%>&nombreEvento=<%=nombreEvento%>"
+              class="btn btn-primary btn-sm px-3"
+            >Alta patrocinio</a> <a
+              href="<%= cp %>/Ediciones?accion=AltaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
+              class="btn btn-primary btn-sm px-3"
+            >Alta tipo registro</a> <a
+              href="<%= cp %>/Ediciones?accion=ArchivarEdicion&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>"
+              class="btn btn-primary btn-sm px-3"
+              onclick="return confirm('¿Seguro que querés archivar esta edición?');"
+            >Archivar edición</a>
+          </div>
+          <%-- si el usuario es asistente --%>
+          <%
+          } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) {
+          boolean finalizado = (boolean) request.getAttribute("finalizada");
+          if (!finalizado) {
+          %>
+          <div class="d-flex justify-content-center gap-3">
+            <a
+              href="<%= cp %>/usuario?accion=registro-edicion&evento=<%=nombreEvento%>&edicion=<%=nombreEdicion%>"
+              class="btn btn-primary btn-sm px-3 fs-5"
+            >Registrarse a edición</a>
+          </div>
+          <%
+          }
+          }
+          %>
+        <% } %>
 
         <!-- Video -->
         <%

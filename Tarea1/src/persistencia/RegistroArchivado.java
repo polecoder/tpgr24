@@ -110,8 +110,8 @@ public class RegistroArchivado {
 	 */
 	public DTDetalleRegistro getDatosRegistro() {
 		String nombreEdicion = this.getEdicion().getNombre();
-		String nombreAsistente = this.getAsistente().getUsuario().getNombre();
+		String nicknameAsistente = this.getAsistente().getUsuario().getNickname();
 		boolean asistio = false; // valor por defecto, se pierde la asistencia al archivar (por letra)
-		return new DTDetalleRegistro(nombreEdicion, nombreAsistente, this.getNombreTipoRegistro(), this.getFechaRegistro(), this.getCosto(), this.getCodigoPatrocinio(), asistio);
+		return new DTDetalleRegistro(nombreEdicion, nicknameAsistente, this.getNombreTipoRegistro(), this.getFechaRegistro(), this.getCosto(), this.getCodigoPatrocinio(), asistio);
 	}
 }
