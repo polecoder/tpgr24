@@ -7,11 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
-import excepciones.EdicionNoExiste;
 import excepciones.FormatoContrasenaInvalido;
 import excepciones.FormularioIncompletoAsistente;
 import excepciones.FormularioIncompletoOrganizador;
-import excepciones.RegistroNoExiste;
 import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
@@ -21,7 +19,6 @@ import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTUsuario;
-import datatypes.EEstadoEdicion;
 import datatypes.DTRegistro;
 
 public class ControladorUsuarios implements IControladorUsuarios {

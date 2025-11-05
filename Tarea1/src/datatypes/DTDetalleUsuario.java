@@ -1,6 +1,7 @@
 package datatypes;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class DTDetalleUsuario {
 	private String nickname;
@@ -8,6 +9,8 @@ public class DTDetalleUsuario {
 	private String correo;
 	private byte[] imagen;
 	private ETipoUsuario tipo;
+	private Set<DTDetalleUsuario> dataTypeSeguidores;
+	private Set<DTDetalleUsuario> dataTypeSeguidos;
 	
 	public DTDetalleUsuario(String nickname, String nombre, String correo, ETipoUsuario tipo, byte[] imagen) {
 		super();
@@ -31,4 +34,10 @@ public class DTDetalleUsuario {
 	public ETipoUsuario getTipo() {
 		return tipo;
 	}
+	
+	public Set<DTDetalleUsuario> getDataTypeSeguidores(){ return dataTypeSeguidores; }
+	public Set<DTDetalleUsuario> getDataTypeSeguidos(){ return dataTypeSeguidos; }
+	
+	public void setDataTypeSeguidores(Set<DTDetalleUsuario> seguidores) { this.dataTypeSeguidores = seguidores; }
+	public void setDataTypeSeguidos(Set<DTDetalleUsuario> seguidos) { this.dataTypeSeguidores = seguidos; }
 }

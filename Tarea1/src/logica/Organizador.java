@@ -1,11 +1,13 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
-import datatypes.ETipoUsuario;
 
 public class Organizador extends Usuario {
 	
@@ -44,11 +46,24 @@ public class Organizador extends Usuario {
 	}
 	
 	public DTDetalleUsuario toDataType() {
-		return new DTDetalleUsuario(
+		DTDetalleUsuario organizadorDataType = new DTDetalleOrganizador(
 				this.nickname,
 				this.nombre,
 				this.correo,
-				ETipoUsuario.Organizador,
+				this.descripcion,
+				this.link,
 				this.imagen);
+		Set<DTDetalleUsuario> dataTypeSeguidores = new HashSet<DTDetalleUsuario>();
+		Set<DTDetalleUsuario> dataTypeSeguidos = new HashSet<DTDetalleUsuario>();
+		for(Usuario seguidor : this.seguidores) {
+			dataTypeSeguidores.add(seguidor.toDataType());
+		}
+		for(Usuario seguido : this.seguidos) {
+			dataTypeSeguidos.add(seguido.toDataType());
+		}
+		organizadorDataType.setDataTypeSeguidores(dataTypeSeguidores);
+		organizadorDataType.setDataTypeSeguidos(dataTypeSeguidos);
+		
+		return organizadorDataType;
 	}
 }

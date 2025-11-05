@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import datatypes.DTAsistente;
-import datatypes.DTDetalleAsistente;
-import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleUsuario;
-import datatypes.DTEdicionEvento;
 import excepciones.UsuarioNoExiste;
 
 public class ManejadorUsuarios {
@@ -176,16 +173,10 @@ public class ManejadorUsuarios {
 	public DTDetalleUsuario mostrarDetalleUsuario(String nicknameUsuario) throws UsuarioNoExiste {
 		if (this.getOrganizador(nicknameUsuario) != null) {
 			Organizador organizador = this.getOrganizador(nicknameUsuario);
-			return new DTDetalleOrganizador(organizador.getNickname(), organizador.getNombre(), organizador.getCorreo(),
-					organizador.getDescripcion(), organizador.getLink(), organizador.getImagen());
+			return organizador.toDataType();
 		} else if (this.getAsistente(nicknameUsuario) != null) {
 			Asistente asistente = this.getAsistente(nicknameUsuario);
-			String insti = null;
-			if (asistente.getInstitucion() != null) {
-				insti = asistente.getInstitucion().getNombre();
-			}
-			return new DTDetalleAsistente(asistente.getNickname(), asistente.getNombre(), asistente.getCorreo(),
-					asistente.getApellido(), asistente.getNacimiento(), insti, asistente.getImagen());
+			return asistente.toDataType();
 		} else {
 			throw new UsuarioNoExiste("El usuario indicado no existe en el sistema.");
 		}
