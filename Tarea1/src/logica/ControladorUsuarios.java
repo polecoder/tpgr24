@@ -433,4 +433,14 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return null;
 		
 	}
+	
+	@Override
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+		manejadorUsuarios.seguir(nicknameSeguidor, nicknameSeguido);
+	}
+	
+	@Override
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+		manejadorUsuarios.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);
+	}
 }

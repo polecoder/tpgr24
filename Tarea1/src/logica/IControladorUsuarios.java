@@ -88,4 +88,23 @@ public interface IControladorUsuarios {
 
 	List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick);
 	DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario);
+	
+	/**
+	 * Establece una relación de seguimiento entre dos usuarios.
+	 * El seguidor comenzará a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que realizará el seguimiento
+	 * @param nicknameSeguido nickname del usuario que será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws Exception;
+	/**
+	 * Libera una relación de seguimiento entre dos usuarios.
+	 * El seguidor dejara a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que deja de hacer el seguimiento
+	 * @param nicknameSeguido nickname del usuario que ya no será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws Exception;
 }

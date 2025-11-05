@@ -204,4 +204,55 @@ public class ManejadorUsuarios {
 		}
 		return eds;
 	}
+	
+	/**
+	 * Establece una relación de seguimiento entre dos usuarios.
+	 * El seguidor comenzará a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que realizará el seguimiento
+	 * @param nicknameSeguido nickname del usuario que será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+		Usuario seguidor = dameUsuario(nicknameSeguidor);
+		Usuario seguido = dameUsuario(nicknameSeguido);
+		seguidor.seguir(seguido);
+		seguido.agregarSeguidor(seguidor);
+	}
+	
+	/**
+	 * Libera una relación de seguimiento entre dos usuarios.
+	 * El seguidor dejara a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que deja de hacer el seguimiento
+	 * @param nicknameSeguido nickname del usuario que ya no será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws Exception{
+		Usuario seguidor = dameUsuario(nicknameSeguidor);
+		Usuario seguido = dameUsuario(nicknameSeguido);
+		seguidor.dejarDeSeguir(seguido);
+		seguido.quitarSeguidor(seguidor);
+	}
+	
+	/**
+	 * Busca un usuario en el sistema sin importar su tipo (Organizador o Asistente).
+	 * 
+	 * @param nickname nickname del usuario a buscar
+	 * @return el usuario encontrado (Organizador o Asistente)
+	 * @throws UsuarioNoExiste si no existe un usuario con ese nickname
+	 */
+	private Usuario dameUsuario(String nickname) throws UsuarioNoExiste {
+		Usuario usuario = this.getOrganizador(nickname);
+	    if (usuario != null) {
+	        return usuario;
+	    }
+	    
+	    usuario = this.getAsistente(nickname);
+	    if (usuario != null) {
+	        return usuario;
+	    }
+	    
+	    throw new UsuarioNoExiste("El usuario '" + nickname + "' no existe en el sistema.");
+	}
 }
