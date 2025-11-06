@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="datatypes.DTDetalleRegistro" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleRegistro" %>
+<%@ page import="com.eventosuy.servidor.DTRegistro" %>
+<%@ page import="com.eventosuy.servidor.DTEventoEdicion" %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -47,51 +49,47 @@
             // ======================== ASISTENTE ========================
             if (regsAsisAttr instanceof List) {
           %>
-              <%-- Lista de mis registros (links por índice) --%>
-              <div class="mb-4">
-                <p class="fw-bold mb-2">Mis ediciones registradas:</p>
-                <ul class="list-group">
-                  <%
-                    List<?> regs = (List<?>) regsAsisAttr; // List<DTRegistro> con nombreEdicion() y nombreTipo()
-                    if (regs.isEmpty()) {
-                  %>
-                      <li class="list-group-item text-muted">No tenés registros todavía.</li>
-                  <%
-                    } else {
-                      for (int i = 0; i < regs.size(); i++) {
-                        Object r = regs.get(i);
-                        String nomEd  = "";
-                        String nomTipo= "";
-                        try {
-                          java.lang.reflect.Method mEd  = r.getClass().getMethod("nombreEdicion");
-                          java.lang.reflect.Method mTr  = r.getClass().getMethod("nombreTipo");
-                          nomEd   = String.valueOf(mEd.invoke(r));
-                          nomTipo = String.valueOf(mTr.invoke(r));
-                        } catch (Exception ignore) {}
-                  %>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          <span>
-                            <strong><%= nomEd %></strong>
-                            <% if (nomTipo != null && !nomTipo.isBlank()) { %>
-                              <span class="text-muted"> · <%= nomTipo %></span>
-                            <% } %>
-                          </span>
-                          <a class="btn btn-primary btn-sm"
-                             href="<%= ctx %>/usuario?accion=consulta-registro&idx=<%= i %>">Ver detalle</a>
-                        </li>
-                  <%
-                      }
-                    }
-                  %>
-                </ul>
-              </div>
+              <%-- Lista de registros --%>
+<div class="mb-4">
+  <p class="fw-bold mb-2">Mis ediciones registradas:</p>
+  <ul class="list-group">
+    <%
+      List<?> regs = (List<?>) regsAsisAttr;
+      if (regs.isEmpty()) {
+    %>
+        <li class="list-group-item text-muted">No tenés registros todavía.</li>
+    <%
+      } else {
+        for (int i = 0; i < regs.size(); i++) {
+          // Ahora sabemos que son DTRegistro del servidor
+          com.eventosuy.servidor.DTRegistro r = (com.eventosuy.servidor.DTRegistro) regs.get(i);
+          String nomEd = r.getNombreEdicion() != null ? r.getNombreEdicion() : "";
+          String nomTipo = r.getNombreTipo() != null ? r.getNombreTipo() : "";
+    %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <strong><%= nomEd %></strong>
+              <% if (!nomTipo.isEmpty()) { %>
+                <span class="text-muted"> · <%= nomTipo %></span>
+              <% } %>
+            </span>
+            <a class="btn btn-primary btn-sm"
+               href="<%= ctx %>/usuario?accion=consulta-registro&idx=<%= i %>">Ver detalle</a>
+          </li>
+    <%
+        }
+      }
+    %>
+  </ul>
+</div>
 
               <%-- Detalle seleccionado (si viene) --%>
               <%
                 if (detalleAttr != null) {
 	              	DTDetalleRegistro dtDetalle = (DTDetalleRegistro) detalleAttr;
 	              	String nomEd = dtDetalle.getNombreEdicion();
-	              	Date fecha =  dtDetalle.getFecha();
+	              	javax.xml.datatype.XMLGregorianCalendar xmlFecha = dtDetalle.getFecha();
+	                Date fecha = xmlFecha != null ? xmlFecha.toGregorianCalendar().getTime() : null;
 	              	String nomTipo = dtDetalle.getNombreTipo();
 	              	float costo = dtDetalle.getCosto();
 	              	String codigoPatrocinio = dtDetalle.getCodigoPatrocinio();

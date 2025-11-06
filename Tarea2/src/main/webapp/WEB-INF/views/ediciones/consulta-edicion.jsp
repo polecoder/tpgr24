@@ -87,13 +87,13 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold text-primary mb-0">Detalles de la edición:</h4>
             <% if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) { %>
-              <% if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Ingresada")) { %>
-                <span class="badge-estado badge-ingresada">Ingresada</span>
-              <% } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Aceptada")) { %>
-                <span class="badge-estado badge-aprobada">Aprobada</span>
-              <% } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Rechazada")) { %>
-                <span class="badge-estado badge-rechazada">Rechazada</span>
-              <% } %>
+              <% if (dtEdicion.getEstado() == EEstadoEdicion.INGRESADA) { %>
+    <span class="badge-estado badge-ingresada">Ingresada</span>
+<% } else if (dtEdicion.getEstado() == EEstadoEdicion.ACEPTADA) { %>
+    <span class="badge-estado badge-aprobada">Aprobada</span>
+<% } else if (dtEdicion.getEstado() == EEstadoEdicion.RECHAZADA) { %>
+    <span class="badge-estado badge-rechazada">Rechazada</span>
+<% } %>
             <% } %>
           </div>
           <div class="row gy-3">
@@ -175,7 +175,7 @@ byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
         <%-- registros de la edición (organizador de la edición) --%>
         <%
         if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
-          Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) request.getAttribute("lista_registros");
+        	List<DTDetalleRegistro> setRegistros = (List<DTDetalleRegistro>) request.getAttribute("lista_registros");
         %>
         <div class="card shadow-sm p-4">
           

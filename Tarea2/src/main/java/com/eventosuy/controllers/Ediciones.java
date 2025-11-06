@@ -167,17 +167,19 @@ public class Ediciones extends HttpServlet {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		String sigla = request.getParameter("sigla");
 		String URL = request.getParameter("URL");
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaInicio = formatter.parse(request.getParameter("fecha_inicio"));
 		Date fechaFin = formatter.parse(request.getParameter("fecha_fin"));
 		Date fechaAlta = new Date();
+		
 		String ciudad = request.getParameter("ciudad");
 		String pais = request.getParameter("pais");
 		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 		String nickOrganizador = null;
 		if (dtUsuario != null) {nickOrganizador = dtUsuario.getNickname();}
 		Part fotoPart = request.getPart("foto");
-		byte[] imagenBytes = null;
+		byte[] imagenBytes = new byte[0];
         if (fotoPart != null && fotoPart.getSize() > 0) {
             try (InputStream inputStream = fotoPart.getInputStream()) {
                 imagenBytes = inputStream.readAllBytes();
@@ -188,10 +190,16 @@ public class Ediciones extends HttpServlet {
 			XMLGregorianCalendar xmlGregorianCalendarFechaInicio = Utilidades.dateToXMLGregorianCalendar(fechaInicio);
 			XMLGregorianCalendar xmlGregorianCalendarFechaFin = Utilidades.dateToXMLGregorianCalendar(fechaFin);
 			XMLGregorianCalendar xmlGregorianCalendarFechaAlta = Utilidades.dateToXMLGregorianCalendar(fechaAlta);
+			
 			puerto.altaEdicionEvento(nombreEvento, nombreEdicion, sigla,
 					xmlGregorianCalendarFechaInicio, xmlGregorianCalendarFechaFin, xmlGregorianCalendarFechaAlta, 
 					ciudad, pais, nickOrganizador, imagenBytes, URL);
+			
 		} catch (Exception ex) {
+			
+			System.out.println("ERROR DEL WEBSERVICE: " + ex.getMessage());
+		    ex.printStackTrace();
+			
 			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_message", ex.getMessage());

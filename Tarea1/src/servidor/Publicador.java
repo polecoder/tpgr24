@@ -181,26 +181,26 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public HashSet<String> listarRegistrosAEdicion(String selectedEvento, String selectedEdicion) {
-		Set<String> res = controladorEventos.listarRegistrosAEdicion(selectedEvento, selectedEdicion);
-	    return new HashSet<String> (res);
+	public String[] listarRegistrosAEdicion(String selectedEvento, String selectedEdicion) {
+	    Set<String> res = controladorEventos.listarRegistrosAEdicion(selectedEvento, selectedEdicion);
+	    return res.toArray(new String[0]);
 	}
 
 	@WebMethod
 	public void altaRegistro(String nicknameAsistente, String nombreTipoRegistro, String nombreEdicion, String nombreEvento, String codigoPatrocinio, Date fecha) throws EventoNoExiste, EdicionNoExiste, FechaFinEsPasada, TipoRegistroNoExiste, UsuarioNoExiste, PatrocinioInvalido, YaAsisteAEdicion {
 	    controladorEventos.altaRegistro(nicknameAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, codigoPatrocinio, fecha);
 	}
-
+	
 	@WebMethod
-	public HashSet<String> nombresEdicionesEvento(String nombre) throws EventoNoExiste {
-		Set<String> res = controladorEventos.nombresEdicionesEvento(nombre);
-	    return new HashSet<String> (res);
+	public String[] nombresEdicionesEvento(String nombre) throws EventoNoExiste{
+	    Set<String> res = controladorEventos.nombresEdicionesEvento(nombre);
+	    return res.toArray(new String[0]);
 	}
 
 	@WebMethod
-	public HashSet<String> nombresEventos() {
-		Set<String> res = controladorEventos.nombresEventos();
-	    return new HashSet<String>(res);
+	public String[] nombresEventos() {
+	    Set<String> res = controladorEventos.nombresEventos(); // o como lo tengas
+	    return res.toArray(new String[0]);
 	}
 	
 	@WebMethod
@@ -234,9 +234,9 @@ public class Publicador {
 	
 	// -------------------	USUARIOS		------------------- //
 	@WebMethod
-	public ArrayList<DTEventoEdicion> getEventosEdicionesDeOrganizador(String nicknameOrganizador){
-		List<DTEventoEdicion> res = controladorUsuarios.getEventosEdicionesDeOrganizador(nicknameOrganizador);
-		return new ArrayList<DTEventoEdicion>(res);
+	public DTEventoEdicion[] getEventosEdicionesDeOrganizador(String nicknameOrganizador) {
+	    List<DTEventoEdicion> res = controladorUsuarios.getEventosEdicionesDeOrganizador(nicknameOrganizador);
+	    return res.toArray(new DTEventoEdicion[0]);
 	}
 	@WebMethod
 	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta{
@@ -269,9 +269,9 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public datatypes.DTRegistro[] listarRegistrosUsuario(String nickname) {
-		List<DTRegistro> res = controladorUsuarios.listarRegistrosUsuario(nickname);
-		return res.toArray(new datatypes.DTRegistro[0]);
+	public DTRegistro[] listarRegistrosUsuario(String nickname) {
+	    List<DTRegistro> res = controladorUsuarios.listarRegistrosUsuario(nickname);
+	    return res.toArray(new DTRegistro[0]);
 	}
 
 	@WebMethod
