@@ -2,6 +2,7 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTEvento;
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
+import com.eventosuy.servidor.StringArray;
 import com.eventosuy.utils.Utilidades;
 import com.eventosuy.servidor.DTTipoRegistro;
 import com.eventosuy.servidor.ENivelPatrocinio;
@@ -68,9 +70,6 @@ public class Institucion extends HttpServlet {
 		HttpSession session = request.getSession();
 		TipoUsuario tipoUsuario = (TipoUsuario) session.getAttribute("tipoUsuarioLogeado");
 		
-		// Testing remover luego
-		tipoUsuario = TipoUsuario.ORGANIZADOR;
-		session.setAttribute("tipoUsuarioLogeado", tipoUsuario);
 		// Handle organizer-specific actions
 		if (tipoUsuario != null && tipoUsuario.equals(TipoUsuario.ORGANIZADOR)) {
 			if (handeGetAccionesOrganizador(request, response, action, nombreEvento, nombreEdicion, puerto,
@@ -324,8 +323,22 @@ public class Institucion extends HttpServlet {
 					tipoRegistroSeleccionado);
 			response.sendRedirect(request.getContextPath() + "/home"); // hago redirect a home solo si el alta fue éxitoso
 		} catch (Exception error) {
-			Set<String> listaNombresInstitucion = (Set<String>) controladorInstitucion.nombresInstituciones();
-			Set<String> listaNombresTipoRegistro = (Set<String>) controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+			
+			StringArray arrayInstituciones = controladorInstitucion.nombresInstituciones();
+			Set<String> listaNombresInstitucion = new HashSet<>();
+			if (arrayInstituciones != null && arrayInstituciones.getItem() != null) {
+			    for (String nombre : arrayInstituciones.getItem()) {
+			        listaNombresInstitucion.add(nombre);
+			    }
+			}
+
+			StringArray arrayTiposRegistro = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+			Set<String> listaNombresTipoRegistro = new HashSet<>();
+			if (arrayTiposRegistro != null && arrayTiposRegistro.getItem() != null) {
+			    for (String tipo : arrayTiposRegistro.getItem()) {
+			        listaNombresTipoRegistro.add(tipo);
+			    }
+			}
 			request.setAttribute("listaNombresRegistro", listaNombresTipoRegistro);
 			request.setAttribute("listaNombresInstitucion", listaNombresInstitucion);
 			request.setAttribute("nombreEvento", eventoSeleccionado);

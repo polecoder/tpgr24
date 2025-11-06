@@ -1,7 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="datatypes.DTDetalleAsistente" %>
-<%@ page import="datatypes.DTRegistro" %>
+<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
+<%@ page import="javax.xml.datatype.XMLGregorianCalendar" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleAsistente" %>
+<%@ page import="com.eventosuy.utils.Utilidades" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.eventosuy.servidor.DTRegistro" %>
 <!DOCTYPE html>
 <html lang="es">
 <jsp:include page="/WEB-INF/views/partials/head.jsp" />
@@ -95,8 +99,8 @@
     </div>
 
     <%
-      boolean esAsistente  = (usuarioAttr instanceof datatypes.DTDetalleAsistente);
-      boolean esOrganizador= (usuarioAttr instanceof datatypes.DTDetalleOrganizador);
+      boolean esAsistente  = (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleAsistente);
+      boolean esOrganizador= (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador);
     %>
 
     <% if (esAsistente) { %>
@@ -108,22 +112,33 @@
           <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
         </div>
       </div>
-
-      <% if (((datatypes.DTDetalleAsistente)usuarioAttr).getInstitucion()!=null){ %>
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Institución:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="${usuario.institucion}" />
-        </div>
+		<%
+			String institucionNombre = (String) request.getAttribute("institucionNombre");
+		%>
+      <% if (institucionNombre != null && !institucionNombre.isBlank()) { %>
+    <div class="mb-3 row">
+      <label class="col-sm-4 col-form-label text-end">Institución:</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control form-control-sm" readonly value="<%= institucionNombre %>" />
       </div>
-      <% } %>
+    </div>
+    <% } %>
+    
+    <%
+     String nacimientoStr = "";
+     com.eventosuy.servidor.DTDetalleAsistente asis = (com.eventosuy.servidor.DTDetalleAsistente) usuarioAttr;
+      javax.xml.datatype.XMLGregorianCalendar xgc = asis.getNacimiento();  
+      if (xgc != null) {
+          Date d = Utilidades.XMLGregorianCalendarToDate(xgc); 
+          nacimientoStr = new SimpleDateFormat("dd-MM-yyyy").format(d);
+  }
+%>
 
       <% SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); %>
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly 
-                 value="<%= formatter.format(((datatypes.DTDetalleAsistente)usuarioAttr).getNacimiento()) %>" />
+          <input type="text" class="form-control form-control-sm" readonly value="<%= nacimientoStr %>" />
         </div>
       </div>
 
@@ -133,28 +148,45 @@
         <div class="col-sm-8 d-flex flex-column gap-2">
           <% for (int i=0; i < regs.size(); i++) {
                DTRegistro registro = regs.get(i); %>
-          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
+          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
           <% } %>
         </div>
       </div>
       <% } %>
-
+ 
     </div>
     <% } %>
+    
+    <%
+  		com.eventosuy.servidor.DTDetalleOrganizador org = null;
+  			String descOrg = "";
+  			String linkOrg = "";
+
+  if (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador) {
+    org = (com.eventosuy.servidor.DTDetalleOrganizador) usuarioAttr;
+
+    if (org.getDescripcion() != null) {
+      descOrg = org.getDescripcion();
+    }
+    if (org.getLink() != null) {
+      linkOrg = org.getLink();
+    }
+  }
+%>
 
     <% if (esOrganizador) { %>
     <div id="organizadorFields">
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Descripción:</label>
         <div class="col-sm-8">
-          <textarea class="form-control form-control-sm" rows="2" readonly>${usuario.descripcion}</textarea>
+          <textarea class="form-control form-control-sm" rows="2" readonly><%= descOrg %></textarea>
         </div>
       </div>
 
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Link:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="${usuario.link}" />
+          <input type="text" class="form-control form-control-sm" readonly value="<%= linkOrg %>" />
         </div>
       </div>
 
@@ -162,11 +194,28 @@
         Object edsAcepObj = request.getAttribute("edicionesAceptadas");
         Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
         Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
-        java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
-        java.util.Collection<?> misEdsIngCol = (misEdsIngObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsIngObj : java.util.Collections.emptyList();
-        java.util.Collection<?> misEdsRecCol = (misEdsRecObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsRecObj : java.util.Collections.emptyList();
+        
+        java.util.List<?> edsAcepCol, misEdsIngCol, misEdsRecCol;
+
+        java.util.function.Function<Object, java.util.List<?>> toList = (obj) -> {
+            if (obj == null) return java.util.Collections.emptyList();
+            if (obj instanceof java.util.Collection<?> c) return new java.util.ArrayList<>(c);
+            if (obj.getClass().isArray()) return java.util.Arrays.asList((Object[]) obj);
+            return java.util.Collections.singletonList(obj); // último recurso: 1 elemento
+        };
+
+        edsAcepCol   = toList.apply(edsAcepObj);
+        misEdsIngCol = toList.apply(misEdsIngObj);
+        misEdsRecCol = toList.apply(misEdsRecObj);
+
         boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
-      %>
+        %>
+        
+        <%-- DEBUG temporal
+<div class="text-muted" style="font-size:12px">
+  aceptadas=<%= edsAcepCol %>
+</div>
+--%>
 
       <div class="mb-3 row">
         <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
@@ -175,18 +224,34 @@
           <div class="form-text">No hay ediciones para mostrar.</div>
           <% } else { %>
           <select class="form-select form-select-sm"
-                  onchange="if(this.value){location.href='<%=ctx%>/Ediciones?accion=ConsultaEdicion&nombre_edicion='+encodeURIComponent(this.value);}">
-            <option value="">-- seleccionar --</option>
-            <% for (Object s : edsAcepCol) { %>
-            <option value="<%=s%>"><%=s%> (ACEPTADA)</option>
-            <% } %>
-            <% for (Object s : misEdsIngCol) { %>
-            <option value="<%=s%>"><%=s%> (INGRESADA)</option>
-            <% } %>
-            <% for (Object s : misEdsRecCol) { %>
-            <option value="<%=s%>"><%=s%> (RECHAZADA)</option>
-            <% } %>
-          </select>
+        onchange="if(this.value){ window.location.href=this.value; }">
+  <option value="">-- seleccionar --</option>
+
+  <% for (Object s : edsAcepCol) {
+       String nombre = String.valueOf(s);
+       // Solo nombre_edicion, sin nombre_evento
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (ACEPTADA)</option>
+  <% } %>
+
+  <% for (Object s : misEdsIngCol) {
+       String nombre = String.valueOf(s);
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (INGRESADA)</option>
+  <% } %>
+
+  <% for (Object s : misEdsRecCol) {
+       String nombre = String.valueOf(s);
+       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
+                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+  %>
+    <option value="<%= url %>"><%= nombre %> (RECHAZADA)</option>
+  <% } %>
+</select>
           <% } %>
         </div>
       </div>
@@ -213,7 +278,7 @@
 <% } else { %>
 <div class="alert alert-warning mt-4">No hay información para mostrar.</div>
 <% } %>
-
+ 
 </div>
 
 <jsp:include page="/WEB-INF/views/partials/footer.jsp" />

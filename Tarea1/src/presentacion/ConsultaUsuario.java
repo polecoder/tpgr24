@@ -399,7 +399,7 @@ public class ConsultaUsuario extends JInternalFrame {
 		        List<DTRegistro> listaRegistros = fabrica.getControladorUsuarios().listarRegistrosUsuario(nicknameSeleccionado);
 				registrosCombo.removeAllItems();
 				for (DTRegistro registro: listaRegistros) {
-					registrosCombo.addItem(registro.nombreEdicion());
+					registrosCombo.addItem(registro.getNombreEdicion());
 				}
 				List<DTEventoEdicion> listaEdiciones = fabrica.getControladorUsuarios().getEventosEdicionesDeOrganizador(nicknameSeleccionado);
 				edicionesCombo.removeAllItems();

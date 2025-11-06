@@ -50,7 +50,9 @@ public class ObjectFactory {
     private final static QName _DtDetalleUsuario_QNAME = new QName("http://servidor/", "dtDetalleUsuario");
     private final static QName _DtEdicionEvento_QNAME = new QName("http://servidor/", "dtEdicionEvento");
     private final static QName _DtEvento_QNAME = new QName("http://servidor/", "dtEvento");
+    private final static QName _DtEventoEdicion_QNAME = new QName("http://servidor/", "dtEventoEdicion");
     private final static QName _DtEventoEntry_QNAME = new QName("http://servidor/", "dtEventoEntry");
+    private final static QName _DtRegistro_QNAME = new QName("http://servidor/", "dtRegistro");
     private final static QName _DtTipoRegistro_QNAME = new QName("http://servidor/", "dtTipoRegistro");
     private final static QName _Patrocinio_QNAME = new QName("http://servidor/", "patrocinio");
 
@@ -270,11 +272,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTEventoEdicion }
+     * 
+     */
+    public DTEventoEdicion createDTEventoEdicion() {
+        return new DTEventoEdicion();
+    }
+
+    /**
      * Create an instance of {@link DTEventoEntry }
      * 
      */
     public DTEventoEntry createDTEventoEntry() {
         return new DTEventoEntry();
+    }
+
+    /**
+     * Create an instance of {@link DTRegistro }
+     * 
+     */
+    public DTRegistro createDTRegistro() {
+        return new DTRegistro();
     }
 
     /**
@@ -302,14 +320,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HashSet }
-     * 
-     */
-    public HashSet createHashSet() {
-        return new HashSet();
-    }
-
-    /**
      * Create an instance of {@link HashMap }
      * 
      */
@@ -326,6 +336,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HashSet }
+     * 
+     */
+    public HashSet createHashSet() {
+        return new HashSet();
+    }
+
+    /**
      * Create an instance of {@link TipoRegistro }
      * 
      */
@@ -339,6 +357,22 @@ public class ObjectFactory {
      */
     public DTEdicionEventoArray createDTEdicionEventoArray() {
         return new DTEdicionEventoArray();
+    }
+
+    /**
+     * Create an instance of {@link DTEventoEdicionArray }
+     * 
+     */
+    public DTEventoEdicionArray createDTEventoEdicionArray() {
+        return new DTEventoEdicionArray();
+    }
+
+    /**
+     * Create an instance of {@link DTRegistroArray }
+     * 
+     */
+    public DTRegistroArray createDTRegistroArray() {
+        return new DTRegistroArray();
     }
 
     /**
@@ -720,6 +754,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTEventoEdicion }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTEventoEdicion }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtEventoEdicion")
+    public JAXBElement<DTEventoEdicion> createDtEventoEdicion(DTEventoEdicion value) {
+        return new JAXBElement<DTEventoEdicion>(_DtEventoEdicion_QNAME, DTEventoEdicion.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DTEventoEntry }{@code >}
      * 
      * @param value
@@ -730,6 +777,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "dtEventoEntry")
     public JAXBElement<DTEventoEntry> createDtEventoEntry(DTEventoEntry value) {
         return new JAXBElement<DTEventoEntry>(_DtEventoEntry_QNAME, DTEventoEntry.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTRegistro }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTRegistro }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtRegistro")
+    public JAXBElement<DTRegistro> createDtRegistro(DTRegistro value) {
+        return new JAXBElement<DTRegistro>(_DtRegistro_QNAME, DTRegistro.class, null, value);
     }
 
     /**

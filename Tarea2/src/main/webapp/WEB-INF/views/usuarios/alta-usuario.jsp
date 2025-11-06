@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.Set" %>
-<% Set<String> listaNombresInstitucion = (Set<String>) request.getAttribute("listaNombresInstitucion"); %>
+<%@ page import="java.util.List" %>
+<% @SuppressWarnings("unchecked")
+List<String> listaNombresInstitucion = (List<String>) request.getAttribute("listaNombresInstitucion"); %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -29,7 +30,7 @@
               <div class="alert alert-danger text-center"><%= err %></div>
             <% } %>
           </div>
-
+  
           <!-- FORM -->
           <form id="altaUsuarioForm"
                 method="post"
@@ -172,12 +173,12 @@
               </div>
 
               <div class="d-flex justify-content-center gap-3 mt-3">
-	            <label for="instituciones" class="form-label" style="width: 90px">Instituciones: </label>
-	            <select id="instituciones" name="Instituciones" class="form-select form-select-sm" style="max-width: 240px" required>
-	              <option value="" selected>
+	            <label for="institucion" class="form-label" style="width: 90px">Institucion: </label>
+	            <select id="institucion" name="institucion" class="form-select form-select-sm" style="max-width: 240px" required>
+	              <option value="-" selected>
 	                -- No pertenece a institucion --
 	              </option>
-	              <% if (listaNombresInstitucion != null) { %>
+	              <% if (listaNombresInstitucion != null&& !listaNombresInstitucion.isEmpty()) { %>
 		              <% for(String nombreInstitucion: listaNombresInstitucion) { %>
 			              <option value="<%=nombreInstitucion%>"><%=nombreInstitucion%></option>
 			          <% } %>
