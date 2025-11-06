@@ -433,6 +433,11 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		return null;
 		
 	}
+
+	@Override
+	public boolean existeNick(String nick) {
+		return manejadorUsuarios.existeNick(nick);
+	}
 	
 	@Override
 	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste{
