@@ -47,16 +47,17 @@ public class Asistente extends Usuario {
 				this.nacimiento,
 				this.institucion != null ? this.institucion.getNombre() : null,
 				this.imagen);
-		Set<DTDetalleUsuario> dataTypeSeguidores = new HashSet<DTDetalleUsuario>();
-		Set<DTDetalleUsuario> dataTypeSeguidos = new HashSet<DTDetalleUsuario>();
+		Set<String> dataTypeSeguidores = new HashSet<String>();
+		Set<String> dataTypeSeguidos = new HashSet<String>();
 		for(Usuario seguidor : this.seguidores) {
-			dataTypeSeguidores.add(seguidor.toDataType());
+			dataTypeSeguidores.add(seguidor.getNickname());
 		}
 		for(Usuario seguido : this.seguidos) {
-			dataTypeSeguidos.add(seguido.toDataType());
+			dataTypeSeguidos.add(seguido.getNickname());
 		}
 		asistenteDataType.setDataTypeSeguidores(dataTypeSeguidores);
 		asistenteDataType.setDataTypeSeguidos(dataTypeSeguidos);
+		
 		return asistenteDataType;
 		
 	}

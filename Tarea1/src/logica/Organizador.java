@@ -53,13 +53,13 @@ public class Organizador extends Usuario {
 				this.descripcion,
 				this.link,
 				this.imagen);
-		Set<DTDetalleUsuario> dataTypeSeguidores = new HashSet<DTDetalleUsuario>();
-		Set<DTDetalleUsuario> dataTypeSeguidos = new HashSet<DTDetalleUsuario>();
+		Set<String> dataTypeSeguidores = new HashSet<String>();
+		Set<String> dataTypeSeguidos = new HashSet<String>();
 		for(Usuario seguidor : this.seguidores) {
-			dataTypeSeguidores.add(seguidor.toDataType());
+			dataTypeSeguidores.add(seguidor.getNickname());
 		}
 		for(Usuario seguido : this.seguidos) {
-			dataTypeSeguidos.add(seguido.toDataType());
+			dataTypeSeguidos.add(seguido.getNickname());
 		}
 		organizadorDataType.setDataTypeSeguidores(dataTypeSeguidores);
 		organizadorDataType.setDataTypeSeguidos(dataTypeSeguidos);

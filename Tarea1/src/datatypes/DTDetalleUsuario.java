@@ -1,6 +1,7 @@
 package datatypes;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 public class DTDetalleUsuario {
@@ -9,8 +10,8 @@ public class DTDetalleUsuario {
 	private String correo;
 	private byte[] imagen;
 	private ETipoUsuario tipo;
-	private Set<DTDetalleUsuario> dataTypeSeguidores;
-	private Set<DTDetalleUsuario> dataTypeSeguidos;
+	private Set<String> dataTypeSeguidores;
+	private Set<String> dataTypeSeguidos;
 	
 	public DTDetalleUsuario(String nickname, String nombre, String correo, ETipoUsuario tipo, byte[] imagen) {
 		super();
@@ -35,9 +36,28 @@ public class DTDetalleUsuario {
 		return tipo;
 	}
 	
-	public Set<DTDetalleUsuario> getDataTypeSeguidores(){ return dataTypeSeguidores; }
-	public Set<DTDetalleUsuario> getDataTypeSeguidos(){ return dataTypeSeguidos; }
+	public Set<String> getDataTypeSeguidores(){ return dataTypeSeguidores; }
+	public Set<String> getDataTypeSeguidos(){ return dataTypeSeguidos; }
 	
-	public void setDataTypeSeguidores(Set<DTDetalleUsuario> seguidores) { this.dataTypeSeguidores = seguidores; }
-	public void setDataTypeSeguidos(Set<DTDetalleUsuario> seguidos) { this.dataTypeSeguidores = seguidos; }
+	public void setDataTypeSeguidores(Set<String> seguidores) { this.dataTypeSeguidores = seguidores; }
+	public void setDataTypeSeguidos(Set<String> seguidos) { this.dataTypeSeguidos = seguidos; }
+	
+	// Sobre-escritura
+    @Override
+    public boolean equals(Object obj) {
+    	if (this == obj) return true;
+        if (obj == null || !(obj instanceof DTDetalleUsuario)) return false;
+        DTDetalleUsuario otro = (DTDetalleUsuario) obj;
+        boolean comparacion = 
+        		this.nickname.equals(otro.nickname) &&
+        		this.nombre.equals(otro.nombre) &&
+        		this.correo.equals(otro.correo) &&
+        		this.imagen.equals(otro.imagen) &&
+        		this.tipo.equals(otro.tipo);
+        return comparacion;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname,nombre,correo,imagen,tipo);
+    }
 }
