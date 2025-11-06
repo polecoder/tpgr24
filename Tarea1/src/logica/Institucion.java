@@ -55,7 +55,19 @@ public class Institucion {
 	public boolean asistentePertence(String nicknameAsistente) {
 		return asistentes.containsKey(nicknameAsistente);
 	}
+	
 	public Set<String> getEdicionesPatrocinadas() {
 		return this.edicionesConPatrocinio;
+	}
+	
+	/**
+	 * Elimina la edición patrocinada en la colección.<p>
+	 * Si no existe no hace nada.
+	 * 
+	 * @param nombreEdicion
+	 */
+	public void eliminarEdicionPatrocinada(String nombreEdicion) {
+		boolean existeEdicion = this.edicionesConPatrocinio.contains(nombreEdicion);
+		if (existeEdicion) this.edicionesConPatrocinio.remove(nombreEdicion);
 	}
 }

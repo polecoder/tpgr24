@@ -200,7 +200,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
-		Asistente asistente = manejadorUsuarios.getAsistente(nickname); // mu = ManejadorUsuarios.getInstance()
+		Asistente asistente = manejadorUsuarios.getAsistente(nickname);
 		List<DTRegistro> out = new ArrayList<>();
 		if (asistente == null)
 			return out;

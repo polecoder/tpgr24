@@ -66,4 +66,15 @@ public class Organizador extends Usuario {
 		
 		return organizadorDataType;
 	}
+	
+	/**
+	 * Elimina la edición pasada por el parámetro `edicion` de la colección de ediciones.<p>
+	 * Si la edición no existe no hace nada.
+	 * 
+	 * @param nombreEdicion
+	 */
+	public void eliminarEdicion(Edicion edicion) {
+		boolean existe = this.ediciones.contains(edicion);
+		if (existe) this.ediciones.remove(edicion);
+	}
 }
