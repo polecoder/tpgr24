@@ -7,12 +7,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
-
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
@@ -21,7 +17,6 @@ import com.eventosuy.servidor.DTDetalleOrganizador;
 import com.eventosuy.servidor.DTDetalleRegistro;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.EEstadoEdicion;
-import com.eventosuy.servidor.EEstadoEdicionArray;
 import com.eventosuy.utils.Utilidades;
 
 import datatypes.DTRegistro;
@@ -35,9 +30,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorUsuarios;
 
 @MultipartConfig 
 @WebServlet("/usuario")                     
