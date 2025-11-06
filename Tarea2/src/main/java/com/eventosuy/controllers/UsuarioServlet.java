@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -168,7 +169,7 @@ public class UsuarioServlet extends HttpServlet {
 					try {
 						u = cu.mostrarDetalleUsuario(nick); 
 					} catch (Exception e) {
-						// si no exiiste el usuario
+						// si no existe el usuario
 						response.sendError(404);
 						request.getRequestDispatcher("/pages/error/404.jsp")
 						.include(request, response);
@@ -196,17 +197,21 @@ public class UsuarioServlet extends HttpServlet {
 					    
 					    List<String> ingresadas = new ArrayList<>();
 					    List<String> rechazadas = new ArrayList<>();
+					    List<String> archivadas = new ArrayList<>();
 					    if (esPropio) {
 					        ingresadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Ingresada);
 					        rechazadas =
 					            ce.getEdicionesDeOrganizadorPorEstado(u.getNickname(), EEstadoEdicion.Rechazada);
-					        if (ingresadas == null) ingresadas = java.util.Collections.emptyList();
-					        if (rechazadas == null) rechazadas = java.util.Collections.emptyList();
+					        archivadas = ce.listarEdicionesArchivadasDeOrganizador(u.getNickname());
+					        if (ingresadas == null) ingresadas = Collections.emptyList();
+					        if (rechazadas == null) rechazadas = Collections.emptyList();
+					        if (archivadas == null) archivadas = Collections.emptyList();
 
 					    }
 					    request.setAttribute("misEdicionesIngresadas", ingresadas);
 					    request.setAttribute("misEdicionesRechazadas", rechazadas);
+					    request.setAttribute("misEdicionesArchivadas", archivadas);
 					}
 
 					// ------ ASISTENTE ------

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import excepciones.EdicionNoExiste;
 import excepciones.TipoRegistroNoExiste;
-import datatypes.DTPatrocinio;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEvento;
 
@@ -101,13 +100,22 @@ public class Evento {
 	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
 	}
+	
 	public void agregarEdicion(Edicion edicion) {
 		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(), edicion);
 	}
 	
-	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
-		//TODO
+	/**
+	 * Elimina la edición de nombre `nombreEdicion` de la colección de ediciones.<p>
+	 * Si la edición no existe, no hace nada.
+	 * 
+	 * @param nombreEdicion
+	 */
+	public void eliminarEdicion(String nombreEdicion) {
+		Edicion edicion = this.getEdicion(nombreEdicion);
+		if (edicion == null) return;
+		this.ediciones.remove(nombreEdicion);
 	}
 	
 	public Edicion getEdicion(String nombreEdicion) {

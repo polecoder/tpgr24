@@ -132,9 +132,14 @@
         <label class="col-sm-4 col-form-label text-end">Registros:</label>
         <div class="col-sm-8 d-flex flex-column gap-2">
           <% for (int i=0; i < regs.size(); i++) {
-               DTRegistro registro = regs.get(i); %>
-          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
-          <% } %>
+               DTRegistro registro = regs.get(i); 
+               // si la edición tiene un nombre inválido (probablemente por estar archivada, no muestro el registro)
+               if (registro.nombreEdicion() != "(sin edición)") { %>
+                 <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.nombreEdicion() %></a>
+          <%
+               }
+             } 
+          %>
         </div>
       </div>
       <% } %>
@@ -159,13 +164,15 @@
       </div>
 
       <%
+        // TODO: Este código está horrible
         Object edsAcepObj = request.getAttribute("edicionesAceptadas");
         Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
         Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
+        List<String> edicionesArchivadas = (List<String>) request.getAttribute("misEdicionesArchivadas");
         java.util.Collection<?> edsAcepCol = (edsAcepObj instanceof java.util.Collection) ? (java.util.Collection<?>) edsAcepObj : java.util.Collections.emptyList();
         java.util.Collection<?> misEdsIngCol = (misEdsIngObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsIngObj : java.util.Collections.emptyList();
         java.util.Collection<?> misEdsRecCol = (misEdsRecObj instanceof java.util.Collection) ? (java.util.Collection<?>) misEdsRecObj : java.util.Collections.emptyList();
-        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
+        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty() && edicionesArchivadas.isEmpty();
       %>
 
       <div class="mb-3 row">
@@ -185,6 +192,9 @@
             <% } %>
             <% for (Object s : misEdsRecCol) { %>
             <option value="<%=s%>"><%=s%> (RECHAZADA)</option>
+            <% } %>
+            <% for (String nombreEdicion : edicionesArchivadas) { %>
+            <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
             <% } %>
           </select>
           <% } %>
