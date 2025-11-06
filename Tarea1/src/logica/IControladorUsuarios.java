@@ -88,4 +88,5 @@ public interface IControladorUsuarios {
 
 	List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick);
 	DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario);
+	boolean existeNick(String nick);
 }

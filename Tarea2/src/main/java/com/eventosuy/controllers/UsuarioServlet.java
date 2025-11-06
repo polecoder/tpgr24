@@ -44,7 +44,6 @@ public class UsuarioServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");  //cualquier caracter
 
 		final String accion = nvl(request.getParameter("accion"), "consulta");
-
 		switch (accion) {
 
 		// ==================== ALTA USUARIO ====================
@@ -493,6 +492,20 @@ public class UsuarioServlet extends HttpServlet {
 			.forward(request, response);
 			return;
 		}
+		case "checkNickname":{
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
+			String nick= request.getParameter("nickname");
+			IControladorUsuarios ctrlUsuarios = Fabrica.getInstancia().getControladorUsuarios();
+			if (ctrlUsuarios.existeNick(nick)) {
+		        response.getWriter().write("no-disponible");
+		        
+		    } else {
+		        response.getWriter().write("disponible");
+		     
+		    }
+		    return;
+		}
 
 		// TODO: Esto no debería estar, o debería redirigir a una página de error existente
 		// ==================== ACCIÓN DESCONOCIDA ====================
@@ -500,6 +513,7 @@ public class UsuarioServlet extends HttpServlet {
 			response.sendError(404);
 			request.getRequestDispatcher("/pages/error/404.jsp").include(request, response);
 		}
+
 	}
 
 

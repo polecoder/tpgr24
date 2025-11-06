@@ -5,9 +5,8 @@
 <html lang="es">
   <!-- HEAD GLOBAL -->
   <jsp:include page="/WEB-INF/views/partials/head.jsp" />
-
   <body class="d-flex flex-column min-vh-100">
-
+	
     <!-- HEADER GLOBAL -->
     <jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
@@ -17,7 +16,7 @@
       </div>
 
       <div class="d-flex justify-content-between">
-        <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="max-width: 720px">
+        <main class="mx-auto p-4 bg-light border-top border-2 border-primary rounded" style="width: 400px">
           <!-- Alertas -->
           <div id="alert-area" class="mb-3">
             <% String ok = request.getParameter("ok");
@@ -98,9 +97,14 @@
             <div class="d-flex justify-content-center gap-3">
               <label for="nickname" class="form-label text-end" style="width: 90px">Nickname:</label>
               <input type="text" id="nickname" name="nickname" required
-                     class="form-control form-control-sm" style="max-width: 200px"
-                     value="${param.nickname}"/>
+                     class="form-control form-control-sm" 
+                     style="max-width: 200px"
+                     style= "position: absolute;"
+                     onkeyup="Disponible(this.value)"
+                     value="${param.nickname}"/>   
+               	
             </div>
+            <div id="nicknameResult" class="d-flex justify-content-center gap-3"></div>
 
             <!-- Nombre -->
             <div class="d-flex justify-content-center gap-3">
@@ -232,6 +236,30 @@
       //chkInstitucion.addEventListener("change", function() {
       //  filaInstitucion.classList.toggle("d-none", !chkInstitucion.checked);
       //});
+
+      function Disponible(nickname) {
+		  console.log("Nickname ingresado: " + nickname); // esto reemplaza al System.out.println
+		
+		  if (nickname.length === 0) {
+		    document.getElementById("nicknameResult").innerHTML = "";
+		    return;
+		  }
+		
+		  const xmlhttp = new XMLHttpRequest();
+		
+		  xmlhttp.onload = function() {
+		    const result = document.getElementById("nicknameResult");
+		    
+		    if (this.responseText.trim() === "disponible") {
+		      result.textContent = "✅ Nickname disponible";
+		    } else {
+		    	result.textContent = "❌ Nickname no disponible";
+		    }
+		  };
+		
+		  xmlhttp.open("GET", "usuario?accion=checkNickname&nickname=" + encodeURIComponent(nickname));
+		  xmlhttp.send();
+		}
     </script>
   </body>
 </html>
