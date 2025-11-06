@@ -5,11 +5,9 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Set;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import datatypes.DTDetalleRegistro;
 
 public class Utilidades {
 	public static Date toDate(LocalDate fecha) {
@@ -17,7 +15,6 @@ public class Utilidades {
 	}
 	
 	/**
-	 * ACLARACIÓN: Esta función está pensada para la parte web, si se llama desde Swing se asegura de no devolver errores por esta misma razón.
 	 * Busca la imagen ubicada en src/images con el nombre dado, la transforma a bytes y la devuelve.
 	 * Si nombreArchivo es null o "-" entonces directamente no busca la imagen, devuelve null
 	 * Retorna null si la imagen no existe.

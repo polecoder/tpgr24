@@ -41,9 +41,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-//import logica.Fabrica;
-//import logica.IControladorEventos;
-//import logica.IControladorUsuarios;
 
 @MultipartConfig 
 @WebServlet("/usuario")                     

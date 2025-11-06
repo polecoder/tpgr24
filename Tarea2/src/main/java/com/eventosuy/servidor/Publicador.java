@@ -28,6 +28,29 @@ public interface Publicador {
 
     /**
      * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/helloWorldRequest", output = "http://servidor/Publicador/helloWorldResponse")
+    public String helloWorld();
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getNombreInstitucionAsistenteRequest", output = "http://servidor/Publicador/getNombreInstitucionAsistenteResponse")
+    public String getNombreInstitucionAsistente(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      * @return
@@ -54,6 +77,16 @@ public interface Publicador {
     public String getNombreInstitucionAsistente(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     * @return
+     *     returns com.eventosuy.servidor.DTEventoEntryArray
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/listarEventosRequest", output = "http://servidor/Publicador/listarEventosResponse")
+    public DTEventoEntryArray listarEventos();
 
     /**
      * 
@@ -175,16 +208,17 @@ public interface Publicador {
      * @param arg4
      * @param arg1
      * @param arg0
+     * @param arg7
      * @param arg6
-     * @throws FormularioIncompletoOrganizador_Exception
+     * @throws FormularioIncompletoAsistente_Exception
      * @throws FormatoContrasenaInvalido_Exception
      */
     @WebMethod
-    @Action(input = "http://servidor/Publicador/altaOrganizadorRequest", output = "http://servidor/Publicador/altaOrganizadorResponse", fault = {
-        @FaultAction(className = FormatoContrasenaInvalido_Exception.class, value = "http://servidor/Publicador/altaOrganizador/Fault/FormatoContrasenaInvalido"),
-        @FaultAction(className = FormularioIncompletoOrganizador_Exception.class, value = "http://servidor/Publicador/altaOrganizador/Fault/FormularioIncompletoOrganizador")
+    @Action(input = "http://servidor/Publicador/altaAsistenteRequest", output = "http://servidor/Publicador/altaAsistenteResponse", fault = {
+        @FaultAction(className = FormatoContrasenaInvalido_Exception.class, value = "http://servidor/Publicador/altaAsistente/Fault/FormatoContrasenaInvalido"),
+        @FaultAction(className = FormularioIncompletoAsistente_Exception.class, value = "http://servidor/Publicador/altaAsistente/Fault/FormularioIncompletoAsistente")
     })
-    public void altaOrganizador(
+    public void altaAsistente(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0,
         @WebParam(name = "arg1", partName = "arg1")
@@ -196,10 +230,12 @@ public interface Publicador {
         @WebParam(name = "arg4", partName = "arg4")
         String arg4,
         @WebParam(name = "arg5", partName = "arg5")
-        String arg5,
+        XMLGregorianCalendar arg5,
         @WebParam(name = "arg6", partName = "arg6")
-        byte[] arg6)
-        throws FormatoContrasenaInvalido_Exception, FormularioIncompletoOrganizador_Exception
+        String arg6,
+        @WebParam(name = "arg7", partName = "arg7")
+        byte[] arg7)
+        throws FormatoContrasenaInvalido_Exception, FormularioIncompletoAsistente_Exception
     ;
 
     /**
@@ -219,7 +255,12 @@ public interface Publicador {
         @FaultAction(className = TipoRegistroNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/TipoRegistroNoExiste"),
         @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EventoNoExiste"),
         @FaultAction(className = EdicionNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EdicionNoExiste")
+    @Action(input = "http://servidor/Publicador/getDTTipoRegistroRequest", output = "http://servidor/Publicador/getDTTipoRegistroResponse", fault = {
+        @FaultAction(className = TipoRegistroNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/TipoRegistroNoExiste"),
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EventoNoExiste"),
+        @FaultAction(className = EdicionNoExiste_Exception.class, value = "http://servidor/Publicador/getDTTipoRegistro/Fault/EdicionNoExiste")
     })
+    public DTTipoRegistro getDTTipoRegistro(
     public DTTipoRegistro getDTTipoRegistro(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0,
@@ -375,6 +416,8 @@ public interface Publicador {
      * @param arg2
      * @param arg5
      * @param arg4
+     * @param arg5
+     * @param arg4
      * @param arg1
      * @param arg0
      * @param arg7
@@ -409,6 +452,7 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg1
      * @param arg0
      * @return
      *     returns com.eventosuy.servidor.StringArray
@@ -418,7 +462,11 @@ public interface Publicador {
     @Action(input = "http://servidor/Publicador/nombresCategoriasRequest", output = "http://servidor/Publicador/nombresCategoriasResponse")
     public StringArray nombresCategorias(
         @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1)
+        throws ContrasenaIncorrecta_Exception
+    ;
 
     /**
      * 
@@ -459,10 +507,25 @@ public interface Publicador {
 
     /**
      * 
-     * @param arg3
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTDetalleUsuario
+     * @throws UsuarioNoExiste_Exception
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/mostrarDetalleUsuarioRequest", output = "http://servidor/Publicador/mostrarDetalleUsuarioResponse", fault = {
+        @FaultAction(className = UsuarioNoExiste_Exception.class, value = "http://servidor/Publicador/mostrarDetalleUsuario/Fault/UsuarioNoExiste")
+    })
+    public DTDetalleUsuario mostrarDetalleUsuario(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0)
+        throws UsuarioNoExiste_Exception
+    ;
+
+    /**
+     * 
      * @param arg2
-     * @param arg5
-     * @param arg4
      * @param arg1
      * @param arg0
      * @throws UsuarioNoExiste_Exception
@@ -513,8 +576,6 @@ public interface Publicador {
      * 
      * @param arg3
      * @param arg2
-     * @param arg5
-     * @param arg4
      * @param arg1
      * @param arg0
      * @throws DatosTipoRegistroInvalidos_Exception
@@ -605,8 +666,10 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg0
      * @return
-     *     returns com.eventosuy.servidor.DTDetalleUsuarioArray
+     *     returns com.eventosuy.servidor.HashSet
+     * @throws EventoNoExiste_Exception
      */
     @WebMethod
     @WebResult(partName = "return")
@@ -654,7 +717,7 @@ public interface Publicador {
      * @param arg1
      * @param arg0
      * @return
-     *     returns com.eventosuy.servidor.StringArray
+     *     returns com.eventosuy.servidor.DTDetalleRegistroArray
      */
     @WebMethod
     @WebResult(partName = "return")
@@ -689,7 +752,7 @@ public interface Publicador {
      * @param arg1
      * @param arg0
      * @return
-     *     returns com.eventosuy.servidor.StringArray
+     *     returns com.eventosuy.servidor.DTDetalleUsuarioArray
      */
     @WebMethod
     @WebResult(partName = "return")
@@ -805,7 +868,7 @@ public interface Publicador {
      * @param arg1
      * @param arg0
      * @return
-     *     returns com.eventosuy.servidor.StringArray
+     *     returns com.eventosuy.servidor.DTDetalleRegistro
      */
     @WebMethod
     @WebResult(partName = "return")
