@@ -2,12 +2,14 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
 import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
 import excepciones.FormatoContrasenaInvalido;
 import excepciones.FormularioIncompletoAsistente;
 import excepciones.FormularioIncompletoOrganizador;
@@ -19,7 +21,9 @@ import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
+import datatypes.DTEvento;
 import datatypes.DTEventoEdicion;
+import datatypes.DTPDF;
 import datatypes.DTUsuario;
 import datatypes.EEstadoEdicion;
 import datatypes.DTRegistro;
@@ -28,10 +32,12 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
 	private IControladorInstitucion iContInstituciones;
+	private IControladorPDF controladorPDF;
 
 	private ControladorUsuarios() {
 		manejadorUsuarios = ManejadorUsuarios.getInstance();
 		iContInstituciones = ControladorInstitucion.getInstance();
+		controladorPDF = ControladorPDF.getInstance();
 	}
 
 	public static ControladorUsuarios getInstance() {
@@ -240,8 +246,32 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} else {
 			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null, registro.getAsistio());
 		}
-		
 		return dtRegistro;
+	}
+	
+	public void generarPDFAsistencia(DTDetalleRegistro dtRegistro) throws RegistroNoExiste, IOException, EventoNoExiste, EdicionNoExiste {
+		if (dtRegistro == null) { throw new RegistroNoExiste("Error generando la constancia de asistencioa"); }
+		
+		Asistente asistente = manejadorUsuarios.getAsistente(dtRegistro.getNicknameAsistente());
+		String nombreCompleto = String.format("%s %s",asistente.getNombre(), asistente.getApellido());
+		
+		String nombreEdicion = dtRegistro.getNombreEdicion();
+		
+		ControladorEventos controladorEventos = ControladorEventos.getInstance();
+		
+		DTEvento dtEvento = controladorEventos.getEventoPorEdicion(nombreEdicion);
+		if (dtEvento == null) { throw new EventoNoExiste("El evento no existe"); }
+		String nombreEvento = dtEvento.getNombre();
+		
+		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		if (dtEdicion == null) { throw new EdicionNoExiste("La edicion no existe"); }
+		String ciudad = dtEdicion.getCiudad();
+		Date fechaInicio = dtEdicion.getFechaInicio();
+		Date fechaFin = dtEdicion.getFechaFin();
+		
+		DTPDF dtPDF = new DTPDF(nombreCompleto, nombreEvento, nombreEdicion, ciudad, fechaInicio, fechaFin);
+		
+		controladorPDF.generarPDFAsistencia(dtPDF, null); // path por defecto
 	}
 
 	/**
