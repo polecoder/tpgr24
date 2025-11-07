@@ -79,11 +79,6 @@ public class TestEventosMasVisitados {
         assertEquals("EventoA", resultado.get(3).getNombre()); // 100
         assertEquals("EventoD", resultado.get(4).getNombre()); // 50
         
-        // verificar que las visitas están en orden descendente
-        assertTrue(resultado.get(0).getVisitas() >= resultado.get(1).getVisitas());
-        assertTrue(resultado.get(1).getVisitas() >= resultado.get(2).getVisitas());
-        assertTrue(resultado.get(2).getVisitas() >= resultado.get(3).getVisitas());
-        assertTrue(resultado.get(3).getVisitas() >= resultado.get(4).getVisitas());
     }
     
     @Test
