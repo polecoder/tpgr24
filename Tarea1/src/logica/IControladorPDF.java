@@ -2,7 +2,12 @@ package logica;
 
 import java.io.IOException;
 
+import datatypes.DTDetalleRegistro;
 import datatypes.DTPDF;
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
+import excepciones.RegistroNoExiste;
+import excepciones.UsuarioNoExiste;
 
 public interface IControladorPDF {
 	/**
@@ -12,5 +17,7 @@ public interface IControladorPDF {
 	 * @param path
 	 * @return
 	 */
-	public void generarPDFAsistencia(DTPDF dtPDF, String path);
+	public byte[] generarPDFAsistencia(DTPDF dtPDF, String path);
+	
+	public DTPDF getDTPDF(DTDetalleRegistro dtRegistro) throws UsuarioNoExiste, EventoNoExiste, EdicionNoExiste, RegistroNoExiste;
 }

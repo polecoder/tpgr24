@@ -4,20 +4,35 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
+import datatypes.DTDetalleAsistente;
+import datatypes.DTDetalleRegistro;
+import datatypes.DTEdicionEvento;
+import datatypes.DTEvento;
 import datatypes.DTPDF;
+import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
+import excepciones.RegistroNoExiste;
+import excepciones.UsuarioNoExiste;
 
 
 
 public class ControladorPDF implements IControladorPDF{
 	private static ControladorPDF instance;
+	private IControladorEventos controladorEventos;
+	private IControladorUsuarios controladorUsuarios;
 	
-	private ControladorPDF() {}
+	private ControladorPDF() {
+		Fabrica fabrica = Fabrica.getInstancia();
+		controladorEventos = ControladorEventos.getInstance();
+		controladorUsuarios = ControladorUsuarios.getInstance();
+	}
 	
 	public static ControladorPDF getInstance() {
 		if (instance == null) {
@@ -27,8 +42,8 @@ public class ControladorPDF implements IControladorPDF{
 	}
 	
 	@Override
-	public void generarPDFAsistencia(DTPDF dtPDF, String path) {
-		if (path == null) { path = "Constancias de asistencia\\"; } // path por defecto (relativo al working directory)
+	public byte[] generarPDFAsistencia(DTPDF dtPDF, String path) {
+		if (path == null) { path = "..\\..\\Facultad\\tprog\\tpgr24\\Constancias de asistencia"; } // path por defecto (relativo al working directory - system32 para web)
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) { // Garantiza que se cierre automaticamente
             PdfWriter writer = new PdfWriter(baos);
             PdfDocument pdf = new PdfDocument(writer);
@@ -42,14 +57,34 @@ public class ControladorPDF implements IControladorPDF{
             document.add(new Paragraph(String.format("Fechas de la edición: %s - %s", dtPDF.getFechaInicio().toString(), dtPDF.getFechaFin()).toString()));
             document.close();
 
-            byte[] PDFbyte =  baos.toByteArray();
-            guardarPDF(PDFbyte, String.format("%s\\Constancia de asistencia-%s.pdf", path, dtPDF.getNombreCompleto()));
+            return baos.toByteArray();
         } catch (Exception e) {
-            throw new RuntimeException("Error generando PDF", e);
+        	throw new RuntimeException("Error generando PDF", e);
         }
 	}
 	
 	public void guardarPDF(byte[] PDFBytes, String path) throws IOException {
 		Files.write(Paths.get(path), PDFBytes);
+	}
+	
+	@Override
+	public DTPDF getDTPDF(DTDetalleRegistro dtRegistro) throws UsuarioNoExiste, EventoNoExiste, EdicionNoExiste, RegistroNoExiste {
+		if (dtRegistro == null) { throw new RegistroNoExiste("Error generando la constancia de asistencia"); }
+		DTDetalleAsistente dtAsistente = (DTDetalleAsistente) controladorUsuarios.mostrarDetalleUsuario(dtRegistro.getNicknameAsistente());
+		String nombreCompleto = String.format("%s %s",dtAsistente.getNombre(), dtAsistente.getApellido());
+		
+		String nombreEdicion = dtRegistro.getNombreEdicion();
+				
+		DTEvento dtEvento = controladorEventos.getEventoPorEdicion(nombreEdicion);
+		if (dtEvento == null) { throw new EventoNoExiste("El evento no existe"); }
+		String nombreEvento = dtEvento.getNombre();
+		
+		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		if (dtEdicion == null) { throw new EdicionNoExiste("La edicion no existe"); }
+		String ciudad = dtEdicion.getCiudad();
+		Date fechaInicio = dtEdicion.getFechaInicio();
+		Date fechaFin = dtEdicion.getFechaFin();
+		
+		return new DTPDF(nombreCompleto, nombreEvento, nombreEdicion, ciudad, fechaInicio, fechaFin);
 	}
 }

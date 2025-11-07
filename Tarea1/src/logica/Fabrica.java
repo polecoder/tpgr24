@@ -28,4 +28,8 @@ public class Fabrica {
     public IControladorInstitucion getControladorInstitucion() {
         return ControladorInstitucion.getInstance();
     }
+    
+    public IControladorPDF getControladorPDF() {
+    	return ControladorPDF.getInstance();
+    }
 }
