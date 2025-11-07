@@ -586,4 +586,9 @@ public int registrarVisitaEvento(String nombre) {
 		}
 		return resultado;
 	}
+	
+	@Override
+	public DTEvento getEventoPorEdicion(String nombreEdicion) {
+		return manejadorEventos.getEventoPorEdicion(nombreEdicion);
+	}
 }

@@ -488,5 +488,16 @@ public class ManejadorEventos {
 		}
 		return setRegistros;
 	}
+	
+	public DTEvento getEventoPorEdicion(String nombreEdicion) {
+		DTEvento dtEvento = null;
+		for (Evento evento : eventos.values()) {
+			if (contieneEdicion(evento.getNombre(), nombreEdicion)) {
+				dtEvento = new DTEvento(evento.getNombre(), evento.getDescripcion(), evento.getSigla(), evento.getFechaAlta(), evento.getCategoria().keySet(), evento.getImagen(), evento.getEstado());
+				break;
+			}
+		}
+		return dtEvento;
+	}
 }
 
