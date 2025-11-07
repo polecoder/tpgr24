@@ -2,12 +2,14 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
 import excepciones.EdicionNoExiste;
+import excepciones.EventoNoExiste;
 import excepciones.FormatoContrasenaInvalido;
 import excepciones.FormularioIncompletoAsistente;
 import excepciones.FormularioIncompletoOrganizador;
@@ -19,7 +21,9 @@ import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
+import datatypes.DTEvento;
 import datatypes.DTEventoEdicion;
+import datatypes.DTPDF;
 import datatypes.DTUsuario;
 import datatypes.EEstadoEdicion;
 import datatypes.DTRegistro;
@@ -30,6 +34,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	private IControladorInstitucion iContInstituciones;
 
 	private ControladorUsuarios() {
+		Fabrica fabrica = Fabrica.getInstancia();
 		manejadorUsuarios = ManejadorUsuarios.getInstance();
 		iContInstituciones = ControladorInstitucion.getInstance();
 	}
@@ -240,7 +245,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} else {
 			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null, registro.getAsistio());
 		}
-		
 		return dtRegistro;
 	}
 

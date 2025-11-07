@@ -167,4 +167,5 @@ public interface IControladorEventos {
      * @return una lista con el nombre de todas las ediciones archivadas del usuario
      */
     public List<String> listarEdicionesArchivadasDeOrganizador(String nicknameOrganizador);
+    public DTEvento getEventoPorEdicion(String nombreEdicion);
 }

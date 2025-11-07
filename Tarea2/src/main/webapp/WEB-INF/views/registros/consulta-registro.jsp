@@ -99,6 +99,8 @@
 	              	String nomTipo = dtDetalle.getNombreTipo();
 	              	float costo = dtDetalle.getCosto();
 	              	String codigoPatrocinio = dtDetalle.getCodigoPatrocinio();
+	              	boolean asistio = dtDetalle.getAsistio();
+	              	
               %>
 	                <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
 	                <p><strong>Edición:</strong> <%= nomEd %></p>
@@ -108,6 +110,19 @@
 	                <% if (codigoPatrocinio != null) { %>
 	                	<p><strong>Patrocinio:</strong> <%=codigoPatrocinio%></p>
 	                <% } %>
+	                <% if (asistio) { %>
+	                <form action="<%=request.getContextPath()%>/pdf" method="get">
+						<input type="hidden" name="nombreEdicion" value="<%= dtDetalle.getNombreEdicion() %>">
+						<input type="hidden" name="nombreTipo" value="<%= dtDetalle.getNombreTipo() %>">
+						<input type="hidden" name="costo" value="<%= dtDetalle.getCosto() %>">
+						<input type="hidden" name="codigoPatrocinio" value="<%= dtDetalle.getCodigoPatrocinio() %>">
+						<input type="hidden" name="asistio" value="<%= dtDetalle.getAsistio() %>">
+						<% java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+					    	String fechaStr = sdf.format(dtDetalle.getFecha()); %>
+						<input type="hidden" name="fecha" value="<%= fechaStr %>">
+						<button class="btn btn-primary" type="submit">Descargar constancia de asistencia</button>
+	                </form>
+				<% } %>
               <% } %>
           	<%
             // ======================== ORGANIZADOR ========================
@@ -223,7 +238,6 @@
                 <p><strong>Fecha de registro:</strong> <%= fecha %></p>
                 <p><strong>Tipo de registro:</strong> <%= nomTipo %></p>
                 <p><strong>Costo:</strong> <%= patrocinio ? "Se utilizó código (costo 0)" : "No se utilizó patrocinio" %></p>
-
                 <div class="text-end mt-4">
                   <a class="btn btn-secondary"
                      href="<%= ctx %>/usuario?accion=consulta-registro&evento=<%= java.net.URLEncoder.encode(eventoSel, "UTF-8") %>&edicion=<%= java.net.URLEncoder.encode(edicionSel, "UTF-8") %>">

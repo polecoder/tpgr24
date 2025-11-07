@@ -15,6 +15,7 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
+import datatypes.DTPDF;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
 import datatypes.EEstadoEdicion;
@@ -27,8 +28,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import logica.ControladorPDF;
+import logica.ControladorUsuarios;
 import logica.Fabrica;
 import logica.IControladorEventos;
+import logica.IControladorPDF;
 import logica.IControladorUsuarios;
 
 @MultipartConfig 
