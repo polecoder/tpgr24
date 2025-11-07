@@ -2,18 +2,14 @@ package logica;
 
 import java.util.Date;
 import java.util.List;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 import excepciones.ContrasenaIncorrecta;
-import excepciones.EdicionNoExiste;
-import excepciones.EventoNoExiste;
 import excepciones.FormatoContrasenaInvalido;
 import excepciones.FormularioIncompletoAsistente;
 import excepciones.FormularioIncompletoOrganizador;
-import excepciones.RegistroNoExiste;
 import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleAsistente;
@@ -21,11 +17,8 @@ import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
-import datatypes.DTEvento;
 import datatypes.DTEventoEdicion;
-import datatypes.DTPDF;
 import datatypes.DTUsuario;
-import datatypes.EEstadoEdicion;
 import datatypes.DTRegistro;
 
 public class ControladorUsuarios implements IControladorUsuarios {

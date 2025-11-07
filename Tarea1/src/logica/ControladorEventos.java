@@ -170,9 +170,7 @@ public class ControladorEventos implements IControladorEventos {
 	public String[] getTiposRegistro(String nombreEvento, String nombreEdicion) throws EventoNoExiste, EdicionNoExiste {
 		try {
 			return manejadorEventos.getTiposRegistro(nombreEvento, nombreEdicion);
-		} catch (EventoNoExiste ex) {
-			throw ex;
-		} catch (EdicionNoExiste ex) {
+		} catch (EventoNoExiste | EdicionNoExiste ex) {
 			throw ex;
 		}
 	}
@@ -181,15 +179,10 @@ public class ControladorEventos implements IControladorEventos {
 	public DTTipoRegistro getDTTipoRegistro(String nombreEvento, String nombreEdicion, String nombreTipoRegistro)
 			throws TipoRegistroNoExiste, EventoNoExiste, EdicionNoExiste {
 		try {
-			manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
-		} catch (TipoRegistroNoExiste ex) {
-			throw ex;
-		} catch (EventoNoExiste ex) {
-			throw ex;
-		} catch (EdicionNoExiste ex) {
-			throw ex;
+			return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
+		} catch (TipoRegistroNoExiste | EventoNoExiste | EdicionNoExiste exception) {
+			throw exception;
 		}
-		return manejadorEventos.getDTTipoRegistro(nombreEvento, nombreEdicion, nombreTipoRegistro);
 	}
 
 	@Override

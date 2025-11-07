@@ -364,7 +364,7 @@ public class ManejadorEventos {
 		}
 	}
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
-		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed);
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre());
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
@@ -483,7 +483,7 @@ public class ManejadorEventos {
 		for (TipoRegistro tipoRegistro : setTiposRegistro.values()) {
 			List<Registro> listaRegistros = tipoRegistro.getRegistros();
 			for (Registro registro : listaRegistros) {
-				setRegistros.add(registro.mostrarDetalle(nombreEdicion, tipoRegistro.getNombre()));
+				setRegistros.add(registro.mostrarDetalle());
 			}
 		}
 		return setRegistros;
