@@ -17,9 +17,11 @@ import org.junit.jupiter.api.Order;
 import logica.Fabrica;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
+import logica.IControladorPDF;
 import logica.IControladorUsuarios;
 import logica.Utilidades;
 import datatypes.DTDetalleRegistro;
+import datatypes.DTPDF;
 import datatypes.ENivelPatrocinio;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -27,6 +29,7 @@ public class TestRegistroAEdicion {
 	private static IControladorEventos controladorEventos;
 	private static IControladorUsuarios controladorUsuarios;
 	private static IControladorInstitucion controladorInstituciones;
+	private static IControladorPDF controladorPDF;
 	
 	private static String nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link;
 	private static String nickAsistente, contrasenaAsistente, nombreAsistente, apellido;
@@ -45,6 +48,7 @@ public class TestRegistroAEdicion {
 		controladorEventos = fabrica.getControladorEvento();
 		controladorUsuarios = fabrica.getControladorUsuarios();
 		controladorInstituciones = fabrica.getControladorInstitucion();
+		controladorPDF = fabrica.getControladorPDF();
 		
 		// Variables Generales
 		nickOrganizador = "nickOrganizador";
@@ -109,6 +113,24 @@ public class TestRegistroAEdicion {
 		DTDetalleRegistro dtRegistroGenerado = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
 		DTDetalleRegistro dtRegistroEsperado = new DTDetalleRegistro(nombreEdicion, nickAsistente, nombreTipoRegistro, fecha, 0, null, false);
 		// TODO: comparar registro esperado con el generado
+	}
+	
+	@Test
+	@Order(3)
+	void testConstancia() {
+		assertDoesNotThrow(() -> {
+			controladorUsuarios.altaOrganizador(nickOrganizador, contrasenaOrganizador, nombreOrganizador, correo1, descripcion, link, null);
+			controladorInstituciones.altaInstitucion("Institucion", "Descripcion1", "https://insti.com");
+			controladorUsuarios.altaAsistente(nickAsistente, contrasenaAsistente, nombreAsistente, correo2, apellido, fecha, "Institucion", null);
+			controladorEventos.altaEvento(nombreEvento, descripcion, fecha, sigla, categorias, null, null, 0);
+			controladorEventos.altaEdicionEvento(nombreEvento, nombreEdicion, sigla, fecha, Utilidades.toDate(LocalDate.of(2050, 11, 10)), fecha, ciudad, pais, "organizador18", null, null);
+			controladorEventos.altaTipoRegistro(nombreTipoRegistro, descripcion, costo, cuposMax, nombreEvento, nombreEdicion);
+			controladorEventos.altaPatrocinio(nombreEvento, nombreEdicion, Utilidades.toDate(LocalDate.of(2024, 11, 10)), "Institucion", ENivelPatrocinio.Oro, 10000f, 1, "CODPAT1", nombreTipoRegistro);
+			controladorEventos.altaRegistro(nickAsistente, nombreTipoRegistro, nombreEdicion, nombreEvento, "CODPAT1", fecha);
+			DTDetalleRegistro dtRegistro = controladorUsuarios.obtenerDetalleRegistro(nickAsistente, 0);
+			DTPDF dtPDF = controladorPDF.getDTPDF(dtRegistro);
+			controladorPDF.generarPDFAsistencia(dtPDF, null);
+		});
 	}
 }
 	

@@ -88,11 +88,16 @@ public class ControladorPDF implements IControladorPDF{
 
             // Imagen (columna izquierda)
             byte[] imagenEdicion = controladorEventos.getDTEdicion(dtPDF.getNombreEvento(), dtPDF.getNombreEdicion()).getImagen();
-            ImageData imageData = ImageDataFactory.create(imagenEdicion);
-            Image img = new Image(imageData)
-                .setAutoScale(true)
-                .setMarginRight(10);
-            layoutSuperior.addCell(new Cell().add(img).setBorder(Border.NO_BORDER));
+            if (imagenEdicion != null) {
+            	ImageData imageData = ImageDataFactory.create(imagenEdicion);
+            	Image img = new Image(imageData)
+            			.setAutoScale(true)
+            			.setMarginRight(10);
+            	layoutSuperior.addCell(new Cell().add(img).setBorder(Border.NO_BORDER));
+            	
+            } else {
+            	layoutSuperior.addCell(new Paragraph("IMG").setFont(fontBold));
+            }
 
             // Texto alineado a la imagen (columna derecha)
             Cell celdaTexto = new Cell().setBorder(Border.NO_BORDER);
