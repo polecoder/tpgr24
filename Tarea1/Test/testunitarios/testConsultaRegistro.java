@@ -62,7 +62,7 @@ class testConsultaRegistro {
 		Asistente ana = new Asistente("ana", "Eventos.2025!", "Ana", "Perez", "ana@mail.com", Utilidades.toDate(LocalDate.now()), null);
 		
 		//creo Registro
-		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null,ed1);
+		Registro reg1 = new Registro(Utilidades.toDate(LocalDate.now()), 100, ana, null,ed1,Gen.getNombre());
 		ana.getRegistros().add(reg1);
 		
 		DTEvento dtEv = controlador.getDTEvento("ExpoTech"); // ¡Evento, no "Expo"!
@@ -119,8 +119,8 @@ class testConsultaRegistro {
 	    // --- Patrocinio + Registros del usuario ---
 	    
 	    Patrocinio pat = new Patrocinio("Patro", Utilidades.toDate(LocalDate.now()), 0, null, 0, null, null);
-	    Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat,edicion);
-	    Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat,edicion);
+	    Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()), 100f, ana, pat,edicion,gen.getNombre());
+	    Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)), 250f, ana, pat,edicion,vip.getNombre());
 	    
 	    gen.addRegistro(registro1);
 	    vip.addRegistro(registro2);
@@ -227,9 +227,9 @@ class testConsultaRegistro {
         
         // Patrocinio + Registros (en orden: Gen, VIP, Gen)
         Patrocinio pat = new Patrocinio("PAT", null, 0, null, 0, null, null);
-        Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat,edicion);
-        Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat,edicion);
-        Registro registro3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat,edicion);
+        Registro registro1 = new Registro(Utilidades.toDate(LocalDate.now()),               500f,  carlos, pat,edicion,gen.getNombre());
+        Registro registro2 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(1)),  1500f,  carlos, pat,edicion,vip.getNombre());
+        Registro registro3 = new Registro(Utilidades.toDate(LocalDate.now().plusDays(2)),   500f,  carlos, pat,edicion,gen.getNombre());
         gen.addRegistro(registro1);
         vip.addRegistro(registro2);
         gen.addRegistro(registro3);
@@ -285,7 +285,7 @@ class testConsultaRegistro {
          Patrocinio pat = new Patrocinio("P", null, 0, null, 0, null, null); 
 
         // Un solo registro
-        Registro registro = new Registro(Utilidades.toDate(LocalDate.now()), 800f, asistente, pat,edicion);
+        Registro registro = new Registro(Utilidades.toDate(LocalDate.now()), 800f, asistente, pat,edicion,gen.getNombre());
         asistente.getRegistros().add(registro);
         // Índices inválidos
         assertNull(controladorusuarios.obtenerDetalleRegistro(NICK, -1));
