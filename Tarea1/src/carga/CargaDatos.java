@@ -9,6 +9,8 @@ import logica.ManejadorUsuarios;
 import logica.Patrocinio;
 import logica.TipoRegistro;
 import logica.Utilidades;
+import persistencia.EdicionArchivada;
+import persistencia.ManejadorPersistencia;
 import datatypes.EEstadoEdicion;
 import datatypes.EEstadoEvento;
 import datatypes.ENivelPatrocinio;
@@ -44,6 +46,7 @@ public class CargaDatos {
 	private ManejadorEventos manejadorEventos;
 	private ManejadorInstituciones manejadorInstituciones;
 	private ManejadorUsuarios manejadorUsuarios;
+	private ManejadorPersistencia manejadorPersistencia;
 
 	private Map<String, CSVCategoria> categorias;
 	private Map<String, CSVInstitucion> instituciones;
@@ -74,6 +77,7 @@ public class CargaDatos {
 		this.manejadorEventos = ManejadorEventos.getInstancia();
 		this.manejadorInstituciones = ManejadorInstituciones.getInstance();
 		this.manejadorUsuarios = ManejadorUsuarios.getInstance();
+		this.manejadorPersistencia = ManejadorPersistencia.getInstance();
 		this.categorias = new HashMap<>();
 		this.instituciones = new HashMap<>();
 		this.usuariosAsistente = new HashMap<>();
@@ -339,7 +343,7 @@ public class CargaDatos {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(evento.getImagen());
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO);
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO, 0);
 			}
 		}
 	}
@@ -369,10 +373,15 @@ public class CargaDatos {
 	}
 
 	public void cargarEdiciones() {
-		if (this.eventos != null && this.ediciones!= null) {
+		if (this.eventos != null && this.ediciones != null) {
 			DateTimeFormatter.ofPattern("d/M/yyyy");
 			for (String ref : this.ediciones.keySet()) {
 				CSVEdicion datosEdicion = ediciones.get(ref);
+				
+				// chequeo si la edición ya existe en la base de datos, si existe paso a la siguiente edición
+				EdicionArchivada edicionArchivada = this.manejadorPersistencia.getEdicionEnArchivo(datosEdicion.getNombre());
+				if (edicionArchivada != null) continue;
+				
 				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosEdicion.getImagen());
@@ -412,10 +421,15 @@ public class CargaDatos {
 	}
 
 	public void cargarTipoRegistro() {
-		if (this.tiposRegistro!= null) {
+		if (this.tiposRegistro != null) {
 			for (String ref : this.tiposRegistro.keySet()) {
 				CSVTipoRegistro tipoRegistro = tiposRegistro.get(ref);
 				String nombreEdicion = ediciones.get(tipoRegistro.getEdicion()).getNombre();
+				
+				// chequeo si la edición ya existe en la base de datos, si existe paso al siguiente tipo registro
+				EdicionArchivada edicionArchivada = this.manejadorPersistencia.getEdicionEnArchivo(nombreEdicion);
+				if (edicionArchivada != null) continue;
+				
 				String nombreEvento = eventos.get(ediciones.get(tipoRegistro.getEdicion()).getEvento()).getNombre();
 				try {
 					this.manejadorEventos.altaTipoRegistro(tipoRegistro.getNombre(), tipoRegistro.getDescripcion(), Float.parseFloat(tipoRegistro.getCosto()), Integer.parseInt(tipoRegistro.getCupos()), nombreEvento, nombreEdicion);
@@ -456,6 +470,11 @@ public class CargaDatos {
 				CSVPatrocinio patrocinio = patrocinios.get(ref);
 				String nombreEvento = eventos.get(ediciones.get(patrocinio.getEdicion()).getEvento()).getNombre();
 				String nombreEdicion = ediciones.get(patrocinio.getEdicion()).getNombre();
+				
+				// chequeo si la edición ya existe en la base de datos, si existe paso al siguiente patrocinio
+				EdicionArchivada edicionArchivada = this.manejadorPersistencia.getEdicionEnArchivo(nombreEdicion);
+				if (edicionArchivada != null) continue;
+				
 				String nombreTipoRegistro = tiposRegistro.get(patrocinio.getTipoRegistro()).getNombre();
 				String nombreInstitucion = instituciones.get(patrocinio.getInstitucion()).getNombre();
 				this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
@@ -502,6 +521,11 @@ public class CargaDatos {
 					Asistente asistente = this.manejadorUsuarios.getAsistente(nicknameAsistente);
 					String nombreEvento = eventos.get(ediciones.get(registro.getEdicion()).getEvento()).getNombre();
 					String nombreEdicion = ediciones.get(registro.getEdicion()).getNombre();
+					
+					// chequeo si la edición ya existe en la base de datos, si existe paso al siguiente registro
+					EdicionArchivada edicionArchivada = this.manejadorPersistencia.getEdicionEnArchivo(nombreEdicion);
+					if (edicionArchivada != null) continue;
+					
 					String nombreTipoRegistro = tiposRegistro.get(registro.getTipoRegistro()).getNombre();
 					Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 					Patrocinio patrocinio = null;
@@ -517,7 +541,7 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto());
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto(),edicion);
 				}
 			}
 		}

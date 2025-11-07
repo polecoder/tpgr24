@@ -3,6 +3,7 @@ package testunitarios;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import excepciones.DatosTipoRegistroInvalidos;
+import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
 import logica.Fabrica;
 import logica.Utilidades;
@@ -37,7 +39,6 @@ private static Fabrica fabrica;
 	        });
 
 		// Alta Asistente
-		
 		assertDoesNotThrow(() -> {
 			fabrica.getControladorUsuarios().altaAsistente("Asistente1", "Eventos.2025!", "NombreAsistente", "mail@mail.com", "ApellidoAsistente", Utilidades.toDate(LocalDate.of(2002, 12, 17)), null, null);
 	        });
@@ -45,7 +46,7 @@ private static Fabrica fabrica;
 		// Alta Evento
 		List<String> listaCategorias = new ArrayList<>();
 		listaCategorias.add("Categoria1");
-		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null);
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
 		// Alta Edición
 		assertDoesNotThrow(() -> {
 			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2050, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
@@ -138,5 +139,12 @@ private static Fabrica fabrica;
 		
 		DTDetallePatrocinio resultado2 = fabrica.getControladorEvento().mostrarDetallePatrocinio("Evento1", "EdicionInexistente", "CODPAT1");
 		assertNull(resultado2);
+	}
+	
+	@Test
+	void testOperacionNombresEdicionesEvento() {
+		assertThrows(EventoNoExiste.class, () -> {
+			fabrica.getControladorEvento().nombresEdicionesEvento("No existe");
+		});
 	}
 }

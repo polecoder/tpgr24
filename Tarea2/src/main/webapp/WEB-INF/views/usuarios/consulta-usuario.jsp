@@ -147,9 +147,14 @@
         <label class="col-sm-4 col-form-label text-end">Registros:</label>
         <div class="col-sm-8 d-flex flex-column gap-2">
           <% for (int i=0; i < regs.size(); i++) {
-               DTRegistro registro = regs.get(i); %>
-          <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
-          <% } %>
+               DTRegistro registro = regs.get(i); 
+               // si la edición tiene un nombre inválido (probablemente por estar archivada, no muestro el registro)
+               if (registro.nombreEdicion() != "(sin edición)") { %>
+                 <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
+          <%
+               }
+             } 
+          %>
         </div>
       </div>
       <% } %>
@@ -191,10 +196,11 @@
       </div>
 
       <%
+        // TODO: Este código está horrible
         Object edsAcepObj = request.getAttribute("edicionesAceptadas");
         Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
         Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
-        
+        List<String> edicionesArchivadas = (List<String>) request.getAttribute("misEdicionesArchivadas");
         java.util.List<?> edsAcepCol, misEdsIngCol, misEdsRecCol;
 
         java.util.function.Function<Object, java.util.List<?>> toList = (obj) -> {
@@ -208,7 +214,7 @@
         misEdsIngCol = toList.apply(misEdsIngObj);
         misEdsRecCol = toList.apply(misEdsRecObj);
 
-        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty();
+        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty() && edicionesArchivadas.isEmpty();
         %>
         
         <%-- DEBUG temporal
@@ -251,6 +257,9 @@
   %>
     <option value="<%= url %>"><%= nombre %> (RECHAZADA)</option>
   <% } %>
+            <% for (String nombreEdicion : edicionesArchivadas) { %>
+            <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
+            <% } %>
 </select>
           <% } %>
         </div>

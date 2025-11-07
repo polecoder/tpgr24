@@ -16,15 +16,18 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleOrganizador;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
+import datatypes.DTEdicionEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTUsuario;
 import datatypes.DTRegistro;
+
 public class ControladorUsuarios implements IControladorUsuarios {
 	private static ControladorUsuarios instance = null;
 	private ManejadorUsuarios manejadorUsuarios;
 	private IControladorInstitucion iContInstituciones;
 
 	private ControladorUsuarios() {
+		Fabrica fabrica = Fabrica.getInstancia();
 		manejadorUsuarios = ManejadorUsuarios.getInstance();
 		iContInstituciones = ControladorInstitucion.getInstance();
 	}
@@ -198,7 +201,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 
 	@Override
 	public List<DTRegistro> listarRegistrosUsuario(String nickname) {
-		Asistente asistente = manejadorUsuarios.getAsistente(nickname); // mu = ManejadorUsuarios.getInstance()
+		Asistente asistente = manejadorUsuarios.getAsistente(nickname);
 		List<DTRegistro> out = new ArrayList<>();
 		if (asistente == null)
 			return out;
@@ -235,7 +238,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} else {
 			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null, registro.getAsistio());
 		}
-		
 		return dtRegistro;
 	}
 
@@ -373,5 +375,67 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} catch (UsuarioNoExiste e) {
 			return null;
 		}
+	}
+	
+	
+	
+	public void confirmarAsistencia(String nickname, String nombreEdicion) throws Exception {
+	    Asistente a = manejadorUsuarios.getAsistente(nickname);
+	    if (a == null) throw new Exception("Asistente no encontrado.");
+
+	    boolean confirmado = false;
+	    for (Registro r : a.getRegistros()) {
+	        if (r.getEdicion().getNombre().equals(nombreEdicion)) {
+	            r.setAsistio(true);
+	            confirmado = true;
+	            break;
+	        }
+	    }
+	    if (!confirmado) throw new Exception("Registro no encontrado para esa edición.");
+	}
+
+	
+	@Override
+	public List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick) {
+		List<DTEdicionEvento> DTEdiciones = new ArrayList<>();
+		List<Edicion> ediciones =manejadorUsuarios.listarEdicionesConRegistros(nick);
+		if (ediciones!=null) {
+			for (Edicion edi : ediciones) {
+				DTEdiciones.add(new DTEdicionEvento(edi.getNombre(), edi.getSigla(), edi.getFechaInicio(), edi.getFechaFin(), 
+						edi.getFechaAlta(), edi.getCiudad(), edi.getPais(),edi.getOrganizadorNickname(),edi.getImagen(),edi.getEstado(), edi.getVideoURL()));
+			}
+		}
+	return DTEdiciones;
+	}
+
+	@Override
+	public DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario) {
+		Asistente asistente = manejadorUsuarios.getAsistente(Usuario);
+		if (asistente == null)
+			return null;
+		List<Registro> regs = asistente.getRegistros();
+		
+		for(Registro reg : regs) {
+			
+			if (reg.getEdicion().getNombre().equals(edicion)) {
+				ManejadorEventos manejadoreventos = ManejadorEventos.getInstancia();
+				String nombreTipo = manejadoreventos.nombreTipoDeRegistro(reg);
+				String codigoPatrocinio = null;
+				if (reg.getPatrocinio() != null) {
+					codigoPatrocinio = reg.getPatrocinio().getCodigoPatrocinio();
+				}
+			
+				return new DTDetalleRegistro(edicion, Usuario, nombreTipo, reg.getFechaRegistro(), reg.getCosto(), codigoPatrocinio, reg.getAsistio());
+				
+			}
+		}
+		
+		return null;
+		
+	}
+
+	@Override
+	public boolean existeNick(String nick) {
+		return manejadorUsuarios.existeNick(nick);
 	}
 }

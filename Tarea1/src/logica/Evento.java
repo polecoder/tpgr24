@@ -1,12 +1,12 @@
 package logica;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import excepciones.EdicionNoExiste;
 import excepciones.TipoRegistroNoExiste;
-import datatypes.DTPatrocinio;
 import datatypes.DTTipoRegistro;
 import datatypes.EEstadoEvento;
 
@@ -19,9 +19,10 @@ public class Evento {
 	private byte[] imagen; 
 	private final Map<String, Edicion> ediciones;
 	private EEstadoEvento estado = EEstadoEvento.EN_CURSO;
+	private int visitas;
 
 	public
-	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen, EEstadoEvento estado) {
+	Evento(String nombre, String descripcion , String sigla, Date fechaAlta, byte[] imagen, EEstadoEvento estado, int visitas) {
 		this.setNombre(nombre);
 		this.setDescripcion(descripcion);
 		this.setSigla(sigla);
@@ -30,7 +31,17 @@ public class Evento {
 		this.categorias = new HashMap<>();
 		this.ediciones = new HashMap<>(); 
 		this.estado = EEstadoEvento.EN_CURSO;
+		this.setVisitas(visitas);
 	}
+	
+	public void registrarVisita() {      
+        visitas++;
+    }
+	
+	 public int getVisitas() {
+	        return visitas;
+	    }
+
 
 	public String getNombre(){
 		return this.nombre;
@@ -61,6 +72,10 @@ public class Evento {
 	public boolean isFinalizado() { 
 		return estado == EEstadoEvento.FINALIZADO; 
 	}
+	
+	 public void setVisitas(int visitas) {
+	        this.visitas=visitas;
+	    }
 
 	public void setNombre(String nombre){
 		this.nombre = nombre;
@@ -85,13 +100,22 @@ public class Evento {
 	public void agregarCategoria(Categoria categoria) {
 		this.categorias.put(categoria.getNombre(), categoria);
 	}
+	
 	public void agregarEdicion(Edicion edicion) {
 		if (edicion == null) return;
 		this.ediciones.put(edicion.getNombre(), edicion);
 	}
 	
-	public void crearPatrocinio(DTPatrocinio datosPatrocinio) {
-		//TODO
+	/**
+	 * Elimina la edición de nombre `nombreEdicion` de la colección de ediciones.<p>
+	 * Si la edición no existe, no hace nada.
+	 * 
+	 * @param nombreEdicion
+	 */
+	public void eliminarEdicion(String nombreEdicion) {
+		Edicion edicion = this.getEdicion(nombreEdicion);
+		if (edicion == null) return;
+		this.ediciones.remove(nombreEdicion);
 	}
 	
 	public Edicion getEdicion(String nombreEdicion) {

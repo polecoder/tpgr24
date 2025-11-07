@@ -2,6 +2,7 @@ package com.eventosuy.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,9 @@ import com.eventosuy.servidor.UsuarioNoExiste_Exception;
 import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTDetalleRegistro;
+import com.eventosuy.servidor.EdicionFinalizada;
+import com.eventosuy.servidor.EdicionNoExiste;
+import com.eventosuy.servidor.EdicionYaArchivada;
 import com.eventosuy.servidor.DTTipoRegistro;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -70,6 +74,9 @@ public class Ediciones extends HttpServlet {
 			request = CUConsultaTipoRegistro(request, response);
 			request.getRequestDispatcher("/WEB-INF/views/registros/consulta-tipo-registro.jsp").forward(request, response);
 			break;
+		case "ArchivarEdicion":
+			CUArchivarEdicion(request, response);
+			break;
 		default:
 			request.getRequestDispatcher("/WEB-INF/error.jsp");
 		}
@@ -81,6 +88,7 @@ public class Ediciones extends HttpServlet {
 		
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
+		
 		if (nombreEvento == null) { 
 		    try {
 		        com.eventosuy.servidor.DTEventoEntryArray eventosArray = puerto.listarEventos();
@@ -258,17 +266,77 @@ public class Ediciones extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/registros/consulta-tipo-registro.jsp").forward(request, response);
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*try {
-			request = Test(request);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+	private void CUArchivarEdicion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String nombreEvento = request.getParameter("nombre_evento");
+		if (nombreEvento == null) nombreEvento = (String) request.getAttribute("nombre_evento");
+		String nombreEdicion = request.getParameter("nombre_edicion");
+		if (nombreEdicion == null) nombreEdicion = (String) request.getAttribute("nombre_edicion");
+		
+		// setear todos los atributos usados por el .jsp
+		DTEdicionEvento detalleEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		request.setAttribute("detalle_edicion", detalleEdicion);
+		
+		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+		request.setAttribute("lista_patrocinios", setPatrocinios);
+		
+		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
+		request.setAttribute("lista_tipos_registro", setTiposRegistro);
+		
+		String videoURL = detalleEdicion.getVideoURL();
+		request.setAttribute("videoURL", videoURL);
+		
+		request.setAttribute("finalizada", false);
+		if (detalleEdicion.getFechaFin().before(new Date())) { 
+			request.setAttribute("finalizada", true);
+		}
+		
+		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
+		for (DTDetalleRegistro dtRegistro : setRegistros) {
+			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
+		}
+		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+		String nickname = null;
+		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
+		if (nickname != null && nickname.equals(detalleEdicion.getOrganizadorNickname())) {
+			request.setAttribute("lista_registros", setRegistros);
+		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
+			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
+		}
+		// imagen organizador
+		try {
+			DTDetalleUsuario u = controladorUsuarios.mostrarDetalleUsuario(detalleEdicion.getOrganizadorNickname());
+			request.setAttribute("imagenOrg", u.getImagen());
+		} catch (UsuarioNoExiste e) {
 			e.printStackTrace();
-		}*/
+		}
+		
+		// parte lógica
+		try {
+			controladorEventos.archivarEdicion(nombreEvento, nombreEdicion, new Date());
+		} catch (EdicionFinalizada exception) {
+			request.setAttribute("error", "La edición seleccionada ya finalizó.");
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+			return;
+		} catch (EdicionNoExiste exception) {
+			request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+			return;
+		} catch (EdicionYaArchivada exception) {
+			request.setAttribute("error", "La edición seleccionada ya está archivada.");
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+			return;
+		}
+		
+		// el archivo fue éxitoso
+		request.setAttribute("archivado", "La edición se archivó correctamente.");
+		response.sendRedirect(request.getContextPath() + "/Ediciones?accion=ConsultaEdicion&nombre_evento=" + URLEncoder.encode(nombreEvento, "UTF-8") + "&nombre_edicion=" + URLEncoder.encode(nombreEdicion, "UTF-8"));
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -277,7 +345,6 @@ public class Ediciones extends HttpServlet {
 		try {
 			processRequest(request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

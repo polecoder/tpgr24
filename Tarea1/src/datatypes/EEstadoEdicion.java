@@ -12,5 +12,7 @@ public enum EEstadoEdicion {
 	@XmlEnumValue("Aceptada")
 	Aceptada, 
 	@XmlEnumValue("Rechazada")
-	Rechazada
+	Rechazada,
+	@XmlEnumValue("Archivada")
+	Archivada,
 }

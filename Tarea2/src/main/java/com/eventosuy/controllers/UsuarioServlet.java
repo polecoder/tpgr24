@@ -31,7 +31,6 @@ import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTEventoEdicion;
 import com.eventosuy.servidor.EEstadoEdicion;
 import com.eventosuy.servidor.DTRegistro;
-import datatypes.DTUsuario;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -60,7 +59,6 @@ public class UsuarioServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");  //cualquier caracter
 
 		final String accion = nvl(request.getParameter("accion"), "consulta");
-
 		switch (accion) {
 
 		// ==================== ALTA USUARIO ====================
@@ -427,12 +425,13 @@ public class UsuarioServlet extends HttpServlet {
 		    String usuario = trim(request.getParameter("usuario"));
 
 		    if (!isBlank(evento) && !isBlank(edicion) && !isBlank(usuario)) {
+				//  detalle de registro de un usuario en esa edición
 		        mostrarDetalleRegistroUsuario(evento, edicion, usuario, request);
-		        
 		    } else if (!isBlank(evento) && !isBlank(edicion)) {
+				// : listar usuarios registrados a esa edición
 		        listarUsuariosRegistrados(evento, edicion, request);
-		        
 		    } else {
+				//  listar ediciones del organizador
 		        listarEdicionesOrganizador(organizador.getNickname(), request);
 		    }
 
@@ -452,10 +451,7 @@ public class UsuarioServlet extends HttpServlet {
 		    
 		    if (!edicionesDelEvento.contains(edicion)) {
 		        request.setAttribute("error", "La edición seleccionada no pertenece al evento indicado.");
-		        
-		        // mostrar lista de registrados de todos modos
-		        List<String> registrados = convertirStringArray(puerto.listarRegistrosAEdicion(evento, edicion));
-		        request.setAttribute("registrados", new HashSet<>(registrados));
+		        request.setAttribute("registrados", new HashSet<>());
 		        return;
 		    }
 
@@ -530,6 +526,7 @@ public class UsuarioServlet extends HttpServlet {
 		    }
 		    return new ArrayList<>();
 		}
+
 
 
 

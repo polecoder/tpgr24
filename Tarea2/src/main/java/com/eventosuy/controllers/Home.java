@@ -1,6 +1,8 @@
 package com.eventosuy.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -43,9 +45,11 @@ public class Home extends HttpServlet {
 		Publicador puerto = servicio.getPublicadorPort();
 
 		List<DTEvento> eventosEnCurso = puerto.listarEventosEnCurso().getItem();
+		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
 		List<DTEvento> eventosFinalizados = puerto.listarEventosFinalizados().getItem();
+		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
 		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios().getItem();
