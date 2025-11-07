@@ -527,8 +527,8 @@ public List<DTEventoVisitas> obtenerEventosMasVisitados(int limite) {
 	return manejadorEventos.consultarEvento(nombre);
 }*/
 
-public int registrarVisitaEvento(String nombre) {
-	return manejadorEventos.registrarVisitaEvento(nombre);
+public void registrarVisitaEvento(String nombre) {
+	 manejadorEventos.registrarVisitaEvento(nombre);
 }
 	
 	@Override
