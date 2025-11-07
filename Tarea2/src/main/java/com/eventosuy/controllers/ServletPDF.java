@@ -4,28 +4,18 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
-
-import com.eventosuy.models.TipoUsuario;
-
 import datatypes.*;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.RegistroNoExiste;
 import excepciones.UsuarioNoExiste;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorInstitucion;
 import logica.IControladorPDF;
-import logica.IControladorUsuarios;
-import logica.Patrocinio;
 
 /**
  * Servlet implementation class Home
@@ -51,7 +41,6 @@ public class ServletPDF extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Fabrica fabrica = Fabrica.getInstancia();
 		IControladorPDF controladorPDF = fabrica.getControladorPDF();	
-		IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
 		
 		DTDetalleRegistro dtRegistro = construirDTDetalleRegistro(request);
 		
