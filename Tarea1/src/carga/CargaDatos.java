@@ -41,6 +41,7 @@ import carga.csv.CSVTipoRegistro;
 import carga.csv.CSVUsuario;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.TipoRegistroNoExiste;
+import excepciones.UsuarioNoExiste;
 
 public class CargaDatos {
 	private static CargaDatos instancia;
@@ -567,10 +568,37 @@ public class CargaDatos {
 		//-------------------------------------
 		// SEGUIDORES
 		//-------------------------------------
-		public void leerSeguidores( ) {
+		public void leerSeguidores(String ruta) {
+			CsvToBean<CSVSeguido> seguidoresCsv;
+			try {
+				seguidoresCsv = new CsvToBeanBuilder<CSVSeguido>(
+						new FileReader(ruta))
+						.withType(CSVSeguido.class)
+						.withSeparator(';')
+						.withIgnoreLeadingWhiteSpace(true)
+						.withIgnoreEmptyLine(true)
+						.build();
+				List<CSVSeguido> listaSeguidores = seguidoresCsv.parse();
+				this.seguidores = listaSeguidores.stream()
+						.collect(Collectors.toMap(
+								CSVSeguido::getRef,
+								d -> d,
+								(existente, duplicado) -> duplicado // en caso de duplicados, me quedo con el último
+								));
+			} catch (IllegalStateException | FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void cargarSeguidores() {
 			if (this.asistentes != null && this.organizadores != null) {
 				for (String ref: this.seguidores.keySet()) {
 					CSVSeguido seguido = this.seguidores.get(ref);
+					try {
+						this.manejadorUsuarios.seguir(seguido.getNicknameSeguidor(), seguido.getNicknameSeguido());
+					} catch (UsuarioNoExiste e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -614,6 +642,8 @@ public class CargaDatos {
 				this.leerOrganizadores(rutaEncontrada);
 			} else if (nombreEsperado.equals("2025Usuarios-Asistentes.csv")) {
 				this.leerAsistentes(rutaEncontrada);
+			} else if (nombreEsperado.equals("2025SeguidoresSeguidos.csv")) {
+				this.leerSeguidores(rutaEncontrada);
 			} else if (nombreEsperado.equals("2025Eventos.csv")) {
 				this.leerEventos(rutaEncontrada);
 			} else if (nombreEsperado.equals("2025EdicionesEventos.csv")) {
@@ -631,6 +661,7 @@ public class CargaDatos {
 		this.cargarCategorias();
 		this.cargarInstituciones();
 		this.cargarUsuarios();
+		this.cargarSeguidores();
 		this.cargarEventos();
 		this.cargarEdiciones();
 		this.cargarTipoRegistro();
