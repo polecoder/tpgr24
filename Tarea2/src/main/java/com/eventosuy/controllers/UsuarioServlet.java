@@ -5,14 +5,11 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-//import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Set; 
 import com.eventosuy.utils.Utilidades;
 
 import com.eventosuy.servidor.StringArray;
@@ -21,7 +18,6 @@ import com.eventosuy.servidor.DTRegistroArray;
 import com.eventosuy.servidor.DTUsuario;
 import com.eventosuy.servidor.DTEventoEdicionArray;
 
-//import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
@@ -33,14 +29,12 @@ import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTEventoEdicion;
 import com.eventosuy.servidor.EEstadoEdicion;
 import com.eventosuy.servidor.DTRegistro;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet; 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 @MultipartConfig 
@@ -309,8 +303,7 @@ public class UsuarioServlet extends HttpServlet {
 		                u.getNickname(), EEstadoEdicion.INGRESADA);
 		        com.eventosuy.servidor.StringArray Rechazadas = puerto.getEdicionesDeOrganizadorPorEstado(
 		                u.getNickname(), EEstadoEdicion.RECHAZADA);
-		        com.eventosuy.servidor.StringArray Archivadas = puerto.getEdicionesDeOrganizadorPorEstado(
-		                u.getNickname(), EEstadoEdicion.ARCHIVADA);
+		        com.eventosuy.servidor.StringArray Archivadas = puerto.listarEdicionesArchivadasDeOrganizador(u.getNickname());
 		        
 		        ingresadas = convertirStringArray(Ingresadas);
 		        rechazadas = convertirStringArray(Rechazadas);

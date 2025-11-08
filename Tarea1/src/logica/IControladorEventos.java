@@ -150,7 +150,7 @@ public interface IControladorEventos {
      * @throws EdicionNoExiste si la edición elegida no existe en el sistema
      * @throws EdicionYaArchivada si la edición elegida ya fue archivada anteriormente
      */
-    public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada;
+    public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EventoFinalizado, EdicionNoExiste, EdicionYaArchivada;
     /**
      * Elimina la edición pasada por parámetro del sistema, actualizando todos sus links y los objetos linkeados a la misma.
      * 

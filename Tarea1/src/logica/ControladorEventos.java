@@ -532,14 +532,15 @@ public void registrarVisitaEvento(String nombre) {
 }
 	
 	@Override
-	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada {
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EventoFinalizado, EdicionNoExiste, EdicionYaArchivada {
 		Edicion edicion = this.manejadorEventos.getEdicion(nombreEvento, nombreEdicion);
 		// si la edición ya está archivada
 		if (manejadorPersistencia.getEdicionEnArchivo(nombreEdicion) != null) throw new EdicionYaArchivada("La edición seleccionada ya está archivada.");
 		// si la edición no existe
 		if (edicion == null) throw new EdicionNoExiste("La edición seleccionada no existe en el sistema");
-		// si la edición ya finalizó
-		if (edicion.getFechaFin().before(new Date())) throw new EdicionFinalizada("La edición seleccionada ya finalizó");
+		// si el evento asociado ya finalizó
+		Evento evento = this.manejadorEventos.getEvento(nombreEvento); // el evento tiene que existir en el sistema
+		if (evento.getEstado() == EEstadoEvento.FINALIZADO) throw new EventoFinalizado("El evento asociado a la edición seleccionada ya finalizó");
 		
 		// archivo la edición desde el manejador
 		this.manejadorPersistencia.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);
@@ -575,7 +576,7 @@ public void registrarVisitaEvento(String nombre) {
 	public List<String> listarEdicionesArchivadasDeOrganizador(String nicknameOrganizador) {
 		// obtengo las ediciones
 		List<EdicionArchivada> ediciones = manejadorPersistencia.getEdicionesArchivadasDeOrganizador(nicknameOrganizador);
-		if (ediciones == null) return null;
+		if (ediciones == null) return new ArrayList<>();
 		
 		// preparo el resultado
 		List<String> resultado = new ArrayList<>();
