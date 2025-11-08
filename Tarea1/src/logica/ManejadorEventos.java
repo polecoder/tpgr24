@@ -332,7 +332,11 @@ public class ManejadorEventos {
 	}
 
 	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,
-			Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen, String videoURL) {
+			Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen, String URL) {
+		String videoURL = null;
+		if (URL != null) {
+			videoURL = URL.replace("watch?v=", "embed/").replace("&", "?");
+		}
 		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname,
 				nombreEvento, imagen, videoURL);
 		this.eventos.get(nombreEvento).agregarEdicion(edicion);
@@ -361,8 +365,27 @@ public class ManejadorEventos {
 			throw tr;
 		}
 	}
+	
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
 		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre());
+		tipoRegistro.addRegistro(registro);
+		asistente.addRegistro(registro);
+	}
+	
+	/**
+	 * Sobrecarga de la función de altaRegistro, pero con la posibilidad de agregar el parámetro para marcar la asistencia.
+	 * Importante para CargaDatos.
+	 * 
+	 * @param asistente
+	 * @param tipoRegistro
+	 * @param patrocinio
+	 * @param fecha
+	 * @param costo
+	 * @param ed
+	 * @param asiste
+	 */
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed, boolean asiste) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre(), asiste);
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
