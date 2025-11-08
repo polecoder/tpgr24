@@ -47,7 +47,7 @@ public class Ediciones extends HttpServlet {
 	private final static PublicadorService servicio = new PublicadorService();
 	private final static Publicador puerto = servicio.getPublicadorPort();
 	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {	
 		String accion = request.getParameter("accion"); // Llamo distinto JSP dependiendo del Caso de Uso
 		if (accion == null) { accion = (String) request.getAttribute("accion"); } // Test
 		switch (accion) {
@@ -164,7 +164,7 @@ public class Ediciones extends HttpServlet {
 		try {
 			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
-		} catch (UsuarioNoExiste_Exception e) {
+		} catch (Exception e) {
 			//no va a entrar aca nunca
 			e.printStackTrace();
 		}
@@ -208,7 +208,6 @@ public class Ediciones extends HttpServlet {
 			
 		} catch (Exception ex) {
 			
-			System.out.println("ERROR DEL WEBSERVICE: " + ex.getMessage());
 		    ex.printStackTrace();
 			
 			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
@@ -333,6 +332,8 @@ public class Ediciones extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			request.setAttribute("error", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 		}
 		
 		// el archivo fue éxitoso

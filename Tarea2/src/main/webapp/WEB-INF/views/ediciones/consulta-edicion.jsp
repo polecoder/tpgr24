@@ -214,7 +214,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         
         <!-- Patrocinadores -->
         <%-- no muestro sección de patrocinadores si la edición está archivada --%>
-        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.ARCHIVADA) { %>
           <div class="card shadow-sm p-4">
             <h5 class="fw-bold text-primary mb-3 text-center">Patrocinadores:</h5>
             <%
@@ -284,7 +284,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
                 ><%=registro.getNicknameAsistente()%></a></td>
                 <td>
                   <%-- si la edición está archivada, no mmuestro link para Consulta Tipo Registro --%>
-                  <% if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Archivada")) { %>
+                  <% if (dtEdicion.getEstado() == EEstadoEdicion.ARCHIVADA) { %>
                     <%=registro.getNombreTipo()%>
                   <% } else { %>
                     <a
@@ -349,7 +349,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         <% }} %>
 
         <%-- si la edición no está archivada, muestro botones para interactuar con la edición --%>
-        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.ARCHIVADA) { %>
           <%-- si el usuario logeado es organizador y organiza la edición --%>
           <%
           if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR
