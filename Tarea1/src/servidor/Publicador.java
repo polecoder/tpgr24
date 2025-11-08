@@ -363,4 +363,10 @@ public class Publicador {
 		}
 		controladorEventos.altaEvento(nombre, descripcion, new Date(), sigla, categorias, imagen, enCurso,0);
 	}
+
+	@WebMethod
+	public void registrarVisitaEvento(String nombreEvento) /* throws EventoNoExiste */ {
+		controladorEventos.registrarVisitaEvento(nombreEvento);
+	}
+
 }
