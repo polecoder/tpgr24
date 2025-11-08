@@ -3,6 +3,7 @@
 <%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
 <%@ page import="javax.xml.datatype.XMLGregorianCalendar" %>
 <%@ page import="com.eventosuy.servidor.DTDetalleAsistente" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleUsuario" %>
 <%@ page import="com.eventosuy.utils.Utilidades" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.eventosuy.servidor.DTRegistro" %>
@@ -18,6 +19,7 @@
 <%
   Object listaAttr   = request.getAttribute("usuarios");
   Object usuarioAttr = request.getAttribute("usuario");
+  DTDetalleUsuario usuarioConsultado = (DTDetalleUsuario) usuarioAttr;
   String ctx         = request.getContextPath();
   String nickSesion  = (String) session.getAttribute("nick");
   List<DTRegistro> regs = (List<DTRegistro>) request.getAttribute("registros");
@@ -63,9 +65,11 @@
   }
 %>
 
-<div class="mx-auto" style="max-width: 512px">
+<div class="mx-auto" style="max-width: 720px">
   <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
 
+  <div class="row">
+  	<div class="col-lg-9">
   <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
     <% Object _img = request.getAttribute("imagenDataUri"); %>
@@ -97,6 +101,7 @@
         <input type="text" class="form-control form-control-sm" readonly value="${usuario.correo}" />
       </div>
     </div>
+    
 
     <%
       boolean esAsistente  = (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleAsistente);
@@ -270,7 +275,7 @@
     <%
       String nickDetalle = "";
       try {
-        java.lang.reflect.Method mNickDet = usuarioAttr.getClass().getMethod("nickname");
+        java.lang.reflect.Method mNickDet = usuarioAttr.getClass().getMethod("getNickname");
         nickDetalle = String.valueOf(mNickDet.invoke(usuarioAttr));
       } catch (Exception ignore) {}
       boolean esPropio = (nickSesion != null && nickSesion.equals(nickDetalle));
@@ -279,9 +284,70 @@
     <div class="text-end mt-4">
       <a href="<%=ctx%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
     </div>
-    <% } %>
+    <% } else {
+    	List<String> listaSeguidos = usuarioConsultado.getDataTypeSeguidos();
+    	if(listaSeguidos.contains(nickSesion)){
+    		%>
+    		<div class="text-end mt-4">
+		      <a href="<%=ctx%>/usuario?accion=dejarDeSeguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Dejar de seguir</a>
+		    </div>
+    		<%
+    	}else{
+    		%>
+    		<div class="text-end mt-4">
+		      <a href="<%=ctx%>/usuario?accion=seguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Seguir</a>
+		    </div>
+    		<%
+    	}
+       } 
+    %>
 
   </form>
+  	
+  	</div>
+  	<div class="col-lg-3">
+      <div class="bg-light border-top border-2 border-secondary rounded p-4 mb-3">
+        <h5 class="mb-3">Seguidores</h5>
+        <ul class="list-group">
+          <%
+            List<String> seguidores = usuarioConsultado.getDataTypeSeguidores();
+            if (seguidores != null && !seguidores.isEmpty()) {
+              for (String seguidor : seguidores) {
+          %>
+		          <li class="list-group-item d-flex justify-content-between align-items-center">
+		            <span><%= seguidor %></span>
+		            <a href="<%=ctx%>/usuario?accion=consulta&nick=<%=seguidor%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		          </li>
+          <%
+              }
+            } else {
+          %>
+          		<li class="list-group-item text-muted">No hay seguidores</li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="bg-light border-top border-2 border-secondary rounded p-4">
+        <h5 class="mb-3">Siguiendo</h5>
+        <ul class="list-group">
+          <%
+            List<String> seguidos = usuarioConsultado.getDataTypeSeguidos();
+            if (seguidos != null && !seguidos.isEmpty()) {
+              for (String seguido : seguidos) {
+          %>
+		          <li class="list-group-item d-flex justify-content-between align-items-center">
+		            <span><%= seguido %></span>
+		            <a href="<%=ctx%>/usuario?accion=consulta&nick=<%=seguido%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		          </li>
+          <%
+              }
+            } else {
+          %>
+          <li class="list-group-item text-muted">No sigue a nadie</li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <% } else { %>
