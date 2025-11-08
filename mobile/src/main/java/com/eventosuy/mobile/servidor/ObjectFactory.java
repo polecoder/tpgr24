@@ -355,6 +355,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Dtpdf }
+     * 
+     */
+    public Dtpdf createDtpdf() {
+        return new Dtpdf();
+    }
+
+    /**
      * Create an instance of {@link HashSet }
      * 
      */
@@ -371,19 +379,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dtpdf }
-     * 
-     */
-    public Dtpdf createDtpdf() {
-        return new Dtpdf();
-    }
-
-    /**
      * Create an instance of {@link DTEdicionEventoArray }
      * 
      */
     public DTEdicionEventoArray createDTEdicionEventoArray() {
         return new DTEdicionEventoArray();
+    }
+
+    /**
+     * Create an instance of {@link DTRegistroArray }
+     * 
+     */
+    public DTRegistroArray createDTRegistroArray() {
+        return new DTRegistroArray();
+    }
+
+    /**
+     * Create an instance of {@link DTDetalleRegistroArray }
+     * 
+     */
+    public DTDetalleRegistroArray createDTDetalleRegistroArray() {
+        return new DTDetalleRegistroArray();
+    }
+
+    /**
+     * Create an instance of {@link DTDetalleUsuarioArray }
+     * 
+     */
+    public DTDetalleUsuarioArray createDTDetalleUsuarioArray() {
+        return new DTDetalleUsuarioArray();
     }
 
     /**
@@ -403,35 +427,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DTRegistroArray }
-     * 
-     */
-    public DTRegistroArray createDTRegistroArray() {
-        return new DTRegistroArray();
-    }
-
-    /**
      * Create an instance of {@link DTEventoArray }
      * 
      */
     public DTEventoArray createDTEventoArray() {
         return new DTEventoArray();
-    }
-
-    /**
-     * Create an instance of {@link DTDetalleRegistroArray }
-     * 
-     */
-    public DTDetalleRegistroArray createDTDetalleRegistroArray() {
-        return new DTDetalleRegistroArray();
-    }
-
-    /**
-     * Create an instance of {@link DTDetalleUsuarioArray }
-     * 
-     */
-    public DTDetalleUsuarioArray createDTDetalleUsuarioArray() {
-        return new DTDetalleUsuarioArray();
     }
 
     /**
