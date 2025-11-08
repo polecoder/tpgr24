@@ -379,5 +379,9 @@ public class Publicador {
 		controladorUsuarios.confirmarAsistencia(nickname, NombreEdicion);
 	}
 
+	@WebMethod
+	public boolean existeNick(String nickname) {
+		return controladorUsuarios.existeNick(nickname);
+	}
 
 }

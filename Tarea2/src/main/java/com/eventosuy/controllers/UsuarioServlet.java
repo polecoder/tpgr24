@@ -235,6 +235,19 @@ public class UsuarioServlet extends HttpServlet {
 		    }
 		    return;
 		}
+		case "checkNickname":{
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
+			String nick= request.getParameter("nickname");
+			if (puerto.existeNick(nick)) {
+		        response.getWriter().write("no-disponible");
+		        
+		    } else {
+		        response.getWriter().write("disponible");
+		     
+		    }
+		    return;
+		}
 
 		// TODO: Esto no debería estar, o debería redirigir a una página de error existente
 		// ==================== ACCIÓN DESCONOCIDA ====================

@@ -379,35 +379,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DTEventoEdicionArray }
-     * 
-     */
-    public DTEventoEdicionArray createDTEventoEdicionArray() {
-        return new DTEventoEdicionArray();
-    }
-
-    /**
-     * Create an instance of {@link DTUsuarioArray }
-     * 
-     */
-    public DTUsuarioArray createDTUsuarioArray() {
-        return new DTUsuarioArray();
-    }
-
-    /**
      * Create an instance of {@link DTRegistroArray }
      * 
      */
     public DTRegistroArray createDTRegistroArray() {
         return new DTRegistroArray();
-    }
-
-    /**
-     * Create an instance of {@link DTEventoArray }
-     * 
-     */
-    public DTEventoArray createDTEventoArray() {
-        return new DTEventoArray();
     }
 
     /**
@@ -424,6 +400,30 @@ public class ObjectFactory {
      */
     public DTDetalleUsuarioArray createDTDetalleUsuarioArray() {
         return new DTDetalleUsuarioArray();
+    }
+
+    /**
+     * Create an instance of {@link DTEventoEdicionArray }
+     * 
+     */
+    public DTEventoEdicionArray createDTEventoEdicionArray() {
+        return new DTEventoEdicionArray();
+    }
+
+    /**
+     * Create an instance of {@link DTUsuarioArray }
+     * 
+     */
+    public DTUsuarioArray createDTUsuarioArray() {
+        return new DTUsuarioArray();
+    }
+
+    /**
+     * Create an instance of {@link DTEventoArray }
+     * 
+     */
+    public DTEventoArray createDTEventoArray() {
+        return new DTEventoArray();
     }
 
     /**
