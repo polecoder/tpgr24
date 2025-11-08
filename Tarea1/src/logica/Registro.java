@@ -14,7 +14,8 @@ public class Registro {
 	private boolean asistio;
 	
 	/**
-	 * Observar que patrocinio puede ser null en caso de que el registro se haga de forma normal, sin código de patrocinio
+	 * Observar que patrocinio puede ser null en caso de que el registro se haga de forma normal, sin código de patrocinio.
+	 * Principalmente utilizado en la lógica.
 	 * 
 	 * @param fechaRegistro
 	 * @param costo
@@ -22,7 +23,7 @@ public class Registro {
 	 * @param patrocinio
 	 * @param edicion
 	 */
-	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion,String nombreTipoRegistro) {
+	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion, String nombreTipoRegistro) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
 		this.setPatrocinio(patrocinio);
@@ -30,6 +31,27 @@ public class Registro {
 		this.setEdicion(edicion);
 		this.setTipoRegistro(nombreTipoRegistro);
 		this.setAsistio(false);
+	}
+	
+	/**
+	 * Importante para cargaDatos. Permite también detallar si el registro se crea con asistencia en true
+	 * 
+	 * @param fechaRegistro
+	 * @param costo
+	 * @param asistente
+	 * @param patrocinio
+	 * @param edicion
+	 * @param nombreTipoRegistro
+	 * @param asiste
+	 */
+	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion, String nombreTipoRegistro, boolean asiste) {
+		this.setFechaRegistro(fechaRegistro);
+		this.setCosto(costo);
+		this.setPatrocinio(patrocinio);
+		this.setAsistente(asistente);
+		this.setEdicion(edicion);
+		this.setTipoRegistro(nombreTipoRegistro);
+		this.setAsistio(asiste);
 	}
 
 	public Date getFechaRegistro() {

@@ -36,6 +36,7 @@ import carga.csv.CSVInstitucion;
 import carga.csv.CSVOrganizador;
 import carga.csv.CSVPatrocinio;
 import carga.csv.CSVRegistro;
+import carga.csv.CSVSeguido;
 import carga.csv.CSVTipoRegistro;
 import carga.csv.CSVUsuario;
 import excepciones.NombreTipoRegistroRepetido;
@@ -59,6 +60,7 @@ public class CargaDatos {
 	private Map<String, CSVEvento> eventos;
 	private Map<String, CSVEdicion> ediciones;
 	private Map<String, CSVTipoRegistro> tiposRegistro;
+	private Map<String, CSVSeguido> seguidores;
 	
 	private List<String> nombreArchivosOrdenados = List.of(
 			"2025Categorias.csv",
@@ -66,6 +68,7 @@ public class CargaDatos {
 			"2025Instituciones.csv",
 			"2025Usuarios-Organizadores.csv",
 			"2025Usuarios-Asistentes.csv",
+			"2025SeguidoresSeguidos.csv",
 			"2025Eventos.csv",
 			"2025EdicionesEventos.csv",
 			"2025TipoRegistro.csv",
@@ -89,6 +92,7 @@ public class CargaDatos {
 		this.ediciones = new HashMap<>();
 		this.tiposRegistro = new HashMap<>();
 		this.registros = new HashMap<>();
+		this.seguidores = new HashMap<>();
 	}
 
 	public static CargaDatos getInstancia() {
@@ -343,7 +347,14 @@ public class CargaDatos {
 					categoriasEvento.add(categorias.get(categoria).getNombre()); // Asumo que existe la categoria referenciada
 				}
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(evento.getImagen());
-				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, EEstadoEvento.EN_CURSO, 0);
+				
+				EEstadoEvento estadoEvento = EEstadoEvento.EN_CURSO;
+				// manejar eventos finalizados
+				if (evento.getFinalizado().equals("Si")) {
+					estadoEvento = EEstadoEvento.FINALIZADO;
+				}
+				
+				this.manejadorEventos.altaEvento(evento.getNombre(), evento.getDescripcion(), evento.getFechaAlta(), evento.getSigla(), categoriasEvento, bytesImagen, estadoEvento, evento.getVisitas());
 			}
 		}
 	}
@@ -385,7 +396,7 @@ public class CargaDatos {
 				String nombreEvento = eventos.get(datosEdicion.getEvento()).getNombre();
 				String organizadorNickname = usuariosOrganizador.get(datosEdicion.getOrganizador()).getNickname();
 				byte[] bytesImagen = Utilidades.archivoImagenToByte(datosEdicion.getImagen());
-				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, bytesImagen, null);
+				Edicion edicion = this.manejadorEventos.altaEdicion(nombreEvento, datosEdicion.getNombre(), datosEdicion.getSigla(), datosEdicion.getFechaInicio(), datosEdicion.getFechaFin(), datosEdicion.getFechaAlta(), datosEdicion.getCiudad(), datosEdicion.getPais(), organizadorNickname, bytesImagen, datosEdicion.getVideo());
 				if (datosEdicion.getEstado().equals("Aceptada")) {
 					edicion.setEstado(EEstadoEdicion.Aceptada);
 				} else if (datosEdicion.getEstado().equals("Rechazada")) {
@@ -541,11 +552,28 @@ public class CargaDatos {
 						e.printStackTrace();
 						return;
 					}
-					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto(),edicion);
+					
+					boolean asiste = false;
+					if (registro.getAsiste().equals("S")) {
+						asiste = true;
+					}
+					
+					this.manejadorEventos.altaRegistro(asistente, tipoRegistro, patrocinio, registro.getFechaRegistro(), registro.getCosto(), edicion, asiste);
 				}
 			}
 		}
 		//------------REGISTRO-----------------
+		
+		//-------------------------------------
+		// SEGUIDORES
+		//-------------------------------------
+		public void leerSeguidores( ) {
+			if (this.asistentes != null && this.organizadores != null) {
+				for (String ref: this.seguidores.keySet()) {
+					CSVSeguido seguido = this.seguidores.get(ref);
+				}
+			}
+		}
 
 	/**
 	 * Carga todos los archivos al sistema, basándose en un orden de carga específicado al inicio de la función.
