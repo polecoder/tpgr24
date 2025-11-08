@@ -7,10 +7,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<!-- Tarea 1 -->
 		<dependency>
@@ -32,6 +32,35 @@
 		</dependency>
 	</dependencies>
 	<build>
-        <finalName>mobile</finalName>
-    </build>
+		<finalName>mobile</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.sun.xml.ws</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>4.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wsdlUrls>
+						<wsdlUrl>http://localhost:4230/publicador?wsdl</wsdlUrl>
+					</wsdlUrls>
+					<keep>true</keep>
+					<sourceDestDir>src/main/java/</sourceDestDir>
+					<packageName>com.eventosuy.mobile.servidor</packageName>
+					<vmArgs>
+						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+					</vmArgs>
+					<args>
+						<arg>-extension</arg>
+						<arg>-Xdebug</arg>
+					</args>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

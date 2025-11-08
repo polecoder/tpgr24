@@ -4,19 +4,20 @@ import java.io.IOException;
 import java.util.List;
 
 import com.eventosuy.mobile.models.TipoUsuario;
+import com.eventosuy.mobile.servidor.ContrasenaIncorrecta;
+import com.eventosuy.mobile.servidor.ContrasenaIncorrecta_Exception;
+import com.eventosuy.mobile.servidor.DTDetalleAsistente;
+import com.eventosuy.mobile.servidor.DTDetalleOrganizador;
+import com.eventosuy.mobile.servidor.DTDetalleUsuario;
+import com.eventosuy.mobile.servidor.Publicador;
+import com.eventosuy.mobile.servidor.PublicadorService;
 
-import carga.CargaDatos;
-import datatypes.DTDetalleAsistente;
-import datatypes.DTDetalleOrganizador;
-import datatypes.DTDetalleUsuario;
-import excepciones.ContrasenaIncorrecta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logica.Fabrica;
 
 /**
  * Servlet implementation class Login
@@ -25,34 +26,10 @@ import logica.Fabrica;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	/**
-     * Carga todos los datos de prueba ubicados en la carpeta data/
-     */
-    private void cargarDatos() {
-    	List<String> rutasArchivos = List.of(
-    			getServletContext().getRealPath("data/2025Categorias.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios.csv"),
-    			getServletContext().getRealPath("data/2025Instituciones.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios-Organizadores.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios-Asistentes.csv"),
-    			getServletContext().getRealPath("data/2025Eventos.csv"),
-    			getServletContext().getRealPath("data/2025EdicionesEventos.csv"),
-    			getServletContext().getRealPath("data/2025TipoRegistro.csv"),
-    			getServletContext().getRealPath("data/2025Patrocinios.csv"),
-    			getServletContext().getRealPath("data/2025Registros.csv")
-    	);
-    	String[] rutas = rutasArchivos.toArray(new String[0]);
-    	
-    	CargaDatos cargaDatos = CargaDatos.getInstancia();
-    	cargaDatos.cargarArchivos(rutas);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        cargarDatos();
-    }
-    
+	// servicios
+	private final static PublicadorService servicio = new PublicadorService();
+	private final static Publicador puerto = servicio.getPublicadorPort();
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -82,8 +59,7 @@ public class Login extends HttpServlet {
 
 		DTDetalleUsuario datosUsuario;
 		try {
-			Fabrica f = Fabrica.getInstancia();
-			datosUsuario = f.getControladorUsuarios().validarLogin(usuario, contrasena);
+			datosUsuario = puerto.validarLogin(usuario, contrasena);
 			if (datosUsuario != null) {
 				HttpSession session = req.getSession(true);
 				// validación de tipo de usuario
@@ -100,7 +76,7 @@ public class Login extends HttpServlet {
 				req.setAttribute("error", "El usuario proporcionado no existe.");
 				req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 			}
-		} catch (ContrasenaIncorrecta e) {
+		} catch (ContrasenaIncorrecta_Exception exception) {
 			req.setAttribute("error", "La contraseña es incorrecta.");
 			req.getRequestDispatcher("/WEB-INF/views/usuarios/iniciar-sesion.jsp").forward(req, resp);
 		}
