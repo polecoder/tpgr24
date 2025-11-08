@@ -298,7 +298,7 @@ public class ControladorEventos implements IControladorEventos {
 		String fin = sdf.format(fechaFin);
 
 		if (alta.compareTo(inicio) > 0 || alta.compareTo(fin) > 0) {
-			throw new FormularioIncompletoEdicion("La fecha de inicio no puede ser posterior a la fecha actual");
+			throw new FormularioIncompletoEdicion("La fecha de inicio debe ser posterior a la fecha actual");
 		}
 
 		if (!ciudad.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$")) {
