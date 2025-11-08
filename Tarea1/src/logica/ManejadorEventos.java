@@ -332,7 +332,11 @@ public class ManejadorEventos {
 	}
 
 	public Edicion altaEdicion(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin,
-			Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen, String videoURL) {
+			Date fechaAlt, String ciudad, String pais, String organizadorNickname, byte[] imagen, String URL) {
+		String videoURL = null;
+		if (URL != null) {
+			videoURL = URL.replace("watch?v=", "embed/").replace("&", "?");
+		}
 		Edicion edicion = new Edicion(nombre, sigla, fechaInicio, fechaFin, fechaAlt, ciudad, pais, organizadorNickname,
 				nombreEvento, imagen, videoURL);
 		this.eventos.get(nombreEvento).agregarEdicion(edicion);

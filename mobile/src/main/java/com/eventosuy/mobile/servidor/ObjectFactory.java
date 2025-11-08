@@ -32,6 +32,7 @@ public class ObjectFactory {
     private final static QName _EdicionYaArchivada_QNAME = new QName("http://servidor/", "EdicionYaArchivada");
     private final static QName _EventoFinalizado_QNAME = new QName("http://servidor/", "EventoFinalizado");
     private final static QName _EventoNoExiste_QNAME = new QName("http://servidor/", "EventoNoExiste");
+    private final static QName _Exception_QNAME = new QName("http://servidor/", "Exception");
     private final static QName _FechaFinEsPasada_QNAME = new QName("http://servidor/", "FechaFinEsPasada");
     private final static QName _FormatoContrasenaInvalido_QNAME = new QName("http://servidor/", "FormatoContrasenaInvalido");
     private final static QName _FormularioIncompletoAsistente_QNAME = new QName("http://servidor/", "FormularioIncompletoAsistente");
@@ -127,6 +128,14 @@ public class ObjectFactory {
      */
     public EventoNoExiste createEventoNoExiste() {
         return new EventoNoExiste();
+    }
+
+    /**
+     * Create an instance of {@link Exception }
+     * 
+     */
+    public Exception createException() {
+        return new Exception();
     }
 
     /**
@@ -535,6 +544,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "EventoNoExiste")
     public JAXBElement<EventoNoExiste> createEventoNoExiste(EventoNoExiste value) {
         return new JAXBElement<EventoNoExiste>(_EventoNoExiste_QNAME, EventoNoExiste.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "Exception")
+    public JAXBElement<Exception> createException(Exception value) {
+        return new JAXBElement<Exception>(_Exception_QNAME, Exception.class, null, value);
     }
 
     /**
