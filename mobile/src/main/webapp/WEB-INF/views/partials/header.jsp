@@ -2,7 +2,7 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@page import="datatypes.*, java.util.Base64, com.eventosuy.mobile.models.TipoUsuario"%>
+<%@page import="com.eventosuy.mobile.servidor.*, java.util.Base64, com.eventosuy.mobile.models.TipoUsuario"%>
 <%
 	DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
     String cp = request.getContextPath();

@@ -1,10 +1,8 @@
 package com.eventosuy.mobile.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.eventosuy.mobile.models.TipoUsuario;
-import com.eventosuy.mobile.servidor.ContrasenaIncorrecta;
 import com.eventosuy.mobile.servidor.ContrasenaIncorrecta_Exception;
 import com.eventosuy.mobile.servidor.DTDetalleAsistente;
 import com.eventosuy.mobile.servidor.DTDetalleOrganizador;
