@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "EventoFinalizado", targetNamespace = "http://servidor/")
 public class EventoFinalizado_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**

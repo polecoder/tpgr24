@@ -2,7 +2,7 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@ page import="java.util.*, datatypes.*"%>
+<%@ page import="java.util.*, com.eventosuy.servidor.*"%>
 <%@ page import="com.eventosuy.models.TipoUsuario"%>
 
 <%

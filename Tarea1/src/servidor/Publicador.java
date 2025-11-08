@@ -391,4 +391,30 @@ public class Publicador {
 	    return controladorPDF.generarPDFAsistencia(dtPDF, "");
 	}
 
+	
+	@WebMethod
+	public DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Nickname) {
+		return controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, Nickname);
+	}
+	
+	@WebMethod
+	public void confirmarAsistencia(String nickname, String NombreEdicion) throws Exception {
+		controladorUsuarios.confirmarAsistencia(nickname, NombreEdicion);
+	}
+
+	@WebMethod
+	public boolean existeNick(String nickname) {
+		return controladorUsuarios.existeNick(nickname);
+	}
+	
+	@WebMethod
+	public DTEdicionEvento[] listarEdicionesEventoValues(String nombreEvento) {
+		return controladorEventos.listarEdicionesEvento(nombreEvento).values().toArray(new DTEdicionEvento[0]);
+	}
+	
+	@WebMethod
+	 public  DTEdicionEvento[] listarEdicionesConRegistrosUsuario(String nickname) {
+		return controladorUsuarios.listarEdicionesConRegistrosUsuario(nickname).toArray(new DTEdicionEvento[0]);
+	}
+
 }

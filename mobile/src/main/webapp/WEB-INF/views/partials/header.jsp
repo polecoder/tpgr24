@@ -16,7 +16,7 @@
 <nav class="navbar d-flex justify-content-between bg-primary p-2 p-sm-3">
   <a
     <%-- TODO: Actualizar link --%>
-		href="#"
+	href="<%= (datosUsuario != null) ? (cp + "/index.jsp") : "" %>"
     class="logo fw-bold text-white text-decoration-none"
   >eventos.uy</a>
   <button
@@ -41,8 +41,6 @@
       <% 
       } else { 
       %>
-      <%-- TODO: Actualizar link y agregar links a CUs --%>
-      <li><a href="#">Mi perfil</a></li>
       <li><a href="<%= cp %>/logout">Cerrar sesión</a></li>      
       <% 
       }
