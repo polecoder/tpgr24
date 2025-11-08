@@ -6,15 +6,15 @@
 	<artifactId>tpgr24Tarea1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<!-- carga de datos usando archivos .csv -->
 		<dependency>
-				<groupId>com.opencsv</groupId>
-				<artifactId>opencsv</artifactId>
-				<version>5.9</version>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.9</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -29,19 +29,29 @@
 			<version>5.10.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		<!-- iText para PDFs -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>9.3.0</version>
+			<type>pom</type>
+		</dependency>
 		<!-- persistencia en memoria -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>4.0.3</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
 			<version>3.2.0</version>
-		</dependency>
-		<!-- iText para PDFs -->
-		<dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itext7-core</artifactId>
-		    <version>9.3.0</version>
-		    <type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -53,18 +63,18 @@
 			<artifactId>eclipselink</artifactId>
 			<version>4.0.8</version>
 		</dependency>
-    <!-- Tarea 3 -->
-    <dependency>
-        <groupId>jakarta.xml.ws</groupId>
-        <artifactId>jakarta.xml.ws-api</artifactId>
-    		<version>4.0.0</version>
-	</dependency>
-    <dependency>
-        <groupId>com.sun.xml.ws</groupId>
-        <artifactId>jaxws-rt</artifactId>
-        <version>4.0.0</version>
-        <scope>runtime</scope>
-	</dependency>
+		<!-- Tarea 3 -->
+		<dependency>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>4.0.0</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -77,30 +87,30 @@
 					<release>21</release>
 				</configuration>
 			</plugin>
-            <plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-assembly-plugin</artifactId>
-			    <version>3.3.0</version>
-			    <configuration>
-			        <archive>
-			            <manifest>
-			                <mainClass>presentacion.Main</mainClass>
-			            </manifest>
-			        </archive>
-			        <finalName>EstacionDeTrabajo</finalName>
-			        <descriptorRefs>
-			            <descriptorRef>jar-with-dependencies</descriptorRef>
-			        </descriptorRefs>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <id>make-assembly</id>
-			            <phase>package</phase>
-			            <goals>
-			                <goal>single</goal>
-			            </goals>
-			        </execution>
-			    </executions>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>presentacion.Main</mainClass>
+						</manifest>
+					</archive>
+					<finalName>EstacionDeTrabajo</finalName>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

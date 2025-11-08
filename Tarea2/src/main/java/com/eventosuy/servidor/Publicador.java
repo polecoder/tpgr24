@@ -118,6 +118,7 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg1
      * @param arg0
      * @return
      *     returns com.eventosuy.servidor.DTEdicionEventoArray
@@ -413,16 +414,24 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg2
+     * @param arg1
      * @param arg0
-     * @return
-     *     returns com.eventosuy.servidor.Institucion
+     * @throws FormularioIncompletoInstitucion_Exception
      */
     @WebMethod
-    @WebResult(partName = "return")
-    @Action(input = "http://servidor/Publicador/getInstitucionRequest", output = "http://servidor/Publicador/getInstitucionResponse")
-    public Institucion getInstitucion(
+    @Action(input = "http://servidor/Publicador/altaInstitucionRequest", output = "http://servidor/Publicador/altaInstitucionResponse", fault = {
+        @FaultAction(className = FormularioIncompletoInstitucion_Exception.class, value = "http://servidor/Publicador/altaInstitucion/Fault/FormularioIncompletoInstitucion")
+    })
+    public void altaInstitucion(
         @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2)
+        throws FormularioIncompletoInstitucion_Exception
+    ;
 
     /**
      * 
@@ -675,16 +684,21 @@ public interface Publicador {
      * @param arg1
      * @param arg0
      * @return
-     *     returns com.eventosuy.servidor.DTEdicionEvento
+     *     returns com.eventosuy.servidor.DTDetalleUsuario
+     * @throws ContrasenaIncorrecta_Exception
      */
     @WebMethod
     @WebResult(partName = "return")
-    @Action(input = "http://servidor/Publicador/getDTEdicionRequest", output = "http://servidor/Publicador/getDTEdicionResponse")
-    public DTEdicionEvento getDTEdicion(
+    @Action(input = "http://servidor/Publicador/validarLoginRequest", output = "http://servidor/Publicador/validarLoginResponse", fault = {
+        @FaultAction(className = ContrasenaIncorrecta_Exception.class, value = "http://servidor/Publicador/validarLogin/Fault/ContrasenaIncorrecta")
+    })
+    public DTDetalleUsuario validarLogin(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0,
         @WebParam(name = "arg1", partName = "arg1")
-        String arg1);
+        String arg1)
+        throws ContrasenaIncorrecta_Exception
+    ;
 
     /**
      * 
@@ -765,24 +779,14 @@ public interface Publicador {
      * @throws DatosTipoRegistroInvalidos_Exception
      */
     @WebMethod
-    @Action(input = "http://servidor/Publicador/altaTipoRegistroRequest", output = "http://servidor/Publicador/altaTipoRegistroResponse", fault = {
-        @FaultAction(className = NombreTipoRegistroRepetido_Exception.class, value = "http://servidor/Publicador/altaTipoRegistro/Fault/NombreTipoRegistroRepetido"),
-        @FaultAction(className = DatosTipoRegistroInvalidos_Exception.class, value = "http://servidor/Publicador/altaTipoRegistro/Fault/DatosTipoRegistroInvalidos")
+    @Action(input = "http://servidor/Publicador/finalizarEventoRequest", output = "http://servidor/Publicador/finalizarEventoResponse", fault = {
+        @FaultAction(className = EventoNoExiste_Exception.class, value = "http://servidor/Publicador/finalizarEvento/Fault/EventoNoExiste"),
+        @FaultAction(className = EventoFinalizado_Exception.class, value = "http://servidor/Publicador/finalizarEvento/Fault/EventoFinalizado")
     })
-    public void altaTipoRegistro(
+    public void finalizarEvento(
         @WebParam(name = "arg0", partName = "arg0")
-        String arg0,
-        @WebParam(name = "arg1", partName = "arg1")
-        String arg1,
-        @WebParam(name = "arg2", partName = "arg2")
-        float arg2,
-        @WebParam(name = "arg3", partName = "arg3")
-        int arg3,
-        @WebParam(name = "arg4", partName = "arg4")
-        String arg4,
-        @WebParam(name = "arg5", partName = "arg5")
-        String arg5)
-        throws DatosTipoRegistroInvalidos_Exception, NombreTipoRegistroRepetido_Exception
+        String arg0)
+        throws EventoFinalizado_Exception, EventoNoExiste_Exception
     ;
 
     /**
@@ -865,6 +869,39 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg3
+     * @param arg2
+     * @param arg5
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @param arg6
+     * @throws FormatoContrasenaInvalido_Exception
+=======
+>>>>>>> refs/heads/main
+     * @throws FormularioIncompletoOrganizador_Exception
+     */
+    @WebMethod
+    @Action(input = "http://servidor/Publicador/modificarDatosOrganizadorRequest", output = "http://servidor/Publicador/modificarDatosOrganizadorResponse", fault = {
+        @FaultAction(className = FormularioIncompletoOrganizador_Exception.class, value = "http://servidor/Publicador/modificarDatosOrganizador/Fault/FormularioIncompletoOrganizador")
+    })
+    public void modificarDatosOrganizador(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3)
+        throws FormularioIncompletoOrganizador_Exception
+    ;
+
+    /**
+     * 
+<<<<<<< HEAD
+     * @param arg2
+     * @param arg1
      * @param arg0
      * @return
      *     returns com.eventosuy.servidor.DTEvento
@@ -874,7 +911,27 @@ public interface Publicador {
     @Action(input = "http://servidor/Publicador/getDTEventoRequest", output = "http://servidor/Publicador/getDTEventoResponse")
     public DTEvento getDTEvento(
         @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns com.eventosuy.servidor.DTEdicionEvento
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://servidor/Publicador/getDTEdicionRequest", output = "http://servidor/Publicador/getDTEdicionResponse")
+    public DTEdicionEvento getDTEdicion(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
 
     /**
      * 
@@ -903,6 +960,7 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg1
      * @param arg0
      * @throws EventoNoExiste_Exception
      * @throws EventoFinalizado_Exception
@@ -990,7 +1048,9 @@ public interface Publicador {
     @Action(input = "http://servidor/Publicador/getInstitucionRequest", output = "http://servidor/Publicador/getInstitucionResponse")
     public Institucion getInstitucion(
         @WebParam(name = "arg0", partName = "arg0")
-        String arg0);
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1);
 
     /**
      * 
@@ -1297,13 +1357,13 @@ public interface Publicador {
      * @param arg2
      * @param arg1
      * @param arg0
-     * @throws FormularioIncompletoAsistente_Exception
+     * @throws FormularioIncompletoOrganizador_Exception
      */
     @WebMethod
-    @Action(input = "http://servidor/Publicador/modificarDatosAsistenteRequest", output = "http://servidor/Publicador/modificarDatosAsistenteResponse", fault = {
-        @FaultAction(className = FormularioIncompletoAsistente_Exception.class, value = "http://servidor/Publicador/modificarDatosAsistente/Fault/FormularioIncompletoAsistente")
+    @Action(input = "http://servidor/Publicador/modificarDatosOrganizadorRequest", output = "http://servidor/Publicador/modificarDatosOrganizadorResponse", fault = {
+        @FaultAction(className = FormularioIncompletoOrganizador_Exception.class, value = "http://servidor/Publicador/modificarDatosOrganizador/Fault/FormularioIncompletoOrganizador")
     })
-    public void modificarDatosAsistente(
+    public void modificarDatosOrganizador(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0,
         @WebParam(name = "arg1", partName = "arg1")
@@ -1311,8 +1371,8 @@ public interface Publicador {
         @WebParam(name = "arg2", partName = "arg2")
         String arg2,
         @WebParam(name = "arg3", partName = "arg3")
-        XMLGregorianCalendar arg3)
-        throws FormularioIncompletoAsistente_Exception
+        String arg3)
+        throws FormularioIncompletoOrganizador_Exception
     ;
 
     /**
@@ -1345,8 +1405,6 @@ public interface Publicador {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
      * @return
      *     returns byte[]
      */
@@ -1504,8 +1562,8 @@ public interface Publicador {
      */
     @WebMethod
     @WebResult(partName = "return")
-    @Action(input = "http://servidor/Publicador/getNombresTipoRegistroRequest", output = "http://servidor/Publicador/getNombresTipoRegistroResponse")
-    public StringArray getNombresTipoRegistro(
+    @Action(input = "http://servidor/Publicador/listarTipoRegistroKeysRequest", output = "http://servidor/Publicador/listarTipoRegistroKeysResponse")
+    public StringArray listarTipoRegistroKeys(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0,
         @WebParam(name = "arg1", partName = "arg1")
@@ -1633,6 +1691,8 @@ public interface Publicador {
 
     /**
      * 
+     * @param arg3
+     * @param arg2
      * @param arg1
      * @param arg0
      * @return

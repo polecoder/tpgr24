@@ -34,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
 })
 public class DTEventoArray {
 
-    @XmlElement(nillable = true)
+    @XmlElement(namespace = "", nillable = true)
     protected List<DTEvento> item;
 
     /**
