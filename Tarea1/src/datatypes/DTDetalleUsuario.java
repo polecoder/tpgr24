@@ -1,6 +1,8 @@
 package datatypes;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -17,6 +19,8 @@ public class DTDetalleUsuario {
 	private String correo;
 	private byte[] imagen;
 	private ETipoUsuario tipo;
+	private Set<String> dataTypeSeguidores;
+	private Set<String> dataTypeSeguidos;
 	
 	/**
 	 * Constructor sin argumentos requerido por JAXB.
@@ -47,4 +51,29 @@ public class DTDetalleUsuario {
 	public ETipoUsuario getTipo() {
 		return tipo;
 	}
+	
+	public Set<String> getDataTypeSeguidores(){ return dataTypeSeguidores; }
+	public Set<String> getDataTypeSeguidos(){ return dataTypeSeguidos; }
+	
+	public void setDataTypeSeguidores(Set<String> seguidores) { this.dataTypeSeguidores = seguidores; }
+	public void setDataTypeSeguidos(Set<String> seguidos) { this.dataTypeSeguidos = seguidos; }
+	
+	// Sobre-escritura
+    @Override
+    public boolean equals(Object obj) {
+    	if (this == obj) return true;
+        if (obj == null || !(obj instanceof DTDetalleUsuario)) return false;
+        DTDetalleUsuario otro = (DTDetalleUsuario) obj;
+        boolean comparacion = 
+        		this.nickname.equals(otro.nickname) &&
+        		this.nombre.equals(otro.nombre) &&
+        		this.correo.equals(otro.correo) &&
+        		this.imagen.equals(otro.imagen) &&
+        		this.tipo.equals(otro.tipo);
+        return comparacion;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname,nombre,correo,imagen,tipo);
+    }
 }
