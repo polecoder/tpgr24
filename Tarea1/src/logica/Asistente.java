@@ -2,10 +2,12 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleUsuario;
-import datatypes.ETipoUsuario;
 
 public class Asistente extends Usuario {
 	
@@ -37,12 +39,27 @@ public class Asistente extends Usuario {
 		this.registros.add(registro);
 	}
 	public DTDetalleUsuario toDataType() {
-		return new DTDetalleUsuario(
+		DTDetalleUsuario asistenteDataType =  new DTDetalleAsistente(
 				this.nickname,
 				this.nombre,
 				this.correo,
-				ETipoUsuario.Asistente,
+				this.apellido,
+				this.nacimiento,
+				this.institucion != null ? this.institucion.getNombre() : null,
 				this.imagen);
+		Set<String> dataTypeSeguidores = new HashSet<String>();
+		Set<String> dataTypeSeguidos = new HashSet<String>();
+		for(Usuario seguidor : this.seguidores) {
+			dataTypeSeguidores.add(seguidor.getNickname());
+		}
+		for(Usuario seguido : this.seguidos) {
+			dataTypeSeguidos.add(seguido.getNickname());
+		}
+		asistenteDataType.setDataTypeSeguidores(dataTypeSeguidores);
+		asistenteDataType.setDataTypeSeguidos(dataTypeSeguidos);
+		
+		return asistenteDataType;
+		
 	}
 }
 

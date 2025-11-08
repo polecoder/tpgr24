@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import excepciones.ContrasenaIncorrecta;
-import excepciones.FormatoContrasenaInvalido;
-import excepciones.FormularioIncompletoAsistente;
-import excepciones.FormularioIncompletoOrganizador;
-import excepciones.UsuarioNoExiste;
 import datatypes.DTAsistente;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
@@ -17,6 +12,11 @@ import datatypes.DTEdicionEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTRegistro;
 import datatypes.DTUsuario;
+import excepciones.ContrasenaIncorrecta;
+import excepciones.FormatoContrasenaInvalido;
+import excepciones.FormularioIncompletoAsistente;
+import excepciones.FormularioIncompletoOrganizador;
+import excepciones.UsuarioNoExiste;
 
 public interface IControladorUsuarios {
 	void altaAsistente(String nickname, String contrasena, String nombre, String correo, String apellido, Date fechaNacimiento, String nombreinstitucion, byte[] imagen) throws FormatoContrasenaInvalido, FormularioIncompletoAsistente;
@@ -89,4 +89,23 @@ public interface IControladorUsuarios {
 	List<DTEdicionEvento> listarEdicionesConRegistrosUsuario(String nick);
 	DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Usuario);
 	boolean existeNick(String nick);
+	
+	/**
+	 * Establece una relación de seguimiento entre dos usuarios.
+	 * El seguidor comenzará a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que realizará el seguimiento
+	 * @param nicknameSeguido nickname del usuario que será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste;
+	/**
+	 * Libera una relación de seguimiento entre dos usuarios.
+	 * El seguidor dejara a seguir al usuario seguido.
+	 * 
+	 * @param nicknameSeguidor nickname del usuario que deja de hacer el seguimiento
+	 * @param nicknameSeguido nickname del usuario que ya no será seguido
+	 * @throws Exception si alguno de los usuarios no existe o si ocurre un error al establecer la relación
+	 */
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste;
 }
