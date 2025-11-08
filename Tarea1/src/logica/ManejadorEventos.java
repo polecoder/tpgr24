@@ -361,8 +361,27 @@ public class ManejadorEventos {
 			throw tr;
 		}
 	}
+	
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
 		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre());
+		tipoRegistro.addRegistro(registro);
+		asistente.addRegistro(registro);
+	}
+	
+	/**
+	 * Sobrecarga de la función de altaRegistro, pero con la posibilidad de agregar el parámetro para marcar la asistencia.
+	 * Importante para CargaDatos.
+	 * 
+	 * @param asistente
+	 * @param tipoRegistro
+	 * @param patrocinio
+	 * @param fecha
+	 * @param costo
+	 * @param ed
+	 * @param asiste
+	 */
+	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed, boolean asiste) {
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre(), asiste);
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}

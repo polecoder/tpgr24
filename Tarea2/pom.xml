@@ -68,7 +68,7 @@
 				</executions>
 				<configuration>
 					<wsdlUrls>
-						<wsdlUrl>http://${IP}/publicador?wsdl</wsdlUrl>
+						<wsdlUrl>http://localhost:4230/publicador?wsdl</wsdlUrl>
 					</wsdlUrls>
 					<keep>true</keep>
 					<sourceDestDir>src/main/java/</sourceDestDir>

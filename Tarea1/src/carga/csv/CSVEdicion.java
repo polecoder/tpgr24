@@ -33,11 +33,13 @@ public class CSVEdicion {
 	private String estado;
 	@CsvBindByName(column = "Imagen")
 	private String imagen;
+	@CsvBindByName(column = "Video")
+	private String video;
 	
 	// NECESARIO para OpenCSV
 	public CSVEdicion() {}
 	
-	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, Date fechaInicio, Date fechaFin, Date fechaAlta, String estado, String imagen) {
+	public CSVEdicion(String ref, String evento, String organizador, String nombre, String sigla, String ciudad, String pais, Date fechaInicio, Date fechaFin, Date fechaAlta, String estado, String imagen, String video) {
 		this.ref = ref;
 		this.evento = evento;
 		this.organizador = organizador;
@@ -50,6 +52,7 @@ public class CSVEdicion {
 		this.fechaAlta = fechaAlta;
 		this.estado = estado;
 		this.imagen = imagen;
+		this.video = video;
 	}
 	
 	public String getRef() {
@@ -87,5 +90,8 @@ public class CSVEdicion {
 	}
 	public String getImagen() {
 		return imagen;
+	}
+	public String getVideo() {
+		return video;
 	}
 }
