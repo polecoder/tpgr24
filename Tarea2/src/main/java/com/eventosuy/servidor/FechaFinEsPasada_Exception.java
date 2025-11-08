@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "FechaFinEsPasada", targetNamespace = "http://servidor/")
 public class FechaFinEsPasada_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**

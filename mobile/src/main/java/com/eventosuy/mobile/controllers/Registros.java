@@ -5,12 +5,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logica.Fabrica;
-import logica.IControladorUsuarios;
-
 import java.io.IOException;
-import datatypes.DTDetalleRegistro;
-import datatypes.DTDetalleUsuario;
+
+import com.eventosuy.mobile.servidor.Publicador;
+import com.eventosuy.mobile.servidor.PublicadorService;
+
+import com.eventosuy.mobile.servidor.DTDetalleRegistro;
+import com.eventosuy.mobile.servidor.DTDetalleUsuario;
 
 /**
  * Servlet implementation class Registros
@@ -28,8 +29,8 @@ public class Registros extends HttpServlet {
        
     }
 
-    private final static Fabrica fabrica = Fabrica.getInstancia();
-	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
+    private final static PublicadorService servicio = new PublicadorService();
+ 	private final static Publicador puerto = servicio.getPublicadorPort();
 	    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {		
     	String accion = request.getParameter("accion"); 
@@ -37,7 +38,7 @@ public class Registros extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada.");
 			return;
 		}
-		String edicion=(String) request.getParameter("edicion");
+		String NombreEdicion=(String) request.getParameter("edicion");
 		DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 
 		if (usuarioLogeado == null) {
@@ -48,7 +49,7 @@ public class Registros extends HttpServlet {
 		
 		switch (accion) {
 		case "Consulta":
-			DTDetalleRegistro dtr = controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, usuarioLogeado.getNickname());
+			DTDetalleRegistro dtr = puerto.getDTDetalleRegistroPorEdicion(NombreEdicion, usuarioLogeado.getNickname());
 			
 			
 			request.setAttribute("detalle", dtr);
@@ -59,8 +60,8 @@ public class Registros extends HttpServlet {
 			
 			
 		    try {
-		        controladorUsuarios.confirmarAsistencia(usuarioLogeado.getNickname(), edicion);
-		        DTDetalleRegistro dtr1 = controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, usuarioLogeado.getNickname());
+		        puerto.confirmarAsistencia(usuarioLogeado.getNickname(), NombreEdicion);
+		        DTDetalleRegistro dtr1 = puerto.getDTDetalleRegistroPorEdicion(NombreEdicion, usuarioLogeado.getNickname());
 		        // Vuelve a consultar el detalle actualizado
 		        request.setAttribute("detalle", dtr1);
 		        request.setAttribute("mensaje", "Asistencia confirmada correctamente.");
@@ -102,3 +103,4 @@ public class Registros extends HttpServlet {
 	}
 
 }
+	

@@ -368,5 +368,20 @@ public class Publicador {
 	public void registrarVisitaEvento(String nombreEvento) /* throws EventoNoExiste */ {
 		controladorEventos.registrarVisitaEvento(nombreEvento);
 	}
+	
+	@WebMethod
+	public DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Nickname) {
+		return controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, Nickname);
+	}
+	
+	@WebMethod
+	public void confirmarAsistencia(String nickname, String NombreEdicion) throws Exception {
+		controladorUsuarios.confirmarAsistencia(nickname, NombreEdicion);
+	}
+
+	@WebMethod
+	public boolean existeNick(String nickname) {
+		return controladorUsuarios.existeNick(nickname);
+	}
 
 }
