@@ -383,5 +383,10 @@ public class Publicador {
 	public boolean existeNick(String nickname) {
 		return controladorUsuarios.existeNick(nickname);
 	}
+	
+	@WebMethod
+	public DTEdicionEvento[] listarEdicionesEventoValues(String nombreEvento) {
+		return controladorEventos.listarEdicionesEvento(nombreEvento).values().toArray(new DTEdicionEvento[0]);
+	}
 
 }
