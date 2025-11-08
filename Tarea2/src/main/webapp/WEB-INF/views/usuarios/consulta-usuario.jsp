@@ -32,14 +32,26 @@
   String contextoApp = request.getContextPath();
   
   // usuario logueado 
-  String usuarioLogueado = (String) session.getAttribute("nick");
+  DTDetalleUsuario dtDetalleUsuarioLoggeado = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
+  String dtDetalleUsuarioLoggeadoNickname = dtDetalleUsuarioLoggeado == null ? null : dtDetalleUsuarioLoggeado.getNickname();
+  String sessionNick = (String) session.getAttribute("nick");
+  String usuarioLogueado = sessionNick == null ? dtDetalleUsuarioLoggeadoNickname : sessionNick;
   
   // imagen del usuario
   String imagenUsuario = (String) request.getAttribute("imagenDataUri");
 %>
 
 <div class="container flex-grow-1 my-4">
-
+<!-- =============== MOSTRAR ERROR =============== -->
+<% 
+  String errorMsg = (String) request.getAttribute("error");
+  if (errorMsg != null && !errorMsg.isBlank()) { 
+%>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error:</strong> <%= errorMsg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
 <!-- =============== LISTA DE USUARIOS =============== -->
 <% if (listaUsuarios != null) { %>
   <div class="mx-auto" style="max-width: 768px">
@@ -283,20 +295,20 @@
       if (esPropio) {
     %>
 	    <div class="text-end mt-4">
-	      <a href="<%=ctx%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
+	      <a href="<%=contextoApp%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
 	    </div>
     <% } else {
     	List<String> listaSeguidores = usuarioConsultado.getDataTypeSeguidores();
     	if(listaSeguidores.contains(usuarioLogueado)){
     		%>
     		<div class="text-end mt-4">
-		      <a href="<%=ctx%>/usuario?accion=dejarDeSeguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Dejar de seguir</a>
+		      <a href="<%=contextoApp%>/usuario?accion=dejarDeSeguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Dejar de seguir</a>
 		    </div>
     		<%
     	}else{
     		%>
     		<div class="text-end mt-4">
-		      <a href="<%=ctx%>/usuario?accion=seguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Seguir</a>
+		      <a href="<%=contextoApp%>/usuario?accion=seguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Seguir</a>
 		    </div>
     		<%
     	}
@@ -317,7 +329,7 @@
           %>
 		          <li class="list-group-item d-flex justify-content-between align-items-center">
 		            <span><%= seguidor %></span>
-		            <a href="<%=ctx%>/usuario?accion=consulta&nick=<%=seguidor%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		            <a href="<%=contextoApp%>/usuario?accion=consulta&nick=<%=seguidor%>" class="btn btn-sm btn-outline-primary">Ver</a>
 		          </li>
           <%
               }
@@ -337,7 +349,7 @@
           %>
 		          <li class="list-group-item d-flex justify-content-between align-items-center">
 		            <span><%= seguido %></span>
-		            <a href="<%=ctx%>/usuario?accion=consulta&nick=<%=seguido%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		            <a href="<%=contextoApp%>/usuario?accion=consulta&nick=<%=seguido%>" class="btn btn-sm btn-outline-primary">Ver</a>
 		          </li>
           <%
               }

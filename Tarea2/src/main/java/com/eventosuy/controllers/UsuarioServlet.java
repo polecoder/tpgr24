@@ -582,12 +582,12 @@ public class UsuarioServlet extends HttpServlet {
 			DTDetalleUsuario DTSeguidor = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 			String nicknameSeguidor = DTSeguidor != null ? DTSeguidor.getNickname() : null;
 			try {
-				if (nicknameSeguido == null || nicknameSeguidor == null) throw new UsuarioNoExiste_Exception("Uno de los nicknames es null", null);
+				if (nicknameSeguido == null || nicknameSeguidor == null) throw new UsuarioNoExiste_Exception("No se pudo seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente.", null);
 				puerto.seguir(nicknameSeguidor, nicknameSeguido);				
 			}catch(UsuarioNoExiste_Exception userError) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				request.setAttribute("error", safeMsg(userError, "Hubo un error al Seguir al Usuario. Alguno de los usuarios no existe en el sistema. Verifique que este loggeado correctamente"));
-				request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
+				request.setAttribute("error", safeMsg(userError, "No se pudo seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente."));
+				request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
 				.include(request, response);	
 				return;			
 			}
@@ -606,13 +606,13 @@ public class UsuarioServlet extends HttpServlet {
 			String nicknameSeguidor = DTSeguidor != null ? DTSeguidor.getNickname() : null;
 			try {
 				if (nicknameSeguido == null || nicknameSeguidor == null) {
-					throw new UsuarioNoExiste_Exception("Uno de los nicknames es null", null);
+					throw new UsuarioNoExiste_Exception("No se pudo dejar de seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente.", null);
 				}
 				puerto.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);				
 			}catch (UsuarioNoExiste_Exception userError) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				request.setAttribute("error", safeMsg(userError, "Hubo un error al dejar de seguir al Usuario. Alguno de los usuarios no existe en el sistema. Verifique que este loggeado correctamente"));
-				request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
+				request.setAttribute("error", safeMsg(userError, "No se pudo dejar de seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente."));
+				request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
 				.include(request, response);	
 				return;
 			}
