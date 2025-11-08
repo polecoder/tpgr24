@@ -2,6 +2,14 @@ package datatypes;
 
 import java.util.Date;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+@XmlRootElement
+@XmlType(name = "DTDetalleRegistro")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTDetalleRegistro {
 	private String nombreEdicion;
 	private String nicknameAsistente;
@@ -10,6 +18,13 @@ public class DTDetalleRegistro {
 	private float costo;
 	private String codigoPatrocinio;
 	private boolean asistio;
+	
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTDetalleRegistro(String, String, ...) en su lugar.
+	 */
+	public DTDetalleRegistro() {
+	}
 	
 	public DTDetalleRegistro(String nombreEdicion, String nicknameAsistente, String nombreTipo, Date fecha, float costo, String codigoPatrocinio, boolean asistio) {
 		this.setNombreEdicion(nombreEdicion);

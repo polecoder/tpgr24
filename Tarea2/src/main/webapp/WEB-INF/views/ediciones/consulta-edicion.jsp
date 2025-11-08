@@ -2,10 +2,12 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@ page import="datatypes.*"%>
+<%@ page import="com.eventosuy.servidor.*"%>
 <%@ page import="com.eventosuy.models.TipoUsuario"%>
+<%@ page import="com.eventosuy.utils.Utilidades"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.List"%>
 <%
 String cp = request.getContextPath();
 DTDetalleUsuario datosUsuario = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
@@ -23,8 +25,8 @@ String base64Image = null;
 if (imagenBytes != null && imagenBytes.length > 0) {
   base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
 }
-Set<String> setPatrocinios = (Set<String>) request.getAttribute("lista_patrocinios");
-Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_registro");
+List<String> setPatrocinios = (List<String>) request.getAttribute("lista_patrocinios");
+List<String> setTiposRegistro = (List<String>) request.getAttribute("lista_tipos_registro");
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 byte[] imagenOrganizador = (byte[]) request.getAttribute("imagenOrg");
 // archivo
@@ -142,32 +144,17 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         <div class="card shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold text-primary mb-0">Detalles de la edición:</h4>
-            <%
-            if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR
-            		&& datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
-            %>
-            <%
-            if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Ingresada")) {
-            %>
-            <span class="badge-estado badge-ingresada">Ingresada</span>
-            <%
-            } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Aceptada")) {
-            %>
-            <span class="badge-estado badge-aprobada">Aprobada</span>
-            <%
-            } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Rechazada")) {
-            %>
-            <span class="badge-estado badge-rechazada">Rechazada</span>
-            <%
-            } else if (dtEdicion.getEstado() == EEstadoEdicion.valueOf("Archivada")) {
-            %>
-            <span class="badge-estado badge-archivada">Archivada</span>
-            <% 
-            } 
-            %>
-            <%
-            }
-            %>
+            <% if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) { %>
+              <% if (dtEdicion.getEstado() == EEstadoEdicion.INGRESADA) { %>
+                <span class="badge-estado badge-ingresada">Ingresada</span>
+              <% } else if (dtEdicion.getEstado() == EEstadoEdicion.ACEPTADA) { %>
+                <span class="badge-estado badge-aprobada">Aprobada</span>
+              <% } else if (dtEdicion.getEstado() == EEstadoEdicion.RECHAZADA) { %>
+                <span class="badge-estado badge-rechazada">Rechazada</span>
+              <% } else if (dtEdicion.getEstado() == EEstadoEdicion.ARCHIVADA) { %>
+                <span class="badge-estado badge-archivada">Archivada</span>
+              <% } %>
+            <% } %>
           </div>
           <div class="row gy-3">
             <div class="col-md-6">
@@ -176,7 +163,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de alta:</strong>
-              <p class="mb-0"><%=formatter.format(dtEdicion.getFechaAlta())%></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaAlta())) %></p>
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">País:</strong>
@@ -188,17 +175,17 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de inicio:</strong>
-              <p class="mb-0"><%=formatter.format(dtEdicion.getFechaInicio())%></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaInicio())) %></p>
             </div>
             <div class="col-md-6">
               <strong class="text-secondary">Fecha de fin:</strong>
-              <p class="mb-0"><%=formatter.format(dtEdicion.getFechaFin())%></p>
+              <p class="mb-0"><%= formatter.format(Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaFin())) %></p>
             </div>
           </div>
         </div>
 
         <%-- no muestro sección de tipos de registro si la edición está en el archivo --%>
-        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.ARCHIVADA) { %>
           <div class="card shadow-sm p-4">
             <h5 class="fw-bold text-primary mb-3 text-center">Tipos de registro:</h5>
             <%
@@ -267,9 +254,8 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
 
         <%-- registros de la edición (organizador de la edición) --%>
         <%
-        if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR
-        		&& datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
-        	Set<DTDetalleRegistro> setRegistros = (Set<DTDetalleRegistro>) request.getAttribute("lista_registros");
+        if (tipoUsuarioLogeado == TipoUsuario.ORGANIZADOR && datosUsuario.getNickname().equals(dtEdicion.getOrganizadorNickname())) {
+        	List<DTDetalleRegistro> setRegistros = (List<DTDetalleRegistro>) request.getAttribute("lista_registros");
         %>
         <div class="card shadow-sm p-4">
 
@@ -309,17 +295,11 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
                 </td>
                 <td><%=registro.getFecha()%></td>
                 <td><%=registro.getCosto()%></td>
-                <%
-                if (registro.getAsistio()) {
-                %>
-                <td>Asistió</td>
-                <%
-                } else {
-                %>
-                <td>No asistió</td>
-                <%
-                }
-                %>
+                <% if (registro.isAsistio()) { %>
+                	<td>Asistió</td>
+                <% } else { %>
+                	<td>No asistió</td>
+                <% } %>
               </tr>
               <%
               }
@@ -336,48 +316,37 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         </div>
         <%
         } else if (tipoUsuarioLogeado == TipoUsuario.ASISTENTE) {
-        DTDetalleRegistro dtDetalleRegistro = (DTDetalleRegistro) request.getAttribute("detalle_registro");
-        if (dtDetalleRegistro != null) {
-        	String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
-        %>
-        <div class="card shadow-sm p-4">
-          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
-          <table class="table table-sm table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Costo</th>
-                <th scope="col">¿Asistió?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><a
-                  href="<%= cp %>/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
-                  class="link-primary link-underline"
-                ><%=dtDetalleRegistro.getNombreTipo()%></a></td>
-                <td><%=dtDetalleRegistro.getFecha()%></td>
-                <td><%=dtDetalleRegistro.getCosto()%></td>
-                <%
-                if (dtDetalleRegistro.getAsistio()) {
-                %>
-                <td>Asistió</td>
-                <%
-                } else {
-                %>
-                <td>No asistió</td>
-                <%
-                }
-                %>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <%
-        }
-        }
-        %>
+            DTDetalleRegistro dtDetalleRegistro = (DTDetalleRegistro) request.getAttribute("detalle_registro");
+            if (dtDetalleRegistro != null) {
+                String nombreTipoRegistro = dtDetalleRegistro.getNombreTipo();
+		        %>
+		        <div class="card shadow-sm p-4">
+		          <h6 class="fw-bold mb-3">Tu registro en esta edición:</h6>
+		          <table class="table table-sm table-bordered">
+		            <thead class="table-light">
+		              <tr>
+		                <th scope="col">Tipo</th>
+		                <th scope="col">Fecha</th>
+		                <th scope="col">Costo</th>
+		                <th scope="col">¿Asistió?</th>
+		              </tr>
+		            </thead>
+		            <tbody>
+		              <tr>
+		                <td><a href="${pageContext.request.contextPath}/Ediciones?accion=ConsultaTipoRegistro&nombre_evento=<%=nombreEvento%>&nombre_edicion=<%=nombreEdicion%>&nombre_tipo_registro=<%=nombreTipoRegistro%>"
+		                       class="link-primary link-underline"><%= dtDetalleRegistro.getNombreTipo() %></a></td>
+		                <td><%= dtDetalleRegistro.getFecha() %></td>
+		                <td><%= dtDetalleRegistro.getCosto() %></td>
+		                <% if (dtDetalleRegistro.isAsistio()) { %>
+		                	<td>Asistió</td>
+		                <% } else { %>
+		                	<td>No asistió</td>
+		                <% } %>
+		              </tr>
+		            </tbody>
+		          </table>
+		        </div>
+        <% }} %>
 
         <%-- si la edición no está archivada, muestro botones para interactuar con la edición --%>
         <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>

@@ -1,4 +1,4 @@
-package com.eventosuy.models;
+package com.eventosuy.models; 
 
 public enum TipoUsuario {
 	ORGANIZADOR,

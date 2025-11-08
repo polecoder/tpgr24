@@ -1,6 +1,13 @@
 package datatypes;
 import java.util.Date;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
+@XmlRootElement
+@XmlType(name = "DTEdicionEvento")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTEdicionEvento {
 	private String nombre;
 	private String sigla;
@@ -14,7 +21,13 @@ public class DTEdicionEvento {
 	private EEstadoEdicion estado;
 	private String videoURL;
 
-
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTEdicionEvento(String, String, ...) en su lugar.
+	 */
+	public DTEdicionEvento() {
+	}
+	
 	public DTEdicionEvento(String nombre, String sigla, Date fechaInicio, Date fechaFin, 
 			Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] imagen,
 			 EEstadoEdicion estado, String videoURL) {
