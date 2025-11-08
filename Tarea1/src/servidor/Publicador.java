@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import datatypes.DTDetallePatrocinio;
 import java.io.InputStream;
 import datatypes.DTDetalleRegistro;
@@ -59,7 +57,6 @@ import logica.IControladorInstitucion;
 import logica.IControladorUsuarios;
 import logica.Institucion;
 import logica.Patrocinio;
-import logica.Utilidades;
 import webwrappers.DTEventoEntry;
 import logica.Fabrica;
 
@@ -117,10 +114,9 @@ public class Publicador {
 	}
 	
 	@WebMethod
-	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada{
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EventoFinalizado, EdicionNoExiste, EdicionYaArchivada{
 		controladorEventos.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);
 	}
-    
 
 	@WebMethod
 	public String[] nombresCategorias(String nombre){
@@ -172,7 +168,10 @@ public class Publicador {
 
 	@WebMethod
 	public String[] getNombresTipoRegistro(String eventoSeleccionado, String edicionSeleccionada) {
-	    return controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada).toArray(new String[0]);
+		Set<String> tiposRegistro = controladorEventos.getNombresTipoRegistro(eventoSeleccionado, edicionSeleccionada);
+		if (tiposRegistro == null) return new String[0];
+		
+	    return tiposRegistro.toArray(new String[0]);
 	}
 
 	@WebMethod
@@ -258,7 +257,10 @@ public class Publicador {
 	}
 	@WebMethod
 	public String[] listarPatrocinadores(String nombreEvento, String nombreEdicion){
-		return controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion).toArray(new String[0]);
+		Set<String> patrocinadores = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+		if (patrocinadores == null) return new String[0];
+		
+		return patrocinadores.toArray(new String[0]);
 	}
 	
 	// -------------------	USUARIOS		------------------- //
@@ -382,6 +384,11 @@ public class Publicador {
 	@WebMethod
 	public boolean existeNick(String nickname) {
 		return controladorUsuarios.existeNick(nickname);
+	}
+	
+	@WebMethod
+	public String[] listarEdicionesArchivadasDeOrganizador(String nicknameOrganizador) {
+		return controladorEventos.listarEdicionesArchivadasDeOrganizador(nicknameOrganizador).toArray(new String[0]);
 	}
 
 }

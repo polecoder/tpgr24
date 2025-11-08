@@ -26,7 +26,6 @@ import logica.ManejadorEventos;
 import logica.ManejadorUsuarios;
 import persistencia.TipoUsuario.TipoUsuario;
 
-// TODO: Revisar el funcionamiento al pasar a Web Services
 public class ManejadorPersistencia {
 	private static ManejadorPersistencia instancia;
 	private ManejadorEventos manejadorEventos;
@@ -54,7 +53,13 @@ public class ManejadorPersistencia {
 			propiedades.put("jakarta.persistence.jdbc.user", "SA");
 			propiedades.put("jakarta.persistence.jdbc.password", "");
 			propiedades.put("jakarta.persistence.jdbc.driver", "org.hsqldb.jdbcDriver");
-
+			// Logs de SQL
+			propiedades.put("hibernate.show_sql", "true");
+			propiedades.put("hibernate.format_sql", "true");
+			propiedades.put("hibernate.use_sql_comments", "true");
+			// Ver parámetros de las consultas
+			propiedades.put("hibernate.type.descriptor.sql.BasicBinder", "TRACE");
+			
 			// creamos el EntityManagerFactory con la url correcta
 			this.fabricaManejadorEntidades = Persistence.createEntityManagerFactory("ArchivoDB", propiedades);
 		} catch (IOException e) {

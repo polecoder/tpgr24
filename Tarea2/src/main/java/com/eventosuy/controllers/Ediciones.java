@@ -17,16 +17,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.eventosuy.servidor.Publicador;
 import com.eventosuy.servidor.PublicadorService;
-import com.eventosuy.servidor.UsuarioNoExiste_Exception;
 import com.eventosuy.servidor.DTEdicionEvento;
+import com.eventosuy.servidor.DTEventoEntry;
+import com.eventosuy.servidor.DTEventoEntryArray;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTDetalleRegistro;
-import com.eventosuy.servidor.EdicionFinalizada;
-import com.eventosuy.servidor.EdicionFinalizada_Exception;
-import com.eventosuy.servidor.EdicionNoExiste;
 import com.eventosuy.servidor.EdicionNoExiste_Exception;
-import com.eventosuy.servidor.EdicionYaArchivada;
 import com.eventosuy.servidor.EdicionYaArchivada_Exception;
+import com.eventosuy.servidor.EventoFinalizado_Exception;
 import com.eventosuy.servidor.DTTipoRegistro;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -122,16 +120,28 @@ public class Ediciones extends HttpServlet {
 		    }
 		}
 		
-		if (nombreEvento == null) {
-			request.setAttribute("error_message", "La edicion no es de ningun evento");
-			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-			return request;
-		}
+		// TODO: Revisar si esto rompe algo (necesario para ediciones archivadas)
+//		if (nombreEvento == null) {
+//			request.setAttribute("error_message", "La edicion no es de ningun evento");
+//			request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+//			return request;
+//		}
+		
+		// TODO: Parche temporal para comtemplar ediciones archivadas
+		if (nombreEvento == null) nombreEvento = "";
 		
 		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
+		// patrocinios
 		List<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion).getItem();
-		String videoURL = dtEdicion.getVideoURL();
+		if (setPatrocinios.isEmpty()) {
+			setPatrocinios = null;
+		}
+		// tipos registro
 		List<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion).getItem();
+		if (setTiposRegistro.isEmpty()) {
+			setTiposRegistro = null;
+		}
+		String videoURL = dtEdicion.getVideoURL();
 		List<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).getItem();
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
@@ -160,7 +170,7 @@ public class Ediciones extends HttpServlet {
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
 		
-		DTEdicionEvento ed =puerto.getDTEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento ed = puerto.getDTEdicion(nombreEvento, nombreEdicion);
 		try {
 			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
@@ -274,66 +284,36 @@ public class Ediciones extends HttpServlet {
 		String nombreEdicion = request.getParameter("nombre_edicion");
 		if (nombreEdicion == null) nombreEdicion = (String) request.getAttribute("nombre_edicion");
 		
-		// setear todos los atributos usados por el .jsp
-		DTEdicionEvento detalleEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
-		request.setAttribute("detalle_edicion", detalleEdicion);
-		
-		List<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion).getItem();
-		request.setAttribute("lista_patrocinios", setPatrocinios);
-		
-		List<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion).getItem();
-		request.setAttribute("lista_tipos_registro", setTiposRegistro);
-		
-		String videoURL = detalleEdicion.getVideoURL();
-		request.setAttribute("videoURL", videoURL);
-		
-		request.setAttribute("finalizada", false);
-		Date dateFechaFin = Utilidades.XMLGregorianCalendarToDate(detalleEdicion.getFechaFin());
-		if (dateFechaFin.before(new Date())) { 
-			request.setAttribute("finalizada", true);
-		}
-		
-		List<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).getItem();
-		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
-		for (DTDetalleRegistro dtRegistro : setRegistros) {
-			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
-		}
-		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
-		String nickname = null;
-		if (dtUsuario != null) {nickname = dtUsuario.getNickname();}
-		if (nickname != null && nickname.equals(detalleEdicion.getOrganizadorNickname())) {
-			request.setAttribute("lista_registros", setRegistros);
-		} else if (nickname != null && asistentesRegistrados.keySet().contains(nickname)) {
-			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
-		}
-		// imagen organizador
-		try {
-			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(detalleEdicion.getOrganizadorNickname());
-			request.setAttribute("imagenOrg", u.getImagen());
-		} catch (UsuarioNoExiste_Exception e) {
-			e.printStackTrace();
-		}
-		
 		// parte lógica
+		XMLGregorianCalendar fecha = null;
 		try {
-			puerto.archivarEdicion(nombreEvento, nombreEdicion, Utilidades.dateToXMLGregorianCalendar(new Date()));
-		} catch (EdicionFinalizada_Exception exception) {
-			request.setAttribute("error", "La edición seleccionada ya finalizó.");
-			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-			return;
+			fecha = Utilidades.dateToXMLGregorianCalendar(new Date());
+		} catch (Exception ignore) {
+			ignore.printStackTrace();
+		}
+		
+		try {
+		    puerto.archivarEdicion(nombreEvento, nombreEdicion, fecha);
+		} catch (EventoFinalizado_Exception exception) {
+		    exception.printStackTrace();
+		    request.setAttribute("error", "El evento asociado a la edición seleccionada ya finalizó.");
+		    request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		    return;
 		} catch (EdicionNoExiste_Exception exception) {
-			request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
-			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-			return;
+		    exception.printStackTrace();
+		    request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
+		    request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		    return;
 		} catch (EdicionYaArchivada_Exception exception) {
-			request.setAttribute("error", "La edición seleccionada ya está archivada.");
-			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
-			return;
+		    exception.printStackTrace();
+		    request.setAttribute("error", "La edición seleccionada ya está archivada.");
+		    request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		    return;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			request.setAttribute("error", e.getMessage());
-			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		    e.printStackTrace();
+		    request.setAttribute("error", "Error: " + e.getMessage());
+		    request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
+		    return;
 		}
 		
 		// el archivo fue éxitoso

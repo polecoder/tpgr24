@@ -260,8 +260,11 @@
                 <% } %>
 
                 <!-- Ediciones archivadas -->
-                <% for (String nombreEdicion : edicionesArchivadas) { %>
-                  <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
+                <% for (String nombreEdicion : edicionesArchivadas) {
+                    String urlEdicion = contextoApp + "/Ediciones?accion=ConsultaEdicion&nombre_edicion=" 
+                            + java.net.URLEncoder.encode(nombreEdicion, "UTF-8");
+                %>
+                  <option value="<%=urlEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
                 <% } %>
               </select>
             <% } %>

@@ -34,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
 })
 public class StringArray {
 
-    @XmlElement(nillable = true)
+    @XmlElement(namespace = "", nillable = true)
     protected List<String> item;
 
     /**
