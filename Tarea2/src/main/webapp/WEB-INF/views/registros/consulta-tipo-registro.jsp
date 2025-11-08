@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="datatypes.DTTipoRegistro" %>
+<%@ page import="com.eventosuy.servidor.DTTipoRegistro" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +12,23 @@
         <div class="d-flex flex-column align-items-center py-5 gap-5">
 
             <%
-                // Obtener datos desde la request
-                byte[] imagenBytes = (byte[]) request.getAttribute("imagenEdicion");
-                String base64Image = null;
-                if (imagenBytes != null && imagenBytes.length > 0) {
-                    base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
-                }
+            // Obtener datos desde la request
+            byte[] imagenBytes = (byte[]) request.getAttribute("imagenEdicion");
+            String base64Image = null;
+            if (imagenBytes != null && imagenBytes.length > 0) {
+                base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
+            }
 
-                DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("detalle_tipo_registro");
-                String nombreTipoRegistro = dtTipoRegistro.nombre();
-                String descripcion = dtTipoRegistro.descripcion();
-                float costo = dtTipoRegistro.costo();
-                int cuposMax = dtTipoRegistro.cuposMax();
+            DTTipoRegistro dtTipoRegistro = (DTTipoRegistro) request.getAttribute("detalle_tipo_registro");
+            
+            // Usar getters en lugar de métodos record
+            String nombreTipoRegistro = dtTipoRegistro.getNombre();
+            String descripcion = dtTipoRegistro.getDescripcion();
+            float costo = dtTipoRegistro.getCosto();
+            int cuposMax = dtTipoRegistro.getCuposMax();
 
-                String nombreEvento = request.getParameter("nombre_evento");
-                String nombreEdicion = request.getParameter("nombre_edicion");
+            String nombreEvento = request.getParameter("nombre_evento");
+            String nombreEdicion = request.getParameter("nombre_edicion");
             %>
 
             <!-- Contenedor principal -->

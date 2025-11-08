@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList" %>
-<%@page import="datatypes.*, com.eventosuy.models.*" %>
+<%@page import=" com.eventosuy.models.*" %>
+<%@page import="com.eventosuy.servidor.*" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -50,7 +51,7 @@
             List<DTEdicionEvento> ediciones = (List<DTEdicionEvento>) request.getAttribute("ediciones");
             %>
 
-           	<div class="border-bottom border-2 border-secondary-subtle pb-3 mb-4 d-flex flex-row">
+           <div class="border-bottom border-2 border-secondary-subtle pb-3 mb-4 ">
 			    <!-- Imagen del evento -->
 				<% if (base64Image != null) { %>
 			    	<div class="col-3 text-start">
@@ -62,9 +63,8 @@
 			      		/>
 			      	</div>
 			    <% } %>
-			    
 			   	<!-- Titulo y estado del evento -->
-			   	<div class="col-6">
+			   	<div class="text-center">
 				    <div class="d-flex align-items-center flex-column" style="object-position: center">
 				    	<h1 class="text-uppercase fw-bold fs-2 text-primary mb-1"><%= nombre %></h1>
 				    	<div class="mt-2">
@@ -79,17 +79,6 @@
 			</div>
 			
 			<!-- Detalle evento -->
-			
-			<% if (esOrganizador && !eventoFinalizado) { %>
-  				<form method="post" action="<%= request.getContextPath() %>/Eventos" class="my-3">
-    			<input type="hidden" name="accion" value="finalizar"/>
-    			<input type="hidden" name="nombre" value="<%= nombre %>"/>
-    			<button type="submit" class="btn btn-danger fw-semibold"
-            		onclick="return confirm('¿Seguro que querés finalizar este evento?');">
-      				FINALIZAR EVENTO
-    			</button>
-  			</form>
-			<% } %>
 			 
 		<div class="card shadow-sm p-4 mb-3">
             <h4 class="fw-bold text-primary mb-3 ">Detalles del Evento:</h4>
@@ -161,6 +150,18 @@
 				<% } else { %>
 				    <p class="text-muted fst-italic">No hay ediciones disponibles.</p>
 				<% } %>
+			</div>
+			<div class="text-center">
+			<% if (esOrganizador && !eventoFinalizado) { %>
+  				<form method="post" action="<%= request.getContextPath() %>/Eventos" class="my-3">
+    			<input type="hidden" name="accion" value="finalizar"/>
+    			<input type="hidden" name="nombre" value="<%= nombre %>"/>
+    			<button type="submit" class="btn btn-danger fw-semibold"
+            		onclick="return confirm('¿Seguro que querés finalizar este evento?');">
+      				FINALIZAR EVENTO
+    			</button>
+  			</form>
+			<% } %>
 			</div>
         </main>
     </div>

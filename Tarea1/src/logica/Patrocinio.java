@@ -3,8 +3,14 @@ package logica;
 import java.util.Date;
 
 import datatypes.ENivelPatrocinio;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
-
+@XmlRootElement
+@XmlType(name = "Patrocinio")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Patrocinio {
 	private String codigoPatrocinio;
 	private Date fechaPatrocinio;
@@ -13,6 +19,13 @@ public class Patrocinio {
 	private int cuposGratuitos;
 	private Institucion institucion;
 	private TipoRegistro tipoRegistro;
+	
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar Patrocinio(String, String, ...) en su lugar.
+	 */
+	public Patrocinio() {
+	}
 	
 	public Patrocinio(String codigoPatrocinio, Date fechaPatrocinio, float aporte, ENivelPatrocinio nivel,
 			int cuposGratuitos, Institucion institucion, TipoRegistro tipoRegistro) {

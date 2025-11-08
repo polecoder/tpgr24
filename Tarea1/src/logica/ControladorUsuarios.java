@@ -27,6 +27,7 @@ public class ControladorUsuarios implements IControladorUsuarios {
 	private IControladorInstitucion iContInstituciones;
 
 	private ControladorUsuarios() {
+		Fabrica fabrica = Fabrica.getInstancia();
 		manejadorUsuarios = ManejadorUsuarios.getInstance();
 		iContInstituciones = ControladorInstitucion.getInstance();
 	}
@@ -237,7 +238,6 @@ public class ControladorUsuarios implements IControladorUsuarios {
 		} else {
 			dtRegistro = new DTDetalleRegistro(nombreEd, asistente.getNickname(), nombreTipo, registro.getFechaRegistro(), registro.getCosto(), null, registro.getAsistio());
 		}
-		
 		return dtRegistro;
 	}
 

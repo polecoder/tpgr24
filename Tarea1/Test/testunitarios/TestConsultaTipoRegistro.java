@@ -2,6 +2,7 @@ package testunitarios;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
@@ -15,60 +16,154 @@ import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionNoExiste;
 import excepciones.EventoNoExiste;
 import excepciones.NombreTipoRegistroRepetido;
+import excepciones.TipoRegistroNoExiste;
 import logica.Fabrica;
 import logica.Utilidades;
 
 public class TestConsultaTipoRegistro {
 	private static Fabrica fabrica;
-	
+
 	@BeforeEach
 	void init() {
 		Fabrica.resetInstancia();
 		fabrica = Fabrica.getInstancia();
 	}
-	
+
 	@Test
 	void operacionGetTiposRegistro() {
 		// Alta Categoría
-		
 		assertDoesNotThrow(() -> {
 			fabrica.getControladorEvento().altaCategoria("Categoria 1");
 		});
-		
+
 		// Alta Organizador
 		assertDoesNotThrow(() -> {
-			fabrica.getControladorUsuarios().altaOrganizador("Organizador1", "Eventos.2025!", "Nombre", "mail@mail.com", "Descripcion1", "https://Link1", null);
+			fabrica.getControladorUsuarios().altaOrganizador("Organizador1", "Eventos.2025!", "Nombre", "mail@mail.com",
+					"Descripcion1", "https://Link1", null);
 		});
-		
+
 		// Alta Evento
 		List<String> listaCategorias = new ArrayList<>();
 		listaCategorias.add("Categoria1");
-		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1", Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1",
+				Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
 		// Alta Edición
 		assertDoesNotThrow(() -> {
-			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1", Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)), Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1",
+					Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)),
+					Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
 		});
-		
+
 		// Alta Tipo Registro
 		try {
-			fabrica.getControladorEvento().altaTipoRegistro("TR1", "Descripcion1", 100, 50, "Evento1", "EdicionEvento1");
+			fabrica.getControladorEvento().altaTipoRegistro("TR1", "Descripcion1", 100, 50, "Evento1",
+					"EdicionEvento1");
 		} catch (NombreTipoRegistroRepetido | DatosTipoRegistroInvalidos e) {
 			throw new IllegalStateException(e.getMessage());
 		}
+
 		// Test de la función
-		try {
+		assertDoesNotThrow(() -> {
 			String[] resultado = fabrica.getControladorEvento().getTiposRegistro("Evento1", "EdicionEvento1");
-			String[] esperado = {"TR1"};
+			String[] esperado = { "TR1" };
 			if (resultado.length != esperado.length) {
 				fail("El resultado de getTiposRegistros() es distinto al esperado.");
 			}
 			for (int i = 0; i < resultado.length; i++) {
 				assertEquals(resultado[i], esperado[i]);
 			}
-			
-			
-		} catch (EventoNoExiste | EdicionNoExiste e) {
-			throw new IllegalStateException(e.getMessage());
-		}
+		});
+	}
+
+	@Test
+	void getTiposRegistroSinEvento() {
+		assertThrows(EventoNoExiste.class, () -> {
+			fabrica.getControladorEvento().getTiposRegistro("Evento1", "EdicionEvento1");
+		});
+	}
+
+	@Test
+	void getTiposRegistroSinEdicion() {
+		// Alta Categoría
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		});
+		List<String> listaCategorias = new ArrayList<>();
+		listaCategorias.add("Categoria1");
+
+		// Alta Evento
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1",
+				Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
+
+		// prueba
+		assertThrows(EdicionNoExiste.class, () -> {
+			fabrica.getControladorEvento().getTiposRegistro("Evento1", "EdicionEvento1");
+		});
+	}
+
+	@Test
+	void getDTTipoRegistroSinTipoRegistro() {
+		// Alta Categoría
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		});
+
+		// Alta Evento
+		List<String> listaCategorias = new ArrayList<>();
+		listaCategorias.add("Categoria1");
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1",
+				Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
+
+		// Alta Edición
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1",
+					Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)),
+					Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
+		});
+
+		// prueba
+		assertThrows(TipoRegistroNoExiste.class, () -> {
+			fabrica.getControladorEvento().getDTTipoRegistro("Evento1", "EdicionEvento1", "TipoRegistro1");
+		});
+	}
+
+	@Test
+	void getDTTipoRegistroSinEvento() {
+		// prueba
+		assertThrows(EventoNoExiste.class, () -> {
+			fabrica.getControladorEvento().getDTTipoRegistro("Evento1", "EdicionEvento1", "TipoRegistro1");
+		});
+	}
+
+	@Test
+	void getDTTipoRegistroSinEdicion() {
+		// Alta Categoría
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaCategoria("Categoria 1");
+		});
+
+		// Alta Evento
+		List<String> listaCategorias = new ArrayList<>();
+		listaCategorias.add("Categoria1");
+		fabrica.getControladorEvento().altaEvento("Evento1", "Descripcion1",
+				Utilidades.toDate(LocalDate.of(2024, 12, 1)), "SIG1", listaCategorias, null, null, 0);
+
+		// Alta Edición
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaEdicionEvento("Evento1", "EdicionEvento1", "SIG1",
+					Utilidades.toDate(LocalDate.of(2024, 12, 10)), Utilidades.toDate(LocalDate.of(2024, 12, 18)),
+					Utilidades.toDate(LocalDate.of(2024, 12, 1)), "Montevideo", "Uruguay", "Organizador1", null, null);
+		});
+
+		// Alta Tipo Registro
+		assertDoesNotThrow(() -> {
+			fabrica.getControladorEvento().altaTipoRegistro("TipoRegistro1", "Descripción", 100, 100, "Evento1",
+					"EdicionEvento1");
+		});
+
+		// prueba
+		assertThrows(EdicionNoExiste.class, () -> {
+			fabrica.getControladorEvento().getDTTipoRegistro("Evento1", null, "TipoRegistro1");
+		});
 	}
 }

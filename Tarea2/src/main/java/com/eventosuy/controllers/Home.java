@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-//import java.util.Map;
 
-import carga.CargaDatos;
-import datatypes.DTDetalleUsuario;
-import datatypes.DTEvento;
-import logica.Fabrica;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import com.eventosuy.servidor.DTDetalleUsuario;
+import com.eventosuy.servidor.DTEvento;
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
 
 /**
  * Servlet implementation class Home
@@ -32,34 +31,6 @@ public class Home extends HttpServlet {
     }
     
     /**
-     * Carga todos los datos de prueba ubicados en la carpeta data/
-     */
-    private void cargarDatos() {
-    	List<String> rutasArchivos = List.of(
-    			getServletContext().getRealPath("data/2025Categorias.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios.csv"),
-    			getServletContext().getRealPath("data/2025Instituciones.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios-Organizadores.csv"),
-    			getServletContext().getRealPath("data/2025Usuarios-Asistentes.csv"),
-    			getServletContext().getRealPath("data/2025Eventos.csv"),
-    			getServletContext().getRealPath("data/2025EdicionesEventos.csv"),
-    			getServletContext().getRealPath("data/2025TipoRegistro.csv"),
-    			getServletContext().getRealPath("data/2025Patrocinios.csv"),
-    			getServletContext().getRealPath("data/2025Registros.csv")
-    	);
-    	String[] rutas = rutasArchivos.toArray(new String[0]);
-    	
-    	CargaDatos cargaDatos = CargaDatos.getInstancia();
-    	cargaDatos.cargarArchivos(rutas);
-    }
-    
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        cargarDatos();
-    }
-    
-    /**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
 	 * 
@@ -70,20 +41,21 @@ public class Home extends HttpServlet {
 	 */
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		Fabrica f = Fabrica.getInstancia();
-		
-		List<DTEvento> eventosEnCurso = new ArrayList<>(f.getControladorEvento().listarEventosEnCurso());
-		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
+		PublicadorService servicio = new PublicadorService();
+		Publicador puerto = servicio.getPublicadorPort();
+
+		List<DTEvento> eventosEnCurso = puerto.listarEventosEnCurso().getItem();
+		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta, (fecha1, fecha2) -> fecha1.compare(fecha2)).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
-		List<DTEvento> eventosFinalizados = new ArrayList<>(f.getControladorEvento().listarEventosFinalizados());
-		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
+		List<DTEvento> eventosFinalizados = puerto.listarEventosFinalizados().getItem();
+		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta, (fecha1, fecha2) -> fecha1.compare(fecha2)).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
-		List<DTDetalleUsuario> usuarios = f.getControladorUsuarios().listarDetalleUsuarios();
+		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios().getItem();
 		req.setAttribute("usuarios", usuarios);
 		
-		List<String> categorias = f.getControladorEvento().getListaCategorias();
+		List<String> categorias = puerto.getListaCategorias().getItem();
 		req.setAttribute("categorias", categorias);
 		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);

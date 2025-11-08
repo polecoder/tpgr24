@@ -1,5 +1,13 @@
 package datatypes;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+@XmlRootElement
+@XmlType(name = "DTDetalleOrganizador")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTDetalleOrganizador extends DTDetalleUsuario {
 	private String descripcion;
 	private String link;
@@ -9,6 +17,12 @@ public class DTDetalleOrganizador extends DTDetalleUsuario {
 		this.descripcion = descripcion;
 		this.link = link;
 	}*/
+	/**
+	 * Constructor sin argumentos requerido por JAXB.
+	 * NO USAR en código de aplicación. Usar DTDetalleOrganizador(String, String, ...) en su lugar.
+	 */
+	public DTDetalleOrganizador() {
+	}
 	
 	public DTDetalleOrganizador(String nickname, String nombre, String correo,
             String descripcion, String link, byte[] imagen) {

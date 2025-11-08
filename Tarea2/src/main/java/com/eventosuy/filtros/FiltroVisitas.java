@@ -31,9 +31,8 @@ public class FiltroVisitas implements Filter {
             String nombreEvento = req.getParameter("nombre");
             if (nombreEvento != null && !nombreEvento.isBlank()) {
                 IControladorEventos controladorEventos = Fabrica.getInstancia().getControladorEvento();
-                int total = controladorEventos.registrarVisitaEvento(nombreEvento);  // visitas++
-                
-                System.out.println("evento='" + nombreEvento + "' total=" + total);
+                controladorEventos.registrarVisitaEvento(nombreEvento);
+               
             }
         }
         

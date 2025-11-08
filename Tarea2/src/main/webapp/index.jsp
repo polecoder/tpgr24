@@ -2,7 +2,7 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-<%@ page import="java.util.*, datatypes.*"%>
+<%@ page import="java.util.*, com.eventosuy.servidor.*"%>
 <%@ page import="com.eventosuy.models.TipoUsuario"%>
 
 <%
@@ -115,7 +115,7 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     if (eventosEnCurso != null && !eventosEnCurso.isEmpty()) {
       boolean hayEventos = false;
       for (DTEvento e : eventosEnCurso) {
-        Set<String> cats = e.getCategorias();
+        List<String> cats = e.getCategorias();
         boolean mostrar = (categoriaSeleccionada == null) || (cats != null && cats.contains(categoriaSeleccionada));
 
         if (mostrar) {
@@ -168,7 +168,7 @@ if (categoriaSeleccionada != null && categoriaSeleccionada.equalsIgnoreCase("Tod
     if (eventosFinalizados != null && !eventosFinalizados.isEmpty()) {
       boolean hayFinalizados = false;
       for (DTEvento e : eventosFinalizados) {
-        Set<String> cats = e.getCategorias();
+        List<String> cats = e.getCategorias();
         boolean mostrar = (categoriaSeleccionada == null) || (cats != null && cats.contains(categoriaSeleccionada));
 
         if (mostrar) {

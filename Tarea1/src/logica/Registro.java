@@ -10,6 +10,7 @@ public class Registro {
 	private Asistente asistente;
 	private Patrocinio patrocinio;
 	private Edicion edicion;
+	private String nombreTipoRegistro;
 	private boolean asistio;
 	
 	/**
@@ -21,15 +22,16 @@ public class Registro {
 	 * @param patrocinio
 	 * @param edicion
 	 */
-	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion) {
+	public Registro(Date fechaRegistro, float costo, Asistente asistente, Patrocinio patrocinio, Edicion edicion,String nombreTipoRegistro) {
 		this.setFechaRegistro(fechaRegistro);
 		this.setCosto(costo);
 		this.setPatrocinio(patrocinio);
 		this.setAsistente(asistente);
 		this.setEdicion(edicion);
+		this.setTipoRegistro(nombreTipoRegistro);
 		this.setAsistio(false);
 	}
-	
+
 	public Date getFechaRegistro() {
 		return fechaRegistro;
 	}
@@ -66,12 +68,31 @@ public class Registro {
 		return this.asistio;
 	}
 	
-	public DTDetalleRegistro mostrarDetalle(String nombreEdicion, String nombreTipoRegistro) {
+	public Edicion getEdicion() {
+		return edicion;
+	}
+	
+	public void setEdicion(Edicion edicion) {
+		this.edicion = edicion;
+	}
+	
+	private void setTipoRegistro(String nombreTipoRegistro) {
+		this.nombreTipoRegistro= nombreTipoRegistro;
+		
+	}
+	
+	private String getTipoRegistro() {
+		return this.nombreTipoRegistro;
+		
+	}
+	
+
+	public DTDetalleRegistro mostrarDetalle() {
 		DTDetalleRegistro dtRegistro = null;
 		if (this.getPatrocinio() != null) {
-			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, this.getPatrocinio().getCodigoPatrocinio(), this.asistio);
+			dtRegistro = new DTDetalleRegistro(this.getEdicion().getNombre(), this.getAsistente().getNickname(),this.getTipoRegistro(), this.getFechaRegistro(), this.getCosto(), this.getPatrocinio().getCodigoPatrocinio(), this.getAsistio());
 		} else {
-			dtRegistro = new DTDetalleRegistro(nombreEdicion, this.asistente.getNickname(), nombreTipoRegistro, this.fechaRegistro, this.costo, null, this.asistio);
+			dtRegistro = new DTDetalleRegistro(this.getEdicion().getNombre(),  this.getAsistente().getNickname(), this.getTipoRegistro(),  this.getFechaRegistro(), this.getCosto(), null, this.getAsistio());
 		}
 		return dtRegistro;
 	}
@@ -80,12 +101,4 @@ public class Registro {
 		return nicknameAsistente == asistente.getNickname();
 	}
 
-		
-	public Edicion getEdicion() {
-		return edicion;
-	}
-	
-	public void setEdicion(Edicion edicion) {
-		this.edicion = edicion;
-	}
 }

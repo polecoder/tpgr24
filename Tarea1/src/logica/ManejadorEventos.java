@@ -149,13 +149,11 @@ public class ManejadorEventos {
 	}*/
 	
 	//para probar q funciona mientras no esten conectados, desp hacerlo un void de nuevo
-	public int registrarVisitaEvento(String nombre) {
+	public void registrarVisitaEvento(String nombre) {
 	    Evento e = eventos.get(nombre);
 	    if (e != null) {
 	        e.registrarVisita();
-	        return e.getVisitas();//sacar
 	    }
-	    return e.getVisitas();//sacar
 	}
 
 	public DTEdicionEvento getDTEdicion(String eventoSeleccionado, String edicionSeleccionada) {
@@ -364,7 +362,7 @@ public class ManejadorEventos {
 		}
 	}
 	public void altaRegistro(Asistente asistente, TipoRegistro tipoRegistro, Patrocinio patrocinio, Date fecha, float costo, Edicion ed) {
-		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed);
+		Registro registro = new Registro(fecha, costo, asistente, patrocinio,ed,tipoRegistro.getNombre());
 		tipoRegistro.addRegistro(registro);
 		asistente.addRegistro(registro);
 	}
@@ -483,10 +481,21 @@ public class ManejadorEventos {
 		for (TipoRegistro tipoRegistro : setTiposRegistro.values()) {
 			List<Registro> listaRegistros = tipoRegistro.getRegistros();
 			for (Registro registro : listaRegistros) {
-				setRegistros.add(registro.mostrarDetalle(nombreEdicion, tipoRegistro.getNombre()));
+				setRegistros.add(registro.mostrarDetalle());
 			}
 		}
 		return setRegistros;
+	}
+	
+	public DTEvento getEventoPorEdicion(String nombreEdicion) {
+		DTEvento dtEvento = null;
+		for (Evento evento : eventos.values()) {
+			if (contieneEdicion(evento.getNombre(), nombreEdicion)) {
+				dtEvento = new DTEvento(evento.getNombre(), evento.getDescripcion(), evento.getSigla(), evento.getFechaAlta(), evento.getCategoria().keySet(), evento.getImagen(), evento.getEstado());
+				break;
+			}
+		}
+		return dtEvento;
 	}
 }
 
