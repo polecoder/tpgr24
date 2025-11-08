@@ -1,8 +1,11 @@
 
 package com.eventosuy.mobile.servidor;
 
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
@@ -23,6 +26,8 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="correo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="imagen" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/&gt;
  *         &lt;element name="tipo" type="{http://servidor/}eTipoUsuario" minOccurs="0"/&gt;
+ *         &lt;element name="dataTypeSeguidores" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="dataTypeSeguidos" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -37,7 +42,9 @@ import jakarta.xml.bind.annotation.XmlType;
     "nombre",
     "correo",
     "imagen",
-    "tipo"
+    "tipo",
+    "dataTypeSeguidores",
+    "dataTypeSeguidos"
 })
 @XmlSeeAlso({
     DTDetalleAsistente.class,
@@ -51,6 +58,10 @@ public class DTDetalleUsuario {
     protected byte[] imagen;
     @XmlSchemaType(name = "string")
     protected ETipoUsuario tipo;
+    @XmlElement(nillable = true)
+    protected List<String> dataTypeSeguidores;
+    @XmlElement(nillable = true)
+    protected List<String> dataTypeSeguidos;
 
     /**
      * Obtiene el valor de la propiedad nickname.
@@ -168,6 +179,64 @@ public class DTDetalleUsuario {
      */
     public void setTipo(ETipoUsuario value) {
         this.tipo = value;
+    }
+
+    /**
+     * Gets the value of the dataTypeSeguidores property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a <CODE>set</CODE> method for the dataTypeSeguidores property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDataTypeSeguidores().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getDataTypeSeguidores() {
+        if (dataTypeSeguidores == null) {
+            dataTypeSeguidores = new ArrayList<String>();
+        }
+        return this.dataTypeSeguidores;
+    }
+
+    /**
+     * Gets the value of the dataTypeSeguidos property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a <CODE>set</CODE> method for the dataTypeSeguidos property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDataTypeSeguidos().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getDataTypeSeguidos() {
+        if (dataTypeSeguidos == null) {
+            dataTypeSeguidos = new ArrayList<String>();
+        }
+        return this.dataTypeSeguidos;
     }
 
 }

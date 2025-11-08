@@ -10,13 +10,21 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
-import logica.Fabrica;
-import logica.IControladorEventos;
+//import logica.Fabrica;
+//import logica.IControladorEventos;
+
+import com.eventosuy.servidor.Publicador;
+import com.eventosuy.servidor.PublicadorService;
 
 public class FiltroVisitas implements Filter {
 	
+	private PublicadorService publicadorService;
+    private Publicador publicador;
+	
 	@Override
-    public void init(FilterConfig filterConfig) throws ServletException {		
+    public void init(FilterConfig filterConfig) throws ServletException {	
+		publicadorService = new PublicadorService();
+        publicador = publicadorService.getPublicadorPort();
 	}
 
     @Override
@@ -30,8 +38,7 @@ public class FiltroVisitas implements Filter {
         if ("consulta".equals(accion)) {
             String nombreEvento = req.getParameter("nombre");
             if (nombreEvento != null && !nombreEvento.isBlank()) {
-                IControladorEventos controladorEventos = Fabrica.getInstancia().getControladorEvento();
-                controladorEventos.registrarVisitaEvento(nombreEvento);
+            	publicador.registrarVisitaEvento(nombreEvento);
                
             }
         }

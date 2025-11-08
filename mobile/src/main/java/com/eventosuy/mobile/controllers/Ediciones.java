@@ -7,20 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import datatypes.DTDetalleRegistro;
-import datatypes.DTDetalleUsuario;
-import datatypes.DTEdicionEvento;
-import datatypes.DTRegistro;
-import excepciones.UsuarioNoExiste;
+import com.eventosuy.mobile.servidor.DTDetalleRegistro;
+import com.eventosuy.mobile.servidor.DTDetalleUsuario;
+import com.eventosuy.mobile.servidor.DTEdicionEvento;
+import com.eventosuy.mobile.servidor.DTEventoEntry;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logica.Fabrica;
-import logica.IControladorEventos;
-import logica.IControladorUsuarios;
+import com.eventosuy.mobile.utils.Utilidades;
+
+import com.eventosuy.mobile.servidor.Publicador;
+import com.eventosuy.mobile.servidor.PublicadorService;
+import com.eventosuy.mobile.servidor.UsuarioNoExiste_Exception;
 
 @WebServlet("/Ediciones")
 @MultipartConfig
@@ -28,9 +29,8 @@ public class Ediciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Ediciones () {super();} // Constructor (no lleva parametros)
 	
-	private final static Fabrica fabrica = Fabrica.getInstancia();
-	private final static IControladorEventos controladorEventos = fabrica.getControladorEvento();
-	private final static IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
+	private final static PublicadorService servicio = new PublicadorService();
+	private final static Publicador puerto = servicio.getPublicadorPort();
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {	
 		 String accion = request.getParameter("accion");
@@ -50,7 +50,7 @@ public class Ediciones extends HttpServlet {
                      response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no ha iniciado sesión.");
                      return;
                  }
-            	 List<DTEdicionEvento> eds = controladorUsuarios.listarEdicionesConRegistrosUsuario(usuarioLogeado.getNickname());
+            	 List<DTEdicionEvento> eds = puerto.listarEdicionesConRegistrosUsuario(usuarioLogeado.getNickname()).getItem();
 				 request.setAttribute("Ediciones", eds);
 				 request.getRequestDispatcher("/WEB-INF/views/ediciones/presentacion-ediciones-con-registro.jsp").forward(request, response);
 				 break;
@@ -69,9 +69,12 @@ public class Ediciones extends HttpServlet {
 		String nombreEvento = request.getParameter("nombre_evento");
 		if (nombreEvento == null) { nombreEvento = (String) request.getAttribute("nombre_evento"); }
 		if (nombreEvento == null) { 
-			for (String evento : controladorEventos.listarEventos().keySet()) {
-				if (controladorEventos.listarEdicionesEvento(evento).containsKey(nombreEdicion)) {
-					nombreEvento = evento;
+			List<DTEventoEntry>	eventos = puerto.listarEventos().getItem();
+			
+			for (DTEventoEntry evento : eventos) {
+				DTEdicionEvento dted= puerto.getDTEdicion(nombreEdicion, nombreEvento);
+				if (puerto.listarEdicionesEvento(evento.getKey()).getItem().contains(dted)) {
+					nombreEvento = evento.getKey();
 					request.setAttribute("nombre_evento", nombreEvento);
 					break;
 				}
@@ -85,10 +88,10 @@ public class Ediciones extends HttpServlet {
 			return request;
 		}
 		
-		DTEdicionEvento dtEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
-		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
-		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
-		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion); // Asumo tiene la imagen
+		List<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion).getItem();
+		List<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion).getItem();
+		List<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).getItem();
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
 			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
@@ -98,7 +101,8 @@ public class Ediciones extends HttpServlet {
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		request.setAttribute("finalizada", false);
-		if (dtEdicion.getFechaFin().before(new Date())) { 
+		Date fechaFin=Utilidades.XMLGregorianCalendarToDate( dtEdicion.getFechaFin());
+		if (fechaFin.before(new Date())) { 
 			request.setAttribute("finalizada", true);
 		}
 		
@@ -111,11 +115,11 @@ public class Ediciones extends HttpServlet {
 			request.setAttribute("detalle_registro", asistentesRegistrados.get(nickname));
 		}
 		
-		DTEdicionEvento ed =controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento ed =puerto.getDTEdicion(nombreEvento, nombreEdicion);
 		try {
-			DTDetalleUsuario u =controladorUsuarios.mostrarDetalleUsuario(ed.getOrganizadorNickname());
+			DTDetalleUsuario u =puerto.mostrarDetalleUsuario(ed.getOrganizadorNickname());
 			request.setAttribute("imagenOrg",u.getImagen());
-		} catch (UsuarioNoExiste e) {
+		} catch (UsuarioNoExiste_Exception e) {
 			//no va a entrar aca nunca
 			e.printStackTrace();
 		}

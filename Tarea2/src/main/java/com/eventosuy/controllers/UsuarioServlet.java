@@ -236,6 +236,19 @@ public class UsuarioServlet extends HttpServlet {
 		    }
 		    return;
 		}
+		case "checkNickname":{
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("UTF-8");
+			String nick= request.getParameter("nickname");
+			if (puerto.existeNick(nick)) {
+		        response.getWriter().write("no-disponible");
+		        
+		    } else {
+		        response.getWriter().write("disponible");
+		     
+		    }
+		    return;
+		}
 		case "seguir":{
 			doSeguir(request, response);
 			break;
@@ -289,19 +302,24 @@ public class UsuarioServlet extends HttpServlet {
 		    // ediciones ingresadas y rechazadas solo si consulta su perfil
 		    List<String> ingresadas = Collections.emptyList();
 		    List<String> rechazadas = Collections.emptyList();
+		    List<String> archivadas  = Collections.emptyList();
 		    
 		    if (esPropio) {
-		        com.eventosuy.servidor.StringArray respIng = puerto.getEdicionesDeOrganizadorPorEstado(
+		        com.eventosuy.servidor.StringArray Ingresadas = puerto.getEdicionesDeOrganizadorPorEstado(
 		                u.getNickname(), EEstadoEdicion.INGRESADA);
-		        com.eventosuy.servidor.StringArray respRec = puerto.getEdicionesDeOrganizadorPorEstado(
+		        com.eventosuy.servidor.StringArray Rechazadas = puerto.getEdicionesDeOrganizadorPorEstado(
 		                u.getNickname(), EEstadoEdicion.RECHAZADA);
+		        com.eventosuy.servidor.StringArray Archivadas = puerto.getEdicionesDeOrganizadorPorEstado(
+		                u.getNickname(), EEstadoEdicion.ARCHIVADA);
 		        
-		        ingresadas = convertirStringArray(respIng);
-		        rechazadas = convertirStringArray(respRec);
+		        ingresadas = convertirStringArray(Ingresadas);
+		        rechazadas = convertirStringArray(Rechazadas);
+		        archivadas = convertirStringArray(Archivadas);
 		    }
 		    
 		    request.setAttribute("misEdicionesIngresadas", ingresadas);
 		    request.setAttribute("misEdicionesRechazadas", rechazadas);
+		    request.setAttribute("misEdicionesArchivadas",  archivadas);
 		}
 
 		private void cargarDatosAsistente(DTDetalleUsuario u, boolean esPropio, HttpServletRequest request) {

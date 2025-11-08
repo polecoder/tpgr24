@@ -80,10 +80,6 @@ String cp = request.getContextPath();
             type="submit"
             class="btn btn-primary btn-sm px-3"
           >Acceder</button>
-          <%-- TODO: Actualizar link --%>
-          <p>
-            ¿No tiene una cuenta? <a href="#">Registrarse</a>
-          </p>
         </div>
       </form>
     </main>

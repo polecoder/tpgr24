@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "EdicionNoExiste", targetNamespace = "http://servidor/")
 public class EdicionNoExiste_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**

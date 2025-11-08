@@ -11,7 +11,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<dependencies>
+	<dependencies> 
 		<!-- Tarea 1 -->
 		<dependency>
 			<groupId>tpgr24Tarea1</groupId>
