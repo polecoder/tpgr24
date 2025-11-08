@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "EdicionYaArchivada", targetNamespace = "http://servidor/")
 public class EdicionYaArchivada_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

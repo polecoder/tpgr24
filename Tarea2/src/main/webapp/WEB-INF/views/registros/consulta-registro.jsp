@@ -114,9 +114,15 @@
 						<input type="hidden" name="costo" value="<%= dtDetalle.getCosto() %>">
 						<input type="hidden" name="codigoPatrocinio" value="<%= dtDetalle.getCodigoPatrocinio() %>">
 						<input type="hidden" name="asistio" value="<%= dtDetalle.isAsistio() %>">
-						<% java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-					    	String fechaStr = sdf.format(dtDetalle.getFecha()); %>
-						<input type="hidden" name="fecha" value="<%= fechaStr %>">
+						<% 
+   String fechaStr = "";
+   if (dtDetalle.getFecha() != null) {
+       java.util.Date fechaa = dtDetalle.getFecha().toGregorianCalendar().getTime();
+       java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+       fechaStr = sdf.format(fechaa);
+   }
+%>
+<input type="hidden" name="fecha" value="<%= fechaStr %>">
 						<button class="btn btn-primary" type="submit">Descargar constancia de asistencia</button>
 	                </form>
 				<% } %>
