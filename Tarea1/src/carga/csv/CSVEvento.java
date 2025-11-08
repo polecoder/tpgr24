@@ -21,11 +21,17 @@ public class CSVEvento {
 	private String categorias;
 	@CsvBindByName(column = "Imagen")
 	private String imagen;
-	
+	@CsvBindByName(column = "Finalizado")
+	private String finalizado;
+	@CsvBindByName(column = "Visitas")
+	private int visitas;
+
 	// NECESARIO para OpenCSV
-	public CSVEvento() {}
-	
-	public CSVEvento(String ref, String nombre, String descripcion, String sigla, Date fechaAlta, String categorias, String imagen) {
+	public CSVEvento() {
+	}
+
+	public CSVEvento(String ref, String nombre, String descripcion, String sigla, Date fechaAlta, String categorias,
+			String imagen, String finalizado, int visitas) {
 		this.ref = ref;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -33,8 +39,10 @@ public class CSVEvento {
 		this.fechaAlta = fechaAlta;
 		this.categorias = categorias;
 		this.imagen = imagen;
+		this.finalizado = finalizado;
+		this.visitas = visitas;
 	}
-	
+
 	public String getRef() {
 		return this.ref;
 	}
@@ -55,5 +63,11 @@ public class CSVEvento {
 	}
 	public String getImagen() {
 		return imagen;
+	}
+	public String getFinalizado() {
+		return finalizado;
+	}
+	public int getVisitas() {
+		return visitas;
 	}
 }
