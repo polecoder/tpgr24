@@ -60,8 +60,15 @@ public class Institucion extends HttpServlet {
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		try {
-			DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
-			request.setAttribute("imagenEdicion", dtEdicion.getImagen());
+			DTEdicionEvento dtEdicion = null;
+			if (nombreEvento != null && !nombreEvento.isBlank() && nombreEdicion != null && !nombreEdicion.isBlank()) {
+				dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);				
+			}
+			if (dtEdicion != null) {
+				request.setAttribute("imagenEdicion", dtEdicion.getImagen());							
+			} else {
+				request.setAttribute("imagenEdicion", null);
+			}
 		}catch(Exception error) {
 			error.printStackTrace();
 		}
@@ -197,8 +204,15 @@ public class Institucion extends HttpServlet {
 		// Set common attributes
 		request.setAttribute("nombreEdicion", nombreEdicion);
 		try {
-			DTEdicionEvento dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
-			request.setAttribute("imagenEdicion", dtEdicion.getImagen());			
+			DTEdicionEvento dtEdicion = null;
+			if (nombreEvento != null && !nombreEvento.isBlank() && nombreEdicion != null && !nombreEdicion.isBlank()) {
+				dtEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);				
+			}
+			if (dtEdicion != null) {
+				request.setAttribute("imagenEdicion", dtEdicion.getImagen());							
+			} else {
+				request.setAttribute("imagenEdicion", null);
+			}		
 		}catch(Exception error) {
 			error.printStackTrace();
 		}
