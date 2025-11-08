@@ -1,16 +1,20 @@
 package servidor;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import datatypes.DTDetallePatrocinio;
+import java.io.InputStream;
 import datatypes.DTDetalleRegistro;
 import datatypes.DTDetalleUsuario;
 import datatypes.DTEdicionEvento;
@@ -72,10 +76,28 @@ public class Publicador {
 	// Constructor
 	public Publicador() {}
 	
+	/**
+	 * Retorna la ip del servidor configurada en config.properties
+	 * @return
+	 */
+	private String getIP() {
+		Properties properties = new Properties();
+		String ip = "localhost:4230"; // TODO: borrar pero es util para probar en eclipse
+        try {
+        	InputStream input = new FileInputStream("config.properties");
+            properties.load(input);
+            ip = properties.getProperty("server.ip");
+        } catch (IOException ex) {
+            return ip;
+        }
+        return ip;
+	}
+	
 	// Metodos
 	@WebMethod(exclude = true)
 	public void publicar() {
-		endpoint = Endpoint.publish("http://localhost:4230/publicador",this);
+		String ip = getIP();
+		endpoint = Endpoint.publish(String.format("http://%s/publicador", ip),this);
 	}
 	@WebMethod(exclude = true)
 	public Endpoint getEndpoint() {
