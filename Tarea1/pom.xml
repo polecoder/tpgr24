@@ -29,18 +29,6 @@
 			<version>5.10.0</version>
 			<scope>test</scope>
 		</dependency>
-    <!-- Tarea 3 -->
-    <dependency>
-        <groupId>jakarta.xml.ws</groupId>
-        <artifactId>jakarta.xml.ws-api</artifactId>
-    		<version>4.0.0</version>
-	</dependency>
-    <dependency>
-        <groupId>com.sun.xml.ws</groupId>
-        <artifactId>jaxws-rt</artifactId>
-        <version>4.0.0</version>
-        <scope>runtime</scope>
-	</dependency>
 
 		<!-- persistencia en memoria -->
 		<dependency>
@@ -65,6 +53,18 @@
 			<artifactId>eclipselink</artifactId>
 			<version>4.0.8</version>
 		</dependency>
+    <!-- Tarea 3 -->
+    <dependency>
+        <groupId>jakarta.xml.ws</groupId>
+        <artifactId>jakarta.xml.ws-api</artifactId>
+    		<version>4.0.0</version>
+	</dependency>
+    <dependency>
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-rt</artifactId>
+        <version>4.0.0</version>
+        <scope>runtime</scope>
+	</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -77,29 +77,31 @@
 					<release>21</release>
 				</configuration>
 			</plugin>
-			<plugin>
-				<!-- TODO: Modificar la configuración para el build -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>persistencia.TestPersistencia</mainClass> 
-                        </manifest>
-                    </archive>
-					<finalName>ArchivoDB</finalName>
-                </configuration>
-                <!--<executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>-->
-            </plugin>
+            <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    <version>3.3.0</version>
+			    <configuration>
+			        <archive>
+			            <manifest>
+			                <mainClass>presentacion.Main</mainClass>
+			            </manifest>
+			        </archive>
+			        <finalName>EstacionDeTrabajo</finalName>
+			        <descriptorRefs>
+			            <descriptorRef>jar-with-dependencies</descriptorRef>
+			        </descriptorRefs>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>make-assembly</id>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>single</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
