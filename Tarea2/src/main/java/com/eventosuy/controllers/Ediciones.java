@@ -217,9 +217,6 @@ public class Ediciones extends HttpServlet {
 					ciudad, pais, nickOrganizador, imagenBytes, URL);
 			
 		} catch (Exception ex) {
-			
-		    ex.printStackTrace();
-			
 			byte[] image = puerto.getDTEvento(request.getParameter("nombre_evento")).getImagen();
 			request.setAttribute("imagen_edicion", image);
 			request.setAttribute("error_message", ex.getMessage());
