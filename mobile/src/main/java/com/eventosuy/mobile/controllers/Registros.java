@@ -51,7 +51,6 @@ public class Registros extends HttpServlet {
 		case "Consulta":
 			DTDetalleRegistro dtr = puerto.getDTDetalleRegistroPorEdicion(NombreEdicion, usuarioLogeado.getNickname());
 			
-			
 			request.setAttribute("detalle", dtr);
 			request.getRequestDispatcher("/WEB-INF/views/registros/consulta-registro.jsp").forward(request, response);
 			

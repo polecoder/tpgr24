@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="datatypes.DTDetalleRegistro" %>
+<%@ page import="com.eventosuy.mobile.servidor.DTDetalleRegistro" %>
+<%@ page import="com.eventosuy.mobile.utils.Utilidades" %>
 <!DOCTYPE html>
 <html lang="es">
   <!-- HEAD GLOBAL -->
@@ -30,7 +31,7 @@
               <%
                 if (detalleAttr != null) {
 	              	String nomEd = detalleAttr.getNombreEdicion();
-	              	Date fecha =  detalleAttr.getFecha();
+	              	Date fecha =  Utilidades.XMLGregorianCalendarToDate(detalleAttr.getFecha());
 	              	String nomTipo = detalleAttr.getNombreTipo();
 	              	float costo = detalleAttr.getCosto();
 	              	String codigoPatrocinio = detalleAttr.getCodigoPatrocinio();
@@ -44,7 +45,7 @@
 	                	<p><strong>Patrocinio:</strong> <%=codigoPatrocinio%></p>
 	                <% } %>
 	                
-	                <% if (!detalleAttr.getAsistio()) { %>
+	                <% if (!detalleAttr.isAsistio()) { %>
 				        <form method="post" 
 						      action="<%= request.getContextPath() %>/Registros"
 						      onsubmit="return confirm('¿Confirmás tu asistencia a esta edición?');">

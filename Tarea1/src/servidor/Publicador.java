@@ -388,5 +388,10 @@ public class Publicador {
 	public DTEdicionEvento[] listarEdicionesEventoValues(String nombreEvento) {
 		return controladorEventos.listarEdicionesEvento(nombreEvento).values().toArray(new DTEdicionEvento[0]);
 	}
+	
+	@WebMethod
+	 public  DTEdicionEvento[] listarEdicionesConRegistrosUsuario(String nickname) {
+		return controladorUsuarios.listarEdicionesConRegistrosUsuario(nickname).toArray(new DTEdicionEvento[0]);
+	}
 
 }

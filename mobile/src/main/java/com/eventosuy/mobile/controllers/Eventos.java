@@ -2,23 +2,23 @@ package com.eventosuy.mobile.controllers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import datatypes.DTEdicionEvento;
-import datatypes.DTEvento;
-import datatypes.EEstadoEdicion;
+import com.eventosuy.mobile.servidor.DTEdicionEvento;
+import com.eventosuy.mobile.servidor.DTEvento;
+import com.eventosuy.mobile.servidor.Publicador;
+import com.eventosuy.mobile.servidor.PublicadorService;
+import com.eventosuy.mobile.utils.Utilidades;
+import com.eventosuy.mobile.servidor.EEstadoEdicion;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logica.Fabrica;
-import logica.IControladorEventos;
+
 
 @WebServlet("/Eventos")
 
@@ -26,8 +26,8 @@ public class Eventos extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    Fabrica fab = Fabrica.getInstancia();
-    IControladorEventos IContEv = fab.getControladorEvento();
+    private final static PublicadorService servicio = new PublicadorService();
+ 	private final static Publicador puerto = servicio.getPublicadorPort();
 
     // --- GET ---
     @Override
@@ -44,7 +44,7 @@ public class Eventos extends HttpServlet {
                  Consulta(request, response);
                  break;
              case "presentacion":
-            	 List<DTEvento> eventosEnCurso = new ArrayList<>(IContEv.listarEventosEnCurso());
+            	 List<DTEvento> eventosEnCurso = (List<DTEvento>) puerto.listarEventosEnCurso().getItem();
          		 request.setAttribute("eventosEnCurso", eventosEnCurso);
              
              	 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/eventos/presentacion-eventos.jsp");
@@ -66,27 +66,26 @@ public class Eventos extends HttpServlet {
             nombre = request.getParameter("nombre");
         }
 
-        DTEvento evento = IContEv.getDTEvento(nombre);
+        DTEvento evento = puerto.getDTEvento(nombre);
 
         request.setAttribute("nombre", evento.getNombre());
         request.setAttribute("descripcion", evento.getDescripcion());
         request.setAttribute("sigla", evento.getSigla());
         
-        Set<String> categoriasSet = IContEv.nombresCategorias(nombre);
-        List<String> categoriasList = new ArrayList<>(categoriasSet);
+      
+        List<String> categoriasList =  puerto.nombresCategorias(nombre).getItem();
         request.setAttribute("categorias", categoriasList);
 
         request.setAttribute("imagen", evento.getImagen());
 
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        request.setAttribute("fechaAlta", formato.format(evento.getFechaAlta()));
+        Date fechaA= Utilidades.XMLGregorianCalendarToDate(evento.getFechaAlta());
+        request.setAttribute("fechaAlta", formato.format(fechaA));
 
-        Map<String, DTEdicionEvento> edicionesMap = IContEv.listarEdicionesEvento(nombre);
-        List<DTEdicionEvento> edicionesList = new ArrayList<>(edicionesMap.values());
+        List<DTEdicionEvento> edicionesList = puerto.listarEdicionesEvento(nombre).getItem();
         List<DTEdicionEvento> edicionesAceptadas = edicionesList.stream()
-        	    .filter(element -> EEstadoEdicion.Aceptada == element.getEstado())
+        	    .filter(element -> EEstadoEdicion.ACEPTADA == element.getEstado())
         	    .collect(Collectors.toList());
-        
         
         request.setAttribute("ediciones", edicionesAceptadas);
         
