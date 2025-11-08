@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "NombreTipoRegistroRepetido", targetNamespace = "http://servidor/")
 public class NombreTipoRegistroRepetido_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

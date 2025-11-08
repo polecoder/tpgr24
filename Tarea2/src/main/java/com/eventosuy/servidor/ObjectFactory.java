@@ -42,6 +42,7 @@ public class ObjectFactory {
     private final static QName _FormularioIncompletoPatrocinio_QNAME = new QName("http://servidor/", "FormularioIncompletoPatrocinio");
     private final static QName _NombreTipoRegistroRepetido_QNAME = new QName("http://servidor/", "NombreTipoRegistroRepetido");
     private final static QName _PatrocinioInvalido_QNAME = new QName("http://servidor/", "PatrocinioInvalido");
+    private final static QName _RegistroNoExiste_QNAME = new QName("http://servidor/", "RegistroNoExiste");
     private final static QName _TipoRegistroNoExiste_QNAME = new QName("http://servidor/", "TipoRegistroNoExiste");
     private final static QName _UsuarioNoExiste_QNAME = new QName("http://servidor/", "UsuarioNoExiste");
     private final static QName _YaAsisteAEdicion_QNAME = new QName("http://servidor/", "YaAsisteAEdicion");
@@ -211,6 +212,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RegistroNoExiste }
+     * 
+     */
+    public RegistroNoExiste createRegistroNoExiste() {
+        return new RegistroNoExiste();
+    }
+
+    /**
      * Create an instance of {@link TipoRegistroNoExiste }
      * 
      */
@@ -352,6 +361,14 @@ public class ObjectFactory {
      */
     public Institucion createInstitucion() {
         return new Institucion();
+    }
+
+    /**
+     * Create an instance of {@link Dtpdf }
+     * 
+     */
+    public Dtpdf createDtpdf() {
+        return new Dtpdf();
     }
 
     /**
@@ -674,6 +691,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "PatrocinioInvalido")
     public JAXBElement<PatrocinioInvalido> createPatrocinioInvalido(PatrocinioInvalido value) {
         return new JAXBElement<PatrocinioInvalido>(_PatrocinioInvalido_QNAME, PatrocinioInvalido.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegistroNoExiste }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link RegistroNoExiste }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "RegistroNoExiste")
+    public JAXBElement<RegistroNoExiste> createRegistroNoExiste(RegistroNoExiste value) {
+        return new JAXBElement<RegistroNoExiste>(_RegistroNoExiste_QNAME, RegistroNoExiste.class, null, value);
     }
 
     /**

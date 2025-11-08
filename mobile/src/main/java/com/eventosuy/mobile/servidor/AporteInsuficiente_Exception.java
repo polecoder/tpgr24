@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "AporteInsuficiente", targetNamespace = "http://servidor/")
 public class AporteInsuficiente_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

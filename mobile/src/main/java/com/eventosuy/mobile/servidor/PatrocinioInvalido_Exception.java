@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "PatrocinioInvalido", targetNamespace = "http://servidor/")
 public class PatrocinioInvalido_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

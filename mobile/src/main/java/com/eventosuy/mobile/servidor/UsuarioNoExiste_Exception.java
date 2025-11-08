@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "UsuarioNoExiste", targetNamespace = "http://servidor/")
 public class UsuarioNoExiste_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

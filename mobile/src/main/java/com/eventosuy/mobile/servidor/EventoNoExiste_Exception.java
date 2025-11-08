@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "EventoNoExiste", targetNamespace = "http://servidor/")
 public class EventoNoExiste_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**
