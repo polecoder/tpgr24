@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "RegistroNoExiste", targetNamespace = "http://servidor/")
 public class RegistroNoExiste_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**

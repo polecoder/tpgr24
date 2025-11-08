@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "EdicionFinalizada", targetNamespace = "http://servidor/")
 public class EdicionFinalizada_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**
