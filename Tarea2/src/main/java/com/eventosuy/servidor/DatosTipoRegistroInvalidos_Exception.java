@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "DatosTipoRegistroInvalidos", targetNamespace = "http://servidor/")
 public class DatosTipoRegistroInvalidos_Exception
-    extends Exception
+    extends java.lang.Exception
 {
 
     /**
