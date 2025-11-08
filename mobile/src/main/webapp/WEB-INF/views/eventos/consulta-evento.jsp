@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList"%>
-<%@page import="datatypes.*"%>
+<%@page import="com.eventosuy.mobile.servidor.DTEdicionEvento"%>
+<%@page import="com.eventosuy.mobile.servidor.DTDetalleUsuario"%>
 
 <!DOCTYPE html>
 <html lang="es">

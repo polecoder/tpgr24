@@ -123,7 +123,7 @@ public class testListarEventosPorEstado {
         
         // verificar que ningun evento finalizado este en la lista de eventos en curso
         for (DTEvento evento : eventosEnCurso) {
-            assertTrue(!evento.getNombre().contains("Finalizado"));
+            assertTrue(!evento.getEstado().equals(EEstadoEvento.FINALIZADO));
         }
     }
 }

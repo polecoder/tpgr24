@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "FormatoContrasenaInvalido", targetNamespace = "http://servidor/")
 public class FormatoContrasenaInvalido_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

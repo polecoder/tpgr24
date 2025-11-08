@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "ContrasenaIncorrecta", targetNamespace = "http://servidor/")
 public class ContrasenaIncorrecta_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

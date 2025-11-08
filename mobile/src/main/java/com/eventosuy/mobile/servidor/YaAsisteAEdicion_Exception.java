@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "YaAsisteAEdicion", targetNamespace = "http://servidor/")
 public class YaAsisteAEdicion_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

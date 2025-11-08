@@ -12,7 +12,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "FormularioIncompletoAsistente", targetNamespace = "http://servidor/")
 public class FormularioIncompletoAsistente_Exception
-    extends java.lang.Exception
+    extends Exception
 {
 
     /**

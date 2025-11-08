@@ -1,7 +1,11 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ page import="datatypes.*" %>
+<%@ page import="com.eventosuy.mobile.servidor.DTDetalleUsuario" %>
+<%@ page import="com.eventosuy.mobile.servidor.DTEdicionEvento" %>
+<%@ page import="com.eventosuy.mobile.servidor.DTDetalleRegistro" %>
 <%@ page import="com.eventosuy.mobile.models.TipoUsuario" %>
-<%@ page import="java.util.Set" %>
+<%@ page import="com.eventosuy.mobile.utils.Utilidades" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
   <% DTDetalleUsuario datosUsuario=(DTDetalleUsuario) session.getAttribute("usuarioLogeado"); String
     nombreEdicion=request.getParameter("nombre_edicion"); String
@@ -17,8 +21,8 @@
     }
     TipoUsuario tipoUsuarioLogeado = (TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
     DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion");
-    Set<String> setPatrocinios = (Set<String>) request.getAttribute("lista_patrocinios");
-    Set<String> setTiposRegistro = (Set<String>) request.getAttribute("lista_tipos_registro");
+    List<String> setPatrocinios = (List<String>) request.getAttribute("lista_patrocinios");
+    List<String> setTiposRegistro = (List<String>) request.getAttribute("lista_tipos_registro");
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     byte[] imagenOrganizador=(byte[])request.getAttribute("imagenOrg");
   %>
@@ -103,8 +107,9 @@
                   </div>
                   <div class="col-md-6">
                     <strong class="text-secondary">Fecha de alta:</strong>
+                    <% Date fechaAlta =Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaAlta()); %>
                     <p class="mb-0">
-                      <%= formatter.format(dtEdicion.getFechaAlta()) %>
+                      <%= formatter.format(fechaAlta)%>
                     </p>
                   </div>
                   <div class="col-md-6">
@@ -121,14 +126,16 @@
                   </div>
                   <div class="col-md-6">
                     <strong class="text-secondary">Fecha de inicio:</strong>
+                     <% Date fechaInicio =Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaInicio()); %>
                     <p class="mb-0">
-                      <%= formatter.format(dtEdicion.getFechaInicio()) %>
+                      <%= formatter.format(fechaInicio) %>
                     </p>
                   </div>
                   <div class="col-md-6">
                     <strong class="text-secondary">Fecha de fin:</strong>
+                    <% Date fechaFin =Utilidades.XMLGregorianCalendarToDate(dtEdicion.getFechaFin()); %>
                     <p class="mb-0">
-                      <%= formatter.format(dtEdicion.getFechaFin()) %>
+                      <%= formatter.format(fechaFin) %>
                     </p>
                   </div>
                 </div>
@@ -213,7 +220,7 @@
                               <td>
                                 <%= dtDetalleRegistro.getCosto() %>
                               </td>
-                              <% if (dtDetalleRegistro.getAsistio()) { %>
+                              <% if (dtDetalleRegistro.isAsistio()) { %>
                                 <td>Asistió</td>
                                 <% } else { %>
                                   <td>No asistió</td>

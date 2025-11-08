@@ -19,6 +19,7 @@ import datatypes.DTEdicionEvento;
 import datatypes.DTEvento;
 import datatypes.DTEventoEdicion;
 import datatypes.DTInstitucion;
+import datatypes.DTPDF;
 import datatypes.DTRegistro;
 import datatypes.DTTipoRegistro;
 import datatypes.DTUsuario;
@@ -42,6 +43,7 @@ import excepciones.FormularioIncompletoOrganizador;
 import excepciones.FormularioIncompletoPatrocinio;
 import excepciones.NombreTipoRegistroRepetido;
 import excepciones.PatrocinioInvalido;
+import excepciones.RegistroNoExiste;
 import excepciones.TipoRegistroNoExiste;
 import excepciones.UsuarioNoExiste;
 import excepciones.YaAsisteAEdicion;
@@ -54,6 +56,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.ws.Endpoint;
 import logica.IControladorEventos;
 import logica.IControladorInstitucion;
+import logica.IControladorPDF;
 import logica.IControladorUsuarios;
 import logica.Institucion;
 import logica.Patrocinio;
@@ -68,7 +71,8 @@ public class Publicador {
 	private Fabrica fabrica = Fabrica.getInstancia();
 	private IControladorEventos controladorEventos = fabrica.getControladorEvento();
 	private IControladorInstitucion controladorInstitucion = fabrica.getControladorInstitucion();
-	private IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios();
+	private IControladorUsuarios controladorUsuarios = fabrica.getControladorUsuarios(); 
+	private IControladorPDF controladorPDF = fabrica.getControladorPDF();
 	
 	// Constructor
 	public Publicador() {}
@@ -371,6 +375,25 @@ public class Publicador {
 		controladorEventos.registrarVisitaEvento(nombreEvento);
 	}
 	
+	//--------SERVLET PDF-----
+	@WebMethod
+	public DTPDF getDTPDF(DTDetalleRegistro dtRegistro) throws UsuarioNoExiste, EventoNoExiste, EdicionNoExiste, RegistroNoExiste {
+	    return controladorPDF.getDTPDF(dtRegistro);
+	}
+	@WebMethod
+	public byte[] generarPDFAsistencia(DTPDF dtPDF, String path) {
+		return controladorPDF.generarPDFAsistencia(dtPDF, path);
+	}
+	
+	@WebMethod
+	public byte[] generarPDFDirecto(DTDetalleRegistro dtRegistro) 
+	    throws UsuarioNoExiste, EventoNoExiste, EdicionNoExiste, RegistroNoExiste {
+	    
+	    DTPDF dtPDF = controladorPDF.getDTPDF(dtRegistro);
+	    return controladorPDF.generarPDFAsistencia(dtPDF, "");
+	}
+
+	
 	@WebMethod
 	public DTDetalleRegistro getDTDetalleRegistroPorEdicion(String edicion, String Nickname) {
 		return controladorUsuarios.getDTDetalleRegistroPorEdicion(edicion, Nickname);
@@ -384,6 +407,16 @@ public class Publicador {
 	@WebMethod
 	public boolean existeNick(String nickname) {
 		return controladorUsuarios.existeNick(nickname);
+	}
+	
+	@WebMethod
+	public DTEdicionEvento[] listarEdicionesEventoValues(String nombreEvento) {
+		return controladorEventos.listarEdicionesEvento(nombreEvento).values().toArray(new DTEdicionEvento[0]);
+	}
+	
+	@WebMethod
+	 public  DTEdicionEvento[] listarEdicionesConRegistrosUsuario(String nickname) {
+		return controladorUsuarios.listarEdicionesConRegistrosUsuario(nickname).toArray(new DTEdicionEvento[0]);
 	}
 	
 	@WebMethod

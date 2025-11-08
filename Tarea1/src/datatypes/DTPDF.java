@@ -10,6 +10,9 @@ public class DTPDF {
 	private Date fechaInicio;
 	private Date fechaFin;
 	
+	public DTPDF() {
+	}
+	
 	public DTPDF(String nombreCompleto, String nombreEvento, String nombreEdicion, String ciudad, Date fechaInicio, Date fechaFin) {
 		this.setNombreCompleto(nombreCompleto);
 		this.setNombreEvento(nombreEvento);

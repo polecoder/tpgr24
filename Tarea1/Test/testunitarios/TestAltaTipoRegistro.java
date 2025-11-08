@@ -121,7 +121,11 @@ public class TestAltaTipoRegistro {
 			fail(ex.getMessage());
 		}
 		DTTipoRegistro dtTipoRegistroEsperado = new DTTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, cuposMax);
-		assertEquals(dtTipoRegistroGeneradoTest1, dtTipoRegistroEsperado);	
+		assertEquals(dtTipoRegistroGeneradoTest1.costo(), dtTipoRegistroEsperado.costo());	
+		assertEquals(dtTipoRegistroGeneradoTest1.cuposDisponibles(), dtTipoRegistroEsperado.cuposDisponibles());	
+		assertEquals(dtTipoRegistroGeneradoTest1.cuposMax(), dtTipoRegistroEsperado.cuposMax());
+		assertEquals(dtTipoRegistroGeneradoTest1.descripcion(), dtTipoRegistroEsperado.descripcion());	
+		assertEquals(dtTipoRegistroGeneradoTest1.nombre(), dtTipoRegistroEsperado.nombre());	
 	}
 	
 	@Test
@@ -160,7 +164,11 @@ public class TestAltaTipoRegistro {
 			fail(ex.getMessage());
 		}
 		DTTipoRegistro dtTipoRegistroEsperado = new DTTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, cuposMax);
-		assertEquals(dtTipoRegistroGeneradoTest3, dtTipoRegistroEsperado);	 
+		assertEquals(dtTipoRegistroGeneradoTest3.costo(), dtTipoRegistroEsperado.costo());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposDisponibles(), dtTipoRegistroEsperado.cuposDisponibles());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposMax(), dtTipoRegistroEsperado.cuposMax());
+		assertEquals(dtTipoRegistroGeneradoTest3.descripcion(), dtTipoRegistroEsperado.descripcion());	
+		assertEquals(dtTipoRegistroGeneradoTest3.nombre(), dtTipoRegistroEsperado.nombre());	 
 	}
 	
 	@Test
@@ -192,7 +200,11 @@ public class TestAltaTipoRegistro {
 			fail(ex.getMessage());
 		}
 		DTTipoRegistro dtTipoRegistroEsperado = new DTTipoRegistro(nombreTipoRegistroTest1, descripcion, costo, cuposMax, cuposMax);
-		assertEquals(dtTipoRegistroGeneradoTest3, dtTipoRegistroEsperado);
+		assertEquals(dtTipoRegistroGeneradoTest3.costo(), dtTipoRegistroEsperado.costo());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposDisponibles(), dtTipoRegistroEsperado.cuposDisponibles());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposMax(), dtTipoRegistroEsperado.cuposMax());
+		assertEquals(dtTipoRegistroGeneradoTest3.descripcion(), dtTipoRegistroEsperado.descripcion());	
+		assertEquals(dtTipoRegistroGeneradoTest3.nombre(), dtTipoRegistroEsperado.nombre());	
 	}
 	
 	@Test
@@ -237,7 +249,11 @@ public class TestAltaTipoRegistro {
 			fail(ex.getMessage());
 		}
 		DTTipoRegistro dtTipoRegistroEsperado = new DTTipoRegistro(nombreTipoRegistroTest7, descripcion, costoCero, cuposMax, cuposMax);
-		assertEquals(dtTipoRegistroGeneradoTest3, dtTipoRegistroEsperado);
+		assertEquals(dtTipoRegistroGeneradoTest3.costo(), dtTipoRegistroEsperado.costo());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposDisponibles(), dtTipoRegistroEsperado.cuposDisponibles());	
+		assertEquals(dtTipoRegistroGeneradoTest3.cuposMax(), dtTipoRegistroEsperado.cuposMax());
+		assertEquals(dtTipoRegistroGeneradoTest3.descripcion(), dtTipoRegistroEsperado.descripcion());	
+		assertEquals(dtTipoRegistroGeneradoTest3.nombre(), dtTipoRegistroEsperado.nombre());	
 	}
 	
 	@Test
