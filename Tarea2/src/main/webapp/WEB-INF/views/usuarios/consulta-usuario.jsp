@@ -4,6 +4,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="com.eventosuy.servidor.DTDetalleAsistente" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleUsuario" %>
 <%@ page import="com.eventosuy.servidor.DTDetalleOrganizador" %>
 <%@ page import="com.eventosuy.servidor.DTDetalleUsuario" %>
 <%@ page import="com.eventosuy.servidor.DTRegistro" %>
@@ -23,6 +24,7 @@
   
   // usuario seleccionado
   Object detalleUsuario = request.getAttribute("usuario");
+  DTDetalleUsuario usuarioConsultado = (DTDetalleUsuario) detalleUsuario;
   
   // registros del asistente
   List<DTRegistro> registrosAsistente = (List<DTRegistro>) request.getAttribute("registros");
@@ -30,14 +32,26 @@
   String contextoApp = request.getContextPath();
   
   // usuario logueado 
-  String usuarioLogueado = (String) session.getAttribute("nick");
+  DTDetalleUsuario dtDetalleUsuarioLoggeado = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
+  String dtDetalleUsuarioLoggeadoNickname = dtDetalleUsuarioLoggeado == null ? null : dtDetalleUsuarioLoggeado.getNickname();
+  String sessionNick = (String) session.getAttribute("nick");
+  String usuarioLogueado = sessionNick == null ? dtDetalleUsuarioLoggeadoNickname : sessionNick;
   
   // imagen del usuario
   String imagenUsuario = (String) request.getAttribute("imagenDataUri");
 %>
 
 <div class="container flex-grow-1 my-4">
-
+<!-- =============== MOSTRAR ERROR =============== -->
+<% 
+  String errorMsg = (String) request.getAttribute("error");
+  if (errorMsg != null && !errorMsg.isBlank()) { 
+%>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error:</strong> <%= errorMsg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
 <!-- =============== LISTA DE USUARIOS =============== -->
 <% if (listaUsuarios != null) { %>
   <div class="mx-auto" style="max-width: 768px">
@@ -81,9 +95,11 @@
     boolean esPerfilPropio = (usuarioLogueado != null && usuarioLogueado.equals(usuarioBase.getNickname()));
   %>
 
-  <div class="mx-auto" style="max-width: 512px">
+  <div class="mx-auto" style="max-width: 720px">
     <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
 
+  <div class="row">
+  	<div class="col-lg-8">
     <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
       <!-- Imagen del usuario -->
@@ -272,8 +288,80 @@
         </div>
       <% } %>
 
+    <%
+      String nickDetalle = "";
+      nickDetalle = usuarioConsultado.getNickname();
+      boolean esPropio = (usuarioLogueado != null && usuarioLogueado.equals(nickDetalle));
+      if (esPropio) {
+    %>
+	    <div class="text-end mt-4">
+	      <a href="<%=contextoApp%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
+	    </div>
+    <% } else {
+    	List<String> listaSeguidores = usuarioConsultado.getDataTypeSeguidores();
+    	if(listaSeguidores.contains(usuarioLogueado)){
+    		%>
+    		<div class="text-end mt-4">
+		      <a href="<%=contextoApp%>/usuario?accion=dejarDeSeguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Dejar de seguir</a>
+		    </div>
+    		<%
+    	}else{
+    		%>
+    		<div class="text-end mt-4">
+		      <a href="<%=contextoApp%>/usuario?accion=seguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Seguir</a>
+		    </div>
+    		<%
+    	}
+       } 
+    %>
+
     </form>
+    	
+  	</div>
+  	<div class="col-lg-4">
+      <div class="bg-light border-top border-2 border-secondary rounded p-4 mb-3">
+        <h5 class="mb-3">Seguidores</h5>
+        <ul class="list-group">
+          <%
+            List<String> seguidores = usuarioConsultado.getDataTypeSeguidores();
+            if (seguidores != null && !seguidores.isEmpty()) {
+              for (String seguidor : seguidores) {
+          %>
+		          <li class="list-group-item d-flex justify-content-between align-items-center">
+		            <span><%= seguidor %></span>
+		            <a href="<%=contextoApp%>/usuario?accion=consulta&nick=<%=seguidor%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		          </li>
+          <%
+              }
+            } else {
+          %>
+          		<li class="list-group-item text-muted">No hay seguidores</li>
+          <% } %>
+        </ul>
+      </div>
+      <div class="bg-light border-top border-2 border-secondary rounded p-4">
+        <h5 class="mb-3">Siguiendo</h5>
+        <ul class="list-group">
+          <%
+            List<String> seguidos = usuarioConsultado.getDataTypeSeguidos();
+            if (seguidos != null && !seguidos.isEmpty()) {
+              for (String seguido : seguidos) {
+          %>
+		          <li class="list-group-item d-flex justify-content-between align-items-center">
+		            <span><%= seguido %></span>
+		            <a href="<%=contextoApp%>/usuario?accion=consulta&nick=<%=seguido%>" class="btn btn-sm btn-outline-primary">Ver</a>
+		          </li>
+          <%
+              }
+            } else {
+          %>
+          <li class="list-group-item text-muted">No sigue a nadie</li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
 
 <% } else { %>
   <!-- =============== VISTA: SIN DATOS =============== -->

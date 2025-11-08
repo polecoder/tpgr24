@@ -274,6 +274,14 @@ public class Publicador {
 	    return res.toArray(new DTEventoEdicion[0]);
 	}
 	@WebMethod
+	public void seguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste {
+		controladorUsuarios.seguir(nicknameSeguidor, nicknameSeguido);
+	};
+	@WebMethod
+	public void dejarDeSeguir(String nicknameSeguidor, String nicknameSeguido) throws UsuarioNoExiste {
+		controladorUsuarios.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);
+	};
+	@WebMethod
 	public DTDetalleUsuario validarLogin(String usuario, String contrasena) throws ContrasenaIncorrecta{
 		return controladorUsuarios.validarLogin(usuario, contrasena);
 	}

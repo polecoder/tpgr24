@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import com.eventosuy.utils.Utilidades;
 
+import com.eventosuy.servidor.StringArray;
+import com.eventosuy.servidor.UsuarioNoExiste_Exception;
+import com.eventosuy.servidor.DTRegistroArray;
 import com.eventosuy.servidor.DTUsuario;
 import com.eventosuy.servidor.DTEventoEdicionArray;
 
@@ -239,6 +242,14 @@ public class UsuarioServlet extends HttpServlet {
 		     
 		    }
 		    return;
+		}
+		case "seguir":{
+			doSeguir(request, response);
+			break;
+		}
+		case "dejarDeSeguir":{
+			doDejarDeSeguir(request, response);
+			break;
 		}
 
 		// TODO: Esto no debería estar, o debería redirigir a una página de error existente
@@ -563,6 +574,55 @@ public class UsuarioServlet extends HttpServlet {
 	private static String getNickFromSession(HttpServletRequest req) {
 		DTDetalleUsuario dtUsuario = (DTDetalleUsuario) req.getSession().getAttribute("usuarioLogeado"); // lo setea tu en action=alta
 		return (dtUsuario == null) ? null : dtUsuario.getNickname();
+	}
+	
+	private void doSeguir(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String nicknameSeguido = request.getParameter("nick");
+			DTDetalleUsuario DTSeguidor = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+			String nicknameSeguidor = DTSeguidor != null ? DTSeguidor.getNickname() : null;
+			try {
+				if (nicknameSeguido == null || nicknameSeguidor == null) throw new UsuarioNoExiste_Exception("No se pudo seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente.", null);
+				puerto.seguir(nicknameSeguidor, nicknameSeguido);				
+			}catch(UsuarioNoExiste_Exception userError) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				request.setAttribute("error", safeMsg(userError, "No se pudo seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente."));
+				request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
+				.include(request, response);	
+				return;			
+			}
+			request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
+            .forward(request, response);
+		}catch(ServletException | IOException dispatchError) {
+            // Log the error and set a generic error response
+            dispatchError.printStackTrace(); // Or use a proper logger
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+	}
+	private void doDejarDeSeguir(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String nicknameSeguido = request.getParameter("nick");
+			DTDetalleUsuario DTSeguidor = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
+			String nicknameSeguidor = DTSeguidor != null ? DTSeguidor.getNickname() : null;
+			try {
+				if (nicknameSeguido == null || nicknameSeguidor == null) {
+					throw new UsuarioNoExiste_Exception("No se pudo dejar de seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente.", null);
+				}
+				puerto.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);				
+			}catch (UsuarioNoExiste_Exception userError) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				request.setAttribute("error", safeMsg(userError, "No se pudo dejar de seguir al usuario. Uno de los usuarios no existe en el sistema.\nPor favor, verifique que haya iniciado sesión correctamente."));
+				request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
+				.include(request, response);	
+				return;
+			}
+			request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
+            .forward(request, response);
+		}catch(ServletException | IOException dispatchError) {
+            // Log the error and set a generic error response
+            dispatchError.printStackTrace(); // Or use a proper logger
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 }
