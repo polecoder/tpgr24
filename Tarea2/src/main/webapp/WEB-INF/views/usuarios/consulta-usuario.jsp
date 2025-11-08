@@ -1,296 +1,288 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
-<%@ page import="javax.xml.datatype.XMLGregorianCalendar" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page import="com.eventosuy.servidor.DTDetalleAsistente" %>
-<%@ page import="com.eventosuy.utils.Utilidades" %>
-<%@ page import="java.util.List" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleOrganizador" %>
+<%@ page import="com.eventosuy.servidor.DTDetalleUsuario" %>
 <%@ page import="com.eventosuy.servidor.DTRegistro" %>
+<%@ page import="com.eventosuy.utils.Utilidades" %>
 <!DOCTYPE html>
 <html lang="es">
 <jsp:include page="/WEB-INF/views/partials/head.jsp" />
 
 <body class="d-flex flex-column min-vh-100">
-<%@ page import = "java.text.SimpleDateFormat" %>
 
 <jsp:include page="/WEB-INF/views/partials/header.jsp" />
 
 <%
-  Object listaAttr   = request.getAttribute("usuarios");
-  Object usuarioAttr = request.getAttribute("usuario");
-  String ctx         = request.getContextPath();
-  String nickSesion  = (String) session.getAttribute("nick");
-  List<DTRegistro> regs = (List<DTRegistro>) request.getAttribute("registros");
+  // =============== OBTENER DATOS DEL REQUEST ===============
+  // lista de usuarios 
+  List<DTDetalleUsuario> listaUsuarios = (List<DTDetalleUsuario>) request.getAttribute("usuarios");
+  
+  // usuario seleccionado
+  Object detalleUsuario = request.getAttribute("usuario");
+  
+  // registros del asistente
+  List<DTRegistro> registrosAsistente = (List<DTRegistro>) request.getAttribute("registros");
+  
+  String contextoApp = request.getContextPath();
+  
+  // usuario logueado 
+  String usuarioLogueado = (String) session.getAttribute("nick");
+  
+  // imagen del usuario
+  String imagenUsuario = (String) request.getAttribute("imagenDataUri");
 %>
 
 <div class="container flex-grow-1 my-4">
 
-<% if (listaAttr != null) { %>
-<div class="mx-auto" style="max-width: 768px">
-  <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Consulta Usuario</h1>
-  <div class="bg-light border-top border-2 border-primary rounded p-4">
-    <p class="mb-3">Seleccioná un usuario para ver el perfil:</p>
-    <ul class="list-group">
-      <%
-        for (Object o : (Collection<?>) listaAttr) {
-          String nick = "";
-          String nombre = "";
-          try {
-            java.lang.reflect.Method mNick = null, mNom = null;
-            try { mNick = o.getClass().getMethod("nickname"); } catch (NoSuchMethodException ignore) {}
-            try { mNom  = o.getClass().getMethod("nombre");   } catch (NoSuchMethodException ignore) {}
-            if (mNick == null) mNick = o.getClass().getMethod("getNickname");
-            if (mNom  == null) mNom  = o.getClass().getMethod("getNombre");
-            nick   = String.valueOf(mNick.invoke(o));
-            nombre = String.valueOf(mNom.invoke(o));
-          } catch (Exception ignore) {}
-      %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span><strong><%=nombre%></strong> <span class="text-muted">@<%=nick%></span></span>
-        <a class="btn btn-primary btn-sm" href="<%=ctx%>/usuario?accion=consulta&nick=<%=nick%>">Ver perfil</a>
-      </li>
-      <% } %>
-    </ul>
-  </div>
-</div>
-
-<% } else if (usuarioAttr != null) { %>
-<%
-  String imgSrc = ctx + "/images/IMG-US01.jpg";
-  Object imgDataUri = request.getAttribute("imagenDataUri");
-  if (imgDataUri != null) {
-      imgSrc = String.valueOf(imgDataUri);
-  }
-%>
-
-<div class="mx-auto" style="max-width: 512px">
-  <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
-
-  <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
-
-    <% Object _img = request.getAttribute("imagenDataUri"); %>
-    <% if (_img != null && !String.valueOf(_img).isBlank()) { %>
-    <div class="mb-3 row">
-      <div class="col-sm-8 offset-sm-4">
-        <img src="<%= String.valueOf(_img) %>" alt="Imagen usuario" class="img-fluid rounded" style="max-height:100px;" />
-      </div>
-    </div>
-    <% } %>
-
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Nickname:</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.nickname}" />
-      </div>
-    </div>
-
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Nombre:</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.nombre}" />
-      </div>
-    </div>
-
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Correo:</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="${usuario.correo}" />
-      </div>
-    </div>
-
-    <%
-      boolean esAsistente  = (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleAsistente);
-      boolean esOrganizador= (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador);
-    %>
-
-    <% if (esAsistente) { %>
-    <div id="asistenteFields">
-
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Apellido:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="${usuario.apellido}" />
-        </div>
-      </div>
-		<%
-			String institucionNombre = (String) request.getAttribute("institucionNombre");
-		%>
-      <% if (institucionNombre != null && !institucionNombre.isBlank()) { %>
-    <div class="mb-3 row">
-      <label class="col-sm-4 col-form-label text-end">Institución:</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control form-control-sm" readonly value="<%= institucionNombre %>" />
-      </div>
-    </div>
-    <% } %>
+<!-- =============== LISTA DE USUARIOS =============== -->
+<% if (listaUsuarios != null) { %>
+  <div class="mx-auto" style="max-width: 768px">
+    <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Consulta Usuario</h1>
     
-    <%
-     String nacimientoStr = "";
-     com.eventosuy.servidor.DTDetalleAsistente asis = (com.eventosuy.servidor.DTDetalleAsistente) usuarioAttr;
-      javax.xml.datatype.XMLGregorianCalendar xgc = asis.getNacimiento();  
-      if (xgc != null) {
-          Date d = Utilidades.XMLGregorianCalendarToDate(xgc); 
-          nacimientoStr = new SimpleDateFormat("dd-MM-yyyy").format(d);
-  }
-%>
-
-      <% SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); %>
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="<%= nacimientoStr %>" />
-        </div>
-      </div>
-
-      <% if (regs != null && !regs.isEmpty()) { %>
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Registros:</label>
-        <div class="col-sm-8 d-flex flex-column gap-2">
-          <% for (int i=0; i < regs.size(); i++) {
-               DTRegistro registro = regs.get(i); 
-               // si la edición tiene un nombre inválido (probablemente por estar archivada, no muestro el registro)
-               if (registro.getNombreEdicion() != "(sin edición)") { %>
-                 <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
-          <%
-               }
-             } 
-          %>
-        </div>
-      </div>
-      <% } %>
- 
-    </div>
-    <% } %>
-    
-    <%
-  		com.eventosuy.servidor.DTDetalleOrganizador org = null;
-  			String descOrg = "";
-  			String linkOrg = "";
-
-  if (usuarioAttr instanceof com.eventosuy.servidor.DTDetalleOrganizador) {
-    org = (com.eventosuy.servidor.DTDetalleOrganizador) usuarioAttr;
-
-    if (org.getDescripcion() != null) {
-      descOrg = org.getDescripcion();
-    }
-    if (org.getLink() != null) {
-      linkOrg = org.getLink();
-    }
-  }
-%>
-
-    <% if (esOrganizador) { %>
-    <div id="organizadorFields">
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Descripción:</label>
-        <div class="col-sm-8">
-          <textarea class="form-control form-control-sm" rows="2" readonly><%= descOrg %></textarea>
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Link:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control form-control-sm" readonly value="<%= linkOrg %>" />
-        </div>
-      </div>
-
-      <%
-        // TODO: Este código está horrible
-        Object edsAcepObj = request.getAttribute("edicionesAceptadas");
-        Object misEdsIngObj = request.getAttribute("misEdicionesIngresadas");
-        Object misEdsRecObj = request.getAttribute("misEdicionesRechazadas");
-        List<String> edicionesArchivadas = (List<String>) request.getAttribute("misEdicionesArchivadas");
-        java.util.List<?> edsAcepCol, misEdsIngCol, misEdsRecCol;
-
-        java.util.function.Function<Object, java.util.List<?>> toList = (obj) -> {
-            if (obj == null) return java.util.Collections.emptyList();
-            if (obj instanceof java.util.Collection<?> c) return new java.util.ArrayList<>(c);
-            if (obj.getClass().isArray()) return java.util.Arrays.asList((Object[]) obj);
-            return java.util.Collections.singletonList(obj); // último recurso: 1 elemento
-        };
-
-        edsAcepCol   = toList.apply(edsAcepObj);
-        misEdsIngCol = toList.apply(misEdsIngObj);
-        misEdsRecCol = toList.apply(misEdsRecObj);
-
-        boolean sinNada = edsAcepCol.isEmpty() && misEdsIngCol.isEmpty() && misEdsRecCol.isEmpty() && edicionesArchivadas.isEmpty();
+    <div class="bg-light border-top border-2 border-primary rounded p-4">
+      <p class="mb-3">Seleccioná un usuario para ver el perfil:</p>
+      
+      <ul class="list-group">
+        <%
+          for (DTDetalleUsuario usuario : listaUsuarios) {
+            String nickname = usuario.getNickname();
+            String nombre = usuario.getNombre();
         %>
-        
-        <%-- DEBUG temporal
-<div class="text-muted" style="font-size:12px">
-  aceptadas=<%= edsAcepCol %>
-</div>
---%>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <strong><%=nombre%></strong> 
+            <span class="text-muted">@<%=nickname%></span>
+          </span>
+          <a class="btn btn-primary btn-sm" 
+             href="<%=contextoApp%>/usuario?accion=consulta&nick=<%=nickname%>">
+            Ver perfil
+          </a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
 
+<!-- =============== DETALLE DE USUARIO =============== -->
+<% } else if (detalleUsuario != null) { %>
+  
+  <%
+    //tipo de usuario
+    boolean esAsistente = (detalleUsuario instanceof DTDetalleAsistente);
+    boolean esOrganizador = (detalleUsuario instanceof DTDetalleOrganizador);
+    
+    DTDetalleUsuario usuarioBase = (DTDetalleUsuario) detalleUsuario;
+    
+    // verificar si el perfil es del usuario logueado
+    boolean esPerfilPropio = (usuarioLogueado != null && usuarioLogueado.equals(usuarioBase.getNickname()));
+  %>
+
+  <div class="mx-auto" style="max-width: 512px">
+    <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
+
+    <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
+
+      <!-- Imagen del usuario -->
+      <% if (imagenUsuario != null && !imagenUsuario.isBlank()) { %>
+      <div class="mb-4 text-center">
+        <img src="<%=imagenUsuario%>" 
+             alt="Imagen usuario" 
+             class="rounded-circle shadow-sm" 
+             style="width: 120px; height: 120px; object-fit: cover;" />
+      </div>
+      <% } %>
+
+      <!-- Campos comunes: Nickname, Nombre, Correo -->
       <div class="mb-3 row">
-        <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
+        <label class="col-sm-4 col-form-label text-end">Nickname:</label>
         <div class="col-sm-8">
-          <% if (sinNada) { %>
-          <div class="form-text">No hay ediciones para mostrar.</div>
-          <% } else { %>
-          <select class="form-select form-select-sm"
-        onchange="if(this.value){ window.location.href=this.value; }">
-  <option value="">-- seleccionar --</option>
-
-  <% for (Object s : edsAcepCol) {
-       String nombre = String.valueOf(s);
-       // Solo nombre_edicion, sin nombre_evento
-       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
-                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
-  %>
-    <option value="<%= url %>"><%= nombre %> (ACEPTADA)</option>
-  <% } %>
-
-  <% for (Object s : misEdsIngCol) {
-       String nombre = String.valueOf(s);
-       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
-                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
-  %>
-    <option value="<%= url %>"><%= nombre %> (INGRESADA)</option>
-  <% } %>
-
-  <% for (Object s : misEdsRecCol) {
-       String nombre = String.valueOf(s);
-       String url = ctx + "/Ediciones?accion=ConsultaEdicion&nombre_edicion="
-                    + java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
-  %>
-    <option value="<%= url %>"><%= nombre %> (RECHAZADA)</option>
-  <% } %>
-            <% for (String nombreEdicion : edicionesArchivadas) { %>
-            <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
-            <% } %>
-</select>
-          <% } %>
+          <input type="text" class="form-control form-control-sm" readonly value="${usuario.nickname}" />
         </div>
       </div>
-    </div>
-    <% } %>
 
-    <%
-      String nickDetalle = "";
-      try {
-        java.lang.reflect.Method mNickDet = usuarioAttr.getClass().getMethod("nickname");
-        nickDetalle = String.valueOf(mNickDet.invoke(usuarioAttr));
-      } catch (Exception ignore) {}
-      boolean esPropio = (nickSesion != null && nickSesion.equals(nickDetalle));
-      if (esPropio) {
-    %>
-    <div class="text-end mt-4">
-      <a href="<%=ctx%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
-    </div>
-    <% } %>
+      <div class="mb-3 row">
+        <label class="col-sm-4 col-form-label text-end">Nombre:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control form-control-sm" readonly value="${usuario.nombre}" />
+        </div>
+      </div>
 
-  </form>
-</div>
+      <div class="mb-3 row">
+        <label class="col-sm-4 col-form-label text-end">Correo:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control form-control-sm" readonly value="${usuario.correo}" />
+        </div>
+      </div>
+
+      <!-- =============== CAMPOS ESPECÍFICOS DE ASISTENTE =============== -->
+      <% if (esAsistente) { %>
+        <%
+          DTDetalleAsistente asistente = (DTDetalleAsistente) detalleUsuario;
+          
+          String fechaNacimiento = "";
+          if (asistente.getNacimiento() != null) {
+            Date fecha = Utilidades.XMLGregorianCalendarToDate(asistente.getNacimiento());
+            fechaNacimiento = new SimpleDateFormat("dd-MM-yyyy").format(fecha);
+          }
+          
+          // nombre de institución si existe
+          String nombreInstitucion = (String) request.getAttribute("institucionNombre");
+        %>
+
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Apellido:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" readonly 
+                   value="<%=asistente.getApellido()%>" />
+          </div>
+        </div>
+
+        <% if (nombreInstitucion != null && !nombreInstitucion.isBlank()) { %>
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Institución:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" readonly 
+                   value="<%=nombreInstitucion%>" />
+          </div>
+        </div>
+        <% } %>
+
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Nacimiento:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" readonly 
+                   value="<%=fechaNacimiento%>" />
+          </div>
+        </div>
+
+        <!-- Lista de registros del asistente -->
+        <% if (registrosAsistente != null && !registrosAsistente.isEmpty()) { %>
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Registros:</label>
+          <div class="col-sm-8 d-flex flex-column gap-2">
+            <% 
+              for (int indice = 0; indice < registrosAsistente.size(); indice++) {
+                DTRegistro registro = registrosAsistente.get(indice);
+                String nombreEdicion = registro.getNombreEdicion();
+                
+                // No mostrar ediciones archivadas o inválidas
+                if (!nombreEdicion.equals("(sin edición)")) { 
+            %>
+              <a class="text-primary text-decoration-underline" 
+                 href="<%=contextoApp%>/usuario?accion=consulta-registro&idx=<%=indice%>">
+                <%=nombreEdicion%>
+              </a>
+            <%
+                }
+              }
+            %>
+          </div>
+        </div>
+        <% } %>
+
+      <!-- =============== CAMPOS ESPECÍFICOS DE ORGANIZADOR =============== -->
+      <% } else if (esOrganizador) { %>
+        <%
+          DTDetalleOrganizador organizador = (DTDetalleOrganizador) detalleUsuario;
+          String descripcion = organizador.getDescripcion() != null ? organizador.getDescripcion() : "";
+          String link = organizador.getLink() != null ? organizador.getLink() : "";
+          
+          //  ediciones del organizador
+          List<String> edicionesAceptadas = (List<String>) request.getAttribute("edicionesAceptadas");
+          List<String> edicionesIngresadas = (List<String>) request.getAttribute("misEdicionesIngresadas");
+          List<String> edicionesRechazadas = (List<String>) request.getAttribute("misEdicionesRechazadas");
+          List<String> edicionesArchivadas = (List<String>) request.getAttribute("misEdicionesArchivadas");
+          
+          // Manejar valores null
+          if (edicionesAceptadas == null) edicionesAceptadas = Collections.emptyList();
+          if (edicionesIngresadas == null) edicionesIngresadas = Collections.emptyList();
+          if (edicionesRechazadas == null) edicionesRechazadas = Collections.emptyList();
+          if (edicionesArchivadas == null) edicionesArchivadas = Collections.emptyList();
+          
+          boolean tieneEdiciones = !edicionesAceptadas.isEmpty() || 
+                                   !edicionesIngresadas.isEmpty() || 
+                                   !edicionesRechazadas.isEmpty() || 
+                                   !edicionesArchivadas.isEmpty();
+        %>
+
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Descripción:</label>
+          <div class="col-sm-8">
+            <textarea class="form-control form-control-sm" rows="2" readonly><%=descripcion%></textarea>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Link:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" readonly 
+                   value="<%=link%>" />
+          </div>
+        </div>
+
+        <!-- Selector de ediciones del organizador -->
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label text-end">Ediciones:</label>
+          <div class="col-sm-8">
+            <% if (!tieneEdiciones) { %>
+              <div class="form-text">No hay ediciones para mostrar.</div>
+            <% } else { %>
+              <select class="form-select form-select-sm"
+                      onchange="if(this.value) window.location.href=this.value;">
+                <option value="">-- seleccionar --</option>
+
+                <!-- Ediciones aceptadas -->
+                <% for (String nombreEdicion : edicionesAceptadas) {
+                     String urlEdicion = contextoApp + "/Ediciones?accion=ConsultaEdicion&nombre_edicion=" 
+                                       + java.net.URLEncoder.encode(nombreEdicion, "UTF-8");
+                %>
+                  <option value="<%=urlEdicion%>"><%=nombreEdicion%> (ACEPTADA)</option>
+                <% } %>
+
+                <!-- Ediciones ingresadas -->
+                <% for (String nombreEdicion : edicionesIngresadas) {
+                     String urlEdicion = contextoApp + "/Ediciones?accion=ConsultaEdicion&nombre_edicion=" 
+                                       + java.net.URLEncoder.encode(nombreEdicion, "UTF-8");
+                %>
+                  <option value="<%=urlEdicion%>"><%=nombreEdicion%> (INGRESADA)</option>
+                <% } %>
+
+                <!-- Ediciones rechazadas -->
+                <% for (String nombreEdicion : edicionesRechazadas) {
+                     String urlEdicion = contextoApp + "/Ediciones?accion=ConsultaEdicion&nombre_edicion=" 
+                                       + java.net.URLEncoder.encode(nombreEdicion, "UTF-8");
+                %>
+                  <option value="<%=urlEdicion%>"><%=nombreEdicion%> (RECHAZADA)</option>
+                <% } %>
+
+                <!-- Ediciones archivadas -->
+                <% for (String nombreEdicion : edicionesArchivadas) { %>
+                  <option value="<%=nombreEdicion%>"><%=nombreEdicion%> (ARCHIVADA)</option>
+                <% } %>
+              </select>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+
+    </form>
+  </div>
 
 <% } else { %>
-<div class="alert alert-warning mt-4">No hay información para mostrar.</div>
+  <!-- =============== VISTA: SIN DATOS =============== -->
+  <div class="alert alert-warning mt-4">
+    No hay información para mostrar.
+  </div>
 <% } %>
  
 </div>
 
 <jsp:include page="/WEB-INF/views/partials/footer.jsp" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
