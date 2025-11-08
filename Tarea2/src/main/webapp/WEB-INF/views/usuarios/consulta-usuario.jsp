@@ -21,7 +21,10 @@
   Object usuarioAttr = request.getAttribute("usuario");
   DTDetalleUsuario usuarioConsultado = (DTDetalleUsuario) usuarioAttr;
   String ctx         = request.getContextPath();
+  DTDetalleUsuario usuarioLogeado = (DTDetalleUsuario) session.getAttribute("usuarioLogeado");
   String nickSesion  = (String) session.getAttribute("nick");
+  String nickUsuarioLogeado = usuarioLogeado == null? null : usuarioLogeado.getNickname();
+  nickSesion = nickSesion == null ? nickUsuarioLogeado: nickSesion;
   List<DTRegistro> regs = (List<DTRegistro>) request.getAttribute("registros");
 %>
 
@@ -69,7 +72,7 @@
   <h1 class="text-center text-uppercase py-3 fs-2 fs-sm-3">Datos de usuario</h1>
 
   <div class="row">
-  	<div class="col-lg-9">
+  	<div class="col-lg-8">
   <form class="bg-light border-top border-2 border-primary rounded p-4 flex-grow-1">
 
     <% Object _img = request.getAttribute("imagenDataUri"); %>
@@ -274,19 +277,18 @@
 
     <%
       String nickDetalle = "";
-      try {
-        java.lang.reflect.Method mNickDet = usuarioAttr.getClass().getMethod("getNickname");
-        nickDetalle = String.valueOf(mNickDet.invoke(usuarioAttr));
-      } catch (Exception ignore) {}
+      nickDetalle = usuarioConsultado.getNickname();
       boolean esPropio = (nickSesion != null && nickSesion.equals(nickDetalle));
       if (esPropio) {
     %>
-    <div class="text-end mt-4">
-      <a href="<%=ctx%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
-    </div>
+	    <div class="text-end mt-4">
+	      <a href="<%=ctx%>/usuario?accion=modificar" class="btn btn-primary">Modificar Usuario</a>
+	    </div>
     <% } else {
-    	List<String> listaSeguidos = usuarioConsultado.getDataTypeSeguidos();
-    	if(listaSeguidos.contains(nickSesion)){
+    	List<String> listaSeguidores = usuarioConsultado.getDataTypeSeguidores();
+    	System.out.println("nickSesion: " + nickSesion);
+    	System.out.println("listaSeguidores: " + listaSeguidores.toString());
+    	if(listaSeguidores.contains(nickSesion)){
     		%>
     		<div class="text-end mt-4">
 		      <a href="<%=ctx%>/usuario?accion=dejarDeSeguir&nick=<%=usuarioConsultado.getNickname()%>" class="btn btn-primary">Dejar de seguir</a>
@@ -305,7 +307,7 @@
   </form>
   	
   	</div>
-  	<div class="col-lg-3">
+  	<div class="col-lg-4">
       <div class="bg-light border-top border-2 border-secondary rounded p-4 mb-3">
         <h5 class="mb-3">Seguidores</h5>
         <ul class="list-group">

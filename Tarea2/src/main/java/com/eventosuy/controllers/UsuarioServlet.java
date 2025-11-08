@@ -580,7 +580,7 @@ public class UsuarioServlet extends HttpServlet {
 				.include(request, response);	
 				return;			
 			}
-			request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
+			request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
             .forward(request, response);
 		}catch(ServletException | IOException dispatchError) {
             // Log the error and set a generic error response
@@ -594,7 +594,9 @@ public class UsuarioServlet extends HttpServlet {
 			DTDetalleUsuario DTSeguidor = (DTDetalleUsuario) request.getSession().getAttribute("usuarioLogeado");
 			String nicknameSeguidor = DTSeguidor != null ? DTSeguidor.getNickname() : null;
 			try {
-				if (nicknameSeguido == null || nicknameSeguidor == null) throw new UsuarioNoExiste_Exception("Uno de los nicknames es null", null);
+				if (nicknameSeguido == null || nicknameSeguidor == null) {
+					throw new UsuarioNoExiste_Exception("Uno de los nicknames es null", null);
+				}
 				puerto.dejarDeSeguir(nicknameSeguidor, nicknameSeguido);				
 			}catch (UsuarioNoExiste_Exception userError) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -603,7 +605,7 @@ public class UsuarioServlet extends HttpServlet {
 				.include(request, response);	
 				return;
 			}
-			request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
+			request.getRequestDispatcher("/usuario?accion=consulta&nick="+nicknameSeguido)
             .forward(request, response);
 		}catch(ServletException | IOException dispatchError) {
             // Log the error and set a generic error response
