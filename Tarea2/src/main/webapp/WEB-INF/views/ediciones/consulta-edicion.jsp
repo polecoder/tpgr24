@@ -185,7 +185,7 @@ String mensajeArchivado = (String) request.getAttribute("archivado");
         </div>
 
         <%-- no muestro sección de tipos de registro si la edición está en el archivo --%>
-        <% if (dtEdicion.getEstado() != EEstadoEdicion.valueOf("Archivada")) { %>
+        <% if (dtEdicion.getEstado() != EEstadoEdicion.ARCHIVADA) { %>
           <div class="card shadow-sm p-4">
             <h5 class="fw-bold text-primary mb-3 text-center">Tipos de registro:</h5>
             <%
