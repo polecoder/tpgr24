@@ -16,6 +16,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="Ingresada"/&gt;
  *     &lt;enumeration value="Aceptada"/&gt;
  *     &lt;enumeration value="Rechazada"/&gt;
+ *     &lt;enumeration value="Archivada"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
@@ -30,7 +31,9 @@ public enum EEstadoEdicion {
     @XmlEnumValue("Aceptada")
     ACEPTADA("Aceptada"),
     @XmlEnumValue("Rechazada")
-    RECHAZADA("Rechazada");
+    RECHAZADA("Rechazada"),
+    @XmlEnumValue("Archivada")
+    ARCHIVADA("Archivada");
     private final String value;
 
     EEstadoEdicion(String v) {

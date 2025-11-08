@@ -45,11 +45,11 @@ public class Home extends HttpServlet {
 		Publicador puerto = servicio.getPublicadorPort();
 
 		List<DTEvento> eventosEnCurso = puerto.listarEventosEnCurso().getItem();
-		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
+		eventosEnCurso.sort(Comparator.comparing(DTEvento::getFechaAlta, (fecha1, fecha2) -> fecha1.compare(fecha2)).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosEnCurso", eventosEnCurso);
 		
 		List<DTEvento> eventosFinalizados = puerto.listarEventosFinalizados().getItem();
-		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta).reversed()); // Coherente con default de busqueda
+		eventosFinalizados.sort(Comparator.comparing(DTEvento::getFechaAlta, (fecha1, fecha2) -> fecha1.compare(fecha2)).reversed()); // Coherente con default de busqueda
 		req.setAttribute("eventosFinalizados", eventosFinalizados);
 		
 		List<DTDetalleUsuario> usuarios = puerto.listarDetalleUsuarios().getItem();

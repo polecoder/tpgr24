@@ -149,7 +149,7 @@
           <% for (int i=0; i < regs.size(); i++) {
                DTRegistro registro = regs.get(i); 
                // si la edición tiene un nombre inválido (probablemente por estar archivada, no muestro el registro)
-               if (registro.nombreEdicion() != "(sin edición)") { %>
+               if (registro.getNombreEdicion() != "(sin edición)") { %>
                  <a class="text-primary text-decoration-underline" href="<%=ctx%>/usuario?accion=consulta-registro&idx=<%=i%>"><%= registro.getNombreEdicion() %></a>
           <%
                }

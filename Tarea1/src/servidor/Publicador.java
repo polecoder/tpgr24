@@ -28,6 +28,7 @@ import excepciones.ContrasenaIncorrecta;
 import excepciones.DatosTipoRegistroInvalidos;
 import excepciones.EdicionFinalizada;
 import excepciones.EdicionNoExiste;
+import excepciones.EdicionYaArchivada;
 import excepciones.EventoFinalizado;
 import excepciones.EventoNoExiste;
 import excepciones.FechaFinEsPasada;
@@ -92,6 +93,12 @@ public class Publicador {
 	public DTEvento getDTEvento(String nombre) {
 	    return controladorEventos.getDTEvento(nombre);
 	}
+	
+	@WebMethod
+	public void archivarEdicion(String nombreEvento, String nombreEdicion, Date fechaArchivo) throws EdicionFinalizada, EdicionNoExiste, EdicionYaArchivada{
+		controladorEventos.archivarEdicion(nombreEvento, nombreEdicion, fechaArchivo);
+	}
+    
 
 	@WebMethod
 	public String[] nombresCategorias(String nombre){
@@ -170,7 +177,7 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL) throws FormularioIncompletoEdicion, EventoFinalizado {
+	public void altaEdicionEvento(String nombreEvento, String nombre, String sigla, Date fechaInicio, Date fechaFin, Date fechaAlta, String ciudad, String pais, String organizadorNickname, byte[] img, String URL) throws FormularioIncompletoEdicion, EventoFinalizado, EdicionYaArchivada {
 		controladorEventos.altaEdicionEvento(nombreEvento, nombre, sigla, fechaInicio, fechaFin, fechaAlta, ciudad, pais, organizadorNickname, img, URL);
 	}
 
@@ -275,9 +282,9 @@ public class Publicador {
 	}
 
 	@WebMethod
-	public ArrayList<DTUsuario> listarUsuarios() {
+	public DTUsuario[] listarUsuarios() {
 		List<DTUsuario> res = controladorUsuarios.listarUsuarios();
-	    return new ArrayList<DTUsuario> (res);
+	    return res.toArray(new DTUsuario[0]);
 	}
 
 	@WebMethod
@@ -326,11 +333,12 @@ public class Publicador {
 			controladorEventos.finalizarEvento(nombre);
 	}
 	
+	@WebMethod
 	public void altaEvento(String nombre, String descripcion, String sigla, String[] catSel, byte[] imagen, EEstadoEvento enCurso) { 
 		java.util.List<String> categorias = new java.util.ArrayList<>();
 		if (catSel != null) {
 			categorias = java.util.Arrays.asList(catSel);
 		}
-		controladorEventos.altaEvento(nombre, descripcion, new Date(), sigla, categorias, imagen, enCurso);
+		controladorEventos.altaEvento(nombre, descripcion, new Date(), sigla, categorias, imagen, enCurso,0);
 	}
 }

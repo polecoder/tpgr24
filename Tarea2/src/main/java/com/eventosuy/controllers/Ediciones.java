@@ -22,8 +22,11 @@ import com.eventosuy.servidor.DTEdicionEvento;
 import com.eventosuy.servidor.DTDetalleUsuario;
 import com.eventosuy.servidor.DTDetalleRegistro;
 import com.eventosuy.servidor.EdicionFinalizada;
+import com.eventosuy.servidor.EdicionFinalizada_Exception;
 import com.eventosuy.servidor.EdicionNoExiste;
+import com.eventosuy.servidor.EdicionNoExiste_Exception;
 import com.eventosuy.servidor.EdicionYaArchivada;
+import com.eventosuy.servidor.EdicionYaArchivada_Exception;
 import com.eventosuy.servidor.DTTipoRegistro;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -273,24 +276,25 @@ public class Ediciones extends HttpServlet {
 		if (nombreEdicion == null) nombreEdicion = (String) request.getAttribute("nombre_edicion");
 		
 		// setear todos los atributos usados por el .jsp
-		DTEdicionEvento detalleEdicion = controladorEventos.getDTEdicion(nombreEvento, nombreEdicion);
+		DTEdicionEvento detalleEdicion = puerto.getDTEdicion(nombreEvento, nombreEdicion);
 		request.setAttribute("detalle_edicion", detalleEdicion);
 		
-		Set<String> setPatrocinios = controladorEventos.listarPatrocinadores(nombreEvento, nombreEdicion);
+		List<String> setPatrocinios = puerto.listarPatrocinadores(nombreEvento, nombreEdicion).getItem();
 		request.setAttribute("lista_patrocinios", setPatrocinios);
 		
-		Set<String> setTiposRegistro = controladorEventos.getNombresTipoRegistro(nombreEvento, nombreEdicion);
+		List<String> setTiposRegistro = puerto.getNombresTipoRegistro(nombreEvento, nombreEdicion).getItem();
 		request.setAttribute("lista_tipos_registro", setTiposRegistro);
 		
 		String videoURL = detalleEdicion.getVideoURL();
 		request.setAttribute("videoURL", videoURL);
 		
 		request.setAttribute("finalizada", false);
-		if (detalleEdicion.getFechaFin().before(new Date())) { 
+		Date dateFechaFin = Utilidades.XMLGregorianCalendarToDate(detalleEdicion.getFechaFin());
+		if (dateFechaFin.before(new Date())) { 
 			request.setAttribute("finalizada", true);
 		}
 		
-		Set<DTDetalleRegistro> setRegistros = controladorEventos.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion);
+		List<DTDetalleRegistro> setRegistros = puerto.listarDTRegistrosAEdicion(nombreEvento, nombreEdicion).getItem();
 		Map<String, DTDetalleRegistro> asistentesRegistrados = new HashMap<>();
 		for (DTDetalleRegistro dtRegistro : setRegistros) {
 			asistentesRegistrados.put(dtRegistro.getNicknameAsistente(), dtRegistro);
@@ -305,27 +309,30 @@ public class Ediciones extends HttpServlet {
 		}
 		// imagen organizador
 		try {
-			DTDetalleUsuario u = controladorUsuarios.mostrarDetalleUsuario(detalleEdicion.getOrganizadorNickname());
+			DTDetalleUsuario u = puerto.mostrarDetalleUsuario(detalleEdicion.getOrganizadorNickname());
 			request.setAttribute("imagenOrg", u.getImagen());
-		} catch (UsuarioNoExiste e) {
+		} catch (UsuarioNoExiste_Exception e) {
 			e.printStackTrace();
 		}
 		
 		// parte lógica
 		try {
-			controladorEventos.archivarEdicion(nombreEvento, nombreEdicion, new Date());
-		} catch (EdicionFinalizada exception) {
+			puerto.archivarEdicion(nombreEvento, nombreEdicion, Utilidades.dateToXMLGregorianCalendar(new Date()));
+		} catch (EdicionFinalizada_Exception exception) {
 			request.setAttribute("error", "La edición seleccionada ya finalizó.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 			return;
-		} catch (EdicionNoExiste exception) {
+		} catch (EdicionNoExiste_Exception exception) {
 			request.setAttribute("error", "La edición seleccionada no existe en el sistema.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 			return;
-		} catch (EdicionYaArchivada exception) {
+		} catch (EdicionYaArchivada_Exception exception) {
 			request.setAttribute("error", "La edición seleccionada ya está archivada.");
 			request.getRequestDispatcher("/WEB-INF/views/ediciones/consulta-edicion.jsp").forward(request, response);
 			return;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		// el archivo fue éxitoso

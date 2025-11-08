@@ -25,8 +25,6 @@ String base64Image = null;
 if (imagenBytes != null && imagenBytes.length > 0) {
   base64Image = java.util.Base64.getEncoder().encodeToString(imagenBytes);
 }
-TipoUsuario tipoUsuarioLogeado = (TipoUsuario) request.getSession().getAttribute("tipoUsuarioLogeado");
-DTEdicionEvento dtEdicion = (DTEdicionEvento) request.getAttribute("detalle_edicion");
 List<String> setPatrocinios = (List<String>) request.getAttribute("lista_patrocinios");
 List<String> setTiposRegistro = (List<String>) request.getAttribute("lista_tipos_registro");
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

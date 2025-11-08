@@ -17,6 +17,7 @@ import com.eventosuy.utils.Utilidades;
 
 import com.eventosuy.servidor.StringArray;
 import com.eventosuy.servidor.DTRegistroArray;
+import com.eventosuy.servidor.DTUsuario;
 import com.eventosuy.servidor.DTEventoEdicionArray;
 
 //import javax.xml.datatype.DatatypeFactory;
@@ -148,7 +149,7 @@ public class UsuarioServlet extends HttpServlet {
 		    try {
 		        // listar los usuarios, al pedo pero por si accede directo a consulta-usuario
 		        if (isBlank(nick)) {
-		            Collection<DTUsuario> usrs = (Collection<DTUsuario>) puerto.listarUsuarios(); 
+		            Collection<DTUsuario> usrs = puerto.listarUsuarios().getItem(); 
 		            request.setAttribute("usuarios", usrs);
 		            request.getRequestDispatcher("/WEB-INF/views/usuarios/consulta-usuario.jsp")
 		                   .forward(request, response);

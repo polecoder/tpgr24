@@ -96,7 +96,7 @@
 	              	String nomTipo = dtDetalle.getNombreTipo();
 	              	float costo = dtDetalle.getCosto();
 	              	String codigoPatrocinio = dtDetalle.getCodigoPatrocinio();
-	              	boolean asistio = dtDetalle.getAsistio();
+	              	boolean asistio = dtDetalle.isAsistio();
 	              	
               %>
 	                <h2 class="fs-5 mb-4 text-center text-uppercase">Detalle del Registro:</h2>
@@ -113,7 +113,7 @@
 						<input type="hidden" name="nombreTipo" value="<%= dtDetalle.getNombreTipo() %>">
 						<input type="hidden" name="costo" value="<%= dtDetalle.getCosto() %>">
 						<input type="hidden" name="codigoPatrocinio" value="<%= dtDetalle.getCodigoPatrocinio() %>">
-						<input type="hidden" name="asistio" value="<%= dtDetalle.getAsistio() %>">
+						<input type="hidden" name="asistio" value="<%= dtDetalle.isAsistio() %>">
 						<% java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 					    	String fechaStr = sdf.format(dtDetalle.getFecha()); %>
 						<input type="hidden" name="fecha" value="<%= fechaStr %>">

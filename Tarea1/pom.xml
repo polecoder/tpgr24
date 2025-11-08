@@ -90,7 +90,7 @@
                     </archive>
 					<finalName>ArchivoDB</finalName>
                 </configuration>
-                <executions>
+                <!--<executions>
                     <execution>
                         <id>make-assembly</id>
                         <phase>package</phase>
@@ -98,7 +98,7 @@
                             <goal>single</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
 		</plugins>
 	</build>

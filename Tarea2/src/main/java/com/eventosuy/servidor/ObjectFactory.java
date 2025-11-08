@@ -29,6 +29,7 @@ public class ObjectFactory {
     private final static QName _DatosTipoRegistroInvalidos_QNAME = new QName("http://servidor/", "DatosTipoRegistroInvalidos");
     private final static QName _EdicionFinalizada_QNAME = new QName("http://servidor/", "EdicionFinalizada");
     private final static QName _EdicionNoExiste_QNAME = new QName("http://servidor/", "EdicionNoExiste");
+    private final static QName _EdicionYaArchivada_QNAME = new QName("http://servidor/", "EdicionYaArchivada");
     private final static QName _EventoFinalizado_QNAME = new QName("http://servidor/", "EventoFinalizado");
     private final static QName _EventoNoExiste_QNAME = new QName("http://servidor/", "EventoNoExiste");
     private final static QName _FechaFinEsPasada_QNAME = new QName("http://servidor/", "FechaFinEsPasada");
@@ -54,6 +55,7 @@ public class ObjectFactory {
     private final static QName _DtEventoEntry_QNAME = new QName("http://servidor/", "dtEventoEntry");
     private final static QName _DtRegistro_QNAME = new QName("http://servidor/", "dtRegistro");
     private final static QName _DtTipoRegistro_QNAME = new QName("http://servidor/", "dtTipoRegistro");
+    private final static QName _DtUsuario_QNAME = new QName("http://servidor/", "dtUsuario");
     private final static QName _Patrocinio_QNAME = new QName("http://servidor/", "patrocinio");
 
     /**
@@ -101,6 +103,14 @@ public class ObjectFactory {
      */
     public EdicionNoExiste createEdicionNoExiste() {
         return new EdicionNoExiste();
+    }
+
+    /**
+     * Create an instance of {@link EdicionYaArchivada }
+     * 
+     */
+    public EdicionYaArchivada createEdicionYaArchivada() {
+        return new EdicionYaArchivada();
     }
 
     /**
@@ -304,19 +314,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DTUsuario }
+     * 
+     */
+    public DTUsuario createDTUsuario() {
+        return new DTUsuario();
+    }
+
+    /**
      * Create an instance of {@link Patrocinio }
      * 
      */
     public Patrocinio createPatrocinio() {
         return new Patrocinio();
-    }
-
-    /**
-     * Create an instance of {@link ArrayList }
-     * 
-     */
-    public ArrayList createArrayList() {
-        return new ArrayList();
     }
 
     /**
@@ -365,6 +375,14 @@ public class ObjectFactory {
      */
     public DTEventoEdicionArray createDTEventoEdicionArray() {
         return new DTEventoEdicionArray();
+    }
+
+    /**
+     * Create an instance of {@link DTUsuarioArray }
+     * 
+     */
+    public DTUsuarioArray createDTUsuarioArray() {
+        return new DTUsuarioArray();
     }
 
     /**
@@ -478,6 +496,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "EdicionNoExiste")
     public JAXBElement<EdicionNoExiste> createEdicionNoExiste(EdicionNoExiste value) {
         return new JAXBElement<EdicionNoExiste>(_EdicionNoExiste_QNAME, EdicionNoExiste.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EdicionYaArchivada }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link EdicionYaArchivada }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "EdicionYaArchivada")
+    public JAXBElement<EdicionYaArchivada> createEdicionYaArchivada(EdicionYaArchivada value) {
+        return new JAXBElement<EdicionYaArchivada>(_EdicionYaArchivada_QNAME, EdicionYaArchivada.class, null, value);
     }
 
     /**
@@ -803,6 +834,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://servidor/", name = "dtTipoRegistro")
     public JAXBElement<DTTipoRegistro> createDtTipoRegistro(DTTipoRegistro value) {
         return new JAXBElement<DTTipoRegistro>(_DtTipoRegistro_QNAME, DTTipoRegistro.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DTUsuario }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DTUsuario }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://servidor/", name = "dtUsuario")
+    public JAXBElement<DTUsuario> createDtUsuario(DTUsuario value) {
+        return new JAXBElement<DTUsuario>(_DtUsuario_QNAME, DTUsuario.class, null, value);
     }
 
     /**
