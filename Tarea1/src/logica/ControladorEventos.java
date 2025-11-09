@@ -569,7 +569,23 @@ public void registrarVisitaEvento(String nombre) {
 		for (Patrocinio patrocinio: patrocinios.values()) {
 			Institucion institucion = patrocinio.getInstitucion();
 			institucion.eliminarEdicionPatrocinada(nombreEdicion);
+			// para cada patrocinio, también elimino el tipo registro (asociado al registro)
+			patrocinio.setTipoRegistro(null);
 		}
+		
+		// eliminar todos los registros
+		Map<String, TipoRegistro> tiposRegistro = edicion.getTiposRegistro();
+		for (TipoRegistro tipoRegistro: tiposRegistro.values()) {
+			List<Registro> registros = tipoRegistro.getRegistros();
+			// recorro todos los registros para eliminar los links de todos los asistentes
+			for (Registro registro: registros) {
+				Asistente asistente = registro.getAsistente();
+				asistente.eliminarRegistro(registro);
+			}
+		}
+		
+		// eliminamos todos los tipos registro
+		edicion.setTiposRegistro(new HashMap<>());
 	}
 	
 	@Override
