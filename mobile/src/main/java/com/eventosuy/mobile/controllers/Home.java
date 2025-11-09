@@ -18,7 +18,7 @@ public class Home extends HttpServlet {
  
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // --- GET ---

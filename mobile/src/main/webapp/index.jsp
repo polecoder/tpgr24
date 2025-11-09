@@ -2,7 +2,13 @@
   contentType="text/html"
   pageEncoding="UTF-8"
 %>
-
+<%
+  Object u = session.getAttribute("usuarioLogeado");
+  if (u == null) {
+    response.sendRedirect(request.getContextPath() + "/login");
+    return;
+  }
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
