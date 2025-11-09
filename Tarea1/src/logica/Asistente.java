@@ -10,8 +10,6 @@ import datatypes.DTDetalleAsistente;
 import datatypes.DTDetalleUsuario;
 
 public class Asistente extends Usuario {
-	
-	
 	private String apellido;
 	private Date nacimiento;
 	private List<Registro> registros;
@@ -38,6 +36,9 @@ public class Asistente extends Usuario {
 	public void addRegistro(Registro registro) {
 		this.registros.add(registro);
 	}
+	public void eliminarRegistro(Registro registro) {
+		this.registros.remove(registro);
+	}
 	public DTDetalleUsuario toDataType() {
 		DTDetalleUsuario asistenteDataType =  new DTDetalleAsistente(
 				this.nickname,
@@ -59,7 +60,6 @@ public class Asistente extends Usuario {
 		asistenteDataType.setDataTypeSeguidos(dataTypeSeguidos);
 		
 		return asistenteDataType;
-		
 	}
 }
 
